@@ -198,6 +198,7 @@
 // 菜单界面滑动出现以及关闭
 - (void)panGestureRecognizerOfMenuView:(UIPanGestureRecognizer *)recognizer
 {
+    // 设置
     if (recognizer.state != UIGestureRecognizerStateEnded && recognizer.state != UIGestureRecognizerStateFailed) {
         CGPoint tanslatedPoint = [recognizer translationInView:self.view];
         CGFloat x = [leftMenuView center].x + tanslatedPoint.x;
