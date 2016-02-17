@@ -176,7 +176,7 @@
     [locateimageview setImage:[UIImage imageNamed:@"locateimage"]];
 
     // 左侧菜单栏
-    leftMenuView = [[LeftMenuView alloc]initWithFrame:CGRectMake(10 - self.view.frame.size.width * 0.85, 20, self.view.frame.size.width * 0.85, self.view.frame.size.height - 20)];
+    leftMenuView = [[LeftMenuView alloc]initWithFrame:CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20)];
     [self.view addSubview:leftMenuView];
     UIPanGestureRecognizer *panrecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerOfMenuView:)];
     panrecognizer.maximumNumberOfTouches = 1;
@@ -192,13 +192,11 @@
         make.right.equalTo(self.view).offset(-10);
     }];
     [removeToCurrentLocateBtn addTarget:self action:@selector(removeToCurrentLocate) forControlEvents:UIControlEventTouchUpInside];
-
 }
 #pragma mark - 左侧菜单栏相关
 // 菜单界面滑动出现以及关闭
 - (void)panGestureRecognizerOfMenuView:(UIPanGestureRecognizer *)recognizer
 {
-    // 设置
     if (recognizer.state != UIGestureRecognizerStateEnded && recognizer.state != UIGestureRecognizerStateFailed) {
         CGPoint tanslatedPoint = [recognizer translationInView:self.view];
         CGFloat x = [leftMenuView center].x + tanslatedPoint.x;
@@ -215,13 +213,13 @@
         if (leftMenuView.center.x > -20) {
             // 显示界面
             [UIView animateWithDuration:0.7 animations:^{
-                leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.85, self.view.frame.size.height - 20);
+                leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20);
             }];
         }
         else if(leftMenuView.center.x <= 20)
         {
             [UIView animateWithDuration:0.7 animations:^{
-                leftMenuView.frame = CGRectMake(10 - self.view.frame.size.width * 0.85, 20, self.view.frame.size.width * 0.85, self.view.frame.size.height - 20);
+                leftMenuView.frame = CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.8 + 10, self.view.frame.size.height - 20);
             }];
         }
     }
@@ -266,7 +264,7 @@
 - (void)headerBtnClicked
 {
     [UIView animateWithDuration:0.7 animations:^{
-        leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.85, self.view.frame.size.height - 20);
+        leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20);
     }];
 }
 #pragma mark -初始化定位服务

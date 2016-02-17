@@ -73,9 +73,14 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType == LEFTMENUCELL_USERINFOR) {
-        return 70;
+        return PXFIT_HEIGHT(168);
     }
-    return 44;
+    if (((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType == LEFTMENUCELL_SETTING) {
+        if (indexPath.row != 0) {
+            return PXFIT_HEIGHT(84);
+        }
+    }
+    return PXFIT_HEIGHT(96);
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
