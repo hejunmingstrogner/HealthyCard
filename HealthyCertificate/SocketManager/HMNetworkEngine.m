@@ -10,10 +10,16 @@
 
 #import "Constants.h"
 
+#import "HMDataOperate.h"
+#import "PackageOperation.h"
 #import "HMSocket.h"
+
+#import "StringPacket.h"
 #import "ProxyHeartBeatPacket.h"
 #import "QueueServerHeartBeatPacket.h"
-#import "StringPacket.h"
+#import "ProxyPDAVertificationPacket.h"
+
+
 
 @interface HMNetworkEngine()<HMSocketDelegate>
 {
@@ -55,26 +61,50 @@
 
 #pragma mark - HMSocket Delegate
 - (void)didDisconnectWithError:(NSError *)error
-{}
+{
+    NSLog(@"didDisconnectWithError :%@", error.description);
+    
+    [_heartBeatToProxyServerTimer invalidate];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(setUpControlFailed)])
+    {
+        [self.delegate setUpControlFailed];
+    }
+}
 
 - (void)didConnectToHost:(NSString *)host port:(UInt16)port
 {
-//    if (self.delegate && [self.delegate respondsToSelector:@selector(setUpControlSucceed)])
-//    {
-//        [self.delegate setUpControlSucceed];
-//    }
-//    
-//    //连接成功后，需要先向服务端发送心跳包
-//    [self initHeartBeatPacket];
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        _heartBeatToProxyServerTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(proxyServerTimerTriggered) userInfo:nil repeats:YES];
-//        [_heartBeatToProxyServerTimer fire];
-//    });
-
+    if (self.delegate && [self.delegate respondsToSelector:@selector(setUpControlSucceed)])
+    {
+        [self.delegate setUpControlSucceed];
+    }
+    
+    //连接成功后，需要先向服务端发送心跳包
+    [self initProxyServerPacket];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _heartBeatToProxyServerTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(proxyServerTimerTriggered) userInfo:nil repeats:YES];
+        [_heartBeatToProxyServerTimer fire];
+    });
+    
 }
 
 - (void)didReceiveData:(NSData *)data
-{}
+{
+    NSInteger index = 0;
+    //收到的协议格式为  外层协议(1) + server + ip + 内层协议(1) + 具体内容
+    short outLayerProtocol =  [[PackageOperation getInstance] outerLayerProtocol:data Index:&index];
+    
+    if (outLayerProtocol == SERVER_STATUS_ECHO){
+        NSLog(@"来自代理服务器的心跳包响应");
+    }else if (outLayerProtocol == SERVER_PROXY_LIST_QUERY){
+        NSLog(@"查询得到排队服务器列表");
+        if (self.delegate && [self.delegate respondsToSelector:@selector(queueServerListResult:Index:)]){
+            [self.delegate queueServerListResult:data Index:&index];
+        }
+    }
+    else{
+        NSLog(@"NetworkEngine : didReceiveData get the outLayerProtocol error");
+    }
+}
 
 #pragma mark - Public Methods
 -(void)startControl
@@ -84,7 +114,15 @@
 
 -(void)queryServerList
 {
-   // StringPacket* stringPacket = [StringPacket alloc] initWith:@"tijian" Type:<#(short)#>
+    StringPacket* stringPacket = [[StringPacket alloc] initWith:@"tijian" Type:SERVER_PROXY_LIST_QUERY];
+    [self sendPacketToProxyServer:stringPacket];
+}
+
+-(void)askLoginInfo:(NSString*)phoneNum
+{
+    ProxyPDAVertificationPacket* packet = [[ProxyPDAVertificationPacket alloc] init];
+    packet.phoneNum = phoneNum;
+    [self sendPacketToProxyServer:packet];
 }
 
 
@@ -101,9 +139,9 @@
 
 -(void)sendPacketToProxyServer:(BasePacket*)packet
 {
-//    NSMutableData* resultData = [[NSMutableData alloc] init];
-//    [[PackageOperation getInstance] addProxyLayerWith:packet To:resultData];
-//    [[HMSocket getInstance] sendData:resultData];
+    NSMutableData* resultData = [[NSMutableData alloc] init];
+    [[HMDataOperate getInstance] addProxyLayerWith:packet To:resultData];
+    [[HMSocket getInstance] sendData:resultData];
 }
 
 //Queue Server Packet
