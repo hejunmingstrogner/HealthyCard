@@ -25,6 +25,10 @@
 
 #define SERVER_STATUS_ECHO 19
 
+#define SERVER_PROXY_LIST_QUERY 27//从主服务器查询被代理的服务器列表(StringPacket)
+
+#define PROXY_PDA_VERIFICATION 1605 //app向智能导引服务器发送电话号码 登录信息请求
+
 //心跳包
 //pda与排队服务器的
 #define APP_SERVER_PDA_HEARTBEAT 1608

@@ -18,11 +18,14 @@
 #import "HttpNetworkManager.h"
 #import "UIScreen+Type.h"
 
+#import "HMNetworkEngine.h"
+#import "QueueServerInfo.h"
+
 #define LoginButtonColor 0x0097ed
 #define LoginButtonPlaceHolderColor 186
 
 
-@interface LoginController()  <UITextFieldDelegate>
+@interface LoginController()  <UITextFieldDelegate, HMNetworkEngineDelegate>
 {
     UITextField*    _phoneNumTextField;
     UITextField*    _vertifyTextField;
@@ -76,7 +79,7 @@
     }];
     _vertifyTextField.placeholder = @"输入验证码";
     [_vertifyTextField setValue: [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(20)] forKeyPath:@"_placeholderLabel.font"];
-
+    
     
     _vertifyButton = [UIButton buttonWithTitle:@"验证" font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(20)] textColor:MO_RGBCOLOR(83,182,234) backgroundColor:[UIColor whiteColor]];
     [self.view addSubview:_vertifyButton];
@@ -98,7 +101,7 @@
         make.width.mas_equalTo(_phoneNumTextField.mas_width);
     }];
     [_loginButton addTarget:self action:@selector(loginBtnCliked:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_vertifyButton.bounds byRoundingCorners:UIRectCornerTopRight | UIRectCornerBottomRight cornerRadii:CGSizeMake(10, 10)];
         CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
@@ -126,12 +129,15 @@
 #pragma mark - Button Action
 -(void)loginBtnCliked:(id)sender
 {
-//    if ([_authCodeStr isEqualToString:_vertifyTextField.text]){
-//        [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
-//    }else{
-//    }
+    //    if ([_authCodeStr isEqualToString:_vertifyTextField.text]){
+    //        [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
+    //    }else{
+    //    }
     
     //暂时先将socket的连接操作放在这里
+    [HMNetworkEngine getInstance].delegate = self;
+    [[HMNetworkEngine getInstance] startControl];
+    
     
     
     [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
@@ -149,6 +155,29 @@
             _vertifyTextField.text = _authCodeStr;
         }
     }];
+}
+
+#pragma mark - HMNetworkEngine Delegate
+-(void)setUpControlSucceed{
+    [[HMNetworkEngine getInstance] queryServerList];
+}
+
+-(void)setUpControlFailed{
+}
+
+-(void)queueServerListResult:(NSData *)data Index:(NSInteger *)index{
+    NSString* listString =  [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(*index, data.length-*index)] encoding:NSUTF8StringEncoding];
+    //return format tijian-510100-ZXQueueServer1,武汉国药阳光体检中心,描述:知名体检中心;tijian-510100-ZXQueueServer1,武汉国药阳光体检中心,描述:知名体检中心
+    NSArray *array = [listString componentsSeparatedByString:@";"];
+    
+    //返回的数据按理应该是一个，所以如果不为空，只取第一条数据
+    if (array.count != 0){
+        QueueServerInfo* info = [[QueueServerInfo alloc] initWithString:array[0]];
+        [HMNetworkEngine getInstance].serverID = info.serverID;
+        
+        //获得机构后向服务端发送客户电话号码相关的信息 这里为了测试先定一个假数据
+        
+    }
 }
 
 #pragma mark - UITextField Delegate
