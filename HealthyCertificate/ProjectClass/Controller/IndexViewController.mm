@@ -155,7 +155,6 @@
         make.top.equalTo(addressView).offset(5);
         make.bottom.equalTo(addressView).offset(-5);
     }];
-    //addressLabel.text = @"成都信息工程大学jksafkljsadfklsjdfkljaskldfjaklsdfjklsdfjklasdfjkl";
 
     // 设置地图view的位置大小
     [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -173,9 +172,49 @@
         make.height.mas_equalTo(56);
     }];
     [locateimageview setImage:[UIImage imageNamed:@"locateimage"]];
+
+    // 左侧菜单栏
+    leftMenuView = [[LeftMenuView alloc]initWithFrame:CGRectMake(10 - self.view.frame.size.width * 0.85, 20, self.view.frame.size.width * 0.85, self.view.frame.size.height - 20)];
+    [self.view addSubview:leftMenuView];
+    UIPanGestureRecognizer *panrecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerOfMenuView:)];
+    panrecognizer.maximumNumberOfTouches = 1;
+    [leftMenuView addGestureRecognizer:panrecognizer];
 }
-
-
+#pragma mark - 左侧菜单栏相关
+// 菜单界面滑动出现以及关闭
+- (void)panGestureRecognizerOfMenuView:(UIPanGestureRecognizer *)recognizer
+{
+//    if (recognizer.state != UIGestureRecognizerStateEnded && recognizer.state != UIGestureRecognizerStateFailed) {
+//        CGPoint tanslatedPoint = [recognizer translationInView:self.view];
+//        CGFloat x = [menuView center].x + tanslatedPoint.x;
+//        if (x > MENUWIDTH/2) {
+//            x = MENUWIDTH/2;
+//        }
+//        if (x < -MENUWIDTH/2 + 20) {
+//            x = -MENUWIDTH/2 + 20;
+//        }
+//        [menuView setCenter:CGPointMake(x, menuView.center.y)];
+//        [recognizer setTranslation:CGPointZero inView:self.view];
+//    }
+//    if (recognizer.state == UIGestureRecognizerStateEnded) {
+//        if (menuView.center.x > 0) {
+//            // 显示界面
+//            showMenuViewBtn.tag = 2;
+//            [showMenuViewBtn setImage:[UIImage imageNamed:@"open2"] forState:UIControlStateNormal];
+//            [UIView animateWithDuration:0.7 animations:^{
+//                menuView.frame = CGRectMake(0, (self.view.frame.size.height - MENUHEIGHT)/2, MENUWIDTH, MENUHEIGHT);
+//            }];
+//        }
+//        else if(menuView.center.x <= 0)
+//        {
+//            showMenuViewBtn.tag = 1;
+//            [showMenuViewBtn setImage:[UIImage imageNamed:@"open1"] forState:UIControlStateNormal];
+//            [UIView animateWithDuration:0.7 animations:^{
+//                menuView.frame = CGRectMake(-MENUWIDTH + 20, (self.view.frame.size.height - MENUHEIGHT)/2, MENUWIDTH, MENUHEIGHT);
+//            }];
+//        }
+//    }
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [_mapView viewWillAppear];
