@@ -25,6 +25,10 @@
 
 #define SERVER_STATUS_ECHO 19
 
+//心跳包
+//pda与排队服务器的
+#define APP_SERVER_PDA_HEARTBEAT 1608
+
 typedef NS_ENUM(NSInteger, PACKAGEPART)
 {
     PACKAGE_HEADER,
