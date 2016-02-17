@@ -43,6 +43,10 @@
 		25BFEB181C7310CA0062F9B8 /* BasePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB171C7310CA0062F9B8 /* BasePacket.m */; };
 		25BFEB1B1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB1A1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m */; };
 		25BFEB1E1C731A630062F9B8 /* StringPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB1D1C731A630062F9B8 /* StringPacket.m */; };
+		25BFEB2D1C7405810062F9B8 /* PackageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB2C1C7405810062F9B8 /* PackageOperation.m */; };
+		25BFEB301C74060B0062F9B8 /* QueueServerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB2F1C74060B0062F9B8 /* QueueServerInfo.m */; };
+		25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB321C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m */; };
+		25BFEB361C74096E0062F9B8 /* PersonInfoOfPhonePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB351C74096E0062F9B8 /* PersonInfoOfPhonePacket.m */; };
 		30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E1C17F5EF743EC155F709C /* libPods.a */; };
 		B201CCC31C72046D00B8F624 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC21C72046D00B8F624 /* Info.plist */; };
 		B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC41C7205B100B8F624 /* Main.storyboard */; };
@@ -141,6 +145,14 @@
 		25BFEB1A1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueueServerHeartBeatPacket.m; sourceTree = "<group>"; };
 		25BFEB1C1C731A630062F9B8 /* StringPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringPacket.h; sourceTree = "<group>"; };
 		25BFEB1D1C731A630062F9B8 /* StringPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringPacket.m; sourceTree = "<group>"; };
+		25BFEB2B1C7405810062F9B8 /* PackageOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackageOperation.h; sourceTree = "<group>"; };
+		25BFEB2C1C7405810062F9B8 /* PackageOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PackageOperation.m; sourceTree = "<group>"; };
+		25BFEB2E1C74060B0062F9B8 /* QueueServerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueueServerInfo.h; sourceTree = "<group>"; };
+		25BFEB2F1C74060B0062F9B8 /* QueueServerInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueueServerInfo.m; sourceTree = "<group>"; };
+		25BFEB311C7406AB0062F9B8 /* ProxyPDAVertificationPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProxyPDAVertificationPacket.h; sourceTree = "<group>"; };
+		25BFEB321C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProxyPDAVertificationPacket.m; sourceTree = "<group>"; };
+		25BFEB341C74096E0062F9B8 /* PersonInfoOfPhonePacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonInfoOfPhonePacket.h; sourceTree = "<group>"; };
+		25BFEB351C74096E0062F9B8 /* PersonInfoOfPhonePacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonInfoOfPhonePacket.m; sourceTree = "<group>"; };
 		36C8931033D226234A0CF88D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		46E1C17F5EF743EC155F709C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D2243EB114EF1077978D1EA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -333,6 +345,8 @@
 				2512B42D1C70632C00EE661B /* HMDataOperate.m */,
 				2512B42F1C70634B00EE661B /* HMNetworkEngine.h */,
 				2512B4301C70634B00EE661B /* HMNetworkEngine.m */,
+				25BFEB2B1C7405810062F9B8 /* PackageOperation.h */,
+				25BFEB2C1C7405810062F9B8 /* PackageOperation.m */,
 			);
 			path = SocketManager;
 			sourceTree = "<group>";
@@ -348,6 +362,12 @@
 				25BFEB1A1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m */,
 				25BFEB1C1C731A630062F9B8 /* StringPacket.h */,
 				25BFEB1D1C731A630062F9B8 /* StringPacket.m */,
+				25BFEB2E1C74060B0062F9B8 /* QueueServerInfo.h */,
+				25BFEB2F1C74060B0062F9B8 /* QueueServerInfo.m */,
+				25BFEB311C7406AB0062F9B8 /* ProxyPDAVertificationPacket.h */,
+				25BFEB321C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m */,
+				25BFEB341C74096E0062F9B8 /* PersonInfoOfPhonePacket.h */,
+				25BFEB351C74096E0062F9B8 /* PersonInfoOfPhonePacket.m */,
 			);
 			path = Packet;
 			sourceTree = "<group>";
@@ -633,10 +653,13 @@
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
 				2512B4201C7056C900EE661B /* UIView+Layout.m in Sources */,
 				B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */,
+				25BFEB2D1C7405810062F9B8 /* PackageOperation.m in Sources */,
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
 				2512B3AF1C70557C00EE661B /* AppDelegate.m in Sources */,
 				2512B42E1C70632C00EE661B /* HMDataOperate.m in Sources */,
+				25BFEB361C74096E0062F9B8 /* PersonInfoOfPhonePacket.m in Sources */,
 				2512B3AC1C70557C00EE661B /* main.m in Sources */,
+				25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */,
 				2512B4181C7056C900EE661B /* UIColor+Expanded.m in Sources */,
 				25BFEB151C73103A0062F9B8 /* ProxyHeartBeatPacket.m in Sources */,
 				2512B4161C7056C900EE661B /* UIButton+HitTest.m in Sources */,
@@ -644,6 +667,7 @@
 				2512B4131C7056C900EE661B /* NSString+Count.m in Sources */,
 				2512B4311C70634B00EE661B /* HMNetworkEngine.m in Sources */,
 				25BFEB1B1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m in Sources */,
+				25BFEB301C74060B0062F9B8 /* QueueServerInfo.m in Sources */,
 				2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */,
 				B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */,
 				2512B41F1C7056C900EE661B /* UIScreen+Type.m in Sources */,
