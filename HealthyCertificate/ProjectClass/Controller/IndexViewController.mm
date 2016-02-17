@@ -121,7 +121,7 @@
         make.bottom.equalTo(orderView.mas_top).offset(-10);
         make.left.equalTo(self.view).offset(10);
         make.right.equalTo(self.view).offset(-10);
-        make.height.mas_equalTo(60);
+        make.height.mas_equalTo(50);
     }];
     addressView.backgroundColor = [UIColor whiteColor];
 
@@ -142,20 +142,21 @@
     fengelabel.alpha = 0.6;
     [fengelabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(tijianLabel.mas_right).offset(10);
-        make.top.bottom.equalTo(addressView);
+        make.top.equalTo(addressView).offset(5);
+        make.bottom.equalTo(addressView).offset(-5);
         make.width.mas_equalTo(1);
     }];
 
     addressLabel = [[UILabel alloc]init];
     [addressView addSubview:addressLabel];
     addressLabel.numberOfLines = 0;
+    addressLabel.font = [UIFont systemFontOfSize:15];
     [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(fengelabel).offset(10);
         make.right.equalTo(addressView).offset(-10);
         make.top.equalTo(addressView).offset(5);
         make.bottom.equalTo(addressView).offset(-5);
     }];
-    //addressLabel.text = @"成都信息工程大学jksafkljsadfklsjdfkljaskldfjaklsdfjklsdfjklasdfjkl";
 
     // 设置地图view的位置大小
     [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -173,9 +174,58 @@
         make.height.mas_equalTo(56);
     }];
     [locateimageview setImage:[UIImage imageNamed:@"locateimage"]];
+
+    // 左侧菜单栏
+    leftMenuView = [[LeftMenuView alloc]initWithFrame:CGRectMake(10 - self.view.frame.size.width * 0.85, 20, self.view.frame.size.width * 0.85, self.view.frame.size.height - 20)];
+    [self.view addSubview:leftMenuView];
+    UIPanGestureRecognizer *panrecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerOfMenuView:)];
+    panrecognizer.maximumNumberOfTouches = 1;
+    [leftMenuView addGestureRecognizer:panrecognizer];
+
+    // 定位到当前位置
+    UIButton *removeToCurrentLocateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [removeToCurrentLocateBtn setImage:[UIImage imageNamed:@"dingwei"] forState:UIControlStateNormal];
+    [self.view addSubview:removeToCurrentLocateBtn];
+    [removeToCurrentLocateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(addressView.mas_top).offset(-10);
+        make.width.height.mas_equalTo(35);
+        make.right.equalTo(self.view).offset(-10);
+    }];
+    [removeToCurrentLocateBtn addTarget:self action:@selector(removeToCurrentLocate) forControlEvents:UIControlEventTouchUpInside];
+
 }
-
-
+#pragma mark - 左侧菜单栏相关
+// 菜单界面滑动出现以及关闭
+- (void)panGestureRecognizerOfMenuView:(UIPanGestureRecognizer *)recognizer
+{
+    // 设置
+    if (recognizer.state != UIGestureRecognizerStateEnded && recognizer.state != UIGestureRecognizerStateFailed) {
+        CGPoint tanslatedPoint = [recognizer translationInView:self.view];
+        CGFloat x = [leftMenuView center].x + tanslatedPoint.x;
+        if (x > leftMenuView.frame.size.width/2) {
+            x = leftMenuView.frame.size.width/2;
+        }
+        if (x < -leftMenuView.frame.size.width/2 + 20) {
+            x = -leftMenuView.frame.size.width/2 + 20;
+        }
+        [leftMenuView setCenter:CGPointMake(x, leftMenuView.center.y)];
+        [recognizer setTranslation:CGPointZero inView:self.view];
+    }
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        if (leftMenuView.center.x > -20) {
+            // 显示界面
+            [UIView animateWithDuration:0.7 animations:^{
+                leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.85, self.view.frame.size.height - 20);
+            }];
+        }
+        else if(leftMenuView.center.x <= 20)
+        {
+            [UIView animateWithDuration:0.7 animations:^{
+                leftMenuView.frame = CGRectMake(10 - self.view.frame.size.width * 0.85, 20, self.view.frame.size.width * 0.85, self.view.frame.size.height - 20);
+            }];
+        }
+    }
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [_mapView viewWillAppear];
@@ -189,6 +239,13 @@
     _locationServer.delegate = nil;
 }
 
+// 重新定位到当前用户的位置
+- (void)removeToCurrentLocate
+{
+    [_locationServer startUserLocationService];
+    [_mapView setCenterCoordinate:_locationServer.userLocation.location.coordinate animated:YES];
+    _mapView.userTrackingMode = BMKUserTrackingModeFollow;
+}
 #pragma mark -点击待处理项按钮
 // 点击待处理按钮
 - (void)pendingWorkClicked
@@ -205,10 +262,12 @@
 {
     NSLog(@"一键预约点击");
 }
-// 点击了头像
+// 点击了头像,显示左侧菜单
 - (void)headerBtnClicked
 {
-    NSLog(@"点击了头像");
+    [UIView animateWithDuration:0.7 animations:^{
+        leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.85, self.view.frame.size.height - 20);
+    }];
 }
 #pragma mark -初始化定位服务
 - (void)initLocationServer
