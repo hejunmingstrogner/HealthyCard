@@ -14,7 +14,7 @@
 
 -(instancetype)initWithType:(Byte)type{
     if (self = [super init]) {
-       // self.protocalNum = APP_SERVER_PDA_HEARTBEAT;
+        self.protocalNum = APP_SERVER_PDA_HEARTBEAT;
         self.bType = type;
     }
     return self;
