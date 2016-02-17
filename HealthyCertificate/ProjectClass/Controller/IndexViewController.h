@@ -15,6 +15,7 @@
 #import <BaiduMapAPI_Location/BMKLocationService.h>
 
 #import "LocationSearchModel.h"
+#import "LeftMenuView.h"
 
 @interface IndexViewController : UIViewController<BMKMapViewDelegate, BMKLocationServiceDelegate>
 {
@@ -32,6 +33,8 @@
 
     BMKLocationService *_locationServer;    // 位置服务
     CLLocationManager  *_locationmanager;   // 位置管理
+
+    LeftMenuView  *leftMenuView;            // 左侧菜单栏
 }
 
 
