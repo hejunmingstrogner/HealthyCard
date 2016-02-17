@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LeftMenuCellItem.h"
+#import "Constants.h"
 
 @interface LeftMenuView : UIView
 

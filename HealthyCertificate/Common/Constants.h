@@ -53,10 +53,12 @@ typedef NS_ENUM(NSInteger, PACKAGEPART)
 #define MO_RGBCOLOR1(c) [UIColor colorWithRed:c/255.0 green:c/255.0 blue:c/255.0 alpha:1]
 #define MO_RGBACOLOR(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
-#define FIT_WIDTH(width)    SCREEN_WIDTH/414*width
+#define FIT_WIDTH(width)    SCREEN_WIDTH/414*width         // 1080 dp
 #define FIT_HEIGHT(height)  SCREEN_HEIGHT/736*height
 
 #define FIT_FONTSIZE(size)  SCREEN_WIDTH / 414 * 72 / 96 * size
 
+#define PXFIT_WIDTH(width)  SCREEN_WIDTH/414*width*3/5.2   // 1080px
+#define PXFIT_HEIGHT(height)  SCREEN_HEIGHT/736*height*3/5.2
 
 #endif /* Constants_h */
