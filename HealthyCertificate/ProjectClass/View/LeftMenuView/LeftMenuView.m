@@ -42,7 +42,15 @@
 
 - (void)initData
 {
-    LeftMenuCellItem *userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:@"张三" detialLabelText:@"18380446542" itemtype:LEFTMENUCELL_USERINFOR];
+    // 个人
+    LeftMenuCellItem *userinformation;
+    if (GetUserType == 1) {
+        userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gPersonInfo.mCustName detialLabelText:gPersonInfo.StrTel itemtype:LEFTMENUCELL_USERINFOR];
+    }
+    else if(GetUserType == 2)
+    {
+         userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gCompanyInfo.cUnitName detialLabelText:gPersonInfo.StrTel itemtype:LEFTMENUCELL_USERINFOR];
+    }
     LeftMenuCellItem *historyRecord = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"历史记录" detialLabelText:nil itemtype:LEFTMENUCELL_HISTORYRECORD];
     LeftMenuCellItem *setting = [[LeftMenuCellItem alloc]initWithiconName:@"setting" titleLabelText:@"设置" detialLabelText:nil itemtype:LEFTMENUCELL_SETTING];
     LeftMenuCellItem *notice = [[LeftMenuCellItem alloc]initWithiconName:@"notice" titleLabelText:@"体检注意事项" detialLabelText:nil itemtype:LEFTMENUCELL_NOTICE];
@@ -52,7 +60,7 @@
     LeftMenuCellItem *advice = [[LeftMenuCellItem alloc]initWithiconName:@"advice" titleLabelText:@"意见或建议" detialLabelText:nil itemtype:LEFTMENUCELL_ADVICE];
     LeftMenuCellItem *exit = [[LeftMenuCellItem alloc]initWithiconName:@"exit" titleLabelText:@"退出当前账号" detialLabelText:nil itemtype:LEFTMENUCELL_EXIT];
 
-    _menuItemArray = [NSMutableArray arrayWithObjects:userinformation, historyRecord, setting, notice,share, aboutUs, advice, exit, nil];
+    _menuItemArray = [NSMutableArray arrayWithObjects:userinformation, historyRecord, setting, notice, share, aboutUs, advice, exit, nil];
 
     _settingItemArray = [NSMutableArray arrayWithObjects:@"设置", @"提醒", @"用户类型", @"版本更新", nil];
 }
@@ -128,7 +136,12 @@
                     [switchbutton setImage:[UIImage imageNamed:@"open"] forState:UIControlStateNormal];
                 }
                 else {
-                    [switchbutton setImage:[UIImage imageNamed:@"open_person"] forState:UIControlStateNormal];
+                    if (GetUserType == 1) {
+                        [switchbutton setImage:[UIImage imageNamed:@"open_person"] forState:UIControlStateNormal];
+                    }
+                    else {
+                        [switchbutton setImage:[UIImage imageNamed:@"open_company"] forState:UIControlStateNormal];
+                    }
                 }
             }
             cell.textLabel.text = _settingItemArray[indexPath.row];
@@ -163,6 +176,18 @@
     if(sender.tag == 1)
     {
 
+    }
+    else if(sender.tag == 2){
+        if (GetUserType == 1) {
+            [sender setImage:[UIImage imageNamed:@"open_company"] forState:UIControlStateNormal];
+            SetUserType(2);
+        }
+        else{
+            [sender setImage:[UIImage imageNamed:@"open_person"] forState:UIControlStateNormal];
+            SetUserType(1);
+        }
+        [self initData];
+        [_tableView reloadData];
     }
 }
 @end

@@ -13,4 +13,6 @@
 -(NSInteger)get256StingLength;
 -(NSInteger)getShortStringLength;
 
++ (NSString *)getOldYears:(NSString *)idCard;   // 传入身份证号码计算年龄
+
 @end

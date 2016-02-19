@@ -25,6 +25,27 @@
 
     // 定位服务
     [self initLocationServer];
+
+    if (GetUserType == 1) {
+        NSLog(@"个人");
+    }
+    else if (GetUserType == 2 )
+    {
+        NSLog(@"单位");
+    }
+    else{
+        NSLog(@"不存在");
+        [RzAlertView showAlertWithTarget:self.view Title:@"用户类型" oneButtonTitle:@"个人" oneButtonImageName:@"" twoButtonTitle:@"单位" twoButtonImageName:@"" handle:^(NSInteger flag) {
+            if (flag == 1) {
+                NSLog(@"个人");
+                SetUserType(1);
+            }
+            else {
+                NSLog(@"单位");
+                SetUserType(2);
+            }
+        }];
+    }
 }
 // 初始化主界面的view
 - (void)initSubViews
