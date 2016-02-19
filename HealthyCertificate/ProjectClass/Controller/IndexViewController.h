@@ -16,8 +16,11 @@
 
 #import "LocationSearchModel.h"
 #import "LeftMenuView.h"
+#import "PhysicalExaminationViewController.h"
+#import "AboutUsViewController.h"
+#import "AdviceViewController.h"
 
-@interface IndexViewController : UIViewController<BMKMapViewDelegate, BMKLocationServiceDelegate>
+@interface IndexViewController : UIViewController<BMKMapViewDelegate, BMKLocationServiceDelegate, LeftMenuViewDelegate>
 {
     UIButton    *headerBtn;                 // 头像按钮
     UILabel     *titleLabel;                // 标题
