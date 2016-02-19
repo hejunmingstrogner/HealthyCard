@@ -350,6 +350,7 @@
             addressLabel.text = adress;
         }
         else {
+            addressLabel.text = @"";
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:3];
         }
     }];
