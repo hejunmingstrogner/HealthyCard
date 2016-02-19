@@ -20,7 +20,6 @@
                     </view>
                     <connections>
                         <segue destination="aqJ-Dh-zbs" kind="modal" identifier="LoginIdentifier" id="e6A-cj-2NI"/>
-                        <segue destination="31t-eK-Of0" kind="modal" identifier="AppointmentIdentifier" id="10C-wk-zyD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -41,6 +40,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="4dS-AR-NSj"/>
+                    <connections>
+                        <segue destination="31t-eK-Of0" kind="modal" identifier="AppointmentIdentifier" id="wGO-lJ-zhW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cdZ-6F-1M5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -62,7 +64,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XeP-mI-i3w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="253" y="1207"/>
+            <point key="canvasLocation" x="945" y="1155"/>
         </scene>
     </scenes>
 </document>
