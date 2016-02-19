@@ -57,7 +57,7 @@
     
     NSArray* segArr = [[NSArray alloc] initWithObjects:@"云预约", @"服务点", nil];
     UISegmentedControl* segment = [[UISegmentedControl alloc] initWithItems:segArr];
-    segment.selectedSegmentIndex = 0;//默认索引 52 166 137
+    segment.selectedSegmentIndex = 0;//默认索引
     segment.tintColor = MO_RGBCOLOR(0, 169, 234);
     UIFont *font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(20)];
     NSDictionary *attributes = [NSDictionary dictionaryWithObject:font
