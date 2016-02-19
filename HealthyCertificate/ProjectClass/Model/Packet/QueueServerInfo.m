@@ -15,10 +15,11 @@
         
         NSArray* detailArray = [stringInfo componentsSeparatedByString:@","];
         
+        self.serverID = detailArray[0];
+        
         NSArray* detainInfoArray = [detailArray[0] componentsSeparatedByString:@"-"];
         self.type = detainInfoArray[0];
         self.areaCode = detainInfoArray[1];
-        self.serverID = detainInfoArray[2];
         
         self.serverName = detailArray[1];
         self.descriptionInfo = ([detailArray[2] componentsSeparatedByString:@":"])[1];

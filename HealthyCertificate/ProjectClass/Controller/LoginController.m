@@ -141,6 +141,7 @@
     
     
     [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
+   // [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
 }
 
 -(void)veritifyBtnClicked:(id)sender
@@ -176,7 +177,7 @@
         [HMNetworkEngine getInstance].serverID = info.serverID;
         
         //获得机构后向服务端发送客户电话号码相关的信息 这里为了测试先定一个假数据
-        
+        [[HMNetworkEngine getInstance] askLoginInfo:@"18380447466"];
     }
 }
 

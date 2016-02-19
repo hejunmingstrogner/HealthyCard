@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--Login Controller-->
@@ -20,6 +20,7 @@
                     </view>
                     <connections>
                         <segue destination="aqJ-Dh-zbs" kind="modal" identifier="LoginIdentifier" id="e6A-cj-2NI"/>
+                        <segue destination="31t-eK-Of0" kind="modal" identifier="AppointmentIdentifier" id="10C-wk-zyD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -44,6 +45,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cdZ-6F-1M5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="945" y="384"/>
+        </scene>
+        <!--Appointment View Controller-->
+        <scene sceneID="g9W-6b-41S">
+            <objects>
+                <viewController id="31t-eK-Of0" customClass="AppointmentViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BsH-d9-0P6"/>
+                        <viewControllerLayoutGuide type="bottom" id="54g-9d-2Mx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Tqs-1U-0Ia">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XeP-mI-i3w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="253" y="1207"/>
         </scene>
     </scenes>
 </document>

@@ -28,6 +28,13 @@
 #define SERVER_PROXY_LIST_QUERY 27//从主服务器查询被代理的服务器列表(StringPacket)
 
 #define PROXY_PDA_VERIFICATION 1605 //app向智能导引服务器发送电话号码 登录信息请求
+#define PROXY_PDA_CUSTOMER_INFO 1609 // 智能导引服务器向app发送电话号码相关的客户信息
+
+#define SERVER_PROXY_CLIENT_DATA 25	//统一认证服务器发给app的数据
+#define SERVER_PROXY_SERVER_DATA 26	//app发给统一认证服务器的数据
+
+//#define SERVER_EXTERNAL_SERVER_DATA 21 //app发给排队服务器的数据
+//#define SERVER_EXTERNAL_CLIENT_DATA 22 //排队服务器发送给app的数据
 
 //心跳包
 //pda与排队服务器的
@@ -38,7 +45,6 @@ typedef NS_ENUM(NSInteger, PACKAGEPART)
     PACKAGE_HEADER,
     PACKAGE_BODY
 };
-
 
 #define kiOS6NavigationBarHeight 44
 #define kiOS7NavigationBarHeight 64
@@ -60,5 +66,7 @@ typedef NS_ENUM(NSInteger, PACKAGEPART)
 
 #define PXFIT_WIDTH(width)  SCREEN_WIDTH/414*width*3/5.2   // 1080px
 #define PXFIT_HEIGHT(height)  SCREEN_HEIGHT/736*height*3/5.2
+
+#define DataOperate [HMDataOperate getInstance]
 
 #endif /* Constants_h */

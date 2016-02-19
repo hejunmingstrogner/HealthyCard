@@ -16,4 +16,6 @@
  */
 @property (nonatomic, assign) Byte bType;
 
+-(instancetype)initWithType:(Byte)type;
+
 @end

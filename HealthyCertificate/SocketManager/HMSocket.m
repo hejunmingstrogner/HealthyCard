@@ -50,6 +50,11 @@
 -(void)sendData:(NSData*)data TimeOut:(NSTimeInterval)timeout
 {}
 
+-(void)sendData:(NSData *)data Tag:(int)tag
+{
+    [_asyncSocket writeData:data withTimeout:-1 tag:tag];
+}
+
 
 #pragma mark - Singleton & Initialization
 +(instancetype)getInstance{
@@ -169,6 +174,10 @@
     //断线后，开启重连服务器的定时器
     _connectTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(reconnectToServer) userInfo:nil repeats:YES];
     [_connectTimer fire];
+}
+
+-(void)socket:(GCDAsyncReadPacket*)sock didWriteDataWithTag:(long)tag{
+    NSLog(@"%ld", tag);
 }
 
 //断线重连定时器
