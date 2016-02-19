@@ -359,4 +359,11 @@
     return button;
 }
 
++ (UIButton*) buttonWithTarget:(id)target action:(SEL)sel
+{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn addTarget:target action:sel forControlEvents:UIControlEventTouchUpInside];
+    return btn;
+}
+
 @end

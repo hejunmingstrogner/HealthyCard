@@ -7,6 +7,7 @@
 //
 
 #import "QueueServerHeartBeatPacket.h"
+#import "HMDataOperate.h"
 
 #import "Constants.h"
 
@@ -20,5 +21,12 @@
     return self;
 }
 
+#pragma mark - Override Methods
+-(NSMutableData*)readData{
+    NSMutableData* resultData = [[NSMutableData alloc] init];
+    [[HMDataOperate getInstance] writeShort:self.protocalNum To:resultData];
+    [[HMDataOperate getInstance] writeByte:self.bType To:resultData];
+    return resultData;
+}
 
 @end

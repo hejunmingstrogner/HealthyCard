@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BasePacket.h"
 
-@interface PersonInfoOfPhonePacket : NSObject
+@interface PersonInfoOfPhonePacket : BasePacket
     /**
      * 客户编号
      */
@@ -32,7 +33,7 @@
     /**
      * time_t 出生日期 时间类型
      */
-    @property (nonatomic, assign) time_t dBornDate;
+    @property (nonatomic, assign) NSDate* dBornDate;
     /**
      * Byte 婚否标识 1：已婚 2：未婚
      */
@@ -65,9 +66,5 @@
      * 256 string 行业类型
      */
     @property (nonatomic, copy) NSString* cIndustry;
-
-
-#pragma mark - Public Method
--(void)writeData:(NSData*)data;
 
 @end

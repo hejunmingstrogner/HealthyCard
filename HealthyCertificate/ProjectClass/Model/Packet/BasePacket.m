@@ -20,5 +20,8 @@
     return data;
 }
 
+-(void)writeData:(NSData*)data Index:(NSInteger*)index
+{}
+
 @end
 
