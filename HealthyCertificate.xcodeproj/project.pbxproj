@@ -60,6 +60,7 @@
 		30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E1C17F5EF743EC155F709C /* libPods.a */; };
 		B201CCC31C72046D00B8F624 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC21C72046D00B8F624 /* Info.plist */; };
 		B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC41C7205B100B8F624 /* Main.storyboard */; };
+		B23A98001C7420DE00E3E054 /* ServersPositionAnnotionsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A97FF1C7420DE00E3E054 /* ServersPositionAnnotionsModel.m */; };
 		B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2484DB81C71C20D00C0CCBB /* LoginController.m */; };
 		B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
@@ -182,6 +183,8 @@
 		6D2243EB114EF1077978D1EA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B201CCC21C72046D00B8F624 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B201CCC41C7205B100B8F624 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B23A97FE1C7420DE00E3E054 /* ServersPositionAnnotionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServersPositionAnnotionsModel.h; sourceTree = "<group>"; };
+		B23A97FF1C7420DE00E3E054 /* ServersPositionAnnotionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServersPositionAnnotionsModel.m; sourceTree = "<group>"; };
 		B2484DB71C71C20D00C0CCBB /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		B2484DB81C71C20D00C0CCBB /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		B2484DBA1C71C25900C0CCBB /* IndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
@@ -434,6 +437,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B23A97FD1C7420C800E3E054 /* ServersPositionAnnotions */ = {
+			isa = PBXGroup;
+			children = (
+				B23A97FE1C7420DE00E3E054 /* ServersPositionAnnotionsModel.h */,
+				B23A97FF1C7420DE00E3E054 /* ServersPositionAnnotionsModel.m */,
+			);
+			path = ServersPositionAnnotions;
+			sourceTree = "<group>";
+		};
 		B2484DB31C71C1E600C0CCBB /* ProjectClass */ = {
 			isa = PBXGroup;
 			children = (
@@ -459,6 +471,7 @@
 		B2484DB51C71C1E600C0CCBB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B23A97FD1C7420C800E3E054 /* ServersPositionAnnotions */,
 				25BFEB121C7310270062F9B8 /* Packet */,
 				B2F826231C730D8900993F47 /* LeftMenuCellModel */,
 				B2F8261F1C730D3E00993F47 /* ExaminationAdress */,
@@ -735,6 +748,7 @@
 				2512B41D1C7056C900EE661B /* UIImageView+Easy.m in Sources */,
 				2512B4171C7056C900EE661B /* UIButton+VerticalLayout.m in Sources */,
 				B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */,
+				B23A98001C7420DE00E3E054 /* ServersPositionAnnotionsModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

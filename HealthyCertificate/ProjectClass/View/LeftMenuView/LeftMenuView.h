@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) NSMutableArray *settingItemArray;
 
+@property (nonatomic,strong) UISwitch *_switch;                 // 设置相关的开关控件
 - (instancetype)init;
 
 - (instancetype)initWithFrame:(CGRect)frame;

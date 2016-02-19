@@ -86,8 +86,9 @@
         make.width.mas_equalTo(100);
         make.height.equalTo(pendingBtn);
     }];
-
-    [minDistanceBtn setTitle:@"1.5km" forState:UIControlStateNormal];
+    [minDistanceBtn setImage:[UIImage imageNamed:@"serverPosition"] forState:UIControlStateNormal];
+    minDistanceBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 20, 5, 65);
+    [minDistanceBtn setTitle:@"101.5km" forState:UIControlStateNormal];
     minDistanceBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [minDistanceBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:100/255.0 blue:90/255.0 alpha:1] forState:UIControlStateNormal];
     [minDistanceBtn addTarget:self action:@selector(minDistanceBtnClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -349,6 +350,7 @@
             addressLabel.text = adress;
         }
         else {
+            addressLabel.text = @"";
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:3];
         }
     }];
