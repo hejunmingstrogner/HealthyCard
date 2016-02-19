@@ -16,6 +16,9 @@
 
 #import "LocationSearchModel.h"
 #import "LeftMenuView.h"
+#import "PhysicalExaminationViewController.h"
+#import "AboutUsViewController.h"
+#import "AdviceViewController.h"
 
 @interface IndexViewController : UIViewController<BMKMapViewDelegate, BMKLocationServiceDelegate, LeftMenuViewDelegate>
 {
