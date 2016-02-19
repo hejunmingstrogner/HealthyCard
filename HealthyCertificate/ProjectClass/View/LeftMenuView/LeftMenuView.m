@@ -73,14 +73,17 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType == LEFTMENUCELL_USERINFOR) {
-        return PXFIT_HEIGHT(168);
+        //return PXFIT_HEIGHT(168);
+        return 70;
     }
     if (((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType == LEFTMENUCELL_SETTING) {
         if (indexPath.row != 0) {
-            return PXFIT_HEIGHT(84);
+            //return PXFIT_HEIGHT(84);
+            return 40;
         }
     }
-    return PXFIT_HEIGHT(96);
+    //return PXFIT_HEIGHT(96);
+    return 44;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -108,12 +111,17 @@
     else if(((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType == LEFTMENUCELL_SETTING)
     {
         if (indexPath.row != 0) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"setcell"];
-            if (!cell) {
-                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"setcell"];
-                cell.imageView.image = [UIImage imageNamed:@"kongbai"];
+            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"xcell"];
+            cell.imageView.image = [UIImage imageNamed:@"kongbai"];
+            if (indexPath.row != 3) {
+                __switch = [[UISwitch alloc]initWithFrame:CGRectMake(cell.contentView.frame.size.width - 60, 5, 40, 30)];
+                [cell.contentView addSubview:__switch];
             }
             cell.textLabel.text = _settingItemArray[indexPath.row];
+            if (indexPath.row == 3) {
+                cell.detailTextLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+            }
+
             return cell;
         }
     }
