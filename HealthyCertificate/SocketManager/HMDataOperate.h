@@ -53,6 +53,8 @@
 
 -(float)readFloat:(NSData*)data Index:(NSInteger*)index;
 
+-(long)readLong:(NSData*)data Index:(NSInteger*)index;
+
 #pragma mark - write tools
 
 -(void)writeByte:(Byte)value To:(NSMutableData*)data;

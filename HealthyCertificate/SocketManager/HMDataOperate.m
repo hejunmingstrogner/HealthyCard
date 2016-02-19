@@ -22,7 +22,9 @@
 
 #pragma mark - 为发送到排队服务器的包添加包头信息
 -(void)addQueueLayerWith:(BasePacket*) packet To:(NSMutableData*)data
-{}
+{
+    
+}
 
 
 +(instancetype)getInstance{
@@ -82,9 +84,9 @@
 }
 
 -(NSDate*)readDate:(NSData *)data Index:(NSInteger *)index{
-    long timeT;
+    long long timeT;
     [data getBytes:&timeT range:NSMakeRange(*index, LONG_TYPE_BYTE)];
-    timeT = NSSwapHostLongToBig(timeT);
+    timeT = NSSwapHostLongLongToBig(timeT);
     (*index) += LONG_TYPE_BYTE;
     return [[NSDate alloc] initWithTimeIntervalSince1970:timeT/1000];
 }
@@ -99,6 +101,14 @@
     [data getBytes:&result range:NSMakeRange(*index, sizeof(float))];
     (*index) += sizeof(float);
     return NSConvertSwappedFloatToHost(NSSwapHostFloatToBig(result));
+}
+
+-(long)readLong:(NSData*)data Index:(NSInteger*)index
+{
+    long long result;
+    [data getBytes:&result range:NSMakeRange(*index, LONG_TYPE_BYTE)];
+    (*index) += LONG_TYPE_BYTE;
+    return NSSwapHostLongLongToBig(result);
 }
 
 #pragma mark - wirte tool

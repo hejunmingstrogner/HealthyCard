@@ -10,6 +10,8 @@
 
 #import "Constants.h"
 
+#import "NSString+Count.h"
+
 #import "HMDataOperate.h"
 #import "PackageOperation.h"
 #import "HMSocket.h"
@@ -18,6 +20,9 @@
 #import "ProxyHeartBeatPacket.h"
 #import "QueueServerHeartBeatPacket.h"
 #import "ProxyPDAVertificationPacket.h"
+
+#import "PersonInfoOfPhonePacket.h"
+#import "CompanyInfoOfPhonePacket.h"
 
 
 
@@ -73,13 +78,16 @@
 
 - (void)didConnectToHost:(NSString *)host port:(UInt16)port
 {
+    //连接成功后，需要先向服务端发送心跳包
+    [self initProxyServerPacket];
+    [self initQueueServerPacket];
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(setUpControlSucceed)])
     {
         [self.delegate setUpControlSucceed];
     }
+
     
-    //连接成功后，需要先向服务端发送心跳包
-    [self initProxyServerPacket];
     dispatch_async(dispatch_get_main_queue(), ^{
         _heartBeatToProxyServerTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(proxyServerTimerTriggered) userInfo:nil repeats:YES];
         [_heartBeatToProxyServerTimer fire];
@@ -94,14 +102,17 @@
     short outLayerProtocol =  [[PackageOperation getInstance] outerLayerProtocol:data Index:&index];
     
     if (outLayerProtocol == SERVER_STATUS_ECHO){
-        NSLog(@"来自代理服务器的心跳包响应");
+        NSLog(@"来自统一认证服务器的心跳包响应");
+        //[self sendPacketToQueueServer:_queueServerHeartBeatPacket];
     }else if (outLayerProtocol == SERVER_PROXY_LIST_QUERY){
         NSLog(@"查询得到排队服务器列表");
         if (self.delegate && [self.delegate respondsToSelector:@selector(queueServerListResult:Index:)]){
             [self.delegate queueServerListResult:data Index:&index];
         }
-    }
-    else{
+    }else if (outLayerProtocol == SERVER_PROXY_CLIENT_DATA){
+        //解析内层协议相关
+        [self doTask:data Index:&index];
+    }else{
         NSLog(@"NetworkEngine : didReceiveData get the outLayerProtocol error");
     }
 }
@@ -122,7 +133,7 @@
 {
     ProxyPDAVertificationPacket* packet = [[ProxyPDAVertificationPacket alloc] init];
     packet.phoneNum = phoneNum;
-    [self sendPacketToProxyServer:packet];
+    [self sendPacketToQueueServer:packet];
 }
 
 
@@ -146,10 +157,38 @@
 
 //Queue Server Packet
 -(void)initQueueServerPacket
-{}
+{
+    _queueServerHeartBeatPacket = [[QueueServerHeartBeatPacket alloc] initWithType:0];
+}
 
 -(void)sendPacketToQueueServer:(BasePacket*)packet
-{}
+{
+    NSMutableData* resultData = [[NSMutableData alloc] init];
+    [[PackageOperation getInstance] addQueueLayerWith:packet To:resultData];
+    [[HMSocket getInstance] sendData:resultData Tag:2];
+}
 
+//解析内层数据包 外层协议 + server + ip + 长度 + 内层协议 + 具体内容
+-(void)doTask:(NSData*)data Index:(NSInteger*)index{
+    (*index) += [self.serverID get256StingLength];
+    [[HMDataOperate getInstance] readShortString:data Index:index];
+    (*index) +=  PACKAGE_LENGTH;
+    short innerProtocol =  [[PackageOperation getInstance] innerLayerProtocol:data Index:index];
+    switch (innerProtocol) {
+            //接收到客户信息包 包括(个人信息包和单位信息包)
+        case PROXY_PDA_CUSTOMER_INFO:
+        {
+            PersonInfoOfPhonePacket* personInfo = [[PersonInfoOfPhonePacket alloc] init];
+            CompanyInfoOfPhonePacket* companyInfo = [[CompanyInfoOfPhonePacket alloc] init];
+            
+            [[PackageOperation getInstance] getPersonInfo:personInfo CompanyInfo:companyInfo Index:index From:data];
+            NSLog(@"test");
+        }
+            
+            break;
+        default:
+            break;
+    }
+}
 
 @end

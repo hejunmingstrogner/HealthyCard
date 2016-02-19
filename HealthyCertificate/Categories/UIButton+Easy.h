@@ -65,4 +65,6 @@
 
 + (UIButton *)buttonWithCustomView:(UIView *)view;
 
++ (UIButton*) buttonWithTarget:(id)target action:(SEL)sel;
+
 @end

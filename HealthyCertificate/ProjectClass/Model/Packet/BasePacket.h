@@ -31,4 +31,12 @@
  */
 -(NSMutableData*)readData;
 
+/**
+ *  construct from the data stream
+ *
+ *  @param data  data stream
+ *  @param index index
+ */
+-(void)writeData:(NSData*)data Index:(NSInteger*)index;
+
 @end

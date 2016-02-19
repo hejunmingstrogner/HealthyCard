@@ -27,6 +27,8 @@
 
 -(void)sendData:(NSData*)data;
 
+-(void)sendData:(NSData *)data Tag:(int)tag;
+
 -(void)sendData:(NSData*)data TimeOut:(NSTimeInterval)timeout;
 
 @end
