@@ -9,6 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "LeftMenuCellItem.h"
 #import "Constants.h"
+#import <Masonry.h>
+
+@protocol LeftMenuViewDelegate <NSObject>
+
+- (void)leftMenuViewOfTableviewDidSelectItemWithType:(LeftMenuCellItemType)type;
+
+@end
 
 @interface LeftMenuView : UIView
 
@@ -19,6 +26,9 @@
 @property (nonatomic, strong) NSMutableArray *settingItemArray;
 
 @property (nonatomic,strong) UISwitch *_switch;                 // 设置相关的开关控件
+
+@property (nonatomic, strong) id<LeftMenuViewDelegate> delegate;
+
 - (instancetype)init;
 
 - (instancetype)initWithFrame:(CGRect)frame;

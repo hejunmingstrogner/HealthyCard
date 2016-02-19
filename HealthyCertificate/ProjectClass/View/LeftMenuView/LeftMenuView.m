@@ -114,14 +114,29 @@
             UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"xcell"];
             cell.imageView.image = [UIImage imageNamed:@"kongbai"];
             if (indexPath.row != 3) {
-                __switch = [[UISwitch alloc]initWithFrame:CGRectMake(cell.contentView.frame.size.width - 60, 5, 40, 30)];
-                [cell.contentView addSubview:__switch];
+                UISwitch * _sswitch = [[UISwitch alloc]init];
+                [cell.contentView addSubview:_sswitch];
+                [_sswitch mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(cell.contentView).offset(5);
+                    make.bottom.equalTo(cell.contentView).offset(-5);
+                    make.right.equalTo(cell).offset(0);
+                    make.width.mas_equalTo(70);
+                }];
+                [_sswitch setOn:YES animated:NO];
+                if (indexPath.row == 1) {
+                    _sswitch.onImage = [UIImage imageNamed:@"open"];
+                    _sswitch.offImage = [UIImage imageNamed:@"close"];
+                }
+                else if (indexPath.row == 2)
+                {
+                    _sswitch.onImage = [UIImage imageNamed:@"open_person"];
+                    _sswitch.offImage = [UIImage imageNamed:@"close"];
+                }
             }
             cell.textLabel.text = _settingItemArray[indexPath.row];
             if (indexPath.row == 3) {
                 cell.detailTextLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
             }
-
             return cell;
         }
     }
@@ -133,5 +148,14 @@
     cell.textLabel.text = ((LeftMenuCellItem *)_menuItemArray[indexPath.section]).titleLabelText;
     cell.detailTextLabel.text = ((LeftMenuCellItem *)_menuItemArray[indexPath.section]).detialLabelText;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0) {
+        if ([_delegate respondsToSelector:@selector(leftMenuViewOfTableviewDidSelectItemWithType:)] && _delegate) {
+            [_delegate leftMenuViewOfTableviewDidSelectItemWithType:((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType];
+        }
+    }
 }
 @end
