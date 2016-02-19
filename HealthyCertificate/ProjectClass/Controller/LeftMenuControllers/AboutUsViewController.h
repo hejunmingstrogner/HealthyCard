@@ -1,5 +1,5 @@
 //
-//  PhysicalExaminationViewController.h
+//  AboutUsViewController.h
 //  HealthyCertificate
 //
 //  Created by 乄若醉灬 on 16/2/19.
@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PhysicalExaminationViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface AboutUsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *titleArray;
-@property (nonatomic, strong) NSMutableArray *detailArray;
+@property (nonatomic, strong) NSMutableArray *detialArray;
 
 @end

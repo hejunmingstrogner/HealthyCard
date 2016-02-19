@@ -65,6 +65,8 @@
 		B23A98071C76BCDA00E3E054 /* UserinformationCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98061C76BCDA00E3E054 /* UserinformationCellItem.m */; };
 		B23A980D1C76E12700E3E054 /* UserinformationSetingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A980C1C76E12700E3E054 /* UserinformationSetingViewController.m */; };
 		B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A980F1C76E74500E3E054 /* PhysicalExaminationViewController.m */; };
+		B23A98131C76F0D400E3E054 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98121C76F0D400E3E054 /* AboutUsViewController.m */; };
+		B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98151C76F5C700E3E054 /* AdviceViewController.m */; };
 		B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2484DB81C71C20D00C0CCBB /* LoginController.m */; };
 		B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
@@ -197,6 +199,10 @@
 		B23A980C1C76E12700E3E054 /* UserinformationSetingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserinformationSetingViewController.m; sourceTree = "<group>"; };
 		B23A980E1C76E74500E3E054 /* PhysicalExaminationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicalExaminationViewController.h; sourceTree = "<group>"; };
 		B23A980F1C76E74500E3E054 /* PhysicalExaminationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalExaminationViewController.m; sourceTree = "<group>"; };
+		B23A98111C76F0D400E3E054 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		B23A98121C76F0D400E3E054 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		B23A98141C76F5C700E3E054 /* AdviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdviceViewController.h; sourceTree = "<group>"; };
+		B23A98151C76F5C700E3E054 /* AdviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdviceViewController.m; sourceTree = "<group>"; };
 		B2484DB71C71C20D00C0CCBB /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		B2484DB81C71C20D00C0CCBB /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		B2484DBA1C71C25900C0CCBB /* IndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
@@ -467,6 +473,10 @@
 				B23A980C1C76E12700E3E054 /* UserinformationSetingViewController.m */,
 				B23A980E1C76E74500E3E054 /* PhysicalExaminationViewController.h */,
 				B23A980F1C76E74500E3E054 /* PhysicalExaminationViewController.m */,
+				B23A98111C76F0D400E3E054 /* AboutUsViewController.h */,
+				B23A98121C76F0D400E3E054 /* AboutUsViewController.m */,
+				B23A98141C76F5C700E3E054 /* AdviceViewController.h */,
+				B23A98151C76F5C700E3E054 /* AdviceViewController.m */,
 			);
 			path = LeftMenuControllers;
 			sourceTree = "<group>";
@@ -748,12 +758,14 @@
 				2512B40F1C7056C900EE661B /* NSDate+Easy.m in Sources */,
 				B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */,
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
+				B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */,
 				2512B4201C7056C900EE661B /* UIView+Layout.m in Sources */,
 				B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */,
 				25BFEB2D1C7405810062F9B8 /* PackageOperation.m in Sources */,
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
 				25BFEB431C74A55B0062F9B8 /* AppointmentViewController.m in Sources */,
 				2512B3AF1C70557C00EE661B /* AppDelegate.m in Sources */,
+				B23A98131C76F0D400E3E054 /* AboutUsViewController.m in Sources */,
 				2512B42E1C70632C00EE661B /* HMDataOperate.m in Sources */,
 				B23A98041C76BB6400E3E054 /* UserInformationController.m in Sources */,
 				25BFEB361C74096E0062F9B8 /* PersonInfoOfPhonePacket.m in Sources */,

@@ -245,18 +245,30 @@
         case LEFTMENUCELL_SETTING:
             NSLog(@"设置");
             break;
-        case LEFTMENUCELL_NOTICE:
+        case LEFTMENUCELL_NOTICE:{
             NSLog(@"体检注意事项");
+            PhysicalExaminationViewController *phy = [[PhysicalExaminationViewController alloc]init];
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:phy];
+            [self presentViewController:nav animated:YES completion:nil];
             break;
+        }
         case LEFTMENUCELL_SHARE:
             NSLog(@"分享");
             break;
-        case LEFTMENUCELL_ABOUTUS:
+        case LEFTMENUCELL_ABOUTUS:{
             NSLog(@"关于我们");
+            AboutUsViewController *aboutUs = [[AboutUsViewController alloc]init];
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:aboutUs];
+            [self presentViewController:nav animated: YES completion:nil];
             break;
-        case LEFTMENUCELL_ADVICE:
+        }
+        case LEFTMENUCELL_ADVICE:{
             NSLog(@"意见或建议");
+            AdviceViewController *advice = [[AdviceViewController alloc]init];
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:advice];
+            [self presentViewController:nav animated:YES completion:nil];
             break;
+        }
         case LEFTMENUCELL_EXIT:
             NSLog(@"退出");
             break;
