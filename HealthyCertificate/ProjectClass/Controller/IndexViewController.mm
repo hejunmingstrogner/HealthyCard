@@ -9,7 +9,6 @@
 #import "IndexViewController.h"
 #import "Constants.h"
 #import "UserInformationController.h"
-
 #import "AppointmentViewController.h"
 
 @interface IndexViewController ()
