@@ -9,6 +9,9 @@
 #ifndef Constants_h
 #define Constants_h
 
+#import "PersonInfoOfPhonePacket.h"
+#import "CompanyInfoOfPhonePacket.h"
+
 #define PACKAGE_LENGTH 4
 
 #define SHORT_TYPE_BYTE 2
@@ -45,6 +48,9 @@ typedef NS_ENUM(NSInteger, PACKAGEPART)
     PACKAGE_HEADER,
     PACKAGE_BODY
 };
+
+extern PersonInfoOfPhonePacket* gPersonInfo;
+extern CompanyInfoOfPhonePacket* gCompanyInfo;
 
 #define kiOS6NavigationBarHeight 44
 #define kiOS7NavigationBarHeight 64

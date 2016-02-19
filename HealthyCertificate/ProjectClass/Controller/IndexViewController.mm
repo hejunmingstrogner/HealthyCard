@@ -7,6 +7,7 @@
 //
 
 #import "IndexViewController.h"
+#import "Constants.h"
 
 @interface IndexViewController ()
 
@@ -259,7 +260,9 @@
 //  一键预约
 - (void)orderBtnClicked
 {
-    NSLog(@"一键预约点击");
+//    NSLog(@"一键预约点击");
+    [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
+    
 }
 // 点击了头像,显示左侧菜单
 - (void)headerBtnClicked
@@ -354,5 +357,12 @@
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:3];
         }
     }];
+}
+
+#pragma mark - Storyboard Segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"AppointmentIdentifier"]){
+        
+    }
 }
 @end

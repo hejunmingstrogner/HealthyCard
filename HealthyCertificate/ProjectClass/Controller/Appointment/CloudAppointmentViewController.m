@@ -22,10 +22,11 @@
     self.view.backgroundColor = [UIColor blueColor];
     
     UIView* bottomView = [[UIView alloc] init];
-    bottomView.backgroundColor = [UIColor whiteColor];
+    bottomView.backgroundColor = [UIColor greenColor];
     [self.view addSubview:bottomView];
     [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.mas_equalTo(self.view);
+        make.left.right.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.view.mas_top).with.offset(SCREEN_HEIGHT-PXFIT_HEIGHT(136)-kNavigationBarHeight);
         make.height.mas_equalTo(PXFIT_HEIGHT(136));
     }];
     
@@ -50,8 +51,11 @@
     [containerView addSubview:testView];
     [testView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.mas_equalTo(containerView);
-        make.height.mas_equalTo(500);
+        make.height.mas_equalTo(700);
     }];
+    
+    
+    UIButton* locationButton;
     
     [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(testView.mas_bottom);

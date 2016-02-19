@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 //http请求后，解析的数据格式的获取采用block的形式来获取
 typedef void (^HCDictionaryResultBlock)(NSDictionary* result, NSError* error);
 
@@ -24,6 +23,7 @@ typedef void (^HCDictionaryResultBlock)(NSDictionary* result, NSError* error);
  *  @param phoneNum 电话号码
  */
 -(void)verifyPhoneNumber:(NSString*)phoneNum resultBlock:(HCDictionaryResultBlock)resultBlock;
+
 
 
 @end

@@ -24,6 +24,9 @@
 #import "PersonInfoOfPhonePacket.h"
 #import "CompanyInfoOfPhonePacket.h"
 
+PersonInfoOfPhonePacket* gPersonInfo;
+CompanyInfoOfPhonePacket* gCompanyInfo;
+
 
 
 @interface HMNetworkEngine()<HMSocketDelegate>
@@ -178,11 +181,13 @@
             //接收到客户信息包 包括(个人信息包和单位信息包)
         case PROXY_PDA_CUSTOMER_INFO:
         {
-            PersonInfoOfPhonePacket* personInfo = [[PersonInfoOfPhonePacket alloc] init];
-            CompanyInfoOfPhonePacket* companyInfo = [[CompanyInfoOfPhonePacket alloc] init];
+            gPersonInfo = [[PersonInfoOfPhonePacket alloc] init];
+            gCompanyInfo = [[CompanyInfoOfPhonePacket alloc] init];
             
-            [[PackageOperation getInstance] getPersonInfo:personInfo CompanyInfo:companyInfo Index:index From:data];
-            NSLog(@"test");
+            [[PackageOperation getInstance] getPersonInfo:gPersonInfo CompanyInfo:gCompanyInfo Index:index From:data];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(getLoginInfoSucceed)]){
+                [self.delegate getLoginInfoSucceed];
+            }
         }
             
             break;

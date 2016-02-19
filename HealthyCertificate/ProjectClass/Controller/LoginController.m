@@ -137,10 +137,7 @@
     //暂时先将socket的连接操作放在这里
     [HMNetworkEngine getInstance].delegate = self;
     [[HMNetworkEngine getInstance] startControl];
-    
-    
-    
-    [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
+
    // [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
 }
 
@@ -179,6 +176,13 @@
         //获得机构后向服务端发送客户电话号码相关的信息 这里为了测试先定一个假数据
         [[HMNetworkEngine getInstance] askLoginInfo:@"18380447466"];
     }
+}
+
+-(void)getLoginInfoSucceed{
+    //因为现在是异步队列，所以不能在该函数里面操作ui线程
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
+    });
 }
 
 #pragma mark - UITextField Delegate

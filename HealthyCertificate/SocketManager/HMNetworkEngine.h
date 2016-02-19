@@ -23,6 +23,8 @@
  */
 -(void)queueServerListResult:(NSData*)data Index:(NSInteger*)index;
 
+-(void)getLoginInfoSucceed;
+
 @end
 
 @interface HMNetworkEngine : NSObject
