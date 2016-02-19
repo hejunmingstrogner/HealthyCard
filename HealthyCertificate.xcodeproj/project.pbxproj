@@ -61,6 +61,10 @@
 		B201CCC31C72046D00B8F624 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC21C72046D00B8F624 /* Info.plist */; };
 		B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC41C7205B100B8F624 /* Main.storyboard */; };
 		B23A98001C7420DE00E3E054 /* ServersPositionAnnotionsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A97FF1C7420DE00E3E054 /* ServersPositionAnnotionsModel.m */; };
+		B23A98041C76BB6400E3E054 /* UserInformationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98031C76BB6400E3E054 /* UserInformationController.m */; };
+		B23A98071C76BCDA00E3E054 /* UserinformationCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98061C76BCDA00E3E054 /* UserinformationCellItem.m */; };
+		B23A980D1C76E12700E3E054 /* UserinformationSetingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A980C1C76E12700E3E054 /* UserinformationSetingViewController.m */; };
+		B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A980F1C76E74500E3E054 /* PhysicalExaminationViewController.m */; };
 		B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2484DB81C71C20D00C0CCBB /* LoginController.m */; };
 		B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
@@ -185,6 +189,14 @@
 		B201CCC41C7205B100B8F624 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B23A97FE1C7420DE00E3E054 /* ServersPositionAnnotionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServersPositionAnnotionsModel.h; sourceTree = "<group>"; };
 		B23A97FF1C7420DE00E3E054 /* ServersPositionAnnotionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServersPositionAnnotionsModel.m; sourceTree = "<group>"; };
+		B23A98021C76BB6400E3E054 /* UserInformationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInformationController.h; sourceTree = "<group>"; };
+		B23A98031C76BB6400E3E054 /* UserInformationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInformationController.m; sourceTree = "<group>"; };
+		B23A98051C76BCDA00E3E054 /* UserinformationCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserinformationCellItem.h; sourceTree = "<group>"; };
+		B23A98061C76BCDA00E3E054 /* UserinformationCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserinformationCellItem.m; sourceTree = "<group>"; };
+		B23A980B1C76E12700E3E054 /* UserinformationSetingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserinformationSetingViewController.h; sourceTree = "<group>"; };
+		B23A980C1C76E12700E3E054 /* UserinformationSetingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserinformationSetingViewController.m; sourceTree = "<group>"; };
+		B23A980E1C76E74500E3E054 /* PhysicalExaminationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicalExaminationViewController.h; sourceTree = "<group>"; };
+		B23A980F1C76E74500E3E054 /* PhysicalExaminationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalExaminationViewController.m; sourceTree = "<group>"; };
 		B2484DB71C71C20D00C0CCBB /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		B2484DB81C71C20D00C0CCBB /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		B2484DBA1C71C25900C0CCBB /* IndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
@@ -446,6 +458,19 @@
 			path = ServersPositionAnnotions;
 			sourceTree = "<group>";
 		};
+		B23A98011C76BA8F00E3E054 /* LeftMenuControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B23A98021C76BB6400E3E054 /* UserInformationController.h */,
+				B23A98031C76BB6400E3E054 /* UserInformationController.m */,
+				B23A980B1C76E12700E3E054 /* UserinformationSetingViewController.h */,
+				B23A980C1C76E12700E3E054 /* UserinformationSetingViewController.m */,
+				B23A980E1C76E74500E3E054 /* PhysicalExaminationViewController.h */,
+				B23A980F1C76E74500E3E054 /* PhysicalExaminationViewController.m */,
+			);
+			path = LeftMenuControllers;
+			sourceTree = "<group>";
+		};
 		B2484DB31C71C1E600C0CCBB /* ProjectClass */ = {
 			isa = PBXGroup;
 			children = (
@@ -459,6 +484,7 @@
 		B2484DB41C71C1E600C0CCBB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B23A98011C76BA8F00E3E054 /* LeftMenuControllers */,
 				25BFEB3A1C74A4DD0062F9B8 /* Appointment */,
 				B2484DB71C71C20D00C0CCBB /* LoginController.h */,
 				B2484DB81C71C20D00C0CCBB /* LoginController.m */,
@@ -501,6 +527,8 @@
 			children = (
 				B2F826241C730DA500993F47 /* LeftMenuCellItem.h */,
 				B2F826251C730DA500993F47 /* LeftMenuCellItem.m */,
+				B23A98051C76BCDA00E3E054 /* UserinformationCellItem.h */,
+				B23A98061C76BCDA00E3E054 /* UserinformationCellItem.m */,
 			);
 			path = LeftMenuCellModel;
 			sourceTree = "<group>";
@@ -711,12 +739,14 @@
 				2512B41A1C7056C900EE661B /* UIFont+Custom.m in Sources */,
 				B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */,
 				2512B3B21C70557C00EE661B /* ViewController.m in Sources */,
+				B23A980D1C76E12700E3E054 /* UserinformationSetingViewController.m in Sources */,
 				2512B4151C7056C900EE661B /* UIButton+Easy.m in Sources */,
 				B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */,
 				25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */,
 				2512B41E1C7056C900EE661B /* UILabel+Easy.m in Sources */,
 				25BFEB3D1C74A50F0062F9B8 /* CloudAppointmentViewController.m in Sources */,
 				2512B40F1C7056C900EE661B /* NSDate+Easy.m in Sources */,
+				B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */,
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
 				2512B4201C7056C900EE661B /* UIView+Layout.m in Sources */,
 				B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */,
@@ -725,6 +755,7 @@
 				25BFEB431C74A55B0062F9B8 /* AppointmentViewController.m in Sources */,
 				2512B3AF1C70557C00EE661B /* AppDelegate.m in Sources */,
 				2512B42E1C70632C00EE661B /* HMDataOperate.m in Sources */,
+				B23A98041C76BB6400E3E054 /* UserInformationController.m in Sources */,
 				25BFEB361C74096E0062F9B8 /* PersonInfoOfPhonePacket.m in Sources */,
 				2512B3AC1C70557C00EE661B /* main.m in Sources */,
 				25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */,
@@ -749,6 +780,7 @@
 				2512B4171C7056C900EE661B /* UIButton+VerticalLayout.m in Sources */,
 				B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */,
 				B23A98001C7420DE00E3E054 /* ServersPositionAnnotionsModel.m in Sources */,
+				B23A98071C76BCDA00E3E054 /* UserinformationCellItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,7 @@
 
 #import "IndexViewController.h"
 #import "Constants.h"
+#import "UserInformationController.h"
 
 @interface IndexViewController ()
 
@@ -180,6 +181,7 @@
     // 左侧菜单栏
     leftMenuView = [[LeftMenuView alloc]initWithFrame:CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20)];
     [self.view addSubview:leftMenuView];
+    leftMenuView.delegate = self;
     UIPanGestureRecognizer *panrecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerOfMenuView:)];
     panrecognizer.maximumNumberOfTouches = 1;
     [leftMenuView addGestureRecognizer:panrecognizer];
@@ -226,6 +228,43 @@
         }
     }
 }
+
+- (void)leftMenuViewOfTableviewDidSelectItemWithType:(LeftMenuCellItemType)type
+{
+    switch (type) {
+        case LEFTMENUCELL_USERINFOR:{
+            NSLog(@"用户信息");
+            UserInformationController *userinfor = [[UserInformationController alloc]init];
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:userinfor];
+            [self presentViewController:nav animated:YES completion:nil];
+            break;
+        }
+        case LEFTMENUCELL_HISTORYRECORD:
+            NSLog(@"历史记录");
+            break;
+        case LEFTMENUCELL_SETTING:
+            NSLog(@"设置");
+            break;
+        case LEFTMENUCELL_NOTICE:
+            NSLog(@"体检注意事项");
+            break;
+        case LEFTMENUCELL_SHARE:
+            NSLog(@"分享");
+            break;
+        case LEFTMENUCELL_ABOUTUS:
+            NSLog(@"关于我们");
+            break;
+        case LEFTMENUCELL_ADVICE:
+            NSLog(@"意见或建议");
+            break;
+        case LEFTMENUCELL_EXIT:
+            NSLog(@"退出");
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [_mapView viewWillAppear];
