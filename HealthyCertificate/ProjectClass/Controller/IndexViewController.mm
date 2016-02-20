@@ -9,8 +9,13 @@
 #import "IndexViewController.h"
 #import "Constants.h"
 #import "UserInformationController.h"
+#import "AppointmentViewController.h"
 
 @interface IndexViewController ()
+
+{
+    CLLocationCoordinate2D _centerCoordinate;
+}
 
 @end
 
@@ -423,6 +428,7 @@
         if(!error)
         {
             addressLabel.text = adress;
+            _centerCoordinate = _mapView.centerCoordinate;
         }
         else {
             addressLabel.text = @"";
@@ -434,7 +440,11 @@
 #pragma mark - Storyboard Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"AppointmentIdentifier"]){
-        
+        if ([segue.destinationViewController isKindOfClass:[AppointmentViewController class]]){
+            AppointmentViewController* controller = (AppointmentViewController*)segue.destinationViewController;
+            controller.location = addressLabel.text;
+            controller.centerCoordinate = _centerCoordinate;
+        }
     }
 }
 @end
