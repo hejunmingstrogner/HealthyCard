@@ -13,13 +13,28 @@
 
 #import "UIButton+Easy.h"
 
+#import "BaseInfoTableViewCell.h"
+#import "CloudAppointmentDateVC.h"
+
+@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate>
+{}
+@end
+
+
 @implementation CloudAppointmentViewController
+
+#pragma mark - Setter & Getter
+-(void)setCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate{
+    _centerCoordinate = centerCoordinate;
+}
+
+-(void)setLocation:(NSString *)location{
+    _location = location;
+}
 
 #pragma mark - Life Circle
 -(void)viewDidLoad{
     [super viewDidLoad];
-    
-    self.view.backgroundColor = [UIColor blueColor];
     
     UIView* bottomView = [[UIView alloc] init];
     bottomView.backgroundColor = [UIColor greenColor];
@@ -45,27 +60,92 @@
         make.edges.equalTo(scrollView);
         make.width.equalTo(scrollView);
     }];
+
     
-    UIView* testView = [[UIView alloc] init];
-    testView.backgroundColor = [UIColor redColor];
-    [containerView addSubview:testView];
-    [testView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.mas_equalTo(containerView);
-        make.height.mas_equalTo(700);
+    UITableView* baseInfoTableView = [[UITableView alloc] init];
+    baseInfoTableView.delegate = self;
+    baseInfoTableView.dataSource = self;
+    baseInfoTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    baseInfoTableView.layer.borderWidth = 1;
+    baseInfoTableView.layer.borderColor = [UIColor grayColor].CGColor;
+    baseInfoTableView.layer.cornerRadius = 10.0f;
+    baseInfoTableView.scrollEnabled = NO;
+    [baseInfoTableView registerClass:[BaseInfoTableViewCell class] forCellReuseIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
+    [containerView addSubview:baseInfoTableView];
+    [baseInfoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.mas_equalTo(containerView).with.offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH-20);
+        make.height.mas_equalTo(PXFIT_HEIGHT(96)*3);
     }];
-    
-    
-    UIButton* locationButton;
     
     [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(testView.mas_bottom);
+        make.bottom.equalTo(baseInfoTableView.mas_bottom);
     }];
-    
-    
-    
-    
-    
-    
 }
+
+#pragma mark - UITableViewDataSource & UITabBarControllerDelegate
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 3;
+}
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    BaseInfoTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
+    
+    if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
+    {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ( [cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)] )
+    {
+        [cell setPreservesSuperviewLayoutMargins:NO];
+    }
+    
+    if ( [cell respondsToSelector:@selector(setLayoutMargins:)] )
+    {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+    
+    if (indexPath.row == 0){
+        cell.iconName = @"search_icon";
+        cell.textField.text = _location;
+        cell.textField.enabled = NO;
+    }else if (indexPath.row == 1){
+        cell.iconName = @"date_icon";
+        cell.textField.enabled = NO;
+    }else{
+        cell.iconName = @"phone_icon";
+        cell.textField.text = gPersonInfo.StrTel;
+    }
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return PXFIT_HEIGHT(96);
+}
+
+#pragma mark - Storyboard Segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    if ([segue.identifier isEqualToString:@"ChooseDateIdentifier"]){
+//        UIViewController* destinationViewController = segue.destinationViewController;
+//        if ([destinationViewController isKindOfClass:[CloudAppointmentDateVC class]])
+//        {
+////            UIBarButtonItem *returnButtonItem = [[UIBarButtonItem alloc] init];
+////            returnButtonItem.title = @"";
+////            self.navigationItem.backBarButtonItem = returnButtonItem;
+////            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//        }
+//    }
+}
+
 
 @end

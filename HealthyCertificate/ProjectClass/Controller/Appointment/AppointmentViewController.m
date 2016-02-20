@@ -32,6 +32,15 @@
 
 @implementation AppointmentViewController
 
+#pragma mark - Setter & Getter
+-(void)setLocation:(NSString *)location{
+    _location = location;
+}
+
+-(void)setCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate{
+    _centerCoordinate = centerCoordinate;
+}
+
 
 #pragma mark - Life Circle
 -(void)viewDidLoad{
@@ -86,6 +95,8 @@
     }];
     
     _cloudAppointmentViewController = [[CloudAppointmentViewController alloc] init];
+    _cloudAppointmentViewController.location = _location;
+    _cloudAppointmentViewController.centerCoordinate = _centerCoordinate;
     _servicePointAppointmentViewController = [[ServicePointApointmentViewController alloc] init];
     
     [self addChildViewController:_cloudAppointmentViewController];

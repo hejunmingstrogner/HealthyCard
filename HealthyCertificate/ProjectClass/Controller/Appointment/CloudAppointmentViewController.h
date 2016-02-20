@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface CloudAppointmentViewController : UIViewController
+
+@property (nonatomic, copy) NSString* location;
+@property (nonatomic, assign) CLLocationCoordinate2D centerCoordinate;
 
 @end
