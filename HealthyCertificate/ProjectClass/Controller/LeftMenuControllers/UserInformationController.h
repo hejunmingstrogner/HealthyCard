@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "UserinformationSetingViewController.h"
+#import "Constants.h"
+#import "NSString+Count.h"
 
 @interface UserInformationController : UIViewController
 

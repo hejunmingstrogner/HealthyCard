@@ -10,6 +10,15 @@
 #import <Masonry.h>
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^ButtonActionBlock)(UIButton *sender);
+
+@interface CustomButton : UIButton
+
+@property(nonatomic,copy)ButtonActionBlock block;
+- (void)addClickedBlock:(ButtonActionBlock)block;
+
+@end
+
 @interface RzAlertView : UIView
 {
     UIView *backgroundView;                 // 背景
@@ -106,5 +115,19 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param second    秒数
  */
 + (void)showAlertLabelWithTarget:(nullable UIView*)superview Message:(NSString *)message removeDelay:(NSInteger)second;
+
+
+/**
+ *
+ *
+ *  @param superView       当前要显示的界面的view
+ *  @param title           提示框的title
+ *  @param btn_1_title     第一个按钮的标题
+ *  @param btn_1_imagaName 第一个按钮的图片
+ *  @param btn_2_title     第二个按钮的标题
+ *  @param btn_2_imageName 第二个按钮的图片
+ *  @param block           点击按钮之后的回调
+ */
++ (void)showAlertWithTarget:(UIView *)superView Title:(NSString *)title oneButtonTitle:(NSString *)btn_1_title oneButtonImageName:(NSString *)btn_1_imagaName twoButtonTitle:(NSString *)btn_2_title twoButtonImageName:(NSString *)btn_2_imageName handle:(void(^)(NSInteger flag))block;
 @end
 NS_ASSUME_NONNULL_END

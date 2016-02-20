@@ -18,4 +18,13 @@
     return self.length + 2;
 }
 
++ (NSString *)getOldYears:(NSString *)idCard
+{
+    NSInteger boardYear = [[idCard substringWithRange:NSMakeRange(6, 4)] integerValue];
+    NSDateFormatter *datefammert = [[NSDateFormatter alloc]init];
+    [datefammert setDateFormat:@"yyyy"];
+    NSInteger currentyYear = [[datefammert stringFromDate:[NSDate date]] integerValue];
+    return [NSString stringWithFormat:@"%d", currentyYear - boardYear];
+}
+
 @end

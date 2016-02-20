@@ -57,25 +57,35 @@
 
 - (void)getdata
 {
-    // 个人
-    UserinformationCellItem *head = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"头像" detialLabelText:nil itemtype:USERINFORMATION_HEADERIMAGE];
-    UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:@"与长江" itemtype:USERINFORMATION_NAME];
-    UserinformationCellItem *sex = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"性别" detialLabelText:@"男" itemtype:USERINFORMATION_GENDER];
-    UserinformationCellItem *old = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"年龄" detialLabelText:@"24" itemtype:USERINFORMATION_OLD];
-    UserinformationCellItem *telPhoneNo = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:@"18380446542" itemtype:USERINFORMATION_TELPHONENO];
-    UserinformationCellItem *idCard = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"身份证号" detialLabelText:@"510921199612545111" itemtype:USERINFORMATION_IDCARD];
-    UserinformationCellItem *calling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行业" detialLabelText:@"其他" itemtype:USERINFORMATION_CALLING];
-    UserinformationCellItem *workUnit = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:@"成都信息工程学院" itemtype:USERINFORMATION_WORKUNITNAME];
+        // 个人
+    if (GetUserType == 1) {
+        UserinformationCellItem *head = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"头像" detialLabelText:nil itemtype:USERINFORMATION_HEADERIMAGE];
+        UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:gPersonInfo.mCustName itemtype:USERINFORMATION_NAME];
+        NSString *bGender;
+        if (gPersonInfo.bGender == 0) {
+            bGender = @"男";
+        }
+        else {
+            bGender = @"女";
+        }
+        UserinformationCellItem *sex = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"性别" detialLabelText:bGender itemtype:USERINFORMATION_GENDER];
+        UserinformationCellItem *old = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"年龄" detialLabelText:[NSString getOldYears:gPersonInfo.CustId] itemtype:USERINFORMATION_OLD];
+        UserinformationCellItem *telPhoneNo = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:gPersonInfo.StrTel itemtype:USERINFORMATION_TELPHONENO];
+        UserinformationCellItem *idCard = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"身份证号" detialLabelText:gPersonInfo.CustId itemtype:USERINFORMATION_IDCARD];
+        UserinformationCellItem *calling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行业" detialLabelText:gPersonInfo.cIndustry itemtype:USERINFORMATION_CALLING];
+        UserinformationCellItem *workUnit = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:gPersonInfo.cUnitName itemtype:USERINFORMATION_WORKUNITNAME];
 
-    _dataArray = [NSMutableArray arrayWithObjects:head, name, sex, old, telPhoneNo, idCard, calling, workUnit, nil];
-
-    // 单位
-//    UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:@"成都信息工程学院" itemtype:USERINFORMATION_WORKUNITADRESS];
-//    UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:@"成都信息工程学院" itemtype:USERINFORMATION_WORKUNITNAME];
-//    UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位联系人" detialLabelText:@"成都信息工程学院" itemtype:USERINFORMATION_WORKUNITCONTACTS];
-//    UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:@"成都信息工程学院" itemtype:USERINFORMATION_TELPHONENO];
-//    UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行业" detialLabelText:@"成都信息工程学院" itemtype:USERINFORMATION_CALLING];
-//    _dataArray = [NSMutableArray arrayWithObjects:workUnitAdress, workUnitName, workUnitContacts, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
+        _dataArray = [NSMutableArray arrayWithObjects:head, name, sex, old, telPhoneNo, idCard, calling, workUnit, nil];
+    }
+    else{
+        // 单位
+        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:gCompanyInfo.cUnitAddr itemtype:USERINFORMATION_WORKUNITADRESS];
+        UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:gCompanyInfo.cUnitName itemtype:USERINFORMATION_WORKUNITNAME];
+        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位联系人" detialLabelText:gCompanyInfo.cLinkPeople itemtype:USERINFORMATION_WORKUNITCONTACTS];
+        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:gCompanyInfo.cLinkPhone itemtype:USERINFORMATION_TELPHONENO];
+        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行业" detialLabelText:gCompanyInfo.cUnitType itemtype:USERINFORMATION_CALLING];
+        _dataArray = [NSMutableArray arrayWithObjects:workUnitAdress, workUnitName, workUnitContacts, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
