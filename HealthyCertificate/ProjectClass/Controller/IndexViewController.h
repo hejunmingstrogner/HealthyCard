@@ -13,6 +13,7 @@
 #import <Masonry.h>
 #import <BaiduMapAPI_Map/BMKMapView.h>
 #import <BaiduMapAPI_Location/BMKLocationService.h>
+#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 
 #import "LocationSearchModel.h"
 #import "LeftMenuView.h"
@@ -29,6 +30,8 @@
 
     BMKMapView  *_mapView;
     UIImageView *locateimageview;           // 显示要定位地点的标注图钉
+    NSMutableArray *nearbyServicePositionsArray;    // 附近的服务点数组
+
     NSTimer     *changeStatusTimer;         // 拖拽地图时，定时器用于判断是否拖拽完成时，调用方法得到位置
 
     UILabel     *addressLabel;              // 地址label

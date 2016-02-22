@@ -263,6 +263,9 @@
         make.left.equalTo(alertView).offset(10);
     }];
     [cbutton1 setImage:[UIImage imageNamed:btn_1_imagaName] forState:UIControlStateNormal];
+    [cbutton1 setTitle:btn_1_title forState:UIControlStateNormal];
+    [cbutton1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [cbutton1 setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     [cbutton1 addClickedBlock:^(UIButton * _Nonnull sender) {
         [bgview removeFromSuperview];
         if (block) {
@@ -280,6 +283,9 @@
         make.right.equalTo(alertView).offset(-10);
     }];
     [cbutton2 setImage:[UIImage imageNamed:btn_2_imageName] forState:UIControlStateNormal];
+    [cbutton2 setTitle:btn_2_title forState:UIControlStateNormal];
+    [cbutton2 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [cbutton2 setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     [cbutton2 addClickedBlock:^(UIButton * _Nonnull sender) {
         [bgview removeFromSuperview];
         if (block) {

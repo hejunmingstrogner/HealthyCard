@@ -78,5 +78,4 @@ extern CompanyInfoOfPhonePacket* gCompanyInfo;
 #define GetUserType [[[NSUserDefaults standardUserDefaults] objectForKey:@"userType"] integerValue]
 #define SetUserType(type) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", type] forKey:@"userType"]          // 设置用户类型，1:个人  2:单位
 
-#define GetUserOldYear(bornDate) [NSString stringWithFormat:@"%.0f",(-[bornDate timeIntervalSinceNow])/60/24/365]
 #endif /* Constants_h */

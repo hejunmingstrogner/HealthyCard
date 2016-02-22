@@ -20,6 +20,9 @@
 
 + (NSString *)getOldYears:(NSString *)idCard
 {
+    if ([idCard isEqualToString:@""]) {
+        return @"暂无";
+    }
     NSInteger boardYear = [[idCard substringWithRange:NSMakeRange(6, 4)] integerValue];
     NSDateFormatter *datefammert = [[NSDateFormatter alloc]init];
     [datefammert setDateFormat:@"yyyy"];

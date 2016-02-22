@@ -9,6 +9,8 @@
 #import "UserInformationController.h"
 #import "RzAlertView.h"
 #import "UserinformationCellItem.h"
+#import <UIImageView+WebCache.h>
+#import "HttpNetworkManager.h"
 
 @interface UserInformationController()<UITableViewDataSource, UITableViewDelegate>
 
@@ -60,30 +62,33 @@
         // 个人
     if (GetUserType == 1) {
         UserinformationCellItem *head = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"头像" detialLabelText:nil itemtype:USERINFORMATION_HEADERIMAGE];
-        UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:gPersonInfo.mCustName itemtype:USERINFORMATION_NAME];
+        UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:[gPersonInfo.mCustName isEqualToString:@""] ? @"暂无":gPersonInfo.mCustName itemtype:USERINFORMATION_NAME];
         NSString *bGender;
         if (gPersonInfo.bGender == 0) {
             bGender = @"男";
         }
-        else {
+        else if(gPersonInfo.bGender == 1){
             bGender = @"女";
+        }
+        else{
+            bGender = @"暂无";
         }
         UserinformationCellItem *sex = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"性别" detialLabelText:bGender itemtype:USERINFORMATION_GENDER];
         UserinformationCellItem *old = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"年龄" detialLabelText:[NSString getOldYears:gPersonInfo.CustId] itemtype:USERINFORMATION_OLD];
-        UserinformationCellItem *telPhoneNo = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:gPersonInfo.StrTel itemtype:USERINFORMATION_TELPHONENO];
-        UserinformationCellItem *idCard = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"身份证号" detialLabelText:gPersonInfo.CustId itemtype:USERINFORMATION_IDCARD];
-        UserinformationCellItem *calling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行业" detialLabelText:gPersonInfo.cIndustry itemtype:USERINFORMATION_CALLING];
-        UserinformationCellItem *workUnit = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:gPersonInfo.cUnitName itemtype:USERINFORMATION_WORKUNITNAME];
+        UserinformationCellItem *telPhoneNo = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gPersonInfo.StrTel isEqualToString:@""] ? @"暂无" : gPersonInfo.StrTel itemtype:USERINFORMATION_TELPHONENO];
+        UserinformationCellItem *idCard = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"身份证号" detialLabelText:[gPersonInfo.CustId isEqualToString:@""] ? @"暂无" : gPersonInfo.CustId itemtype:USERINFORMATION_IDCARD];
+        UserinformationCellItem *calling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行业" detialLabelText:[gPersonInfo.cIndustry isEqualToString:@""] ? @"暂无" : gPersonInfo.cIndustry itemtype:USERINFORMATION_CALLING];
+        UserinformationCellItem *workUnit = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gPersonInfo.cUnitName isEqualToString:@""] ? @"暂无" : gPersonInfo.cUnitName itemtype:USERINFORMATION_WORKUNITNAME];
 
         _dataArray = [NSMutableArray arrayWithObjects:head, name, sex, old, telPhoneNo, idCard, calling, workUnit, nil];
     }
     else{
         // 单位
-        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:gCompanyInfo.cUnitAddr itemtype:USERINFORMATION_WORKUNITADRESS];
-        UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:gCompanyInfo.cUnitName itemtype:USERINFORMATION_WORKUNITNAME];
-        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位联系人" detialLabelText:gCompanyInfo.cLinkPeople itemtype:USERINFORMATION_WORKUNITCONTACTS];
-        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:gCompanyInfo.cLinkPhone itemtype:USERINFORMATION_TELPHONENO];
-        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行业" detialLabelText:gCompanyInfo.cUnitType itemtype:USERINFORMATION_CALLING];
+        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gCompanyInfo.cUnitAddr isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitAddr itemtype:USERINFORMATION_WORKUNITADRESS];
+        UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gCompanyInfo.cUnitName isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitName itemtype:USERINFORMATION_WORKUNITNAME];
+        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位联系人" detialLabelText:[gCompanyInfo.cLinkPeople isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPeople itemtype:USERINFORMATION_WORKUNITCONTACTS];
+        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gCompanyInfo.cLinkPhone isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPhone itemtype:USERINFORMATION_TELPHONENO];
+        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行业" detialLabelText:[gCompanyInfo.cUnitType isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitType itemtype:USERINFORMATION_CALLING];
         _dataArray = [NSMutableArray arrayWithObjects:workUnitAdress, workUnitName, workUnitContacts, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
     }
 }
@@ -107,11 +112,15 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // 有头像
     if (((UserinformationCellItem *)_dataArray[indexPath.row]).itemType == USERINFORMATION_HEADERIMAGE) {
         UITableViewCell *headcell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"head"];
         headcell.textLabel.text = ((UserinformationCellItem *)_dataArray[indexPath.row]).titleLabelText;
         UIButton *headeimageBtn = [[UIButton alloc]init];
+
+        [headeimageBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"headimage"] options:SDWebImageRefreshCached];
         [headcell.contentView addSubview:headeimageBtn];
+        [headeimageBtn addTarget:self action:@selector(headerimageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [headeimageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(headcell).offset(10);
             make.bottom.equalTo(headcell).offset(-10);
@@ -174,6 +183,19 @@
     UserinformationSetingViewController *setingController = [[UserinformationSetingViewController alloc]init];
     setingController.itemtype = ((UserinformationCellItem *)_dataArray[indexPath.row]).itemType;
     [self.navigationController pushViewController:setingController animated:YES];
+}
+
+#pragma mark -点击头像 设置头像
+- (void)headerimageBtnClicked:(UIButton *)sender
+{
+    [RzAlertView showAlertViewControllerWithTarget:self Title:nil Message:nil preferredStyle:UIAlertControllerStyleActionSheet ActionTitlesArray:@[@"立即拍照", @"本地图片"] handle:^(NSInteger flag) {
+        if (flag == 1) {
+            NSLog(@"立即拍照");
+        }
+        else if (flag == 2){
+            NSLog(@"本地图片");
+        }
+    }];
 }
 
 @end
