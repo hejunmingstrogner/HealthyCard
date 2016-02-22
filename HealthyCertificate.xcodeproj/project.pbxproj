@@ -80,6 +80,7 @@
 		B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A980F1C76E74500E3E054 /* PhysicalExaminationViewController.m */; };
 		B23A98131C76F0D400E3E054 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98121C76F0D400E3E054 /* AboutUsViewController.m */; };
 		B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98151C76F5C700E3E054 /* AdviceViewController.m */; };
+		B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C891C7865D700F543E1 /* PositionUtil.m */; };
 		B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2484DB81C71C20D00C0CCBB /* LoginController.m */; };
 		B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
@@ -233,6 +234,8 @@
 		B23A98121C76F0D400E3E054 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		B23A98141C76F5C700E3E054 /* AdviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdviceViewController.h; sourceTree = "<group>"; };
 		B23A98151C76F5C700E3E054 /* AdviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdviceViewController.m; sourceTree = "<group>"; };
+		B2436C881C7865D700F543E1 /* PositionUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionUtil.h; sourceTree = "<group>"; };
+		B2436C891C7865D700F543E1 /* PositionUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PositionUtil.m; sourceTree = "<group>"; };
 		B2484DB71C71C20D00C0CCBB /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		B2484DB81C71C20D00C0CCBB /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		B2484DBA1C71C25900C0CCBB /* IndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
@@ -416,6 +419,8 @@
 				25BFEB101C72C70F0062F9B8 /* HCRule.m */,
 				252AB88D1C7703690085CC14 /* HCWheelView.h */,
 				252AB88E1C7703690085CC14 /* HCWheelView.m */,
+				B2436C881C7865D700F543E1 /* PositionUtil.h */,
+				B2436C891C7865D700F543E1 /* PositionUtil.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -827,6 +832,7 @@
 				25BFEB1E1C731A630062F9B8 /* StringPacket.m in Sources */,
 				2512B41A1C7056C900EE661B /* UIFont+Custom.m in Sources */,
 				B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */,
+				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
 				2512B3B21C70557C00EE661B /* ViewController.m in Sources */,
 				B23A980D1C76E12700E3E054 /* UserinformationSetingViewController.m in Sources */,
 				2512B4151C7056C900EE661B /* UIButton+Easy.m in Sources */,

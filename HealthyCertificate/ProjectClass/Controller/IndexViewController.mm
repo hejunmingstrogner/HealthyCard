@@ -10,6 +10,9 @@
 #import "Constants.h"
 #import "UserInformationController.h"
 #import "AppointmentViewController.h"
+#import "HttpNetworkManager.h"
+#import "ServersPositionAnnotionsModel.h"
+#import "PositionUtil.h"
 
 @interface IndexViewController ()
 
@@ -115,9 +118,9 @@
         make.height.equalTo(pendingBtn);
     }];
     [minDistanceBtn setImage:[UIImage imageNamed:@"serverPosition"] forState:UIControlStateNormal];
-    minDistanceBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 20, 5, 65);
-    [minDistanceBtn setTitle:@"101.5km" forState:UIControlStateNormal];
-    minDistanceBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    minDistanceBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 85);
+    [minDistanceBtn setTitle:@"0km" forState:UIControlStateNormal];
+    minDistanceBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [minDistanceBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:100/255.0 blue:90/255.0 alpha:1] forState:UIControlStateNormal];
     [minDistanceBtn addTarget:self action:@selector(minDistanceBtnClicked) forControlEvents:UIControlEventTouchUpInside];
 
@@ -369,6 +372,7 @@
 
     _mapView.showsUserLocation = NO;
     _mapView.userTrackingMode = BMKUserTrackingModeFollow;
+    //_mapView.userTrackingMode = BMKUserTrackingModeNone;
     _mapView.showsUserLocation = YES;
 }
 
@@ -396,7 +400,7 @@
  */
 - (void)didFailToLocateUserWithError:(NSError *)error
 {
-    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"定位失败，请重试" ActionTitle:@"明白了" ActionStyle:UIAlertActionStyleDefault];
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"定位失败,请检查网络后重试" removeDelay:2];
     [_locationServer startUserLocationService];
 }
 
@@ -417,7 +421,7 @@
     if (changeStatusTimer != nil) {
         [changeStatusTimer invalidate];
     }
-    changeStatusTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(getAdress) userInfo:nil repeats:NO];
+    changeStatusTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(getAdress) userInfo:nil repeats:NO];
 }
 
 #pragma mark -得到体检地址
@@ -429,12 +433,56 @@
         {
             addressLabel.text = adress;
             _centerCoordinate = _mapView.centerCoordinate;
+            [[HttpNetworkManager getInstance] getNearbyServicePointsWithCLLocation:_mapView.centerCoordinate resultBlock:^(NSArray *servicePointList, NSError *error) {
+                // 将附近的服务点显示出来
+                if (!error) {
+                    [_mapView removeAnnotations:_mapView.annotations];
+                    if (servicePointList.count != 0) {
+                        nearbyServicePositionsArray = [NSMutableArray arrayWithArray:servicePointList];
+                        [self addServersPositionAnnotionsWithList:servicePointList];
+                    }
+                    else {
+                        [nearbyServicePositionsArray removeAllObjects];
+                    }
+                    // 计算最近的服务点距离
+                    [self calculateMinDistance];
+                }
+                else {
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取附近服务点信息失败" removeDelay:2];
+                }
+            }];
         }
         else {
             addressLabel.text = @"";
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:3];
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:2];
         }
     }];
+}
+
+#pragma mark -添加地图标注
+- (void)addServersPositionAnnotionsWithList:(NSArray *)positions
+{
+    int i = 0;
+    for (ServersPositionAnnotionsModel *service in positions) {
+        MyPointeAnnotation *annotion = [[MyPointeAnnotation alloc]init];
+        CLLocationCoordinate2D coor;
+        coor.latitude = service.positionLa;
+        coor.longitude = service.positionLo;
+        annotion.coordinate = coor;
+        annotion.title = service.address;
+        annotion.tag = i;
+        [_mapView addAnnotation:annotion];
+        i++;
+    }
+}
+
+#pragma mark - annotionview delegate
+- (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
+{
+    MyPointeAnnotation *anno = view.annotation;
+    if (nearbyServicePositionsArray.count != 0) {
+        NSLog(@"near: %@", nearbyServicePositionsArray[anno.tag]);
+    }
 }
 
 #pragma mark - Storyboard Segue
@@ -443,8 +491,42 @@
         if ([segue.destinationViewController isKindOfClass:[AppointmentViewController class]]){
             AppointmentViewController* controller = (AppointmentViewController*)segue.destinationViewController;
             controller.location = addressLabel.text;
-            controller.centerCoordinate = _centerCoordinate;
+            // 将百度地图左边转换为gps坐标
+            PositionUtil *posit = [[PositionUtil alloc]init];
+            CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
+            controller.centerCoordinate = coor;
         }
+    }
+}
+
+#pragma mark - 计算附近最近的服务点到当前定位点的距离
+-(void)calculateMinDistance
+{
+    if (nearbyServicePositionsArray.count != 0) {
+        NSMutableArray *distanceArray = [[NSMutableArray alloc]init];
+        for (ServersPositionAnnotionsModel *point in nearbyServicePositionsArray) {
+            BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(point.positionLa,point.positionLo));
+            BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(_mapView.centerCoordinate.latitude, _mapView.centerCoordinate.longitude));
+            CLLocationDistance distance = BMKMetersBetweenMapPoints(point1, point2);
+            [distanceArray addObject:[NSNumber numberWithDouble:distance]];
+        }
+        NSLog(@" a %@", distanceArray);
+        [distanceArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            double a = [obj1 doubleValue];
+            double b = [obj2 doubleValue];
+            if ( a > b) {
+                return NSOrderedDescending;
+            }
+            else if(a < b){
+                return NSOrderedAscending;
+            }
+            else
+                return NSOrderedSame;
+        }];
+        NSLog(@" b %@", distanceArray);
+    }
+    else{
+        [minDistanceBtn setTitle:@"0km" forState:UIControlStateNormal];
     }
 }
 @end

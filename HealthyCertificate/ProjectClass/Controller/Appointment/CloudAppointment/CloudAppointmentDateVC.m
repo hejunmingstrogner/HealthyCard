@@ -38,8 +38,6 @@
     UILabel* beginDateLabel = [[UILabel alloc] init];
     [self.view addSubview:beginDateLabel];
     
-    git 
-    
     UILabel* endDateLabelTitle = [[UILabel alloc] init];
     [self.view addSubview:endDateLabelTitle];
     

@@ -7,6 +7,8 @@
 //
 
 #import "LeftMenuView.h"
+#import <UIImageView+WebCache.h>
+#import "HttpNetworkManager.h"
 
 @interface LeftMenuView ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -54,13 +56,13 @@
     LeftMenuCellItem *historyRecord = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"历史记录" detialLabelText:nil itemtype:LEFTMENUCELL_HISTORYRECORD];
     LeftMenuCellItem *setting = [[LeftMenuCellItem alloc]initWithiconName:@"setting" titleLabelText:@"设置" detialLabelText:nil itemtype:LEFTMENUCELL_SETTING];
     LeftMenuCellItem *notice = [[LeftMenuCellItem alloc]initWithiconName:@"notice" titleLabelText:@"体检注意事项" detialLabelText:nil itemtype:LEFTMENUCELL_NOTICE];
-    LeftMenuCellItem *share = [[LeftMenuCellItem alloc]initWithiconName:@"share" titleLabelText:@"分享" detialLabelText:nil itemtype:LEFTMENUCELL_SHARE];
+    //LeftMenuCellItem *share = [[LeftMenuCellItem alloc]initWithiconName:@"share" titleLabelText:@"分享" detialLabelText:nil itemtype:LEFTMENUCELL_SHARE];
     //LeftMenuCellItem *uintlogin = [[LeftMenuCellItem alloc]initWithiconName:@"danweilogin" titleLabelText:@"单位注册" detialLabelText:nil itemtype:LEFTMENUCELL_LOGIN];
     LeftMenuCellItem *aboutUs = [[LeftMenuCellItem alloc]initWithiconName:@"aboutUs" titleLabelText:@"关于我们" detialLabelText:nil itemtype:LEFTMENUCELL_ABOUTUS];
     LeftMenuCellItem *advice = [[LeftMenuCellItem alloc]initWithiconName:@"advice" titleLabelText:@"意见或建议" detialLabelText:nil itemtype:LEFTMENUCELL_ADVICE];
     LeftMenuCellItem *exit = [[LeftMenuCellItem alloc]initWithiconName:@"exit" titleLabelText:@"退出当前账号" detialLabelText:nil itemtype:LEFTMENUCELL_EXIT];
 
-    _menuItemArray = [NSMutableArray arrayWithObjects:userinformation, historyRecord, setting, notice, share, aboutUs, advice, exit, nil];
+    _menuItemArray = [NSMutableArray arrayWithObjects:userinformation, historyRecord, setting, notice, aboutUs, advice, exit, nil];
 
     _settingItemArray = [NSMutableArray arrayWithObjects:@"设置", @"提醒", @"用户类型", @"版本更新", nil];
 }
@@ -110,7 +112,7 @@
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"headercell"];
         }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.imageView.image = [UIImage imageNamed:((LeftMenuCellItem *)_menuItemArray[indexPath.section]).iconName];
+        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode]] placeholderImage:[UIImage imageNamed:((LeftMenuCellItem *)_menuItemArray[indexPath.section]).iconName] options:SDWebImageRefreshCached];
         cell.textLabel.text = ((LeftMenuCellItem *)_menuItemArray[indexPath.section]).titleLabelText;
         cell.detailTextLabel.text = ((LeftMenuCellItem *)_menuItemArray[indexPath.section]).detialLabelText;
         return cell;
