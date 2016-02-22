@@ -77,7 +77,6 @@
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
     
-<<<<<<< HEAD
     [self loadData];
 }
 
@@ -203,10 +202,6 @@
     beginWheelArr = [nextDay nextServerDays:7];
     _beginDateWheelView.pickerViewContentArr = beginWheelArr;
     _beginDateString = _beginDateWheelView.pickerViewContentArr[0];
-=======
-    UILabel* endDateLabelTitle = [[UILabel alloc] init];
-    [self.view addSubview:endDateLabelTitle];
->>>>>>> rztime/master
     
     NSMutableArray* endWheelArra = [[NSMutableArray alloc] init];
     NSDate* afterDay = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:([nextDay timeIntervalSinceReferenceDate] + 24*3600)];
