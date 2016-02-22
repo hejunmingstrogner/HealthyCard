@@ -182,6 +182,14 @@
     }
     UserinformationSetingViewController *setingController = [[UserinformationSetingViewController alloc]init];
     setingController.itemtype = ((UserinformationCellItem *)_dataArray[indexPath.row]).itemType;
+
+    // 如果修改了信息，并且修改成功，则刷新列表
+    [setingController isUpdateInfoSucceed:^(BOOL successed) {
+        if (successed) {
+            [_tableView reloadData];
+        }
+    }];
+    
     [self.navigationController pushViewController:setingController animated:YES];
 }
 

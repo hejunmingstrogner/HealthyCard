@@ -25,7 +25,7 @@
 {
     UIButton    *headerBtn;                 // 头像按钮
     UILabel     *titleLabel;                // 标题
-    UIButton    *pendingBtn;                // 待处理按钮
+
     UIButton    *minDistanceBtn;            // 最近服务点距离按钮
 
     BMKMapView  *_mapView;
@@ -41,6 +41,10 @@
     CLLocationManager  *_locationmanager;   // 位置管理
 
     LeftMenuView  *leftMenuView;            // 左侧菜单栏
+
+    UIButton    *pendingBtn;                // 待处理按钮
+    UILabel     *pendingLabel;              // 待处理数据的数据
+    NSMutableArray *checkListData;          // 待处理项的数据
 }
 
 

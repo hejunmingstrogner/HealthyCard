@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Masonry.h>
+#import "ServersPositionAnnotionsModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -129,6 +130,24 @@ typedef void (^ButtonActionBlock)(UIButton *sender);
  *  @param btn_2_imageName 第二个按钮的图片
  *  @param block           点击按钮之后的回调
  */
-+ (void)showAlertWithTarget:(UIView *)superView Title:(NSString *)title oneButtonTitle:(NSString *)btn_1_title oneButtonImageName:(NSString *)btn_1_imagaName twoButtonTitle:(NSString *)btn_2_title twoButtonImageName:(NSString *)btn_2_imageName handle:(void(^)(NSInteger flag))block;
++ (void)showAlertWithTarget:(UIView *)superView
+                      Title:(NSString *)title
+             oneButtonTitle:(NSString *)btn_1_title
+         oneButtonImageName:(NSString *)btn_1_imagaName
+             twoButtonTitle:(NSString *)btn_2_title
+         twoButtonImageName:(NSString *)btn_2_imageName
+                     handle:(void(^)(NSInteger flag))block;
+
+
+/**
+ *  用于显示服务点的信息
+ *
+ *  @param target
+ *  @param servicePositionItem 服务点信息
+ *  @param block               回调 0 取消，1预约，2显示基本信息，3拨打电话
+ */
++ (void)showActionSheetWithTarget:(nullable id)target
+                  servicePosition:(ServersPositionAnnotionsModel *)servicePositionItem
+                           handle:(void(^)(NSInteger flag))block;
 @end
 NS_ASSUME_NONNULL_END

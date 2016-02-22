@@ -79,7 +79,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 #pragma mark - 获得当前位置服务点信息
 - (void)getNearbyServicePointsWithCLLocation:(CLLocationCoordinate2D)location resultBlock:(void (^)(NSArray *, NSError *))block
 {
-    NSLog(@"%lf,  %lf", location.longitude, location.latitude);
     NSString *url = [NSString stringWithFormat:@"servicePoint/findByPosition?longitude=%lf&latitude=%lf&tolerance=0.05", location.longitude, location.latitude];
     [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         NSMutableArray *servicePositionsArray = [[NSMutableArray alloc]init];
@@ -104,5 +103,82 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
             block(nil, error);
         }
     }];
+}
+
+#pragma mark -创建或更新用户信息
+- (void)createOrUpdateUserinformationwithInfor:(NSDictionary *)personinfo resultBlock:(void (^)(BOOL, NSError *))block
+{
+    NSString *url = [NSString stringWithFormat:@"customer/createOrUpdate"];
+    [self.sharedClient POST:url parameters:personinfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        if (block) {
+            block(YES, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (block) {
+            block(NO, error);
+        }
+    }];
+}
+
+#pragma mark －创建或更新单位信息
+- (void)createOrUpdateBRServiceInformationwithInfor:(NSDictionary *)BRServiceInfo resultBlock:(void (^)(BOOL, NSError *))block
+{
+    NSString *url = [NSString stringWithFormat:@"brServiceUnit/createOrUpdate"];
+    [self.sharedClient POST:url parameters:BRServiceInfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        if (block) {
+            block(YES, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (block) {
+            block(NO, error);
+        }
+    }];
+}
+
+#pragma mark - 获得预约处理信息 包括个人，单位代理出项
+- (void)getCheckListWithBlock:(void (^)(NSArray *, NSArray *, NSError *))block
+{
+    NSInteger type = GetUserType;
+    // 个人
+    if (type == 1) {
+        NSString *url = [NSString stringWithFormat:@"customerTest/findMyCheckList?customId=%@&cCheckType=1", gPersonInfo.mCustCode];
+        [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+            NSMutableArray *brArray = [[NSMutableArray alloc]init];
+            for (NSDictionary *dict in responseObject) {
+                CustomerTest *custom = [CustomerTest mj_objectWithKeyValues:dict];
+                [brArray addObject:custom];
+            }
+            if (block) {
+                block(brArray, nil, nil);
+            }
+        } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+            if (block) {
+                block(nil, nil, error);
+            }
+        }];
+    }
+    // 单位
+    else if(type == 2){
+        NSString *url = [NSString stringWithFormat:@"brContract/findMyCheckList?customId=%@&cCheckType=1", gCompanyInfo.cUnitCode];
+        [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+            NSMutableArray *brArray = [[NSMutableArray alloc]init];
+            for (NSDictionary *dict in responseObject) {
+                BRContract *brCon = [BRContract mj_objectWithKeyValues:dict];
+                [brArray addObject:brCon];
+            }
+            if (block) {
+                block(nil, brArray, nil);
+            }
+        } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+            if (block) {
+                block(nil, nil, error);
+            }
+        }];
+    }
+    else {
+        if (block) {
+            block(nil, nil, [NSError errorWithDomain:@"error" code:404 userInfo:[NSDictionary dictionaryWithObject:@"用户类型获取失败" forKey:@"error"]]);
+        }
+    }
 }
 @end

@@ -13,6 +13,7 @@
 #import "HttpNetworkManager.h"
 #import "ServersPositionAnnotionsModel.h"
 #import "PositionUtil.h"
+#import "MyCheckListViewController.h"
 
 @interface IndexViewController ()
 
@@ -34,10 +35,11 @@
     // 定位服务
     [self initLocationServer];
 
+    [self getCheckListData];
     if (GetUserType == 1) {
         NSLog(@"个人");
     }
-    else if (GetUserType == 2 )
+    else if (GetUserType == 2)
     {
         NSLog(@"单位");
     }
@@ -52,8 +54,30 @@
                 NSLog(@"单位");
                 SetUserType(2);
             }
+            [self getCheckListData];
         }];
     }
+}
+
+- (void)getCheckListData
+{
+    [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
+        if (!error) {
+            NSInteger type = GetUserType;
+            if (type == 1) {
+                checkListData = [NSMutableArray arrayWithArray:customerArray];
+            }
+            else if(type == 2)
+            {
+                checkListData = [NSMutableArray arrayWithArray:brContractArray];
+            }
+            pendingLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)checkListData.count];
+        }
+        else {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取预约数据失败" removeDelay:2];
+            pendingLabel.text = @"";
+        }
+    }];
 }
 // 初始化主界面的view
 - (void)initSubViews
@@ -102,23 +126,34 @@
         make.left.equalTo(headerBackGroundView).offset(10);
         make.bottom.equalTo(headerBackGroundView);
         make.height.mas_equalTo(30);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(90);
     }];
     [pendingBtn setTitle:@"待处理项" forState:UIControlStateNormal];
     pendingBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [pendingBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [pendingBtn addTarget:self action:@selector(pendingWorkClicked) forControlEvents:UIControlEventTouchUpInside];
+
+    pendingLabel = [[UILabel alloc]init];
+    pendingLabel.textColor = [UIColor redColor];
+    pendingLabel.textAlignment = NSTextAlignmentRight;
+    [headerBackGroundView addSubview:pendingLabel];
+    [pendingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.right.equalTo(pendingBtn);
+        make.width.equalTo(pendingLabel.mas_height);
+    }];
+
     // 最近服务点的位置按钮
     minDistanceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [headerBackGroundView addSubview:minDistanceBtn];
     [minDistanceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(headerBackGroundView).offset(-10);
         make.bottom.equalTo(headerBackGroundView);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(80);
         make.height.equalTo(pendingBtn);
     }];
     [minDistanceBtn setImage:[UIImage imageNamed:@"serverPosition"] forState:UIControlStateNormal];
-    minDistanceBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 85);
+    minDistanceBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 65);
+    minDistanceBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [minDistanceBtn setTitle:@"0km" forState:UIControlStateNormal];
     minDistanceBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [minDistanceBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:100/255.0 blue:90/255.0 alpha:1] forState:UIControlStateNormal];
@@ -258,6 +293,7 @@
     }
 }
 
+#pragma mark leftMenuView  delegate
 - (void)leftMenuViewOfTableviewDidSelectItemWithType:(LeftMenuCellItemType)type
 {
     switch (type) {
@@ -306,6 +342,11 @@
     }
 }
 
+- (void)leftMenuViewIsChangedUserType
+{
+    [self getCheckListData];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [_mapView viewWillAppear];
@@ -330,7 +371,13 @@
 // 点击待处理按钮
 - (void)pendingWorkClicked
 {
-    NSLog(@"待处理项");
+    if (checkListData.count == 0) {
+        return;
+    }
+    MyCheckListViewController *checkcontroller = [[MyCheckListViewController alloc]init];
+    checkcontroller.checkDataArray = [NSMutableArray arrayWithArray:checkListData];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:checkcontroller];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 // 最近的服务
 - (void)minDistanceBtnClicked
@@ -510,7 +557,7 @@
             CLLocationDistance distance = BMKMetersBetweenMapPoints(point1, point2);
             [distanceArray addObject:[NSNumber numberWithDouble:distance]];
         }
-        NSLog(@" a %@", distanceArray);
+        // 排序，距离以小到大
         [distanceArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
             double a = [obj1 doubleValue];
             double b = [obj2 doubleValue];
@@ -523,10 +570,12 @@
             else
                 return NSOrderedSame;
         }];
-        NSLog(@" b %@", distanceArray);
+        float mindistance = [distanceArray[0] doubleValue]/1000;
+        // 显示最近距离
+        [minDistanceBtn setTitle:[NSString stringWithFormat:@"%0.2fkm", mindistance] forState:UIControlStateNormal];
     }
     else{
-        [minDistanceBtn setTitle:@"0km" forState:UIControlStateNormal];
+        [minDistanceBtn setTitle:@"暂无" forState:UIControlStateNormal];
     }
 }
 @end
