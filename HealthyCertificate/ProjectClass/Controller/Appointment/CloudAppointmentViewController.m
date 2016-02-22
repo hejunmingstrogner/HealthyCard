@@ -12,12 +12,19 @@
 #import <Masonry.h>
 
 #import "UIButton+Easy.h"
+#import "UIColor+Expanded.h"
 
 #import "BaseInfoTableViewCell.h"
 #import "CloudAppointmentDateVC.h"
 
+#import "HealthyCertificateView.h"
+#import "AppointmentInfoView.h"
+
 @interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate>
-{}
+{
+    HealthyCertificateView* _healthyCertificateView;
+    AppointmentInfoView*    _appointmentInfoView;
+}
 @end
 
 
@@ -66,8 +73,9 @@
     baseInfoTableView.delegate = self;
     baseInfoTableView.dataSource = self;
     baseInfoTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    baseInfoTableView.separatorColor = [UIColor colorWithRGBHex:0xe8e8e8];
     baseInfoTableView.layer.borderWidth = 1;
-    baseInfoTableView.layer.borderColor = [UIColor grayColor].CGColor;
+    baseInfoTableView.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
     baseInfoTableView.layer.cornerRadius = 10.0f;
     baseInfoTableView.scrollEnabled = NO;
     [baseInfoTableView registerClass:[BaseInfoTableViewCell class] forCellReuseIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
@@ -78,8 +86,31 @@
         make.height.mas_equalTo(PXFIT_HEIGHT(96)*3);
     }];
     
+
+    _healthyCertificateView = [[HealthyCertificateView alloc] init];
+    _healthyCertificateView.layer.cornerRadius = 10;
+    _healthyCertificateView.layer.borderColor = MO_RGBCOLOR(0, 168, 234).CGColor;
+    _healthyCertificateView.layer.borderWidth = 1;
+    [containerView addSubview:_healthyCertificateView];
+    [_healthyCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(containerView).with.offset(10);
+       // make.left.right.mas_equalTo(containerView);
+        make.top.mas_equalTo(baseInfoTableView.mas_bottom).with.offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH-20);
+        make.height.mas_equalTo(PXFIT_HEIGHT(460));
+    }];
+    
+    
+    _appointmentInfoView = [[AppointmentInfoView alloc] init];
+    [containerView addSubview:_appointmentInfoView];
+    [_appointmentInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(containerView);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.top.mas_equalTo(_healthyCertificateView.mas_bottom).with.offset(10);
+    }];
+    
     [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(baseInfoTableView.mas_bottom);
+        make.bottom.equalTo(_appointmentInfoView.mas_bottom);
     }];
 }
 

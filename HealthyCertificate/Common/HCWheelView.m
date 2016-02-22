@@ -16,52 +16,66 @@
 
 @interface HCWheelView()<UIPickerViewDataSource, UIPickerViewAccessibilityDelegate>
 {
-    NSMutableArray* _pickerViewContentArr;
+    NSMutableArray  *_pickerViewContentArr;
 }
 @end
 
 
 @implementation HCWheelView
 
--(void)setFrame:(CGRect)frame{
-    UIButton* sureBtn = [UIButton buttonWithTitle:@"确定"
-                                             font:[UIFont fontWithType:UIFontOpenSansSemibold size:14]
-                                        textColor:MO_RGBCOLOR(0, 174, 239)
-                                  backgroundColor:[UIColor whiteColor]];
-    [self addSubview:sureBtn];
-    [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self).with.offset(PXFIT_WIDTH(48));
-        make.top.mas_equalTo(self).with.offset(PXFIT_HEIGHT(24));
-    }];
-    [sureBtn addTarget:self action:@selector(sureBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton* cancelBtn = [UIButton buttonWithTitle:@"取消"
-                                               font:[UIFont fontWithType:UIFontOpenSansSemibold size:14]
-                                          textColor:MO_RGBCOLOR(0, 174, 239)
-                                    backgroundColor:[UIColor whiteColor]];
-    [self addSubview:cancelBtn];
-    [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self).with.offset(-PXFIT_WIDTH(48));
-        make.top.mas_equalTo(self).with.offset(PXFIT_HEIGHT(24));
-    }];
-    [cancelBtn addTarget:self action:@selector(sureBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIPickerView* pickerView = [[UIPickerView alloc] init];
-    [self addSubview:pickerView];
-    [pickerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self);
-        make.top.mas_equalTo(sureBtn.mas_bottom).with.offset(PXFIT_HEIGHT(48));
-        make.bottom.mas_equalTo(self);
-        make.width.mas_equalTo(SCREEN_WIDTH*1/3);
-    }];
+-(id)initWithFrame:(CGRect)frame{
+    if (self = [super initWithFrame:frame]){
+        self.backgroundColor = [UIColor whiteColor];
+        UIButton* sureBtn = [UIButton buttonWithTitle:@"确定"
+                                                 font:[UIFont fontWithType:UIFontOpenSansSemibold size:14]
+                                            textColor:MO_RGBCOLOR(0, 174, 239)
+                                      backgroundColor:[UIColor whiteColor]];
+        [self addSubview:sureBtn];
+        [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self).with.offset(PXFIT_WIDTH(48));
+            make.top.mas_equalTo(self).with.offset(PXFIT_HEIGHT(24));
+        }];
+        [sureBtn addTarget:self action:@selector(sureBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIButton* cancelBtn = [UIButton buttonWithTitle:@"取消"
+                                                   font:[UIFont fontWithType:UIFontOpenSansSemibold size:14]
+                                              textColor:MO_RGBCOLOR(0, 174, 239)
+                                        backgroundColor:[UIColor whiteColor]];
+        [self addSubview:cancelBtn];
+        [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self).with.offset(-PXFIT_WIDTH(48));
+            make.centerY.mas_equalTo(sureBtn);
+        }];
+        [cancelBtn addTarget:self action:@selector(cancelBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
+        _pickerView = [[UIPickerView alloc] init];
+        _pickerView.dataSource = self;
+        _pickerView.delegate = self;
+        [self addSubview:_pickerView];
+        [_pickerView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(self);
+            make.top.mas_equalTo(sureBtn.mas_bottom).with.offset(PXFIT_HEIGHT(48));
+            make.bottom.mas_equalTo(self);
+            make.width.mas_equalTo(SCREEN_WIDTH);
+        }];
+    }
+    return self;
 }
 
 #pragma mark - Action
 -(void)sureBtnClicked:(id)sender
-{}
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(sureBtnClicked:)]){
+        [self.delegate sureBtnClicked:[_pickerViewContentArr objectAtIndex:[_pickerView selectedRowInComponent:0]]];
+    }
+}
 
 -(void)cancelBtnClicked:(id)sender
-{}
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cancelButtonClicked)]){
+        [self.delegate cancelButtonClicked];
+    }
+}
 
 #pragma mark - UIPickerViewDataSource
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
@@ -80,6 +94,18 @@
 #pragma mark - UIPickerViewDelegate
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+}
+
+#pragma mark - Private Methods
+-(void)setPickerViewContentArr:(NSMutableArray *)pickerViewContentArr{
+    if (_pickerViewContentArr == nil){
+        _pickerViewContentArr = [[NSMutableArray alloc] init];
+    }
+    [_pickerViewContentArr removeAllObjects];
+    
+    _pickerViewContentArr = pickerViewContentArr;
+    
+    [_pickerView reloadAllComponents];
 }
 
 @end

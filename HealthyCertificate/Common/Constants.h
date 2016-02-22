@@ -55,9 +55,11 @@ extern CompanyInfoOfPhonePacket* gCompanyInfo;
 #define kiOS6NavigationBarHeight 44
 #define kiOS7NavigationBarHeight 64
 
+
 #define SCREEN_WIDTH  [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 #define kNavigationBarHeight (IsIOS7() ? kiOS7NavigationBarHeight : kiOS6NavigationBarHeight)
+#define kStatusBarHeight 20
 #define IsIOS7() ([[UIDevice currentDevice] systemVersion].floatValue >= 7.0)
 
 

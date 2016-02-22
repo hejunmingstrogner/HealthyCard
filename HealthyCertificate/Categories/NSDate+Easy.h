@@ -54,6 +54,4 @@
 - (NSDateComponents *)dateComponents; 
 - (BOOL)isSameDay:(NSDate *)date;
 - (NSDate *)dateWithoutTime;
-
-
 @end
