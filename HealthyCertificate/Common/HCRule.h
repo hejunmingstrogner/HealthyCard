@@ -12,4 +12,7 @@
 
 +(BOOL)isPhoneNumValidate:(NSString*)phoneNumber;
 
+// 身份证合法性校验
++ (BOOL)validateIDCardNumber:(NSString *)value;
+
 @end

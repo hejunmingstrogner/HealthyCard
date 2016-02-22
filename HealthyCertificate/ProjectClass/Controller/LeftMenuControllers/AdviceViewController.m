@@ -35,6 +35,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         _tableView.frame = CGRectMake(0, 0, _tableView.frame.size.width, _tableView.frame.size.height - rect.size.height);
     }];
+    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 // 键盘将要隐藏
 - (void)keyboardWillHide:(NSNotification *)notif

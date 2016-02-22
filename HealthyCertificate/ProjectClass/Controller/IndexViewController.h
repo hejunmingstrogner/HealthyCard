@@ -13,6 +13,7 @@
 #import <Masonry.h>
 #import <BaiduMapAPI_Map/BMKMapView.h>
 #import <BaiduMapAPI_Location/BMKLocationService.h>
+#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 
 #import "LocationSearchModel.h"
 #import "LeftMenuView.h"
@@ -24,11 +25,13 @@
 {
     UIButton    *headerBtn;                 // 头像按钮
     UILabel     *titleLabel;                // 标题
-    UIButton    *pendingBtn;                // 待处理按钮
+
     UIButton    *minDistanceBtn;            // 最近服务点距离按钮
 
     BMKMapView  *_mapView;
     UIImageView *locateimageview;           // 显示要定位地点的标注图钉
+    NSMutableArray *nearbyServicePositionsArray;    // 附近的服务点数组
+
     NSTimer     *changeStatusTimer;         // 拖拽地图时，定时器用于判断是否拖拽完成时，调用方法得到位置
 
     UILabel     *addressLabel;              // 地址label
@@ -38,6 +41,10 @@
     CLLocationManager  *_locationmanager;   // 位置管理
 
     LeftMenuView  *leftMenuView;            // 左侧菜单栏
+
+    UIButton    *pendingBtn;                // 待处理按钮
+    UILabel     *pendingLabel;              // 待处理数据的数据
+    NSMutableArray *checkListData;          // 待处理项的数据
 }
 
 

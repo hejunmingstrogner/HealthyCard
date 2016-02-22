@@ -10,6 +10,10 @@
 #import "Constants.h"
 #import "UserInformationController.h"
 #import "AppointmentViewController.h"
+#import "HttpNetworkManager.h"
+#import "ServersPositionAnnotionsModel.h"
+#import "PositionUtil.h"
+#import "MyCheckListViewController.h"
 
 @interface IndexViewController ()
 
@@ -31,10 +35,11 @@
     // 定位服务
     [self initLocationServer];
 
+    [self getCheckListData];
     if (GetUserType == 1) {
         NSLog(@"个人");
     }
-    else if (GetUserType == 2 )
+    else if (GetUserType == 2)
     {
         NSLog(@"单位");
     }
@@ -49,8 +54,30 @@
                 NSLog(@"单位");
                 SetUserType(2);
             }
+            [self getCheckListData];
         }];
     }
+}
+
+- (void)getCheckListData
+{
+    [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
+        if (!error) {
+            NSInteger type = GetUserType;
+            if (type == 1) {
+                checkListData = [NSMutableArray arrayWithArray:customerArray];
+            }
+            else if(type == 2)
+            {
+                checkListData = [NSMutableArray arrayWithArray:brContractArray];
+            }
+            pendingLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)checkListData.count];
+        }
+        else {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取预约数据失败" removeDelay:2];
+            pendingLabel.text = @"";
+        }
+    }];
 }
 // 初始化主界面的view
 - (void)initSubViews
@@ -99,25 +126,36 @@
         make.left.equalTo(headerBackGroundView).offset(10);
         make.bottom.equalTo(headerBackGroundView);
         make.height.mas_equalTo(30);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(90);
     }];
     [pendingBtn setTitle:@"待处理项" forState:UIControlStateNormal];
     pendingBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [pendingBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [pendingBtn addTarget:self action:@selector(pendingWorkClicked) forControlEvents:UIControlEventTouchUpInside];
+
+    pendingLabel = [[UILabel alloc]init];
+    pendingLabel.textColor = [UIColor redColor];
+    pendingLabel.textAlignment = NSTextAlignmentRight;
+    [headerBackGroundView addSubview:pendingLabel];
+    [pendingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.right.equalTo(pendingBtn);
+        make.width.equalTo(pendingLabel.mas_height);
+    }];
+
     // 最近服务点的位置按钮
     minDistanceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [headerBackGroundView addSubview:minDistanceBtn];
     [minDistanceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(headerBackGroundView).offset(-10);
         make.bottom.equalTo(headerBackGroundView);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(80);
         make.height.equalTo(pendingBtn);
     }];
     [minDistanceBtn setImage:[UIImage imageNamed:@"serverPosition"] forState:UIControlStateNormal];
-    minDistanceBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 20, 5, 65);
-    [minDistanceBtn setTitle:@"101.5km" forState:UIControlStateNormal];
-    minDistanceBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    minDistanceBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 65);
+    minDistanceBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    [minDistanceBtn setTitle:@"0km" forState:UIControlStateNormal];
+    minDistanceBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [minDistanceBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:100/255.0 blue:90/255.0 alpha:1] forState:UIControlStateNormal];
     [minDistanceBtn addTarget:self action:@selector(minDistanceBtnClicked) forControlEvents:UIControlEventTouchUpInside];
 
@@ -255,6 +293,7 @@
     }
 }
 
+#pragma mark leftMenuView  delegate
 - (void)leftMenuViewOfTableviewDidSelectItemWithType:(LeftMenuCellItemType)type
 {
     switch (type) {
@@ -303,6 +342,11 @@
     }
 }
 
+- (void)leftMenuViewIsChangedUserType
+{
+    [self getCheckListData];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [_mapView viewWillAppear];
@@ -327,7 +371,13 @@
 // 点击待处理按钮
 - (void)pendingWorkClicked
 {
-    NSLog(@"待处理项");
+    if (checkListData.count == 0) {
+        return;
+    }
+    MyCheckListViewController *checkcontroller = [[MyCheckListViewController alloc]init];
+    checkcontroller.checkDataArray = [NSMutableArray arrayWithArray:checkListData];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:checkcontroller];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 // 最近的服务
 - (void)minDistanceBtnClicked
@@ -369,6 +419,7 @@
 
     _mapView.showsUserLocation = NO;
     _mapView.userTrackingMode = BMKUserTrackingModeFollow;
+    //_mapView.userTrackingMode = BMKUserTrackingModeNone;
     _mapView.showsUserLocation = YES;
 }
 
@@ -396,7 +447,7 @@
  */
 - (void)didFailToLocateUserWithError:(NSError *)error
 {
-    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"定位失败，请重试" ActionTitle:@"明白了" ActionStyle:UIAlertActionStyleDefault];
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"定位失败,请检查网络后重试" removeDelay:2];
     [_locationServer startUserLocationService];
 }
 
@@ -417,7 +468,7 @@
     if (changeStatusTimer != nil) {
         [changeStatusTimer invalidate];
     }
-    changeStatusTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(getAdress) userInfo:nil repeats:NO];
+    changeStatusTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(getAdress) userInfo:nil repeats:NO];
 }
 
 #pragma mark -得到体检地址
@@ -429,12 +480,56 @@
         {
             addressLabel.text = adress;
             _centerCoordinate = _mapView.centerCoordinate;
+            [[HttpNetworkManager getInstance] getNearbyServicePointsWithCLLocation:_mapView.centerCoordinate resultBlock:^(NSArray *servicePointList, NSError *error) {
+                // 将附近的服务点显示出来
+                if (!error) {
+                    [_mapView removeAnnotations:_mapView.annotations];
+                    if (servicePointList.count != 0) {
+                        nearbyServicePositionsArray = [NSMutableArray arrayWithArray:servicePointList];
+                        [self addServersPositionAnnotionsWithList:servicePointList];
+                    }
+                    else {
+                        [nearbyServicePositionsArray removeAllObjects];
+                    }
+                    // 计算最近的服务点距离
+                    [self calculateMinDistance];
+                }
+                else {
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取附近服务点信息失败" removeDelay:2];
+                }
+            }];
         }
         else {
             addressLabel.text = @"";
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:3];
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:2];
         }
     }];
+}
+
+#pragma mark -添加地图标注
+- (void)addServersPositionAnnotionsWithList:(NSArray *)positions
+{
+    int i = 0;
+    for (ServersPositionAnnotionsModel *service in positions) {
+        MyPointeAnnotation *annotion = [[MyPointeAnnotation alloc]init];
+        CLLocationCoordinate2D coor;
+        coor.latitude = service.positionLa;
+        coor.longitude = service.positionLo;
+        annotion.coordinate = coor;
+        annotion.title = service.address;
+        annotion.tag = i;
+        [_mapView addAnnotation:annotion];
+        i++;
+    }
+}
+
+#pragma mark - annotionview delegate
+- (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
+{
+    MyPointeAnnotation *anno = view.annotation;
+    if (nearbyServicePositionsArray.count != 0) {
+        NSLog(@"near: %@", nearbyServicePositionsArray[anno.tag]);
+    }
 }
 
 #pragma mark - Storyboard Segue
@@ -443,8 +538,44 @@
         if ([segue.destinationViewController isKindOfClass:[AppointmentViewController class]]){
             AppointmentViewController* controller = (AppointmentViewController*)segue.destinationViewController;
             controller.location = addressLabel.text;
-            controller.centerCoordinate = _centerCoordinate;
+            // 将百度地图左边转换为gps坐标
+            PositionUtil *posit = [[PositionUtil alloc]init];
+            CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
+            controller.centerCoordinate = coor;
         }
+    }
+}
+
+#pragma mark - 计算附近最近的服务点到当前定位点的距离
+-(void)calculateMinDistance
+{
+    if (nearbyServicePositionsArray.count != 0) {
+        NSMutableArray *distanceArray = [[NSMutableArray alloc]init];
+        for (ServersPositionAnnotionsModel *point in nearbyServicePositionsArray) {
+            BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(point.positionLa,point.positionLo));
+            BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(_mapView.centerCoordinate.latitude, _mapView.centerCoordinate.longitude));
+            CLLocationDistance distance = BMKMetersBetweenMapPoints(point1, point2);
+            [distanceArray addObject:[NSNumber numberWithDouble:distance]];
+        }
+        // 排序，距离以小到大
+        [distanceArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            double a = [obj1 doubleValue];
+            double b = [obj2 doubleValue];
+            if ( a > b) {
+                return NSOrderedDescending;
+            }
+            else if(a < b){
+                return NSOrderedAscending;
+            }
+            else
+                return NSOrderedSame;
+        }];
+        float mindistance = [distanceArray[0] doubleValue]/1000;
+        // 显示最近距离
+        [minDistanceBtn setTitle:[NSString stringWithFormat:@"%0.2fkm", mindistance] forState:UIControlStateNormal];
+    }
+    else{
+        [minDistanceBtn setTitle:@"暂无" forState:UIControlStateNormal];
     }
 }
 @end

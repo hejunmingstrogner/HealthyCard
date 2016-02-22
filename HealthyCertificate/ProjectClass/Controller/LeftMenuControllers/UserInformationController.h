@@ -10,6 +10,7 @@
 #import "UserinformationSetingViewController.h"
 #import "Constants.h"
 #import "NSString+Count.h"
+#import <UIButton+WebCache.h>
 
 @interface UserInformationController : UIViewController
 
