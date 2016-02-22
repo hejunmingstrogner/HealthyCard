@@ -190,6 +190,10 @@
         }
         [self initData];
         [_tableView reloadData];
+
+        if ([_delegate respondsToSelector:@selector(leftMenuViewIsChangedUserType)] && _delegate) {
+            [_delegate leftMenuViewIsChangedUserType];
+        }
     }
 }
 @end

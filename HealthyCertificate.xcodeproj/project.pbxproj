@@ -81,6 +81,14 @@
 		B23A98131C76F0D400E3E054 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98121C76F0D400E3E054 /* AboutUsViewController.m */; };
 		B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98151C76F5C700E3E054 /* AdviceViewController.m */; };
 		B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C891C7865D700F543E1 /* PositionUtil.m */; };
+		B2436C8E1C7ACF8F00F543E1 /* CustomerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C8D1C7ACF8F00F543E1 /* CustomerTest.m */; };
+		B2436C911C7AD1D000F543E1 /* Customer.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C901C7AD1D000F543E1 /* Customer.m */; };
+		B2436C941C7AD28700F543E1 /* BRContract.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C931C7AD28700F543E1 /* BRContract.m */; };
+		B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C961C7AD3B900F543E1 /* BRServiceUnit.m */; };
+		B2436C9C1C7AE1E300F543E1 /* CustomerTestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C9B1C7AE1E300F543E1 /* CustomerTestTableViewCell.m */; };
+		B2436CA01C7AEE8C00F543E1 /* MyCheckListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C9F1C7AEE8C00F543E1 /* MyCheckListViewController.m */; };
+		B2436CA31C7AF91800F543E1 /* BRContractTableHeaerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436CA21C7AF91800F543E1 /* BRContractTableHeaerCell.m */; };
+		B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436CA51C7B007E00F543E1 /* BRContractTableFootCell.m */; };
 		B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2484DB81C71C20D00C0CCBB /* LoginController.m */; };
 		B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
@@ -236,6 +244,22 @@
 		B23A98151C76F5C700E3E054 /* AdviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdviceViewController.m; sourceTree = "<group>"; };
 		B2436C881C7865D700F543E1 /* PositionUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionUtil.h; sourceTree = "<group>"; };
 		B2436C891C7865D700F543E1 /* PositionUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PositionUtil.m; sourceTree = "<group>"; };
+		B2436C8C1C7ACF8F00F543E1 /* CustomerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerTest.h; sourceTree = "<group>"; };
+		B2436C8D1C7ACF8F00F543E1 /* CustomerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerTest.m; sourceTree = "<group>"; };
+		B2436C8F1C7AD1D000F543E1 /* Customer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Customer.h; sourceTree = "<group>"; };
+		B2436C901C7AD1D000F543E1 /* Customer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Customer.m; sourceTree = "<group>"; };
+		B2436C921C7AD28700F543E1 /* BRContract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRContract.h; sourceTree = "<group>"; };
+		B2436C931C7AD28700F543E1 /* BRContract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRContract.m; sourceTree = "<group>"; };
+		B2436C951C7AD3B900F543E1 /* BRServiceUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRServiceUnit.h; sourceTree = "<group>"; };
+		B2436C961C7AD3B900F543E1 /* BRServiceUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRServiceUnit.m; sourceTree = "<group>"; };
+		B2436C9A1C7AE1E300F543E1 /* CustomerTestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerTestTableViewCell.h; sourceTree = "<group>"; };
+		B2436C9B1C7AE1E300F543E1 /* CustomerTestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerTestTableViewCell.m; sourceTree = "<group>"; };
+		B2436C9E1C7AEE8C00F543E1 /* MyCheckListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCheckListViewController.h; sourceTree = "<group>"; };
+		B2436C9F1C7AEE8C00F543E1 /* MyCheckListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCheckListViewController.m; sourceTree = "<group>"; };
+		B2436CA11C7AF91800F543E1 /* BRContractTableHeaerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRContractTableHeaerCell.h; sourceTree = "<group>"; };
+		B2436CA21C7AF91800F543E1 /* BRContractTableHeaerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRContractTableHeaerCell.m; sourceTree = "<group>"; };
+		B2436CA41C7B007E00F543E1 /* BRContractTableFootCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRContractTableFootCell.h; sourceTree = "<group>"; };
+		B2436CA51C7B007E00F543E1 /* BRContractTableFootCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRContractTableFootCell.m; sourceTree = "<group>"; };
 		B2484DB71C71C20D00C0CCBB /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		B2484DB81C71C20D00C0CCBB /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		B2484DBA1C71C25900C0CCBB /* IndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
@@ -556,6 +580,43 @@
 			path = LeftMenuControllers;
 			sourceTree = "<group>";
 		};
+		B2436C8B1C7ABEF400F543E1 /* WaitToCheckModel */ = {
+			isa = PBXGroup;
+			children = (
+				B2436C8C1C7ACF8F00F543E1 /* CustomerTest.h */,
+				B2436C8D1C7ACF8F00F543E1 /* CustomerTest.m */,
+				B2436C8F1C7AD1D000F543E1 /* Customer.h */,
+				B2436C901C7AD1D000F543E1 /* Customer.m */,
+				B2436C921C7AD28700F543E1 /* BRContract.h */,
+				B2436C931C7AD28700F543E1 /* BRContract.m */,
+				B2436C951C7AD3B900F543E1 /* BRServiceUnit.h */,
+				B2436C961C7AD3B900F543E1 /* BRServiceUnit.m */,
+			);
+			path = WaitToCheckModel;
+			sourceTree = "<group>";
+		};
+		B2436C991C7AE1AE00F543E1 /* CheckListTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				B2436C9A1C7AE1E300F543E1 /* CustomerTestTableViewCell.h */,
+				B2436C9B1C7AE1E300F543E1 /* CustomerTestTableViewCell.m */,
+				B2436CA11C7AF91800F543E1 /* BRContractTableHeaerCell.h */,
+				B2436CA21C7AF91800F543E1 /* BRContractTableHeaerCell.m */,
+				B2436CA41C7B007E00F543E1 /* BRContractTableFootCell.h */,
+				B2436CA51C7B007E00F543E1 /* BRContractTableFootCell.m */,
+			);
+			path = CheckListTableViewCell;
+			sourceTree = "<group>";
+		};
+		B2436C9D1C7AEE5500F543E1 /* CheckListTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B2436C9E1C7AEE8C00F543E1 /* MyCheckListViewController.h */,
+				B2436C9F1C7AEE8C00F543E1 /* MyCheckListViewController.m */,
+			);
+			path = CheckListTableViewController;
+			sourceTree = "<group>";
+		};
 		B2484DB31C71C1E600C0CCBB /* ProjectClass */ = {
 			isa = PBXGroup;
 			children = (
@@ -569,6 +630,7 @@
 		B2484DB41C71C1E600C0CCBB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B2436C9D1C7AEE5500F543E1 /* CheckListTableViewController */,
 				B23A98011C76BA8F00E3E054 /* LeftMenuControllers */,
 				25BFEB3A1C74A4DD0062F9B8 /* Appointment */,
 				B2484DB71C71C20D00C0CCBB /* LoginController.h */,
@@ -582,6 +644,7 @@
 		B2484DB51C71C1E600C0CCBB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B2436C8B1C7ABEF400F543E1 /* WaitToCheckModel */,
 				B23A97FD1C7420C800E3E054 /* ServersPositionAnnotions */,
 				25BFEB121C7310270062F9B8 /* Packet */,
 				B2F826231C730D8900993F47 /* LeftMenuCellModel */,
@@ -593,6 +656,7 @@
 		B2484DB61C71C1E600C0CCBB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B2436C991C7AE1AE00F543E1 /* CheckListTableViewCell */,
 				252AB8761C76B9BE0085CC14 /* Appointment */,
 				B2F826271C73141100993F47 /* LeftMenuView */,
 			);
@@ -835,11 +899,14 @@
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
 				2512B3B21C70557C00EE661B /* ViewController.m in Sources */,
 				B23A980D1C76E12700E3E054 /* UserinformationSetingViewController.m in Sources */,
+				B2436CA31C7AF91800F543E1 /* BRContractTableHeaerCell.m in Sources */,
 				2512B4151C7056C900EE661B /* UIButton+Easy.m in Sources */,
+				B2436C9C1C7AE1E300F543E1 /* CustomerTestTableViewCell.m in Sources */,
 				B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */,
 				25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */,
 				2512B41E1C7056C900EE661B /* UILabel+Easy.m in Sources */,
 				25BFEB3D1C74A50F0062F9B8 /* CloudAppointmentViewController.m in Sources */,
+				B2436CA01C7AEE8C00F543E1 /* MyCheckListViewController.m in Sources */,
 				2512B40F1C7056C900EE661B /* NSDate+Easy.m in Sources */,
 				B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */,
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
@@ -849,6 +916,7 @@
 				B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */,
 				25BFEB2D1C7405810062F9B8 /* PackageOperation.m in Sources */,
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
+				B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */,
 				25BFEB431C74A55B0062F9B8 /* AppointmentViewController.m in Sources */,
 				2512B3AF1C70557C00EE661B /* AppDelegate.m in Sources */,
 				B23A98131C76F0D400E3E054 /* AboutUsViewController.m in Sources */,
@@ -859,6 +927,7 @@
 				25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */,
 				252AB8971C7732C50085CC14 /* NavView.m in Sources */,
 				2512B4181C7056C900EE661B /* UIColor+Expanded.m in Sources */,
+				B2436C8E1C7ACF8F00F543E1 /* CustomerTest.m in Sources */,
 				25BFEB151C73103A0062F9B8 /* ProxyHeartBeatPacket.m in Sources */,
 				2512B4161C7056C900EE661B /* UIButton+HitTest.m in Sources */,
 				2512B4191C7056C900EE661B /* UIDevice+Video.m in Sources */,
@@ -869,11 +938,13 @@
 				2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */,
 				B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */,
 				2512B41F1C7056C900EE661B /* UIScreen+Type.m in Sources */,
+				B2436C941C7AD28700F543E1 /* BRContract.m in Sources */,
 				252AB8941C770F890085CC14 /* CloudAppointmentDateVC.m in Sources */,
 				2512B41B1C7056C900EE661B /* UIImage+Color.m in Sources */,
 				25BFEB391C7423610062F9B8 /* CompanyInfoOfPhonePacket.m in Sources */,
 				2512B42B1C70631600EE661B /* HMSocket.m in Sources */,
 				25BFEB181C7310CA0062F9B8 /* BasePacket.m in Sources */,
+				B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */,
 				25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */,
 				25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */,
 				252AB88F1C7703690085CC14 /* HCWheelView.m in Sources */,
@@ -882,6 +953,7 @@
 				B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */,
 				B23A98001C7420DE00E3E054 /* ServersPositionAnnotionsModel.m in Sources */,
 				B23A98071C76BCDA00E3E054 /* UserinformationCellItem.m in Sources */,
+				B2436C911C7AD1D000F543E1 /* Customer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

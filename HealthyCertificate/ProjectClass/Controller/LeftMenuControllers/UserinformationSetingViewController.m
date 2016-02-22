@@ -101,30 +101,138 @@
     }];
 }
 
+- (void)isUpdateInfoSucceed:(updateInfo)block
+{
+    _updateBlcok = block;
+}
 // 点击完成当前修改的操作
 - (void)doneToChangeOperation
 {
+    if (_nameTextField.text.length == 0) {
+        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您未填写信息" ActionTitle:@"明白了" ActionStyle:0];
+        return;
+    }
     switch (_itemtype) {
             // 修改姓名
         case USERINFORMATION_NAME:{
+            // 封装需要修改的信息
+            NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
+            [personinfo setObject:gPersonInfo.mCustCode forKey:@"mCustCode"];
+            [personinfo setObject:_nameTextField.text forKey:@"mCustName"];
+            
+            [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
+                if (successed) {
+                    gPersonInfo.mCustName = _nameTextField.text;
+                    if (_updateBlcok) {
+                        _updateBlcok(YES);
+                    }
+                }
+                else{
+                    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                }
+            }];
             break;
         }
             // 修改身份证
         case USERINFORMATION_IDCARD:{
+            BOOL isvalidate = [HCRule validateIDCardNumber:_nameTextField.text];
+            // 身份证信息填写不成功
+            if (!isvalidate) {
+                [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"身份证信息填写错误，请检查后重试" ActionTitle:@"明白了" ActionStyle:0];
+                return ;
+            }
+            NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
+            [personinfo setObject:gPersonInfo.mCustCode forKey:@"mCustCode"];
+            [personinfo setObject:_nameTextField.text forKey:@"CustId"];
+
+            [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
+                if (successed) {
+                    gPersonInfo.CustId = _nameTextField.text;
+                    if (_updateBlcok) {
+                        _updateBlcok(YES);
+                    }
+                }
+                else{
+                    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                }
+            }];
             break;
         }
             // 修改单位姓名
         case USERINFORMATION_WORKUNITNAME:{
+            NSInteger type = GetUserType;     // 1个人，2单位
+            if (type == 1) {    // 个人单位修改
+                NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
+                [personinfo setObject:gPersonInfo.mCustCode forKey:@"mCustCode"];
+                [personinfo setObject:_nameTextField.text forKey:@"cUnitName"];
+
+                [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
+                    if (successed) {
+                        gPersonInfo.cUnitName = _nameTextField.text;
+                        if (_updateBlcok) {
+                            _updateBlcok(YES);
+                        }
+                    }
+                    else{
+                        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                    }
+                }];
+            }
+            else{   // 公司单位修改
+                NSMutableDictionary *cUnitInfo = [[NSMutableDictionary alloc]init];
+                [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"cUnitCode"];
+                [cUnitInfo setObject:_nameTextField.text forKey:@"cUnitName"];
+
+                [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
+                    if (successed) {
+                        gCompanyInfo.cUnitName = _nameTextField.text;
+                        if (_updateBlcok) {
+                            _updateBlcok(YES);
+                        }
+                    }
+                    else{
+                        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                    }
+                }];
+            }
             break;
         }
             // 修改单位地址
         case USERINFORMATION_WORKUNITADRESS:{
+            NSMutableDictionary *cUnitInfo = [[NSMutableDictionary alloc]init];
+            [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"cUnitCode"];
+            [cUnitInfo setObject:_nameTextField.text forKey:@"cUnitAddr"];
 
+            [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
+                if (successed) {
+                    gCompanyInfo.cUnitAddr = _nameTextField.text;
+                    if (_updateBlcok) {
+                        _updateBlcok(YES);
+                    }
+                }
+                else{
+                    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                }
+            }];
             break;
         }
             // 修改单位联系人
         case USERINFORMATION_WORKUNITCONTACTS:{
+            NSMutableDictionary *cUnitInfo = [[NSMutableDictionary alloc]init];
+            [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"cUnitCode"];
+            [cUnitInfo setObject:_nameTextField.text forKey:@"cLinkPeople"];
 
+            [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
+                if (successed) {
+                    gCompanyInfo.cLinkPeople = _nameTextField.text;
+                    if (_updateBlcok) {
+                        _updateBlcok(YES);
+                    }
+                }
+                else{
+                    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                }
+            }];
             break;
         }
         default:

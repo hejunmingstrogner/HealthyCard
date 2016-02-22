@@ -1,0 +1,163 @@
+//
+//  CustomerTestTableViewCell.m
+//  HealthyCertificate
+//
+//  Created by 乄若醉灬 on 16/2/22.
+//  Copyright © 2016年 JIANGXU. All rights reserved.
+//
+
+#import "CustomerTestTableViewCell.h"
+#import <Masonry.h>
+#import "NSString+Count.h"
+
+@interface CustomerTestTableViewCell()
+{
+    UIImageView *headerimageView;
+    UILabel     *nameLabel;
+    UILabel     *sexLabel;
+    UILabel     *oldLabel;
+    UILabel     *serviceAddressLabel;
+    UILabel     *serviceTimeLabel;
+}
+@end
+
+@implementation CustomerTestTableViewCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        [self initSubViews];
+    }
+    return self;
+}
+- (void)initSubViews
+{
+    headerimageView = [[UIImageView alloc]init];
+    [self.contentView addSubview:headerimageView];
+    [headerimageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.equalTo(self.contentView).offset(15);
+        make.width.equalTo(headerimageView.mas_height);
+    }];
+
+    UILabel *name = [[UILabel alloc]init];
+    name.text = @"姓名:";
+    [self.contentView addSubview:name];
+    [name mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView).offset(5);
+        make.left.equalTo(headerimageView.mas_right).offset(15);
+        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(50);
+    }];
+
+    nameLabel = [[UILabel alloc]init];
+    [self.contentView addSubview:nameLabel];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(name);
+        make.left.equalTo(name.mas_right).offset(5);
+        make.width.mas_equalTo(60);
+    }];
+
+    UILabel *sex = [[UILabel alloc]init];
+    [self.contentView addSubview:sex];
+    sex.text = @"性别:";
+    [sex mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.width.equalTo(name);
+        make.left.equalTo(nameLabel.mas_right).offset(10);
+    }];
+    sexLabel = [[UILabel alloc]init];
+    [self.contentView addSubview:sexLabel];
+    [sexLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(nameLabel);
+        make.width.mas_equalTo(21);
+        make.left.equalTo(sex.mas_right).offset(5);
+    }];
+
+    UILabel *old = [[UILabel alloc]init];
+    old.text = @"年龄:";
+    [self.contentView addSubview:old];
+    [old mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.width.equalTo(name);
+        make.left.equalTo(sexLabel.mas_right).offset(10);
+    }];
+
+    oldLabel = [[UILabel alloc]init];
+    [self.contentView addSubview:oldLabel];
+    [oldLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(nameLabel);
+        make.left.equalTo(old.mas_right).offset(5);
+        make.right.equalTo(self.contentView).offset(-15);
+    }];
+
+    UILabel *serviceDate = [[UILabel alloc]init];
+    serviceDate.text = @"服务时间:";
+    [self.contentView addSubview:serviceDate];
+    [serviceDate mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.contentView).offset(-5);
+        make.height.left.equalTo(name);
+        make.width.mas_equalTo(80);
+    }];
+    serviceTimeLabel = [[UILabel alloc]init];
+    [self.contentView addSubview:serviceTimeLabel];
+    [serviceTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(serviceDate);
+        make.left.equalTo(serviceDate.mas_right).offset(5);
+        make.right.equalTo(oldLabel);
+    }];
+
+
+    UILabel *serviceAddress = [[UILabel alloc]init];
+    serviceAddress.text = @"服务地址:";
+    [self.contentView addSubview:serviceAddress];
+    [serviceAddress mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(name.mas_bottom).offset(5);
+        make.bottom.equalTo(serviceDate.mas_top).offset(-5);
+        make.width.mas_equalTo(serviceDate);
+        make.left.equalTo(serviceDate);
+    }];
+
+    serviceAddressLabel = [[UILabel alloc]init];
+    [self.contentView addSubview:serviceAddressLabel];
+    [serviceAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(serviceAddress);
+        make.left.right.equalTo(serviceTimeLabel);
+    }];
+    serviceTimeLabel.numberOfLines = 0;
+}
+
+- (void)setCellItemWithTest:(CustomerTest *)customerTest
+{
+    nameLabel.text = customerTest.cCustName;
+    sexLabel.text = customerTest.cSex == 0 ? @"男" : @"女";
+    oldLabel.text = [NSString getOldYears:customerTest.cCustIdCard];
+    serviceAddressLabel.text = customerTest.servicePoint.address;
+    // 服务时间为空时，不显示
+    if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
+        return;
+    }
+    serviceTimeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)", [self getYear_Month_DayByDate:customerTest.servicePoint.startTime], [self getHour_MinuteByDate:customerTest.servicePoint.startTime], [self getHour_MinuteByDate:customerTest.servicePoint.endTime]];
+}
+
+// 计算时间 年月日
+- (NSString *)getYear_Month_DayByDate:(NSDate *)itDate
+{
+    if (!itDate) {
+        return @"";
+    }
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy.MM.dd"];
+    NSString *time = [formatter stringFromDate:itDate];
+    return time;
+}
+
+// 计算时间 时分
+- (NSString *)getHour_MinuteByDate:(NSDate *)itDate
+{
+    if (!itDate) {
+        return @"";
+    }
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"HH:mm"];
+    NSString *time = [formatter stringFromDate:itDate];
+    return time;
+}
+@end

@@ -293,4 +293,12 @@
         }
     }];
 }
+
++ (void)showActionSheetWithTarget:(id)target
+                  servicePosition:(ServersPositionAnnotionsModel *)servicePositionItem
+                           handle:(void (^)(NSInteger))block
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"测试" message:@"1231" preferredStyle:UIAlertControllerStyleActionSheet];
+    [target presentViewController:alert animated:YES completion:nil];
+}
 @end

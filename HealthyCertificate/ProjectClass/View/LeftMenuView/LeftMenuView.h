@@ -13,7 +13,10 @@
 
 @protocol LeftMenuViewDelegate <NSObject>
 
+// 选中菜单的行数
 - (void)leftMenuViewOfTableviewDidSelectItemWithType:(LeftMenuCellItemType)type;
+// 改变了用户的类型
+- (void)leftMenuViewIsChangedUserType;
 
 @end
 
