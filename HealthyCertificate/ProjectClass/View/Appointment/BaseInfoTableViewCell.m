@@ -30,6 +30,7 @@
     }];
     
     self.textField = [[UITextField alloc] init];
+    self.textField.textColor = [UIColor blackColor];
     [self addSubview:self.textField];
     [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self);
