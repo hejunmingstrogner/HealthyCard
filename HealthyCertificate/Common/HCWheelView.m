@@ -26,7 +26,7 @@
     if (self = [super initWithFrame:frame]){
         self.backgroundColor = [UIColor whiteColor];
         UIButton* sureBtn = [UIButton buttonWithTitle:@"确定"
-                                                 font:[UIFont fontWithType:UIFontOpenSansSemibold size:14]
+                                                 font:[UIFont fontWithType:UIFontOpenSansSemibold size:16]
                                             textColor:MO_RGBCOLOR(0, 174, 239)
                                       backgroundColor:[UIColor whiteColor]];
         [self addSubview:sureBtn];
@@ -37,13 +37,14 @@
         [sureBtn addTarget:self action:@selector(sureBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton* cancelBtn = [UIButton buttonWithTitle:@"取消"
-                                                   font:[UIFont fontWithType:UIFontOpenSansSemibold size:14]
+                                                   font:[UIFont fontWithType:UIFontOpenSansSemibold size:16]
                                               textColor:MO_RGBCOLOR(0, 174, 239)
                                         backgroundColor:[UIColor whiteColor]];
         [self addSubview:cancelBtn];
         [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(self).with.offset(-PXFIT_WIDTH(48));
             make.centerY.mas_equalTo(sureBtn);
+            make.height.mas_equalTo(sureBtn);
         }];
         [cancelBtn addTarget:self action:@selector(cancelBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         
