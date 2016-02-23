@@ -36,6 +36,7 @@
     [self initLocationServer];
 
     [self getCheckListData];
+
     if (GetUserType == 1) {
         NSLog(@"个人");
     }

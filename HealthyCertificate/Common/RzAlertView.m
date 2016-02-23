@@ -227,6 +227,7 @@
     });
 }
 
+// 显示两个自定义按钮
 + (void)showAlertWithTarget:(UIView *)superView
                       Title:(NSString *)title
              oneButtonTitle:(NSString *)btn_1_title
@@ -321,10 +322,13 @@
         // 拨号
         NSLog(@"拨号");
         [zhezhao removeFromSuperview];
-        [UIView animateWithDuration:1 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
-            [actionSheetView removeFromSuperview];
+
         }];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [actionSheetView removeFromSuperview];
+        });
         if (block) {
             block(3);
         }
@@ -341,10 +345,12 @@
         // 详情
         NSLog(@"详情");
         [zhezhao removeFromSuperview];
-        [UIView animateWithDuration:1 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
-            [actionSheetView removeFromSuperview];
         }];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [actionSheetView removeFromSuperview];
+        });
         if (block) {
             block(2);
         }
@@ -417,10 +423,12 @@
         // 预约
         NSLog(@"预约");
         [zhezhao removeFromSuperview];
-        [UIView animateWithDuration:1 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
-            [actionSheetView removeFromSuperview];
         }];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [actionSheetView removeFromSuperview];
+        });
         if (block) {
             block(1);
         }
@@ -432,11 +440,12 @@
 
     [zhezhao addClickedBlock:^(UIButton * _Nonnull sender) {
         [sender removeFromSuperview];
-        [UIView animateWithDuration:1 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
-            [actionSheetView removeFromSuperview];
         }];
-
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [actionSheetView removeFromSuperview];
+        });
         if (block) {
             block(0);
         }
