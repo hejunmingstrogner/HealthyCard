@@ -36,7 +36,7 @@
 - (void)initWithSubViewsAndData
 {
     [self initData];
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width - 10, self.frame.size.height)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width - 10, self.frame.size.height) style:UITableViewStyleGrouped];
     [self addSubview:_tableView];
     _tableView.delegate = self;
     _tableView.dataSource = self;
