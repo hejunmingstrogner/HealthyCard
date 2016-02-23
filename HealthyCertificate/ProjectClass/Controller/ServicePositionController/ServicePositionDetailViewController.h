@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ServersPositionAnnotionsModel.h"
 
+// 移动服务点
 @interface ServicePositionDetailViewController : UIViewController
 
 @property (nonatomic, strong) ServersPositionAnnotionsModel *servicePositionItem;

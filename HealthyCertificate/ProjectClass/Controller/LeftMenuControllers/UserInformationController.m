@@ -11,9 +11,12 @@
 #import "UserinformationCellItem.h"
 #import <UIImageView+WebCache.h>
 #import "HttpNetworkManager.h"
+#import "HCWheelView.h"
 
-@interface UserInformationController()<UITableViewDataSource, UITableViewDelegate>
-
+@interface UserInformationController()<UITableViewDataSource, UITableViewDelegate, HCWheelViewDelegate>
+{
+    HCWheelView *wheelView;
+}
 @end
 
 @implementation UserInformationController
@@ -26,6 +29,11 @@
 
     [self getdata];
     [self initSubviews];
+
+    wheelView = [[HCWheelView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height/3)];
+    wheelView.pickerViewContentArr = [NSMutableArray arrayWithArray:@[@"男", @"女"]];
+    wheelView.delegate = self;
+    [self.view addSubview:wheelView];
 }
 
 - (void)initNavgation
@@ -150,12 +158,13 @@
             break;
         }
         case USERINFORMATION_GENDER:{
+            [UIView animateWithDuration:0.5 animations:^{
+                wheelView.frame = CGRectMake(0, self.view.frame.size.height - self.view.frame.size.height/3, self.view.frame.size.width, self.view.frame.size.height/3);
+            }];
             return;
-            break;
         }
         case USERINFORMATION_OLD:{
             return;
-            break;
         }
         case USERINFORMATION_TELPHONENO:{
             return;
@@ -206,4 +215,43 @@
     }];
 }
 
+- (void)sureBtnClicked:(NSString *)wheelText
+{
+    // 改变性别
+    int flag;
+    if([wheelText isEqualToString:@"男"]){
+        flag = 0;
+    }
+    else
+        flag = 1;
+
+    if (flag != gPersonInfo.bGender) {
+        gPersonInfo.bGender = flag;
+        [self getdata];
+        [_tableView reloadData];
+        NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
+        [personinfo setObject:gPersonInfo.mCustCode forKey:@"mCustCode"];
+        [personinfo setObject:[NSNumber numberWithInt:flag] forKey:@"bGender"];
+        [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
+            if (successed) {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+            }
+            else {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改失败，请检查网络后重试" removeDelay:2];
+            }
+        }];
+    }
+
+    [UIView animateWithDuration:0.5 animations:^{
+        wheelView.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height/3);
+    }];
+
+}
+
+- (void)cancelButtonClicked
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        wheelView.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height/3);
+    }];
+}
 @end
