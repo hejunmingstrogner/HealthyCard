@@ -19,10 +19,10 @@
 
 @interface BROutCheckArrange : NSObject
 
-@property (nonatomic, strong) NSString * cHosCode;              // 机构编号。
+@property (nonatomic, strong) NSString * hosCode;              // 机构编号。
 @property (nonatomic, strong) NSDate   * checkDate;             // 外检日期。
 @property (nonatomic, strong) NSString * driverID;              // 驾驶人 ID。
-@property (nonatomic, strong) NSString * driverName;            //  驾驶人姓名。
+@property (nonatomic, strong) NSString * driverName;            // 驾驶人姓名。
 @property (nonatomic, strong) NSString * driverPhone;           // 驾驶人电话。
 @property (nonatomic, strong) NSString * leaderName;            // 负责人姓名。
 @property (nonatomic, strong) NSString * leaderPhone;           // 负责人电话。
@@ -52,19 +52,5 @@
 @property (nonatomic, strong) NSDate   * startTime;         // 服务开始时间
 @property (nonatomic, assign) int        type;              // 0固定服务点；1移动服务点。
 @property (nonatomic, strong) BROutCheckArrange *brOutCheckArrange; // 外出服务安排。
-
-
-+(instancetype)getInstance;
-
-typedef void(^selectAnnotionIndex)(NSInteger index);
-
-@property (nonatomic, strong) selectAnnotionIndex selectAnnotionTag;
-/**
- *  将服务点位置添加到地图上
- *
- *  @param positions 服务点数组
- *  @param mapView   添加到哪个地图上
- */
-- (void)addServersPositionAnnotionsWithList:(NSArray *)positions toMap:(BMKMapView *)mapView withSelectIndexBlock:(selectAnnotionIndex)block;
 
 @end
