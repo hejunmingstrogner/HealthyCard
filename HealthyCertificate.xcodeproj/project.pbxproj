@@ -97,6 +97,10 @@
 		B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436CA51C7B007E00F543E1 /* BRContractTableFootCell.m */; };
 		B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2484DB81C71C20D00C0CCBB /* LoginController.m */; };
 		B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */; };
+		B2640CC71C7C0BED00721CB5 /* ServicePositionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CC61C7C0BED00721CB5 /* ServicePositionDetailViewController.m */; };
+		B2640CCA1C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CC91C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m */; };
+		B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */; };
+		B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CCF1C7C412400721CB5 /* UILabel+FontColor.m */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
 		B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826291C73143200993F47 /* LeftMenuView.m */; };
@@ -279,6 +283,14 @@
 		B2484DB81C71C20D00C0CCBB /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		B2484DBA1C71C25900C0CCBB /* IndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
 		B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IndexViewController.mm; sourceTree = "<group>"; };
+		B2640CC51C7C0BED00721CB5 /* ServicePositionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePositionDetailViewController.h; sourceTree = "<group>"; };
+		B2640CC61C7C0BED00721CB5 /* ServicePositionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePositionDetailViewController.m; sourceTree = "<group>"; };
+		B2640CC81C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePositionCarHeadTableViewCell.h; sourceTree = "<group>"; };
+		B2640CC91C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePositionCarHeadTableViewCell.m; sourceTree = "<group>"; };
+		B2640CCB1C7C361A00721CB5 /* ServicePositionDetialCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePositionDetialCellItem.h; sourceTree = "<group>"; };
+		B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePositionDetialCellItem.m; sourceTree = "<group>"; };
+		B2640CCE1C7C412400721CB5 /* UILabel+FontColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+FontColor.h"; sourceTree = "<group>"; };
+		B2640CCF1C7C412400721CB5 /* UILabel+FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+FontColor.m"; sourceTree = "<group>"; };
 		B2F826201C730D6000993F47 /* LocationSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchModel.h; sourceTree = "<group>"; };
 		B2F826211C730D6000993F47 /* LocationSearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSearchModel.m; sourceTree = "<group>"; };
 		B2F826241C730DA500993F47 /* LeftMenuCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuCellItem.h; sourceTree = "<group>"; };
@@ -420,6 +432,8 @@
 				2512B40C1C7056C900EE661B /* UIView+Layout.m */,
 				252AB89B1C783B260085CC14 /* NSDate+Custom.h */,
 				252AB89C1C783B260085CC14 /* NSDate+Custom.m */,
+				B2640CCE1C7C412400721CB5 /* UILabel+FontColor.h */,
+				B2640CCF1C7C412400721CB5 /* UILabel+FontColor.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -492,6 +506,8 @@
 				254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */,
 				254A8D841C7AAEA400F2EC94 /* AppointmentInfoView.h */,
 				254A8D851C7AAEA400F2EC94 /* AppointmentInfoView.m */,
+				B2640CC81C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.h */,
+				B2640CC91C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -583,6 +599,8 @@
 			children = (
 				B23A97FE1C7420DE00E3E054 /* ServersPositionAnnotionsModel.h */,
 				B23A97FF1C7420DE00E3E054 /* ServersPositionAnnotionsModel.m */,
+				B2640CCB1C7C361A00721CB5 /* ServicePositionDetialCellItem.h */,
+				B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */,
 			);
 			path = ServersPositionAnnotions;
 			sourceTree = "<group>";
@@ -654,6 +672,7 @@
 		B2484DB41C71C1E600C0CCBB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B2640CC41C7C0BAB00721CB5 /* ServicePositionController */,
 				B2436C9D1C7AEE5500F543E1 /* CheckListTableViewController */,
 				B23A98011C76BA8F00E3E054 /* LeftMenuControllers */,
 				25BFEB3A1C74A4DD0062F9B8 /* Appointment */,
@@ -685,6 +704,15 @@
 				B2F826271C73141100993F47 /* LeftMenuView */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		B2640CC41C7C0BAB00721CB5 /* ServicePositionController */ = {
+			isa = PBXGroup;
+			children = (
+				B2640CC51C7C0BED00721CB5 /* ServicePositionDetailViewController.h */,
+				B2640CC61C7C0BED00721CB5 /* ServicePositionDetailViewController.m */,
+			);
+			path = ServicePositionController;
 			sourceTree = "<group>";
 		};
 		B2F8261F1C730D3E00993F47 /* ExaminationAdress */ = {
@@ -922,9 +950,11 @@
 			files = (
 				25BFEB401C74A5370062F9B8 /* ServicePointApointmentViewController.m in Sources */,
 				25BFEB1E1C731A630062F9B8 /* StringPacket.m in Sources */,
+				B2640CC71C7C0BED00721CB5 /* ServicePositionDetailViewController.m in Sources */,
 				2512B41A1C7056C900EE661B /* UIFont+Custom.m in Sources */,
 				B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */,
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
+				B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */,
 				2512B3B21C70557C00EE661B /* ViewController.m in Sources */,
 				B23A980D1C76E12700E3E054 /* UserinformationSetingViewController.m in Sources */,
 				B2436CA31C7AF91800F543E1 /* BRContractTableHeaerCell.m in Sources */,
@@ -966,7 +996,9 @@
 				252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */,
 				25BFEB1B1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m in Sources */,
 				25BFEB301C74060B0062F9B8 /* QueueServerInfo.m in Sources */,
+				B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */,
 				2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */,
+				B2640CCA1C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m in Sources */,
 				B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */,
 				2512B41F1C7056C900EE661B /* UIScreen+Type.m in Sources */,
 				B2436C941C7AD28700F543E1 /* BRContract.m in Sources */,
