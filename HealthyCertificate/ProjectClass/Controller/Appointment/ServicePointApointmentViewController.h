@@ -10,4 +10,6 @@
 
 @interface ServicePointApointmentViewController : UIViewController
 
+@property (nonatomic, strong) NSMutableArray* serverPointList;
+
 @end
