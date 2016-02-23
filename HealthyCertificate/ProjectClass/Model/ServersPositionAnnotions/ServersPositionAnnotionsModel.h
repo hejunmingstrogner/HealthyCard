@@ -19,10 +19,10 @@
 
 @interface BROutCheckArrange : NSObject
 
-@property (nonatomic, strong) NSString * cHosCode;              // 机构编号。
+@property (nonatomic, strong) NSString * hosCode;              // 机构编号。
 @property (nonatomic, strong) NSDate   * checkDate;             // 外检日期。
 @property (nonatomic, strong) NSString * driverID;              // 驾驶人 ID。
-@property (nonatomic, strong) NSString * driverName;            //  驾驶人姓名。
+@property (nonatomic, strong) NSString * driverName;            // 驾驶人姓名。
 @property (nonatomic, strong) NSString * driverPhone;           // 驾驶人电话。
 @property (nonatomic, strong) NSString * leaderName;            // 负责人姓名。
 @property (nonatomic, strong) NSString * leaderPhone;           // 负责人电话。

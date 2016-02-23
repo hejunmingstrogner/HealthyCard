@@ -7,7 +7,8 @@
 //
 
 #import "RzAlertView.h"
-
+#import "NSDate+Custom.h"
+#import "UILabel+FontColor.h"
 
 @implementation CustomButton
 
@@ -294,10 +295,15 @@
     }];
 }
 
+// @param block     回调 0 取消，1预约，2显示基本信息，3拨打电话
 + (void)showActionSheetWithTarget:(UIView *)superView
                   servicePosition:(ServersPositionAnnotionsModel *)servicePositionItem
                            handle:(void (^)(NSInteger))block
 {
+    CustomButton *zhezhao = [CustomButton buttonWithType:UIButtonTypeCustom];
+    [superView addSubview:zhezhao];
+    zhezhao.frame = superView.frame;
+
     UIView *actionSheetView = [[UIView alloc]init];
     actionSheetView.backgroundColor = [UIColor whiteColor];
     actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
@@ -313,20 +319,128 @@
     [bohao setImage:[UIImage imageNamed:@"phonecall"] forState:UIControlStateNormal];
     [bohao addClickedBlock:^(UIButton * _Nonnull sender) {
         // 拨号
+        NSLog(@"拨号");
+        [zhezhao removeFromSuperview];
+        [UIView animateWithDuration:1 animations:^{
+            actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
+            [actionSheetView removeFromSuperview];
+        }];
+        if (block) {
+            block(3);
+        }
     }];
 
     CustomButton *xiangqing = [CustomButton buttonWithType:UIButtonTypeCustom];
     [actionSheetView addSubview:xiangqing];
     [xiangqing mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.width.height.equalTo(bohao);
-        make.right.equalTo(bohao.mas_left).offset(10);
+        make.right.equalTo(bohao.mas_left).offset(-10);
     }];
     [xiangqing setImage:[UIImage imageNamed:@"xiangqing"] forState:UIControlStateNormal];
     [xiangqing addClickedBlock:^(UIButton * _Nonnull sender) {
         // 详情
+        NSLog(@"详情");
+        [zhezhao removeFromSuperview];
+        [UIView animateWithDuration:1 animations:^{
+            actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
+            [actionSheetView removeFromSuperview];
+        }];
+        if (block) {
+            block(2);
+        }
     }];
 
-    
+    UIImageView *green = [[UIImageView alloc]init];
+    [actionSheetView addSubview:green];
+    green.image = [UIImage imageNamed:@"greentip"];
+    [green mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(bohao);
+        make.left.equalTo(actionSheetView).offset(10);
+        make.width.height.mas_equalTo(10);
+    }];
+
+    // 地址
+    UILabel *addressLabel = [[UILabel alloc]init];
+    [actionSheetView addSubview:addressLabel];
+    addressLabel.font = [UIFont systemFontOfSize:14];
+    [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(actionSheetView);
+        make.left.equalTo(green.mas_right).offset(5);
+        make.right.equalTo(xiangqing.mas_left).offset(-5);
+        make.bottom.equalTo(bohao).offset(10);
+    }];
+
+    addressLabel.numberOfLines = 0;
+    if (servicePositionItem.type == 1) {
+        [addressLabel setText:servicePositionItem.address textFont:[UIFont systemFontOfSize:14] WithEndText:@"临" endTextColor:[UIColor redColor]];
+    }
+    else {
+        addressLabel.text = servicePositionItem.address;
+    }
+    [addressLabel setText:@"随便写的一些字饭卡时间疯狂拉基舍夫克拉见识到风口浪尖撒点开" textFont:[UIFont systemFontOfSize:14] WithEndText:@"临" endTextColor:[UIColor redColor]];
+
+    //服务时间
+    UILabel *servicetimelabel = [[UILabel alloc]init];
+    [actionSheetView addSubview:servicetimelabel];
+    servicetimelabel.font = [UIFont systemFontOfSize:14];
+    [servicetimelabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(addressLabel.mas_bottom);
+        make.left.equalTo(addressLabel);
+        make.right.equalTo(bohao);
+        make.height.mas_equalTo(40);
+    }];
+    NSString *sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:servicePositionItem.startTime], [NSDate getHour_MinuteByDate:servicePositionItem.startTime], [NSDate getHour_MinuteByDate:servicePositionItem.endTime]];
+    servicetimelabel.text = sdate;
+    servicetimelabel.text = @"2016.2.26（18:00-19:00）";
+
+    UIImageView *blue = [[UIImageView alloc]init];
+    [actionSheetView addSubview:blue];
+    blue.image = [UIImage imageNamed:@"bluetip"];
+    [blue mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(servicetimelabel);
+        make.left.right.height.width.equalTo(green);
+    }];
+
+    CustomButton *orderBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
+    [actionSheetView addSubview:orderBtn];
+    [orderBtn setTitle:@"预约" forState:UIControlStateNormal];
+    [orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(green);
+        make.right.equalTo(bohao);
+        make.bottom.equalTo(actionSheetView).offset(-5);
+        make.top.equalTo(servicetimelabel.mas_bottom).offset(0);
+    }];
+    orderBtn.layer.masksToBounds = YES;
+    orderBtn.layer.cornerRadius = 5;
+    [orderBtn setBackgroundColor:[UIColor colorWithRed:50/255.0 green:240/255.0 blue:50/255.0 alpha:1]];
+    [orderBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        // 预约
+        NSLog(@"预约");
+        [zhezhao removeFromSuperview];
+        [UIView animateWithDuration:1 animations:^{
+            actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
+            [actionSheetView removeFromSuperview];
+        }];
+        if (block) {
+            block(1);
+        }
+    }];
+
+    [UIView animateWithDuration:1 animations:^{
+        actionSheetView.frame = CGRectMake(0, superView.frame.size.height - actionSheetView.frame.size.height, actionSheetView.frame.size.width, actionSheetView.frame.size.height);
+    }];
+
+    [zhezhao addClickedBlock:^(UIButton * _Nonnull sender) {
+        [sender removeFromSuperview];
+        [UIView animateWithDuration:1 animations:^{
+            actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
+            [actionSheetView removeFromSuperview];
+        }];
+
+        if (block) {
+            block(0);
+        }
+    }];
 
 }
 @end

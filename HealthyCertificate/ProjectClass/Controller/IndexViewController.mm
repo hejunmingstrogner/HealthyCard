@@ -14,7 +14,7 @@
 #import "ServersPositionAnnotionsModel.h"
 #import "PositionUtil.h"
 #import "MyCheckListViewController.h"
-
+#import "ServicePositionDetailViewController.h"
 @interface IndexViewController ()
 
 {
@@ -148,11 +148,11 @@
     [minDistanceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(headerBackGroundView).offset(-10);
         make.bottom.equalTo(headerBackGroundView);
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(70);
         make.height.equalTo(pendingBtn);
     }];
     [minDistanceBtn setImage:[UIImage imageNamed:@"serverPosition"] forState:UIControlStateNormal];
-    minDistanceBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 65);
+    minDistanceBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 55);
     minDistanceBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [minDistanceBtn setTitle:@"0km" forState:UIControlStateNormal];
     minDistanceBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -503,6 +503,7 @@
             addressLabel.text = @"";
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:2];
         }
+        [changeStatusTimer invalidate];
     }];
 }
 
@@ -529,6 +530,15 @@
     MyPointeAnnotation *anno = view.annotation;
     if (nearbyServicePositionsArray.count != 0) {
         NSLog(@"near: %@", nearbyServicePositionsArray[anno.tag]);
+        // 回调 0 取消，1预约，2显示基本信息，3拨打电话
+        [RzAlertView showActionSheetWithTarget:self.view servicePosition:nearbyServicePositionsArray[anno.tag] handle:^(NSInteger flag) {
+            if(flag == 2){
+                ServicePositionDetailViewController *serviceDetail = [[ServicePositionDetailViewController alloc]init];
+                serviceDetail.servicePositionItem = nearbyServicePositionsArray[anno.tag];
+                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:serviceDetail];
+                [self presentViewController:nav animated:YES completion:nil];
+            }
+        }];
     }
 }
 
