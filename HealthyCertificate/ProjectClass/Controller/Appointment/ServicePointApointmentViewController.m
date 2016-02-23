@@ -63,7 +63,7 @@
     //cell.servicePoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.row];
     ServersPositionAnnotionsModel* test = [[ServersPositionAnnotionsModel alloc] init];
     test.name = @"江安门诊部江安门诊部江安门诊部江安门诊部江安门诊部江安门诊部";
-    test.address = @"成都市武侯区江安门诊部";
+    test.address = @"成都市武侯区江安门诊部成都市武侯区江安门诊部成都市武侯区江安门诊部";
     test.startTime = [NSDate date];
     test.distance = 16.0;
     cell.servicePoint = test;
@@ -82,6 +82,10 @@
 
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section{
     view.tintColor = MO_RGBCOLOR(250, 250, 250);
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
 }
 
 

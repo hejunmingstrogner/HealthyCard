@@ -71,6 +71,8 @@
 		254A8DAB1C7C380400F2EC94 /* nameIcon@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DA81C7C380400F2EC94 /* nameIcon@1x.png */; };
 		254A8DAC1C7C380400F2EC94 /* nameIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DA91C7C380400F2EC94 /* nameIcon@2x.png */; };
 		254A8DAD1C7C380400F2EC94 /* nameIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DAA1C7C380400F2EC94 /* nameIcon@3x.png */; };
+		254A8DB01C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */; };
+		254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
 		25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB101C72C70F0062F9B8 /* HCRule.m */; };
@@ -238,6 +240,10 @@
 		254A8DA81C7C380400F2EC94 /* nameIcon@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nameIcon@1x.png"; sourceTree = "<group>"; };
 		254A8DA91C7C380400F2EC94 /* nameIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nameIcon@2x.png"; sourceTree = "<group>"; };
 		254A8DAA1C7C380400F2EC94 /* nameIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nameIcon@3x.png"; sourceTree = "<group>"; };
+		254A8DAE1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudAppointmentCompanyViewController.h; sourceTree = "<group>"; };
+		254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudAppointmentCompanyViewController.m; sourceTree = "<group>"; };
+		254A8DB21C7C575F00F2EC94 /* ServicePointDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePointDetailViewController.h; sourceTree = "<group>"; };
+		254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePointDetailViewController.m; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
 		25BFE9721C7199610062F9B8 /* RzAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RzAlertView.m; sourceTree = "<group>"; };
 		25BFEB0B1C71C9110062F9B8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -590,6 +596,15 @@
 			path = CloudAppointment;
 			sourceTree = "<group>";
 		};
+		254A8DB11C7C574A00F2EC94 /* ServicePointAppointment */ = {
+			isa = PBXGroup;
+			children = (
+				254A8DB21C7C575F00F2EC94 /* ServicePointDetailViewController.h */,
+				254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */,
+			);
+			path = ServicePointAppointment;
+			sourceTree = "<group>";
+		};
 		25BFEB121C7310270062F9B8 /* Packet */ = {
 			isa = PBXGroup;
 			children = (
@@ -616,6 +631,7 @@
 		25BFEB3A1C74A4DD0062F9B8 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				254A8DB11C7C574A00F2EC94 /* ServicePointAppointment */,
 				252AB8911C770F6A0085CC14 /* CloudAppointment */,
 				25BFEB3B1C74A50F0062F9B8 /* CloudAppointmentViewController.h */,
 				25BFEB3C1C74A50F0062F9B8 /* CloudAppointmentViewController.m */,
@@ -623,6 +639,8 @@
 				25BFEB3F1C74A5370062F9B8 /* ServicePointApointmentViewController.m */,
 				25BFEB411C74A55B0062F9B8 /* AppointmentViewController.h */,
 				25BFEB421C74A55B0062F9B8 /* AppointmentViewController.m */,
+				254A8DAE1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.h */,
+				254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -1046,6 +1064,7 @@
 				B23A98131C76F0D400E3E054 /* AboutUsViewController.m in Sources */,
 				2512B42E1C70632C00EE661B /* HMDataOperate.m in Sources */,
 				B23A98041C76BB6400E3E054 /* UserInformationController.m in Sources */,
+				254A8DB01C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m in Sources */,
 				25BFEB361C74096E0062F9B8 /* PersonInfoOfPhonePacket.m in Sources */,
 				254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */,
 				2512B3AC1C70557C00EE661B /* main.m in Sources */,
@@ -1078,6 +1097,7 @@
 				252AB88F1C7703690085CC14 /* HCWheelView.m in Sources */,
 				2512B41D1C7056C900EE661B /* UIImageView+Easy.m in Sources */,
 				254A8D8F1C7BF79700F2EC94 /* ServicePointCell.m in Sources */,
+				254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */,
 				2512B4171C7056C900EE661B /* UIButton+VerticalLayout.m in Sources */,
 				B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */,
 				B23A98001C7420DE00E3E054 /* ServersPositionAnnotionsModel.m in Sources */,
