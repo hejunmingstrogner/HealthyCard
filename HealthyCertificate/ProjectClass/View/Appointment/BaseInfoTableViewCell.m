@@ -9,6 +9,11 @@
 #import "BaseInfoTableViewCell.h"
 #import <Masonry.h>
 
+#import "UIFont+Custom.h"
+#import "Constants.h"
+
+#define Cell_Font 23
+
 @implementation BaseInfoTableViewCell
 
 
@@ -31,6 +36,7 @@
     
     self.textField = [[UITextField alloc] init];
     self.textField.textColor = [UIColor blackColor];
+    self.textField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     [self addSubview:self.textField];
     [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self);
