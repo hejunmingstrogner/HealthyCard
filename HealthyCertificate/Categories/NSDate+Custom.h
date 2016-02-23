@@ -21,4 +21,10 @@
  */
 - (NSMutableArray*)nextServerDays:(NSInteger)serverDays;
 
+
+// 计算时间 年月日
++ (NSString *)getYear_Month_DayByDate:(NSDate *)itDate;
+
++ (NSString *)getHour_MinuteByDate:(NSDate *)itDate;
+
 @end
