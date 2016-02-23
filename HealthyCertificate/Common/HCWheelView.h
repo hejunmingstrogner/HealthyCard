@@ -19,4 +19,8 @@
 
 @property (nonatomic, strong) NSMutableArray* pickerViewContentArr;
 
+@property (nonatomic, weak) id<HCWheelViewDelegate> delegate;
+
+@property (nonatomic, strong) UIPickerView* pickerView;
+
 @end
