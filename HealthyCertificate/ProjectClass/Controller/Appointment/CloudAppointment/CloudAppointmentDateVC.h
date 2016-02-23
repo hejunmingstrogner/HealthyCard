@@ -10,4 +10,7 @@
 
 @interface CloudAppointmentDateVC : UIViewController
 
+@property (nonatomic, strong) NSString* beginDateString;
+@property (nonatomic, strong) NSString* endDateString;
+
 @end

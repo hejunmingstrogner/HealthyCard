@@ -49,6 +49,12 @@
 		252AB88F1C7703690085CC14 /* HCWheelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 252AB88E1C7703690085CC14 /* HCWheelView.m */; };
 		252AB8941C770F890085CC14 /* CloudAppointmentDateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 252AB8931C770F890085CC14 /* CloudAppointmentDateVC.m */; };
 		252AB8971C7732C50085CC14 /* NavView.m in Sources */ = {isa = PBXBuildFile; fileRef = 252AB8961C7732C50085CC14 /* NavView.m */; };
+		252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 252AB89C1C783B260085CC14 /* NSDate+Custom.m */; };
+		254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */; };
+		254A8D861C7AAEA400F2EC94 /* AppointmentInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D851C7AAEA400F2EC94 /* AppointmentInfoView.m */; };
+		254A8D8A1C7AE02300F2EC94 /* Avatar@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D871C7AE02300F2EC94 /* Avatar@1x.png */; };
+		254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D881C7AE02300F2EC94 /* Avatar@2x.png */; };
+		254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D891C7AE02300F2EC94 /* Avatar@3x.png */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
 		25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB101C72C70F0062F9B8 /* HCRule.m */; };
@@ -186,6 +192,15 @@
 		252AB8931C770F890085CC14 /* CloudAppointmentDateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudAppointmentDateVC.m; sourceTree = "<group>"; };
 		252AB8951C7732C50085CC14 /* NavView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavView.h; sourceTree = "<group>"; };
 		252AB8961C7732C50085CC14 /* NavView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavView.m; sourceTree = "<group>"; };
+		252AB89B1C783B260085CC14 /* NSDate+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Custom.h"; sourceTree = "<group>"; };
+		252AB89C1C783B260085CC14 /* NSDate+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Custom.m"; sourceTree = "<group>"; };
+		254A8D811C7A027E00F2EC94 /* HealthyCertificateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HealthyCertificateView.h; sourceTree = "<group>"; };
+		254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HealthyCertificateView.m; sourceTree = "<group>"; };
+		254A8D841C7AAEA400F2EC94 /* AppointmentInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppointmentInfoView.h; sourceTree = "<group>"; };
+		254A8D851C7AAEA400F2EC94 /* AppointmentInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppointmentInfoView.m; sourceTree = "<group>"; };
+		254A8D871C7AE02300F2EC94 /* Avatar@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@1x.png"; sourceTree = "<group>"; };
+		254A8D881C7AE02300F2EC94 /* Avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@2x.png"; sourceTree = "<group>"; };
+		254A8D891C7AE02300F2EC94 /* Avatar@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@3x.png"; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
 		25BFE9721C7199610062F9B8 /* RzAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RzAlertView.m; sourceTree = "<group>"; };
 		25BFEB0B1C71C9110062F9B8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -403,6 +418,8 @@
 				2512B40A1C7056C900EE661B /* UIScreen+Type.m */,
 				2512B40B1C7056C900EE661B /* UIView+Layout.h */,
 				2512B40C1C7056C900EE661B /* UIView+Layout.m */,
+				252AB89B1C783B260085CC14 /* NSDate+Custom.h */,
+				252AB89C1C783B260085CC14 /* NSDate+Custom.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -471,6 +488,10 @@
 				252AB8781C76B9E50085CC14 /* BaseInfoTableViewCell.m */,
 				252AB8951C7732C50085CC14 /* NavView.h */,
 				252AB8961C7732C50085CC14 /* NavView.m */,
+				254A8D811C7A027E00F2EC94 /* HealthyCertificateView.h */,
+				254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */,
+				254A8D841C7AAEA400F2EC94 /* AppointmentInfoView.h */,
+				254A8D851C7AAEA400F2EC94 /* AppointmentInfoView.m */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -478,6 +499,9 @@
 		252AB87A1C76E3880085CC14 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				254A8D871C7AE02300F2EC94 /* Avatar@1x.png */,
+				254A8D881C7AE02300F2EC94 /* Avatar@2x.png */,
+				254A8D891C7AE02300F2EC94 /* Avatar@3x.png */,
 				252AB87B1C76E3880085CC14 /* date_icon@1x.png */,
 				252AB87C1C76E3880085CC14 /* date_icon@2x.png */,
 				252AB87D1C76E3880085CC14 /* date_icon@3x.png */,
@@ -762,6 +786,7 @@
 				TargetAttributes = {
 					2512B3A61C70557C00EE661B = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = T6HD9T8592;
 					};
 					2512B3BF1C70557C00EE661B = {
 						CreatedOnToolsVersion = 7.2;
@@ -799,10 +824,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				25BFEB491C75BF1F0062F9B8 /* back@3x.png in Resources */,
+				254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */,
 				25BFEB471C75BF1F0062F9B8 /* back@1x.png in Resources */,
 				25BFEB4E1C75E61C0062F9B8 /* QRScan@2x.png in Resources */,
 				252AB88B1C76E3880085CC14 /* search_icon@2x.png in Resources */,
 				B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */,
+				254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */,
 				252AB8861C76E3880085CC14 /* date_icon@3x.png in Resources */,
 				2512B4261C7056D200EE661B /* OpenSans-Semibold.ttf in Resources */,
 				252AB8881C76E3880085CC14 /* phone_icon@2x.png in Resources */,
@@ -813,6 +840,7 @@
 				252AB8891C76E3880085CC14 /* phone_icon@3x.png in Resources */,
 				252AB8841C76E3880085CC14 /* date_icon@1x.png in Resources */,
 				2512B3BA1C70557C00EE661B /* LaunchScreen.storyboard in Resources */,
+				254A8D8A1C7AE02300F2EC94 /* Avatar@1x.png in Resources */,
 				25BFEB4F1C75E61C0062F9B8 /* QRScan@3x.png in Resources */,
 				25BFEB4D1C75E61C0062F9B8 /* QRScan@1x.png in Resources */,
 				25BFEB481C75BF1F0062F9B8 /* back@2x.png in Resources */,
@@ -919,10 +947,12 @@
 				B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */,
 				25BFEB431C74A55B0062F9B8 /* AppointmentViewController.m in Sources */,
 				2512B3AF1C70557C00EE661B /* AppDelegate.m in Sources */,
+				254A8D861C7AAEA400F2EC94 /* AppointmentInfoView.m in Sources */,
 				B23A98131C76F0D400E3E054 /* AboutUsViewController.m in Sources */,
 				2512B42E1C70632C00EE661B /* HMDataOperate.m in Sources */,
 				B23A98041C76BB6400E3E054 /* UserInformationController.m in Sources */,
 				25BFEB361C74096E0062F9B8 /* PersonInfoOfPhonePacket.m in Sources */,
+				254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */,
 				2512B3AC1C70557C00EE661B /* main.m in Sources */,
 				25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */,
 				252AB8971C7732C50085CC14 /* NavView.m in Sources */,
@@ -933,6 +963,7 @@
 				2512B4191C7056C900EE661B /* UIDevice+Video.m in Sources */,
 				2512B4131C7056C900EE661B /* NSString+Count.m in Sources */,
 				2512B4311C70634B00EE661B /* HMNetworkEngine.m in Sources */,
+				252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */,
 				25BFEB1B1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m in Sources */,
 				25BFEB301C74060B0062F9B8 /* QueueServerInfo.m in Sources */,
 				2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */,
@@ -1089,7 +1120,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HealthyCertificate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Highmore.HealthyCertificate;
+				PRODUCT_BUNDLE_IDENTIFIER = sHighmore.HealthyCertificate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1104,7 +1135,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HealthyCertificate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Highmore.HealthyCertificate;
+				PRODUCT_BUNDLE_IDENTIFIER = sHighmore.HealthyCertificate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

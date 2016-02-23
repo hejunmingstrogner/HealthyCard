@@ -19,6 +19,7 @@
 
 // < + titile + button
 -(void)setNavTitle:(NSString *)navTitle{
+    self.backgroundColor = MO_RGBCOLOR(255, 255, 255);
     
     UIButton* backBtn = [UIButton buttonWithNormalImageName:@"back" highlightImageName:@"back"];
     [self addSubview:backBtn];
@@ -41,7 +42,7 @@
     UIButton* sureButton = [UIButton buttonWithTitle:@"确定"
                                                 font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)]
                                            textColor:MO_RGBCOLOR(0, 169, 234)
-                                     backgroundColor:[UIColor whiteColor]];
+                                     backgroundColor:[UIColor clearColor]];
     [self addSubview:sureButton];
     [sureButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self);
