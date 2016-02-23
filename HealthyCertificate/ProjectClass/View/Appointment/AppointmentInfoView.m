@@ -24,7 +24,7 @@
         self.backgroundColor = [UIColor whiteColor];
         
         UILabel* titleInfo = [[UILabel alloc] init];
-        titleInfo.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(28)];
+        titleInfo.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
         titleInfo.text = @"预约须知";
         [self addSubview:titleInfo];
         [titleInfo mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -35,7 +35,7 @@
         UILabel* firstItemLabel = [[UILabel alloc] init];
         //设置自动行数与字符换行
         [firstItemLabel setNumberOfLines:0];
-        firstItemLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(26)];
+        firstItemLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
         firstItemLabel.textColor = [UIColor colorWithRGBHex:font_color];
         firstItemLabel.text = @"1填表前请了解是否符合您的服务要求，否则交费后不能退款；填表字迹清楚、不缺页。";
         [self addSubview:firstItemLabel];
@@ -47,7 +47,7 @@
         
         UILabel* secondItemLabel = [[UILabel alloc] init];
         [secondItemLabel setNumberOfLines:0];
-        secondItemLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(26)];
+        secondItemLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
         secondItemLabel.textColor = [UIColor colorWithRGBHex:font_color];
         secondItemLabel.text = @"2缴费后，请查看收费单上的姓名是否正确，以便及时修改。";
         [self addSubview:secondItemLabel];
