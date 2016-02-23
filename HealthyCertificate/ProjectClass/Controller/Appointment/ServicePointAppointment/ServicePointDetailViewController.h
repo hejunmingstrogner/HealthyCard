@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ServersPositionAnnotionsModel.h"
 
-@interface ServicePointDetailViewController : UIViewController
+// 固定服务点
+@interface ServicePointDetailViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) ServersPositionAnnotionsModel *serverPositionItem;
+
+@property (nonatomic, strong) UIButton    *orderBtn; // 预约
 @end
