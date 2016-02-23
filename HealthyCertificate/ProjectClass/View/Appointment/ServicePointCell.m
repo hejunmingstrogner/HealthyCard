@@ -16,6 +16,8 @@
 #import "UIColor+Expanded.h"
 #import "UIFont+Custom.h"
 
+#import "UILabel+FontColor.h"
+
 #define Cell_Font 17
 #define Cell_Detail_Font 15
 
@@ -27,7 +29,7 @@
     UILabel                 *_locationLabel;
     UILabel                 *_timeLabel;
 }
-
+//ff4200
 @end
 
 
@@ -45,7 +47,19 @@
 -(void)setServicePoint:(ServersPositionAnnotionsModel *)servicePoint{
     _nameLabel.text = servicePoint.name;
     _distanceLabel.text = [NSString stringWithFormat:@"%.1lfkm", servicePoint.distance];
-    _locationLabel.text = servicePoint.address;
+    
+    
+    /*
+     _locationLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Cell_Detail_Font];
+     _locationLabel.textColor = [UIColor colorWithRGBHex:0x6e6e6e];
+     */
+    
+    [_locationLabel setText:servicePoint.address
+                   textFont:[UIFont fontWithType:UIFontOpenSansRegular size:Cell_Detail_Font]
+                WithEndText:@"临"
+               endTextColor:[UIColor redColor]];
+    
+    //_locationLabel.text = servicePoint.address;
     _timeLabel.text = @"每天9:00-17:00";
     
    // _distanceLabel.text = [NSString stringWithFormat:@"%f", servicePoint.distance];
@@ -131,6 +145,7 @@
         }];
         
         _locationLabel = [[UILabel alloc] init];
+        _locationLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [topRightDownView addSubview:_locationLabel];
         [_locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.right.mas_equalTo(topRightDownView);
