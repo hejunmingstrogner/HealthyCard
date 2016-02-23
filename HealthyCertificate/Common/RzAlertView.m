@@ -294,11 +294,39 @@
     }];
 }
 
-+ (void)showActionSheetWithTarget:(id)target
++ (void)showActionSheetWithTarget:(UIView *)superView
                   servicePosition:(ServersPositionAnnotionsModel *)servicePositionItem
                            handle:(void (^)(NSInteger))block
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"测试" message:@"1231" preferredStyle:UIAlertControllerStyleActionSheet];
-    [target presentViewController:alert animated:YES completion:nil];
+    UIView *actionSheetView = [[UIView alloc]init];
+    actionSheetView.backgroundColor = [UIColor whiteColor];
+    actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
+    [superView addSubview:actionSheetView];
+
+    CustomButton *bohao = [CustomButton buttonWithType:UIButtonTypeCustom];
+    [actionSheetView addSubview:bohao];
+    [bohao mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(actionSheetView).offset(10);
+        make.right.equalTo(actionSheetView).offset(-10);
+        make.width.height.mas_equalTo(35);
+    }];
+    [bohao setImage:[UIImage imageNamed:@"phonecall"] forState:UIControlStateNormal];
+    [bohao addClickedBlock:^(UIButton * _Nonnull sender) {
+        // 拨号
+    }];
+
+    CustomButton *xiangqing = [CustomButton buttonWithType:UIButtonTypeCustom];
+    [actionSheetView addSubview:xiangqing];
+    [xiangqing mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.width.height.equalTo(bohao);
+        make.right.equalTo(bohao.mas_left).offset(10);
+    }];
+    [xiangqing setImage:[UIImage imageNamed:@"xiangqing"] forState:UIControlStateNormal];
+    [xiangqing addClickedBlock:^(UIButton * _Nonnull sender) {
+        // 详情
+    }];
+
+    
+
 }
 @end

@@ -146,7 +146,7 @@ typedef void (^ButtonActionBlock)(UIButton *sender);
  *  @param servicePositionItem 服务点信息
  *  @param block               回调 0 取消，1预约，2显示基本信息，3拨打电话
  */
-+ (void)showActionSheetWithTarget:(nullable id)target
++ (void)showActionSheetWithTarget:(UIView *)superView
                   servicePosition:(ServersPositionAnnotionsModel *)servicePositionItem
                            handle:(void(^)(NSInteger flag))block;
 @end

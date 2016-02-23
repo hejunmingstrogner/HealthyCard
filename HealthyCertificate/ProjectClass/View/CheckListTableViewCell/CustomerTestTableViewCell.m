@@ -35,8 +35,9 @@
     headerimageView = [[UIImageView alloc]init];
     [self.contentView addSubview:headerimageView];
     [headerimageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.equalTo(self.contentView).offset(15);
-        make.width.equalTo(headerimageView.mas_height);
+        make.left.equalTo(self.contentView).offset(10);
+        make.centerY.equalTo(self.contentView);
+        make.width.height.mas_equalTo(50);
     }];
 
     UILabel *name = [[UILabel alloc]init];
@@ -44,13 +45,15 @@
     [self.contentView addSubview:name];
     [name mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView).offset(5);
-        make.left.equalTo(headerimageView.mas_right).offset(15);
+        make.left.equalTo(headerimageView.mas_right).offset(10);
         make.height.mas_equalTo(20);
-        make.width.mas_equalTo(50);
+        make.width.mas_equalTo(40);
     }];
 
     nameLabel = [[UILabel alloc]init];
     [self.contentView addSubview:nameLabel];
+    nameLabel.font = [UIFont systemFontOfSize:14];
+    nameLabel.textColor = [UIColor grayColor];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(name);
         make.left.equalTo(name.mas_right).offset(5);
@@ -66,10 +69,12 @@
     }];
     sexLabel = [[UILabel alloc]init];
     [self.contentView addSubview:sexLabel];
+    sexLabel.font = [UIFont systemFontOfSize:14];
+    sexLabel.textColor = [UIColor grayColor];
     [sexLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(nameLabel);
         make.width.mas_equalTo(21);
-        make.left.equalTo(sex.mas_right).offset(5);
+        make.left.equalTo(sex.mas_right);
     }];
 
     UILabel *old = [[UILabel alloc]init];
@@ -82,10 +87,12 @@
 
     oldLabel = [[UILabel alloc]init];
     [self.contentView addSubview:oldLabel];
+    oldLabel.font = [UIFont systemFontOfSize:14];
+    oldLabel.textColor = [UIColor grayColor];
     [oldLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(nameLabel);
-        make.left.equalTo(old.mas_right).offset(5);
-        make.right.equalTo(self.contentView).offset(-15);
+        make.left.equalTo(old.mas_right);
+        make.right.equalTo(self.contentView).offset(-5);
     }];
 
     UILabel *serviceDate = [[UILabel alloc]init];
@@ -97,6 +104,8 @@
         make.width.mas_equalTo(80);
     }];
     serviceTimeLabel = [[UILabel alloc]init];
+    serviceTimeLabel.font = [UIFont systemFontOfSize:14];
+    serviceTimeLabel.textColor = [UIColor grayColor];
     [self.contentView addSubview:serviceTimeLabel];
     [serviceTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(serviceDate);
@@ -117,6 +126,8 @@
 
     serviceAddressLabel = [[UILabel alloc]init];
     [self.contentView addSubview:serviceAddressLabel];
+    serviceAddressLabel.font = [UIFont systemFontOfSize:14];
+    serviceAddressLabel.textColor = [UIColor grayColor];
     [serviceAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(serviceAddress);
         make.left.right.equalTo(serviceTimeLabel);
@@ -126,6 +137,7 @@
 
 - (void)setCellItemWithTest:(CustomerTest *)customerTest
 {
+    headerimageView.image = [UIImage imageNamed:@"headimage"];
     nameLabel.text = customerTest.cCustName;
     sexLabel.text = customerTest.cSex == 0 ? @"男" : @"女";
     oldLabel.text = [NSString getOldYears:customerTest.cCustIdCard];
