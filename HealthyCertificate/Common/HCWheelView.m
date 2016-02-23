@@ -16,7 +16,6 @@
 
 @interface HCWheelView()<UIPickerViewDataSource, UIPickerViewAccessibilityDelegate>
 {
-    NSMutableArray  *_pickerViewContentArr;
 }
 @end
 
