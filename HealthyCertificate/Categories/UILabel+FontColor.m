@@ -12,9 +12,9 @@
 
 -(void)setText:(NSString *)text textFont:(UIFont *)font WithEndText:(NSString *)endText endTextColor:(UIColor *)color
 {
-    int Textlength = text.length;
+    NSInteger Textlength = text.length;
     
-    int endTextLength = [NSString stringWithFormat:@"(%@)", endText].length;
+    NSInteger endTextLength = [NSString stringWithFormat:@"(%@)", endText].length;
 
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@(%@)", text, endText]];
     // 设置最后字体颜色
