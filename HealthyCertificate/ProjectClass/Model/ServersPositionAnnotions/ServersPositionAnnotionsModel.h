@@ -53,18 +53,4 @@
 @property (nonatomic, assign) int        type;              // 0固定服务点；1移动服务点。
 @property (nonatomic, strong) BROutCheckArrange *brOutCheckArrange; // 外出服务安排。
 
-
-+(instancetype)getInstance;
-
-typedef void(^selectAnnotionIndex)(NSInteger index);
-
-@property (nonatomic, strong) selectAnnotionIndex selectAnnotionTag;
-/**
- *  将服务点位置添加到地图上
- *
- *  @param positions 服务点数组
- *  @param mapView   添加到哪个地图上
- */
-- (void)addServersPositionAnnotionsWithList:(NSArray *)positions toMap:(BMKMapView *)mapView withSelectIndexBlock:(selectAnnotionIndex)block;
-
 @end

@@ -141,7 +141,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     NSInteger type = GetUserType;
     // 个人
     if (type == 1) {
-        NSString *url = [NSString stringWithFormat:@"customerTest/findMyCheckList?customId=%@&cCheckType=1", gPersonInfo.mCustCode];
+        NSString *url = [NSString stringWithFormat:@"customerTest/findMyCheckList?customId=%@&cCheckType=1", gPersonInfo.StrTel];
         [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
             NSMutableArray *brArray = [[NSMutableArray alloc]init];
             for (NSDictionary *dict in responseObject) {

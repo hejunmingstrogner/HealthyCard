@@ -786,7 +786,7 @@
 				TargetAttributes = {
 					2512B3A61C70557C00EE661B = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = T6HD9T8592;
+						DevelopmentTeam = LBSWTUGGNB;
 					};
 					2512B3BF1C70557C00EE661B = {
 						CreatedOnToolsVersion = 7.2;
@@ -1070,6 +1070,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1106,6 +1107,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1120,7 +1122,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HealthyCertificate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = sHighmore.HealthyCertificate;
+				PRODUCT_BUNDLE_IDENTIFIER = Highmore.HealthyCertificate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1135,7 +1137,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HealthyCertificate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = sHighmore.HealthyCertificate;
+				PRODUCT_BUNDLE_IDENTIFIER = Highmore.HealthyCertificate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
