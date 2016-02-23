@@ -51,7 +51,7 @@
         UILabel* titleLabel = [[UILabel alloc] init];
         titleLabel.text = @"预防性健康检查合格证";
         titleLabel.textColor = [UIColor blackColor];
-        titleLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Title_Size)];
+        titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Title_Size)];
         [titleView addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(titleView);
@@ -99,7 +99,7 @@
         
         UILabel* nameLabelTitle = [[UILabel alloc] init];
         nameLabelTitle.text = @"姓名 : ";
-        nameLabelTitle.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        nameLabelTitle.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [nameLabelTitle sizeToFit];
         [firstLineView addSubview:nameLabelTitle];
         
@@ -109,18 +109,18 @@
                              backgroundColor:[UIColor clearColor]];
         [_nameBtn setTitle:@"张小二" forState:UIControlStateNormal];
          _nameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        _nameBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        _nameBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [firstLineView addSubview:_nameBtn];
         
         UILabel* ageLabelTitle = [[UILabel alloc] init];
         ageLabelTitle.text = @"年龄 : ";
-        ageLabelTitle.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        ageLabelTitle.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [ageLabelTitle sizeToFit];
         [firstLineView addSubview:ageLabelTitle];
 
         _ageLabel = [[UILabel alloc] init];
         _ageLabel.text = @"30";
-        _ageLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        _ageLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [firstLineView addSubview:_ageLabel];
         
         [nameLabelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -162,7 +162,7 @@
         
         UILabel* sexLabelTitle = [[UILabel alloc] init];
         sexLabelTitle.text = @"性别 : ";
-        sexLabelTitle.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        sexLabelTitle.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [sexLabelTitle sizeToFit];
         [secondeLineView addSubview:sexLabelTitle];
         
@@ -171,18 +171,18 @@
                                    textColor:[UIColor blackColor]
                              backgroundColor:[UIColor clearColor]];
         [_sexBtn setTitle:@"男" forState:UIControlStateNormal];
-        _sexBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        _sexBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         _sexBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [secondeLineView addSubview:_sexBtn];
         
         UILabel* workTypeLabelTitle = [[UILabel alloc] init];
         workTypeLabelTitle.text = @"工种 : ";
-        workTypeLabelTitle.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        workTypeLabelTitle.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [secondeLineView addSubview:workTypeLabelTitle];
         
         _workTypeLabel = [[UILabel alloc] init];
         _workTypeLabel.text = @"餐饮服务";
-        _workTypeLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        _workTypeLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [secondeLineView addSubview:_workTypeLabel];
         
         [sexLabelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -222,12 +222,12 @@
         }];
         
         UILabel* idCardLabel = [[UILabel alloc] init];
-        idCardLabel.text = @"身份证号 : ";
-        idCardLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        idCardLabel.text = @"身份证 : ";
+        idCardLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [thirdLineView addSubview:idCardLabel];
         
         _idCardTextField = [[UITextField alloc] init];
-        _idCardTextField.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        _idCardTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         _idCardTextField.text = @"513821199407301075";
         [thirdLineView addSubview:_idCardTextField];
         
@@ -255,12 +255,12 @@
         }];
         
         UILabel* orgLabel = [[UILabel alloc] init];
-        orgLabel.text = @"发证机关 : ";
-        orgLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        orgLabel.text = @"检查机构 : ";
+        orgLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [fourthLineView addSubview:orgLabel];
 
         _orgLabel = [[UILabel alloc] init];
-        _orgLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        _orgLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [fourthLineView addSubview:_orgLabel];
         
         [orgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -289,11 +289,11 @@
         
         UILabel* numLabel = [[UILabel alloc] init];
         numLabel.text = @"证件编号 : ";
-        numLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        numLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [fifthLineView addSubview:numLabel];
         
         _numLabel = [[UILabel alloc] init];
-        _numLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:FIT_FONTSIZE(Text_Size)];
+        _numLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [fifthLineView addSubview:_numLabel];
         
         [numLabel mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -13,12 +13,15 @@
 
 #import "UIButton+Easy.h"
 #import "UIColor+Expanded.h"
+#import "UIFont+Custom.h"
 
 #import "BaseInfoTableViewCell.h"
 #import "CloudAppointmentDateVC.h"
 
 #import "HealthyCertificateView.h"
 #import "AppointmentInfoView.h"
+
+#define Button_Size 26
 
 @interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -44,12 +47,29 @@
     [super viewDidLoad];
     
     UIView* bottomView = [[UIView alloc] init];
-    bottomView.backgroundColor = [UIColor greenColor];
+    bottomView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:bottomView];
     [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.view);
         make.top.mas_equalTo(self.view.mas_top).with.offset(SCREEN_HEIGHT-PXFIT_HEIGHT(136)-kNavigationBarHeight);
         make.height.mas_equalTo(PXFIT_HEIGHT(136));
+    }];
+    
+    UIButton* appointmentBtn = [UIButton buttonWithTitle:@"预 约"
+                                                    font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)]
+                                               textColor:MO_RGBCOLOR(70, 180, 240)
+                                         backgroundColor:[UIColor whiteColor]];
+    appointmentBtn.layer.cornerRadius = 5;
+    appointmentBtn.layer.borderWidth = 2;
+    appointmentBtn.layer.borderColor = MO_RGBCOLOR(70, 180, 240).CGColor;
+    [appointmentBtn addTarget:self action:@selector(appointmentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:appointmentBtn];
+    [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(bottomView);
+        make.left.mas_equalTo(bottomView).with.offset(PXFIT_WIDTH(24));
+        make.width.mas_equalTo(SCREEN_WIDTH-2*PXFIT_WIDTH(24));
+        make.top.mas_equalTo(bottomView).with.offset(PXFIT_HEIGHT(20));
+        make.bottom.mas_equalTo(bottomView).with.offset(-PXFIT_HEIGHT(20));
     }];
     
     UIScrollView* scrollView = [[UIScrollView alloc] init];
@@ -176,6 +196,12 @@
 ////            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 //        }
 //    }
+}
+
+#pragma mark - Action
+-(void)appointmentBtnClicked:(id)sender
+{
+    
 }
 
 
