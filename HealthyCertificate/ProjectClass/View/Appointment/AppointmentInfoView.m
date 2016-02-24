@@ -25,7 +25,7 @@
         
         UILabel* titleInfo = [[UILabel alloc] init];
         titleInfo.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
-        titleInfo.text = @"预约须知";
+        titleInfo.text = @"注意事项";
         [self addSubview:titleInfo];
         [titleInfo mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self).with.offset(PXFIT_HEIGHT(20));

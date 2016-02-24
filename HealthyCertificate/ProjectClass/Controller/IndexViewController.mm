@@ -390,9 +390,11 @@
 //  一键预约
 - (void)orderBtnClicked
 {
-//    NSLog(@"一键预约点击");
-    [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
-    
+    if (addressLabel.text == nil){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"位置信息未加载完成" removeDelay:3];
+    }else{
+        [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
+    }
 }
 // 点击了头像,显示左侧菜单
 - (void)headerBtnClicked
