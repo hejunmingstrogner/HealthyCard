@@ -77,6 +77,7 @@
     _orderBtn.layer.borderColor = [UIColor colorWithRed:50/255.0 green:170/255.0 blue:240/255.0 alpha:1].CGColor;
     [_orderBtn setTitle:@"预约" forState:UIControlStateNormal];
     [_orderBtn setTitleColor:[UIColor colorWithRed:50/255.0 green:170/255.0 blue:240/255.0 alpha:1] forState:UIControlStateNormal];
+    [_orderBtn addTarget:self action:@selector(orderBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
 
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
@@ -136,7 +137,7 @@
         return 44;
     }
     else if (indexPath.section == 2)
-        return 44;
+        return fmaxf(44, [self cellheight:((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.row]).titleText]);
     return 1;
 }
 
@@ -154,6 +155,8 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
         if (!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+            cell.textLabel.numberOfLines = 0;
+            cell.detailTextLabel.numberOfLines = 0;
             cell.detailTextLabel.textColor = [UIColor blackColor];
         }
         cell.textLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.row]).titleText;
@@ -168,5 +171,19 @@
 
         return cell;
     }
+}
+
+- (CGFloat)cellheight:(NSString *)text
+{
+    UIFont *fnt = [UIFont systemFontOfSize:17];
+
+    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
+    CGFloat he = tmpRect.size.height+10;
+    return he;
+}
+
+- (void)orderBtnClicked:(UIButton *)sender
+{
+    NSLog(@"预约");
 }
 @end

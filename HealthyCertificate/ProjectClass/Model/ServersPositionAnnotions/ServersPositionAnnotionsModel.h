@@ -53,4 +53,9 @@
 @property (nonatomic, assign) int        type;              // 0固定服务点；1移动服务点。
 @property (nonatomic, strong) BROutCheckArrange *brOutCheckArrange; // 外出服务安排。
 
+// 服务器待添加数据
+@property (nonatomic, strong) NSString *introduce;      // 详情介绍
+@property (nonatomic, strong) NSString *busWay;         // 路线地址
+
+
 @end

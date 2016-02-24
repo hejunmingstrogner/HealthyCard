@@ -121,6 +121,10 @@
 		B2640CCA1C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CC91C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m */; };
 		B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */; };
 		B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CCF1C7C412400721CB5 /* UILabel+FontColor.m */; };
+		B2640CD41C7C7CF500721CB5 /* WaitDocResultSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CD31C7C7CF500721CB5 /* WaitDocResultSelectViewController.m */; };
+		B2640CD81C7C7D7500721CB5 /* WaitDocResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CD71C7C7D7500721CB5 /* WaitDocResultTableViewCell.m */; };
+		B2640CDB1C7C7FC000721CB5 /* WaitDocResultSelectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CDA1C7C7FC000721CB5 /* WaitDocResultSelectItem.m */; };
+		B2640CDE1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CDD1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
 		B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826291C73143200993F47 /* LeftMenuView.m */; };
@@ -336,6 +340,14 @@
 		B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePositionDetialCellItem.m; sourceTree = "<group>"; };
 		B2640CCE1C7C412400721CB5 /* UILabel+FontColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+FontColor.h"; sourceTree = "<group>"; };
 		B2640CCF1C7C412400721CB5 /* UILabel+FontColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+FontColor.m"; sourceTree = "<group>"; };
+		B2640CD21C7C7CF500721CB5 /* WaitDocResultSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitDocResultSelectViewController.h; sourceTree = "<group>"; };
+		B2640CD31C7C7CF500721CB5 /* WaitDocResultSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitDocResultSelectViewController.m; sourceTree = "<group>"; };
+		B2640CD61C7C7D7500721CB5 /* WaitDocResultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitDocResultTableViewCell.h; sourceTree = "<group>"; };
+		B2640CD71C7C7D7500721CB5 /* WaitDocResultTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitDocResultTableViewCell.m; sourceTree = "<group>"; };
+		B2640CD91C7C7FC000721CB5 /* WaitDocResultSelectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitDocResultSelectItem.h; sourceTree = "<group>"; };
+		B2640CDA1C7C7FC000721CB5 /* WaitDocResultSelectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitDocResultSelectItem.m; sourceTree = "<group>"; };
+		B2640CDC1C7C870200721CB5 /* HealthyCertificateOrderInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HealthyCertificateOrderInfoView.h; sourceTree = "<group>"; };
+		B2640CDD1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HealthyCertificateOrderInfoView.m; sourceTree = "<group>"; };
 		B2F826201C730D6000993F47 /* LocationSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchModel.h; sourceTree = "<group>"; };
 		B2F826211C730D6000993F47 /* LocationSearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSearchModel.m; sourceTree = "<group>"; };
 		B2F826241C730DA500993F47 /* LeftMenuCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuCellItem.h; sourceTree = "<group>"; };
@@ -559,6 +571,8 @@
 				254A8DB61C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m */,
 				254A8DBB1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.h */,
 				254A8DBC1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m */,
+				B2640CDC1C7C870200721CB5 /* HealthyCertificateOrderInfoView.h */,
+				B2640CDD1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -711,6 +725,8 @@
 				B2436C931C7AD28700F543E1 /* BRContract.m */,
 				B2436C951C7AD3B900F543E1 /* BRServiceUnit.h */,
 				B2436C961C7AD3B900F543E1 /* BRServiceUnit.m */,
+				B2640CD91C7C7FC000721CB5 /* WaitDocResultSelectItem.h */,
+				B2640CDA1C7C7FC000721CB5 /* WaitDocResultSelectItem.m */,
 			);
 			path = WaitToCheckModel;
 			sourceTree = "<group>";
@@ -731,6 +747,7 @@
 		B2436C9D1C7AEE5500F543E1 /* CheckListTableViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B2640CD11C7C7CC800721CB5 /* WaitDocResultSelectController */,
 				B2436C9E1C7AEE8C00F543E1 /* MyCheckListViewController.h */,
 				B2436C9F1C7AEE8C00F543E1 /* MyCheckListViewController.m */,
 			);
@@ -777,6 +794,7 @@
 		B2484DB61C71C1E600C0CCBB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B2640CD51C7C7D4800721CB5 /* WaitDocResultSelectView */,
 				B2436C991C7AE1AE00F543E1 /* CheckListTableViewCell */,
 				252AB8761C76B9BE0085CC14 /* Appointment */,
 				B2F826271C73141100993F47 /* LeftMenuView */,
@@ -791,6 +809,24 @@
 				B2640CC61C7C0BED00721CB5 /* ServicePositionDetailViewController.m */,
 			);
 			path = ServicePositionController;
+			sourceTree = "<group>";
+		};
+		B2640CD11C7C7CC800721CB5 /* WaitDocResultSelectController */ = {
+			isa = PBXGroup;
+			children = (
+				B2640CD21C7C7CF500721CB5 /* WaitDocResultSelectViewController.h */,
+				B2640CD31C7C7CF500721CB5 /* WaitDocResultSelectViewController.m */,
+			);
+			path = WaitDocResultSelectController;
+			sourceTree = "<group>";
+		};
+		B2640CD51C7C7D4800721CB5 /* WaitDocResultSelectView */ = {
+			isa = PBXGroup;
+			children = (
+				B2640CD61C7C7D7500721CB5 /* WaitDocResultTableViewCell.h */,
+				B2640CD71C7C7D7500721CB5 /* WaitDocResultTableViewCell.m */,
+			);
+			path = WaitDocResultSelectView;
 			sourceTree = "<group>";
 		};
 		B2F8261F1C730D3E00993F47 /* ExaminationAdress */ = {
@@ -1059,14 +1095,18 @@
 				25BFEB3D1C74A50F0062F9B8 /* CloudAppointmentViewController.m in Sources */,
 				B2436CA01C7AEE8C00F543E1 /* MyCheckListViewController.m in Sources */,
 				2512B40F1C7056C900EE661B /* NSDate+Easy.m in Sources */,
+				B2640CDB1C7C7FC000721CB5 /* WaitDocResultSelectItem.m in Sources */,
 				B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */,
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
 				252AB8791C76B9E50085CC14 /* BaseInfoTableViewCell.m in Sources */,
 				B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */,
 				254A8DBD1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m in Sources */,
+				B2640CDE1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m in Sources */,
+				B2640CD81C7C7D7500721CB5 /* WaitDocResultTableViewCell.m in Sources */,
 				2512B4201C7056C900EE661B /* UIView+Layout.m in Sources */,
 				B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */,
 				25BFEB2D1C7405810062F9B8 /* PackageOperation.m in Sources */,
+				B2640CD41C7C7CF500721CB5 /* WaitDocResultSelectViewController.m in Sources */,
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
 				B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */,
 				25BFEB431C74A55B0062F9B8 /* AppointmentViewController.m in Sources */,

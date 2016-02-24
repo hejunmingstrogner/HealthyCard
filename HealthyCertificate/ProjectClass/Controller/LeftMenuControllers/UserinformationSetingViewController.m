@@ -20,6 +20,8 @@
     [self initsubViews];
 
     [self initTitle];
+
+    [_nameTextField becomeFirstResponder];
 }
 
 - (void)initNavgation

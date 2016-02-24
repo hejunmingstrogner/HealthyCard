@@ -461,6 +461,7 @@
 - (void)mapViewDidFinishLoading:(BMKMapView *)mapView
 {
     NSLog(@"地图初始化完成之后，%f", mapView.centerCoordinate.latitude);
+    _mapView.zoomLevel = 14;
 }
 
 // 拖拽地图设置用户服务位置
