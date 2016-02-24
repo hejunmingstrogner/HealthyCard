@@ -19,11 +19,11 @@
 /**
  * 客户编码。
  */
-@property (nonatomic, strong) NSString * cCustCode;
+@property (nonatomic, strong) NSString * custCode;
 /**
  * 客户单位编码。
  */
-@property (nonatomic, strong) NSString * cUnitCode;
+@property (nonatomic, strong) NSString * unitCode;
 /**
  * 单位地址。
  */
@@ -32,15 +32,15 @@
 /**
  * 所属行业。
  */
-@property (nonatomic, strong) NSString * cCustType;
+@property (nonatomic, strong) NSString * custType;
 /**
  * 客户姓名。
  */
-@property (nonatomic, strong) NSString * cCustName;
+@property (nonatomic, strong) NSString * custName;
 /**
  * 性别。
  */
-@property (nonatomic, assign) Byte  cSex;
+@property (nonatomic, assign) Byte  sex;
 /**
  * 民族
  */
@@ -52,19 +52,19 @@
 /**
  * 出生日期。
  */
-@property (nonatomic, strong) NSDate * dBornDate;
+@property (nonatomic, strong) NSDate * bornDate;
 /**
  * 是否已婚。
  */
-@property (nonatomic, strong) NSString * cMarryFlag;
+@property (nonatomic, strong) NSString * marryFlag;
 /**
  * 证件哑巴。
  */
-@property (nonatomic, strong) NSString * cIdCard;
+@property (nonatomic, strong) NSString * idCard;
 /**
  * 电话
  */
-// @property (nonatomic, strong) NSString * cTel;
+@property (nonatomic, strong) NSString * cTel;
 /**
  * 联系人电话
  */
@@ -72,7 +72,7 @@
 /**
  * 邮件地址。
  */
-@property (nonatomic, strong) NSString * cEmail;
+@property (nonatomic, strong) NSString * email;
 /**
  * 个人照片。
  */
@@ -80,11 +80,11 @@
 /**
  *
  */
-@property (nonatomic, strong) NSString * cCardNo;
+@property (nonatomic, strong) NSString * cardNo;
 /**
  *
  */
-@property (nonatomic, strong) NSString * dOperdate;
+@property (nonatomic, strong) NSString * operdate;
 /**
  * 同步时间。
  */

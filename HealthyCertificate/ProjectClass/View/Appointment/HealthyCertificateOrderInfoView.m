@@ -7,6 +7,7 @@
 //
 
 #import "HealthyCertificateOrderInfoView.h"
+#import "UIFont+Custom.h"
 
 @interface HealthyCertificateOrderInfoView()
 
@@ -65,11 +66,15 @@
 
     _addressBtn = [[CustomButton alloc]init];
     [self addSubview:_addressBtn];
+    [_addressBtn setImage:[UIImage imageNamed:@"sousuo"] forState:UIControlStateNormal];
+
     [_addressBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_addressBtn setBackgroundColor:[UIColor whiteColor]];
-    //_addressBtn.contentEdgeInsets = UIEdgeInsetsMake(5, self.frame.size.width - self.frame.size.height/4, 5, 5);
-    [_addressBtn setImage:[UIImage imageNamed:@"sousuo"] forState:UIControlStateNormal];
-    _addressBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.width -20 -(self.frame.size.height/4-10) - 5);
+    _addressBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    _addressBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);
+    _addressBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 5);
+    _addressBtn.titleLabel.font = [UIFont fontWithType:1 size:17];
+
     [_addressBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(self.frame.size.height/4);
         make.left.mas_equalTo(10);
@@ -79,11 +84,15 @@
 
     _timeBtn = [[CustomButton alloc]init];
     [self addSubview:_timeBtn];
-    [_timeBtn setBackgroundColor:[UIColor whiteColor]];
-    [_timeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_timeBtn setImage:[UIImage imageNamed:@"shijian"] forState:UIControlStateNormal];
-    _timeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.width -20 -(self.frame.size.height/4-10) - 5);
-    //_timeBtn.contentEdgeInsets = UIEdgeInsetsMake(5, self.frame.size.width - self.frame.size.height/4, 5, 5);
+
+    [_timeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_timeBtn setBackgroundColor:[UIColor whiteColor]];
+    _timeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    _timeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);
+    _timeBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 5);
+    _timeBtn.titleLabel.font = [UIFont fontWithType:1 size:17];
+
     [_timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_addressBtn.mas_bottom).offset(1);
         make.left.right.height.equalTo(_addressBtn);
@@ -91,12 +100,15 @@
 
     _phoneBtn = [[CustomButton alloc]init];
     [self addSubview:_phoneBtn];
+    [_phoneBtn setImage:[UIImage imageNamed:@"dianhua"] forState:UIControlStateNormal];
+
     [_phoneBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [_phoneBtn setBackgroundColor:[UIColor whiteColor]];
     _phoneBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [_phoneBtn setImage:[UIImage imageNamed:@"dianhua"] forState:UIControlStateNormal];
-    _phoneBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.width -20 -(self.frame.size.height/4-10) - 5);
-    //_phoneBtn.contentEdgeInsets = UIEdgeInsetsMake(5, self.frame.size.width - self.frame.size.height/4, 5, 5);
+    _phoneBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);
+    _phoneBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 5);
+    _phoneBtn.titleLabel.font = [UIFont fontWithType:1 size:17];
+
     [_phoneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_timeBtn.mas_bottom).offset(1);
         make.left.right.height.equalTo(_timeBtn);
@@ -145,7 +157,5 @@
         }
         [_phoneBtn setTitle:_brContract.servicePoint.leaderPhone forState:UIControlStateNormal];
     }
-
-    [_phoneBtn setTitle:@"测试" forState:UIControlStateNormal];
 }
 @end

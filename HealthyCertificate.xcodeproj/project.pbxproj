@@ -134,6 +134,9 @@
 		B2640CD81C7C7D7500721CB5 /* WaitDocResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CD71C7C7D7500721CB5 /* WaitDocResultTableViewCell.m */; };
 		B2640CDB1C7C7FC000721CB5 /* WaitDocResultSelectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CDA1C7C7FC000721CB5 /* WaitDocResultSelectItem.m */; };
 		B2640CDE1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CDD1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m */; };
+		B2640CE11C7D5DA600721CB5 /* AddWorkerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE01C7D5DA600721CB5 /* AddWorkerViewController.m */; };
+		B2640CE41C7D5E8B00721CB5 /* AddWorkerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE31C7D5E8B00721CB5 /* AddWorkerTableViewCell.m */; };
+		B2640CE71C7D613600721CB5 /* AddWorkerCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
 		B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826291C73143200993F47 /* LeftMenuView.m */; };
@@ -366,6 +369,12 @@
 		B2640CDA1C7C7FC000721CB5 /* WaitDocResultSelectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitDocResultSelectItem.m; sourceTree = "<group>"; };
 		B2640CDC1C7C870200721CB5 /* HealthyCertificateOrderInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HealthyCertificateOrderInfoView.h; sourceTree = "<group>"; };
 		B2640CDD1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HealthyCertificateOrderInfoView.m; sourceTree = "<group>"; };
+		B2640CDF1C7D5DA600721CB5 /* AddWorkerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWorkerViewController.h; sourceTree = "<group>"; };
+		B2640CE01C7D5DA600721CB5 /* AddWorkerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerViewController.m; sourceTree = "<group>"; };
+		B2640CE21C7D5E8B00721CB5 /* AddWorkerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWorkerTableViewCell.h; sourceTree = "<group>"; };
+		B2640CE31C7D5E8B00721CB5 /* AddWorkerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerTableViewCell.m; sourceTree = "<group>"; };
+		B2640CE51C7D613600721CB5 /* AddWorkerCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWorkerCellItem.h; sourceTree = "<group>"; };
+		B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerCellItem.m; sourceTree = "<group>"; };
 		B2F826201C730D6000993F47 /* LocationSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchModel.h; sourceTree = "<group>"; };
 		B2F826211C730D6000993F47 /* LocationSearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSearchModel.m; sourceTree = "<group>"; };
 		B2F826241C730DA500993F47 /* LeftMenuCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuCellItem.h; sourceTree = "<group>"; };
@@ -597,6 +606,8 @@
 				254A8DBC1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m */,
 				B2640CDC1C7C870200721CB5 /* HealthyCertificateOrderInfoView.h */,
 				B2640CDD1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m */,
+				B2640CE21C7D5E8B00721CB5 /* AddWorkerTableViewCell.h */,
+				B2640CE31C7D5E8B00721CB5 /* AddWorkerTableViewCell.m */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -692,6 +703,8 @@
 				25BFEB421C74A55B0062F9B8 /* AppointmentViewController.m */,
 				254A8DAE1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.h */,
 				254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */,
+				B2640CDF1C7D5DA600721CB5 /* AddWorkerViewController.h */,
+				B2640CE01C7D5DA600721CB5 /* AddWorkerViewController.m */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -720,6 +733,8 @@
 				B23A97FF1C7420DE00E3E054 /* ServersPositionAnnotionsModel.m */,
 				B2640CCB1C7C361A00721CB5 /* ServicePositionDetialCellItem.h */,
 				B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */,
+				B2640CE51C7D613600721CB5 /* AddWorkerCellItem.h */,
+				B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */,
 			);
 			path = ServersPositionAnnotions;
 			sourceTree = "<group>";
@@ -1167,7 +1182,9 @@
 				252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */,
 				25BFEB1B1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m in Sources */,
 				25BFEB301C74060B0062F9B8 /* QueueServerInfo.m in Sources */,
+				B2640CE41C7D5E8B00721CB5 /* AddWorkerTableViewCell.m in Sources */,
 				B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */,
+				B2640CE11C7D5DA600721CB5 /* AddWorkerViewController.m in Sources */,
 				2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */,
 				B2640CCA1C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m in Sources */,
 				B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */,
@@ -1185,6 +1202,7 @@
 				252AB88F1C7703690085CC14 /* HCWheelView.m in Sources */,
 				2512B41D1C7056C900EE661B /* UIImageView+Easy.m in Sources */,
 				254A8D8F1C7BF79700F2EC94 /* ServicePointCell.m in Sources */,
+				B2640CE71C7D613600721CB5 /* AddWorkerCellItem.m in Sources */,
 				254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */,
 				2512B4171C7056C900EE661B /* UIButton+VerticalLayout.m in Sources */,
 				B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */,
