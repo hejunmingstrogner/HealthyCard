@@ -64,4 +64,12 @@ typedef void (^HCDictionaryResultBlock)(NSDictionary* result, NSError* error);
  */
 - (void)getCheckListWithBlock:(void(^)(NSArray *customerArray, NSArray *brContractArray, NSError *error))block;
 
+/**
+ *  查询单位所属的员工列表
+ *
+ *  @param cUnitCode 单位编号
+ *  @param block     回调
+ */
+- (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(void(^)(NSArray *workerCustomerArray, NSError *error))block;
+
 @end

@@ -181,4 +181,24 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         }
     }
 }
+
+#pragma mark 查询单位员工列表
+- (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(void (^)(NSArray *, NSError *))block
+{
+    NSString *url = [NSString stringWithFormat:@"customer/queryByServiceUnit?cUnitCode=%@", cUnitCode];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *customerArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            Customer *customer = [Customer mj_objectWithKeyValues:dict];
+            [customerArray addObject:customer];
+        }
+        if (block) {
+            block(customerArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (block) {
+            block([NSArray array], error);
+        }
+    }];
+}
 @end
