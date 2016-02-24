@@ -15,6 +15,9 @@
 #import "PositionUtil.h"
 #import "MyCheckListViewController.h"
 #import "ServicePositionDetailViewController.h"
+
+#import "HealthyCertificateOrderInfoView.h"
+
 @interface IndexViewController ()
 
 {
@@ -58,6 +61,13 @@
             [self getCheckListData];
         }];
     }
+
+//    HealthyCertificateOrderInfoView *view = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 100, self.view.frame.size.width - 20, 200)];
+//    [self.view addSubview:view];
+//    [view.phoneBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+//        NSLog(@"phoneclicked");
+//        NSLog(@"%@", sender.titleLabel.text);
+//    }];
 }
 
 - (void)getCheckListData
