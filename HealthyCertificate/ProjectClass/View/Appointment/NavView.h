@@ -11,6 +11,7 @@
 
 @protocol NavViewDelegate <NSObject>
 
+@optional
 -(void)backBtnClicked;
 -(void)sureBtnClicked;
 

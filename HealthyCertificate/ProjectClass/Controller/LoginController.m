@@ -20,10 +20,16 @@
 
 #import "HMNetworkEngine.h"
 #import "QueueServerInfo.h"
+#import "UIScreen+Type.h"
 
 #define LoginButtonColor 0x0097ed
 #define LoginButtonPlaceHolderColor 186
 
+
+#define TextField_Height FIT_HEIGHT(60)
+#define Gap              FIT_HEIGHT(25)
+#define PlaceHolder_Font FIT_FONTSIZE(24)
+#define Btn_Font         FIT_FONTSIZE(27)
 
 @interface LoginController()  <UITextFieldDelegate, HMNetworkEngineDelegate>
 {
@@ -34,6 +40,11 @@
     
     NSString*       _authCodeStr;
     NSTimer*        _vertifyTimer;
+    BOOL            _isFirstShown;
+    CGFloat         _viewHeight;
+    
+    UIView*         _containerView;
+    UIImageView*    _logoImageView;
 }
 
 @end
@@ -50,66 +61,79 @@
         make.edges.mas_equalTo(self.view).with.insets(UIEdgeInsetsZero);
     }];
     
-    NSInteger height = FIT_HEIGHT(55);
+    _logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login_Logo"]];
+    [self.view addSubview:_logoImageView];
+    [_logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(SCREEN_HEIGHT*5/24-kStatusBarHeight);
+    }];
     
-    _phoneNumTextField = [[UITextField alloc] init];
-    _phoneNumTextField.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_phoneNumTextField];
-    [_phoneNumTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view).with.offset(SCREEN_HEIGHT*0.5);
+    _containerView = [[UIView alloc] init];
+    [self.view addSubview:_containerView];
+    [_containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view).with.offset(SCREEN_WIDTH*0.1);
         make.right.mas_equalTo(self.view).with.offset(-SCREEN_WIDTH*0.1);
-        make.height.mas_equalTo(height);
+        make.top.mas_equalTo(self.view).with.offset(SCREEN_HEIGHT*5/12);
+        make.height.mas_equalTo(3*TextField_Height + 2*Gap);
+    }];
+
+    _phoneNumTextField = [[UITextField alloc] init];
+    _phoneNumTextField.backgroundColor = [UIColor whiteColor];
+    [_containerView addSubview:_phoneNumTextField];
+    [_phoneNumTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.mas_equalTo(_containerView);
+        make.height.mas_equalTo(TextField_Height);
     }];
     _phoneNumTextField.placeholder = @"输入手机号";
-    _phoneNumTextField.layer.cornerRadius = 10;
+    _phoneNumTextField.layer.cornerRadius = 5;
     _phoneNumTextField.keyboardType = UIKeyboardTypeNumberPad;
     _phoneNumTextField.delegate = self;
-    [_phoneNumTextField setValue: [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(20)] forKeyPath:@"_placeholderLabel.font"];
+    [_phoneNumTextField setValue: [UIFont fontWithType:UIFontOpenSansRegular size:PlaceHolder_Font] forKeyPath:@"_placeholderLabel.font"];
     
     _vertifyTextField = [[UITextField alloc] init];
     _vertifyTextField.backgroundColor = [UIColor whiteColor];
-    _vertifyTextField.enabled = false;
-    [self.view addSubview:_vertifyTextField];
+    [_containerView addSubview:_vertifyTextField];
     [_vertifyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_phoneNumTextField.mas_bottom).with.offset(21);
-        make.left.mas_equalTo(self.view).with.offset(SCREEN_WIDTH*0.1);
+        make.top.mas_equalTo(_phoneNumTextField.mas_bottom).with.offset(Gap);
+        make.left.mas_equalTo(_containerView);
         make.width.mas_equalTo(SCREEN_WIDTH*0.8*2/3);
         make.height.mas_equalTo(_phoneNumTextField.mas_height);
     }];
     _vertifyTextField.placeholder = @"输入验证码";
-    [_vertifyTextField setValue: [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(20)] forKeyPath:@"_placeholderLabel.font"];
+    _vertifyTextField.keyboardType = UIKeyboardTypeNumberPad;
+    _vertifyTextField.delegate = self;
+    [_vertifyTextField setValue: [UIFont fontWithType:UIFontOpenSansRegular size:PlaceHolder_Font] forKeyPath:@"_placeholderLabel.font"];
     
     
-    _vertifyButton = [UIButton buttonWithTitle:@"验证" font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(20)] textColor:MO_RGBCOLOR(83,182,234) backgroundColor:[UIColor whiteColor]];
-    [self.view addSubview:_vertifyButton];
+    _vertifyButton = [UIButton buttonWithTitle:@"验证" font:[UIFont fontWithType:UIFontOpenSansRegular size:PlaceHolder_Font] textColor:MO_RGBCOLOR(83,182,234) backgroundColor:[UIColor whiteColor]];
+    [_containerView addSubview:_vertifyButton];
     [_vertifyButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_vertifyTextField.mas_right).with.offset(5);
-        make.right.mas_equalTo(self.view).with.offset(-SCREEN_WIDTH*0.1);
+        make.left.mas_equalTo(_vertifyTextField.mas_right).with.offset(FIT_WIDTH(5));
+        make.right.mas_equalTo(_containerView);
         make.centerY.mas_equalTo(_vertifyTextField);
         make.height.mas_equalTo(_phoneNumTextField.mas_height);
     }];
     [_vertifyButton addTarget:self action:@selector(veritifyBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
-    _loginButton = [UIButton buttonWithTitle:@"登 录" font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(25)] textColor:[UIColor whiteColor] backgroundColor:[UIColor colorWithRGBHex:LoginButtonColor]];
-    _loginButton.layer.cornerRadius = 10;
-    [self.view addSubview:_loginButton];
+    _loginButton = [UIButton buttonWithTitle:@"登 录" font:[UIFont fontWithType:UIFontOpenSansRegular size:Btn_Font] textColor:[UIColor whiteColor] backgroundColor:[UIColor colorWithRGBHex:LoginButtonColor]];
+    _loginButton.layer.cornerRadius = 5;
+    [_containerView addSubview:_loginButton];
     [_loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(_vertifyTextField.mas_height);
-        make.top.mas_equalTo(_vertifyTextField.mas_bottom).with.offset(21);
+        make.top.mas_equalTo(_vertifyTextField.mas_bottom).with.offset(Gap);
         make.centerX.mas_equalTo(_phoneNumTextField.mas_centerX);
         make.width.mas_equalTo(_phoneNumTextField.mas_width);
     }];
     [_loginButton addTarget:self action:@selector(loginBtnCliked:) forControlEvents:UIControlEventTouchUpInside];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_vertifyButton.bounds byRoundingCorners:UIRectCornerTopRight | UIRectCornerBottomRight cornerRadii:CGSizeMake(10, 10)];
+        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_vertifyButton.bounds byRoundingCorners:UIRectCornerTopRight | UIRectCornerBottomRight cornerRadii:CGSizeMake(5, 5)];
         CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
         maskLayer.frame = _vertifyButton.bounds;
         maskLayer.path = maskPath.CGPath;
         _vertifyButton.layer.mask = maskLayer;
         
-        maskPath = [UIBezierPath bezierPathWithRoundedRect:_vertifyTextField.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerBottomLeft cornerRadii:CGSizeMake(10, 10)];
+        maskPath = [UIBezierPath bezierPathWithRoundedRect:_vertifyTextField.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerBottomLeft cornerRadii:CGSizeMake(5, 5)];
         CAShapeLayer *FieldmaskLayer = [[CAShapeLayer alloc] init];
         FieldmaskLayer.frame = _vertifyTextField.bounds;
         FieldmaskLayer.path = maskPath.CGPath;
@@ -124,6 +148,24 @@
         _vertifyTextField.leftViewMode = UITextFieldViewModeAlways;
         _vertifyTextField.leftView = vertifyLeftView;
     });
+    
+    _isFirstShown = NO;
+    
+    //添加手势
+    UITapGestureRecognizer* singleRecognizer;
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
+    singleRecognizer.numberOfTapsRequired = 1; // 单击
+    [self.view addGestureRecognizer:singleRecognizer];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self registerKeyboardNotification];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+     [self cancelKeyboardNotification];
 }
 
 #pragma mark - Button Action
@@ -210,6 +252,66 @@
     NSScanner* scan = [NSScanner scannerWithString:string];
     int val;
     return[scan scanInt:&val] && [scan isAtEnd];
+}
+
+-(void)registerKeyboardNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillChangeFrameNotification  object:nil];
+}
+
+-(void)cancelKeyboardNotification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)keyboardWillShow:(NSNotification *)notification
+{
+    if (_isFirstShown == NO){
+        _isFirstShown = YES;
+        CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
+        [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
+        _viewHeight = keyboardBounds.size.height;
+    }
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [_containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.view).with.offset(SCREEN_WIDTH*0.1);
+            make.right.mas_equalTo(self.view).with.offset(-SCREEN_WIDTH*0.1);
+            make.bottom.mas_equalTo(self.view.mas_bottom).with.offset(-_viewHeight-5);
+            make.height.mas_equalTo(3*TextField_Height + 2*Gap);
+        }];
+        
+        if ([UIScreen is480HeightScreen] || [UIScreen is568HeightScreen]){
+            [_logoImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.mas_equalTo(self.view);
+                make.bottom.mas_equalTo(_containerView.mas_top).with.offset(-10);
+            }];
+        }
+        
+    } completion:NULL];
+}
+
+-(void)keyboardWillHide:(NSNotification *)notification
+{
+    [_logoImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view);
+        make.top.mas_equalTo(SCREEN_HEIGHT*5/24-kStatusBarHeight);
+    }];
+    
+    [_containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view).with.offset(SCREEN_WIDTH*0.1);
+        make.right.mas_equalTo(self.view).with.offset(-SCREEN_WIDTH*0.1);
+        make.top.mas_equalTo(self.view).with.offset(SCREEN_HEIGHT*5/12);
+        make.height.mas_equalTo(3*TextField_Height + 2*Gap);
+    }];
+}
+- (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
+{
+    if (![recognizer.view isKindOfClass:[UITextField class]]){
+        [_phoneNumTextField resignFirstResponder];
+        [_vertifyTextField resignFirstResponder];
+    }
 }
 
 @end
