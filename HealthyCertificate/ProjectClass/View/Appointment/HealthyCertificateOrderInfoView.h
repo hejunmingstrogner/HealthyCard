@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "RzAlertView.h"
+#import "BRContract.h"
+#import "NSDate+Custom.h"
+
 @interface HealthyCertificateOrderInfoView : UIView
 
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
@@ -17,10 +20,12 @@
 @property (nonatomic, strong) CustomButton *timeBtn;
 @property (nonatomic, strong) CustomButton *phoneBtn;
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) BRContract   *brContract;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (instancetype)initWithFrame:(CGRect)frame WithTitles:(NSArray *)titleArray;
+
+- (void)setItemWithInfo:(BRContract *)brcontract;
 
 @end
