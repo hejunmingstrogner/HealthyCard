@@ -75,6 +75,9 @@
 		254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */; };
 		254A8DB71C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DB61C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m */; };
 		254A8DBD1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DBC1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m */; };
+		254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DBE1C7D401A00F2EC94 /* arrow@1x.png */; };
+		254A8DC21C7D401A00F2EC94 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DBF1C7D401A00F2EC94 /* arrow@2x.png */; };
+		254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DC01C7D401A00F2EC94 /* arrow@3x.png */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
 		25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB101C72C70F0062F9B8 /* HCRule.m */; };
@@ -254,6 +257,9 @@
 		254A8DB61C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudCompanyAppointmentCell.m; sourceTree = "<group>"; };
 		254A8DBB1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudCompanyAppointmentStaffCell.h; sourceTree = "<group>"; };
 		254A8DBC1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudCompanyAppointmentStaffCell.m; sourceTree = "<group>"; };
+		254A8DBE1C7D401A00F2EC94 /* arrow@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@1x.png"; sourceTree = "<group>"; };
+		254A8DBF1C7D401A00F2EC94 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
+		254A8DC01C7D401A00F2EC94 /* arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@3x.png"; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
 		25BFE9721C7199610062F9B8 /* RzAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RzAlertView.m; sourceTree = "<group>"; };
 		25BFEB0B1C71C9110062F9B8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -580,6 +586,9 @@
 		252AB87A1C76E3880085CC14 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				254A8DBE1C7D401A00F2EC94 /* arrow@1x.png */,
+				254A8DBF1C7D401A00F2EC94 /* arrow@2x.png */,
+				254A8DC01C7D401A00F2EC94 /* arrow@3x.png */,
 				254A8DA81C7C380400F2EC94 /* nameIcon@1x.png */,
 				254A8DA91C7C380400F2EC94 /* nameIcon@2x.png */,
 				254A8DAA1C7C380400F2EC94 /* nameIcon@3x.png */,
@@ -991,7 +1000,9 @@
 				254A8DAB1C7C380400F2EC94 /* nameIcon@1x.png in Resources */,
 				254A8DA01C7C2CAC00F2EC94 /* message@2x.png in Resources */,
 				254A8D9C1C7C2CAC00F2EC94 /* detail@1x.png in Resources */,
+				254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */,
 				254A8DA11C7C2CAC00F2EC94 /* message@3x.png in Resources */,
+				254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */,
 				254A8D9D1C7C2CAC00F2EC94 /* detail@2x.png in Resources */,
 				2512B3BA1C70557C00EE661B /* LaunchScreen.storyboard in Resources */,
 				254A8D8A1C7AE02300F2EC94 /* Avatar@1x.png in Resources */,
@@ -1002,6 +1013,7 @@
 				254A8DA71C7C32B800F2EC94 /* servicePoint@3x.png in Resources */,
 				2512B3B71C70557C00EE661B /* Assets.xcassets in Resources */,
 				2512B4241C7056D200EE661B /* OpenSans-Bold.ttf in Resources */,
+				254A8DC21C7D401A00F2EC94 /* arrow@2x.png in Resources */,
 				252AB88C1C76E3880085CC14 /* search_icon@3x.png in Resources */,
 				B201CCC31C72046D00B8F624 /* Info.plist in Resources */,
 				254A8D9E1C7C2CAC00F2EC94 /* detail@3x.png in Resources */,

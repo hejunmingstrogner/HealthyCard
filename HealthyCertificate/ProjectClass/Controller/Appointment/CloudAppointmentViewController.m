@@ -114,7 +114,6 @@
     [containerView addSubview:_healthyCertificateView];
     [_healthyCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(containerView).with.offset(10);
-       // make.left.right.mas_equalTo(containerView);
         make.top.mas_equalTo(baseInfoTableView.mas_bottom).with.offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH-20);
         make.height.mas_equalTo(PXFIT_HEIGHT(460));
