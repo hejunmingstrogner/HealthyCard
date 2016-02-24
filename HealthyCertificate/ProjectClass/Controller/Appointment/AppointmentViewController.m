@@ -10,6 +10,7 @@
 
 #import "CloudAppointmentViewController.h"
 #import "ServicePointApointmentViewController.h"
+#import "CloudAppointmentCompanyViewController.h"
 
 #import <Masonry.h>
 #import "Constants.h"
@@ -20,8 +21,14 @@
 
 @interface AppointmentViewController()
 {
+    //个人云预约
     CloudAppointmentViewController              *_cloudAppointmentViewController;
+    //单位云预约
+    CloudAppointmentCompanyViewController       *_cloudAppointmentCompanyViewController;
+    
     ServicePointApointmentViewController        *_servicePointAppointmentViewController;
+    
+    
 }
 
 @property (nonatomic, strong) UIViewController  *currentVC;
@@ -99,12 +106,15 @@
     _cloudAppointmentViewController.centerCoordinate = _centerCoordinate;
     _servicePointAppointmentViewController = [[ServicePointApointmentViewController alloc] init];
     
+    _cloudAppointmentCompanyViewController = [[CloudAppointmentCompanyViewController alloc] init];
+    
     [self addChildViewController:_cloudAppointmentViewController];
     [self addChildViewController:_servicePointAppointmentViewController];
+    [self addChildViewController:_cloudAppointmentCompanyViewController];
     
-    [self.currentView addSubview:_cloudAppointmentViewController.view];
+    [self.currentView addSubview:_cloudAppointmentCompanyViewController.view];
     
-    self.currentVC = _cloudAppointmentViewController;
+    self.currentVC = _cloudAppointmentCompanyViewController;
     
    
 }
@@ -121,17 +131,19 @@
         return;
     if (self.currentVC == _servicePointAppointmentViewController && seg.selectedSegmentIndex == 1)
         return;
+    if (self.currentVC == _cloudAppointmentCompanyViewController && seg.selectedSegmentIndex == 0)
+        return;
     
     UIViewController* oldVC = self.currentVC;
     NSInteger index = seg.selectedSegmentIndex;
     switch (index) {
         case 0:
         {
-            [self transitionFromViewController:self.currentVC toViewController:_cloudAppointmentViewController duration:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [self transitionFromViewController:self.currentVC toViewController:_cloudAppointmentCompanyViewController duration:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
                 
             } completion:^(BOOL finished) {
                 if(finished) {
-                    self.currentVC = _cloudAppointmentViewController;
+                    self.currentVC = _cloudAppointmentCompanyViewController;
                 }
                 else {
                     self.currentVC = oldVC;

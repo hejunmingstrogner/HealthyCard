@@ -73,6 +73,8 @@
 		254A8DAD1C7C380400F2EC94 /* nameIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DAA1C7C380400F2EC94 /* nameIcon@3x.png */; };
 		254A8DB01C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */; };
 		254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */; };
+		254A8DB71C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DB61C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m */; };
+		254A8DBD1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DBC1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
 		25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB101C72C70F0062F9B8 /* HCRule.m */; };
@@ -244,6 +246,10 @@
 		254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudAppointmentCompanyViewController.m; sourceTree = "<group>"; };
 		254A8DB21C7C575F00F2EC94 /* ServicePointDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePointDetailViewController.h; sourceTree = "<group>"; };
 		254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePointDetailViewController.m; sourceTree = "<group>"; };
+		254A8DB51C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudCompanyAppointmentCell.h; sourceTree = "<group>"; };
+		254A8DB61C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudCompanyAppointmentCell.m; sourceTree = "<group>"; };
+		254A8DBB1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudCompanyAppointmentStaffCell.h; sourceTree = "<group>"; };
+		254A8DBC1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudCompanyAppointmentStaffCell.m; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
 		25BFE9721C7199610062F9B8 /* RzAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RzAlertView.m; sourceTree = "<group>"; };
 		25BFEB0B1C71C9110062F9B8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -549,6 +555,10 @@
 				254A8D8E1C7BF79700F2EC94 /* ServicePointCell.m */,
 				B2640CC81C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.h */,
 				B2640CC91C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m */,
+				254A8DB51C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.h */,
+				254A8DB61C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m */,
+				254A8DBB1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.h */,
+				254A8DBC1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -1053,6 +1063,7 @@
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
 				252AB8791C76B9E50085CC14 /* BaseInfoTableViewCell.m in Sources */,
 				B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */,
+				254A8DBD1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m in Sources */,
 				2512B4201C7056C900EE661B /* UIView+Layout.m in Sources */,
 				B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */,
 				25BFEB2D1C7405810062F9B8 /* PackageOperation.m in Sources */,
@@ -1090,6 +1101,7 @@
 				2512B41B1C7056C900EE661B /* UIImage+Color.m in Sources */,
 				25BFEB391C7423610062F9B8 /* CompanyInfoOfPhonePacket.m in Sources */,
 				2512B42B1C70631600EE661B /* HMSocket.m in Sources */,
+				254A8DB71C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m in Sources */,
 				25BFEB181C7310CA0062F9B8 /* BasePacket.m in Sources */,
 				B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */,
 				25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */,
