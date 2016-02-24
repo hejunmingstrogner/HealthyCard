@@ -24,4 +24,18 @@
     self.attributedText = str;
 }
 
+
+- (void)setText:(NSString *)text Font:(UIFont *)font count:(NSInteger)count endColor:(UIColor *)color
+{
+    NSInteger Textlength = text.length;
+
+    NSInteger endTextLength = [NSString stringWithFormat:@" %d", count].length;
+
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@ %d", text, count]];
+    // 设置最后字体颜色
+    [str addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(Textlength, endTextLength)];
+    // 设置字体
+    [str addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, str.length)];
+    self.attributedText = str;
+}
 @end
