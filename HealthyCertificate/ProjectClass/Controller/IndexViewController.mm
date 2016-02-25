@@ -489,15 +489,16 @@
                 // 将附近的服务点显示出来
                 if (!error) {
                     [_mapView removeAnnotations:_mapView.annotations];
-                    if (result.count != 0) {
-                        nearbyServicePositionsArray = [NSMutableArray arrayWithArray:result];
-                        [self addServersPositionAnnotionsWithList:result];
-                    }
-                    else {
-                        [nearbyServicePositionsArray removeAllObjects];
-                    }
-                    // 计算最近的服务点距离
+
+                    nearbyServicePositionsArray = [NSMutableArray arrayWithArray:result];
+
+                    // 计算最近的服务点距离并将数据排序
                     [self calculateMinDistance];
+
+                    if (nearbyServicePositionsArray.count != 0) {
+
+                        [self addServersPositionAnnotionsWithList:nearbyServicePositionsArray];
+                    }
                 }
                 else {
                     [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取附近服务点信息失败" removeDelay:2];
@@ -585,12 +586,15 @@
             BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(point.positionLa,point.positionLo));
             BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(_mapView.centerCoordinate.latitude, _mapView.centerCoordinate.longitude));
             CLLocationDistance distance = BMKMetersBetweenMapPoints(point1, point2);
-            [distanceArray addObject:[NSNumber numberWithDouble:distance]];
+            point.distance = [[NSString stringWithFormat:@"%0.2f", distance/1000] doubleValue];
+            [distanceArray addObject:point];
         }
+        nearbyServicePositionsArray = [NSMutableArray arrayWithArray:distanceArray];
         // 排序，距离以小到大
-        [distanceArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-            double a = [obj1 doubleValue];
-            double b = [obj2 doubleValue];
+        [nearbyServicePositionsArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+
+            double a = [(ServersPositionAnnotionsModel *)obj1 distance];
+            double b = [(ServersPositionAnnotionsModel *)obj2 distance];
             if ( a > b) {
                 return NSOrderedDescending;
             }
@@ -600,7 +604,8 @@
             else
                 return NSOrderedSame;
         }];
-        float mindistance = [distanceArray[0] doubleValue]/1000;
+        float mindistance = [((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]) distance];
+
         // 显示最近距离
         [minDistanceBtn setTitle:[NSString stringWithFormat:@"%0.2fkm", mindistance] forState:UIControlStateNormal];
     }
