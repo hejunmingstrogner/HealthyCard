@@ -143,6 +143,7 @@
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
 		B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826291C73143200993F47 /* LeftMenuView.m */; };
 		B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */; };
+		B2FEA8671C7EF2D500106EE8 /* TakePhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8661C7EF2D500106EE8 /* TakePhoto.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -390,6 +391,8 @@
 		B2F826291C73143200993F47 /* LeftMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuView.m; sourceTree = "<group>"; };
 		B2FEA8621C7ED5D700106EE8 /* PersonalHealthyCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalHealthyCController.h; sourceTree = "<group>"; };
 		B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalHealthyCController.m; sourceTree = "<group>"; };
+		B2FEA8651C7EF2D500106EE8 /* TakePhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakePhoto.h; sourceTree = "<group>"; };
+		B2FEA8661C7EF2D500106EE8 /* TakePhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakePhoto.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -577,6 +580,8 @@
 				252AB88E1C7703690085CC14 /* HCWheelView.m */,
 				B2436C881C7865D700F543E1 /* PositionUtil.h */,
 				B2436C891C7865D700F543E1 /* PositionUtil.m */,
+				B2FEA8651C7EF2D500106EE8 /* TakePhoto.h */,
+				B2FEA8661C7EF2D500106EE8 /* TakePhoto.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1210,6 +1215,7 @@
 				B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */,
 				B2640CE11C7D5DA600721CB5 /* AddWorkerViewController.m in Sources */,
 				2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */,
+				B2FEA8671C7EF2D500106EE8 /* TakePhoto.m in Sources */,
 				B2640CCA1C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m in Sources */,
 				B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */,
 				2512B41F1C7056C900EE661B /* UIScreen+Type.m in Sources */,
