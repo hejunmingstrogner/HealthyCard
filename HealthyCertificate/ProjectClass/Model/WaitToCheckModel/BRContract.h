@@ -49,7 +49,7 @@
 /**
  * 操作日期
  */
-@property (nonatomic, strong) NSDate * dOperDate;
+@property (nonatomic, assign) long long dOperDate;
 /**
  * 付款方式
  */
@@ -94,15 +94,15 @@
 /**
  * 预约时间
  */
-@property (nonatomic, strong) NSDate * cRegTime;
+@property (nonatomic, assign) long long cRegTime;
 /**
  * 预约开始时间
  */
-@property (nonatomic, strong) NSDate * cRegBeginDate;
+@property (nonatomic, assign) long long cRegBeginDate;
 /**
  * 预约结束时间
  */
-@property (nonatomic, strong) NSDate * cRegEndDate;
+@property (nonatomic, assign) long long cRegEndDate;
 
 /**
  * 联系人

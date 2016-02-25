@@ -53,4 +53,40 @@
       }
   }
 }
+
+#pragma mark -正向地址编码
+//
+- (void)getLocationsWithKeyText:(NSString *)text withBlock:(SelectAddress)block
+{
+    _selectaddressblock = block;
+    //初始化检索对象
+    _sugSearcher =[[BMKSuggestionSearch alloc]init];
+    _sugSearcher.delegate = self;
+    BMKSuggestionSearchOption* option = [[BMKSuggestionSearchOption alloc] init];
+    option.cityname = @"";
+    option.keyword  = text;
+    BOOL flag = [_sugSearcher suggestionSearch:option];
+    if(flag)
+    {
+        NSLog(@"建议检索发送成功");
+    }
+    else
+    {
+        NSLog(@"建议检索发送失败");
+    }
+}
+//实现Delegate处理回调结果
+- (void)onGetSuggestionResult:(BMKSuggestionSearch*)searcher result:(BMKSuggestionResult*)result errorCode:(BMKSearchErrorCode)error{
+    if (error == BMK_SEARCH_NO_ERROR) {
+        //在此处理正常结果
+        if (_selectaddressblock) {
+            _selectaddressblock(result.cityList, result.districtList,result.keyList, result.ptList, nil);
+        }
+    }
+    else {
+        if (_selectaddressblock) {
+            _selectaddressblock(nil, nil, nil, nil, [NSError errorWithDomain:@"error" code:404 userInfo:[NSDictionary dictionaryWithObject:@"没有数据" forKey:@"error"]]);
+        }
+    }
+}
 @end

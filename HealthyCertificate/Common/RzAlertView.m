@@ -383,7 +383,6 @@
     else {
         addressLabel.text = servicePositionItem.address;
     }
-    [addressLabel setText:@"随便写的一些字饭卡时间疯狂拉基舍夫克拉见识到风口浪尖撒点开" textFont:[UIFont systemFontOfSize:14] WithEndText:@"临" endTextColor:[UIColor redColor]];
 
     //服务时间
     UILabel *servicetimelabel = [[UILabel alloc]init];
@@ -397,7 +396,6 @@
     }];
     NSString *sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:servicePositionItem.startTime], [NSDate getHour_MinuteByDate:servicePositionItem.startTime], [NSDate getHour_MinuteByDate:servicePositionItem.endTime]];
     servicetimelabel.text = sdate;
-    servicetimelabel.text = @"2016.2.26（18:00-19:00）";
 
     UIImageView *blue = [[UIImageView alloc]init];
     [actionSheetView addSubview:blue];

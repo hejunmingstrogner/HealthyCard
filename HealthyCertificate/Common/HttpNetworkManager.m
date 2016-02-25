@@ -74,6 +74,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
         resultBlock(nil,error);
     }];
+
 }
 
 #pragma mark - 获得当前位置服务点信息

@@ -1,16 +1,15 @@
 //
-//  ServicePositionDetailViewController.h
+//  ServicePositionTemperaryViewController.h
 //  HealthyCertificate
 //
-//  Created by 乄若醉灬 on 16/2/23.
+//  Created by 乄若醉灬 on 16/2/25.
 //  Copyright © 2016年 JIANGXU. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "ServersPositionAnnotionsModel.h"
-
 // 移动服务点
-@interface ServicePositionDetailViewController : UIViewController
+@interface ServicePositionTemperaryViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) ServersPositionAnnotionsModel *servicePositionItem;
 
