@@ -23,11 +23,42 @@
     if ([idCard isEqualToString:@""]) {
         return @"暂无";
     }
-    NSInteger boardYear = [[idCard substringWithRange:NSMakeRange(6, 4)] integerValue];
+    NSString *boardYear;   // 截取出生年月日
+    // 15位
+    if (idCard.length == 15) {
+        boardYear = [NSString stringWithFormat:@"19%@",[idCard substringWithRange:NSMakeRange(6, 6)]];
+    }
+    else
+    {
+        boardYear = [idCard substringWithRange:NSMakeRange(6, 8)];
+    }
+
     NSDateFormatter *datefammert = [[NSDateFormatter alloc]init];
-    [datefammert setDateFormat:@"yyyy"];
-    NSInteger currentyYear = [[datefammert stringFromDate:[NSDate date]] integerValue];
-    return [NSString stringWithFormat:@"%ld", currentyYear - boardYear];
+    [datefammert setDateFormat:@"yyyy-MM-dd"];
+
+    NSString *currentyear = [datefammert stringFromDate:[NSDate date]];
+
+    // 获取年月日
+    NSInteger year = [[boardYear substringWithRange:NSMakeRange(0, 4)] integerValue];
+    NSInteger month = [[boardYear substringWithRange:NSMakeRange(4, 2)] integerValue];
+    NSInteger day = [[boardYear substringWithRange:NSMakeRange(6, 2)] integerValue];
+
+    NSArray *currenttime = [currentyear componentsSeparatedByString:@"-"];
+    NSInteger old = [currenttime[0] integerValue] - year;
+
+    // 月小于当前月
+    if (month < [currenttime[1] integerValue]) {
+        return [NSString stringWithFormat:@"%d", old];
+    }
+    if (month > [currenttime[1] integerValue]) {
+        return [NSString stringWithFormat:@"%d", old - 1];
+    }
+    if (day > [currenttime[2] integerValue]) {
+        return [NSString stringWithFormat:@"%d", old - 1];
+    }
+    else {
+        return [NSString stringWithFormat:@"%d", old];
+    }
 }
 
 @end

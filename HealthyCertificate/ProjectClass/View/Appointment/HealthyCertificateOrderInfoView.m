@@ -45,7 +45,7 @@
         make.centerX.equalTo(self);
         make.top.equalTo(self).offset(5);
         make.width.mas_equalTo(self.frame.size.width/2);
-        make.height.equalTo(self).offset(self.frame.size.height/4-10);
+        make.height.mas_equalTo(self.frame.size.height/4-10);
     }];
     _segmentControl.selectedSegmentIndex = 0;
     _segmentControl.tintColor = [UIColor colorWithRed:30/255.0 green:150/255.0 blue:200/255.0 alpha:1];
@@ -120,42 +120,83 @@
     [self setItem];
 }
 
-- (void)setItemWithInfo:(BRContract *)brcontract{
-    _brContract = brcontract;
+- (void)setBrContract:(BRContract *)brContract{
+    _brContract = brContract;
     [self setItem];
 }
 
+- (void)setCutomerTest:(CustomerTest *)cutomerTest
+{
+    _cutomerTest = cutomerTest;
+    [self setItem];
+}
 - (void)setItem
 {
     NSInteger index = _segmentControl.selectedSegmentIndex;
     if (index == 0) {
-        [_addressBtn setTitle:_brContract.cRegPosAddr forState:UIControlStateNormal];
-        if (!_brContract.cRegBeginDate || !_brContract.cRegEndDate) {
+        if (_brContract) {
+            [_addressBtn setTitle:_brContract.cRegPosAddr forState:UIControlStateNormal];
+            if (!_brContract.cRegBeginDate || !_brContract.cRegEndDate) {
 
+            }
+            else {
+                NSString *year = [NSDate getYear_Month_DayByDate:_brContract.cRegBeginDate];
+                NSString *start = [NSDate getHour_MinuteByDate:_brContract.cRegBeginDate];
+                NSString *end = [NSDate getHour_MinuteByDate:_brContract.cRegEndDate];
+                NSString *time = [NSString stringWithFormat:@"%@ %@-%@",year, start, end];
+                [_timeBtn setTitle:time forState:UIControlStateNormal];
+            }
+
+            [_phoneBtn setTitle:_brContract.cLinkPhone forState:UIControlStateNormal];
         }
         else {
-            NSString *year = [NSDate getYear_Month_DayByDate:_brContract.cRegBeginDate];
-            NSString *start = [NSDate getHour_MinuteByDate:_brContract.cRegBeginDate];
-            NSString *end = [NSDate getHour_MinuteByDate:_brContract.cRegEndDate];
-            NSString *time = [NSString stringWithFormat:@"%@ %@-%@",year, start, end];
-            [_timeBtn setTitle:time forState:UIControlStateNormal];
+            [_addressBtn setTitle:_cutomerTest.regPosAddr forState:UIControlStateNormal];
+            if (!_cutomerTest.regBeginDate || !_cutomerTest.regEndDate) {
+
+            }
+            else {
+                NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.regBeginDate];
+                NSString *start = [NSDate getHour_MinuteByDate:_cutomerTest.regBeginDate];
+                NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.regEndDate];
+                NSString *time = [NSString stringWithFormat:@"%@ %@-%@",year, start, end];
+                [_timeBtn setTitle:time forState:UIControlStateNormal];
+            }
+
+            [_phoneBtn setTitle:_cutomerTest.linkPhone forState:UIControlStateNormal];
         }
 
-        [_phoneBtn setTitle:_brContract.cLinkPhone forState:UIControlStateNormal];
     }
     else if(index == 1) {
-        [_addressBtn setTitle:_brContract.servicePoint.address forState:UIControlStateNormal];
-        if (!_brContract.servicePoint.startTime || !_brContract.servicePoint.endTime) {
+        if (_brContract) {
+            [_addressBtn setTitle:_brContract.servicePoint.address forState:UIControlStateNormal];
+            if (!_brContract.servicePoint.startTime || !_brContract.servicePoint.endTime) {
 
+            }
+            else {
+                NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime];
+                NSString *start = [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime];
+                NSString *end = [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime];
+                NSString *time = [NSString stringWithFormat:@"%@ %@-%@",year, start, end];
+                [_timeBtn setTitle:time forState:UIControlStateNormal];
+            }
+            [_phoneBtn setTitle:_brContract.servicePoint.leaderPhone forState:UIControlStateNormal];
         }
         else {
-            NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime];
-            NSString *start = [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime];
-            NSString *end = [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime];
-            NSString *time = [NSString stringWithFormat:@"%@ %@-%@",year, start, end];
-            [_timeBtn setTitle:time forState:UIControlStateNormal];
+            [_addressBtn setTitle:_cutomerTest.servicePoint.address forState:UIControlStateNormal];
+            if (!_cutomerTest.servicePoint.startTime || !_cutomerTest.servicePoint.endTime) {
+
+            }
+            else {
+                NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime];
+                NSString *start = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime];
+                NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime];
+                NSString *time = [NSString stringWithFormat:@"%@ %@-%@",year, start, end];
+                [_timeBtn setTitle:time forState:UIControlStateNormal];
+            }
+
+            [_phoneBtn setTitle:_cutomerTest.servicePoint.leaderPhone forState:UIControlStateNormal];
         }
-        [_phoneBtn setTitle:_brContract.servicePoint.leaderPhone forState:UIControlStateNormal];
+
     }
 }
 @end

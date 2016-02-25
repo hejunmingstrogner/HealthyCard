@@ -11,8 +11,9 @@
 #import "HealthyCertificateOrderInfoView.h"
 #import "HealthyCertificateView.h"
 #import "CustomerTest.h"
+#import "SelectAddressViewController.h"
 
-@interface PersonalHealthyCController : UIViewController
+@interface PersonalHealthyCController : UIViewController<HealthyCertificateViewDelegate>
 
 @property (nonatomic, strong) HealthyCertificateOrderInfoView *orderinforView;      // 预约信息界面view
 

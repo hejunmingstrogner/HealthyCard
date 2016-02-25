@@ -12,6 +12,7 @@
 #import "BRContract.h"
 #import "BRContractTableHeaerCell.h"
 #import "BRContractTableFootCell.h"
+#import "PersonalHealthyCController.h"
 
 @interface MyCheckListViewController()
 {
@@ -135,7 +136,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    // 个人
+    if (_userType == 1) {
+        PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
+        personalHealthyC.customerTestInfo = (CustomerTest *)checkDataArray[indexPath.section];
+        [self.navigationController pushViewController:personalHealthyC animated:YES];
+    }
 }
 
 @end

@@ -83,7 +83,7 @@
     [self.contentView addSubview:old];
     [old mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.width.equalTo(name);
-        make.left.equalTo(sexLabel.mas_right).offset(10);
+        make.left.equalTo(sexLabel.mas_right);
     }];
 
     oldLabel = [[UILabel alloc]init];
@@ -139,14 +139,16 @@
 - (void)setCellItemWithTest:(CustomerTest *)customerTest
 {
     headerimageView.image = [UIImage imageNamed:@"headimage"];
-    nameLabel.text = customerTest.cCustName;
-    sexLabel.text = customerTest.cSex == 0 ? @"男" : @"女";
-    oldLabel.text = [NSString getOldYears:customerTest.cCustIdCard];
-    serviceAddressLabel.text = customerTest.servicePoint.address;
+    nameLabel.text = customerTest.custName;
+    sexLabel.text = customerTest.sex == 0 ? @"男" : @"女";
+    oldLabel.text = [NSString getOldYears:customerTest.custIdCard];
+
     // 服务时间为空时，不显示
     if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
+        serviceAddressLabel.text = @"现场体检";
         return;
     }
+    serviceAddressLabel.text = customerTest.servicePoint.address;
     serviceTimeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)", [NSDate getYear_Month_DayByDate:customerTest.servicePoint.startTime], [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime], [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime]];
 }
 @end

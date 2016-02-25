@@ -10,6 +10,7 @@
 #import "RzAlertView.h"
 #import "BRContract.h"
 #import "NSDate+Custom.h"
+#import "CustomerTest.h"
 
 @interface HealthyCertificateOrderInfoView : UIView
 
@@ -22,10 +23,15 @@
 
 @property (nonatomic, strong) BRContract   *brContract;
 
+@property (nonatomic, strong) CustomerTest *cutomerTest;
+
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (instancetype)initWithFrame:(CGRect)frame WithTitles:(NSArray *)titleArray;
 
-- (void)setItemWithInfo:(BRContract *)brcontract;
+
+- (void)setCutomerTest:(CustomerTest *)cutomerTest;
+
+- (void)setBrContract:(BRContract *)brContract;
 
 @end

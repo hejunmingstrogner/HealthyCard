@@ -16,6 +16,8 @@
 #import "MyCheckListViewController.h"
 #import "ServicePointDetailViewController.h"
 
+#import "SelectAddressViewController.h"
+
 @interface IndexViewController ()
 
 {
