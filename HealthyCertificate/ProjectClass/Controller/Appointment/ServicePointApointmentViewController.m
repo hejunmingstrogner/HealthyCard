@@ -44,10 +44,15 @@
     
 }
 
+#pragma mark - Setter & Getter
+-(void)setServerPointList:(NSMutableArray *)serverPointList{
+    _serverPointList = serverPointList;
+}
+
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return _serverPointList.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -61,12 +66,8 @@
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor colorWithRGBHex:0xe0e0e0].CGColor;
     //cell.servicePoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.row];
-    ServersPositionAnnotionsModel* test = [[ServersPositionAnnotionsModel alloc] init];
-    test.name = @"江安门诊部江安门诊部江安门诊部江安门诊部江安门诊部江安门诊部";
-    test.address = @"成都市武侯区江安门诊部成都市武侯区江安门诊部成都市武侯区江安门诊部";
-    test.startTime = [NSDate date];
-    test.distance = 16.0;
-    cell.servicePoint = test;
+    ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
+    cell.servicePoint = serverPoint;
     
     return cell;
 }

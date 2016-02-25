@@ -11,6 +11,7 @@
 #import "CloudAppointmentViewController.h"
 #import "ServicePointApointmentViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
+#import "CloudAppointmentDateVC.h"
 
 #import <Masonry.h>
 #import "Constants.h"
@@ -30,8 +31,6 @@
     CloudAppointmentCompanyViewController       *_cloudAppointmentCompanyViewController;
     
     ServicePointApointmentViewController        *_servicePointAppointmentViewController;
-    
-    
 }
 
 @property (nonatomic, strong) UIViewController  *currentVC;
@@ -49,6 +48,11 @@
 
 -(void)setCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate{
     _centerCoordinate = centerCoordinate;
+}
+
+-(void)setNearbyServicePointsArray:(NSMutableArray *)nearbyServicePointsArray
+{
+   _nearbyServicePointsArray = nearbyServicePointsArray;
 }
 
 
@@ -101,23 +105,30 @@
     }];
     
     self.currentView = [[UIView alloc] init];
+    self.view.backgroundColor = [UIColor greenColor];
     [self.view addSubview:self.currentView];
     [self.currentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.mas_equalTo(self.view);
         make.top.mas_equalTo(navView.mas_bottom);
+        make.left.right.bottom.mas_equalTo(self.view);
     }];
     
     _cloudAppointmentViewController = [[CloudAppointmentViewController alloc] init];
     _cloudAppointmentViewController.location = _location;
     _cloudAppointmentViewController.centerCoordinate = _centerCoordinate;
     _servicePointAppointmentViewController = [[ServicePointApointmentViewController alloc] init];
+    _servicePointAppointmentViewController.serverPointList = _nearbyServicePointsArray;
     
     _cloudAppointmentCompanyViewController = [[CloudAppointmentCompanyViewController alloc] init];
     
     [self addChildViewController:CloudController];
     [self addChildViewController:_servicePointAppointmentViewController];
-   // [self addChildViewController:_cloudAppointmentCompanyViewController];
     [self.currentView addSubview:CloudController.view];
+    [CloudController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.currentView);
+    }];
+//    [_servicePointAppointmentViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.mas_equalTo(self.currentView);
+//    }];
     self.currentVC = CloudController;
 }
 
@@ -142,6 +153,13 @@
             } completion:^(BOOL finished) {
                 if(finished) {
                     self.currentVC = CloudController;
+                    [self.currentView addSubview:CloudController.view];
+                    //self.currentView = [[UIView alloc] init];
+                   // [self.view addSubview:self.currentView];
+                    [self.currentView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                        make.top.mas_equalTo(self.view.mas_top).with.offset(kNavigationBarHeight+kStatusBarHeight);
+                        make.left.right.bottom.mas_equalTo(self.view);
+                    }];
                 }
                 else {
                     self.currentVC = oldVC;
@@ -176,6 +194,28 @@
 -(void)backBtnClicked:(UIButton*)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Storyboard Segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"ChooseDateIdentifier"]){
+        UIViewController* destinationViewController = segue.destinationViewController;
+        if ([destinationViewController isKindOfClass:[CloudAppointmentDateVC class]])
+        {
+            CloudAppointmentDateVC* cloudAppointmentDateVC = (CloudAppointmentDateVC*)destinationViewController;
+            [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
+                [_cloudAppointmentViewController setAppointmentDateStr:dateStr];
+            }];
+            //            BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+            //            cell.textField.text = [NSString combineString:cloudAppointmentDateVC.beginDateString
+            //                                                      And:cloudAppointmentDateVC.endDateString
+            //                                                     With:@"~"];
+            //            UIBarButtonItem *returnButtonItem = [[UIBarButtonItem alloc] init];
+            //            returnButtonItem.title = @"";
+            //            self.navigationItem.backBarButtonItem = returnButtonItem;
+            //            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        }
+    }
 }
 
 @end

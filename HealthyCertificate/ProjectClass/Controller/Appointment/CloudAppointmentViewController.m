@@ -14,6 +14,10 @@
 #import "UIButton+Easy.h"
 #import "UIColor+Expanded.h"
 #import "UIFont+Custom.h"
+#import "NSString+Custom.h"
+#import "NSDate+Custom.h"
+#import "NSString+Custom.h"
+#import "UIScreen+Type.h"
 
 #import "BaseInfoTableViewCell.h"
 #import "CloudAppointmentDateVC.h"
@@ -23,10 +27,16 @@
 
 #define Button_Size 26
 
-@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate>
+@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>
 {
-    HealthyCertificateView* _healthyCertificateView;
-    AppointmentInfoView*    _appointmentInfoView;
+    HealthyCertificateView  *_healthyCertificateView;
+    AppointmentInfoView     *_appointmentInfoView;
+    
+    UITextField             *_phoneNumTextField;
+    UITableView             *_baseInfoTableView;
+    
+    BOOL                    _isFirstShown;
+    CGFloat                 _viewHeight;
 }
 @end
 
@@ -42,16 +52,76 @@
     _location = location;
 }
 
+-(void)setAppointmentDateStr:(NSString *)appointmentDateStr
+{
+    BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    cell.textField.text = appointmentDateStr;
+}
+
 #pragma mark - Life Circle
 -(void)viewDidLoad{
     [super viewDidLoad];
     
+    UIScrollView* scrollView = [[UIScrollView alloc] init];
+    scrollView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
+    [self.view addSubview:scrollView];
+    [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view);
+    }];
+    
+    
+    UIView* containerView = [[UIView alloc] init];
+    [scrollView addSubview:containerView];
+    [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(scrollView);
+        make.width.equalTo(scrollView);
+    }];
+    
+    _baseInfoTableView = [[UITableView alloc] init];
+    _baseInfoTableView.delegate = self;
+    _baseInfoTableView.dataSource = self;
+    _baseInfoTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    _baseInfoTableView.separatorColor = [UIColor colorWithRGBHex:0xe8e8e8];
+    _baseInfoTableView.layer.borderWidth = 1;
+    _baseInfoTableView.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
+    _baseInfoTableView.layer.cornerRadius = 10.0f;
+    _baseInfoTableView.scrollEnabled = NO;
+    [_baseInfoTableView registerClass:[BaseInfoTableViewCell class] forCellReuseIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
+    [containerView addSubview:_baseInfoTableView];
+    [_baseInfoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.mas_equalTo(containerView).with.offset(10);
+        make.right.mas_equalTo(containerView).with.offset(-10);
+       // make.width.mas_equalTo(SCREEN_WIDTH-20);
+        make.height.mas_equalTo(PXFIT_HEIGHT(96)*3);
+    }];
+    
+
+    _healthyCertificateView = [[HealthyCertificateView alloc] init];
+    _healthyCertificateView.layer.cornerRadius = 10;
+    _healthyCertificateView.layer.borderColor = MO_RGBCOLOR(0, 168, 234).CGColor;
+    _healthyCertificateView.layer.borderWidth = 1;
+    [containerView addSubview:_healthyCertificateView];
+    [_healthyCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(containerView).with.offset(10);
+        make.right.mas_equalTo(containerView).with.offset(-10);
+        make.top.mas_equalTo(_baseInfoTableView.mas_bottom).with.offset(10);
+        make.height.mas_equalTo(PXFIT_HEIGHT(460));
+    }];
+    
+    _appointmentInfoView = [[AppointmentInfoView alloc] init];
+    [containerView addSubview:_appointmentInfoView];
+    [_appointmentInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(containerView);
+        make.top.mas_equalTo(_healthyCertificateView.mas_bottom).with.offset(10);
+    }];
+    
+    
     UIView* bottomView = [[UIView alloc] init];
     bottomView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:bottomView];
+    [containerView addSubview:bottomView];
     [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(self.view);
-        make.top.mas_equalTo(self.view.mas_top).with.offset(SCREEN_HEIGHT-PXFIT_HEIGHT(136)-kNavigationBarHeight-kStatusBarHeight);
+        make.left.right.mas_equalTo(containerView);
+        make.top.mas_equalTo(_appointmentInfoView.mas_bottom);
         make.height.mas_equalTo(PXFIT_HEIGHT(136));
     }];
     
@@ -67,70 +137,31 @@
     [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(bottomView);
         make.left.mas_equalTo(bottomView).with.offset(PXFIT_WIDTH(24));
-        make.width.mas_equalTo(SCREEN_WIDTH-2*PXFIT_WIDTH(24));
+        make.right.mas_equalTo(bottomView).with.offset(-PXFIT_WIDTH(24));
         make.top.mas_equalTo(bottomView).with.offset(PXFIT_HEIGHT(20));
         make.bottom.mas_equalTo(bottomView).with.offset(-PXFIT_HEIGHT(20));
     }];
     
-    UIScrollView* scrollView = [[UIScrollView alloc] init];
-    scrollView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
-    [self.view addSubview:scrollView];
-    [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.and.right.mas_equalTo(self.view);
-        make.bottom.mas_equalTo(bottomView.mas_top);
-    }];
-    
-    
-    UIView* containerView = [[UIView alloc] init];
-    [scrollView addSubview:containerView];
     [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(scrollView);
-        make.width.equalTo(scrollView);
+        make.bottom.equalTo(bottomView.mas_bottom);
     }];
+    
+    //添加手势
+    UITapGestureRecognizer* singleRecognizer;
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
+    singleRecognizer.numberOfTapsRequired = 1; // 单击
+    singleRecognizer.delegate = self;
+    [self.view addGestureRecognizer:singleRecognizer];
+}
 
-    
-    UITableView* baseInfoTableView = [[UITableView alloc] init];
-    baseInfoTableView.delegate = self;
-    baseInfoTableView.dataSource = self;
-    baseInfoTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    baseInfoTableView.separatorColor = [UIColor colorWithRGBHex:0xe8e8e8];
-    baseInfoTableView.layer.borderWidth = 1;
-    baseInfoTableView.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
-    baseInfoTableView.layer.cornerRadius = 10.0f;
-    baseInfoTableView.scrollEnabled = NO;
-    [baseInfoTableView registerClass:[BaseInfoTableViewCell class] forCellReuseIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
-    [containerView addSubview:baseInfoTableView];
-    [baseInfoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.mas_equalTo(containerView).with.offset(10);
-        make.width.mas_equalTo(SCREEN_WIDTH-20);
-        make.height.mas_equalTo(PXFIT_HEIGHT(96)*3);
-    }];
-    
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self registerKeyboardNotification];
+}
 
-    _healthyCertificateView = [[HealthyCertificateView alloc] init];
-    _healthyCertificateView.layer.cornerRadius = 10;
-    _healthyCertificateView.layer.borderColor = MO_RGBCOLOR(0, 168, 234).CGColor;
-    _healthyCertificateView.layer.borderWidth = 1;
-    [containerView addSubview:_healthyCertificateView];
-    [_healthyCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(containerView).with.offset(10);
-        make.top.mas_equalTo(baseInfoTableView.mas_bottom).with.offset(10);
-        make.width.mas_equalTo(SCREEN_WIDTH-20);
-        make.height.mas_equalTo(PXFIT_HEIGHT(460));
-    }];
-    
-    
-    _appointmentInfoView = [[AppointmentInfoView alloc] init];
-    [containerView addSubview:_appointmentInfoView];
-    [_appointmentInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(containerView);
-        make.width.mas_equalTo(SCREEN_WIDTH);
-        make.top.mas_equalTo(_healthyCertificateView.mas_bottom).with.offset(10);
-    }];
-    
-    [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_appointmentInfoView.mas_bottom);
-    }];
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [self cancelKeyboardNotification];
 }
 
 #pragma mark - UITableViewDataSource & UITabBarControllerDelegate
@@ -166,10 +197,16 @@
         cell.textField.enabled = NO;
     }else if (indexPath.row == 1){
         cell.iconName = @"date_icon";
+        cell.textField.text = [NSString combineString:[[NSDate date] formatDateToChineseString]
+                                                  And:[[NSDate date] getDateStringWithInternel:1]
+                                                 With:@"~"];
         cell.textField.enabled = NO;
     }else{
         cell.iconName = @"phone_icon";
+        cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         cell.textField.text = gPersonInfo.StrTel;
+        cell.textField.delegate = self;
+        _phoneNumTextField = cell.textField;
     }
     return cell;
 }
@@ -192,16 +229,17 @@
 
 #pragma mark - Storyboard Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    if ([segue.identifier isEqualToString:@"ChooseDateIdentifier"]){
-//        UIViewController* destinationViewController = segue.destinationViewController;
-//        if ([destinationViewController isKindOfClass:[CloudAppointmentDateVC class]])
-//        {
-////            UIBarButtonItem *returnButtonItem = [[UIBarButtonItem alloc] init];
-////            returnButtonItem.title = @"";
-////            self.navigationItem.backBarButtonItem = returnButtonItem;
-////            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-//        }
-//    }
+    if ([segue.identifier isEqualToString:@"ChooseDateIdentifier"]){
+        UIViewController* destinationViewController = segue.destinationViewController;
+        if ([destinationViewController isKindOfClass:[CloudAppointmentDateVC class]])
+        {
+            CloudAppointmentDateVC* cloudAppointmentDateVC = (CloudAppointmentDateVC*)destinationViewController;
+            [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
+               BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+                cell.textField.text = dateStr;
+            }];
+        }
+    }
 }
 
 #pragma mark - Action
@@ -209,6 +247,86 @@
 {
     
 }
+
+- (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
+{
+    if (![recognizer.view isKindOfClass:[UITextField class]]){
+        [_phoneNumTextField resignFirstResponder];
+    }
+}
+
+#pragma mark - UITextField Delegate
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (![self isPureInt:string]){
+        return YES;
+    }
+    
+    if (textField.text.length > 10){
+        return NO;
+    }else if (textField.text.length == 10){
+        return YES;
+    }else{
+        return YES;
+    }
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {//如果当前是tableView
+        //做自己想做的事
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - Private Methods
+- (BOOL)isPureInt:(NSString*)string{
+    NSScanner* scan = [NSScanner scannerWithString:string];
+    int val;
+    return[scan scanInt:&val] && [scan isAtEnd];
+}
+
+-(void)registerKeyboardNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillChangeFrameNotification  object:nil];
+}
+
+-(void)cancelKeyboardNotification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)keyboardWillShow:(NSNotification *)notification
+{
+    if (_isFirstShown == NO){
+        _isFirstShown = YES;
+        CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
+        [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
+        _viewHeight = SCREEN_HEIGHT-kStatusBarHeight-kNavigationBarHeight - keyboardBounds.size.height;
+    }
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+        [self.view layoutIfNeeded];
+        
+    } completion:NULL];
+}
+
+-(void)keyboardWillHide:(NSNotification *)notification
+{
+    CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
+    [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+        [self.view layoutIfNeeded];
+    } completion:NULL];
+}
+
+
+
 
 
 @end

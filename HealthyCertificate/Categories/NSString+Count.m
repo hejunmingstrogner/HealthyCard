@@ -27,7 +27,7 @@
     NSDateFormatter *datefammert = [[NSDateFormatter alloc]init];
     [datefammert setDateFormat:@"yyyy"];
     NSInteger currentyYear = [[datefammert stringFromDate:[NSDate date]] integerValue];
-    return [NSString stringWithFormat:@"%d", currentyYear - boardYear];
+    return [NSString stringWithFormat:@"%ld", currentyYear - boardYear];
 }
 
 @end
