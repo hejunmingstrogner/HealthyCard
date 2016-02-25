@@ -15,8 +15,8 @@
 #import "UIButton+Easy.h"
 #import "UIColor+Expanded.h"
 #import "UIFont+Custom.h"
-
 #import "UILabel+FontColor.h"
+#import "NSDate+Custom.h"
 
 #define Cell_Font 17
 #define Cell_Detail_Font 15
@@ -46,25 +46,35 @@
 #pragma mark - Setter & Getter
 -(void)setServicePoint:(ServersPositionAnnotionsModel *)servicePoint{
     _nameLabel.text = servicePoint.name;
-    _distanceLabel.text = [NSString stringWithFormat:@"%.1lfkm", servicePoint.distance];
     
+    _distanceLabel.text = [NSString stringWithFormat:@"%.1lfkm", servicePoint.distance];
+    _distanceLabel.textColor = MO_RGBCOLOR(0, 169, 234);
     
     /*
      _locationLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Cell_Detail_Font];
      _locationLabel.textColor = [UIColor colorWithRGBHex:0x6e6e6e];
      */
     
-    [_locationLabel setText:servicePoint.address
-                   textFont:[UIFont fontWithType:UIFontOpenSansRegular size:Cell_Detail_Font]
-                WithEndText:@"临"
-               endTextColor:[UIColor redColor]];
-    
-    //_locationLabel.text = servicePoint.address;
-    _timeLabel.text = @"每天9:00-17:00";
-    
+    //如果是临时服务点
+    if (servicePoint.type == 1){
+        [_locationLabel setText:servicePoint.address
+                       textFont:[UIFont fontWithType:UIFontOpenSansRegular size:Cell_Detail_Font]
+                    WithEndText:@"临"
+                   endTextColor:[UIColor redColor]];
+        _timeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)",
+                           [NSDate getYear_Month_DayByDate:servicePoint.startTime],
+                           [NSDate getHour_MinuteByDate:servicePoint.startTime],
+                           [NSDate getHour_MinuteByDate:servicePoint.endTime]];
+    }
+    else{
+        _locationLabel.text = servicePoint.address;
+        _timeLabel.text = [NSString stringWithFormat:@"每天(%@~%@)",
+                               [NSDate getHour_MinuteByDate:servicePoint.startTime],
+                               [NSDate getHour_MinuteByDate:servicePoint.endTime]];
+        
+    }
+    //_timeLabel.text = @"每天9:00-17:00";
    // _distanceLabel.text = [NSString stringWithFormat:@"%f", servicePoint.distance];
-    
-    
 }
 
 #pragma mark - Life Circle

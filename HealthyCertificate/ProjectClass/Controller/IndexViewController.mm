@@ -485,13 +485,13 @@
         {
             addressLabel.text = adress;
             _centerCoordinate = _mapView.centerCoordinate;
-            [[HttpNetworkManager getInstance] getNearbyServicePointsWithCLLocation:_mapView.centerCoordinate resultBlock:^(NSArray *servicePointList, NSError *error) {
+            [[HttpNetworkManager getInstance] getNearbyServicePointsWithCLLocation:_mapView.centerCoordinate resultBlock:^(NSArray *result, NSError *error) {
                 // 将附近的服务点显示出来
                 if (!error) {
                     [_mapView removeAnnotations:_mapView.annotations];
-                    if (servicePointList.count != 0) {
-                        nearbyServicePositionsArray = [NSMutableArray arrayWithArray:servicePointList];
-                        [self addServersPositionAnnotionsWithList:servicePointList];
+                    if (result.count != 0) {
+                        nearbyServicePositionsArray = [NSMutableArray arrayWithArray:result];
+                        [self addServersPositionAnnotionsWithList:result];
                     }
                     else {
                         [nearbyServicePositionsArray removeAllObjects];
@@ -566,6 +566,8 @@
         if ([segue.destinationViewController isKindOfClass:[AppointmentViewController class]]){
             AppointmentViewController* controller = (AppointmentViewController*)segue.destinationViewController;
             controller.location = addressLabel.text;
+            controller.nearbyServicePointsArray = nearbyServicePositionsArray;
+            
             // 将百度地图左边转换为gps坐标
             PositionUtil *posit = [[PositionUtil alloc]init];
             CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];

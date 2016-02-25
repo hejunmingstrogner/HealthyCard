@@ -16,6 +16,7 @@
 #import <Masonry.h>
 
 #import "NSDate+Custom.h"
+#import "NSString+Custom.h"
 
 
 @interface CloudAppointmentDateVC()<UITableViewDataSource,UITableViewDelegate,HCWheelViewDelegate,NavViewDelegate>
@@ -31,6 +32,13 @@
 
 
 @implementation CloudAppointmentDateVC
+
+
+#pragma mark - Public Methods
+-(void)getAppointDateStringWithBlock:(AppointmentDateStringBlock)block;
+{
+    _appointmentBlock = block;
+}
 
 #pragma mark - Life Circle
 -(void)viewDidLoad{
@@ -154,6 +162,11 @@
 
 #pragma mark - NavViewDelegate
 -(void)backBtnClicked{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)sureBtnClicked{
+    _appointmentBlock([NSString combineString:_beginDateString And:_endDateString With:@"~"]);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

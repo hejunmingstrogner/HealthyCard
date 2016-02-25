@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+
+@protocol HealthyCertificateViewDelegate <NSObject>
+
+@optional
+//点击姓名
+-(void)nameBtnClicked:(NSString*)name;
+//点击性别
+-(void)sexBtnClicked:(NSString*)gender;
+//点击行业
+-(void)industryBtnClicked:(NSString*)industry;
+//点击身份证
+-(void)idCardBtnClicked:(NSString*)idCard;
+
+@end
+
 @interface HealthyCertificateView : UIView
 
 @property (nonatomic, copy) NSString* name;
@@ -23,5 +38,7 @@
 @property (nonatomic, copy) NSString* num;
 //头像
 @property (nonatomic, copy) NSString* picStr;
+
+@property (nonatomic, weak) id<HealthyCertificateViewDelegate> delegate;
 
 @end

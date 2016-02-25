@@ -16,6 +16,8 @@
 
 //http请求后，解析的数据格式的获取采用block的形式来获取
 typedef void (^HCDictionaryResultBlock)(NSDictionary* result, NSError* error);
+typedef void (^HCBoolResultBlock)(BOOL result, NSError* error);
+typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
 
 @interface HttpNetworkManager : NSObject
 
@@ -38,7 +40,7 @@ typedef void (^HCDictionaryResultBlock)(NSDictionary* result, NSError* error);
  *  @param location 当前查询位置
  *  @param block    获得服务点信息之后的回调
  */
-- (void)getNearbyServicePointsWithCLLocation:(CLLocationCoordinate2D)location resultBlock:(void(^)(NSArray *servicePointList, NSError *error))block;
+- (void)getNearbyServicePointsWithCLLocation:(CLLocationCoordinate2D)location resultBlock:(HCArrayResultBlock)resultBlock;
 
 
 /**

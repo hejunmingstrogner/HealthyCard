@@ -12,6 +12,7 @@
 #import "UIColor+Expanded.h"
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
+#import "NSString+Count.h"
 
 #import <Masonry.h>
 
@@ -23,7 +24,7 @@
     UIButton*        _nameBtn;
     UILabel*        _ageLabel;
     UIButton*        _sexBtn;
-    UILabel*        _workTypeLabel;
+    UIButton*        _workTypeBtn;
     UITextField*    _idCardTextField;
     UILabel*        _orgLabel;
     UILabel*        _numLabel;
@@ -107,7 +108,7 @@
                                         font:nil
                                    textColor:[UIColor blackColor]
                              backgroundColor:[UIColor clearColor]];
-        [_nameBtn setTitle:@"张小二" forState:UIControlStateNormal];
+        [_nameBtn setTitle:gPersonInfo.mCustName forState:UIControlStateNormal];
          _nameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         _nameBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [firstLineView addSubview:_nameBtn];
@@ -119,7 +120,7 @@
         [firstLineView addSubview:ageLabelTitle];
 
         _ageLabel = [[UILabel alloc] init];
-        _ageLabel.text = @"30";
+        _ageLabel.text = [NSString getOldYears:gPersonInfo.CustId];
         _ageLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [firstLineView addSubview:_ageLabel];
         
@@ -170,20 +171,20 @@
                                         font:nil
                                    textColor:[UIColor blackColor]
                              backgroundColor:[UIColor clearColor]];
-        [_sexBtn setTitle:@"男" forState:UIControlStateNormal];
+        [_sexBtn setTitle:(gPersonInfo.bGender==0)?@"男":@"女" forState:UIControlStateNormal];
         _sexBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         _sexBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [secondeLineView addSubview:_sexBtn];
         
         UILabel* workTypeLabelTitle = [[UILabel alloc] init];
-        workTypeLabelTitle.text = @"工种 : ";
+        workTypeLabelTitle.text = @"行业 : ";
         workTypeLabelTitle.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [secondeLineView addSubview:workTypeLabelTitle];
         
-        _workTypeLabel = [[UILabel alloc] init];
-        _workTypeLabel.text = @"餐饮服务";
-        _workTypeLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
-        [secondeLineView addSubview:_workTypeLabel];
+        _workTypeBtn = [[UIButton alloc] init];
+        _workTypeBtn.titleLabel.text = gPersonInfo.cIndustry;
+        _workTypeBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
+        [secondeLineView addSubview:_workTypeBtn];
         
         [sexLabelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(secondeLineView);
@@ -201,12 +202,12 @@
         [workTypeLabelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(sexLabelTitle);
             make.left.mas_equalTo(self.mas_left).with.offset(SCREEN_WIDTH*1/3);
-            make.right.mas_equalTo(_workTypeLabel.mas_left).with.offset(0);
+            make.right.mas_equalTo(_workTypeBtn.mas_left).with.offset(0);
             make.height.mas_equalTo(nameLabelTitle);
         }];
         [workTypeLabelTitle setContentCompressionResistancePriority:752 forAxis:UILayoutConstraintAxisHorizontal];
         
-        [_workTypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_workTypeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(sexLabelTitle);
             make.right.lessThanOrEqualTo(secondeLineView.mas_right).with.offset(0);
             make.height.mas_equalTo(nameLabelTitle);
@@ -228,7 +229,7 @@
         
         _idCardTextField = [[UITextField alloc] init];
         _idCardTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
-        _idCardTextField.text = @"513821199407301075";
+        _idCardTextField.text = gPersonInfo.CustId;
         [thirdLineView addSubview:_idCardTextField];
         
         [idCardLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -311,10 +312,40 @@
             make.bottom.mas_equalTo(leftView).with.offset(-PXFIT_HEIGHT(20));
             make.height.mas_equalTo(nameLabelTitle);
         }];
-        
-    
-           }
+    }
     return self;
+}
+
+
+#pragma mark - HealthyCertificateViewDelegate
+-(void)nameBtnClicked:(NSString*)name;
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(nameBtnClicked:)]){
+        [self.delegate nameBtnClicked:_nameBtn.titleLabel.text];
+    }
+}
+
+
+-(void)sexBtnClicked:(NSString*)gender
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(sexBtnClicked:)]){
+        [self.delegate sexBtnClicked:_sexBtn.titleLabel.text];
+    }
+}
+
+
+-(void)industryBtnClicked:(NSString*)industry
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(industryBtnClicked:)]){
+        [self.delegate industryBtnClicked:_workTypeBtn.titleLabel.text];
+    }
+}
+
+-(void)idCardBtnClicked:(NSString*)idCard
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(idCardBtnClicked:)]){
+
+    }
 }
 
 

@@ -78,14 +78,14 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 }
 
 #pragma mark - 获得当前位置服务点信息
-- (void)getNearbyServicePointsWithCLLocation:(CLLocationCoordinate2D)location resultBlock:(void (^)(NSArray *, NSError *))block
+- (void)getNearbyServicePointsWithCLLocation:(CLLocationCoordinate2D)location resultBlock:(HCArrayResultBlock)resultBlock
 {
     NSString *url = [NSString stringWithFormat:@"servicePoint/findByPosition?longitude=%lf&latitude=%lf&tolerance=0.05", location.longitude, location.latitude];
     [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         NSMutableArray *servicePositionsArray = [[NSMutableArray alloc]init];
         for (NSDictionary *dict in responseObject) {
             ServersPositionAnnotionsModel *servicePosition = [ServersPositionAnnotionsModel mj_objectWithKeyValues:dict];
-
+            
             // 将gps坐标转换为百度坐标
             PositionUtil *posit = [[PositionUtil alloc]init];
             CLLocationCoordinate2D coor = [posit wgs2bd:servicePosition.positionLa lon:servicePosition.positionLo];
@@ -95,13 +95,13 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
             
             [servicePositionsArray addObject:servicePosition];
         }
-        if (block) {
-            block(servicePositionsArray, nil);
+        if (resultBlock) {
+            resultBlock(servicePositionsArray, nil);
         }
-
+        
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-        if (block) {
-            block(nil, error);
+        if (resultBlock) {
+            resultBlock(nil, error);
         }
     }];
 }

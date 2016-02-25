@@ -10,7 +10,17 @@
 
 @interface CloudAppointmentDateVC : UIViewController
 
+typedef void(^AppointmentDateStringBlock)(NSString *dateStr);
+
 @property (nonatomic, strong) NSString* beginDateString;
 @property (nonatomic, strong) NSString* endDateString;
+@property (nonatomic, copy) AppointmentDateStringBlock appointmentBlock;
+
+/**
+ *  获得预约日期范围
+ *
+ *  @param block 获得预约日期范围后的回调
+ */
+-(void)getAppointDateStringWithBlock:(AppointmentDateStringBlock)block;
 
 @end

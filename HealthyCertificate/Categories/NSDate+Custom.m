@@ -34,7 +34,7 @@
 
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:itDate/1000];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy.MM.dd"];
+    [formatter setDateFormat:@"yyyy年MM月dd日"];
     NSString *time = [formatter stringFromDate:date];
     return time;
 }
@@ -50,6 +50,30 @@
     [formatter setDateFormat:@"HH:mm"];
     NSString *time = [formatter stringFromDate:date];
     return time;
+}
+
+- (NSString* )formatDateToChineseString
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy年MM月dd日"];
+    NSString *dateString = [formatter stringFromDate:self];
+    return dateString;
+}
+
+
+- (NSDate* )getDateWithInternel:(NSInteger)interval
+{
+    NSDate *newDate = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:([self timeIntervalSinceReferenceDate] + 24*3600*interval)];
+    return newDate;
+}
+
+- (NSString* )getDateStringWithInternel:(NSInteger)interval
+{
+    NSDate *newDate = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:([self timeIntervalSinceReferenceDate] + 24*3600*interval)];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy年MM月dd日"];
+    NSString *dateString = [formatter stringFromDate:newDate];
+    return dateString;
 }
 
 @end
