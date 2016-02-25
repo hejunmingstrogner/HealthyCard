@@ -34,7 +34,7 @@
 
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:itDate/1000];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy.MM.dd"];
+    [formatter setDateFormat:@"yyyy年MM月dd日"];
     NSString *time = [formatter stringFromDate:date];
     return time;
 }

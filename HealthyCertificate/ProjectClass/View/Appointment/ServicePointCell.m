@@ -62,7 +62,7 @@
                     WithEndText:@"临"
                    endTextColor:[UIColor redColor]];
         _timeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)",
-                           [servicePoint.startTime formatDateToChineseString],
+                           [NSDate getYear_Month_DayByDate:servicePoint.startTime],
                            [NSDate getHour_MinuteByDate:servicePoint.startTime],
                            [NSDate getHour_MinuteByDate:servicePoint.endTime]];
     }
