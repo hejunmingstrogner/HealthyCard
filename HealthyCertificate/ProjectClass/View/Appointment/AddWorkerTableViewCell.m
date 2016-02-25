@@ -71,7 +71,6 @@
     else {
         _phoneLabel.text = cellItem.phone;
     }
-    _phoneLabel.text = @"18380446542";
     if (cellItem.endDate.length == 0) {
         _endDateLabel.text = @"无体检记录";
     }

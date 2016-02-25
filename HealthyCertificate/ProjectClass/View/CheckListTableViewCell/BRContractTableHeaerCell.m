@@ -8,6 +8,7 @@
 
 #import "BRContractTableHeaerCell.h"
 #import <Masonry.h>
+#import "NSDate+Custom.h"
 
 @implementation BRContractTableHeaerCell
 
@@ -63,9 +64,9 @@
                 _statusLabel.text = @"获取失败";
             }
             else {
-                NSString *year = [self getYear_Month_DayByDate:brContract.servicePoint.startTime];
-                NSString *start = [self getHour_MinuteByDate:brContract.servicePoint.startTime];
-                NSString *end = [self getHour_MinuteByDate:brContract.servicePoint.endTime];
+                NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime];
+                NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime];
+                NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime];
                 _statusLabel.text = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
             }
         }
@@ -74,30 +75,6 @@
         }
     }
     _addressLabel.text = brContract.servicePoint.address;
-}
-
-// 计算时间 年月日
-- (NSString *)getYear_Month_DayByDate:(NSDate *)itDate
-{
-    if (!itDate) {
-        return @"";
-    }
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy.MM.dd"];
-    NSString *time = [formatter stringFromDate:itDate];
-    return time;
-}
-
-// 计算时间 时分
-- (NSString *)getHour_MinuteByDate:(NSDate *)itDate
-{
-    if (!itDate) {
-        return @"";
-    }
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"HH:mm"];
-    NSString *time = [formatter stringFromDate:itDate];
-    return time;
 }
 
 @end

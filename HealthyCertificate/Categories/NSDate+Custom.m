@@ -26,26 +26,29 @@
 }
 
 // 计算时间 年月日
-+ (NSString *)getYear_Month_DayByDate:(NSDate *)itDate
++ (NSString *)getYear_Month_DayByDate:(long long)itDate
 {
     if (!itDate) {
         return @"";
     }
+
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:itDate/1000];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy.MM.dd"];
-    NSString *time = [formatter stringFromDate:itDate];
+    NSString *time = [formatter stringFromDate:date];
     return time;
 }
 
 // 计算时间 时分
-+ (NSString *)getHour_MinuteByDate:(NSDate *)itDate
++ (NSString *)getHour_MinuteByDate:(long long)itDate
 {
     if (!itDate) {
         return @"";
     }
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:itDate/1000];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"HH:mm"];
-    NSString *time = [formatter stringFromDate:itDate];
+    NSString *time = [formatter stringFromDate:date];
     return time;
 }
 

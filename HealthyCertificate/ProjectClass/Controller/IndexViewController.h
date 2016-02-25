@@ -20,6 +20,7 @@
 #import "PhysicalExaminationViewController.h"
 #import "AboutUsViewController.h"
 #import "AdviceViewController.h"
+#import "TemperaryServicePDeViewController.h"
 
 @interface IndexViewController : UIViewController<BMKMapViewDelegate, BMKLocationServiceDelegate, LeftMenuViewDelegate>
 {
