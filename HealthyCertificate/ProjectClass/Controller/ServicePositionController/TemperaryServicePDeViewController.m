@@ -71,16 +71,18 @@
 
 - (void)initSubViews
 {
+    self.view.backgroundColor = [UIColor whiteColor];
     _orderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:_orderBtn];
     [_orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.left.equalTo(self.view).offset(10);
+        make.bottom.left.equalTo(self.view).offset(-10);
         make.right.equalTo(self.view).offset(-10);
         make.height.mas_equalTo(40);
     }];
     _orderBtn.layer.masksToBounds = YES;
     _orderBtn.layer.cornerRadius = 5;
     _orderBtn.layer.borderColor = [UIColor colorWithRed:50/255.0 green:170/255.0 blue:240/255.0 alpha:1].CGColor;
+    _orderBtn.layer.borderWidth = 1;
     [_orderBtn setTitle:@"预约" forState:UIControlStateNormal];
     [_orderBtn setTitleColor:[UIColor colorWithRed:50/255.0 green:170/255.0 blue:240/255.0 alpha:1] forState:UIControlStateNormal];
     [_orderBtn addTarget:self action:@selector(orderBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -117,14 +119,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 1;
-    }
-    else if(section == 1)
-    {
-        return 3;
-    }
-    return 1;
+    return [_detialeInfoArray[section] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -179,7 +174,6 @@
         else{
             cell.textLabel.textColor = [UIColor grayColor];
         }
-
         return cell;
     }
 }
@@ -197,6 +191,5 @@
 {
     NSLog(@"预约");
 }
-
 
 @end

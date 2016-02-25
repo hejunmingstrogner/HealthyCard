@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ServersPositionAnnotionsModel.h"
 
+// 移动服务点
 @interface TemperaryServicePDeViewController : UIViewController
 
 @property (nonatomic, strong) UIButton    *orderBtn; // 预约
