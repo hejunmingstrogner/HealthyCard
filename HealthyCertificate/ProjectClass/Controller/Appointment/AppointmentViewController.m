@@ -105,7 +105,7 @@
     }];
     
     self.currentView = [[UIView alloc] init];
-    self.view.backgroundColor = [UIColor greenColor];
+    self.currentView.backgroundColor = [UIColor greenColor];
     [self.view addSubview:self.currentView];
     [self.currentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(navView.mas_bottom);
@@ -122,67 +122,44 @@
     
     [self addChildViewController:CloudController];
     [self addChildViewController:_servicePointAppointmentViewController];
+    
     [self.currentView addSubview:CloudController.view];
+    [self.currentView addSubview:_servicePointAppointmentViewController.view];
+    
     [CloudController.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.currentView);
     }];
-//    [_servicePointAppointmentViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.mas_equalTo(self.currentView);
-//    }];
+    [_servicePointAppointmentViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.currentView);
+    }];
+    [_servicePointAppointmentViewController.view setHidden:YES];
     self.currentVC = CloudController;
 }
 
 #pragma mark - Action
 -(void)didClicksegmentedControlAction:(UISegmentedControl *)seg
 {
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification  object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:UIKeyboardWillHideNotification object:nil];
     if (self.currentVC == CloudController && seg.selectedSegmentIndex == 0)
         return;
     if (self.currentVC == _servicePointAppointmentViewController && seg.selectedSegmentIndex == 1)
         return;
     
-    UIViewController* oldVC = self.currentVC;
     NSInteger index = seg.selectedSegmentIndex;
     switch (index) {
         case 0:
         {
-            [self transitionFromViewController:self.currentVC
-                              toViewController:CloudController
-                                      duration:0
-                                       options:UIViewAnimationOptionCurveEaseInOut
-                                    animations:^{
-            } completion:^(BOOL finished) {
-                if(finished) {
-                    self.currentVC = CloudController;
-                    [self.currentView addSubview:CloudController.view];
-                    //self.currentView = [[UIView alloc] init];
-                   // [self.view addSubview:self.currentView];
-                    [self.currentView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                        make.top.mas_equalTo(self.view.mas_top).with.offset(kNavigationBarHeight+kStatusBarHeight);
-                        make.left.right.bottom.mas_equalTo(self.view);
-                    }];
-                }
-                else {
-                    self.currentVC = oldVC;
-                }
-            }];
+            [CloudController.view setHidden:NO];
+            [_servicePointAppointmentViewController.view setHidden:YES];
+            self.currentVC = CloudController;
         }
             break;
         case 1:
         {
-            [self transitionFromViewController:self.currentVC
-                              toViewController:_servicePointAppointmentViewController
-                                      duration:0
-                                       options:UIViewAnimationOptionCurveEaseInOut
-                                    animations:^{
-                
-            } completion:^(BOOL finished) {
-                if(finished) {
-                    self.currentVC = _servicePointAppointmentViewController;
-                }
-                else {
-                    self.currentVC = oldVC;
-                }
-            }];
+            [CloudController.view setHidden:YES];
+            [_servicePointAppointmentViewController.view setHidden:NO];
+            self.currentVC = _servicePointAppointmentViewController;
         }
             break;
             
