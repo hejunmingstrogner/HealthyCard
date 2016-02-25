@@ -13,6 +13,7 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "NSString+Count.h"
+#import "NSString+Count.h"
 
 #import <Masonry.h>
 
@@ -348,5 +349,24 @@
     }
 }
 
+- (void)setCustomerTest:(CustomerTest *)customerTest
+{
+    _customerTest = customerTest;
 
+    _name = customerTest.custName;
+    _age = [NSString getOldYears:customerTest.custIdCard];
+    _gender = customerTest.sex == 0? @"男":@"女";
+    _workType = customerTest.jobDuty;
+    _idCard = customerTest.custIdCard;
+    _org = @"";
+    _num = @"";
+
+    [_nameBtn setTitle:_name forState:UIControlStateNormal];
+    _ageLabel.text = _age;
+    [_sexBtn setTitle:_gender forState:UIControlStateNormal];
+    [_workTypeBtn setTitle:_workType forState:UIControlStateNormal];
+    _idCardTextField.text = _workType;
+    _orgLabel.text = _org;
+    _numLabel.text = _num;
+}
 @end

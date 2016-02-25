@@ -37,7 +37,8 @@
     [_carImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView).offset(20);
         make.bottom.equalTo(self.contentView).offset(-20);
-        make.left.equalTo(self.contentView).offset(20);
+        make.centerY.equalTo(self.contentView);
+        make.left.equalTo(self.contentView).offset(15);
         make.width.equalTo(_carImageView.mas_height);
     }];
 
@@ -47,7 +48,7 @@
     [_carNo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView).offset(0);
         make.right.equalTo(self.contentView).offset(-10);
-        make.left.equalTo(_carImageView.mas_right).offset(50);
+        make.left.equalTo(_carImageView.mas_right).offset(25);
         make.height.mas_equalTo(50);
     }];
 
@@ -55,9 +56,9 @@
     [self.contentView addSubview:quanquan];
     quanquan.image = [UIImage imageNamed:@"quanquan"];
     [quanquan mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_carNo.mas_left);
+        make.right.equalTo(_carNo.mas_left).offset(-5);
         make.centerY.equalTo(_carNo);
-        make.height.width.mas_equalTo(30);
+        make.height.width.mas_equalTo(15);
     }];
 
     _address = [[UILabel alloc]init];
@@ -74,6 +75,7 @@
 
     _serviceTime = [[UILabel alloc]init];
     [self.contentView addSubview:_serviceTime];
+    _serviceTime.numberOfLines = 0;
     _serviceTime.font = [UIFont systemFontOfSize:15];
     _serviceTime.textColor = [UIColor grayColor];
     [_serviceTime mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -18,121 +18,127 @@
  */
 @interface CustomerTest : NSObject
 
+#pragma mark -新的数据
+
+
+
+#pragma mark - 老的数据
 /**
  * 体检编号
  */
-@property (nonatomic, strong) NSString * cCheckCode;
+@property (nonatomic, strong) NSString * checkCode;
 /**
  * 客户编号
  */
-@property (nonatomic, strong) NSString * cCustId;
+@property (nonatomic, strong) NSString * custCode;
 /**
  * 单位编号
  */
-@property (nonatomic, strong) NSString * cUnitCode;
+@property (nonatomic, strong) NSString * unitCode;
 /**
  * 单位名称
  */
-@property (nonatomic, strong) NSString * cUnitName;
+@property (nonatomic, strong) NSString * unitName;
 
-@property (nonatomic, strong) NSString * cCardNo;
+@property (nonatomic, strong) NSString * cardNo;
 /**
  * 姓名
  */
-@property (nonatomic, strong) NSString * cCustName;
+@property (nonatomic, strong) NSString * custName;
 /**
  * 性别
  */
-@property (nonatomic, assign) Byte  cSex;
+@property (nonatomic, assign) Byte  sex;
 /**
  * 民族
  */
-@property (nonatomic, strong) NSString * cNation;
+@property (nonatomic, strong) NSString * nation;
 /**
  * 出生日期
  */
-@property (nonatomic, strong) NSDate * dBornDate;
+@property (nonatomic, assign) long long bornDate;
 /**
  * VIP标志
  */
-@property (nonatomic, strong) NSString * cCustVIPFlag;
+@property (nonatomic, strong) NSString * custVIPFlag;
 /**
  * 身份证号
  */
-@property (nonatomic, strong) NSString * cCustIdCard;
+@property (nonatomic, strong) NSString * custIdCard;
 /**
  * 联系电话
  */
-@property (nonatomic, strong) NSString * cLinkPhone;
+@property (nonatomic, strong) NSString * linkPhone;
 /**
  * 岗位类型
  */
-@property (nonatomic, strong) NSString * cJobDuty;
+@property (nonatomic, strong) NSString * jobDuty;
 /**
  * 体检类型
  */
-@property (nonatomic, assign) int cCheckType;   // 健康证类型：1   默认－1
+@property (nonatomic, assign) int checkType;   // 健康证类型：1   默认－1
 /**
  * 近期照片
  */
-//@property (nonatomic, strong) byte[] cPrintPhoto;
+@property (nonatomic, strong) NSDate * cPrintPhoto;
 /**
  * 所属体检合同
  */
-@property (nonatomic, strong) NSString * cContractCode;
+@property (nonatomic, strong) NSString * contractCode;
 /**
  * 体检服务点
  */
-@property (nonatomic, strong) NSString * cCheckSiteID;
+@property (nonatomic, strong) NSString * checkSiteID;
 /**
  * 预约经度
  */
-@property (nonatomic, strong) NSString * cRegPosLO;
+@property (nonatomic, assign) double regPosLO;
 /**
  * 预约纬度
  */
-@property (nonatomic, strong) NSString * cRegPosLA;
+@property (nonatomic, assign) double regPosLA;
 /**
  * 预约地址
  */
-@property (nonatomic, strong) NSString * cRegPosAddr;
+@property (nonatomic, strong) NSString * regPosAddr;
+/**
+ * 开始日期
+ */
+@property (nonatomic, assign) long long regBeginDate;
+/**
+ * 结束日期
+ */
+@property (nonatomic, assign) long long regEndDate;
 /**
  * 预约时间
  */
-@property (nonatomic, strong) NSDate * cRegTime;
-/**
- * 预约体检开始时间. 格式：2016-01-08
- */
-@property (nonatomic, strong) NSDate * cRegBeginDate;
-/**
- * 预约体检结束时间 格式：2016-01-08
- */
-@property (nonatomic, strong) NSDate * cRegEndDate;
-@property (nonatomic, strong) NSString * cCustType;
-@property (nonatomic, strong) NSDate * cReservdate;
+@property (nonatomic, assign) long long regTime;
 
-@property (nonatomic, strong) NSString * cPriority;
-@property (nonatomic, strong) NSString * cHosCode;
-@property (nonatomic, assign) int cTotalLineTime;
-@property (nonatomic, assign) int cTotalWaitTime;
-@property (nonatomic, assign) int cTotalCheckTime;
+@property (nonatomic, assign) long long reservdate;
+
+
+@property (nonatomic, strong) NSString * priority;
+@property (nonatomic, strong) NSString * hosCode;
+@property (nonatomic, assign) int totalLineTime;
+@property (nonatomic, assign) int totalWaitTime;
+@property (nonatomic, assign) int totalCheckTime;
 @property (nonatomic, strong) NSString * checkTime;
 @property (nonatomic, strong) NSString * checkINTime;
 @property (nonatomic, strong) NSString * endTime;
 /**
  *
  */
-@property (nonatomic, strong) NSString * cTestStatus;
-@property (nonatomic, assign) int cMainItemNum;
+@property (nonatomic, strong) NSString * testStatus;
+@property (nonatomic, assign) int mainItemNum;
 @property (nonatomic, strong) NSString * rfidNo;
 @property (nonatomic, strong) NSDate * synTime;
-@property (nonatomic, assign) float iAges;
-@property (nonatomic, strong) NSString * cMarryFlag;
-@property (nonatomic, strong) NSString * dAffirmdate;
-@property (nonatomic, strong) NSString * dOperdate;
+@property (nonatomic, assign) float ages;
+@property (nonatomic, strong) NSString * marryFlag;
+@property (nonatomic, strong) NSString * affirmdate;
+@property (nonatomic, strong) NSString * operdate;
 @property (nonatomic, assign) float regPrice;
 @property (nonatomic, strong) NSString * packNo;
-@property (nonatomic, strong) NSString * cPassword;
+@property (nonatomic, strong) NSString * password;
 @property (nonatomic, strong) NSString * zoneCode;
 /**
  * 所属城市
@@ -141,12 +147,12 @@
 /**
  * 所属套餐编号。
  */
-@property (nonatomic, strong) NSString * cSuitCode;
+@property (nonatomic, strong) NSString * suitCode;
 
 /**
  * 绑定合同套餐编号
  */
-@property (nonatomic, strong) NSString * cUnitSuitCode;
+@property (nonatomic, strong) NSString * unitSuitCode;
 /**
  * 地址
  */
@@ -171,11 +177,20 @@
 /**
  * 所有体验项。 【非数据库字段】
  */
-//@property (nonatomic, strong) List<CustomerTestItem> testItems;
+@property (nonatomic, strong) NSMutableArray * testItems;  // CustomerTestItem
 
 /**
  * 关联的服务点 【非数据库字段】
  */
 @property (nonatomic, strong) ServersPositionAnnotionsModel *servicePoint;
+
+/**
+ * 单位地址 【非数据库字段】
+ */
+@property (nonatomic, strong) NSString * unitAddr;
+/**
+ * 年龄 【非数据库字段】
+ */
+@property (nonatomic, assign)  int age;
 
 @end
