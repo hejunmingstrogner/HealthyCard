@@ -10,18 +10,28 @@
 
 #import "CloudAppointmentViewController.h"
 #import "ServicePointApointmentViewController.h"
+#import "CloudAppointmentCompanyViewController.h"
 
 #import <Masonry.h>
 #import "Constants.h"
 
 #import "UIButton+Easy.h"
+#import "UIButton+HitTest.h"
 #import "UIFont+Custom.h"
 
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
+#define CloudController (GetUserType == 1 ? _cloudAppointmentViewController : _cloudAppointmentCompanyViewController)
 
 @interface AppointmentViewController()
 {
+    //个人云预约
     CloudAppointmentViewController              *_cloudAppointmentViewController;
+    //单位云预约
+    CloudAppointmentCompanyViewController       *_cloudAppointmentCompanyViewController;
+    
     ServicePointApointmentViewController        *_servicePointAppointmentViewController;
+    
+    
 }
 
 @property (nonatomic, strong) UIViewController  *currentVC;
@@ -52,7 +62,8 @@
     navView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:navView];
     [navView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.and.top.mas_equalTo(self.view);
+        make.left.right.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.view).with.offset(kStatusBarHeight);
         make.height.mas_equalTo(kNavigationBarHeight);
     }];
     
@@ -62,6 +73,8 @@
         make.centerY.mas_equalTo(navView);
         make.left.mas_equalTo(navView.mas_left).with.offset(8);
     }];
+    backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    [backBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     
     NSArray* segArr = [[NSArray alloc] initWithObjects:@"云预约", @"服务点", nil];
@@ -90,7 +103,7 @@
     self.currentView = [[UIView alloc] init];
     [self.view addSubview:self.currentView];
     [self.currentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.and.bottom.mas_equalTo(self.view);
+        make.left.right.bottom.mas_equalTo(self.view);
         make.top.mas_equalTo(navView.mas_bottom);
     }];
     
@@ -99,25 +112,19 @@
     _cloudAppointmentViewController.centerCoordinate = _centerCoordinate;
     _servicePointAppointmentViewController = [[ServicePointApointmentViewController alloc] init];
     
-    [self addChildViewController:_cloudAppointmentViewController];
+    _cloudAppointmentCompanyViewController = [[CloudAppointmentCompanyViewController alloc] init];
+    
+    [self addChildViewController:CloudController];
     [self addChildViewController:_servicePointAppointmentViewController];
-    
-    [self.currentView addSubview:_cloudAppointmentViewController.view];
-    
-    self.currentVC = _cloudAppointmentViewController;
-    
-   
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+   // [self addChildViewController:_cloudAppointmentCompanyViewController];
+    [self.currentView addSubview:CloudController.view];
+    self.currentVC = CloudController;
 }
 
 #pragma mark - Action
 -(void)didClicksegmentedControlAction:(UISegmentedControl *)seg
 {
-    if (self.currentVC == _cloudAppointmentViewController && seg.selectedSegmentIndex == 0)
+    if (self.currentVC == CloudController && seg.selectedSegmentIndex == 0)
         return;
     if (self.currentVC == _servicePointAppointmentViewController && seg.selectedSegmentIndex == 1)
         return;
@@ -127,11 +134,14 @@
     switch (index) {
         case 0:
         {
-            [self transitionFromViewController:self.currentVC toViewController:_cloudAppointmentViewController duration:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                
+            [self transitionFromViewController:self.currentVC
+                              toViewController:CloudController
+                                      duration:0
+                                       options:UIViewAnimationOptionCurveEaseInOut
+                                    animations:^{
             } completion:^(BOOL finished) {
                 if(finished) {
-                    self.currentVC = _cloudAppointmentViewController;
+                    self.currentVC = CloudController;
                 }
                 else {
                     self.currentVC = oldVC;
@@ -141,7 +151,11 @@
             break;
         case 1:
         {
-            [self transitionFromViewController:self.currentVC toViewController:_servicePointAppointmentViewController duration:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [self transitionFromViewController:self.currentVC
+                              toViewController:_servicePointAppointmentViewController
+                                      duration:0
+                                       options:UIViewAnimationOptionCurveEaseInOut
+                                    animations:^{
                 
             } completion:^(BOOL finished) {
                 if(finished) {
@@ -157,6 +171,11 @@
         default:
             break;
     }
+}
+
+-(void)backBtnClicked:(UIButton*)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

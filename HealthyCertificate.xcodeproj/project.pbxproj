@@ -73,6 +73,17 @@
 		254A8DAD1C7C380400F2EC94 /* nameIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DAA1C7C380400F2EC94 /* nameIcon@3x.png */; };
 		254A8DB01C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */; };
 		254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */; };
+		254A8DB71C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DB61C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m */; };
+		254A8DBD1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DBC1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m */; };
+		254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DBE1C7D401A00F2EC94 /* arrow@1x.png */; };
+		254A8DC21C7D401A00F2EC94 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DBF1C7D401A00F2EC94 /* arrow@2x.png */; };
+		254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DC01C7D401A00F2EC94 /* arrow@3x.png */; };
+		254A8DCA1C7D574100F2EC94 /* LoginBackGround@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DC71C7D574100F2EC94 /* LoginBackGround@1x.png */; };
+		254A8DCB1C7D574100F2EC94 /* LoginBackGround@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DC81C7D574100F2EC94 /* LoginBackGround@2x.png */; };
+		254A8DCC1C7D574100F2EC94 /* LoginBackGround@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DC91C7D574100F2EC94 /* LoginBackGround@3x.png */; };
+		254A8DD01C7D619C00F2EC94 /* Login_Logo@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCD1C7D619C00F2EC94 /* Login_Logo@1x.png */; };
+		254A8DD11C7D619C00F2EC94 /* Login_Logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCE1C7D619C00F2EC94 /* Login_Logo@2x.png */; };
+		254A8DD21C7D619C00F2EC94 /* Login_Logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
 		25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB101C72C70F0062F9B8 /* HCRule.m */; };
@@ -115,7 +126,6 @@
 		B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436CA51C7B007E00F543E1 /* BRContractTableFootCell.m */; };
 		B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2484DB81C71C20D00C0CCBB /* LoginController.m */; };
 		B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */; };
-		B2640CC71C7C0BED00721CB5 /* ServicePositionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CC61C7C0BED00721CB5 /* ServicePositionDetailViewController.m */; };
 		B2640CCA1C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CC91C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m */; };
 		B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */; };
 		B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CCF1C7C412400721CB5 /* UILabel+FontColor.m */; };
@@ -126,6 +136,9 @@
 		B2640CE11C7D5DA600721CB5 /* AddWorkerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE01C7D5DA600721CB5 /* AddWorkerViewController.m */; };
 		B2640CE41C7D5E8B00721CB5 /* AddWorkerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE31C7D5E8B00721CB5 /* AddWorkerTableViewCell.m */; };
 		B2640CE71C7D613600721CB5 /* AddWorkerCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */; };
+		B2640CF61C7D9D2100721CB5 /* SelectAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */; };
+		B2F81B4A1C7EA90D0089F51C /* ServicePositionTemperaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F81B491C7EA90D0089F51C /* ServicePositionTemperaryViewController.m */; };
+		B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
 		B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826291C73143200993F47 /* LeftMenuView.m */; };
@@ -251,6 +264,19 @@
 		254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudAppointmentCompanyViewController.m; sourceTree = "<group>"; };
 		254A8DB21C7C575F00F2EC94 /* ServicePointDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePointDetailViewController.h; sourceTree = "<group>"; };
 		254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePointDetailViewController.m; sourceTree = "<group>"; };
+		254A8DB51C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudCompanyAppointmentCell.h; sourceTree = "<group>"; };
+		254A8DB61C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudCompanyAppointmentCell.m; sourceTree = "<group>"; };
+		254A8DBB1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudCompanyAppointmentStaffCell.h; sourceTree = "<group>"; };
+		254A8DBC1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudCompanyAppointmentStaffCell.m; sourceTree = "<group>"; };
+		254A8DBE1C7D401A00F2EC94 /* arrow@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@1x.png"; sourceTree = "<group>"; };
+		254A8DBF1C7D401A00F2EC94 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
+		254A8DC01C7D401A00F2EC94 /* arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@3x.png"; sourceTree = "<group>"; };
+		254A8DC71C7D574100F2EC94 /* LoginBackGround@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LoginBackGround@1x.png"; path = "Appointment/LoginBackGround@1x.png"; sourceTree = "<group>"; };
+		254A8DC81C7D574100F2EC94 /* LoginBackGround@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LoginBackGround@2x.png"; path = "Appointment/LoginBackGround@2x.png"; sourceTree = "<group>"; };
+		254A8DC91C7D574100F2EC94 /* LoginBackGround@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LoginBackGround@3x.png"; path = "Appointment/LoginBackGround@3x.png"; sourceTree = "<group>"; };
+		254A8DCD1C7D619C00F2EC94 /* Login_Logo@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Logo@1x.png"; sourceTree = "<group>"; };
+		254A8DCE1C7D619C00F2EC94 /* Login_Logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Logo@2x.png"; sourceTree = "<group>"; };
+		254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Logo@3x.png"; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
 		25BFE9721C7199610062F9B8 /* RzAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RzAlertView.m; sourceTree = "<group>"; };
 		25BFEB0B1C71C9110062F9B8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -329,8 +355,6 @@
 		B2484DB81C71C20D00C0CCBB /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		B2484DBA1C71C25900C0CCBB /* IndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
 		B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IndexViewController.mm; sourceTree = "<group>"; };
-		B2640CC51C7C0BED00721CB5 /* ServicePositionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePositionDetailViewController.h; sourceTree = "<group>"; };
-		B2640CC61C7C0BED00721CB5 /* ServicePositionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePositionDetailViewController.m; sourceTree = "<group>"; };
 		B2640CC81C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePositionCarHeadTableViewCell.h; sourceTree = "<group>"; };
 		B2640CC91C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePositionCarHeadTableViewCell.m; sourceTree = "<group>"; };
 		B2640CCB1C7C361A00721CB5 /* ServicePositionDetialCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePositionDetialCellItem.h; sourceTree = "<group>"; };
@@ -351,6 +375,12 @@
 		B2640CE31C7D5E8B00721CB5 /* AddWorkerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerTableViewCell.m; sourceTree = "<group>"; };
 		B2640CE51C7D613600721CB5 /* AddWorkerCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWorkerCellItem.h; sourceTree = "<group>"; };
 		B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerCellItem.m; sourceTree = "<group>"; };
+		B2640CF41C7D9D2100721CB5 /* SelectAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectAddressViewController.h; sourceTree = "<group>"; };
+		B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectAddressViewController.m; sourceTree = "<group>"; };
+		B2F81B481C7EA90D0089F51C /* ServicePositionTemperaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePositionTemperaryViewController.h; sourceTree = "<group>"; };
+		B2F81B491C7EA90D0089F51C /* ServicePositionTemperaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePositionTemperaryViewController.m; sourceTree = "<group>"; };
+		B2F81B4B1C7EAE680089F51C /* TemperaryServicePDeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemperaryServicePDeViewController.h; sourceTree = "<group>"; };
+		B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemperaryServicePDeViewController.m; sourceTree = "<group>"; };
 		B2F826201C730D6000993F47 /* LocationSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchModel.h; sourceTree = "<group>"; };
 		B2F826211C730D6000993F47 /* LocationSearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSearchModel.m; sourceTree = "<group>"; };
 		B2F826241C730DA500993F47 /* LeftMenuCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuCellItem.h; sourceTree = "<group>"; };
@@ -518,6 +548,12 @@
 				25BFEB4A1C75E61C0062F9B8 /* QRScan@1x.png */,
 				25BFEB4B1C75E61C0062F9B8 /* QRScan@2x.png */,
 				25BFEB4C1C75E61C0062F9B8 /* QRScan@3x.png */,
+				254A8DCD1C7D619C00F2EC94 /* Login_Logo@1x.png */,
+				254A8DCE1C7D619C00F2EC94 /* Login_Logo@2x.png */,
+				254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */,
+				254A8DC71C7D574100F2EC94 /* LoginBackGround@1x.png */,
+				254A8DC81C7D574100F2EC94 /* LoginBackGround@2x.png */,
+				254A8DC91C7D574100F2EC94 /* LoginBackGround@3x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -570,6 +606,10 @@
 				254A8D8E1C7BF79700F2EC94 /* ServicePointCell.m */,
 				B2640CC81C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.h */,
 				B2640CC91C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m */,
+				254A8DB51C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.h */,
+				254A8DB61C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m */,
+				254A8DBB1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.h */,
+				254A8DBC1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m */,
 				B2640CDC1C7C870200721CB5 /* HealthyCertificateOrderInfoView.h */,
 				B2640CDD1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m */,
 				B2640CE21C7D5E8B00721CB5 /* AddWorkerTableViewCell.h */,
@@ -581,6 +621,9 @@
 		252AB87A1C76E3880085CC14 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				254A8DBE1C7D401A00F2EC94 /* arrow@1x.png */,
+				254A8DBF1C7D401A00F2EC94 /* arrow@2x.png */,
+				254A8DC01C7D401A00F2EC94 /* arrow@3x.png */,
 				254A8DA81C7C380400F2EC94 /* nameIcon@1x.png */,
 				254A8DA91C7C380400F2EC94 /* nameIcon@2x.png */,
 				254A8DAA1C7C380400F2EC94 /* nameIcon@3x.png */,
@@ -617,6 +660,8 @@
 			children = (
 				252AB8921C770F890085CC14 /* CloudAppointmentDateVC.h */,
 				252AB8931C770F890085CC14 /* CloudAppointmentDateVC.m */,
+				B2640CF41C7D9D2100721CB5 /* SelectAddressViewController.h */,
+				B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */,
 			);
 			path = CloudAppointment;
 			sourceTree = "<group>";
@@ -810,8 +855,10 @@
 		B2640CC41C7C0BAB00721CB5 /* ServicePositionController */ = {
 			isa = PBXGroup;
 			children = (
-				B2640CC51C7C0BED00721CB5 /* ServicePositionDetailViewController.h */,
-				B2640CC61C7C0BED00721CB5 /* ServicePositionDetailViewController.m */,
+				B2F81B481C7EA90D0089F51C /* ServicePositionTemperaryViewController.h */,
+				B2F81B491C7EA90D0089F51C /* ServicePositionTemperaryViewController.m */,
+				B2F81B4B1C7EAE680089F51C /* TemperaryServicePDeViewController.h */,
+				B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */,
 			);
 			path = ServicePositionController;
 			sourceTree = "<group>";
@@ -972,11 +1019,14 @@
 			files = (
 				25BFEB491C75BF1F0062F9B8 /* back@3x.png in Resources */,
 				254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */,
+				254A8DD21C7D619C00F2EC94 /* Login_Logo@3x.png in Resources */,
 				25BFEB471C75BF1F0062F9B8 /* back@1x.png in Resources */,
 				254A8DA61C7C32B800F2EC94 /* servicePoint@2x.png in Resources */,
 				25BFEB4E1C75E61C0062F9B8 /* QRScan@2x.png in Resources */,
 				254A8DAC1C7C380400F2EC94 /* nameIcon@2x.png in Resources */,
 				252AB88B1C76E3880085CC14 /* search_icon@2x.png in Resources */,
+				254A8DD11C7D619C00F2EC94 /* Login_Logo@2x.png in Resources */,
+				254A8DCA1C7D574100F2EC94 /* LoginBackGround@1x.png in Resources */,
 				254A8DAD1C7C380400F2EC94 /* nameIcon@3x.png in Resources */,
 				B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */,
 				254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */,
@@ -996,19 +1046,25 @@
 				254A8DAB1C7C380400F2EC94 /* nameIcon@1x.png in Resources */,
 				254A8DA01C7C2CAC00F2EC94 /* message@2x.png in Resources */,
 				254A8D9C1C7C2CAC00F2EC94 /* detail@1x.png in Resources */,
+				254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */,
+				254A8DCB1C7D574100F2EC94 /* LoginBackGround@2x.png in Resources */,
 				254A8DA11C7C2CAC00F2EC94 /* message@3x.png in Resources */,
+				254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */,
 				254A8D9D1C7C2CAC00F2EC94 /* detail@2x.png in Resources */,
 				2512B3BA1C70557C00EE661B /* LaunchScreen.storyboard in Resources */,
 				254A8D8A1C7AE02300F2EC94 /* Avatar@1x.png in Resources */,
 				254A8D941C7C2C8B00F2EC94 /* phonecall@2x.png in Resources */,
 				25BFEB4F1C75E61C0062F9B8 /* QRScan@3x.png in Resources */,
 				25BFEB4D1C75E61C0062F9B8 /* QRScan@1x.png in Resources */,
+				254A8DCC1C7D574100F2EC94 /* LoginBackGround@3x.png in Resources */,
 				25BFEB481C75BF1F0062F9B8 /* back@2x.png in Resources */,
 				254A8DA71C7C32B800F2EC94 /* servicePoint@3x.png in Resources */,
 				2512B3B71C70557C00EE661B /* Assets.xcassets in Resources */,
 				2512B4241C7056D200EE661B /* OpenSans-Bold.ttf in Resources */,
+				254A8DC21C7D401A00F2EC94 /* arrow@2x.png in Resources */,
 				252AB88C1C76E3880085CC14 /* search_icon@3x.png in Resources */,
 				B201CCC31C72046D00B8F624 /* Info.plist in Resources */,
+				254A8DD01C7D619C00F2EC94 /* Login_Logo@1x.png in Resources */,
 				254A8D9E1C7C2CAC00F2EC94 /* detail@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1084,7 +1140,7 @@
 			files = (
 				25BFEB401C74A5370062F9B8 /* ServicePointApointmentViewController.m in Sources */,
 				25BFEB1E1C731A630062F9B8 /* StringPacket.m in Sources */,
-				B2640CC71C7C0BED00721CB5 /* ServicePositionDetailViewController.m in Sources */,
+				B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */,
 				2512B41A1C7056C900EE661B /* UIFont+Custom.m in Sources */,
 				B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */,
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
@@ -1105,6 +1161,7 @@
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
 				252AB8791C76B9E50085CC14 /* BaseInfoTableViewCell.m in Sources */,
 				B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */,
+				254A8DBD1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m in Sources */,
 				B2640CDE1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m in Sources */,
 				B2640CD81C7C7D7500721CB5 /* WaitDocResultTableViewCell.m in Sources */,
 				2512B4201C7056C900EE661B /* UIView+Layout.m in Sources */,
@@ -1126,6 +1183,7 @@
 				25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */,
 				252AB8971C7732C50085CC14 /* NavView.m in Sources */,
 				2512B4181C7056C900EE661B /* UIColor+Expanded.m in Sources */,
+				B2F81B4A1C7EA90D0089F51C /* ServicePositionTemperaryViewController.m in Sources */,
 				B2436C8E1C7ACF8F00F543E1 /* CustomerTest.m in Sources */,
 				25BFEB151C73103A0062F9B8 /* ProxyHeartBeatPacket.m in Sources */,
 				2512B4161C7056C900EE661B /* UIButton+HitTest.m in Sources */,
@@ -1147,6 +1205,7 @@
 				2512B41B1C7056C900EE661B /* UIImage+Color.m in Sources */,
 				25BFEB391C7423610062F9B8 /* CompanyInfoOfPhonePacket.m in Sources */,
 				2512B42B1C70631600EE661B /* HMSocket.m in Sources */,
+				254A8DB71C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m in Sources */,
 				25BFEB181C7310CA0062F9B8 /* BasePacket.m in Sources */,
 				B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */,
 				25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */,
@@ -1155,6 +1214,7 @@
 				2512B41D1C7056C900EE661B /* UIImageView+Easy.m in Sources */,
 				254A8D8F1C7BF79700F2EC94 /* ServicePointCell.m in Sources */,
 				B2640CE71C7D613600721CB5 /* AddWorkerCellItem.m in Sources */,
+				B2640CF61C7D9D2100721CB5 /* SelectAddressViewController.m in Sources */,
 				254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */,
 				2512B4171C7056C900EE661B /* UIButton+VerticalLayout.m in Sources */,
 				B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */,

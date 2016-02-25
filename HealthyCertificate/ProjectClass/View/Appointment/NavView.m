@@ -11,9 +11,12 @@
 #import <Masonry.h>
 
 #import "UIButton+Easy.h"
+#import "UIButton+HitTest.h"
 #import "UIFont+Custom.h"
 
 @implementation NavView
+
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 #pragma mark - Setter & Getter
 
@@ -27,6 +30,7 @@
         make.centerY.mas_equalTo(self);
         make.left.mas_equalTo(self.mas_left).with.offset(8);
     }];
+    backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel* navTitleLabel = [[UILabel alloc] init];

@@ -14,7 +14,8 @@
 #import "ServersPositionAnnotionsModel.h"
 #import "PositionUtil.h"
 #import "MyCheckListViewController.h"
-#import "ServicePositionDetailViewController.h"
+#import "ServicePositionTemperaryViewController.h"
+#import "ServicePointDetailViewController.h"
 
 @interface IndexViewController ()
 
@@ -385,14 +386,15 @@
 - (void)minDistanceBtnClicked
 {
     NSLog(@"最近距离服务");
-
 }
 //  一键预约
 - (void)orderBtnClicked
 {
-//    NSLog(@"一键预约点击");
-    [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
-    
+    if (addressLabel.text == nil){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"位置信息未加载完成" removeDelay:3];
+    }else{
+        [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
+    }
 }
 // 点击了头像,显示左侧菜单
 - (void)headerBtnClicked
@@ -537,10 +539,23 @@
         // 回调 0 取消，1预约，2显示基本信息，3拨打电话
         [RzAlertView showActionSheetWithTarget:self.view servicePosition:nearbyServicePositionsArray[anno.tag] handle:^(NSInteger flag) {
             if(flag == 2){
-                ServicePositionDetailViewController *serviceDetail = [[ServicePositionDetailViewController alloc]init];
-                serviceDetail.servicePositionItem = nearbyServicePositionsArray[anno.tag];
-                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:serviceDetail];
-                [self presentViewController:nav animated:YES completion:nil];
+                // 移动服务点
+                if(((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[anno.tag]).type == 1){
+                    TemperaryServicePDeViewController *serviceDetailcon = [[TemperaryServicePDeViewController alloc]init];
+                    serviceDetailcon.servicePositionItem = nearbyServicePositionsArray[anno.tag];
+                    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:serviceDetailcon];
+                    [self presentViewController:nav animated:YES completion:nil];
+                }
+                else { // 固定服务点
+                    ServicePointDetailViewController *servicedetial = [[ServicePointDetailViewController alloc]init];
+                    servicedetial.serverPositionItem = nearbyServicePositionsArray[anno.tag];
+                    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:servicedetial];
+                    [self presentViewController:nav animated:YES completion:nil];
+                }
+
+            }
+            else {
+
             }
         }];
     }

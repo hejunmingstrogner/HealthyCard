@@ -18,11 +18,12 @@
 #import "NSDate+Custom.h"
 
 
-@interface CloudAppointmentDateVC()<UITableViewDataSource,UITableViewDelegate,HCWheelViewDelegate>
+@interface CloudAppointmentDateVC()<UITableViewDataSource,UITableViewDelegate,HCWheelViewDelegate,NavViewDelegate>
 {
     HCWheelView             *_beginDateWheelView;
     HCWheelView             *_endDateWheelView;
     UITableView             *_tableView;
+    NavView                 *_navView;
 
     bool                     _isBeginDate;
 }
@@ -35,14 +36,15 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    NavView* navView = [[NavView alloc] init];
-    [self.view addSubview:navView];
-    [navView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _navView = [[NavView alloc] init];
+    [self.view addSubview:_navView];
+    [_navView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.view).with.offset(kStatusBarHeight);
         make.left.right.mas_equalTo(self.view);
         make.height.mas_equalTo(kNavigationBarHeight);
     }];
-    [navView setNavTitle:@"预约日期选择"];
+    _navView.delegate = self;
+    [_navView setNavTitle:@"预约日期选择"];
     
     _tableView = [[UITableView alloc] init];
     _tableView.dataSource = self;
@@ -52,7 +54,7 @@
     _tableView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(navView.mas_bottom);
+        make.top.mas_equalTo(_navView.mas_bottom);
         make.left.right.bottom.mas_equalTo(self.view);
         make.height.mas_equalTo(SCREEN_HEIGHT - kNavigationBarHeight - kStatusBarHeight);
     }];
@@ -148,6 +150,11 @@
         cell.detailTextLabel.text = _endDateString;
     }
     return cell;
+}
+
+#pragma mark - NavViewDelegate
+-(void)backBtnClicked{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 //改变footerview的颜色

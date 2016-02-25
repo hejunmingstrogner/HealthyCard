@@ -23,8 +23,8 @@
 
 
 // 计算时间 年月日
-+ (NSString *)getYear_Month_DayByDate:(NSDate *)itDate;
++ (NSString *)getYear_Month_DayByDate:(long long)itDate;
 // 计算 时分
-+ (NSString *)getHour_MinuteByDate:(NSDate *)itDate;
++ (NSString *)getHour_MinuteByDate:(long long)itDate;
 
 @end

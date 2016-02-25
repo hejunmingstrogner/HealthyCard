@@ -9,6 +9,7 @@
 #import "CustomerTestTableViewCell.h"
 #import <Masonry.h>
 #import "NSString+Count.h"
+#import "NSDate+Custom.h"
 
 @interface CustomerTestTableViewCell()
 {
@@ -146,30 +147,6 @@
     if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
         return;
     }
-    serviceTimeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)", [self getYear_Month_DayByDate:customerTest.servicePoint.startTime], [self getHour_MinuteByDate:customerTest.servicePoint.startTime], [self getHour_MinuteByDate:customerTest.servicePoint.endTime]];
-}
-
-// 计算时间 年月日
-- (NSString *)getYear_Month_DayByDate:(NSDate *)itDate
-{
-    if (!itDate) {
-        return @"";
-    }
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy.MM.dd"];
-    NSString *time = [formatter stringFromDate:itDate];
-    return time;
-}
-
-// 计算时间 时分
-- (NSString *)getHour_MinuteByDate:(NSDate *)itDate
-{
-    if (!itDate) {
-        return @"";
-    }
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"HH:mm"];
-    NSString *time = [formatter stringFromDate:itDate];
-    return time;
+    serviceTimeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)", [NSDate getYear_Month_DayByDate:customerTest.servicePoint.startTime], [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime], [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime]];
 }
 @end

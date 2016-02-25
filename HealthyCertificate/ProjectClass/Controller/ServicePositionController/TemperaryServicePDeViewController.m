@@ -1,21 +1,27 @@
 //
-//  ServicePositionDetailViewController.m
+//  TemperaryServicePDeViewController.m
 //  HealthyCertificate
 //
-//  Created by 乄若醉灬 on 16/2/23.
+//  Created by 乄若醉灬 on 16/2/25.
 //  Copyright © 2016年 JIANGXU. All rights reserved.
 //
 
-#import "ServicePositionDetailViewController.h"
+#import "TemperaryServicePDeViewController.h"
+
+#import "ServicePositionDetialCellItem.h"
 #import <Masonry.h>
 #import "ServicePositionCarHeadTableViewCell.h"
-#import "ServicePositionDetialCellItem.h"
 
-@interface ServicePositionDetailViewController()<UITableViewDataSource, UITableViewDelegate>
+@interface TemperaryServicePDeViewController()<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) NSMutableArray *detialeInfoArray;
 
 @end
 
-@implementation ServicePositionDetailViewController
+@implementation TemperaryServicePDeViewController
+
 
 - (void)viewDidLoad
 {
@@ -30,7 +36,7 @@
 
 - (void)initNavgation
 {
-    self.title = _servicePositionItem.brOutCheckArrange.vehicleNO;  // 车辆牌照
+    self.title = _servicePositionItem.brOutCheckArrange.plateNo;  // 车辆牌照
     // 返回按钮
     UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backbtn.frame = CGRectMake(0, 0, 30, 30);
@@ -102,6 +108,10 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if(_detialeInfoArray.count == 0)
+    {
+        return 0;
+    }
     return 3;
 }
 
@@ -136,8 +146,9 @@
     else if(indexPath.section == 1){
         return 44;
     }
-    else if (indexPath.section == 2)
-        return fmaxf(44, [self cellheight:((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.row]).titleText]);
+    else if (indexPath.section == 2){
+        return fmaxf(44, [self cellheight:((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).titleText]);
+    }
     return 1;
 }
 
@@ -159,8 +170,8 @@
             cell.detailTextLabel.numberOfLines = 0;
             cell.detailTextLabel.textColor = [UIColor blackColor];
         }
-        cell.textLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.row]).titleText;
-        cell.detailTextLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.row]).detialText;
+        cell.textLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).titleText;
+        cell.detailTextLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).detialText;
 
         if (indexPath.row == 0) {
             cell.textLabel.textColor = [UIColor blackColor];
@@ -186,4 +197,6 @@
 {
     NSLog(@"预约");
 }
+
+
 @end
