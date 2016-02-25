@@ -18,8 +18,9 @@
 #import "UILabel+FontColor.h"
 #import "NSDate+Custom.h"
 
-#define Cell_Font 17
-#define Cell_Detail_Font 15
+
+#define Cell_Font FIT_FONTSIZE(24)
+#define Cell_Detail_Font FIT_FONTSIZE(23)
 
 @interface ServicePointCell()
 {

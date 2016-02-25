@@ -306,10 +306,11 @@
         _isFirstShown = YES;
         CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
         [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
-        _viewHeight = SCREEN_HEIGHT-kStatusBarHeight-kNavigationBarHeight - keyboardBounds.size.height;
+        _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
     }
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+        self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+        //self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
         [self.view layoutIfNeeded];
         
     } completion:NULL];
@@ -320,7 +321,7 @@
     CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
     [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+        self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
         [self.view layoutIfNeeded];
     } completion:NULL];
 }

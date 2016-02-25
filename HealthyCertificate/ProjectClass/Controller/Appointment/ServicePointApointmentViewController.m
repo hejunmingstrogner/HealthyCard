@@ -17,6 +17,7 @@
 #import "ServicePointCell.h"
 #import "ServersPositionAnnotionsModel.h"
 
+
 @interface ServicePointApointmentViewController()<UITableViewDataSource,UITableViewDelegate>
 {
 }
