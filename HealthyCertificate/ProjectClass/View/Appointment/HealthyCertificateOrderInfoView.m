@@ -43,9 +43,9 @@
     [self addSubview:_segmentControl];
     [_segmentControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.top.equalTo(self).offset((self.frame.size.height/4-40)/2);
+        make.top.equalTo(self).offset(5);
         make.width.mas_equalTo(self.frame.size.width/2);
-        make.height.mas_equalTo(40);
+        make.height.equalTo(self).offset(self.frame.size.height/4-10);
     }];
     _segmentControl.selectedSegmentIndex = 0;
     _segmentControl.tintColor = [UIColor colorWithRed:30/255.0 green:150/255.0 blue:200/255.0 alpha:1];

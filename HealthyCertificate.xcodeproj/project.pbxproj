@@ -137,11 +137,11 @@
 		B2640CE41C7D5E8B00721CB5 /* AddWorkerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE31C7D5E8B00721CB5 /* AddWorkerTableViewCell.m */; };
 		B2640CE71C7D613600721CB5 /* AddWorkerCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */; };
 		B2640CF61C7D9D2100721CB5 /* SelectAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */; };
-		B2F81B4A1C7EA90D0089F51C /* ServicePositionTemperaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F81B491C7EA90D0089F51C /* ServicePositionTemperaryViewController.m */; };
 		B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
 		B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826291C73143200993F47 /* LeftMenuView.m */; };
+		B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -377,8 +377,6 @@
 		B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerCellItem.m; sourceTree = "<group>"; };
 		B2640CF41C7D9D2100721CB5 /* SelectAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectAddressViewController.h; sourceTree = "<group>"; };
 		B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectAddressViewController.m; sourceTree = "<group>"; };
-		B2F81B481C7EA90D0089F51C /* ServicePositionTemperaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePositionTemperaryViewController.h; sourceTree = "<group>"; };
-		B2F81B491C7EA90D0089F51C /* ServicePositionTemperaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePositionTemperaryViewController.m; sourceTree = "<group>"; };
 		B2F81B4B1C7EAE680089F51C /* TemperaryServicePDeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemperaryServicePDeViewController.h; sourceTree = "<group>"; };
 		B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemperaryServicePDeViewController.m; sourceTree = "<group>"; };
 		B2F826201C730D6000993F47 /* LocationSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchModel.h; sourceTree = "<group>"; };
@@ -387,6 +385,8 @@
 		B2F826251C730DA500993F47 /* LeftMenuCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuCellItem.m; sourceTree = "<group>"; };
 		B2F826281C73143200993F47 /* LeftMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuView.h; sourceTree = "<group>"; };
 		B2F826291C73143200993F47 /* LeftMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuView.m; sourceTree = "<group>"; };
+		B2FEA8621C7ED5D700106EE8 /* PersonalHealthyCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalHealthyCController.h; sourceTree = "<group>"; };
+		B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalHealthyCController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -701,6 +701,7 @@
 		25BFEB3A1C74A4DD0062F9B8 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				B2FEA8611C7ED5BC00106EE8 /* PersonalHealthyCertificaController */,
 				254A8DB11C7C574A00F2EC94 /* ServicePointAppointment */,
 				252AB8911C770F6A0085CC14 /* CloudAppointment */,
 				25BFEB3B1C74A50F0062F9B8 /* CloudAppointmentViewController.h */,
@@ -855,8 +856,6 @@
 		B2640CC41C7C0BAB00721CB5 /* ServicePositionController */ = {
 			isa = PBXGroup;
 			children = (
-				B2F81B481C7EA90D0089F51C /* ServicePositionTemperaryViewController.h */,
-				B2F81B491C7EA90D0089F51C /* ServicePositionTemperaryViewController.m */,
 				B2F81B4B1C7EAE680089F51C /* TemperaryServicePDeViewController.h */,
 				B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */,
 			);
@@ -908,6 +907,15 @@
 				B2F826291C73143200993F47 /* LeftMenuView.m */,
 			);
 			path = LeftMenuView;
+			sourceTree = "<group>";
+		};
+		B2FEA8611C7ED5BC00106EE8 /* PersonalHealthyCertificaController */ = {
+			isa = PBXGroup;
+			children = (
+				B2FEA8621C7ED5D700106EE8 /* PersonalHealthyCController.h */,
+				B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */,
+			);
+			path = PersonalHealthyCertificaController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1183,7 +1191,6 @@
 				25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */,
 				252AB8971C7732C50085CC14 /* NavView.m in Sources */,
 				2512B4181C7056C900EE661B /* UIColor+Expanded.m in Sources */,
-				B2F81B4A1C7EA90D0089F51C /* ServicePositionTemperaryViewController.m in Sources */,
 				B2436C8E1C7ACF8F00F543E1 /* CustomerTest.m in Sources */,
 				25BFEB151C73103A0062F9B8 /* ProxyHeartBeatPacket.m in Sources */,
 				2512B4161C7056C900EE661B /* UIButton+HitTest.m in Sources */,
@@ -1208,6 +1215,7 @@
 				254A8DB71C7C7F6700F2EC94 /* CloudCompanyAppointmentCell.m in Sources */,
 				25BFEB181C7310CA0062F9B8 /* BasePacket.m in Sources */,
 				B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */,
+				B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */,
 				25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */,
 				25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */,
 				252AB88F1C7703690085CC14 /* HCWheelView.m in Sources */,
