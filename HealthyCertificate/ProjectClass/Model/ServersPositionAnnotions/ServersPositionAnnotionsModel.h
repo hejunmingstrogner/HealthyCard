@@ -46,7 +46,7 @@
 @property (nonatomic, strong) NSString * address;           // 服务点地址。
 @property (nonatomic, strong) NSString * cHostCode;         // 所属机构ID。
 @property (nonatomic, assign) int        checkinNum;        // 已检人数。
-@property (nonatomic, assign) double     distance;          // 和查询位置的距离。 [单位：米]
+@property (nonatomic, assign) double     distance;          // 和查询位置的距离。 [单位：千米]
 @property (nonatomic, assign) long long  endTime;           // 服务结束时间。
 @property (nonatomic, strong) NSString * id;                // 服务点ID。 若为固定的，则是医疗机构编号；若为临时，则为临时服务点uid;
 @property (nonatomic, strong) NSString * leaderPhone;       // 负责人电话。
