@@ -14,7 +14,6 @@
 #import "ServersPositionAnnotionsModel.h"
 #import "PositionUtil.h"
 #import "MyCheckListViewController.h"
-#import "ServicePositionTemperaryViewController.h"
 #import "ServicePointDetailViewController.h"
 
 @interface IndexViewController ()
