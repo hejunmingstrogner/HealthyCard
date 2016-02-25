@@ -84,6 +84,7 @@
 		254A8DD01C7D619C00F2EC94 /* Login_Logo@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCD1C7D619C00F2EC94 /* Login_Logo@1x.png */; };
 		254A8DD11C7D619C00F2EC94 /* Login_Logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCE1C7D619C00F2EC94 /* Login_Logo@2x.png */; };
 		254A8DD21C7D619C00F2EC94 /* Login_Logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */; };
+		254A8DD51C7DA0CE00F2EC94 /* NSString+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
 		25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB101C72C70F0062F9B8 /* HCRule.m */; };
@@ -277,6 +278,8 @@
 		254A8DCD1C7D619C00F2EC94 /* Login_Logo@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Logo@1x.png"; sourceTree = "<group>"; };
 		254A8DCE1C7D619C00F2EC94 /* Login_Logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Logo@2x.png"; sourceTree = "<group>"; };
 		254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Logo@3x.png"; sourceTree = "<group>"; };
+		254A8DD31C7DA0CE00F2EC94 /* NSString+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Custom.h"; sourceTree = "<group>"; };
+		254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Custom.m"; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
 		25BFE9721C7199610062F9B8 /* RzAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RzAlertView.m; sourceTree = "<group>"; };
 		25BFEB0B1C71C9110062F9B8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -524,6 +527,8 @@
 				252AB89C1C783B260085CC14 /* NSDate+Custom.m */,
 				B2640CCE1C7C412400721CB5 /* UILabel+FontColor.h */,
 				B2640CCF1C7C412400721CB5 /* UILabel+FontColor.m */,
+				254A8DD31C7DA0CE00F2EC94 /* NSString+Custom.h */,
+				254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1164,6 +1169,7 @@
 				254A8DBD1C7C8BEC00F2EC94 /* CloudCompanyAppointmentStaffCell.m in Sources */,
 				B2640CDE1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m in Sources */,
 				B2640CD81C7C7D7500721CB5 /* WaitDocResultTableViewCell.m in Sources */,
+				254A8DD51C7DA0CE00F2EC94 /* NSString+Custom.m in Sources */,
 				2512B4201C7056C900EE661B /* UIView+Layout.m in Sources */,
 				B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */,
 				25BFEB2D1C7405810062F9B8 /* PackageOperation.m in Sources */,
