@@ -12,7 +12,7 @@
 #import <Masonry.h>
 #import "ServicePositionCarHeadTableViewCell.h"
 #import "CloudAppointmentViewController.h"
-
+#import "UIFont+Custom.h"
 @interface TemperaryServicePDeViewController()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -166,6 +166,8 @@
             cell.textLabel.numberOfLines = 0;
             cell.detailTextLabel.numberOfLines = 0;
             cell.detailTextLabel.textColor = [UIColor blackColor];
+            cell.textLabel.font = [UIFont fontWithType:0 size:15];
+            cell.detailTextLabel.font = [UIFont fontWithType:0 size:15];
         }
         cell.textLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).titleText;
         cell.detailTextLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).detialText;
