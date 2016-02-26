@@ -19,4 +19,7 @@
 @property (nonatomic, assign) CLLocationCoordinate2D appointCoordinate;    // 预约坐标
 
 @property (nonatomic, strong) UIButton    *orderBtn; // 预约
+
+@property (nonatomic, strong) NSMutableArray *inforArray;
+
 @end
