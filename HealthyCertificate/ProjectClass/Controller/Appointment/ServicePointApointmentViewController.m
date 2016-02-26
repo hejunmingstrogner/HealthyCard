@@ -74,6 +74,7 @@
     ServicePointCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ServicePointCell class])];
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor colorWithRGBHex:0xe0e0e0].CGColor;
+    __weak typeof (self) wself = self;
     cell.serviceAppointmentBtnClickedBlock = ^(){
         //服务点详情
         ServersPositionAnnotionsModel* servicePositionAnnotionsModel = [[ServersPositionAnnotionsModel alloc] init];
@@ -83,13 +84,13 @@
             ServicePointDetailViewController* fixedServicePointVC = [[ServicePointDetailViewController alloc] init];
             fixedServicePointVC.serverPositionItem = servicePositionAnnotionsModel;
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:fixedServicePointVC];
-            [self.parentViewController presentViewController:nav animated:YES completion:nil];
+            [wself.parentViewController presentViewController:nav animated:YES completion:nil];
         }else{
             //移动服务点
             TemperaryServicePDeViewController* movingServicePointVC = [[TemperaryServicePDeViewController alloc] init];
             movingServicePointVC.servicePositionItem = servicePositionAnnotionsModel;
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:movingServicePointVC];
-            [self.parentViewController presentViewController:nav animated:YES completion:nil];
+            [wself.parentViewController presentViewController:nav animated:YES completion:nil];
         }
         
         
