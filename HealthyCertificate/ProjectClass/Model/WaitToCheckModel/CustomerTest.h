@@ -128,7 +128,7 @@
 /**
  *
  */
-@property (nonatomic, strong) NSString * testStatus;
+@property (nonatomic, strong) NSString * testStatus;        // -1待检 0签到 1在检 2延期 3待出证
 @property (nonatomic, assign) int mainItemNum;
 @property (nonatomic, strong) NSString * rfidNo;
 @property (nonatomic, strong) NSDate * synTime;

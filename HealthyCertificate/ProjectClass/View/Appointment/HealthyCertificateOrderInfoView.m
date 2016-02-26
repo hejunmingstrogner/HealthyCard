@@ -73,7 +73,7 @@
     _addressBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _addressBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);
     _addressBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 5);
-    _addressBtn.titleLabel.font = [UIFont fontWithType:1 size:17];
+    _addressBtn.titleLabel.font = [UIFont fontWithType:1 size:14];
 
     [_addressBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(self.frame.size.height/4);
@@ -91,7 +91,7 @@
     _timeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _timeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);
     _timeBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 5);
-    _timeBtn.titleLabel.font = [UIFont fontWithType:1 size:17];
+    _timeBtn.titleLabel.font = [UIFont fontWithType:1 size:14];
 
     [_timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_addressBtn.mas_bottom).offset(1);
@@ -107,7 +107,7 @@
     _phoneBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _phoneBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);
     _phoneBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 5);
-    _phoneBtn.titleLabel.font = [UIFont fontWithType:1 size:17];
+    _phoneBtn.titleLabel.font = [UIFont fontWithType:1 size:14];
 
     [_phoneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_timeBtn.mas_bottom).offset(1);
@@ -141,9 +141,8 @@
             }
             else {
                 NSString *year = [NSDate getYear_Month_DayByDate:_brContract.cRegBeginDate];
-                NSString *start = [NSDate getHour_MinuteByDate:_brContract.cRegBeginDate];
-                NSString *end = [NSDate getHour_MinuteByDate:_brContract.cRegEndDate];
-                NSString *time = [NSString stringWithFormat:@"%@ %@-%@",year, start, end];
+                NSString *end = [NSDate getYear_Month_DayByDate:_brContract.cRegEndDate];
+                NSString *time = [NSString stringWithFormat:@"%@-%@",year, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
 
@@ -155,10 +154,9 @@
 
             }
             else {
-                NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.regBeginDate];
-                NSString *start = [NSDate getHour_MinuteByDate:_cutomerTest.regBeginDate];
-                NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.regEndDate];
-                NSString *time = [NSString stringWithFormat:@"%@ %@-%@",year, start, end];
+                NSString *startyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regBeginDate];
+                NSString *endyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regEndDate];
+                NSString *time = [NSString stringWithFormat:@"%@-%@",startyear, endyear];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
 
@@ -174,9 +172,8 @@
             }
             else {
                 NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime];
-                NSString *start = [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime];
-                NSString *end = [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime];
-                NSString *time = [NSString stringWithFormat:@"%@ %@-%@",year, start, end];
+                NSString *end = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.endTime];
+                NSString *time = [NSString stringWithFormat:@"%@-%@",year, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
             [_phoneBtn setTitle:_brContract.servicePoint.leaderPhone forState:UIControlStateNormal];
@@ -188,9 +185,8 @@
             }
             else {
                 NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime];
-                NSString *start = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime];
-                NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime];
-                NSString *time = [NSString stringWithFormat:@"%@ %@-%@",year, start, end];
+                NSString *end = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.endTime];
+                NSString *time = [NSString stringWithFormat:@"%@-%@",year, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
 
