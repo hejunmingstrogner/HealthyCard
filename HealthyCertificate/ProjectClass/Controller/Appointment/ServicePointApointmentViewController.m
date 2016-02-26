@@ -17,6 +17,9 @@
 #import "ServicePointCell.h"
 #import "ServersPositionAnnotionsModel.h"
 
+#import "TemperaryServicePDeViewController.h"
+#import "ServicePointDetailViewController.h"
+
 
 @interface ServicePointApointmentViewController()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -71,8 +74,26 @@
     ServicePointCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ServicePointCell class])];
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor colorWithRGBHex:0xe0e0e0].CGColor;
+    __weak typeof (self) wself = self;
     cell.serviceAppointmentBtnClickedBlock = ^(){
         //服务点详情
+        ServersPositionAnnotionsModel* servicePositionAnnotionsModel = [[ServersPositionAnnotionsModel alloc] init];
+        servicePositionAnnotionsModel = _serverPointList[indexPath.section];
+        if (servicePositionAnnotionsModel.type == 0){
+            //固定服务点
+            ServicePointDetailViewController* fixedServicePointVC = [[ServicePointDetailViewController alloc] init];
+            fixedServicePointVC.serverPositionItem = servicePositionAnnotionsModel;
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:fixedServicePointVC];
+            [wself.parentViewController presentViewController:nav animated:YES completion:nil];
+        }else{
+            //移动服务点
+            TemperaryServicePDeViewController* movingServicePointVC = [[TemperaryServicePDeViewController alloc] init];
+            movingServicePointVC.servicePositionItem = servicePositionAnnotionsModel;
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:movingServicePointVC];
+            [wself.parentViewController presentViewController:nav animated:YES completion:nil];
+        }
+        
+        
         
     };
     //cell.servicePoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.row];
