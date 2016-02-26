@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 {
     UITableView         *_baseInfoTableView;
     UITableView         *_companyInfoTableView;
-    UITableView         *_staffTableView;
+    //UITableView         *_staffTableView;
     
     NSString            *_dateString;
     
@@ -60,10 +60,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     //键盘收缩相关
     BOOL                 _isFirstShown;
     CGFloat              _viewHeight;
-    
-    //选择的员工列表
-    NSArray             *_customerArr;
 }
+
+//选择的员工列表
+@property (nonatomic, strong) NSArray* customerArr;
+@property (nonatomic ,strong) UITableView* staffTableView;
+
 @end
 
 @implementation CloudAppointmentCompanyViewController
@@ -78,6 +80,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     cell.textField.text = appointmentDateStr;
     _appointmentDateStr = appointmentDateStr;
+}
+
+-(NSArray*)customerArr{
+    if (_customerArr == nil)
+        _customerArr = [[NSArray alloc] init];
+    return _customerArr;
 }
 
 #pragma mark - Public Methods
@@ -318,6 +326,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         case TABLEVIEW_STAFFINFO:
         {
             CloudCompanyAppointmentStaffCell* cell = [[CloudCompanyAppointmentStaffCell alloc] init];
+            cell.staffCount = _customerArr.count;
             if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
             {
                 [cell setSeparatorInset:UIEdgeInsetsZero];
@@ -367,10 +376,15 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }
             break;
         case TABLEVIEW_STAFFINFO:
-        {//_customerArr
+        {
             AddWorkerViewController* addworkerViewController = [[AddWorkerViewController alloc] init];
             addworkerViewController.switchStyle = SWITCH_MISS;
-           // __weak typeof (self) weakSelf = self;
+            addworkerViewController.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];
+            __weak CloudAppointmentCompanyViewController * weakSelf = self;
+            [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {
+                weakSelf.customerArr = workerArray;
+                [weakSelf.staffTableView reloadData];
+            }];
           //  [addworkerViewController ]
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:addworkerViewController];
             [self.parentViewController presentViewController:nav animated:YES completion:nil];

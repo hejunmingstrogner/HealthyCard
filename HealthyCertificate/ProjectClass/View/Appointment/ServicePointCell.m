@@ -17,10 +17,13 @@
 #import "UIFont+Custom.h"
 #import "UILabel+FontColor.h"
 #import "NSDate+Custom.h"
+#import "UIButton+HitTest.h"
 
 
 #define Cell_Font FIT_FONTSIZE(24)
 #define Cell_Detail_Font FIT_FONTSIZE(23)
+
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface ServicePointCell()
 {
@@ -191,6 +194,7 @@
         
         UIButton* messageBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"message"]
                                                 highlightImage:[UIImage imageNamed:@"message"]];
+        messageBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
         [messageBtn addTarget:self action:@selector(messageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [bottomView addSubview:messageBtn];
         [messageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -200,6 +204,7 @@
         
         UIButton* phoneCallBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"phonecall"]
                                                   highlightImage:[UIImage imageNamed:@"phonecall"]];
+        phoneCallBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
         [phoneCallBtn addTarget:self action:@selector(phoneCallBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [bottomView addSubview:phoneCallBtn];
         [phoneCallBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -209,6 +214,7 @@
         
         UIButton* detailBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"detail"]
                                                   highlightImage:[UIImage imageNamed:@"detail"]];
+        detailBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
         [detailBtn addTarget:self action:@selector(detailBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [bottomView addSubview:detailBtn];
         [detailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -231,13 +237,16 @@
 
 #pragma mark - Action
 -(void)messageBtnClicked:(id)sender
-{}
-
+{
+}
 
 -(void)phoneCallBtnClicked:(id)sender
-{}
+{
+}
 
 -(void)detailBtnClicked:(id)sender
-{}
+{
+    (_serviceAppointmentBtnClickedBlock)();
+}
 
 @end

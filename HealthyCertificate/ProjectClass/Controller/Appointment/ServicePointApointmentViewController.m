@@ -71,6 +71,10 @@
     ServicePointCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ServicePointCell class])];
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor colorWithRGBHex:0xe0e0e0].CGColor;
+    cell.serviceAppointmentBtnClickedBlock = ^(){
+        //服务点详情
+        
+    };
     //cell.servicePoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.row];
     ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
     cell.servicePoint = serverPoint;

@@ -12,6 +12,9 @@
 
 @interface ServicePointCell : UITableViewCell
 
+typedef void(^ServicePointCellBtnClickedBlock)();
+
 @property (nonatomic, strong) ServersPositionAnnotionsModel* servicePoint;
+@property (nonatomic ,copy) ServicePointCellBtnClickedBlock serviceAppointmentBtnClickedBlock;
 
 @end
