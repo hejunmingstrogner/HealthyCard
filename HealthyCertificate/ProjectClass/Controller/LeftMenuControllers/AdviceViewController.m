@@ -7,6 +7,8 @@
 //
 
 #import "AdviceViewController.h"
+#import "UIFont+Custom.h"
+#import "RzAlertView.h"
 
 @implementation AdviceViewController
 
@@ -68,9 +70,47 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (BOOL)isconnectionNet{
+    // Create zero addy
+    struct sockaddr_in zeroAddress;
+    bzero(&zeroAddress, sizeof(zeroAddress));
+    zeroAddress.sin_len = sizeof(zeroAddress);
+    zeroAddress.sin_family = AF_INET;
+
+    // Recover reachability flags
+    SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&zeroAddress);
+    SCNetworkReachabilityFlags flags;
+
+    BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
+    CFRelease(defaultRouteReachability);
+
+    if (!didRetrieveFlags)
+    {
+        return NO;
+    }
+
+    BOOL isReachable = ((flags & kSCNetworkFlagsReachable) != 0);
+    BOOL needsConnection = ((flags & kSCNetworkFlagsConnectionRequired) != 0);
+    return (isReachable && !needsConnection) ? YES : NO;
+}
+
 - (void)confirmClicked:(id)sender
 {
-    NSLog(@"确认提交");
+    if(_adviceTextView.text.length == 0)
+    {
+        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您还未填写完整" ActionTitle:@"确认" ActionStyle:0];
+        return;
+    }
+    if (![self isconnectionNet]) {
+        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"网络链接错误，请检查后重试" ActionTitle:@"确认" ActionStyle:0];
+    }
+    else {
+        [self.view endEditing:YES];
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的反馈我们已收到，谢谢您的耐心使用" removeDelay:2];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self backToPre:nil];
+        });
+    }
 }
 // 关闭键盘
 - (void)closeKeyBoard:(UIButton *)sender
@@ -86,7 +126,7 @@
 
     _adviceTextView = [[UITextView alloc]init];
     _adviceTextView.keyboardType = UIKeyboardTypeDefault;
-
+    _adviceTextView.font = [UIFont fontWithType:0 size:15];
     _selectMistakeFlagArray = [NSMutableArray arrayWithObjects:@"0", @"0", @"0", @"0", nil];
 }
 
