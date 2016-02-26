@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomerTest.h"
 
 @protocol HealthyCertificateViewDelegate <NSObject>
 
@@ -39,5 +40,7 @@
 @property (nonatomic, copy) NSString* picStr;
 
 @property (nonatomic, weak) id<HealthyCertificateViewDelegate> delegate;
+
+@property (nonatomic, strong) CustomerTest *customerTest;
 
 @end

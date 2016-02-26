@@ -22,6 +22,8 @@
 
 @property (nonatomic, assign) NSInteger selectIndex;
 
+@property (nonatomic, strong) NSString *addressStr;
+
 typedef void(^getAddressAndCoordinate)(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor);
 @property (nonatomic, strong)getAddressAndCoordinate block;
 

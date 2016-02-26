@@ -13,6 +13,7 @@
 #import "UIFont+Custom.h"
 
 @implementation SelectAddressViewController
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -64,7 +65,7 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)confirmBtnClicked:(UIBarButtonItem *)sender
@@ -95,7 +96,7 @@
     }
     [[LocationSearchModel getInstance]getLocationsWithKeyText:_textField.text withBlock:^(NSArray *cityArray, NSArray *districtArray, NSArray *addressArray, NSArray *coordinateArray, NSError *error) {
         if (!error) {
-            if (_addressArray.count == 0) {
+            if (addressArray.count == 0) {
                 return ;
             }
             _cityArray = [NSMutableArray arrayWithArray:cityArray];
@@ -111,6 +112,7 @@
 }
 - (void)initSubViews
 {
+    self.view.backgroundColor = [UIColor whiteColor];
     _addressArray = [NSMutableArray array];
 
     UILabel *label = [[UILabel alloc]init];
@@ -121,12 +123,12 @@
         make.right.equalTo(self.view).offset(5);
         make.height.mas_equalTo(44);
     }];
-    label.layer.borderColor = [UIColor colorWithRed:50/255.0 green:70/255.0 blue:90/255.0 alpha:0.7].CGColor;
-    label.layer.borderWidth = 1;
     label.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:0.8];
+    label.layer.borderWidth = 1;
 
     _textField = [[UITextField alloc]init];
     [self.view addSubview:_textField];
+    _textField.text = _addressStr;
     [_textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
     [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(label).insets(UIEdgeInsetsMake(0, 15, 0, 15));
@@ -135,7 +137,7 @@
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(label.mas_bottom).offset(5);
+        make.top.equalTo(label.mas_bottom).offset(0);
         make.left.right.bottom.equalTo(self.view);
     }];
     _tableView.dataSource = self;
