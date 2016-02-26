@@ -25,6 +25,12 @@
 
 
 @implementation ServicePointApointmentViewController
+
+#pragma mark - Public Methods
+-(void)hideTheKeyBoard{
+    //[_phoneNumTextField resignFirstResponder];
+}
+
 #pragma mark - Life Circle
 -(void)viewDidLoad{
     [super viewDidLoad];
@@ -57,7 +63,6 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-   // return _serverPointList.count;
     return 1;
 }
 

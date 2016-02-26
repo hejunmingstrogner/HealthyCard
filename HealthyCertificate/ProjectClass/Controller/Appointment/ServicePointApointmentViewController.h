@@ -12,4 +12,9 @@
 
 @property (nonatomic, strong) NSMutableArray* serverPointList;
 
+/**
+ *  隐藏界面的键盘
+ */
+-(void)hideTheKeyBoard;
+
 @end
