@@ -376,13 +376,13 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }
             break;
         case TABLEVIEW_STAFFINFO:
-        {//_customerArr
+        {
             AddWorkerViewController* addworkerViewController = [[AddWorkerViewController alloc] init];
             addworkerViewController.switchStyle = SWITCH_MISS;
+            addworkerViewController.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];
             __weak CloudAppointmentCompanyViewController * weakSelf = self;
             [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {
                 weakSelf.customerArr = workerArray;
-                
                 [weakSelf.staffTableView reloadData];
             }];
           //  [addworkerViewController ]
