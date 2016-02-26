@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <Masonry.h>
+#import <CommonCrypto/CommonHMAC.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <arpa/inet.h>
 
 @interface AdviceViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
