@@ -76,4 +76,11 @@
     return dateString;
 }
 
++ (NSDate*)formatDateFromChineseString:(NSString*)dateStr
+{
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy年MM月dd日"];
+    return [format dateFromString:dateStr];
+}
+
 @end

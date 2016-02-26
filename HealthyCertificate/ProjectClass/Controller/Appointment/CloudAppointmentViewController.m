@@ -21,6 +21,7 @@
 
 #import "BaseInfoTableViewCell.h"
 #import "CloudAppointmentDateVC.h"
+#import "SelectAddressViewController.h"
 
 #import "HealthyCertificateView.h"
 #import "AppointmentInfoView.h"
@@ -43,6 +44,12 @@
 
 @implementation CloudAppointmentViewController
 
+
+#pragma mark - Public Methods
+-(void)hideTheKeyBoard{
+    [_phoneNumTextField resignFirstResponder];
+}
+
 #pragma mark - Setter & Getter
 -(void)setCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate{
     _centerCoordinate = centerCoordinate;
@@ -56,6 +63,7 @@
 {
     BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     cell.textField.text = appointmentDateStr;
+    _appointmentDateStr = appointmentDateStr;
 }
 
 #pragma mark - Life Circle
@@ -215,6 +223,10 @@
 {
     if (indexPath.row == 0){
         //跳转地址
+        SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
+        selectAddressViewController.textField.text = _location;
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
+        [self.parentViewController presentViewController:nav animated:YES completion:nil];
     }else if (indexPath.row == 1){
         [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
     }else{

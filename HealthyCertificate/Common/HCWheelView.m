@@ -14,6 +14,9 @@
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 
+#define Text_Font FIT_FONTSIZE(24)
+#define Btn_Font FIT_FONTSIZE(23)
+
 @interface HCWheelView()<UIPickerViewDataSource, UIPickerViewAccessibilityDelegate>
 {
 }
@@ -26,7 +29,7 @@
     if (self = [super initWithFrame:frame]){
         self.backgroundColor = [UIColor whiteColor];
         UIButton* sureBtn = [UIButton buttonWithTitle:@"确定"
-                                                 font:[UIFont fontWithType:UIFontOpenSansSemibold size:16]
+                                                 font:[UIFont fontWithType:UIFontOpenSansSemibold size:Btn_Font]
                                             textColor:MO_RGBCOLOR(0, 174, 239)
                                       backgroundColor:[UIColor whiteColor]];
         [self addSubview:sureBtn];
@@ -37,7 +40,7 @@
         [sureBtn addTarget:self action:@selector(sureBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton* cancelBtn = [UIButton buttonWithTitle:@"取消"
-                                                   font:[UIFont fontWithType:UIFontOpenSansSemibold size:16]
+                                                   font:[UIFont fontWithType:UIFontOpenSansSemibold size:Btn_Font]
                                               textColor:MO_RGBCOLOR(0, 174, 239)
                                         backgroundColor:[UIColor whiteColor]];
         [self addSubview:cancelBtn];
