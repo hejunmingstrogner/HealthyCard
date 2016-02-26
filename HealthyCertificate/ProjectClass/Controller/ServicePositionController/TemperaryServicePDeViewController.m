@@ -11,6 +11,7 @@
 #import "ServicePositionDetialCellItem.h"
 #import <Masonry.h>
 #import "ServicePositionCarHeadTableViewCell.h"
+#import "CloudAppointmentViewController.h"
 
 @interface TemperaryServicePDeViewController()<UITableViewDelegate, UITableViewDataSource>
 
@@ -41,7 +42,7 @@
     UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backbtn.frame = CGRectMake(0, 0, 30, 30);
     [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 10);
     [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
     self.navigationItem.leftBarButtonItem = backitem;
@@ -49,6 +50,7 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
+    [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -75,7 +77,8 @@
     _orderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:_orderBtn];
     [_orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.left.equalTo(self.view).offset(-10);
+        make.bottom.equalTo(self.view).offset(-10);
+        make.left.equalTo(self.view).offset(10);
         make.right.equalTo(self.view).offset(-10);
         make.height.mas_equalTo(40);
     }];
@@ -189,7 +192,17 @@
 
 - (void)orderBtnClicked:(UIButton *)sender
 {
-    NSLog(@"预约");
+    CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+    cloudAppoint.sercersPositionInfo = _servicePositionItem;
+    cloudAppoint.centerCoordinate = _appointCoordinate;
+    cloudAppoint.title = _servicePositionItem.name;
+    if (self.navigationController) {
+        [self.navigationController pushViewController:cloudAppoint animated:YES];
+    }
+    else {
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 @end

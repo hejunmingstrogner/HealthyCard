@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong) UIButton    *orderBtn; // 预约
 
-@property (nonatomic, strong) ServersPositionAnnotionsModel *servicePositionItem;
+@property (nonatomic, strong) ServersPositionAnnotionsModel *servicePositionItem;   // 预约点信息
 
-
+@property (nonatomic, assign) CLLocationCoordinate2D appointCoordinate;    // 预约坐标
 @end

@@ -26,7 +26,7 @@
 
     _workerData = [NSMutableArray array];
     _workerArray = [NSMutableArray array];
-    _selectWorkerArray = [NSMutableArray array];
+    _selectWorkerArray = [NSMutableArray arrayWithArray:_selectedWorkerArray];
 
     [self getData];
 }
@@ -38,7 +38,7 @@
     UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backbtn.frame = CGRectMake(0, 0, 30, 30);
     [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 10);
     [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
     self.navigationItem.leftBarButtonItem = backitem;
@@ -68,12 +68,24 @@
         _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据获取中..."];
     }
     [_waitAlertView show];
+
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    for (Customer *custom in _selectWorkerArray) {
+        [array addObject:custom.custCode];
+    }
+
     [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
         _workerData = [NSMutableArray arrayWithArray:result];
         [_workerArray removeAllObjects];
         if (!error) {
             for (Customer *customer in _workerData) {
-                AddWorkerCellItem *cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.cTel endDate:customer.operdate selectFlag:0];
+                AddWorkerCellItem *cellItem;
+                if ([array containsObject:customer.custCode]) {
+                    cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.cTel endDate:customer.operdate selectFlag:1];
+                }
+                else{
+                    cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.cTel endDate:customer.operdate selectFlag:0];
+                }
                 [_workerArray addObject:cellItem];
             }
             [_tableView reloadData];
@@ -83,11 +95,6 @@
         }
         [_waitAlertView close];
     }];
-    
-    
-//    [[HttpNetworkManager getInstance]getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *workerCustomerArray, NSError *error) {
-//        
-//    }];
 }
 
 - (void)initSubViews

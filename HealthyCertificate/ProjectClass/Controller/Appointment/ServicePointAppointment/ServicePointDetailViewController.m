@@ -9,6 +9,7 @@
 #import "ServicePointDetailViewController.h"
 #import "ServicePositionCarHeadTableViewCell.h"
 #import <Masonry.h>
+#import "CloudAppointmentViewController.h"
 
 @implementation ServicePointDetailViewController
 
@@ -30,7 +31,7 @@
     UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backbtn.frame = CGRectMake(0, 0, 30, 30);
     [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 10);
     [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
     self.navigationItem.leftBarButtonItem = backitem;
@@ -39,6 +40,7 @@
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)initData
@@ -48,16 +50,19 @@
 
 - (void)initSubViews
 {
+    self.view.backgroundColor = [UIColor whiteColor];
     _orderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:_orderBtn];
     [_orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.left.equalTo(self.view).offset(10);
+        make.bottom.equalTo(self.view).offset(-10);
+        make.left.equalTo(self.view).offset(10);
         make.right.equalTo(self.view).offset(-10);
         make.height.mas_equalTo(40);
     }];
     _orderBtn.layer.masksToBounds = YES;
     _orderBtn.layer.cornerRadius = 5;
     _orderBtn.layer.borderColor = [UIColor colorWithRed:50/255.0 green:170/255.0 blue:240/255.0 alpha:1].CGColor;
+    _orderBtn.layer.borderWidth = 1;
     [_orderBtn setTitle:@"预约" forState:UIControlStateNormal];
     [_orderBtn setTitleColor:[UIColor colorWithRed:50/255.0 green:170/255.0 blue:240/255.0 alpha:1] forState:UIControlStateNormal];
     [_orderBtn addTarget:self action:@selector(orderBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -173,6 +178,16 @@
 
 - (void)orderBtnClicked:(UIButton *)sender
 {
-    NSLog(@"预约");
+    CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+    cloudAppoint.sercersPositionInfo = _serverPositionItem;
+    cloudAppoint.centerCoordinate = _appointCoordinate;
+    cloudAppoint.title = _serverPositionItem.name;
+    if (self.navigationController) {
+        [self.navigationController pushViewController:cloudAppoint animated:YES];
+    }
+    else {
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 }
 @end

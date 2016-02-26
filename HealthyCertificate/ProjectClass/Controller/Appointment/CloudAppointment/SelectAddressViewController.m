@@ -54,7 +54,7 @@
     UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backbtn.frame = CGRectMake(0, 0, 30, 30);
     [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 10);
     [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
     self.navigationItem.leftBarButtonItem = backitem;
@@ -65,17 +65,8 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    if (_switchStyle == SWITCH_MISS){
-        [self dismissViewControllerAnimated:NO completion:nil];
-    }else{
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-//    [self dismissViewControllerAnimated:NO completion:^{
-//        
-//    }];
-//    //
-    
-    //[self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)confirmBtnClicked:(UIBarButtonItem *)sender
@@ -144,6 +135,7 @@
     [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(label).insets(UIEdgeInsetsMake(0, 15, 0, 15));
     }];
+    [_textField setClearButtonMode:UITextFieldViewModeWhileEditing];
 
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
