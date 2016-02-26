@@ -124,7 +124,8 @@
 {
     self.view.backgroundColor = [UIColor whiteColor];
     _addressArray = [NSMutableArray array];
-
+    _selectIndex = -2;
+    
     UILabel *label = [[UILabel alloc]init];
     [self.view addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
