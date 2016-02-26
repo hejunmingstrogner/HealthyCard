@@ -15,8 +15,7 @@
 #import "PositionUtil.h"
 #import "MyCheckListViewController.h"
 #import "ServicePointDetailViewController.h"
-
-#import "SelectAddressViewController.h"
+#import "CloudAppointmentViewController.h"
 
 @interface IndexViewController ()
 
@@ -387,6 +386,17 @@
 - (void)minDistanceBtnClicked
 {
     NSLog(@"最近距离服务");
+    if (nearbyServicePositionsArray.count == 0) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"附近没有服务点" removeDelay:2];
+        return ;
+    }
+    CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+    cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[0];
+    cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
+    cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
+    [self presentViewController:nav animated:YES completion:nil];
+
 }
 //  一键预约
 - (void)orderBtnClicked

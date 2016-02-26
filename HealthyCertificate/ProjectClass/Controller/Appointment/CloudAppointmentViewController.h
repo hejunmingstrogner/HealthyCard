@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "ServersPositionAnnotionsModel.h"
 
 @interface CloudAppointmentViewController : UIViewController
 
 @property (nonatomic, copy) NSString* location;
 @property (nonatomic, assign) CLLocationCoordinate2D centerCoordinate;
 @property (nonatomic, copy) NSString* appointmentDateStr;
+
+@property (nonatomic, strong) ServersPositionAnnotionsModel *sercersPositionInfo;
 
 /**
  *  隐藏界面的键盘
