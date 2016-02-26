@@ -258,30 +258,53 @@
 // 菜单界面滑动出现以及关闭
 - (void)panGestureRecognizerOfMenuView:(UIPanGestureRecognizer *)recognizer
 {
+    CGPoint tanslatedPoint = [recognizer translationInView:self.view];
+    if (tanslatedPoint.x > 0) {
+        moveStatus = YES;       // 右侧移动
+    }
+    if (tanslatedPoint.x < 0) {
+        moveStatus = NO;        // 左侧移动
+    }
     if (recognizer.state != UIGestureRecognizerStateEnded && recognizer.state != UIGestureRecognizerStateFailed) {
-        CGPoint tanslatedPoint = [recognizer translationInView:self.view];
         CGFloat x = [leftMenuView center].x + tanslatedPoint.x;
         if (x > leftMenuView.frame.size.width/2) {
             x = leftMenuView.frame.size.width/2;
         }
-        if (x < -leftMenuView.frame.size.width/2 + 20) {
-            x = -leftMenuView.frame.size.width/2 + 20;
+        if (x < -leftMenuView.frame.size.width/2) {
+            x = -leftMenuView.frame.size.width/2;
         }
         [leftMenuView setCenter:CGPointMake(x, leftMenuView.center.y)];
         [recognizer setTranslation:CGPointZero inView:self.view];
+
     }
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        if (leftMenuView.center.x > -20) {
-            // 显示界面
-            [UIView animateWithDuration:0.7 animations:^{
-                leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20);
-            }];
+        // 右侧移动
+        if (moveStatus) {
+            if (leftMenuView.center.x > -leftMenuView.frame.size.width/2 + leftMenuView.frame.size.width/5) {
+                // 显示界面
+                [UIView animateWithDuration:0.7 animations:^{
+                    leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20);
+                }];
+            }
+            else {
+                [UIView animateWithDuration:0.7 animations:^{
+                    leftMenuView.frame = CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.8 + 10, self.view.frame.size.height - 20);
+                }];
+            }
         }
-        else if(leftMenuView.center.x <= 20)
+        else if(moveStatus == NO)
         {
-            [UIView animateWithDuration:0.7 animations:^{
-                leftMenuView.frame = CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.8 + 10, self.view.frame.size.height - 20);
-            }];
+            if (leftMenuView.center.x > leftMenuView.frame.size.width/2 - leftMenuView.frame.size.width/5) {
+                // 显示界面
+                [UIView animateWithDuration:0.7 animations:^{
+                    leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20);
+                }];
+            }
+            else {
+                [UIView animateWithDuration:0.7 animations:^{
+                    leftMenuView.frame = CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.8 + 10, self.view.frame.size.height - 20);
+                }];
+            }
         }
     }
 }

@@ -160,7 +160,7 @@
         // 点击时间
         CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
         // 时间
-        NSArray *timearray = [weaktimeBtn.titleLabel.text componentsSeparatedByString:@"-"];
+        NSArray *timearray = [weaktimeBtn.titleLabel.text componentsSeparatedByString:@"~"];
         if (timearray.count == 2) {
             cloudData.beginDateString = timearray[0];
             cloudData.endDateString = timearray[1];

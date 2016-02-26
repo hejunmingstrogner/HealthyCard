@@ -46,6 +46,8 @@
     UIButton    *pendingBtn;                // 待处理按钮
     UILabel     *pendingLabel;              // 待处理数据的数据
     NSMutableArray *checkListData;          // 待处理项的数据
+
+    BOOL        moveStatus;
 }
 
 
