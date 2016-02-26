@@ -550,17 +550,28 @@
         NSLog(@"near: %@", nearbyServicePositionsArray[anno.tag]);
         // 回调 0 取消，1预约，2显示基本信息，3拨打电话
         [RzAlertView showActionSheetWithTarget:self.view servicePosition:nearbyServicePositionsArray[anno.tag] handle:^(NSInteger flag) {
-            if(flag == 2){
+            if (flag == 1)
+            {
+                CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+                cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[anno.tag];
+                cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
+                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
+                cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
+                [self presentViewController:nav animated:YES completion:nil];
+            }
+            else if(flag == 2){
                 // 移动服务点
                 if(((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[anno.tag]).type == 1){
                     TemperaryServicePDeViewController *serviceDetailcon = [[TemperaryServicePDeViewController alloc]init];
                     serviceDetailcon.servicePositionItem = nearbyServicePositionsArray[anno.tag];
+                    serviceDetailcon.appointCoordinate = _mapView.centerCoordinate;
                     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:serviceDetailcon];
                     [self presentViewController:nav animated:YES completion:nil];
                 }
                 else { // 固定服务点
                     ServicePointDetailViewController *servicedetial = [[ServicePointDetailViewController alloc]init];
                     servicedetial.serverPositionItem = nearbyServicePositionsArray[anno.tag];
+                    servicedetial.appointCoordinate = _mapView.centerCoordinate;
                     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:servicedetial];
                     [self presentViewController:nav animated:YES completion:nil];
                 }

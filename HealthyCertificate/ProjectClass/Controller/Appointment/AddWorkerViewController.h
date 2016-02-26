@@ -25,9 +25,11 @@ typedef void(^AddWorkerComfirmClicked)(NSArray *workerArray);
 
 @property (nonatomic, strong) NSMutableArray *workerArray;      // 封装的员工数据
 
+@property (nonatomic, strong) NSMutableArray *selectedWorkerArray;  // 已经选择过的员工
+
 @property (nonatomic, strong) UILabel     *seletingCountLabel;
 
-@property (nonatomic, strong) NSMutableArray *selectWorkerArray;
+@property (nonatomic, strong) NSMutableArray *selectWorkerArray;    // 选择的员工
 
 @property (nonatomic, strong) RzAlertView *waitAlertView;
 
