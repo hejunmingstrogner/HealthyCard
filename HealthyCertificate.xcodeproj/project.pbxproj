@@ -373,8 +373,8 @@
 		B2640CDA1C7C7FC000721CB5 /* WaitDocResultSelectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitDocResultSelectItem.m; sourceTree = "<group>"; };
 		B2640CDC1C7C870200721CB5 /* HealthyCertificateOrderInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HealthyCertificateOrderInfoView.h; sourceTree = "<group>"; };
 		B2640CDD1C7C870200721CB5 /* HealthyCertificateOrderInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HealthyCertificateOrderInfoView.m; sourceTree = "<group>"; };
-		B2640CDF1C7D5DA600721CB5 /* AddWorkerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWorkerViewController.h; sourceTree = "<group>"; };
-		B2640CE01C7D5DA600721CB5 /* AddWorkerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerViewController.m; sourceTree = "<group>"; };
+		B2640CDF1C7D5DA600721CB5 /* AddWorkerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddWorkerViewController.h; path = ../AddWorkerViewController.h; sourceTree = "<group>"; };
+		B2640CE01C7D5DA600721CB5 /* AddWorkerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddWorkerViewController.m; path = ../AddWorkerViewController.m; sourceTree = "<group>"; };
 		B2640CE21C7D5E8B00721CB5 /* AddWorkerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWorkerTableViewCell.h; sourceTree = "<group>"; };
 		B2640CE31C7D5E8B00721CB5 /* AddWorkerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerTableViewCell.m; sourceTree = "<group>"; };
 		B2640CE51C7D613600721CB5 /* AddWorkerCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWorkerCellItem.h; sourceTree = "<group>"; };
@@ -668,6 +668,8 @@
 		252AB8911C770F6A0085CC14 /* CloudAppointment */ = {
 			isa = PBXGroup;
 			children = (
+				B2640CDF1C7D5DA600721CB5 /* AddWorkerViewController.h */,
+				B2640CE01C7D5DA600721CB5 /* AddWorkerViewController.m */,
 				252AB8921C770F890085CC14 /* CloudAppointmentDateVC.h */,
 				252AB8931C770F890085CC14 /* CloudAppointmentDateVC.m */,
 				B2640CF41C7D9D2100721CB5 /* SelectAddressViewController.h */,
@@ -722,8 +724,6 @@
 				25BFEB421C74A55B0062F9B8 /* AppointmentViewController.m */,
 				254A8DAE1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.h */,
 				254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */,
-				B2640CDF1C7D5DA600721CB5 /* AddWorkerViewController.h */,
-				B2640CE01C7D5DA600721CB5 /* AddWorkerViewController.m */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";

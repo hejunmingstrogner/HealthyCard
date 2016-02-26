@@ -184,7 +184,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 }
 
 #pragma mark 查询单位员工列表
-- (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(void (^)(NSArray *, NSError *))block
+- (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(HCArrayResultBlock)resultBlock;
 {
     NSString *url = [NSString stringWithFormat:@"customer/queryByServiceUnit?cUnitCode=%@", cUnitCode];
     [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
@@ -193,12 +193,12 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
             Customer *customer = [Customer mj_objectWithKeyValues:dict];
             [customerArray addObject:customer];
         }
-        if (block) {
-            block(customerArray, nil);
+        if (resultBlock) {
+            resultBlock(customerArray, nil);
         }
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-        if (block) {
-            block([NSArray array], error);
+        if (resultBlock) {
+            resultBlock([NSArray array], error);
         }
     }];
 }
