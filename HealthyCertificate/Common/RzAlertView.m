@@ -240,7 +240,7 @@
     bgview.backgroundColor = [UIColor colorWithRed:50/255.0 green:50/255.0 blue:50/255.0 alpha:0.7];
     [superView addSubview:bgview];
 
-    UIView *alertView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, superView.frame.size.width * 0.8, 100)];
+    UIView *alertView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 126*2 + 30, 110)];
     [bgview addSubview:alertView];
     alertView.center = CGPointMake(superView.frame.size.width/2, superView.frame.size.height/2);
     alertView.backgroundColor = [UIColor whiteColor];
@@ -257,17 +257,16 @@
     titleLabel.text = title;
     CustomButton *cbutton1 = [[CustomButton alloc]init];
     [cbutton1 setBackgroundColor:[UIColor greenColor]];
+    cbutton1.layer.masksToBounds = YES;
+    cbutton1.layer.cornerRadius = 5;
     [alertView addSubview:cbutton1];
     [cbutton1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleLabel.mas_bottom).offset(10);
-        make.height.mas_equalTo(40);
-        make.width.mas_equalTo(110);
+        make.height.mas_equalTo(48);
+        make.width.mas_equalTo(126);
         make.left.equalTo(alertView).offset(10);
     }];
-    [cbutton1 setImage:[UIImage imageNamed:btn_1_imagaName] forState:UIControlStateNormal];
-    [cbutton1 setTitle:btn_1_title forState:UIControlStateNormal];
-    [cbutton1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cbutton1 setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    [cbutton1 setImage:[UIImage imageNamed:@"personcustom"] forState:UIControlStateNormal];
     [cbutton1 addClickedBlock:^(UIButton * _Nonnull sender) {
         [bgview removeFromSuperview];
         if (block) {
@@ -278,16 +277,15 @@
     CustomButton *cbutton2 = [[CustomButton alloc]init];
     [cbutton2 setBackgroundColor:[UIColor greenColor]];
     [alertView addSubview:cbutton2];
+    cbutton2.layer.masksToBounds = YES;
+    cbutton2.layer.cornerRadius = 5;
     [cbutton2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleLabel.mas_bottom).offset(10);
-        make.height.mas_equalTo(40);
-        make.width.mas_equalTo(110);
+        make.height.mas_equalTo(48);
+        make.width.mas_equalTo(126);
         make.right.equalTo(alertView).offset(-10);
     }];
-    [cbutton2 setImage:[UIImage imageNamed:btn_2_imageName] forState:UIControlStateNormal];
-    [cbutton2 setTitle:btn_2_title forState:UIControlStateNormal];
-    [cbutton2 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cbutton2 setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    [cbutton2 setImage:[UIImage imageNamed:@"unitcustom"] forState:UIControlStateNormal];
     [cbutton2 addClickedBlock:^(UIButton * _Nonnull sender) {
         [bgview removeFromSuperview];
         if (block) {

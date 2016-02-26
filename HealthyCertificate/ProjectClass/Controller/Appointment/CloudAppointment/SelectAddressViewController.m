@@ -80,8 +80,8 @@
         [value getValue:&coor];
         if (_block) {
             _block(_cityArray[_selectIndex], _districtArray[_selectIndex], _addressArray[_selectIndex], coor);
-            [self backToPre:nil];
         }
+        [self backToPre:nil];
     }
 }
 
