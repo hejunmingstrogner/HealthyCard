@@ -27,6 +27,8 @@
 #import "SelectAddressViewController.h"
 #import "AddWorkerViewController.h"
 
+#import "Customer.h"
+
 #define Button_Size 26
 
 typedef NS_ENUM(NSInteger, TABLIEVIEWTAG)
@@ -55,8 +57,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     UITextField         *_phoneNumField;
     UITextField         *_exminationCountField;
     
-    BOOL                    _isFirstShown;
-    CGFloat                 _viewHeight;
+    //键盘收缩相关
+    BOOL                 _isFirstShown;
+    CGFloat              _viewHeight;
+    
+    //选择的员工列表
+    NSArray             *_customerArr;
 }
 @end
 
@@ -361,11 +367,14 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }
             break;
         case TABLEVIEW_STAFFINFO:
-        {
+        {//_customerArr
             AddWorkerViewController* addworkerViewController = [[AddWorkerViewController alloc] init];
             addworkerViewController.switchStyle = SWITCH_MISS;
+           // __weak typeof (self) weakSelf = self;
+          //  [addworkerViewController ]
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:addworkerViewController];
             [self.parentViewController presentViewController:nav animated:YES completion:nil];
+            
         }
             break;
         default:

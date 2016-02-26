@@ -26,6 +26,8 @@
 #import "HealthyCertificateView.h"
 #import "AppointmentInfoView.h"
 
+#import "CloudAppointmentDateVC.h"
+
 #define Button_Size 26
 
 @interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>
@@ -253,7 +255,14 @@
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
         [self.parentViewController presentViewController:nav animated:YES completion:nil];
     }else if (indexPath.row == 1){
-        [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
+        
+        if (self.navigationController == nil){
+            [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
+        }else{
+            CloudAppointmentDateVC* vc = [[CloudAppointmentDateVC alloc] init];
+            vc.view.backgroundColor = [UIColor whiteColor];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
     }else{
         
     }
