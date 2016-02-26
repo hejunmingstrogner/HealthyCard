@@ -61,6 +61,7 @@
 // 服务器待添加数据
 @property (nonatomic, strong) NSString *introduce;      // 详情介绍
 @property (nonatomic, strong) NSString *busWay;         // 路线地址
+@property (nonatomic, strong) NSString *centerAddress;  // 中心地址
 
 
 @end

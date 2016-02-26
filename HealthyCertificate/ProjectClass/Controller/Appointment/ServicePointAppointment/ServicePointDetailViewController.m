@@ -10,6 +10,8 @@
 #import "ServicePositionCarHeadTableViewCell.h"
 #import <Masonry.h>
 #import "CloudAppointmentViewController.h"
+#import "ServicePositionDetialCellItem.h"
+#import "UIFont+Custom.h"
 
 @implementation ServicePointDetailViewController
 
@@ -45,7 +47,19 @@
 
 - (void)initData
 {
+    NSArray *arry0 = [NSArray arrayWithObject:_serverPositionItem];
 
+    ServicePositionDetialCellItem *item10 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"详情介绍" detialText:@""];
+    ServicePositionDetialCellItem *item11 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"随便说一些吧，真的，认真就好，努力就好" detialText:@""];
+    NSArray *arry1 = [NSArray arrayWithObjects:item10, item11, nil];
+
+    ServicePositionDetialCellItem *item20 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"地址路线" detialText:@""];
+    ServicePositionDetialCellItem *item21 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"中心地址" detialText:_serverPositionItem.centerAddress];
+    ServicePositionDetialCellItem *item22 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"咨询电话" detialText:_serverPositionItem.leaderPhone];
+    ServicePositionDetialCellItem *item23 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"公交路线" detialText:_serverPositionItem.busWay];
+    NSArray *arry2 = [NSArray arrayWithObjects:item20, item21, item22, item23, nil];
+
+    _inforArray = [[NSMutableArray alloc]initWithObjects:arry0, arry1, arry2, nil];
 }
 
 - (void)initSubViews
@@ -95,10 +109,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 1;
-    }
-    return 2;
+    return [_inforArray[section] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -138,32 +149,17 @@
         if (!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
             cell.textLabel.numberOfLines = 0;
+            cell.textLabel.font = [UIFont fontWithType:0 size:15];
+            cell.detailTextLabel.font = [UIFont fontWithType:0 size:15];
         }
-        if (indexPath.row == 0) {
-            if(indexPath.section == 1){
-                cell.textLabel.text = @"详细介绍";
-            }
-            else {
-                cell.textLabel.text = @"路线地址";
-            }
-
-        }
-        else {
-            if(indexPath.section == 1){
-                cell.textLabel.text = _serverPositionItem.introduce;
-            }
-            else {
-                cell.textLabel.text = _serverPositionItem.busWay;
-            }
-
-        }
+        cell.textLabel.text = ((ServicePositionDetialCellItem *)_inforArray[indexPath.section][indexPath.row]).titleText;
+        cell.detailTextLabel.text = ((ServicePositionDetialCellItem *)_inforArray[indexPath.section][indexPath.row]).detialText;
         if (indexPath.row == 0) {
             cell.textLabel.textColor = [UIColor blackColor];
         }
         else{
             cell.textLabel.textColor = [UIColor grayColor];
         }
-
         return cell;
     }
 }
