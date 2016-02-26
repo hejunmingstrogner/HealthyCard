@@ -65,7 +65,17 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (_switchStyle == SWITCH_MISS){
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+//    [self dismissViewControllerAnimated:NO completion:^{
+//        
+//    }];
+//    //
+    
+    //[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)confirmBtnClicked:(UIBarButtonItem *)sender

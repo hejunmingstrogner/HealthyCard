@@ -22,12 +22,12 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
         self.textField = [[UITextField alloc] init];
-        self.textField.textColor = [UIColor blackColor];
         self.textField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
         [self addSubview:self.textField];
         [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self);
             make.left.mas_equalTo(self).with.offset(10);
+            make.right.mas_equalTo(self).with.offset(-10);
         }];
     }
     return self;

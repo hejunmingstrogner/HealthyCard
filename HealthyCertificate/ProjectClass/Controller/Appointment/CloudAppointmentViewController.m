@@ -249,8 +249,9 @@
     if (indexPath.row == 0){
         //跳转地址
         SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
-        selectAddressViewController.textField.text = _location;
-        [self.navigationController pushViewController:selectAddressViewController animated:YES];
+        selectAddressViewController.addressStr = _location;
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
+        [self.parentViewController presentViewController:nav animated:YES completion:nil];
     }else if (indexPath.row == 1){
         [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
     }else{
