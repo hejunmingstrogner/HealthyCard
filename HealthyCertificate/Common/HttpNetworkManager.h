@@ -72,6 +72,6 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  *  @param cUnitCode 单位编号
  *  @param block     回调
  */
-- (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(void(^)(NSArray *workerCustomerArray, NSError *error))block;
+- (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(HCArrayResultBlock)resultBlock;
 
 @end

@@ -50,7 +50,11 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (_switchStyle == SWITCH_MISS){
+         [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)getWorkerArrayWithBlock:(AddWorkerComfirmClicked)block
@@ -64,8 +68,8 @@
         _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据获取中..."];
     }
     [_waitAlertView show];
-    [[HttpNetworkManager getInstance]getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *workerCustomerArray, NSError *error) {
-        _workerData = [NSMutableArray arrayWithArray:workerCustomerArray];
+    [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
+        _workerData = [NSMutableArray arrayWithArray:result];
         [_workerArray removeAllObjects];
         if (!error) {
             for (Customer *customer in _workerData) {
@@ -79,6 +83,11 @@
         }
         [_waitAlertView close];
     }];
+    
+    
+//    [[HttpNetworkManager getInstance]getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *workerCustomerArray, NSError *error) {
+//        
+//    }];
 }
 
 - (void)initSubViews

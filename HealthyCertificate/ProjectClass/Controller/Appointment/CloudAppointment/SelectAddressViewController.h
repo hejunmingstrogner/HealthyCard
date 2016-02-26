@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "Constants.h"
 
 @interface SelectAddressViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
@@ -23,6 +24,9 @@
 @property (nonatomic, assign) NSInteger selectIndex;
 
 @property (nonatomic, strong) NSString *addressStr;
+
+@property (nonatomic, assign) SWITCH_STYLE switchStyle;
+
 
 typedef void(^getAddressAndCoordinate)(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor);
 @property (nonatomic, strong)getAddressAndCoordinate block;

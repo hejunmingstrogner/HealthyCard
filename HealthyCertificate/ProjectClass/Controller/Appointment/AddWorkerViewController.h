@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RzAlertView.h"
+#import "Constants.h"
 
 typedef void(^AddWorkerComfirmClicked)(NSArray *workerArray);
 
@@ -31,6 +32,8 @@ typedef void(^AddWorkerComfirmClicked)(NSArray *workerArray);
 @property (nonatomic, strong) RzAlertView *waitAlertView;
 
 @property (nonatomic, strong) AddWorkerComfirmClicked block;
+
+@property (nonatomic, assign) SWITCH_STYLE switchStyle;
 
 - (void)getWorkerArrayWithBlock:(AddWorkerComfirmClicked )block;
 

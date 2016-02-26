@@ -49,11 +49,17 @@ typedef NS_ENUM(NSInteger, PACKAGEPART)
     PACKAGE_BODY
 };
 
+typedef NS_ENUM(NSInteger, SWITCH_STYLE)
+{
+    SWITCH_POP,
+    SWITCH_MISS
+};
+
 extern PersonInfoOfPhonePacket* gPersonInfo;
 extern CompanyInfoOfPhonePacket* gCompanyInfo;
 
 #define kiOS6NavigationBarHeight 44
-#define kiOS7NavigationBarHeight 64
+#define kiOS7NavigationBarHeight 44
 
 
 #define SCREEN_WIDTH  [UIScreen mainScreen].bounds.size.width
@@ -79,5 +85,8 @@ extern CompanyInfoOfPhonePacket* gCompanyInfo;
 
 #define GetUserType [[[NSUserDefaults standardUserDefaults] objectForKey:@"userType"] integerValue]
 #define SetUserType(type) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", type] forKey:@"userType"]          // 设置用户类型，1:个人  2:单位
+
+
+
 
 #endif /* Constants_h */
