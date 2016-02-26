@@ -142,7 +142,7 @@
             else {
                 NSString *year = [NSDate getYear_Month_DayByDate:_brContract.cRegBeginDate];
                 NSString *end = [NSDate getYear_Month_DayByDate:_brContract.cRegEndDate];
-                NSString *time = [NSString stringWithFormat:@"%@-%@",year, end];
+                NSString *time = [NSString stringWithFormat:@"%@~%@",year, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
 
@@ -156,7 +156,7 @@
             else {
                 NSString *startyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regBeginDate];
                 NSString *endyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regEndDate];
-                NSString *time = [NSString stringWithFormat:@"%@-%@",startyear, endyear];
+                NSString *time = [NSString stringWithFormat:@"%@~%@",startyear, endyear];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
 
@@ -173,7 +173,7 @@
             else {
                 NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime];
                 NSString *end = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.endTime];
-                NSString *time = [NSString stringWithFormat:@"%@-%@",year, end];
+                NSString *time = [NSString stringWithFormat:@"%@~%@",year, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
             [_phoneBtn setTitle:_brContract.servicePoint.leaderPhone forState:UIControlStateNormal];
@@ -186,7 +186,7 @@
             else {
                 NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime];
                 NSString *end = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.endTime];
-                NSString *time = [NSString stringWithFormat:@"%@-%@",year, end];
+                NSString *time = [NSString stringWithFormat:@"%@~%@",year, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
 
