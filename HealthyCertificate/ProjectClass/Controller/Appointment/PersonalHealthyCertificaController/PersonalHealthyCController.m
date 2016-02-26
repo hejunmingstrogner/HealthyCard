@@ -70,7 +70,6 @@
     _orderinforView.cutomerTest = _customerTestInfo;
     [_orderinforView.addressBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         // 点击地址搜索
-        NSLog(@"点击地址搜索");
         SelectAddressViewController *addressselect = [[SelectAddressViewController alloc]init];
         [addressselect getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
             NSLog(@"address: %@", address);

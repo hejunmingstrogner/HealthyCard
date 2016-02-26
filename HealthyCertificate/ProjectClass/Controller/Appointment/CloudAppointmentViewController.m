@@ -44,6 +44,11 @@
 
 @implementation CloudAppointmentViewController
 
+- (void)setSercersPositionInfo:(ServersPositionAnnotionsModel *)sercersPositionInfo
+{
+    _sercersPositionInfo = sercersPositionInfo;
+    _location = sercersPositionInfo.address;
+}
 
 #pragma mark - Public Methods
 -(void)hideTheKeyBoard{
@@ -67,9 +72,29 @@
 }
 
 #pragma mark - Life Circle
+- (void)initNavgation
+{
+    // 返回按钮
+    UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    backbtn.frame = CGRectMake(0, 0, 30, 30);
+    [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
+    self.navigationItem.leftBarButtonItem = backitem;
+}
+// 返回前一页
+- (void)backToPre:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 -(void)viewDidLoad{
     [super viewDidLoad];
-    
+
+    [self initNavgation];
+
     UIScrollView* scrollView = [[UIScrollView alloc] init];
     scrollView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
     [self.view addSubview:scrollView];
@@ -225,8 +250,7 @@
         //跳转地址
         SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
         selectAddressViewController.textField.text = _location;
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
-        [self.parentViewController presentViewController:nav animated:YES completion:nil];
+        [self.navigationController pushViewController:selectAddressViewController animated:YES];
     }else if (indexPath.row == 1){
         [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
     }else{
