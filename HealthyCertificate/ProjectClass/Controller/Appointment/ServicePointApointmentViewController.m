@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
+#import "NSDate+Custom.h"
 
 #import <Masonry.h>
 
@@ -19,6 +20,9 @@
 
 #import "TemperaryServicePDeViewController.h"
 #import "ServicePointDetailViewController.h"
+#import "CloudAppointmentViewController.h"
+#import "CloudAppointmentCompanyViewController.h"
+
 
 
 @interface ServicePointApointmentViewController()<UITableViewDataSource,UITableViewDelegate>
@@ -92,11 +96,7 @@
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:movingServicePointVC];
             [wself.parentViewController presentViewController:nav animated:YES completion:nil];
         }
-        
-        
-        
     };
-    //cell.servicePoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.row];
     ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
     cell.servicePoint = serverPoint;
     
@@ -117,7 +117,47 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
     
+    if (GetUserType == 1){
+        //个人
+        CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+        cloudAppoint.sercersPositionInfo = serverPoint;
+        if (serverPoint.type == 1){
+            //临时服务点
+            cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",
+                                               [NSDate getYear_Month_DayByDate:serverPoint.startTime],
+                                               [NSDate getHour_MinuteByDate:serverPoint.startTime],
+                                               [NSDate getHour_MinuteByDate:serverPoint.endTime]];
+        }else{
+            cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"每天(%@~%@)",
+                                               [NSDate getHour_MinuteByDate:serverPoint.startTime],
+                                               [NSDate getHour_MinuteByDate:serverPoint.endTime]];
+        }
+        cloudAppoint.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
+        [self presentViewController:nav animated:YES completion:nil];
+    }else{
+        //单位
+        CloudAppointmentCompanyViewController* companyCloudAppointment = [[CloudAppointmentCompanyViewController alloc] init];
+        companyCloudAppointment.sercersPositionInfo = serverPoint;
+        if (serverPoint.type == 1){
+            //临时服务点
+            companyCloudAppointment.appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",
+                                               [NSDate getYear_Month_DayByDate:serverPoint.startTime],
+                                               [NSDate getHour_MinuteByDate:serverPoint.startTime],
+                                               [NSDate getHour_MinuteByDate:serverPoint.endTime]];
+        }else{
+            companyCloudAppointment.appointmentDateStr = [NSString stringWithFormat:@"每天(%@~%@)",
+                                               [NSDate getHour_MinuteByDate:serverPoint.startTime],
+                                               [NSDate getHour_MinuteByDate:serverPoint.endTime]];
+        }
+        companyCloudAppointment.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:companyCloudAppointment];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
+    
+   
 }
 
 

@@ -88,6 +88,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     return _customerArr;
 }
 
+- (void)setSercersPositionInfo:(ServersPositionAnnotionsModel *)sercersPositionInfo
+{
+    _sercersPositionInfo = sercersPositionInfo;
+    _location = sercersPositionInfo.address;
+}
+
 #pragma mark - Public Methods
 -(void)hideTheKeyBoard{
     [_contactPersonField resignFirstResponder];
@@ -98,6 +104,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 #pragma mark - Life Circle
 -(void)viewDidLoad{
     [super viewDidLoad];
+    [self initNavgation];
     
     _dateString = [NSString stringWithFormat:@"%@~%@",
                    [[NSDate date] getDateStringWithInternel:1],
@@ -227,6 +234,27 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     [self cancelKeyboardNotification];
 }
 
+- (void)initNavgation
+{
+    // 返回按钮
+    UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    backbtn.frame = CGRectMake(0, 0, 30, 30);
+    [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 10);
+    [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
+    self.navigationItem.leftBarButtonItem = backitem;
+    
+    self.title = _sercersPositionInfo.name;
+}
+
+// 返回前一页
+- (void)backToPre:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 #pragma mark - Action
 -(void)appointmentBtnClicked:(id)sender
@@ -270,7 +298,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 cell.textField.enabled = NO;
             }else{
                 cell.iconName = @"date_icon";
-                cell.textField.text = _dateString;
+                if (self.isCustomerServerPoint == NO){
+                    cell.textField.text = self.appointmentDateStr;
+                }else{
+                    cell.textField.text = _dateString;
+                }
                 cell.textField.enabled = NO;
             }
             return cell;
@@ -357,6 +389,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     switch (tableView.tag) {
         case TABLEVIEW_BASEINFO:
         {
+            if (self.isCustomerServerPoint == NO)
+                return;
             if (indexPath.row == 0){
                 SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
                 selectAddressViewController.addressStr = _location;
@@ -385,7 +419,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 weakSelf.customerArr = workerArray;
                 [weakSelf.staffTableView reloadData];
             }];
-          //  [addworkerViewController ]
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:addworkerViewController];
             [self.parentViewController presentViewController:nav animated:YES completion:nil];
             
