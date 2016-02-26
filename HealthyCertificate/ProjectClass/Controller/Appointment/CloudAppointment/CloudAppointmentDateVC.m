@@ -17,7 +17,10 @@
 
 #import "NSDate+Custom.h"
 #import "NSString+Custom.h"
+#import "UIFont+Custom.h"
 
+#define Text_Font FIT_FONTSIZE(24)
+#define Btn_Font FIT_FONTSIZE(23)
 
 @interface CloudAppointmentDateVC()<UITableViewDataSource,UITableViewDelegate,HCWheelViewDelegate,NavViewDelegate>
 {
@@ -27,11 +30,47 @@
     NavView                 *_navView;
 
     bool                     _isBeginDate;
+    
+    NSMutableArray          *_beginWheelArr;
+    NSMutableArray          *_endWheelArr;
 }
 @end
 
 
 @implementation CloudAppointmentDateVC
+#pragma mark - Setter & Getter
+-(void)setBeginDateString:(NSString *)beginDateString{
+    _beginDateString = beginDateString;
+    NSDate* nextDay = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:([[NSDate date] timeIntervalSinceReferenceDate] + 24*3600)];
+    _beginWheelArr = [nextDay nextServerDays:7];
+}
+
+-(void)setEndDateString:(NSString *)endDateString{
+    _endDateString = endDateString;
+    NSDate* nextDay = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:
+                       ([[NSDate formatDateFromChineseString:_beginDateString] timeIntervalSinceReferenceDate])];
+    _endWheelArr = [nextDay nextServerDays:7];
+}
+
+-(void)initData
+{
+    _beginDateWheelView.pickerViewContentArr = _beginWheelArr;
+    _endDateWheelView.pickerViewContentArr = _endWheelArr;
+    
+    for (NSInteger index = 0; index < _beginDateWheelView.pickerViewContentArr.count; ++index){
+        if ([_beginDateWheelView.pickerViewContentArr[index] isEqualToString:_beginDateString]){
+            [_beginDateWheelView.pickerView selectRow:index inComponent:0 animated:NO];
+            break;
+        }
+    }
+    
+    for (NSInteger index = 0; index < _endDateWheelView.pickerViewContentArr.count; ++index){
+        if ([_endDateWheelView.pickerViewContentArr[index] isEqualToString:_endDateString]){
+            [_endDateWheelView.pickerView selectRow:index inComponent:0 animated:NO];
+            break;
+        }
+    }
+}
 
 
 #pragma mark - Public Methods
@@ -86,8 +125,7 @@
         make.height.mas_equalTo(SCREEN_HEIGHT*1/3);
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
-    
-    [self loadData];
+    [self initData];
 }
 
 #pragma mark - HCWheelViewDelegate
@@ -147,7 +185,9 @@
 {
     static NSString* identifier = @"CloudAppointmentDateCell";
     UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Text_Font];
     cell.detailTextLabel.textColor = [UIColor blackColor];
+    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Text_Font];
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = MO_RGBCOLOR(240, 240, 240).CGColor;
     if (indexPath.section == 0){
@@ -174,19 +214,6 @@
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section
 {
     view.tintColor = MO_RGBCOLOR(250, 250, 250);
-}
-
-#pragma mark - Setter & Getter
--(NSString*)beginDateString{
-    if (_beginDateString == nil)
-        _beginDateString = [[NSString alloc] init];
-    return _beginDateString;
-}
-
--(NSString*)endDateString{
-    if (_endDateString == nil)
-        _endDateString = [[NSString alloc] init];
-    return _endDateString;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -215,19 +242,9 @@
 }
 
 #pragma mark - Private Methods
--(void)loadData
-{
-    NSMutableArray* beginWheelArr = [[NSMutableArray alloc] init];
-    NSDate* nextDay = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:([[NSDate date] timeIntervalSinceReferenceDate] + 24*3600)];
-    beginWheelArr = [nextDay nextServerDays:7];
-    _beginDateWheelView.pickerViewContentArr = beginWheelArr;
-    _beginDateString = _beginDateWheelView.pickerViewContentArr[0];
-    
-    NSMutableArray* endWheelArra = [[NSMutableArray alloc] init];
-    NSDate* afterDay = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:([nextDay timeIntervalSinceReferenceDate] + 24*3600)];
-    endWheelArra = [afterDay nextServerDays:7];
-    _endDateWheelView.pickerViewContentArr = endWheelArra;
-    _endDateString = _endDateWheelView.pickerViewContentArr[0];
-}
+
+
+
+
 
 @end

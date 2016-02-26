@@ -19,9 +19,11 @@
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
 #import "UIFont+Custom.h"
+#import "NSDate+Custom.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 #define CloudController (GetUserType == 1 ? _cloudAppointmentViewController : _cloudAppointmentCompanyViewController)
+#define HideKeyBoard (GetUserType == 1 ? [_cloudAppointmentViewController hideTheKeyBoard]: [_cloudAppointmentCompanyViewController hideTheKeyBoard])
 
 @interface AppointmentViewController()
 {
@@ -115,10 +117,13 @@
     _cloudAppointmentViewController = [[CloudAppointmentViewController alloc] init];
     _cloudAppointmentViewController.location = _location;
     _cloudAppointmentViewController.centerCoordinate = _centerCoordinate;
+    
     _servicePointAppointmentViewController = [[ServicePointApointmentViewController alloc] init];
     _servicePointAppointmentViewController.serverPointList = _nearbyServicePointsArray;
     
     _cloudAppointmentCompanyViewController = [[CloudAppointmentCompanyViewController alloc] init];
+    _cloudAppointmentCompanyViewController.location = _location;
+    _cloudAppointmentCompanyViewController.centerCoordinate = _centerCoordinate;
     
     [self addChildViewController:CloudController];
     [self addChildViewController:_servicePointAppointmentViewController];
@@ -139,13 +144,11 @@
 #pragma mark - Action
 -(void)didClicksegmentedControlAction:(UISegmentedControl *)seg
 {
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification  object:nil];
-    //[[NSNotificationCenter defaultCenter] postNotificationName:UIKeyboardWillHideNotification object:nil];
     if (self.currentVC == CloudController && seg.selectedSegmentIndex == 0)
         return;
     if (self.currentVC == _servicePointAppointmentViewController && seg.selectedSegmentIndex == 1)
         return;
-    
+    HideKeyBoard;
     NSInteger index = seg.selectedSegmentIndex;
     switch (index) {
         case 0:
@@ -180,17 +183,34 @@
         if ([destinationViewController isKindOfClass:[CloudAppointmentDateVC class]])
         {
             CloudAppointmentDateVC* cloudAppointmentDateVC = (CloudAppointmentDateVC*)destinationViewController;
+            if (GetUserType == 1){
+                if (_cloudAppointmentViewController.appointmentDateStr == nil){
+                    cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
+                    cloudAppointmentDateVC.endDateString = [[NSDate date] getDateStringWithInternel:2];
+                }
+                else{
+                    cloudAppointmentDateVC.beginDateString = [_cloudAppointmentViewController.appointmentDateStr componentsSeparatedByString:@"~"][0];
+                    cloudAppointmentDateVC.endDateString = [_cloudAppointmentViewController.appointmentDateStr componentsSeparatedByString:@"~"][1];
+                }
+            }else{
+                if (_cloudAppointmentCompanyViewController.appointmentDateStr == nil){
+                    cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
+                    cloudAppointmentDateVC.endDateString = [[NSDate date] getDateStringWithInternel:2];
+                }
+                else{
+                    cloudAppointmentDateVC.beginDateString = [_cloudAppointmentCompanyViewController.appointmentDateStr componentsSeparatedByString:@"~"][0];
+                    cloudAppointmentDateVC.endDateString = [_cloudAppointmentCompanyViewController.appointmentDateStr componentsSeparatedByString:@"~"][1];
+                }
+            }
+            
             [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
-                [_cloudAppointmentViewController setAppointmentDateStr:dateStr];
+                if (GetUserType == 1){
+                    [_cloudAppointmentViewController setAppointmentDateStr:dateStr];
+                }else{
+                    [_cloudAppointmentCompanyViewController setAppointmentDateStr:dateStr];
+                }
+                
             }];
-            //            BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
-            //            cell.textField.text = [NSString combineString:cloudAppointmentDateVC.beginDateString
-            //                                                      And:cloudAppointmentDateVC.endDateString
-            //                                                     With:@"~"];
-            //            UIBarButtonItem *returnButtonItem = [[UIBarButtonItem alloc] init];
-            //            returnButtonItem.title = @"";
-            //            self.navigationItem.backBarButtonItem = returnButtonItem;
-            //            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
         }
     }
 }

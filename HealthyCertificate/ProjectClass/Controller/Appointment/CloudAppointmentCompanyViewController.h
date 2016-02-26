@@ -14,4 +14,11 @@
 @property (nonatomic, copy) NSString* location;
 @property (nonatomic, assign) CLLocationCoordinate2D centerCoordinate;
 
+@property (nonatomic, copy) NSString* appointmentDateStr;
+
+/**
+ *  隐藏界面的键盘
+ */
+-(void)hideTheKeyBoard;
+
 @end

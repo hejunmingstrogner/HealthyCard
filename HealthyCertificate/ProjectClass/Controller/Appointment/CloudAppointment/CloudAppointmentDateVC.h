@@ -12,8 +12,8 @@
 
 typedef void(^AppointmentDateStringBlock)(NSString *dateStr);
 
-@property (nonatomic, strong) NSString* beginDateString;
-@property (nonatomic, strong) NSString* endDateString;
+@property (nonatomic, copy) NSString* beginDateString;
+@property (nonatomic, copy) NSString* endDateString;
 @property (nonatomic, copy) AppointmentDateStringBlock appointmentBlock;
 
 /**
