@@ -20,13 +20,13 @@
 {
     [super viewDidLoad];
 
-    [self initNavgation];
-
-    [self initSubViews];
-
     _workerData = [NSMutableArray array];
     _workerArray = [NSMutableArray array];
     _selectWorkerArray = [NSMutableArray arrayWithArray:_selectedWorkerArray];
+
+    [self initNavgation];
+
+    [self initSubViews];
 
     [self getData];
 }
