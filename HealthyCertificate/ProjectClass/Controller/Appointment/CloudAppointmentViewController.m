@@ -30,7 +30,7 @@
 
 #define Button_Size 26
 
-@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>
+@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate>
 {
     HealthyCertificateView  *_healthyCertificateView;
     AppointmentInfoView     *_appointmentInfoView;
@@ -84,6 +84,8 @@
     [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
     self.navigationItem.leftBarButtonItem = backitem;
+    
+    self.title = _sercersPositionInfo.name;
 }
 // 返回前一页
 - (void)backToPre:(id)sender
@@ -136,6 +138,7 @@
     _healthyCertificateView.layer.cornerRadius = 10;
     _healthyCertificateView.layer.borderColor = MO_RGBCOLOR(0, 168, 234).CGColor;
     _healthyCertificateView.layer.borderWidth = 1;
+    _healthyCertificateView.delegate = self;
     [containerView addSubview:_healthyCertificateView];
     [_healthyCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(containerView).with.offset(10);
@@ -233,10 +236,16 @@
         cell.textField.enabled = NO;
     }else if (indexPath.row == 1){
         cell.iconName = @"date_icon";
-        cell.textField.text = [NSString combineString:[[NSDate date] formatDateToChineseString]
-                                                  And:[[NSDate date] getDateStringWithInternel:1]
-                                                 With:@"~"];
-        cell.textField.enabled = NO;
+        
+        if (self.isCustomerServerPoint == NO){
+            cell.textField.text = _appointmentDateStr;
+            cell.textField.enabled = NO;
+        }else{
+            cell.textField.text = [NSString combineString:[[NSDate date] formatDateToChineseString]
+                                                      And:[[NSDate date] getDateStringWithInternel:1]
+                                                     With:@"~"];
+            cell.textField.enabled = NO;
+        }
     }else{
         cell.iconName = @"phone_icon";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
@@ -249,6 +258,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //如果是自主服务点,那么久不可以修改日期和地址
+    if (self.isCustomerServerPoint == NO)
+    {
+        [_phoneNumTextField resignFirstResponder];
+        return;
+    }
+    
+    
     if (indexPath.row == 0){
         //跳转地址
         SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
@@ -256,7 +273,6 @@
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
         [self.parentViewController presentViewController:nav animated:YES completion:nil];
     }else if (indexPath.row == 1){
-        
         if (self.navigationController == nil){
             [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
         }else{
@@ -321,12 +337,27 @@
 #pragma mark - UIGestureRecognizerDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
+    if (self.isCustomerServerPoint == NO)
+        return NO;
     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {//如果当前是tableView
         //做自己想做的事
         return NO;
     }
     return YES;
 }
+
+#pragma mark - HealthyCertificateViewDelegate
+-(void)nameBtnClicked:(NSString *)name
+{}
+
+-(void)sexBtnClicked:(NSString *)gender
+{}
+
+-(void)industryBtnClicked:(NSString *)industry
+{}
+
+-(void)idCardBtnClicked:(NSString *)idCard
+{}
 
 #pragma mark - Private Methods
 - (BOOL)isPureInt:(NSString*)string{

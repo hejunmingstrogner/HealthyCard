@@ -117,6 +117,7 @@
     _cloudAppointmentViewController = [[CloudAppointmentViewController alloc] init];
     _cloudAppointmentViewController.location = _location;
     _cloudAppointmentViewController.centerCoordinate = _centerCoordinate;
+    _cloudAppointmentViewController.isCustomerServerPoint = YES;
     
     _servicePointAppointmentViewController = [[ServicePointApointmentViewController alloc] init];
     _servicePointAppointmentViewController.serverPointList = _nearbyServicePointsArray;
@@ -124,6 +125,7 @@
     _cloudAppointmentCompanyViewController = [[CloudAppointmentCompanyViewController alloc] init];
     _cloudAppointmentCompanyViewController.location = _location;
     _cloudAppointmentCompanyViewController.centerCoordinate = _centerCoordinate;
+    _cloudAppointmentCompanyViewController.isCustomerServerPoint = YES;
     
     [self addChildViewController:CloudController];
     [self addChildViewController:_servicePointAppointmentViewController];
