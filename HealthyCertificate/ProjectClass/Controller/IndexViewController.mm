@@ -48,8 +48,12 @@
             else {
                 SetUserType(2);
             }
+            [self initLeftViews];   // 初始化左侧菜单
             [self getCheckListData];
         }];
+    }
+    else{
+        [self initLeftViews];    // 初始化左侧菜单
     }
 }
 
@@ -236,14 +240,6 @@
     }];
     [locateimageview setImage:[UIImage imageNamed:@"locateimage"]];
 
-    // 左侧菜单栏
-    leftMenuView = [[LeftMenuView alloc]initWithFrame:CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20)];
-    [self.view addSubview:leftMenuView];
-    leftMenuView.delegate = self;
-    UIPanGestureRecognizer *panrecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerOfMenuView:)];
-    panrecognizer.maximumNumberOfTouches = 1;
-    [leftMenuView addGestureRecognizer:panrecognizer];
-
     // 定位到当前位置
     UIButton *removeToCurrentLocateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [removeToCurrentLocateBtn setImage:[UIImage imageNamed:@"dingwei"] forState:UIControlStateNormal];
@@ -254,6 +250,17 @@
         make.right.equalTo(self.view).offset(-10);
     }];
     [removeToCurrentLocateBtn addTarget:self action:@selector(removeToCurrentLocate) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)initLeftViews
+{
+    // 左侧菜单栏
+    leftMenuView = [[LeftMenuView alloc]initWithFrame:CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20)];
+    [self.view addSubview:leftMenuView];
+    leftMenuView.delegate = self;
+    UIPanGestureRecognizer *panrecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerOfMenuView:)];
+    panrecognizer.maximumNumberOfTouches = 1;
+    [leftMenuView addGestureRecognizer:panrecognizer];
 }
 #pragma mark - 左侧菜单栏相关
 // 菜单界面滑动出现以及关闭
