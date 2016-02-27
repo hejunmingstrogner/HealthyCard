@@ -12,10 +12,12 @@
 #import <UIImageView+WebCache.h>
 #import "HttpNetworkManager.h"
 #import "HCWheelView.h"
+#import "TakePhoto.h"
 
 @interface UserInformationController()<UITableViewDataSource, UITableViewDelegate, HCWheelViewDelegate>
 {
     HCWheelView *wheelView;
+    RzAlertView *waitAlertView;
 }
 @end
 
@@ -63,6 +65,8 @@
     [self.view addSubview:_tableView];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+
+    waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"图片上传中..."];
 }
 
 - (void)getdata
@@ -125,7 +129,8 @@
         UITableViewCell *headcell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"head"];
         headcell.textLabel.text = ((UserinformationCellItem *)_dataArray[indexPath.row]).titleLabelText;
         UIButton *headeimageBtn = [[UIButton alloc]init];
-
+        NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode];
+        NSLog(@"%@", str);
         [headeimageBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"headimage"] options:SDWebImageRefreshCached];
         [headcell.contentView addSubview:headeimageBtn];
         [headeimageBtn addTarget:self action:@selector(headerimageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -135,6 +140,8 @@
             make.right.equalTo(headcell).offset(-10);
             make.width.equalTo(headeimageBtn.mas_height);
         }];
+        headeimageBtn.layer.masksToBounds = YES;
+        headeimageBtn.layer.cornerRadius = 25;
         return headcell;
     }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -205,12 +212,19 @@
 #pragma mark -点击头像 设置头像
 - (void)headerimageBtnClicked:(UIButton *)sender
 {
-    [RzAlertView showAlertViewControllerWithTarget:self Title:nil Message:nil preferredStyle:UIAlertControllerStyleActionSheet ActionTitlesArray:@[@"立即拍照", @"本地图片"] handle:^(NSInteger flag) {
-        if (flag == 1) {
-            NSLog(@"立即拍照");
-        }
-        else if (flag == 2){
-            NSLog(@"本地图片");
+    [[TakePhoto getInstancetype]takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
+        if (photoimage) {
+            [waitAlertView show];
+            [[HttpNetworkManager getInstance]customerUploadPhoto:photoimage resultBlock:^(BOOL result, NSError *error) {
+                [waitAlertView close];
+                if (result) {
+                    [sender setImage:photoimage forState:UIControlStateNormal];
+                }
+                else {
+                    NSLog(@"error :%@", error);
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"上传失败,请稍候重试" removeDelay:2];
+                }
+            }];
         }
     }];
 }

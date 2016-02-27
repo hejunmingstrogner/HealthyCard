@@ -53,8 +53,8 @@
 
 - (void)setCellItem:(BRContract *)brContract
 {
-    _UnitNameLabel.text = brContract.cUnitName.length == 0? @"成都信息工程大学" : brContract.cUnitName;
-    if (brContract.cCheckSiteID == nil) {
+    _UnitNameLabel.text = brContract.unitName.length == 0? @"成都信息工程大学" : brContract.unitName;
+    if (brContract.checkSiteID == nil) {
         _statusLabel.text = @"现场体检";
     }
     else

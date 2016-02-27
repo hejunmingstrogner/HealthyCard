@@ -202,4 +202,37 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         }
     }];
 }
+
+#pragma mark -上传客户头像
+- (void)customerUploadPhoto:(UIImage *)photo resultBlock:(HCBoolResultBlock)block
+{
+    NSData *imageData;
+    NSString *imagetype;
+    if(UIImagePNGRepresentation(photo) == nil){
+        imageData = UIImageJPEGRepresentation(photo, 1);
+        imagetype = @"jpeg";
+    }
+    else {
+        imageData = UIImagePNGRepresentation(photo);
+        imagetype= @"png";
+    }
+
+    NSString *url = [NSString stringWithFormat:@"customer/uploadPhoto"];
+    NSMutableDictionary *param = [[NSMutableDictionary alloc]init];
+    [param setObject:gPersonInfo.mCustCode forKey:@"cCustCode"];
+    self.sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"multipart/form-data",@"text/html",@"text/json"]];
+    [self.sharedClient POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        NSDateFormatter *formmettrt = [[NSDateFormatter alloc]init];
+        [formmettrt setDateFormat:@"yyyyMMddHHmmss"];
+        [formData appendPartWithFileData:imageData name:@"file" fileName:[NSString stringWithFormat:@"%@.%@", [formmettrt stringFromDate:[NSDate date]], imagetype] mimeType:[NSString stringWithFormat:@"image/%@", imagetype]];
+    } success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        if (block) {
+            block(YES, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (block) {
+            block(NO, error);
+        }
+    }];
+}
 @end

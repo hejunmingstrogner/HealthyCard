@@ -16,6 +16,7 @@
 #import "MyCheckListViewController.h"
 #import "ServicePointDetailViewController.h"
 #import "CloudAppointmentViewController.h"
+#import "CloudAppointmentCompanyViewController.h"
 
 @interface IndexViewController ()
 
@@ -403,12 +404,22 @@
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"附近没有服务点" removeDelay:2];
         return ;
     }
-    CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
-    cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[0];
-    cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
-    cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
-    [self presentViewController:nav animated:YES completion:nil];
+    if (GetUserType == 1) {     // 个人
+        CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+        cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[0];
+        cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
+        cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
+        [self presentViewController:nav animated:YES completion:nil];
+    }
+    else {                      // 单位
+        CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
+        cloudAppointCompany.sercersPositionInfo = nearbyServicePositionsArray[0];
+        cloudAppointCompany.centerCoordinate = _mapView.centerCoordinate;
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppointCompany];
+        cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 
 }
 //  一键预约
@@ -560,7 +571,6 @@
 {
     MyPointeAnnotation *anno = view.annotation;
     if (nearbyServicePositionsArray.count != 0) {
-        NSLog(@"near: %@", nearbyServicePositionsArray[anno.tag]);
         // 回调 0 取消，1预约，2显示基本信息，3拨打电话
         [RzAlertView showActionSheetWithTarget:self.view servicePosition:nearbyServicePositionsArray[anno.tag] handle:^(NSInteger flag) {
             if (flag == 1)
@@ -588,10 +598,9 @@
                     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:servicedetial];
                     [self presentViewController:nav animated:YES completion:nil];
                 }
-
             }
-            else {
-
+            else if(flag == 3){
+                NSLog(@"拨打电话");
             }
         }];
     }

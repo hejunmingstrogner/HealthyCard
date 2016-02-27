@@ -8,6 +8,7 @@
 
 #import "UserinformationSetingViewController.h"
 #import <Masonry.h>
+#import "UIColor+Expanded.h"
 
 @implementation UserinformationSetingViewController
 
@@ -26,7 +27,7 @@
 
 - (void)initNavgation
 {
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithRGBHex:0xfafafa];
     // 返回按钮
     UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backbtn.frame = CGRectMake(0, 0, 30, 30);
@@ -87,8 +88,9 @@
 - (void)initsubViews
 {
     UILabel *bglabel = [[UILabel alloc]init];
-    bglabel.layer.borderWidth = 2;
-    bglabel.layer.borderColor = [UIColor grayColor].CGColor;
+    bglabel.layer.borderWidth = 1;
+    bglabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    bglabel.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:bglabel];
     [bglabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(80);
@@ -101,6 +103,7 @@
     [_nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(bglabel).insets(UIEdgeInsetsMake(0, 15, 0, 15));
     }];
+    _nameTextField.text = _cacheFlag;
 }
 
 - (void)isUpdateInfoSucceed:(updateInfo)block

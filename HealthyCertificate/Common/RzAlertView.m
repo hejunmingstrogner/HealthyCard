@@ -28,6 +28,7 @@
 
 @implementation RzAlertView
 @synthesize titleLabel;
+
 - (instancetype)init
 {
     if (self = [super init]) {
