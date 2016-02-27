@@ -36,7 +36,7 @@
     [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
     self.navigationItem.leftBarButtonItem = backitem;
-
+    
     UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(doneToChangeOperation)];
     self.navigationItem.rightBarButtonItem = rightBtn;
 }
