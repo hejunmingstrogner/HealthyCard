@@ -30,7 +30,7 @@
 
 #define Button_Size 26
 
-@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>
+@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate>
 {
     HealthyCertificateView  *_healthyCertificateView;
     AppointmentInfoView     *_appointmentInfoView;
@@ -138,6 +138,7 @@
     _healthyCertificateView.layer.cornerRadius = 10;
     _healthyCertificateView.layer.borderColor = MO_RGBCOLOR(0, 168, 234).CGColor;
     _healthyCertificateView.layer.borderWidth = 1;
+    _healthyCertificateView.delegate = self;
     [containerView addSubview:_healthyCertificateView];
     [_healthyCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(containerView).with.offset(10);
@@ -344,6 +345,19 @@
     }
     return YES;
 }
+
+#pragma mark - HealthyCertificateViewDelegate
+-(void)nameBtnClicked:(NSString *)name
+{}
+
+-(void)sexBtnClicked:(NSString *)gender
+{}
+
+-(void)industryBtnClicked:(NSString *)industry
+{}
+
+-(void)idCardBtnClicked:(NSString *)idCard
+{}
 
 #pragma mark - Private Methods
 - (BOOL)isPureInt:(NSString*)string{
