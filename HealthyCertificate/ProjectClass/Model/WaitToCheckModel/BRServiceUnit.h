@@ -13,15 +13,15 @@
 /**
  * 单位编号。
  */
-@property (nonatomic, strong) NSString * cUnitCode;
+@property (nonatomic, strong) NSString * unitCode;
 /**
  * 索引。
  */
-@property (nonatomic, strong) NSString * csearchIndex;
+@property (nonatomic, strong) NSString * searchIndex;
 /**
  * ???
  */
-@property (nonatomic, strong) NSString * cStopTag;
+@property (nonatomic, strong) NSString * stopTag;
 /**
  * 单位经度。
  */
@@ -33,68 +33,77 @@
 /**
  * 单位名称。
  */
-@property (nonatomic, strong) NSString * cUnitName;
+@property (nonatomic, strong) NSString * unitName;
 /**
  * 单位简称。
  */
-@property (nonatomic, strong) NSString * cUnitShortName;
+@property (nonatomic, strong) NSString * UnitShotName;
 /**
  * 单位地址。
  */
-@property (nonatomic, strong) NSString * cAddr;
+@property (nonatomic, strong) NSString * addr;
 /**
  * 单位联系人。
  */
-@property (nonatomic, strong) NSString * cLinkPeople;
+@property (nonatomic, strong) NSString * linkPeople;
 
 /**
  * 固定电话
  */
-@property (nonatomic, strong) NSString * cLinkTel;
+@property (nonatomic, strong) NSString * linkTel;
 /**
  * 联系人手机号码。
  */
-@property (nonatomic, strong) NSString * cLinkPhone;
+@property (nonatomic, strong) NSString * linkPhone;
 /**
  * 邮箱。
  */
-@property (nonatomic, strong) NSString * cEmail;
+@property (nonatomic, strong) NSString * email;
 /**
  * 传真。
  */
-@property (nonatomic, strong) NSString * cLinkFax;
+@property (nonatomic, strong) NSString * linkFax;
 /**
  * 单位类型。
  */
-@property (nonatomic, strong) NSString * cUnitType;
+@property (nonatomic, strong) NSString * unitType;
 /**
  * 单位网址。
  */
-@property (nonatomic, strong) NSString * cUnitURL;
+@property (nonatomic, strong) NSString * unitURL;
 /**
  * 单位银行账号。
  */
-@property (nonatomic, strong) NSString * cAccountNo;
+@property (nonatomic, strong) NSString * accountNo;
 /**
  * 单位开户银行。
  */
-@property (nonatomic, strong) NSString * cAccountBank;
+@property (nonatomic, strong) NSString * accountBank;
 /**
  * 单位图片。
  */
-//@property (nonatomic, strong) byte[] cUnitPhoto;
+@property (nonatomic, strong) NSData * unitPhoto;
 /**
  * 备注。
  */
-@property (nonatomic, strong) NSString * cMemo;
+@property (nonatomic, strong) NSString * memo;
 /**
  * 注册日期。
  */
-@property (nonatomic, strong) NSDate * doperdate;
+@property (nonatomic, strong) NSDate * operdate;
 /**
  * 登记机构编号。
  */
-@property (nonatomic, strong) NSString * cAuditHosCode;
+@property (nonatomic, strong) NSString * auditHosCode;
+
+/**
+ * 注册码
+ */
+@property (nonatomic, strong) NSString * operCode;
+/**
+ * 城市名
+ */
+@property (nonatomic, strong) NSString * cityName;
 @property (nonatomic, strong) NSDate * synTime;
 /**
  * 领导人员电话列表，以逗号隔开。
