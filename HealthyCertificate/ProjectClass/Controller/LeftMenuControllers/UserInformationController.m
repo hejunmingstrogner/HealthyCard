@@ -253,6 +253,12 @@
         default:
             return;
     }
+    [self getdata];
+    [_tableView reloadData];
+
+    if ([_delegate respondsToSelector:@selector(reloadLeftMenuViewByChangedUserinfor)] && _delegate) {
+        [_delegate reloadLeftMenuViewByChangedUserinfor];
+    }
 }
 #pragma mark -点击头像 设置头像
 - (void)headerimageBtnClicked:(UIButton *)sender
@@ -264,6 +270,10 @@
                 [waitAlertView close];
                 if (result) {
                     [sender setImage:photoimage forState:UIControlStateNormal];
+                    // 刷新左侧菜单的头像
+                    if ([_delegate respondsToSelector:@selector(reloadLeftMenuViewByChangedUserinfor)] && _delegate) {
+                        [_delegate reloadLeftMenuViewByChangedUserinfor];
+                    }
                 }
                 else {
                     NSLog(@"error :%@", error);
@@ -285,14 +295,14 @@
         flag = 1;
 
     if (flag != gPersonInfo.bGender) {
-        gPersonInfo.bGender = flag;
-        [self getdata];
-        [_tableView reloadData];
         NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
-        [personinfo setObject:gPersonInfo.mCustCode forKey:@"mCustCode"];
-        [personinfo setObject:[NSNumber numberWithInt:flag] forKey:@"bGender"];
+        [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
+        [personinfo setObject:[NSNumber numberWithInt:flag] forKey:@"sex"];
         [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
             if (successed) {
+                gPersonInfo.bGender = flag;
+                [self getdata];
+                [_tableView reloadData];
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
             }
             else {

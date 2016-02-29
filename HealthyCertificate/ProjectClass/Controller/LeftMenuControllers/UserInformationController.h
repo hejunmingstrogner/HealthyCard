@@ -12,10 +12,17 @@
 #import "NSString+Count.h"
 #import <UIButton+WebCache.h>
 
+@protocol UserinfromationControllerDelegate <NSObject>
+
+- (void)reloadLeftMenuViewByChangedUserinfor;
+
+@end
+
 @interface UserInformationController : UIViewController
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
+@property (nonatomic, strong) id <UserinfromationControllerDelegate> delegate;
 @end

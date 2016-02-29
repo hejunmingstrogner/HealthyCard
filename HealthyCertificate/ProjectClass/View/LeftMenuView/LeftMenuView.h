@@ -34,6 +34,8 @@
 
 - (instancetype)init;
 
+- (void)initData;
+
 - (instancetype)initWithFrame:(CGRect)frame;
 
 @end

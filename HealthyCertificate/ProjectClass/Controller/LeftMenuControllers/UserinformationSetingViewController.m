@@ -118,6 +118,7 @@
         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您未填写信息" ActionTitle:@"明白了" ActionStyle:0];
         return;
     }
+    [_nameTextField resignFirstResponder];
     switch (_itemtype) {
             // 修改姓名
         case USERINFORMATION_NAME:{
@@ -132,7 +133,10 @@
                     if (_updateBlcok) {
                         _updateBlcok(YES, _nameTextField.text);
                     }
-                    [self backToPre:nil];
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self backToPre:nil];
+                    });
                 }
                 else{
                     [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
@@ -158,7 +162,10 @@
                     if (_updateBlcok) {
                         _updateBlcok(YES, _nameTextField.text);
                     }
-                    [self backToPre:nil];
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self backToPre:nil];
+                    });
                 }
                 else{
                     [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
@@ -180,7 +187,10 @@
                         if (_updateBlcok) {
                             _updateBlcok(YES, _nameTextField.text);
                         }
-                        [self backToPre:nil];
+                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self backToPre:nil];
+                        });
                     }
                     else{
                         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
@@ -198,7 +208,10 @@
                         if (_updateBlcok) {
                             _updateBlcok(YES, _nameTextField.text);
                         }
-                        [self backToPre:nil];
+                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self backToPre:nil];
+                        });
                     }
                     else{
                         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
@@ -219,7 +232,10 @@
                     if (_updateBlcok) {
                         _updateBlcok(YES, _nameTextField.text);
                     }
-                    [self backToPre:nil];
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self backToPre:nil];
+                    });
                 }
                 else{
                     [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
@@ -239,7 +255,10 @@
                     if (_updateBlcok) {
                         _updateBlcok(YES, _nameTextField.text);
                     }
-                    [self backToPre:nil];
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self backToPre:nil];
+                    });
                 }
                 else{
                     [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
