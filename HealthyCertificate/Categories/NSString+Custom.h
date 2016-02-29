@@ -21,4 +21,11 @@
  */
 +(NSString*)combineString:(NSString*)firstString And:(NSString*)secondString With:(NSString*)sepString;
 
+/**
+ *  传入身份证得出生日期,并将日期转化为long long
+ *
+ *  @return long long 格式的出生日期
+ */
+- (long long)getLongLongBornDate;
+
 @end
