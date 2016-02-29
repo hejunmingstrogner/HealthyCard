@@ -22,11 +22,11 @@
 
 @interface HealthyCertificateView()
 {
-    UIButton*        _nameBtn;
+    UIButton*       _nameBtn;
     UILabel*        _ageLabel;
-    UIButton*        _sexBtn;
-    UIButton*        _workTypeBtn;
-    UITextField*    _idCardTextField;
+    UIButton*       _sexBtn;
+    UIButton*       _workTypeBtn;
+    UIButton*       _idCardBtn;
     UILabel*        _orgLabel;
     UILabel*        _numLabel;
     
@@ -37,6 +37,64 @@
 
 @implementation HealthyCertificateView
 
+#pragma mark - Setter & Getter
+- (void)setCustomerTest:(CustomerTest *)customerTest
+{
+    _customerTest = customerTest;
+    
+    _name = customerTest.custName;
+    _age = [NSString getOldYears:customerTest.custIdCard];
+    _gender = customerTest.sex == 0 ? @"男":@"女";
+    _workType = customerTest.jobDuty;
+    _idCard = customerTest.custIdCard;
+    _org = @"";
+    _num = @"";
+
+    [_nameBtn setTitle:_name forState:UIControlStateNormal];
+    _ageLabel.text = _age;
+    [_sexBtn setTitle:_gender forState:UIControlStateNormal];
+    [_workTypeBtn setTitle:_workType forState:UIControlStateNormal];
+    [_idCardBtn setTitle:_idCard forState:UIControlStateNormal];
+    _orgLabel.text = _org;
+    _numLabel.text = _num;}
+
+-(void)setPersonInfoPacket:(PersonInfoOfPhonePacket *)personInfoPacket
+{
+    _name = personInfoPacket.mCustName;
+    _age = [NSString getOldYears:personInfoPacket.CustId];
+    _gender = personInfoPacket.bGender == 0 ? @"男":@"女";
+    _workType = personInfoPacket.cIndustry;
+    _idCard = personInfoPacket.CustId;
+    _org = @"";
+    _num = @"";
+    
+    [_nameBtn setTitle:_name forState:UIControlStateNormal];
+    _ageLabel.text = _age;
+    [_sexBtn setTitle:_gender forState:UIControlStateNormal];
+    [_workTypeBtn setTitle:_workType forState:UIControlStateNormal];
+    [_idCardBtn setTitle:_idCard forState:UIControlStateNormal];
+    _orgLabel.text = _org;
+    _numLabel.text = _num;
+}
+
+-(void)setName:(NSString *)name
+{
+    _name = name;
+    [_nameBtn setTitle:_name forState:UIControlStateNormal];
+}
+
+-(void)setGender:(NSString *)gender{
+    _gender = gender;
+    [_sexBtn setTitle:_gender forState:UIControlStateNormal];
+}
+
+-(void)setIdCard:(NSString *)idCard{
+    _idCard = idCard;
+    [_idCardBtn setTitle:_idCard forState:UIControlStateNormal];
+}
+
+
+#pragma mark - Life Circle
 -(id)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]){
         
@@ -109,9 +167,9 @@
                                         font:nil
                                    textColor:[UIColor blackColor]
                              backgroundColor:[UIColor clearColor]];
-        [_nameBtn setTitle:gPersonInfo.mCustName forState:UIControlStateNormal];
          _nameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         _nameBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
+        [_nameBtn addTarget:self action:@selector(nameBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [firstLineView addSubview:_nameBtn];
         
         UILabel* ageLabelTitle = [[UILabel alloc] init];
@@ -121,7 +179,8 @@
         [firstLineView addSubview:ageLabelTitle];
 
         _ageLabel = [[UILabel alloc] init];
-        _ageLabel.text = [NSString getOldYears:gPersonInfo.CustId];
+        _ageLabel.text = [NSString getOldYears:_idCard];
+        _ageLabel.textColor = [UIColor colorWithRGBHex:0x6e6e6e];
         _ageLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [firstLineView addSubview:_ageLabel];
         
@@ -172,9 +231,9 @@
                                         font:nil
                                    textColor:[UIColor blackColor]
                              backgroundColor:[UIColor clearColor]];
-        [_sexBtn setTitle:(gPersonInfo.bGender==0)?@"男":@"女" forState:UIControlStateNormal];
         _sexBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         _sexBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [_sexBtn addTarget:self action:@selector(sexBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [secondeLineView addSubview:_sexBtn];
         
         UILabel* workTypeLabelTitle = [[UILabel alloc] init];
@@ -183,8 +242,9 @@
         [secondeLineView addSubview:workTypeLabelTitle];
         
         _workTypeBtn = [[UIButton alloc] init];
-        _workTypeBtn.titleLabel.text = gPersonInfo.cIndustry;
+        _workTypeBtn.titleLabel.text = _workType;
         _workTypeBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
+        [_workTypeBtn addTarget:self action:@selector(industryBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [secondeLineView addSubview:_workTypeBtn];
         
         [sexLabelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -228,20 +288,22 @@
         idCardLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [thirdLineView addSubview:idCardLabel];
         
-        _idCardTextField = [[UITextField alloc] init];
-        _idCardTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
-        _idCardTextField.text = gPersonInfo.CustId;
-        [thirdLineView addSubview:_idCardTextField];
+        _idCardBtn = [UIButton buttonWithTitle:_idCard
+                                          font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)]
+                                     textColor:[UIColor blackColor]
+                               backgroundColor:[UIColor clearColor]];
+        [_idCardBtn addTarget:self action:@selector(idCardBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [thirdLineView addSubview:_idCardBtn];
         
         [idCardLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(thirdLineView);
             make.centerY.mas_equalTo(thirdLineView);
             make.height.mas_equalTo(nameLabelTitle);
-            make.right.mas_equalTo(_idCardTextField.mas_left);
+            make.right.mas_equalTo(_idCardBtn.mas_left);
         }];
         [idCardLabel setContentCompressionResistancePriority:752 forAxis:UILayoutConstraintAxisHorizontal];
         
-        [_idCardTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_idCardBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.lessThanOrEqualTo(thirdLineView.mas_right).with.offset(0);
             make.centerY.mas_equalTo(idCardLabel);
             make.height.mas_equalTo(nameLabelTitle);
@@ -319,7 +381,7 @@
 
 
 #pragma mark - HealthyCertificateViewDelegate
--(void)nameBtnClicked:(NSString*)name;
+-(void)nameBtnClicked:(id)sender;
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(nameBtnClicked:)]){
         [self.delegate nameBtnClicked:_nameBtn.titleLabel.text];
@@ -327,7 +389,7 @@
 }
 
 
--(void)sexBtnClicked:(NSString*)gender
+-(void)sexBtnClicked:(id)sender
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(sexBtnClicked:)]){
         [self.delegate sexBtnClicked:_sexBtn.titleLabel.text];
@@ -335,38 +397,17 @@
 }
 
 
--(void)industryBtnClicked:(NSString*)industry
+-(void)industryBtnClicked:(id)sender
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(industryBtnClicked:)]){
         [self.delegate industryBtnClicked:_workTypeBtn.titleLabel.text];
     }
 }
 
--(void)idCardBtnClicked:(NSString*)idCard
+-(void)idCardBtnClicked:(id)sender
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(idCardBtnClicked:)]){
-
+        [self.delegate idCardBtnClicked:_idCard];
     }
-}
-
-- (void)setCustomerTest:(CustomerTest *)customerTest
-{
-    _customerTest = customerTest;
-
-    _name = customerTest.custName;
-    _age = [NSString getOldYears:customerTest.custIdCard];
-    _gender = customerTest.sex == 0? @"男":@"女";
-    _workType = customerTest.jobDuty;
-    _idCard = customerTest.custIdCard;
-    _org = @"";
-    _num = @"";
-
-    [_nameBtn setTitle:_name forState:UIControlStateNormal];
-    _ageLabel.text = _age;
-    [_sexBtn setTitle:_gender forState:UIControlStateNormal];
-    [_workTypeBtn setTitle:_workType forState:UIControlStateNormal];
-    _idCardTextField.text = _workType;
-    _orgLabel.text = _org;
-    _numLabel.text = _num;
 }
 @end

@@ -21,11 +21,13 @@
 #import "UIFont+Custom.h"
 #import "NSDate+Custom.h"
 
+#import "YMIDCardRecognition.h"
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 #define CloudController (GetUserType == 1 ? _cloudAppointmentViewController : _cloudAppointmentCompanyViewController)
 #define HideKeyBoard (GetUserType == 1 ? [_cloudAppointmentViewController hideTheKeyBoard]: [_cloudAppointmentCompanyViewController hideTheKeyBoard])
 
-@interface AppointmentViewController()
+@interface AppointmentViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate,YMIDCardRecognitionDelegate>
 {
     //个人云预约
     CloudAppointmentViewController              *_cloudAppointmentViewController;
@@ -100,6 +102,8 @@
     }];
     
     UIButton* QRScanButton = [UIButton buttonWithNormalImageName:@"QRScan" highlightImageName:@"QRScan"];
+    QRScanButton.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    [QRScanButton addTarget:self action:@selector(QRScanButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [navView addSubview:QRScanButton];
     [QRScanButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(navView);
@@ -178,6 +182,22 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(void)QRScanButtonClicked:(UIButton*)sender
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.delegate = self;
+        imagePicker.showsCameraControls = YES;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+    else
+    {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"由于您的设备暂不支持摄像头，您无法使用该功能!" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确认", nil];
+//        [alertView show];
+    }
+}
+
 #pragma mark - Storyboard Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"ChooseDateIdentifier"]){
@@ -215,6 +235,61 @@
             }];
         }
     }
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    //取得照片
+    UIImage *image;
+    //	NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    CGImageRef imRef = [image CGImage];
+    
+    UIImageOrientation orientation = [image imageOrientation];
+    
+    NSInteger texWidth = CGImageGetWidth(imRef);
+    NSInteger texHeight = CGImageGetHeight(imRef);
+    
+    float imageScale = 1;
+    
+    if(orientation == UIImageOrientationUp && texWidth < texHeight)
+        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationLeft];
+    else if((orientation == UIImageOrientationUp && texWidth > texHeight) || orientation == UIImageOrientationRight)
+        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
+    else if(orientation == UIImageOrientationDown)
+        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationDown];
+    else if(orientation == UIImageOrientationLeft)
+        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
+    
+    NSLog(@"originalImage width = %f height = %f",image.size.width,image.size.height);
+    [YMIDCardRecognition recongnitionWithCard:image delegate:self];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
+{
+//    UIAlertView *a=[[UIAlertView alloc]initWithTitle:@"提示" message:error.domain delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+//    [a show];
+//    NSLog(@"%@", error.domain);
+}
+- (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
+{
+  //  [self performSelectorOnMainThread:@selector(recongnitionResult:) withObject:array waitUntilDone:YES];
+    _cloudAppointmentViewController.idCardInfo = array;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)getCancelProcess
+{
+    return NO;
+}
+
+- (void)setCancelProcess:(BOOL)isCance
+{
+    //self.isProgressCanceled = isCance;
 }
 
 @end
