@@ -142,6 +142,7 @@
 		B2640CE41C7D5E8B00721CB5 /* AddWorkerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE31C7D5E8B00721CB5 /* AddWorkerTableViewCell.m */; };
 		B2640CE71C7D613600721CB5 /* AddWorkerCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */; };
 		B2640CF61C7D9D2100721CB5 /* SelectAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */; };
+		B27B00CB1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B27B00CA1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m */; };
 		B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
@@ -395,6 +396,8 @@
 		B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerCellItem.m; sourceTree = "<group>"; };
 		B2640CF41C7D9D2100721CB5 /* SelectAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectAddressViewController.h; sourceTree = "<group>"; };
 		B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectAddressViewController.m; sourceTree = "<group>"; };
+		B27B00C91C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuViewHeaderinfoCell.h; sourceTree = "<group>"; };
+		B27B00CA1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewHeaderinfoCell.m; sourceTree = "<group>"; };
 		B2F81B4B1C7EAE680089F51C /* TemperaryServicePDeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemperaryServicePDeViewController.h; sourceTree = "<group>"; };
 		B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemperaryServicePDeViewController.m; sourceTree = "<group>"; };
 		B2F826201C730D6000993F47 /* LocationSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchModel.h; sourceTree = "<group>"; };
@@ -989,6 +992,8 @@
 			children = (
 				B2F826281C73143200993F47 /* LeftMenuView.h */,
 				B2F826291C73143200993F47 /* LeftMenuView.m */,
+				B27B00C91C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.h */,
+				B27B00CA1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m */,
 			);
 			path = LeftMenuView;
 			sourceTree = "<group>";
@@ -1294,6 +1299,7 @@
 				2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */,
 				B2FEA8671C7EF2D500106EE8 /* TakePhoto.m in Sources */,
 				B2640CCA1C7C0DAD00721CB5 /* ServicePositionCarHeadTableViewCell.m in Sources */,
+				B27B00CB1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m in Sources */,
 				B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */,
 				2512B41F1C7056C900EE661B /* UIScreen+Type.m in Sources */,
 				B2436C941C7AD28700F543E1 /* BRContract.m in Sources */,

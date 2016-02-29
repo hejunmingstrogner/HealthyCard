@@ -47,7 +47,11 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         _sharedClient = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:AFHTTPRequestOperationBaseURLString]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
+<<<<<<< HEAD
         _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/plain", @"text/json", @"application/json", nil];
+=======
+        _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"text/plain", @"application/json", nil];
+>>>>>>> rztime/master
     }
     return _sharedClient;
 }
