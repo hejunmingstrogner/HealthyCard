@@ -18,6 +18,7 @@
 #import "NSDate+Custom.h"
 #import "NSString+Custom.h"
 #import "UIScreen+Type.h"
+#import "NSString+Custom.h"
 
 #import "BaseInfoTableViewCell.h"
 #import "CloudAppointmentDateVC.h"
@@ -25,10 +26,11 @@
 
 #import "HealthyCertificateView.h"
 #import "AppointmentInfoView.h"
-
 #import "CloudAppointmentDateVC.h"
 #import "EditInfoViewController.h"
 #import "HCWheelView.h"
+
+#import "HttpNetworkManager.h"
 
 
 #define Button_Size 26
@@ -38,6 +40,9 @@
     AppointmentInfoView     *_appointmentInfoView;
     
     UITextField             *_phoneNumTextField;
+    UITextField             *_locationTextField;
+    UITextField             *_appointmentDateTextField;
+    
     UITableView             *_baseInfoTableView;
     
     //键盘相关
@@ -54,12 +59,6 @@
 
 
 @implementation CloudAppointmentViewController
-
-- (void)setSercersPositionInfo:(ServersPositionAnnotionsModel *)sercersPositionInfo
-{
-    _sercersPositionInfo = sercersPositionInfo;
-    _location = sercersPositionInfo.address;
-}
 
 #pragma mark - Public Methods
 -(void)hideTheKeyBoard{
@@ -88,6 +87,12 @@
     _healthyCertificateView.gender = idCardInfo[2];
 }
 
+- (void)setSercersPositionInfo:(ServersPositionAnnotionsModel *)sercersPositionInfo
+{
+    _sercersPositionInfo = sercersPositionInfo;
+    _location = sercersPositionInfo.address;
+}
+
 #pragma mark - Life Circle
 - (void)initNavgation
 {
@@ -108,7 +113,6 @@
     [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 -(void)viewDidLoad{
     [super viewDidLoad];
@@ -261,6 +265,7 @@
         cell.iconName = @"search_icon";
         cell.textField.text = _location;
         cell.textField.enabled = NO;
+        _locationTextField = cell.textField;
     }else if (indexPath.row == 1){
         cell.iconName = @"date_icon";
         
@@ -273,6 +278,7 @@
                                                      With:@"~"];
             cell.textField.enabled = NO;
         }
+        _appointmentDateTextField = cell.textField;
     }else{
         cell.iconName = @"phone_icon";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
@@ -335,7 +341,41 @@
 #pragma mark - Action
 -(void)appointmentBtnClicked:(id)sender
 {
+    //先做一次数据有效性检查 to do
     
+    if (_customerTestInfo == nil){
+        _customerTestInfo = [[CustomerTest alloc] init];
+        _customerTestInfo.checkCode = nil;
+        _customerTestInfo.unitCode = gPersonInfo.cUnitCode;
+        _customerTestInfo.unitName = gPersonInfo.cUnitName;
+        _customerTestInfo.custCode = gPersonInfo.mCustCode;
+        _customerTestInfo.custName = _healthyCertificateView.name;
+        _customerTestInfo.sex = [_healthyCertificateView.gender isEqualToString:@"男"]?0:1;
+        _customerTestInfo.nation = nil;
+        _customerTestInfo.bornDate = [_healthyCertificateView.idCard getLongLongBornDate]; //一会儿计算
+        _customerTestInfo.custIdCard = _healthyCertificateView.idCard;
+        _customerTestInfo.jobDuty = _healthyCertificateView.workType;
+        _customerTestInfo.checkType = 1; // 1 为 健康证
+        _customerTestInfo.testStatus = @"-1";// 客户体检登记状态：-1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
+								// 单位合同状态：-1所有员工未开始检查，3所有员工完成体检，4所有员工已出健康证
+        _customerTestInfo.linkPhone = _phoneNumTextField.text;
+        _customerTestInfo.printPhoto = nil;
+        _customerTestInfo.contractCode = nil;
+        _customerTestInfo.regBeginDate = 0; //一会儿计算
+        _customerTestInfo.regEndDate = 0; //一会儿计算
+        _customerTestInfo.regPosAddr = _locationTextField.text; //预约地点
+        _customerTestInfo.cityName = @""; //预约城市 //一会儿计算
+        /*
+         LatLng ll = PositionUtil.bd2wgs(searchPointbean.latitude, searchPointbean.longitude);
+         ct.regPosLA = ll.latitude;
+         ct.regPosLO = ll.longitude;
+         */
+        _customerTestInfo.regPosLA = 0.0f; //一会儿计算
+        _customerTestInfo.regPosLO = 0.0f; //一会儿计算
+        
+        
+        
+    }
 }
 
 - (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
@@ -469,11 +509,4 @@
         [self.view layoutIfNeeded];
     } completion:NULL];
 }
-
-
-
-
-
-
-
 @end

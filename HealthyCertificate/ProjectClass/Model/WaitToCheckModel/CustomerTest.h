@@ -80,7 +80,7 @@
 /**
  * 近期照片
  */
-@property (nonatomic, strong) NSDate * cPrintPhoto;
+@property (nonatomic, strong) NSDate * printPhoto;
 /**
  * 所属体检合同
  */

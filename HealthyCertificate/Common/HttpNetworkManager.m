@@ -11,6 +11,7 @@
 #import "ServersPositionAnnotionsModel.h"
 #import <MJExtension.h>
 #import "PositionUtil.h"
+#import "MethodResult.h"
 
 @interface HttpNetworkManager()
 
@@ -46,11 +47,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         _sharedClient = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:AFHTTPRequestOperationBaseURLString]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
-<<<<<<< HEAD
         _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/plain", @"text/json", @"application/json", nil];
-=======
-        _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"text/plain", @"text/json", @"application/json", nil];
->>>>>>> rztime/master
     }
     return _sharedClient;
 }
@@ -126,25 +123,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
             block(NO, error);
         }
     }];
-<<<<<<< HEAD
-//    NSURL *urls = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", AFHTTPRequestOperationBaseURLString, url]];
-//
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:urls];
-//    request.HTTPMethod = @"POST";
-//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//    NSData *data = [NSJSONSerialization dataWithJSONObject:personinfo options:NSJSONWritingPrettyPrinted error:nil];
-//
-//    [request setHTTPBody:data];
-//
-//    NSOperation *operation = [self.sharedClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-//        NSLog(@"respons:%@",responseObject);
-//    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-//        NSLog(@"error:%@", error);
-//    }];
-//    [self.sharedClient.operationQueue addOperation:operation];
-
-=======
->>>>>>> rztime/master
 }
 
 #pragma mark －创建或更新单位信息
@@ -257,6 +235,23 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
         if (block) {
             block(NO, error);
+        }
+    }];
+}
+
+
+
+#pragma mark - 个人预约相关
+-(void)createOrUpdatePersonalAppointment:(CustomerTest*)customerTest resultBlock:(HCDictionaryResultBlock)resultBlock
+{
+    NSString *url = [NSString stringWithFormat:@"customerTest/createOrUpdate"];
+    [self.sharedClient POST:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        if (resultBlock) {
+            resultBlock(responseObject, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (resultBlock) {
+            resultBlock(nil, error);
         }
     }];
 }
