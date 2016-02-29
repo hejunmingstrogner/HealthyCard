@@ -22,7 +22,7 @@
 
 @property (nonatomic, assign) UserinformCellItemType itemtype;
 
-typedef void(^updateInfo)(BOOL successed);
+typedef void(^updateInfo)(BOOL successed, NSString *updataText);
 
 // 更新成功之后的回调
 @property (nonatomic, strong)updateInfo updateBlcok;
