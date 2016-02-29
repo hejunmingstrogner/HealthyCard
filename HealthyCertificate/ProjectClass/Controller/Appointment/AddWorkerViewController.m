@@ -77,6 +77,14 @@
     [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
         _workerData = [NSMutableArray arrayWithArray:result];
         [_workerArray removeAllObjects];
+        if(result.count == 0)
+        {
+            _waitAlertView.titleLabel.text = @"没有员工数据";
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [_waitAlertView close];
+            });
+            return ;
+        }
         if (!error) {
             for (Customer *customer in _workerData) {
                 AddWorkerCellItem *cellItem;
