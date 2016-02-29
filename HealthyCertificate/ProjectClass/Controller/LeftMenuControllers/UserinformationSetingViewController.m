@@ -9,6 +9,7 @@
 #import "UserinformationSetingViewController.h"
 #import <Masonry.h>
 #import "UIColor+Expanded.h"
+#import <MJExtension.h>
 
 @implementation UserinformationSetingViewController
 
@@ -122,9 +123,9 @@
         case USERINFORMATION_NAME:{
             // 封装需要修改的信息
             NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
-            [personinfo setObject:gPersonInfo.mCustCode forKey:@"mCustCode"];
-            [personinfo setObject:_nameTextField.text forKey:@"mCustName"];
-            
+            [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
+            [personinfo setObject:_nameTextField.text forKey:@"custName"];
+
             [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
                     gPersonInfo.mCustName = _nameTextField.text;
