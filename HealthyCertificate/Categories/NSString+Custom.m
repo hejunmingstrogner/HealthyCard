@@ -39,5 +39,13 @@
     return (long long)[resultDate timeIntervalSince1970];
 }
 
+-(long long)convertDateStrToLongLong
+{
+    NSDateFormatter *datefammert = [[NSDateFormatter alloc]init];
+    [datefammert setDateFormat:@"yyyy年MM月dd日"];
+    NSDate* resultDate = [datefammert dateFromString:self];
+    return (long long)[resultDate timeIntervalSince1970];
+}
+
 @end
 

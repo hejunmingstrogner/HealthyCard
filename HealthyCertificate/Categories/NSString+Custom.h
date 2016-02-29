@@ -28,4 +28,12 @@
  */
 - (long long)getLongLongBornDate;
 
+
+/**
+ *  传入 xxxx年xx月xx日,将其转化为long long
+ *
+ *  @return long long 格式的日期
+ */
+-(long long)convertDateStrToLongLong;
+
 @end
