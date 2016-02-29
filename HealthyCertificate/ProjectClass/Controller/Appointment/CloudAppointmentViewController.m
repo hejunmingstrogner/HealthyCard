@@ -31,6 +31,8 @@
 #import "HCWheelView.h"
 
 #import "HttpNetworkManager.h"
+#import "PositionUtil.h"
+
 
 
 #define Button_Size 26
@@ -40,7 +42,7 @@
     AppointmentInfoView     *_appointmentInfoView;
     
     UITextField             *_phoneNumTextField;
-    UITextField             *_locationTextField;
+//    UITextField             *_locationTextField;
     UITextField             *_appointmentDateTextField;
     
     UITableView             *_baseInfoTableView;
@@ -55,6 +57,8 @@
 }
 
 @property (nonatomic, strong) HealthyCertificateView* healthyCertificateView;
+@property (nonatomic, strong) UITextField* locationTextField;
+
 @end
 
 
@@ -291,7 +295,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //如果是自主服务点,那么久不可以修改日期和地址
+    //如果是自主服务点,那么就不可以修改日期和地址
     if (self.isCustomerServerPoint == NO)
     {
         [_phoneNumTextField resignFirstResponder];
@@ -303,6 +307,12 @@
         //跳转地址
         SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
         selectAddressViewController.addressStr = _location;
+        __weak typeof (self) wself = self;
+        [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
+            wself.cityName = city;
+            wself.locationTextField.text = address;
+            wself.centerCoordinate = coor;
+        }];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
         [self.parentViewController presentViewController:nav animated:YES completion:nil];
     }else if (indexPath.row == 1){
@@ -361,20 +371,16 @@
         _customerTestInfo.linkPhone = _phoneNumTextField.text;
         _customerTestInfo.printPhoto = nil;
         _customerTestInfo.contractCode = nil;
-        _customerTestInfo.regBeginDate = 0; //一会儿计算
-        _customerTestInfo.regEndDate = 0; //一会儿计算
+        
+        NSArray* array = [_appointmentDateTextField.text  componentsSeparatedByString:@"~"];
+        _customerTestInfo.regBeginDate = [array[0] convertDateStrToLongLong];
+        _customerTestInfo.regEndDate = [array[0] convertDateStrToLongLong];
         _customerTestInfo.regPosAddr = _locationTextField.text; //预约地点
-        _customerTestInfo.cityName = @""; //预约城市 //一会儿计算
-        /*
-         LatLng ll = PositionUtil.bd2wgs(searchPointbean.latitude, searchPointbean.longitude);
-         ct.regPosLA = ll.latitude;
-         ct.regPosLO = ll.longitude;
-         */
-        _customerTestInfo.regPosLA = 0.0f; //一会儿计算
-        _customerTestInfo.regPosLO = 0.0f; //一会儿计算
-        
-        
-        
+        _customerTestInfo.cityName = @""; //预约城市
+        PositionUtil *posit = [[PositionUtil alloc] init];
+        CLLocationCoordinate2D coor = [posit bd2wgs:self.centerCoordinate.latitude lon:self.centerCoordinate.longitude];
+        _customerTestInfo.regPosLA = coor.latitude;
+        _customerTestInfo.regPosLO = coor.longitude;
     }
 }
 
