@@ -35,7 +35,8 @@
 
     NSTimer     *changeStatusTimer;         // 拖拽地图时，定时器用于判断是否拖拽完成时，调用方法得到位置
 
-    UILabel     *addressLabel;              // 地址label
+    UILabel     *addressLabel;              // 体检地址 label
+    NSString    *currentCityName;           // 当前预约城市名字
     UIButton    *orderBtn;                  // 预约按钮
 
     BMKLocationService *_locationServer;    // 位置服务

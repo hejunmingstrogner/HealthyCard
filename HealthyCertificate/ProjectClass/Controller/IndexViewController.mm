@@ -527,9 +527,10 @@
 // 得到体检地址
 - (void)getAdress
 {
-    [[LocationSearchModel getInstance] getExaminationAdressByLocation:_mapView.centerCoordinate WithBlock:^(NSString *adress, NSError *error) {
+    [[LocationSearchModel getInstance] getExaminationAdressByLocation:_mapView.centerCoordinate WithBlock:^(NSString *city,NSString *adress, NSError *error) {
         if(!error)
         {
+            currentCityName = city;
             addressLabel.text = adress;
             _centerCoordinate = _mapView.centerCoordinate;
             [[HttpNetworkManager getInstance] getNearbyServicePointsWithCLLocation:_mapView.centerCoordinate resultBlock:^(NSArray *result, NSError *error) {

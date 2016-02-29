@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong) BMKGeoCodeSearch *searcher;       // 地址编码
 
-typedef void(^ExaminationAddress)(NSString *adress, NSError *error);
+typedef void(^ExaminationAddress)(NSString *city, NSString *adress, NSError *error);
 
 @property (nonatomic, strong)ExaminationAddress examinationAddress;
 
