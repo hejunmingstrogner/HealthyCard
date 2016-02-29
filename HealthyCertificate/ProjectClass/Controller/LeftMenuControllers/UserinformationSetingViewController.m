@@ -130,8 +130,9 @@
                 if (successed) {
                     gPersonInfo.mCustName = _nameTextField.text;
                     if (_updateBlcok) {
-                        _updateBlcok(YES);
+                        _updateBlcok(YES, _nameTextField.text);
                     }
+                    [self backToPre:nil];
                 }
                 else{
                     [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
@@ -148,15 +149,16 @@
                 return ;
             }
             NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
-            [personinfo setObject:gPersonInfo.mCustCode forKey:@"mCustCode"];
-            [personinfo setObject:_nameTextField.text forKey:@"CustId"];
+            [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
+            [personinfo setObject:_nameTextField.text forKey:@"idCard"];
 
             [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
                     gPersonInfo.CustId = _nameTextField.text;
                     if (_updateBlcok) {
-                        _updateBlcok(YES);
+                        _updateBlcok(YES, _nameTextField.text);
                     }
+                    [self backToPre:nil];
                 }
                 else{
                     [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
@@ -169,15 +171,16 @@
             NSInteger type = GetUserType;     // 1个人，2单位
             if (type == 1) {    // 个人单位修改
                 NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
-                [personinfo setObject:gPersonInfo.mCustCode forKey:@"mCustCode"];
-                [personinfo setObject:_nameTextField.text forKey:@"cUnitName"];
+                [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
+                [personinfo setObject:_nameTextField.text forKey:@"unitName"];
 
                 [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
                     if (successed) {
                         gPersonInfo.cUnitName = _nameTextField.text;
                         if (_updateBlcok) {
-                            _updateBlcok(YES);
+                            _updateBlcok(YES, _nameTextField.text);
                         }
+                        [self backToPre:nil];
                     }
                     else{
                         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
@@ -186,15 +189,16 @@
             }
             else{   // 公司单位修改
                 NSMutableDictionary *cUnitInfo = [[NSMutableDictionary alloc]init];
-                [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"cUnitCode"];
-                [cUnitInfo setObject:_nameTextField.text forKey:@"cUnitName"];
+                [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"unitCode"];
+                [cUnitInfo setObject:_nameTextField.text forKey:@"unitName"];
 
                 [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
                     if (successed) {
                         gCompanyInfo.cUnitName = _nameTextField.text;
                         if (_updateBlcok) {
-                            _updateBlcok(YES);
+                            _updateBlcok(YES, _nameTextField.text);
                         }
+                        [self backToPre:nil];
                     }
                     else{
                         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
@@ -206,15 +210,16 @@
             // 修改单位地址
         case USERINFORMATION_WORKUNITADRESS:{
             NSMutableDictionary *cUnitInfo = [[NSMutableDictionary alloc]init];
-            [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"cUnitCode"];
-            [cUnitInfo setObject:_nameTextField.text forKey:@"cUnitAddr"];
+            [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"unitCode"];
+            [cUnitInfo setObject:_nameTextField.text forKey:@"addr"];
 
             [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
                     gCompanyInfo.cUnitAddr = _nameTextField.text;
                     if (_updateBlcok) {
-                        _updateBlcok(YES);
+                        _updateBlcok(YES, _nameTextField.text);
                     }
+                    [self backToPre:nil];
                 }
                 else{
                     [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
@@ -225,15 +230,16 @@
             // 修改单位联系人
         case USERINFORMATION_WORKUNITCONTACTS:{
             NSMutableDictionary *cUnitInfo = [[NSMutableDictionary alloc]init];
-            [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"cUnitCode"];
-            [cUnitInfo setObject:_nameTextField.text forKey:@"cLinkPeople"];
+            [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"unitCode"];
+            [cUnitInfo setObject:_nameTextField.text forKey:@"linkPeople"];
 
             [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
                     gCompanyInfo.cLinkPeople = _nameTextField.text;
                     if (_updateBlcok) {
-                        _updateBlcok(YES);
+                        _updateBlcok(YES, _nameTextField.text);
                     }
+                    [self backToPre:nil];
                 }
                 else{
                     [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
