@@ -763,6 +763,20 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		25A7A6EE1C845BF400054EE6 /* CompanyAppointment */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CompanyAppointment;
+			sourceTree = "<group>";
+		};
+		25A7A6EF1C845BFD00054EE6 /* PersonalAppointment */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PersonalAppointment;
+			sourceTree = "<group>";
+		};
 		25BFEB121C7310270062F9B8 /* Packet */ = {
 			isa = PBXGroup;
 			children = (
@@ -919,6 +933,8 @@
 		B2484DB51C71C1E600C0CCBB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				25A7A6EF1C845BFD00054EE6 /* PersonalAppointment */,
+				25A7A6EE1C845BF400054EE6 /* CompanyAppointment */,
 				25A7A6EA1C842F2E00054EE6 /* Common */,
 				B2436C8B1C7ABEF400F543E1 /* WaitToCheckModel */,
 				B23A97FD1C7420C800E3E054 /* ServersPositionAnnotions */,

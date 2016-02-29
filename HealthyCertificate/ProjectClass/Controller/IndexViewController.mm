@@ -625,6 +625,7 @@
             AppointmentViewController* controller = (AppointmentViewController*)segue.destinationViewController;
             controller.location = addressLabel.text;
             controller.nearbyServicePointsArray = nearbyServicePositionsArray;
+            controller.cityName = currentCityName;
             
             // 将百度地图左边转换为gps坐标
             PositionUtil *posit = [[PositionUtil alloc]init];

@@ -376,7 +376,7 @@
         _customerTestInfo.regBeginDate = [array[0] convertDateStrToLongLong];
         _customerTestInfo.regEndDate = [array[0] convertDateStrToLongLong];
         _customerTestInfo.regPosAddr = _locationTextField.text; //预约地点
-        _customerTestInfo.cityName = @""; //预约城市
+        _customerTestInfo.cityName = self.cityName; //预约城市
         PositionUtil *posit = [[PositionUtil alloc] init];
         CLLocationCoordinate2D coor = [posit bd2wgs:self.centerCoordinate.latitude lon:self.centerCoordinate.longitude];
         _customerTestInfo.regPosLA = coor.latitude;
