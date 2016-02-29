@@ -45,7 +45,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         _sharedClient = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:AFHTTPRequestOperationBaseURLString]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
-        _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"text/json", @"application/json", nil];
+        _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/plain", @"text/json", @"application/json", nil];
     }
     return _sharedClient;
 }
@@ -112,30 +112,30 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 - (void)createOrUpdateUserinformationwithInfor:(NSDictionary *)personinfo resultBlock:(void (^)(BOOL, NSError *))block
 {
     NSString *url = [NSString stringWithFormat:@"customer/createOrUpdate"];
-//    [self.sharedClient POST:url parameters:personinfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-//        if (block) {
-//            block(YES, nil);
-//        }
-//    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-//        if (block) {
-//            block(NO, error);
-//        }
-//    }];
-    NSURL *urls = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", AFHTTPRequestOperationBaseURLString, url]];
-
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:urls];
-    request.HTTPMethod = @"POST";
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSData *data = [NSJSONSerialization dataWithJSONObject:personinfo options:NSJSONWritingPrettyPrinted error:nil];
-
-    [request setHTTPBody:data];
-
-    NSOperation *operation = [self.sharedClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        NSLog(@"respons:%@",responseObject);
+    [self.sharedClient POST:url parameters:personinfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        if (block) {
+            block(YES, nil);
+        }
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-        NSLog(@"error:%@", error);
+        if (block) {
+            block(NO, error);
+        }
     }];
-    [self.sharedClient.operationQueue addOperation:operation];
+//    NSURL *urls = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", AFHTTPRequestOperationBaseURLString, url]];
+//
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:urls];
+//    request.HTTPMethod = @"POST";
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    NSData *data = [NSJSONSerialization dataWithJSONObject:personinfo options:NSJSONWritingPrettyPrinted error:nil];
+//
+//    [request setHTTPBody:data];
+//
+//    NSOperation *operation = [self.sharedClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+//        NSLog(@"respons:%@",responseObject);
+//    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+//        NSLog(@"error:%@", error);
+//    }];
+//    [self.sharedClient.operationQueue addOperation:operation];
 
 }
 
