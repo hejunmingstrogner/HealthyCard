@@ -21,6 +21,10 @@
 //判断是自己选择一个服务点进行预约 还是在一个已有的服务点上进行预约
 @property (nonatomic, assign) BOOL isCustomerServerPoint;
 
+
+//通过身份证扫描后，获得的身份证信息
+@property (nonatomic, copy) NSArray* idCardInfo;
+
 /**
  *  隐藏界面的键盘
  */

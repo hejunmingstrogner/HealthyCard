@@ -154,7 +154,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     }];
 }
 
-#pragma mark - 获得预约处理信息 包括个人，单位代理出项
+#pragma mark - 获得预约处理信息 包括个人，单位待处理项
 - (void)getCheckListWithBlock:(void (^)(NSArray *, NSArray *, NSError *))block
 {
     NSInteger type = GetUserType;
