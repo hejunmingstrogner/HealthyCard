@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthyCertificate/Common/HttpNetworkManager.m"
-            timestampString = "478418569.80271"
+            timestampString = "478418935.415587"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "-createOrUpdateUserinformationwithInfor:resultBlock:"
             landmarkType = "5">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthyCertificate/Common/HttpNetworkManager.m"
-            timestampString = "478418569.80271"
+            timestampString = "478418935.751511"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
             landmarkName = "-createOrUpdateUserinformationwithInfor:resultBlock:"
             landmarkType = "5">
          </BreakpointContent>
