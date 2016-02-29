@@ -9,6 +9,7 @@
 #import "LeftMenuView.h"
 #import <UIImageView+WebCache.h>
 #import "HttpNetworkManager.h"
+#import "LeftMenuViewHeaderinfoCell.h"
 
 @interface LeftMenuView ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -107,14 +108,9 @@
 {
     // 头像信息
     if (((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType == LEFTMENUCELL_USERINFOR) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"headercell"];
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"headercell"];
-        }
+        LeftMenuViewHeaderinfoCell *cell = [[LeftMenuViewHeaderinfoCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"headercell"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode]] placeholderImage:[UIImage imageNamed:((LeftMenuCellItem *)_menuItemArray[indexPath.section]).iconName] options:SDWebImageRefreshCached];
-        cell.textLabel.text = ((LeftMenuCellItem *)_menuItemArray[indexPath.section]).titleLabelText;
-        cell.detailTextLabel.text = ((LeftMenuCellItem *)_menuItemArray[indexPath.section]).detialLabelText;
+        cell.leftMenuCellItem = _menuItemArray[indexPath.section];
         return cell;
     }
     // 设置

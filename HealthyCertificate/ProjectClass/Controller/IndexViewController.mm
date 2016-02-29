@@ -18,7 +18,7 @@
 #import "CloudAppointmentViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
 
-@interface IndexViewController ()
+@interface IndexViewController ()<UserinfromationControllerDelegate>
 
 {
     CLLocationCoordinate2D _centerCoordinate;
@@ -319,6 +319,7 @@
         case LEFTMENUCELL_USERINFOR:{
             NSLog(@"用户信息");
             UserInformationController *userinfor = [[UserInformationController alloc]init];
+            userinfor.delegate = self;
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:userinfor];
             [self presentViewController:nav animated:YES completion:nil];
             break;
@@ -361,6 +362,14 @@
     }
 }
 
+#pragma  mark - delegtate  改变了个人信息之后，刷新左侧界面
+- (void)reloadLeftMenuViewByChangedUserinfor
+{
+    NSLog(@"刷新");
+    [leftMenuView initData];
+    [leftMenuView.tableView reloadData];
+}
+// 左侧用户类型改变之后
 - (void)leftMenuViewIsChangedUserType
 {
     [self getCheckListData];
