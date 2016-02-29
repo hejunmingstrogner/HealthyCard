@@ -101,7 +101,7 @@
         UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位联系人" detialLabelText:[gCompanyInfo.cLinkPeople isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPeople itemtype:USERINFORMATION_WORKUNITCONTACTS];
         UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gCompanyInfo.cLinkPhone isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPhone itemtype:USERINFORMATION_TELPHONENO];
         UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行业" detialLabelText:[gCompanyInfo.cUnitType isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitType itemtype:USERINFORMATION_CALLING];
-        _dataArray = [NSMutableArray arrayWithObjects:workUnitAdress, workUnitName, workUnitContacts, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
+        _dataArray = [NSMutableArray arrayWithObjects:workUnitAdress, workUnitName, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
     }
 }
 
@@ -200,15 +200,60 @@
     setingController.itemtype = ((UserinformationCellItem *)_dataArray[indexPath.row]).itemType;
 
     // 如果修改了信息，并且修改成功，则刷新列表
-    [setingController isUpdateInfoSucceed:^(BOOL successed) {
-        if (successed) {
-            [_tableView reloadData];
-        }
+    [setingController isUpdateInfoSucceed:^(BOOL successed, NSString *updataText) {
+        [self updataSuccessThenChangeUserinformation:indexPath.row Text:updataText];
     }];
     
     [self.navigationController pushViewController:setingController animated:YES];
 }
-
+// 修改成功之后，改变本地数据
+- (void)updataSuccessThenChangeUserinformation:(NSInteger)index Text:(NSString *)text
+{
+    switch (((UserinformationCellItem *)_dataArray[index]).itemType) {
+        case USERINFORMATION_HEADERIMAGE:{
+            break;
+        }
+        case USERINFORMATION_NAME:{
+            gPersonInfo.mCustName = text;
+            break;
+        }
+        case USERINFORMATION_GENDER:{
+            break;
+        }
+        case USERINFORMATION_OLD:{
+            return;
+        }
+        case USERINFORMATION_TELPHONENO:{
+            break;
+        }
+        case USERINFORMATION_IDCARD:{
+            gPersonInfo.CustId = text;
+            break;
+        }
+        case USERINFORMATION_CALLING:{
+            break;
+        }
+        case USERINFORMATION_WORKUNITNAME:{
+            if (GetUserType == 1) {
+                gPersonInfo.cUnitName = text;
+            }
+            else {
+                gCompanyInfo.cUnitName = text;
+            }
+            break;
+        }
+        case USERINFORMATION_WORKUNITADRESS:{
+            gCompanyInfo.cUnitAddr = text;
+            break;
+        }
+        case USERINFORMATION_WORKUNITCONTACTS:{
+            gCompanyInfo.cLinkPeople = text;
+            break;
+        }
+        default:
+            return;
+    }
+}
 #pragma mark -点击头像 设置头像
 - (void)headerimageBtnClicked:(UIButton *)sender
 {

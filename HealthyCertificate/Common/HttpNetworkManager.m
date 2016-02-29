@@ -20,6 +20,7 @@
 
 @end
 
+//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.34:8080/zkwebservice/webservice/";
 static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
 
 @implementation HttpNetworkManager
@@ -45,7 +46,11 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         _sharedClient = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:AFHTTPRequestOperationBaseURLString]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
+<<<<<<< HEAD
         _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/plain", @"text/json", @"application/json", nil];
+=======
+        _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"text/plain", @"text/json", @"application/json", nil];
+>>>>>>> rztime/master
     }
     return _sharedClient;
 }
@@ -121,6 +126,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
             block(NO, error);
         }
     }];
+<<<<<<< HEAD
 //    NSURL *urls = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", AFHTTPRequestOperationBaseURLString, url]];
 //
 //    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:urls];
@@ -137,6 +143,8 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 //    }];
 //    [self.sharedClient.operationQueue addOperation:operation];
 
+=======
+>>>>>>> rztime/master
 }
 
 #pragma mark －创建或更新单位信息

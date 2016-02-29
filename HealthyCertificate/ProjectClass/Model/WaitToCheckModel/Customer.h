@@ -58,7 +58,7 @@
  */
 @property (nonatomic, strong) NSString * marryFlag;
 /**
- * 证件哑巴。
+ * 身份证号码。
  */
 @property (nonatomic, strong) NSString * idCard;
 /**
