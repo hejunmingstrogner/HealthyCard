@@ -44,6 +44,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     if (_sharedClient == nil) {
         _sharedClient = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:AFHTTPRequestOperationBaseURLString]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
+        _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
     }
     return _sharedClient;
 }
@@ -110,6 +111,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 - (void)createOrUpdateUserinformationwithInfor:(NSDictionary *)personinfo resultBlock:(void (^)(BOOL, NSError *))block
 {
     NSString *url = [NSString stringWithFormat:@"customer/createOrUpdate"];
+
     [self.sharedClient POST:url parameters:personinfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         if (block) {
             block(YES, nil);
@@ -199,6 +201,38 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
         if (resultBlock) {
             resultBlock([NSArray array], error);
+        }
+    }];
+}
+
+#pragma mark -上传客户头像
+- (void)customerUploadPhoto:(UIImage *)photo resultBlock:(HCBoolResultBlock)block
+{
+    NSData *imageData;
+    NSString *imagetype;
+    if(UIImagePNGRepresentation(photo) == nil){
+        imageData = UIImageJPEGRepresentation(photo, 1);
+        imagetype = @"jpeg";
+    }
+    else {
+        imageData = UIImagePNGRepresentation(photo);
+        imagetype= @"png";
+    }
+
+    NSString *url = [NSString stringWithFormat:@"customer/uploadPhoto"];
+    NSMutableDictionary *param = [[NSMutableDictionary alloc]init];
+    [param setObject:gPersonInfo.mCustCode forKey:@"cCustCode"];
+    [self.sharedClient POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        NSDateFormatter *formmettrt = [[NSDateFormatter alloc]init];
+        [formmettrt setDateFormat:@"yyyyMMddHHmmss"];
+        [formData appendPartWithFileData:imageData name:@"file" fileName:[NSString stringWithFormat:@"%@.%@", [formmettrt stringFromDate:[NSDate date]], imagetype] mimeType:[NSString stringWithFormat:@"image/%@", imagetype]];
+    } success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        if (block) {
+            block(YES, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (block) {
+            block(NO, error);
         }
     }];
 }

@@ -16,6 +16,7 @@
 #import "MyCheckListViewController.h"
 #import "ServicePointDetailViewController.h"
 #import "CloudAppointmentViewController.h"
+#import "CloudAppointmentCompanyViewController.h"
 
 @interface IndexViewController ()
 
@@ -41,14 +42,13 @@
 
     if (GetUserType != 1 && GetUserType != 2 ) {
         [RzAlertView showAlertWithTarget:self.view Title:@"用户类型" oneButtonTitle:@"个人" oneButtonImageName:@"" twoButtonTitle:@"单位" twoButtonImageName:@"" handle:^(NSInteger flag) {
-            if (flag == 1) {
-                SetUserType(1);
-            }
-            else {
-                SetUserType(2);
-            }
+            SetUserType(flag);  // 设置用户类型  1:个人，2单位
+            [self initLeftViews];   // 初始化左侧菜单
             [self getCheckListData];
         }];
+    }
+    else{
+        [self initLeftViews];    // 初始化左侧菜单
     }
 }
 
@@ -235,14 +235,6 @@
     }];
     [locateimageview setImage:[UIImage imageNamed:@"locateimage"]];
 
-    // 左侧菜单栏
-    leftMenuView = [[LeftMenuView alloc]initWithFrame:CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20)];
-    [self.view addSubview:leftMenuView];
-    leftMenuView.delegate = self;
-    UIPanGestureRecognizer *panrecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerOfMenuView:)];
-    panrecognizer.maximumNumberOfTouches = 1;
-    [leftMenuView addGestureRecognizer:panrecognizer];
-
     // 定位到当前位置
     UIButton *removeToCurrentLocateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [removeToCurrentLocateBtn setImage:[UIImage imageNamed:@"dingwei"] forState:UIControlStateNormal];
@@ -253,6 +245,17 @@
         make.right.equalTo(self.view).offset(-10);
     }];
     [removeToCurrentLocateBtn addTarget:self action:@selector(removeToCurrentLocate) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)initLeftViews
+{
+    // 左侧菜单栏
+    leftMenuView = [[LeftMenuView alloc]initWithFrame:CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20)];
+    [self.view addSubview:leftMenuView];
+    leftMenuView.delegate = self;
+    UIPanGestureRecognizer *panrecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerOfMenuView:)];
+    panrecognizer.maximumNumberOfTouches = 1;
+    [leftMenuView addGestureRecognizer:panrecognizer];
 }
 #pragma mark - 左侧菜单栏相关
 // 菜单界面滑动出现以及关闭
@@ -403,12 +406,22 @@
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"附近没有服务点" removeDelay:2];
         return ;
     }
-    CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
-    cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[0];
-    cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
-    cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
-    [self presentViewController:nav animated:YES completion:nil];
+    if (GetUserType == 1) {     // 个人
+        CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+        cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[0];
+        cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
+        cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
+        [self presentViewController:nav animated:YES completion:nil];
+    }
+    else {                      // 单位
+        CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
+        cloudAppointCompany.sercersPositionInfo = nearbyServicePositionsArray[0];
+        cloudAppointCompany.centerCoordinate = _mapView.centerCoordinate;
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppointCompany];
+        cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 
 }
 //  一键预约
@@ -501,7 +514,7 @@
     changeStatusTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(getAdress) userInfo:nil repeats:NO];
 }
 
-#pragma mark -得到体检地址
+#pragma mark -得到体检地址 获取附近服务点信息
 // 得到体检地址
 - (void)getAdress
 {
@@ -560,7 +573,6 @@
 {
     MyPointeAnnotation *anno = view.annotation;
     if (nearbyServicePositionsArray.count != 0) {
-        NSLog(@"near: %@", nearbyServicePositionsArray[anno.tag]);
         // 回调 0 取消，1预约，2显示基本信息，3拨打电话
         [RzAlertView showActionSheetWithTarget:self.view servicePosition:nearbyServicePositionsArray[anno.tag] handle:^(NSInteger flag) {
             if (flag == 1)
@@ -588,10 +600,9 @@
                     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:servicedetial];
                     [self presentViewController:nav animated:YES completion:nil];
                 }
-
             }
-            else {
-
+            else if(flag == 3){
+                NSLog(@"拨打电话");
             }
         }];
     }

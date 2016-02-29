@@ -21,97 +21,97 @@
 /**
  * 合同编号
  */
-@property (nonatomic, strong) NSString * cCode;
+@property (nonatomic, strong) NSString * code;
 /**
  * 合同名称
  */
-@property (nonatomic, strong) NSString * cName;
+@property (nonatomic, strong) NSString * name;
 /**
  * 单位编号
  */
-@property (nonatomic, strong) NSString * cUnitCode;
+@property (nonatomic, strong) NSString * unitCode;
 /**
  * 单位名称
  */
-@property (nonatomic, strong) NSString * cUnitName;
+@property (nonatomic, strong) NSString * unitName;
 /**
  * 说明
  */
-@property (nonatomic, strong) NSString * cMemo;
+@property (nonatomic, strong) NSString * memo;
 /**
  * 合同状态
  */
-@property (nonatomic, strong) NSString * cStatus;
+@property (nonatomic, strong) NSString * testStatus;
 /**
  * 操作人员编号
  */
-@property (nonatomic, strong) NSString * cOperCode;
+@property (nonatomic, strong) NSString * operCode;
 /**
  * 操作日期
  */
-@property (nonatomic, assign) long long dOperDate;
+@property (nonatomic, assign) long long operDate;
 /**
  * 付款方式
  */
-@property (nonatomic, strong) NSString * cPayMode;
+@property (nonatomic, strong) NSString * payMode;
 /**
  * 生成年
  */
-@property (nonatomic, strong) NSString * cYear;
+@property (nonatomic, strong) NSString * checkYear;
 /**
  * 机构编号
  */
-@property (nonatomic, strong) NSString * cHosCode;
+@property (nonatomic, strong) NSString * hosCode;
 /**
  * 检查人员类型
  */
-@property (nonatomic, strong) NSString * cCheckType;
+@property (nonatomic, strong) NSString * checkType;
 
 /**
  * 服务点ID
  */
-@property (nonatomic, strong) NSString * cCheckSiteID;
+@property (nonatomic, strong) NSString * checkSiteID;
 /**
  * 预约人数
  */
-@property (nonatomic, assign) int cRegCheckNum;
+@property (nonatomic, assign) int regCheckNum;
 /**
  * 已检人数
  */
-@property (nonatomic, assign) int cFactCheckNum;
+@property (nonatomic, assign) int factCheckNum;
 /**
  * 预约经度
  */
-@property (nonatomic, strong) NSString * cRegPosLO;
+@property (nonatomic, assign) double regPosLO;
 /**
  * 预约纬度
  */
-@property (nonatomic, strong) NSString * cRegPosLA;
+@property (nonatomic, assign) double regPosLA;
 /**
  * 预约地址
  */
-@property (nonatomic, strong) NSString * cRegPosAddr;
+@property (nonatomic, strong) NSString * regPosAddr;
 /**
  * 预约时间
  */
-@property (nonatomic, assign) long long cRegTime;
+@property (nonatomic, assign) long long regTime;
 /**
  * 预约开始时间
  */
-@property (nonatomic, assign) long long cRegBeginDate;
+@property (nonatomic, assign) long long regBeginDate;
 /**
  * 预约结束时间
  */
-@property (nonatomic, assign) long long cRegEndDate;
+@property (nonatomic, assign) long long regEndDate;
 
 /**
  * 联系人
  */
-@property (nonatomic, strong) NSString * cLinkUser;
+@property (nonatomic, strong) NSString * linkUser;
 /**
  * 联系电话
  */
-@property (nonatomic, strong) NSString * cLinkPhone;
+@property (nonatomic, strong) NSString * linkPhone;
 /**
  * 所属城市。
  */

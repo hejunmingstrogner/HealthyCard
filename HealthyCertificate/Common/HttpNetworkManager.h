@@ -74,4 +74,12 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  */
 - (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(HCArrayResultBlock)resultBlock;
 
+/**
+ *  个人用户上传客户头像
+ *
+ *  @param photo 照片
+ *  @param block 回调
+ */
+- (void)customerUploadPhoto:(UIImage *)photo resultBlock:(HCBoolResultBlock)block;
+
 @end

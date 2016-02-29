@@ -135,18 +135,18 @@
     NSInteger index = _segmentControl.selectedSegmentIndex;
     if (index == 0) {
         if (_brContract) {
-            [_addressBtn setTitle:_brContract.cRegPosAddr forState:UIControlStateNormal];
-            if (!_brContract.cRegBeginDate || !_brContract.cRegEndDate) {
+            [_addressBtn setTitle:_brContract.regPosAddr forState:UIControlStateNormal];
+            if (!_brContract.regBeginDate || !_brContract.regEndDate) {
 
             }
             else {
-                NSString *year = [NSDate getYear_Month_DayByDate:_brContract.cRegBeginDate];
-                NSString *end = [NSDate getYear_Month_DayByDate:_brContract.cRegEndDate];
+                NSString *year = [NSDate getYear_Month_DayByDate:_brContract.regBeginDate];
+                NSString *end = [NSDate getYear_Month_DayByDate:_brContract.regEndDate];
                 NSString *time = [NSString stringWithFormat:@"%@~%@",year, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
 
-            [_phoneBtn setTitle:_brContract.cLinkPhone forState:UIControlStateNormal];
+            [_phoneBtn setTitle:_brContract.linkPhone forState:UIControlStateNormal];
         }
         else {
             [_addressBtn setTitle:_cutomerTest.regPosAddr forState:UIControlStateNormal];
