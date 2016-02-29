@@ -27,20 +27,29 @@
 #import "AppointmentInfoView.h"
 
 #import "CloudAppointmentDateVC.h"
+#import "EditInfoViewController.h"
+#import "HCWheelView.h"
+
 
 #define Button_Size 26
 
-@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate>
+@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate,HCWheelViewDelegate>
 {
-    HealthyCertificateView  *_healthyCertificateView;
     AppointmentInfoView     *_appointmentInfoView;
     
     UITextField             *_phoneNumTextField;
     UITableView             *_baseInfoTableView;
     
+    //键盘相关
     BOOL                    _isFirstShown;
     CGFloat                 _viewHeight;
+    
+    //性别选择器
+    HCWheelView             *_sexWheel;
+    
 }
+
+@property (nonatomic, strong) HealthyCertificateView* healthyCertificateView;
 @end
 
 
@@ -71,6 +80,12 @@
     BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     cell.textField.text = appointmentDateStr;
     _appointmentDateStr = appointmentDateStr;
+}
+
+-(void)setIdCardInfo:(NSArray *)idCardInfo{
+    _healthyCertificateView.name = idCardInfo[0];
+    _healthyCertificateView.idCard = idCardInfo[1];
+    _healthyCertificateView.gender = idCardInfo[2];
 }
 
 #pragma mark - Life Circle
@@ -139,6 +154,7 @@
     _healthyCertificateView.layer.borderColor = MO_RGBCOLOR(0, 168, 234).CGColor;
     _healthyCertificateView.layer.borderWidth = 1;
     _healthyCertificateView.delegate = self;
+    _healthyCertificateView.personInfoPacket = gPersonInfo;
     [containerView addSubview:_healthyCertificateView];
     [_healthyCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(containerView).with.offset(10);
@@ -191,6 +207,17 @@
     singleRecognizer.numberOfTapsRequired = 1; // 单击
     singleRecognizer.delegate = self;
     [self.view addGestureRecognizer:singleRecognizer];
+    
+    _sexWheel = [[HCWheelView alloc] init];
+    [self.view addSubview:_sexWheel];
+    _sexWheel.hidden = YES;
+    _sexWheel.delegate = self;
+    _sexWheel.pickerViewContentArr = [NSMutableArray arrayWithArray:@[@"男", @"女"]];
+    [_sexWheel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(self.view);
+        make.height.mas_equalTo(SCREEN_HEIGHT * 1/3 );
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+    }];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -318,6 +345,16 @@
     }
 }
 
+#pragma mark - HCWheelViewDelegate
+-(void)sureBtnClicked:(NSString *)wheelText{
+    self.healthyCertificateView.gender = wheelText;
+    _sexWheel.hidden = YES;
+}
+
+-(void)cancelButtonClicked{
+    _sexWheel.hidden = YES;
+}
+
 #pragma mark - UITextField Delegate
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -348,16 +385,46 @@
 
 #pragma mark - HealthyCertificateViewDelegate
 -(void)nameBtnClicked:(NSString *)name
-{}
+{
+    EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
+    editInfoViewController.editInfoType = EDITINFO_NAME;
+    __weak typeof (self) wself = self;
+    [editInfoViewController setEditInfoText:name WithBlock:^(NSString *resultStr) {
+        wself.healthyCertificateView.name = resultStr;
+    }];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:editInfoViewController];
+    [self presentViewController:nav animated:YES completion:nil];
+    
+}
 
 -(void)sexBtnClicked:(NSString *)gender
-{}
+{
+    NSInteger index = 0;
+    for (; index < _sexWheel.pickerViewContentArr.count; ++index){
+        if ([gender isEqualToString:_sexWheel.pickerViewContentArr[index]])
+            break;
+    }
+    [_sexWheel.pickerView selectRow:index inComponent:0 animated:NO];
+    _sexWheel.hidden = NO;
+}
 
 -(void)industryBtnClicked:(NSString *)industry
-{}
+{
+    NSLog(@"industry");
+}
 
 -(void)idCardBtnClicked:(NSString *)idCard
-{}
+{
+    EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
+    editInfoViewController.editInfoType = EDITINFO_IDCARD;
+    __weak typeof (self) wself = self;
+    [editInfoViewController setEditInfoText:idCard WithBlock:^(NSString *resultStr) {
+        wself.healthyCertificateView.idCard = resultStr;
+    }];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:editInfoViewController];
+    [self presentViewController:nav animated:YES completion:nil];
+
+}
 
 #pragma mark - Private Methods
 - (BOOL)isPureInt:(NSString*)string{
@@ -388,7 +455,6 @@
     }
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
-        //self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
         [self.view layoutIfNeeded];
         
     } completion:NULL];
@@ -403,6 +469,8 @@
         [self.view layoutIfNeeded];
     } completion:NULL];
 }
+
+
 
 
 
