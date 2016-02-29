@@ -14,5 +14,6 @@
 @property (nonatomic, copy) NSString* location;
 @property (nonatomic, assign) CLLocationCoordinate2D centerCoordinate;
 @property (nonatomic, strong) NSMutableArray* nearbyServicePointsArray;
+@property (nonatomic, copy) NSString* cityName;
 
 @end

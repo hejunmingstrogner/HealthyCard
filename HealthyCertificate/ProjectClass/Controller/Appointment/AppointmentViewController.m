@@ -59,6 +59,10 @@
    _nearbyServicePointsArray = nearbyServicePointsArray;
 }
 
+-(void)setCityName:(NSString *)cityName{
+    _cityName = cityName;
+}
+
 
 #pragma mark - Life Circle
 -(void)viewDidLoad{
@@ -145,6 +149,8 @@
     }];
     [_servicePointAppointmentViewController.view setHidden:YES];
     self.currentVC = CloudController;
+    
+    [self loadData];
 }
 
 #pragma mark - Action
@@ -291,5 +297,13 @@
 {
     //self.isProgressCanceled = isCance;
 }
+
+#pragma mark - Public Methods
+-(void)loadData
+{
+    _cloudAppointmentCompanyViewController.cityName = _cityName;
+    _cloudAppointmentViewController.cityName = _cityName;
+}
+
 
 @end

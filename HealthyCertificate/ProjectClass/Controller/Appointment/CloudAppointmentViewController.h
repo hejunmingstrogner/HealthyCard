@@ -16,6 +16,7 @@
 @property (nonatomic, copy) NSString* location;
 @property (nonatomic, assign) CLLocationCoordinate2D centerCoordinate;
 @property (nonatomic, copy) NSString* appointmentDateStr;
+@property (nonatomic, copy) NSString* cityName;
 
 @property (nonatomic, strong) ServersPositionAnnotionsModel *sercersPositionInfo;
 
