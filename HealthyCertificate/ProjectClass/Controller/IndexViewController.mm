@@ -42,12 +42,7 @@
 
     if (GetUserType != 1 && GetUserType != 2 ) {
         [RzAlertView showAlertWithTarget:self.view Title:@"用户类型" oneButtonTitle:@"个人" oneButtonImageName:@"" twoButtonTitle:@"单位" twoButtonImageName:@"" handle:^(NSInteger flag) {
-            if (flag == 1) {
-                SetUserType(1);
-            }
-            else {
-                SetUserType(2);
-            }
+            SetUserType(flag);  // 设置用户类型  1:个人，2单位
             [self initLeftViews];   // 初始化左侧菜单
             [self getCheckListData];
         }];
@@ -519,7 +514,7 @@
     changeStatusTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(getAdress) userInfo:nil repeats:NO];
 }
 
-#pragma mark -得到体检地址
+#pragma mark -得到体检地址 获取附近服务点信息
 // 得到体检地址
 - (void)getAdress
 {

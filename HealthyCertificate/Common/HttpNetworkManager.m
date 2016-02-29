@@ -44,6 +44,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     if (_sharedClient == nil) {
         _sharedClient = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:AFHTTPRequestOperationBaseURLString]];
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
+        _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
     }
     return _sharedClient;
 }
@@ -110,6 +111,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 - (void)createOrUpdateUserinformationwithInfor:(NSDictionary *)personinfo resultBlock:(void (^)(BOOL, NSError *))block
 {
     NSString *url = [NSString stringWithFormat:@"customer/createOrUpdate"];
+
     [self.sharedClient POST:url parameters:personinfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         if (block) {
             block(YES, nil);
@@ -220,7 +222,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     NSString *url = [NSString stringWithFormat:@"customer/uploadPhoto"];
     NSMutableDictionary *param = [[NSMutableDictionary alloc]init];
     [param setObject:gPersonInfo.mCustCode forKey:@"cCustCode"];
-    self.sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"multipart/form-data",@"text/html",@"text/json"]];
     [self.sharedClient POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         NSDateFormatter *formmettrt = [[NSDateFormatter alloc]init];
         [formmettrt setDateFormat:@"yyyyMMddHHmmss"];
