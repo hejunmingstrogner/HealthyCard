@@ -56,6 +56,13 @@
  */
 - (NSString* )getDateStringWithInternel:(NSInteger)interval;
 
+/**
+ *  将date转换成long long
+ *
+ *  @return long long 型的date
+ */
+-(long long)convertToLongLong;
+
 // 计算时间 年月日
 + (NSString *)getYear_Month_DayByDate:(long long)itDate;
 // 计算 时分

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "ServersPositionAnnotionsModel.h"
+#import "CustomerTest.h"
 
 @interface CloudAppointmentViewController : UIViewController
 
@@ -24,6 +25,9 @@
 
 //通过身份证扫描后，获得的身份证信息
 @property (nonatomic, copy) NSArray* idCardInfo;
+
+//预约的时候，往服务端上传的客户体检信息
+@property (nonatomic, strong) CustomerTest* customerTestInfo;
 
 /**
  *  隐藏界面的键盘

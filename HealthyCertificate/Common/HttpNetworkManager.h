@@ -82,4 +82,19 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  */
 - (void)customerUploadPhoto:(UIImage *)photo resultBlock:(HCBoolResultBlock)block;
 
+#pragma mark - 个人预约
+/**
+ *  个人预约 登记或修改
+ *
+ *  @param customerTest 个人体检信息 mCheckCode为空代表登录，否则代表修改
+ *  @param resultBlock  回调
+ */
+-(void)createOrUpdatePersonalAppointment:(CustomerTest*)customerTest resultBlock:(HCDictionaryResultBlock)resultBlock;
+
+
+
+
+#pragma mark - 单人预约
+
+
 @end

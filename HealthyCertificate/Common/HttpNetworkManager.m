@@ -11,6 +11,7 @@
 #import "ServersPositionAnnotionsModel.h"
 #import <MJExtension.h>
 #import "PositionUtil.h"
+#import "MethodResult.h"
 
 @interface HttpNetworkManager()
 
@@ -234,6 +235,23 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
         if (block) {
             block(NO, error);
+        }
+    }];
+}
+
+
+
+#pragma mark - 个人预约相关
+-(void)createOrUpdatePersonalAppointment:(CustomerTest*)customerTest resultBlock:(HCDictionaryResultBlock)resultBlock
+{
+    NSString *url = [NSString stringWithFormat:@"customerTest/createOrUpdate"];
+    [self.sharedClient POST:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        if (resultBlock) {
+            resultBlock(responseObject, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (resultBlock) {
+            resultBlock(nil, error);
         }
     }];
 }

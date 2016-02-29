@@ -83,4 +83,9 @@
     return [format dateFromString:dateStr];
 }
 
+-(long long)convertToLongLong
+{
+    return (long long)[self timeIntervalSince1970];
+}
+
 @end

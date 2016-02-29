@@ -88,6 +88,7 @@
 		254A8DDE1C813BC200F2EC94 /* EditInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DDD1C813BC200F2EC94 /* EditInfoViewController.m */; };
 		254A8DEA1C81A88400F2EC94 /* libIDCardLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 254A8DE91C81A88400F2EC94 /* libIDCardLib.a */; };
 		254A8E441C82EB3300F2EC94 /* YMIDCardRecognition.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8E431C82EB3300F2EC94 /* YMIDCardRecognition.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		25A7A6ED1C842FB500054EE6 /* MethodResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A7A6EC1C842FB500054EE6 /* MethodResult.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
 		25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB101C72C70F0062F9B8 /* HCRule.m */; };
@@ -293,6 +294,8 @@
 		254A8DF31C81AB8C00F2EC94 /* YMIDCardEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YMIDCardEngine.h; sourceTree = "<group>"; };
 		254A8E421C82EB3300F2EC94 /* YMIDCardRecognition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMIDCardRecognition.h; sourceTree = "<group>"; };
 		254A8E431C82EB3300F2EC94 /* YMIDCardRecognition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMIDCardRecognition.m; sourceTree = "<group>"; };
+		25A7A6EB1C842FB500054EE6 /* MethodResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodResult.h; sourceTree = "<group>"; };
+		25A7A6EC1C842FB500054EE6 /* MethodResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodResult.m; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
 		25BFE9721C7199610062F9B8 /* RzAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RzAlertView.m; sourceTree = "<group>"; };
 		25BFEB0B1C71C9110062F9B8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -751,6 +754,15 @@
 			path = YMIDCardEngine;
 			sourceTree = "<group>";
 		};
+		25A7A6EA1C842F2E00054EE6 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				25A7A6EB1C842FB500054EE6 /* MethodResult.h */,
+				25A7A6EC1C842FB500054EE6 /* MethodResult.m */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		25BFEB121C7310270062F9B8 /* Packet */ = {
 			isa = PBXGroup;
 			children = (
@@ -907,6 +919,7 @@
 		B2484DB51C71C1E600C0CCBB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				25A7A6EA1C842F2E00054EE6 /* Common */,
 				B2436C8B1C7ABEF400F543E1 /* WaitToCheckModel */,
 				B23A97FD1C7420C800E3E054 /* ServersPositionAnnotions */,
 				25BFEB121C7310270062F9B8 /* Packet */,
@@ -1231,6 +1244,7 @@
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
 				B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */,
 				2512B3B21C70557C00EE661B /* ViewController.m in Sources */,
+				25A7A6ED1C842FB500054EE6 /* MethodResult.m in Sources */,
 				B23A980D1C76E12700E3E054 /* UserinformationSetingViewController.m in Sources */,
 				B2436CA31C7AF91800F543E1 /* BRContractTableHeaerCell.m in Sources */,
 				2512B4151C7056C900EE661B /* UIButton+Easy.m in Sources */,
