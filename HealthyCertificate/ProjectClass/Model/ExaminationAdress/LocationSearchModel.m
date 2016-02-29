@@ -35,7 +35,7 @@
     if(!flag)
     {
         if (_examinationAddress) {
-            _examinationAddress(nil, [NSError errorWithDomain:@"网络连接错误" code:100 userInfo:[NSDictionary dictionaryWithObject:@"网络连接错误" forKey:@"error"]]);
+            _examinationAddress(nil, nil, [NSError errorWithDomain:@"网络连接错误" code:100 userInfo:[NSDictionary dictionaryWithObject:@"网络连接错误" forKey:@"error"]]);
         }
     }
 }
@@ -44,12 +44,12 @@
 -(void) onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error{
   if (error == BMK_SEARCH_NO_ERROR) {
       if (_examinationAddress) {
-          _examinationAddress(result.address, nil);
+          _examinationAddress(result.addressDetail.city,result.address, nil);
       }
   }
   else {
       if (_examinationAddress) {
-          _examinationAddress(nil, [NSError errorWithDomain:@"网络连接错误" code:100 userInfo:[NSDictionary dictionaryWithObject:@"网络连接错误" forKey:@"error"]]);
+          _examinationAddress(nil, nil, [NSError errorWithDomain:@"网络连接错误" code:100 userInfo:[NSDictionary dictionaryWithObject:@"网络连接错误" forKey:@"error"]]);
       }
   }
 }
