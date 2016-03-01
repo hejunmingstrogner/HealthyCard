@@ -43,7 +43,13 @@
 
     if (GetUserType != 1 && GetUserType != 2 ) {
         [RzAlertView showAlertWithTarget:self.view Title:@"用户类型" oneButtonTitle:@"个人" oneButtonImageName:@"" twoButtonTitle:@"单位" twoButtonImageName:@"" handle:^(NSInteger flag) {
-            SetUserType(flag);  // 设置用户类型  1:个人，2单位
+            // 设置用户类型  1:个人，2单位
+            if(flag == 1) {
+                SetUserType(1);
+            }
+            else {
+                SetUserType(2);
+            }
             [self initLeftViews];   // 初始化左侧菜单
             [self getCheckListData];
         }];
@@ -246,6 +252,17 @@
         make.right.equalTo(self.view).offset(-10);
     }];
     [removeToCurrentLocateBtn addTarget:self action:@selector(removeToCurrentLocate) forControlEvents:UIControlEventTouchUpInside];
+
+    CustomButton *refresBtn = [[CustomButton alloc]init];
+    [self.view addSubview:refresBtn];
+    [refresBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(removeToCurrentLocateBtn.mas_top).offset(-10);
+        make.left.right.height.equalTo(removeToCurrentLocateBtn);
+    }];
+    [refresBtn setImage:[UIImage imageNamed:@"shuaxindata"] forState:UIControlStateNormal];
+    [refresBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        [self getCheckListData];
+    }];
 }
 
 - (void)initLeftViews
@@ -381,6 +398,7 @@
     [_mapView viewWillAppear];
     _mapView.delegate = self;
     _locationServer.delegate = self;
+    [self getCheckListData];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
