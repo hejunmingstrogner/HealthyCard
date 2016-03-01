@@ -90,7 +90,7 @@
     }
 }
 // 缩放图片
--(UIImage *)scaleImage:(UIImage *)image withSize:(CGSize)size
++(UIImage *)scaleImage:(UIImage *)image withSize:(CGSize)size
 {
     UIGraphicsBeginImageContext(size);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];

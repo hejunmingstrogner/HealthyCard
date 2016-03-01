@@ -266,6 +266,7 @@
     [[TakePhoto getInstancetype]takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
         if (photoimage) {
             [waitAlertView show];
+            photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(400, 300)]; // 压缩图片
             [[HttpNetworkManager getInstance]customerUploadPhoto:photoimage resultBlock:^(BOOL result, NSError *error) {
                 [waitAlertView close];
                 if (result) {
