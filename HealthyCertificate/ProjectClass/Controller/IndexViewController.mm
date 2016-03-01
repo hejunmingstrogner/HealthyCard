@@ -261,7 +261,9 @@
     }];
     [refresBtn setImage:[UIImage imageNamed:@"shuaxindata"] forState:UIControlStateNormal];
     [refresBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        [self getCheckListData];
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新数据中..." removeDelay:2];
+        [self getCheckListData];    // 刷新待处理项
+        [self getAdress];           // 刷新体检地址
     }];
 }
 
@@ -426,10 +428,10 @@
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:checkcontroller];
     [self presentViewController:nav animated:YES completion:nil];
 }
+#pragma mark -最近服务点 点击
 // 最近的服务
 - (void)minDistanceBtnClicked
 {
-    NSLog(@"最近距离服务");
     if (nearbyServicePositionsArray.count == 0) {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"附近没有服务点" removeDelay:2];
         return ;
@@ -446,6 +448,7 @@
         CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
         cloudAppointCompany.sercersPositionInfo = nearbyServicePositionsArray[0];
         cloudAppointCompany.centerCoordinate = _mapView.centerCoordinate;
+        cloudAppointCompany.isCustomerServerPoint = NO;
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppointCompany];
         cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
         [self presentViewController:nav animated:YES completion:nil];
