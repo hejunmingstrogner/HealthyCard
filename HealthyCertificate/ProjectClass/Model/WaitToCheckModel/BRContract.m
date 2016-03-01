@@ -10,4 +10,14 @@
 
 @implementation BRContract
 
+- (instancetype)init {
+    if (self = [super init]) {
+        _regCheckNum = -1;
+        _factCheckNum = -1;
+        _regPosLO = -1;
+        _regPosLA = -1;
+    }
+    return self;
+}
+
 @end

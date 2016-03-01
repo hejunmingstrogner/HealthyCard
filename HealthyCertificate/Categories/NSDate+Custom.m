@@ -32,7 +32,7 @@
         return @"";
     }
 
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:itDate/1000];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:itDate];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy年MM月dd日"];
     NSString *time = [formatter stringFromDate:date];
@@ -45,7 +45,7 @@
     if (!itDate) {
         return @"";
     }
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:itDate/1000];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:itDate];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"HH:mm"];
     NSString *time = [formatter stringFromDate:date];
