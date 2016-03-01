@@ -126,7 +126,7 @@
         make.left.equalTo(headerBackGroundView).offset(10);
         make.bottom.equalTo(headerBackGroundView);
         make.height.mas_equalTo(30);
-        make.width.mas_equalTo(90);
+        make.width.mas_equalTo(110);
     }];
     [pendingBtn setTitle:@"待处理项" forState:UIControlStateNormal];
     pendingBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -135,11 +135,11 @@
 
     pendingLabel = [[UILabel alloc]init];
     pendingLabel.textColor = [UIColor redColor];
-    pendingLabel.textAlignment = NSTextAlignmentRight;
+    pendingLabel.textAlignment = NSTextAlignmentLeft;
     [headerBackGroundView addSubview:pendingLabel];
     [pendingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.right.equalTo(pendingBtn);
-        make.width.equalTo(pendingLabel.mas_height);
+        make.width.equalTo(pendingLabel.mas_height).offset(10);
     }];
 
     // 最近服务点的位置按钮
@@ -448,6 +448,7 @@
         CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
         cloudAppointCompany.sercersPositionInfo = nearbyServicePositionsArray[0];
         cloudAppointCompany.centerCoordinate = _mapView.centerCoordinate;
+        cloudAppointCompany.cityName = currentCityName;
         cloudAppointCompany.isCustomerServerPoint = NO;
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppointCompany];
         cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
