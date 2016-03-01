@@ -10,6 +10,7 @@
 #import "Constants.h"
 
 #import <Masonry.h>
+#import <UIButton+WebCache.h>
 
 #import "UIButton+Easy.h"
 #import "UIColor+Expanded.h"
@@ -36,7 +37,6 @@
 #import "TakePhoto.h"
 
 
-
 #define Button_Size 26
 
 @interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate,HCWheelViewDelegate>
@@ -56,6 +56,17 @@
     //性别选择器
     HCWheelView             *_sexWheel;
     
+    
+    /*
+     1. 如果是云预约 
+     CustomerTest 为空 这时图片肯定是未设置的 将该变量置为false
+     设置头像后，将其设置为true
+     
+     2. 如果是服务点预约
+     先得到CustomerTest 取出编号 再用编号去请求图片
+     
+     */
+    bool                    _isAvatarSet;
 }
 
 @property (nonatomic, strong) HealthyCertificateView* healthyCertificateView;
@@ -97,6 +108,8 @@
 {
     _sercersPositionInfo = sercersPositionInfo;
     _location = sercersPositionInfo.address;
+    
+//    _appointmentDateStr = 
 }
 
 #pragma mark - Life Circle
@@ -164,7 +177,12 @@
     _healthyCertificateView.layer.borderColor = MO_RGBCOLOR(0, 168, 234).CGColor;
     _healthyCertificateView.layer.borderWidth = 1;
     _healthyCertificateView.delegate = self;
-    _healthyCertificateView.personInfoPacket = gPersonInfo;
+    if (_customerTestInfo == nil){
+        _healthyCertificateView.personInfoPacket = gPersonInfo;
+    }else{
+        _healthyCertificateView.customerTest = _customerTestInfo;
+    }
+    
     [containerView addSubview:_healthyCertificateView];
     [_healthyCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(containerView).with.offset(10);
@@ -226,6 +244,8 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self registerKeyboardNotification];
+    
+    [self loadData];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -272,8 +292,8 @@
             cell.textField.text = _appointmentDateStr;
             cell.textField.enabled = NO;
         }else{
-            cell.textField.text = [NSString combineString:[[NSDate date] formatDateToChineseString]
-                                                      And:[[NSDate date] getDateStringWithInternel:1]
+            cell.textField.text = [NSString combineString:[[NSDate date] getDateStringWithInternel:1]
+                                                      And:[[NSDate date] getDateStringWithInternel:2]
                                                      With:@"~"];
             cell.textField.enabled = NO;
         }
@@ -281,7 +301,12 @@
     }else{
         cell.iconName = @"phone_icon";
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
-        cell.textField.text = gPersonInfo.StrTel;
+        if (_customerTestInfo == nil){
+            cell.textField.text = gPersonInfo.StrTel;
+        }else{
+            cell.textField.text = _customerTestInfo.linkPhone;
+        }
+        
         cell.textField.delegate = self;
         _phoneNumTextField = cell.textField;
     }
@@ -397,18 +422,50 @@
     _customerTestInfo.cityName = self.cityName; //预约城市
     
     
+    __weak typeof (self) wself = self;
     [[HttpNetworkManager getInstance] createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
-        
+        if (error != nil){
+            //预约失败 to do
+         //   wself.healthyCertificateView.imageBtn =
+            
+        }else{
+            
+            if (_isAvatarSet == YES) //如果修改了图片,预约成功后要上传图片
+            {
+                [[HttpNetworkManager getInstance] customerUploadHealthyCertifyPhoto:wself.healthyCertificateView.imageBtn.imageView.image CusCheckCode:_customerTestInfo.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
+                    
+                    if (error == nil){
+                        //失败 to do
+                    }else{
+                    }
+                }];
+            }
+//            //预约成功 继续请求健康证照片
+//            NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], _customerTestInfo.checkCode]];
+//            [_healthyCertificateView.imageBtn sd_setImageWithURL:url
+//                                                        forState:UIControlStateNormal
+//                                                placeholderImage:nil
+//                                                         options:SDWebImageRefreshCached
+//                                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                                                           if (error != nil){
+//                                                               _isAvatarSet = YES; //请求图片成功
+//                                                           }
+//                                                           else{
+//                                                               //提醒健康证图片请求失败 to do
+//                                                           }
+//                                                           
+//                                                       }];
+        }
     }];
 
 }
 
-//- (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
-//{
-//    if (![recognizer.view isKindOfClass:[UITextField class]]){
-//        [_phoneNumTextField resignFirstResponder];
-//    }
-//}
+- (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
+{
+    if (![recognizer.view isKindOfClass:[UITextField class]]){
+        [_phoneNumTextField resignFirstResponder];
+    }
+}
 
 #pragma mark - HCWheelViewDelegate
 -(void)sureBtnClicked:(NSString *)wheelText{
@@ -437,17 +494,17 @@
 }
 
 #pragma mark - UIGestureRecognizerDelegate
-//-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-//{
-//    if (self.isCustomerServerPoint == NO)
-//        return NO;
-//    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"] ||
-//        [NSStringFromClass([touch.view class])isEqualToString:@"HealthyCertificateView"]) {//如果当前是tableView
-//        //做自己想做的事
-//        return NO;
-//    }
-//    return YES;
-//}
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if (self.isCustomerServerPoint == NO)
+        return NO;
+    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"] ||
+        [NSStringFromClass([touch.view class])isEqualToString:@"HealthyCertificateView"]) {//如果当前是tableView
+        //做自己想做的事
+        return NO;
+    }
+    return YES;
+}
 
 #pragma mark - HealthyCertificateViewDelegate
 -(void)nameBtnClicked:(NSString *)name
@@ -501,7 +558,10 @@
 -(void)healthyImageClicked{
     __weak typeof (self) wself = self;
     [[TakePhoto getInstancetype] takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
-        wself.healthyCertificateView.picImage = photoimage;
+        photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageBtn.frame.size.width,
+                                                             wself.healthyCertificateView.imageBtn.frame.size.height)];
+        [wself.healthyCertificateView.imageBtn setBackgroundImage:photoimage forState:UIControlStateNormal];
+        _isAvatarSet = YES; //代表修改了健康证图片
     }];
 }
 
@@ -526,12 +586,9 @@
 
 -(void)keyboardWillShow:(NSNotification *)notification
 {
-    if (_isFirstShown == NO){
-        _isFirstShown = YES;
-        CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
-        [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
-        _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
-    }
+    CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
+    _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
         [self.view layoutIfNeeded];
@@ -542,10 +599,35 @@
 -(void)keyboardWillHide:(NSNotification *)notification
 {
     CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
-    [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
         [self.view layoutIfNeeded];
     } completion:NULL];
+}
+
+-(void)loadData{
+    
+    //健康证照片相关
+    if (_customerTestInfo != nil){
+        //服务点预约
+        
+        //根据预约编号去请求图片
+        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], _customerTestInfo.checkCode]];
+        [_healthyCertificateView.imageBtn sd_setImageWithURL:url
+                                                    forState:UIControlStateNormal
+                                            placeholderImage:nil
+                                                     options:SDWebImageRefreshCached
+                                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                                       if (error != nil){
+                                                           //_isAvatarSet = YES; //请求图片成功
+                                                       }
+            
+        }];
+        
+    }else{
+        //云预约
+        //_isAvatarSet = NO;
+    }
 }
 @end

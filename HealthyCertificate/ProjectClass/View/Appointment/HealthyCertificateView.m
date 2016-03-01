@@ -14,6 +14,7 @@
 #import "UIButton+Easy.h"
 #import "NSString+Count.h"
 #import "UIScreen+Type.h"
+#import <UIButton+WebCache.h>
 
 #import <Masonry.h>
 
@@ -29,8 +30,6 @@
     UIButton*       _idCardBtn;
     UILabel*        _orgLabel;
     UILabel*        _numLabel;
-    
-    UIButton*       _imageBtn;
 }
 
 @end
@@ -169,8 +168,6 @@
             make.width.mas_equalTo(imageBtnWidth);
         }];
 
-    
-        
         //姓名所占的第一行布局
         UIView* firstLineView = [[UIView alloc] init];
         [leftView addSubview:firstLineView];

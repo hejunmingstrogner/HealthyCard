@@ -102,6 +102,15 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  */
 -(void)createOrUpdatePersonalAppointment:(CustomerTest*)customerTest resultBlock:(HCDictionaryResultBlock)resultBlock;
 
+/**
+ *  自主上传健康证的图片
+ *
+ *  @param photo       修改的图片
+ *  @param checkCode   客户编号
+ *  @param resultBlock 修改图片成功或失败后的回调
+ */
+-(void)customerUploadHealthyCertifyPhoto:(UIImage*)photo CusCheckCode:(NSString*)checkCode resultBlock:(HCDictionaryResultBlock)resultBlock;
+
 
 #pragma mark - 单位预约
 - (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCBoolResultBlock)block;

@@ -438,6 +438,7 @@
         CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
         cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[0];
         cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
+        cloudAppoint.isCustomerServerPoint = NO; //固定服务点预约
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
         cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
         [self presentViewController:nav animated:YES completion:nil];

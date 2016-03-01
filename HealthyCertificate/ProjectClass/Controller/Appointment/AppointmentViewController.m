@@ -83,7 +83,7 @@
     [navView addSubview:backBtn];
     [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(navView);
-        make.left.mas_equalTo(navView.mas_left).with.offset(8);
+        make.left.mas_equalTo(navView.mas_left).with.offset(16);
     }];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];

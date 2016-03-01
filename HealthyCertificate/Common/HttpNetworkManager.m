@@ -278,6 +278,37 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     }];
 }
 
+-(void)customerUploadHealthyCertifyPhoto:(UIImage*)photo CusCheckCode:(NSString*)checkCode resultBlock:(HCDictionaryResultBlock)resultBlock
+{
+    NSData *imageData;
+    NSString *imagetype;
+    if(UIImagePNGRepresentation(photo) == nil){
+        imageData = UIImageJPEGRepresentation(photo, 1);
+        imagetype = @"jpeg";
+    }
+    else {
+        imageData = UIImagePNGRepresentation(photo);
+        imagetype= @"png";
+    }
+    
+    NSString *url = [NSString stringWithFormat:@"customerTest/uploadPrintPhoto"];
+    NSMutableDictionary *param = [[NSMutableDictionary alloc]init];
+    [param setObject:checkCode forKey:@"cCheckCode"];
+    [self.sharedClient POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        NSDateFormatter *formmettrt = [[NSDateFormatter alloc]init];
+        [formmettrt setDateFormat:@"yyyyMMddHHmmss"];
+        [formData appendPartWithFileData:imageData name:@"file" fileName:[NSString stringWithFormat:@"%@.%@", [formmettrt stringFromDate:[NSDate date]], imagetype] mimeType:[NSString stringWithFormat:@"image/%@", imagetype]];
+    } success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        if (resultBlock) {
+            resultBlock(responseObject, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (resultBlock) {
+            resultBlock(nil, error);
+        }
+    }];
+}
+
 #pragma mark - 单位预约
 // 单位预约
 - (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCBoolResultBlock)block
