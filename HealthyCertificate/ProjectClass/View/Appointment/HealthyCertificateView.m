@@ -20,7 +20,7 @@
 #define Title_Size 24
 #define Text_Size 23
 
-@interface HealthyCertificateView()
+@interface HealthyCertificateView()<UIGestureRecognizerDelegate>
 {
     UIButton*       _nameBtn;
     UILabel*        _ageLabel;
@@ -30,7 +30,7 @@
     UILabel*        _orgLabel;
     UILabel*        _numLabel;
     
-    UIImageView*    _picView;
+    UIButton*       _imageBtn;
 }
 
 @end
@@ -120,9 +120,13 @@
         UIView* imageContainerView = [[UIView alloc] init];
         [self addSubview:imageContainerView];
         
-        UIImageView* picImageView = [[UIImageView alloc] init];
-        [picImageView setImage:[UIImage imageNamed:@"Avatar"]];
-        [imageContainerView addSubview:picImageView];
+//        UIImageView* picImageView = [[UIImageView alloc] init];
+//        [picImageView setImage:[UIImage imageNamed:@"Avatar"]];
+//        [imageContainerView addSubview:picImageView];
+        
+        _imageBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"Avatar"] highlightImage:[UIImage imageNamed:@"Avatar"]];
+        [_imageBtn addTarget:self action:@selector(imageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [imageContainerView addSubview:_imageBtn];
         
         //左边的文字部分取一个UIView
         UIView* leftView = [[UIView alloc] init];
@@ -142,7 +146,7 @@
         }];
         [imageContainerView setContentCompressionResistancePriority:753 forAxis:UILayoutConstraintAxisHorizontal];
         
-        [picImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_imageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(imageContainerView);
         }];
 
@@ -380,7 +384,7 @@
 }
 
 
-#pragma mark - HealthyCertificateViewDelegate
+#pragma mark - Action
 -(void)nameBtnClicked:(id)sender;
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(nameBtnClicked:)]){
@@ -410,4 +414,12 @@
         [self.delegate idCardBtnClicked:_idCard];
     }
 }
+
+-(void)imageBtnClicked:(id)sender
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(healthyImageClicked)]){
+        [self.delegate healthyImageClicked];
+    }
+}
+
 @end

@@ -32,6 +32,7 @@
 
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
+#import "TakePhoto.h"
 
 
 
@@ -209,13 +210,6 @@
         make.bottom.equalTo(bottomView.mas_bottom);
     }];
     
-    //添加手势
-    UITapGestureRecognizer* singleRecognizer;
-    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
-    singleRecognizer.numberOfTapsRequired = 1; // 单击
-    singleRecognizer.delegate = self;
-    [self.view addGestureRecognizer:singleRecognizer];
-    
     _sexWheel = [[HCWheelView alloc] init];
     [self.view addSubview:_sexWheel];
     _sexWheel.hidden = YES;
@@ -359,37 +353,61 @@
         _customerTestInfo.unitCode = gPersonInfo.cUnitCode;
         _customerTestInfo.unitName = gPersonInfo.cUnitName;
         _customerTestInfo.custCode = gPersonInfo.mCustCode;
-        _customerTestInfo.custName = _healthyCertificateView.name;
-        _customerTestInfo.sex = [_healthyCertificateView.gender isEqualToString:@"男"]?0:1;
         _customerTestInfo.nation = nil;
-        _customerTestInfo.bornDate = [_healthyCertificateView.idCard getLongLongBornDate]; //一会儿计算
-        _customerTestInfo.custIdCard = _healthyCertificateView.idCard;
-        _customerTestInfo.jobDuty = _healthyCertificateView.workType;
         _customerTestInfo.checkType = 1; // 1 为 健康证
         _customerTestInfo.testStatus = @"-1";// 客户体检登记状态：-1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
 								// 单位合同状态：-1所有员工未开始检查，3所有员工完成体检，4所有员工已出健康证
-        _customerTestInfo.linkPhone = _phoneNumTextField.text;
         _customerTestInfo.printPhoto = nil;
         _customerTestInfo.contractCode = nil;
+        
+    }
+    
+    //如果是待处理项
+    _customerTestInfo.custName = _healthyCertificateView.name;
+    _customerTestInfo.sex = [_healthyCertificateView.gender isEqualToString:@"男"]?0:1;
+    _customerTestInfo.custIdCard = _healthyCertificateView.idCard;
+    _customerTestInfo.bornDate = [_healthyCertificateView.idCard getLongLongBornDate];
+    _customerTestInfo.jobDuty = _healthyCertificateView.workType;
+
+    if (_isCustomerServerPoint){
+        //如果是新建的预约 云预约
         
         NSArray* array = [_appointmentDateTextField.text  componentsSeparatedByString:@"~"];
         _customerTestInfo.regBeginDate = [array[0] convertDateStrToLongLong];
         _customerTestInfo.regEndDate = [array[0] convertDateStrToLongLong];
         _customerTestInfo.regPosAddr = _locationTextField.text; //预约地点
-        _customerTestInfo.cityName = self.cityName; //预约城市
+        
         PositionUtil *posit = [[PositionUtil alloc] init];
         CLLocationCoordinate2D coor = [posit bd2wgs:self.centerCoordinate.latitude lon:self.centerCoordinate.longitude];
         _customerTestInfo.regPosLA = coor.latitude;
         _customerTestInfo.regPosLO = coor.longitude;
+        _customerTestInfo.linkPhone = _phoneNumTextField.text;
+        
+    }else{
+        //如果是基于已有服务点的预约
+        //sercersPositionInfo
+        if (_sercersPositionInfo != nil){
+            _customerTestInfo.regTime = _sercersPositionInfo.startTime;
+            _customerTestInfo.hosCode = _sercersPositionInfo.cHostCode;
+            //移动服务点 id 固定 cHostCode
+            _customerTestInfo.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
+        }
     }
+    _customerTestInfo.cityName = self.cityName; //预约城市
+    
+    
+    [[HttpNetworkManager getInstance] createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
+        
+    }];
+
 }
 
-- (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
-{
-    if (![recognizer.view isKindOfClass:[UITextField class]]){
-        [_phoneNumTextField resignFirstResponder];
-    }
-}
+//- (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
+//{
+//    if (![recognizer.view isKindOfClass:[UITextField class]]){
+//        [_phoneNumTextField resignFirstResponder];
+//    }
+//}
 
 #pragma mark - HCWheelViewDelegate
 -(void)sureBtnClicked:(NSString *)wheelText{
@@ -418,16 +436,17 @@
 }
 
 #pragma mark - UIGestureRecognizerDelegate
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
-    if (self.isCustomerServerPoint == NO)
-        return NO;
-    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {//如果当前是tableView
-        //做自己想做的事
-        return NO;
-    }
-    return YES;
-}
+//-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+//{
+//    if (self.isCustomerServerPoint == NO)
+//        return NO;
+//    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"] ||
+//        [NSStringFromClass([touch.view class])isEqualToString:@"HealthyCertificateView"]) {//如果当前是tableView
+//        //做自己想做的事
+//        return NO;
+//    }
+//    return YES;
+//}
 
 #pragma mark - HealthyCertificateViewDelegate
 -(void)nameBtnClicked:(NSString *)name
@@ -470,6 +489,10 @@
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:editInfoViewController];
     [self presentViewController:nav animated:YES completion:nil];
 
+}
+
+-(void)healthyImageClicked{
+    NSLog(@"test");
 }
 
 #pragma mark - Private Methods

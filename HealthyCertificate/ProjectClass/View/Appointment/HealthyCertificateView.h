@@ -22,6 +22,8 @@
 -(void)industryBtnClicked:(NSString*)industry;
 //点击身份证
 -(void)idCardBtnClicked:(NSString*)idCard;
+//点击修改头像
+-(void)healthyImageClicked;
 
 @end
 

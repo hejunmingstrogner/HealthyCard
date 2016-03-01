@@ -130,7 +130,7 @@
                                                [NSDate getHour_MinuteByDate:serverPoint.startTime],
                                                [NSDate getHour_MinuteByDate:serverPoint.endTime]];
         }else{
-            cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"每天(%@~%@)",
+            cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)",
                                                [NSDate getHour_MinuteByDate:serverPoint.startTime],
                                                [NSDate getHour_MinuteByDate:serverPoint.endTime]];
         }
@@ -148,7 +148,7 @@
                                                [NSDate getHour_MinuteByDate:serverPoint.startTime],
                                                [NSDate getHour_MinuteByDate:serverPoint.endTime]];
         }else{
-            companyCloudAppointment.appointmentDateStr = [NSString stringWithFormat:@"每天(%@~%@)",
+            companyCloudAppointment.appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)",
                                                [NSDate getHour_MinuteByDate:serverPoint.startTime],
                                                [NSDate getHour_MinuteByDate:serverPoint.endTime]];
         }

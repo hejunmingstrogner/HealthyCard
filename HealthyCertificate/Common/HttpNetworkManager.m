@@ -244,8 +244,9 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 #pragma mark - 个人预约相关
 -(void)createOrUpdatePersonalAppointment:(CustomerTest*)customerTest resultBlock:(HCDictionaryResultBlock)resultBlock
 {
+    NSDictionary* dicInfo = customerTest.mj_keyValues;
     NSString *url = [NSString stringWithFormat:@"customerTest/createOrUpdate"];
-    [self.sharedClient POST:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    [self.sharedClient POST:url parameters:dicInfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         if (resultBlock) {
             resultBlock(responseObject, nil);
         }
