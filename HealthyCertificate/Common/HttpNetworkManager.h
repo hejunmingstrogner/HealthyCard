@@ -97,5 +97,12 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
 #pragma mark - 单人预约
 
 #pragma mark - 单位预约
+/**
+ *  单位预约
+ *
+ *  @param brcontract 预约封装的类
+ *  @param employees  体检员工的列表
+ *  @param block      回调
+ */
 - (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCBoolResultBlock)block;
 @end

@@ -82,6 +82,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 }
 
 #pragma mark - 获得当前位置服务点信息
+// 获得当前位置服务点信息
 - (void)getNearbyServicePointsWithCLLocation:(CLLocationCoordinate2D)location resultBlock:(HCArrayResultBlock)resultBlock
 {
     NSString *url = [NSString stringWithFormat:@"servicePoint/findByPosition?longitude=%lf&latitude=%lf&tolerance=0.05", location.longitude, location.latitude];
@@ -111,6 +112,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 }
 
 #pragma mark -创建或更新用户信息
+// 创建或更新用户信息
 - (void)createOrUpdateUserinformationwithInfor:(NSDictionary *)personinfo resultBlock:(void (^)(BOOL, NSError *))block
 {
     NSString *url = [NSString stringWithFormat:@"customer/createOrUpdate"];
@@ -126,6 +128,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 }
 
 #pragma mark －创建或更新单位信息
+// 创建或更新单位信息
 - (void)createOrUpdateBRServiceInformationwithInfor:(NSDictionary *)BRServiceInfo resultBlock:(void (^)(BOOL, NSError *))block
 {
     NSString *url = [NSString stringWithFormat:@"brServiceUnit/createOrUpdate"];
@@ -141,6 +144,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 }
 
 #pragma mark - 获得预约处理信息 包括个人，单位待处理项
+// 获得预约处理信息 包括个人，单位待处理项
 - (void)getCheckListWithBlock:(void (^)(NSArray *, NSArray *, NSError *))block
 {
     NSInteger type = GetUserType;
@@ -188,6 +192,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 }
 
 #pragma mark 查询单位员工列表
+// 查询单位员工列表
 - (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(HCArrayResultBlock)resultBlock;
 {
     NSString *url = [NSString stringWithFormat:@"customer/queryByServiceUnit?cUnitCode=%@", cUnitCode];
@@ -208,6 +213,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 }
 
 #pragma mark -上传客户头像
+// 上传客户头像
 - (void)customerUploadPhoto:(UIImage *)photo resultBlock:(HCBoolResultBlock)block
 {
     NSData *imageData;
@@ -242,6 +248,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 
 
 #pragma mark - 个人预约相关
+// 个人预约相关
 -(void)createOrUpdatePersonalAppointment:(CustomerTest*)customerTest resultBlock:(HCDictionaryResultBlock)resultBlock
 {
     NSString *url = [NSString stringWithFormat:@"customerTest/createOrUpdate"];
