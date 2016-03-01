@@ -74,12 +74,11 @@
     if([mediaType isEqualToString:@"public.image"]){
         UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
 
-        UIImage *newimage = [self scaleImage:image];
-        if (UIImagePNGRepresentation(newimage) == nil) {
-            imagedata = UIImageJPEGRepresentation(newimage, 1);
+        if (UIImagePNGRepresentation(image) == nil) {
+            imagedata = UIImageJPEGRepresentation(image, 1);
         }
         else {
-            imagedata = UIImagePNGRepresentation(newimage);
+            imagedata = UIImagePNGRepresentation(image);
         }
         UIImage *endimage = [UIImage imageWithData:imagedata];
 
@@ -91,10 +90,10 @@
     }
 }
 // 缩放图片
--(UIImage *)scaleImage:(UIImage *)image
+-(UIImage *)scaleImage:(UIImage *)image withSize:(CGSize)size
 {
-    UIGraphicsBeginImageContext(CGSizeMake(400,300));
-    [image drawInRect:CGRectMake(0, 0, 400, 300)];
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return scaledImage;

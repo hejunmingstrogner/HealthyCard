@@ -203,6 +203,7 @@
 //  显示一个提示label,并且在设定时间后移除
 + (void)showAlertLabelWithTarget:(UIView*)superview Message:(NSString *)message removeDelay:(NSInteger)second
 {
+    [superview endEditing:YES];
     UIFont *fnt = [UIFont systemFontOfSize:14];
 
     CGRect tmpRect = [message boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 60, 44) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];

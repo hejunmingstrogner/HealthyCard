@@ -96,5 +96,6 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
 
 #pragma mark - 单人预约
 
-
+#pragma mark - 单位预约
+- (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCBoolResultBlock)block;
 @end

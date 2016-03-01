@@ -255,4 +255,25 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         }
     }];
 }
+
+#pragma mark - 单位预约
+- (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCBoolResultBlock)block
+{
+    NSMutableString *url = [NSMutableString stringWithFormat:@"brContract/createOrUpdate"];
+    if (employees.count != 0) {
+        for (Customer *customer in employees) {
+            [url appendString:[NSString stringWithFormat:@"%@", customer.custCode]];
+        }
+    }
+
+    NSString *newurl = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSMutableDictionary *dict = [brcontract mj_keyValues];
+//    [dict setObject:@"" forKey:@"&employeeStr"];
+    self.sharedClient.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [self.sharedClient POST:newurl parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSLog(@"resopn:%@", responseObject);
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        NSLog(@"error:%@", error);
+    }];
+}
 @end
