@@ -17,7 +17,7 @@
 #import "UIColor+Expanded.h"
 #import "UIButton+Easy.h"
 #import "NSDate+Custom.h"
-
+#import "NSString+Custom.h"
 #import "BaseInfoTableViewCell.h"
 #import "CloudCompanyAppointmentCell.h"
 #import "CloudCompanyAppointmentStaffCell.h"
@@ -28,6 +28,8 @@
 #import "AddWorkerViewController.h"
 
 #import "Customer.h"
+#import "PositionUtil.h"
+#import "HttpNetworkManager.h"
 
 #define Button_Size 26
 
@@ -60,6 +62,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     //键盘收缩相关
     BOOL                 _isFirstShown;
     CGFloat              _viewHeight;
+
+    UITextField         *_dateStrField;
 }
 
 //选择的员工列表
@@ -259,6 +263,43 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 #pragma mark - Action
 -(void)appointmentBtnClicked:(id)sender
 {
+    NSArray *dateArray = [_dateStrField.text componentsSeparatedByString:@"~"];
+    if (dateArray.count == 0) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"你还未填写预约时间" removeDelay:3];
+        return ;
+    }
+    if(_brContract == nil)
+    {
+        _brContract = [[BRContract alloc]init];
+    }
+    _brContract.unitCode = gCompanyInfo.cUnitCode;
+    _brContract.unitName = gCompanyInfo.cUnitName;
+    _brContract.regCheckNum = _customerArr.count +1;
+
+    // 将百度地图转为gps地图
+    PositionUtil *positionUtil = [[PositionUtil alloc]init];
+    CLLocationCoordinate2D gpsCoor = [positionUtil bd2wgs:_centerCoordinate.latitude lon:_centerCoordinate.longitude];
+    _brContract.regPosLO = gpsCoor.longitude;
+    _brContract.regPosLA = gpsCoor.latitude;
+    _brContract.regPosAddr = _location;
+    _brContract.regTime = [[NSDate date] timeIntervalSince1970];
+
+    _brContract.regBeginDate = [dateArray[0] convertDateStrToLongLong];
+    _brContract.regEndDate = [dateArray[1] convertDateStrToLongLong];
+    _brContract.linkUser = _contactPersonField.text.length == 0? gCompanyInfo.cLinkPeople : _contactPersonField.text;
+    _brContract.linkPhone = gCompanyInfo.cLinkPhone;
+    _brContract.cityName = _cityName;
+    _brContract.checkType = @"1";
+    _brContract.testStatus = @"-1"; // -1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
+
+    [[HttpNetworkManager getInstance]createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(BOOL result, NSError *error) {
+        if (result) {
+            NSLog(@"成功");
+        }
+        else {
+            NSLog(@"error :%@", error);
+        }
+    }];
 }
 
 - (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
@@ -304,6 +345,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                     cell.textField.text = _dateString;
                 }
                 cell.textField.enabled = NO;
+                _dateStrField = cell.textField;
             }
             return cell;
         }
@@ -395,6 +437,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
                 selectAddressViewController.addressStr = _location;
                 selectAddressViewController.switchStyle = SWITCH_MISS;
+                [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
+                    _cityName = city;
+                    _location = address;
+                    _centerCoordinate = coor;
+                }];
                 UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
                 [self.parentViewController presentViewController:nav animated:YES completion:nil];
             }else{

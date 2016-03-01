@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "ServersPositionAnnotionsModel.h"
+#import "BRContract.h"
 
 @interface CloudAppointmentCompanyViewController : UIViewController
 
@@ -23,6 +24,8 @@
 @property (nonatomic, assign) BOOL isCustomerServerPoint;
 
 @property (nonatomic, strong) NSString* cityName;
+
+@property (nonatomic, strong) BRContract *brContract;   // 预约信息
 
 /**
  *  隐藏界面的键盘

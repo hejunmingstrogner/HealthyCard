@@ -25,4 +25,7 @@ typedef void(^resultImageBlock)(UIImage *photoimage);
  */
 - (void)takePhotoFromCurrentController:(id)controller resultBlock:(resultImageBlock)block;
 
+// 缩放图片
+-(UIImage *)scaleImage:(UIImage *)image withSize:(CGSize)size;
+
 @end
