@@ -52,7 +52,6 @@
 		252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 252AB89C1C783B260085CC14 /* NSDate+Custom.m */; };
 		254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */; };
 		254A8D861C7AAEA400F2EC94 /* AppointmentInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D851C7AAEA400F2EC94 /* AppointmentInfoView.m */; };
-		254A8D8A1C7AE02300F2EC94 /* Avatar@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D871C7AE02300F2EC94 /* Avatar@1x.png */; };
 		254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D881C7AE02300F2EC94 /* Avatar@2x.png */; };
 		254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D891C7AE02300F2EC94 /* Avatar@3x.png */; };
 		254A8D8F1C7BF79700F2EC94 /* ServicePointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D8E1C7BF79700F2EC94 /* ServicePointCell.m */; };
@@ -86,8 +85,6 @@
 		254A8DD21C7D619C00F2EC94 /* Login_Logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */; };
 		254A8DD51C7DA0CE00F2EC94 /* NSString+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */; };
 		254A8DDE1C813BC200F2EC94 /* EditInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DDD1C813BC200F2EC94 /* EditInfoViewController.m */; };
-		254A8DEA1C81A88400F2EC94 /* libIDCardLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 254A8DE91C81A88400F2EC94 /* libIDCardLib.a */; };
-		254A8E441C82EB3300F2EC94 /* YMIDCardRecognition.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8E431C82EB3300F2EC94 /* YMIDCardRecognition.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		25A7A6ED1C842FB500054EE6 /* MethodResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A7A6EC1C842FB500054EE6 /* MethodResult.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
@@ -249,7 +246,6 @@
 		254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthyCertificateView.m; path = ../HealthyCertificateView.m; sourceTree = "<group>"; };
 		254A8D841C7AAEA400F2EC94 /* AppointmentInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppointmentInfoView.h; path = ../AppointmentInfoView.h; sourceTree = "<group>"; };
 		254A8D851C7AAEA400F2EC94 /* AppointmentInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppointmentInfoView.m; path = ../AppointmentInfoView.m; sourceTree = "<group>"; };
-		254A8D871C7AE02300F2EC94 /* Avatar@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@1x.png"; sourceTree = "<group>"; };
 		254A8D881C7AE02300F2EC94 /* Avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@2x.png"; sourceTree = "<group>"; };
 		254A8D891C7AE02300F2EC94 /* Avatar@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@3x.png"; sourceTree = "<group>"; };
 		254A8D8D1C7BF79700F2EC94 /* ServicePointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServicePointCell.h; path = ../../ServicePointCell.h; sourceTree = "<group>"; };
@@ -290,12 +286,6 @@
 		254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Custom.m"; sourceTree = "<group>"; };
 		254A8DDC1C813BC200F2EC94 /* EditInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditInfoViewController.h; sourceTree = "<group>"; };
 		254A8DDD1C813BC200F2EC94 /* EditInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditInfoViewController.m; sourceTree = "<group>"; };
-		254A8DE91C81A88400F2EC94 /* libIDCardLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libIDCardLib.a; sourceTree = "<group>"; };
-		254A8DF11C81AB3700F2EC94 /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
-		254A8DF21C81AB6200F2EC94 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		254A8DF31C81AB8C00F2EC94 /* YMIDCardEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YMIDCardEngine.h; sourceTree = "<group>"; };
-		254A8E421C82EB3300F2EC94 /* YMIDCardRecognition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMIDCardRecognition.h; sourceTree = "<group>"; };
-		254A8E431C82EB3300F2EC94 /* YMIDCardRecognition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMIDCardRecognition.m; sourceTree = "<group>"; };
 		25A7A6EB1C842FB500054EE6 /* MethodResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodResult.h; sourceTree = "<group>"; };
 		25A7A6EC1C842FB500054EE6 /* MethodResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodResult.m; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
@@ -423,7 +413,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				254A8DEA1C81A88400F2EC94 /* libIDCardLib.a in Frameworks */,
 				30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -657,7 +646,6 @@
 				254A8DA21C7C32B800F2EC94 /* servicePoint@1x.png */,
 				254A8DA31C7C32B800F2EC94 /* servicePoint@2x.png */,
 				254A8DA41C7C32B800F2EC94 /* servicePoint@3x.png */,
-				254A8D871C7AE02300F2EC94 /* Avatar@1x.png */,
 				254A8D881C7AE02300F2EC94 /* Avatar@2x.png */,
 				254A8D891C7AE02300F2EC94 /* Avatar@3x.png */,
 				252AB87B1C76E3880085CC14 /* date_icon@1x.png */,
@@ -752,12 +740,6 @@
 		254A8DE01C81A52100F2EC94 /* YMIDCardEngine */ = {
 			isa = PBXGroup;
 			children = (
-				254A8E421C82EB3300F2EC94 /* YMIDCardRecognition.h */,
-				254A8E431C82EB3300F2EC94 /* YMIDCardRecognition.m */,
-				254A8DF31C81AB8C00F2EC94 /* YMIDCardEngine.h */,
-				254A8DF21C81AB6200F2EC94 /* Common.h */,
-				254A8DF11C81AB3700F2EC94 /* Utility.h */,
-				254A8DE91C81A88400F2EC94 /* libIDCardLib.a */,
 			);
 			path = YMIDCardEngine;
 			sourceTree = "<group>";
@@ -1175,7 +1157,6 @@
 				254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */,
 				254A8D9D1C7C2CAC00F2EC94 /* detail@2x.png in Resources */,
 				2512B3BA1C70557C00EE661B /* LaunchScreen.storyboard in Resources */,
-				254A8D8A1C7AE02300F2EC94 /* Avatar@1x.png in Resources */,
 				254A8D941C7C2C8B00F2EC94 /* phonecall@2x.png in Resources */,
 				25BFEB4F1C75E61C0062F9B8 /* QRScan@3x.png in Resources */,
 				25BFEB4D1C75E61C0062F9B8 /* QRScan@1x.png in Resources */,
@@ -1266,7 +1247,6 @@
 				25E983861C853D1500CB027E /* WorkTypeInfoModel.m in Sources */,
 				B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */,
 				2512B41A1C7056C900EE661B /* UIFont+Custom.m in Sources */,
-				254A8E441C82EB3300F2EC94 /* YMIDCardRecognition.m in Sources */,
 				B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */,
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
 				B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */,
@@ -1484,6 +1464,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6D2243EB114EF1077978D1EA /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1497,6 +1478,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Highmore.HealthyCertificate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
@@ -1504,6 +1486,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 36C8931033D226234A0CF88D /* Pods.release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1517,6 +1500,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Highmore.HealthyCertificate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};

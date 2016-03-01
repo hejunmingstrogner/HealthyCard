@@ -11,6 +11,19 @@
 //行业信息
 @interface WorkTypeInfoModel : NSObject
 
-@property (nonatomic, copy) NSString* workTypeID;
+//编号
+@property (nonatomic, copy) NSString* id;
+
+//名称
+@property (nonatomic, copy) NSString* name;
+
+//数据类型
+@property (nonatomic, copy) NSString* dataItemName;
+
+//次序
+@property (nonatomic, assign) int sortOrder;
+
+//描述
+@property (nonatomic, readwrite) NSString* description;
 
 @end

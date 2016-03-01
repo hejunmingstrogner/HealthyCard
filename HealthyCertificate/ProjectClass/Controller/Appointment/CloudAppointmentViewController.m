@@ -29,6 +29,7 @@
 #import "CloudAppointmentDateVC.h"
 #import "EditInfoViewController.h"
 #import "HCWheelView.h"
+#import "WorkTypeViewController.h"
 
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
@@ -475,7 +476,13 @@
 
 -(void)industryBtnClicked:(NSString *)industry
 {
-    NSLog(@"industry");
+    WorkTypeViewController* workTypeViewController = [[WorkTypeViewController alloc] init];
+    __weak typeof (self) wself = self;
+    workTypeViewController.block = ^(NSString* resultStr){
+        wself.healthyCertificateView.workType = resultStr;
+    };
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:workTypeViewController];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 -(void)idCardBtnClicked:(NSString *)idCard
@@ -492,7 +499,10 @@
 }
 
 -(void)healthyImageClicked{
-    NSLog(@"test");
+    __weak typeof (self) wself = self;
+    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
+        wself.healthyCertificateView.picImage = photoimage;
+    }];
 }
 
 #pragma mark - Private Methods

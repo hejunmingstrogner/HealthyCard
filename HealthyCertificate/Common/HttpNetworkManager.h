@@ -67,6 +67,15 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
 - (void)getCheckListWithBlock:(void(^)(NSArray *customerArray, NSArray *brContractArray, NSError *error))block;
 
 /**
+ *  个人用户上传客户头像
+ *
+ *  @param photo 照片
+ *  @param block 回调
+ */
+- (void)customerUploadPhoto:(UIImage *)photo resultBlock:(HCBoolResultBlock)block;
+
+#pragma mark - 查询信息
+/**
  *  查询单位所属的员工列表
  *
  *  @param cUnitCode 单位编号
@@ -74,13 +83,15 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  */
 - (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(HCArrayResultBlock)resultBlock;
 
+
 /**
- *  个人用户上传客户头像
+ *  查询行业类型列表
  *
- *  @param photo 照片
- *  @param block 回调
+ *  @param dataItemName eg: 健康证行业
+ *  @param resultBlock  回调
  */
-- (void)customerUploadPhoto:(UIImage *)photo resultBlock:(HCBoolResultBlock)block;
+- (void)getIndustryList:(NSString*)dataItemName resultBlock:(HCArrayResultBlock)resultBlock;
+
 
 #pragma mark - 个人预约
 /**
@@ -91,10 +102,6 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  */
 -(void)createOrUpdatePersonalAppointment:(CustomerTest*)customerTest resultBlock:(HCDictionaryResultBlock)resultBlock;
 
-
-
-
-#pragma mark - 单人预约
 
 #pragma mark - 单位预约
 - (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCBoolResultBlock)block;

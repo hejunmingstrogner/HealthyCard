@@ -42,7 +42,7 @@
 //证件编号
 @property (nonatomic, copy) NSString* num;
 //头像
-@property (nonatomic, copy) NSString* picStr;
+@property (nonatomic, strong) UIImage* picImage;
 
 
 

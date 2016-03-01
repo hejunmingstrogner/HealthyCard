@@ -9,9 +9,13 @@
 #import "WorkTypeViewController.h"
 #import <Masonry.h>
 
+#import "WorkTypeInfoModel.h"
+#import "HttpNetworkManager.h"
+
 @interface WorkTypeViewController ()<UITableViewDataSource, UITableViewDelegate>
 {
     NSArray         *_dataSource;
+    UITableView     *_industryTableView;
 }
 
 @end
@@ -23,14 +27,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UITableView* industryTableView = [[UITableView alloc] init];
-    industryTableView.dataSource = self;
-    industryTableView.delegate = self;
-    [industryTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
-    [self.view addSubview:industryTableView];
-    [industryTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _industryTableView = [[UITableView alloc] init];
+    _industryTableView.dataSource = self;
+    _industryTableView.delegate = self;
+    [_industryTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
+    [self.view addSubview:_industryTableView];
+    [_industryTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
+    
+    
+    [self initNavgationBar];
+    [self loadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,11 +59,15 @@
 #pragma mark - Private Methods
 -(void)loadData
 {
-    
+    [[HttpNetworkManager getInstance] getIndustryList:@"健康证行业" resultBlock:^(NSArray *result, NSError *error) {
+        _dataSource = result;
+        [_industryTableView reloadData];
+    }];
 }
 
 -(void)initNavgationBar{
     // 返回按钮
+    self.title = @"行业选择";
     UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backbtn.frame = CGRectMake(0, 0, 30, 30);
     [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
@@ -82,7 +94,8 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class]) forIndexPath:indexPath];
-    cell.textLabel.text = _dataSource[indexPath.row];
+    WorkTypeInfoModel* workInfoModel = (WorkTypeInfoModel*)_dataSource[indexPath.row];
+    cell.textLabel.text = workInfoModel.name;
     if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
     {
         [cell setSeparatorInset:UIEdgeInsetsZero];
@@ -99,6 +112,12 @@
     }
 
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    WorkTypeInfoModel* workInfoModel = (WorkTypeInfoModel*)_dataSource[indexPath.row];
+    _block(workInfoModel.name);
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

@@ -12,6 +12,7 @@
 #import <MJExtension.h>
 #import "PositionUtil.h"
 #import "MethodResult.h"
+#import "WorkTypeInfoModel.h"
 
 @interface HttpNetworkManager()
 
@@ -187,7 +188,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     }
 }
 
-#pragma mark 查询单位员工列表
+#pragma mark - 查询信息
 - (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(HCArrayResultBlock)resultBlock;
 {
     NSString *url = [NSString stringWithFormat:@"customer/queryByServiceUnit?cUnitCode=%@", cUnitCode];
@@ -207,7 +208,27 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     }];
 }
 
-#pragma mark -上传客户头像
+- (void)getIndustryList:(NSString*)dataItemName resultBlock:(HCArrayResultBlock)resultBlock
+{
+    NSString *url = [NSString stringWithFormat:@"codeDataItem/findCodeDataItemConByName?dataItemName=%@", dataItemName];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *customerArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            WorkTypeInfoModel *workTypeInfoModel = [WorkTypeInfoModel mj_objectWithKeyValues:dict];
+            [customerArray addObject:workTypeInfoModel];
+        }
+        if (resultBlock) {
+            resultBlock(customerArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (resultBlock) {
+            resultBlock([NSArray array], error);
+        }
+    }];
+}
+
+#pragma mark - 上传客户头像
 - (void)customerUploadPhoto:(UIImage *)photo resultBlock:(HCBoolResultBlock)block
 {
     NSData *imageData;
