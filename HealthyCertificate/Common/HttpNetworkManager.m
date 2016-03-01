@@ -279,23 +279,37 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 }
 
 #pragma mark - 单位预约
+// 单位预约
 - (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCBoolResultBlock)block
 {
-    NSMutableString *url = [NSMutableString stringWithFormat:@"brContract/createOrUpdate"];
+    NSMutableString *url = [NSMutableString stringWithFormat:@"brContract/createOrUpdate?employeeStr="];
     if (employees.count != 0) {
-        for (Customer *customer in employees) {
-            [url appendString:[NSString stringWithFormat:@"%@", customer.custCode]];
+        for (int i = 0; i < employees.count; i ++) {
+            Customer *customer = employees[i];
+            [url appendString:customer.custCode];
+            if (i < employees.count - 1) {
+                [url appendString:@"#"];
+            }
         }
     }
 
     NSString *newurl = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSMutableDictionary *dict = [brcontract mj_keyValues];
-//    [dict setObject:@"" forKey:@"&employeeStr"];
-    self.sharedClient.responseSerializer = [AFHTTPResponseSerializer serializer];
     [self.sharedClient POST:newurl parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        NSLog(@"resopn:%@", responseObject);
+        NSError *error = nil;
+        if ([[responseObject objectForKey:@"object"] isEqualToString:@"0"]) {
+            error = [NSError errorWithDomain:@"error" code:0 userInfo:[NSDictionary dictionaryWithObject:@"预约异常失败，请重试" forKey:@"error"]];
+        }
+        else if ([[responseObject objectForKey:@"object"] isEqualToString:@"1" ]){
+            error = [NSError errorWithDomain:@"error" code:1 userInfo:[NSDictionary dictionaryWithObject:@"已达到修改次数上限" forKey:@"error"]];
+        }
+        if (block) {
+            block(YES, error);
+        }
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-        NSLog(@"error:%@", error);
+        if (block) {
+            block(NO, error);
+        }
     }];
 }
 @end

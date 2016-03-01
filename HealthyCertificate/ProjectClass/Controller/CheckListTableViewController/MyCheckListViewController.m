@@ -13,6 +13,7 @@
 #import "BRContractTableHeaerCell.h"
 #import "BRContractTableFootCell.h"
 #import "PersonalHealthyCController.h"
+#import "CloudAppointmentCompanyViewController.h"
 
 @interface MyCheckListViewController()
 {
@@ -141,6 +142,15 @@
         PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
         personalHealthyC.customerTestInfo = (CustomerTest *)checkDataArray[indexPath.section];
         [self.navigationController pushViewController:personalHealthyC animated:YES];
+    }
+    else {
+        // 单位预约点击
+//        if (_userType == 2) {
+//            CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
+//            cloudAppointCompany.isCustomerServerPoint = NO;
+//            cloudAppointCompany.brContract = checkDataArray[indexPath.section];
+//            [self.navigationController pushViewController:cloudAppointCompany animated:YES];
+//        }
     }
 }
 
