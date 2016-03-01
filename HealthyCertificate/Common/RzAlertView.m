@@ -394,7 +394,7 @@
         make.right.equalTo(bohao);
         make.height.mas_equalTo(40);
     }];
-    NSString *sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:servicePositionItem.startTime], [NSDate getHour_MinuteByDate:servicePositionItem.startTime], [NSDate getHour_MinuteByDate:servicePositionItem.endTime]];
+    NSString *sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:servicePositionItem.startTime/1000], [NSDate getHour_MinuteByDate:servicePositionItem.startTime/1000], [NSDate getHour_MinuteByDate:servicePositionItem.endTime/1000]];
     servicetimelabel.text = sdate;
 
     UIImageView *blue = [[UIImageView alloc]init];

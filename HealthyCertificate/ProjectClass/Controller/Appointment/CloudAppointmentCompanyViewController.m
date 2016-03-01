@@ -274,8 +274,32 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }
     _brContract.unitCode = gCompanyInfo.cUnitCode;
     _brContract.unitName = gCompanyInfo.cUnitName;
-    _brContract.regCheckNum = _customerArr.count +1;
+    int customercount;
+    @try {
+       customercount = [_exminationCountField.text integerValue] + _customerArr.count;
+    }
+    @catch (NSException *e){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请输入正确的体检人数" removeDelay:2];
+        return ;
+    }
+    if(customercount <= 0){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"体检人数不能为 0" removeDelay:3];
+        return ;
+    }
+    _brContract.regCheckNum = customercount;    // 体检人数
 
+    if(_centerCoordinate.latitude < 0){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"体检地址不存在，请选择一个地址" removeDelay:3];
+        return ;
+    }
+    if (_contactPersonField.text.length == 0) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请输入联系人" removeDelay:3];
+        return ;
+    }
+    if (_cityName == nil) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"体检地址不存在，请选择一个地址" removeDelay:3];
+        return ;
+    }
     // 将百度地图转为gps地图
     PositionUtil *positionUtil = [[PositionUtil alloc]init];
     CLLocationCoordinate2D gpsCoor = [positionUtil bd2wgs:_centerCoordinate.latitude lon:_centerCoordinate.longitude];
@@ -286,15 +310,18 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
     _brContract.regBeginDate = [dateArray[0] convertDateStrToLongLong];
     _brContract.regEndDate = [dateArray[1] convertDateStrToLongLong];
-    _brContract.linkUser = _contactPersonField.text.length == 0? gCompanyInfo.cLinkPeople : _contactPersonField.text;
+    _brContract.linkUser = _contactPersonField.text;
     _brContract.linkPhone = gCompanyInfo.cLinkPhone;
     _brContract.cityName = _cityName;
     _brContract.checkType = @"1";
     _brContract.testStatus = @"-1"; // -1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
 
     [[HttpNetworkManager getInstance]createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(BOOL result, NSError *error) {
-        if (result) {
-            NSLog(@"成功");
+        if (!error) {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约成功！" removeDelay:3];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self backToPre:nil];
+            });
         }
         else {
             NSLog(@"error :%@", error);
@@ -379,6 +406,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 cell.textField.placeholder = @"体检人数";
                 cell.textField.enabled = YES;
                 cell.textField.tag = TEXTFIELD_CONTACTCOUNT;
+                cell.textField.keyboardType = UIKeyboardTypeNumberPad;
                 _exminationCountField = cell.textField;
             }
             if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
@@ -506,12 +534,10 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
 -(void)keyboardWillShow:(NSNotification *)notification
 {
-    if (_isFirstShown == NO){
-        _isFirstShown = YES;
-        CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
-        [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
-        _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
-    }
+    CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
+    [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
+    _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
+
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
         //self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);

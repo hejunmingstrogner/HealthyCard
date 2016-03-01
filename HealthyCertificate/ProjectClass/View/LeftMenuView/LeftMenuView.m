@@ -65,7 +65,7 @@
 
     _menuItemArray = [NSMutableArray arrayWithObjects:userinformation, historyRecord, setting, notice, aboutUs, advice, exit, nil];
 
-    _settingItemArray = [NSMutableArray arrayWithObjects:@"设置", @"提醒", @"用户类型", @"版本更新", nil];
+    _settingItemArray = [NSMutableArray arrayWithObjects:@"设置", @"用户类型", @"版本更新", nil];
 }
 //#pragma mark - delegate and datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -119,31 +119,31 @@
         if (indexPath.row != 0) {
             UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"xcell"];
             cell.imageView.image = [UIImage imageNamed:@"kongbai"];
-            if (indexPath.row != 3) {
+            if (indexPath.row != 2) {
                 UIButton *switchbutton = [UIButton buttonWithType:UIButtonTypeCustom];
                 [cell.contentView addSubview:switchbutton];
                 [switchbutton mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.top.equalTo(cell.contentView).offset(5);
                     make.bottom.equalTo(cell.contentView).offset(-5);
-                    make.right.equalTo(cell).offset(0);
+                    make.right.equalTo(cell).offset(-10);
                     make.width.mas_equalTo(60);
                 }];
                 [switchbutton addTarget:self action:@selector(SettingBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
                 switchbutton.tag = indexPath.row;
                 if (indexPath.row == 1) {
-                    [switchbutton setImage:[UIImage imageNamed:@"open"] forState:UIControlStateNormal];
-                }
-                else {
+//                    [switchbutton setImage:[UIImage imageNamed:@"open"] forState:UIControlStateNormal];       // 提醒
+//                }
+//                else {
                     if (GetUserType == 1) {
-                        [switchbutton setImage:[UIImage imageNamed:@"open_person"] forState:UIControlStateNormal];
+                        [switchbutton setBackgroundImage:[UIImage imageNamed:@"open_person"] forState:UIControlStateNormal];
                     }
                     else {
-                        [switchbutton setImage:[UIImage imageNamed:@"open_company"] forState:UIControlStateNormal];
+                        [switchbutton setBackgroundImage:[UIImage imageNamed:@"open_company"] forState:UIControlStateNormal];
                     }
                 }
             }
             cell.textLabel.text = _settingItemArray[indexPath.row];
-            if (indexPath.row == 3) {
+            if (indexPath.row == 2) {
                 cell.detailTextLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
             }
             return cell;
@@ -171,17 +171,18 @@
 //  设置中的按钮开关
 - (void)SettingBtnClicked:(UIButton *)sender
 {
-    if(sender.tag == 1)
-    {
-
-    }
-    else if(sender.tag == 2){
+//    if(sender.tag == 1)
+//    {
+//
+//    }
+//    else
+    if(sender.tag == 1){
         if (GetUserType == 1) {
-            [sender setImage:[UIImage imageNamed:@"open_company"] forState:UIControlStateNormal];
+            [sender setBackgroundImage:[UIImage imageNamed:@"open_company"] forState:UIControlStateNormal];
             SetUserType(2);
         }
         else{
-            [sender setImage:[UIImage imageNamed:@"open_person"] forState:UIControlStateNormal];
+            [sender setBackgroundImage:[UIImage imageNamed:@"open_person"] forState:UIControlStateNormal];
             SetUserType(1);
         }
         [self initData];

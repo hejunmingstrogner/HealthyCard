@@ -58,6 +58,6 @@
 {
     _titleLabel.text = leftMenuCellItem.titleLabelText;
     _detialeLabel.text = leftMenuCellItem.detialLabelText;
-    [_headerimageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode]] placeholderImage:[UIImage imageNamed:leftMenuCellItem.iconName] options:SDWebImageRefreshCached];
+    [_headerimageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode]] placeholderImage:[UIImage imageNamed:leftMenuCellItem.iconName] options:SDWebImageRefreshCached | SDWebImageRetryFailed];
 }
 @end
