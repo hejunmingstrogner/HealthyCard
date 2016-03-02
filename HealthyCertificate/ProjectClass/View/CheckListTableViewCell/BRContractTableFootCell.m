@@ -8,7 +8,7 @@
 
 #import "BRContractTableFootCell.h"
 #import <Masonry.h>
-
+#import "UIFont+Custom.h"
 @implementation BRContractTableFootCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -24,7 +24,7 @@
     UILabel *status = [[UILabel alloc]init];
     status.text = @"状态:";
     [self.contentView addSubview:status];
-    status.font = [UIFont systemFontOfSize:13];
+    status.font = [UIFont fontWithType:UIFontOpenSansRegular size:13];
     [status mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView).offset(10);
         make.centerY.equalTo(self.contentView);
@@ -34,7 +34,7 @@
 
     _statusLabel = [[UILabel alloc]init];
     _statusLabel.textColor = [UIColor grayColor];
-    _statusLabel.font = [UIFont systemFontOfSize:13];
+    _statusLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:13];
     [self.contentView addSubview:_statusLabel];
     [_statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(status.mas_right);
@@ -47,7 +47,7 @@
     _orderedLabel.textAlignment = NSTextAlignmentRight;
     _orderedLabel.text = @"已预约:0";
     _orderedLabel.textColor = [UIColor grayColor];
-    _orderedLabel.font = [UIFont systemFontOfSize:13];
+    _orderedLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:13];
     [_orderedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(status);
         make.left.equalTo(self.contentView.mas_centerX).offset(-20);
@@ -57,7 +57,7 @@
     _checkedLabel = [[UILabel alloc]init];
     _checkedLabel.textAlignment = NSTextAlignmentRight;
     _checkedLabel.textColor = [UIColor grayColor];
-    _checkedLabel.font = [UIFont systemFontOfSize:13];
+    _checkedLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:13];
     _checkedLabel.text = @"已检查:0";
     [self.contentView addSubview:_checkedLabel];
     [_checkedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
