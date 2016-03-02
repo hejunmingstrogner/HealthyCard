@@ -133,7 +133,6 @@
         headcell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
         UIButton *headeimageBtn = [[UIButton alloc]init];
         NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode];
-        NSLog(@"%@", str);
         [headeimageBtn sd_setImageWithURL:[NSURL URLWithString:str] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"headimage"] options:SDWebImageRefreshCached | SDWebImageRetryFailed];
         [headcell.contentView addSubview:headeimageBtn];
         [headeimageBtn addTarget:self action:@selector(headerimageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
