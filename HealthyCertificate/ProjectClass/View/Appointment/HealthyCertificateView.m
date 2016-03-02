@@ -13,7 +13,8 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "NSString+Count.h"
-#import "NSString+Count.h"
+#import "UIScreen+Type.h"
+#import <UIButton+WebCache.h>
 
 #import <Masonry.h>
 
@@ -29,8 +30,6 @@
     UIButton*       _idCardBtn;
     UILabel*        _orgLabel;
     UILabel*        _numLabel;
-    
-    UIImageView*    _picView;
 }
 
 @end
@@ -93,6 +92,14 @@
     [_idCardBtn setTitle:_idCard forState:UIControlStateNormal];
 }
 
+-(void)setWorkType:(NSString *)workType{
+    _workType = workType;
+    [_workTypeBtn setTitle:_workType forState:UIControlStateNormal];
+}
+
+-(void)setPicImage:(UIImage *)picImage{
+    [_imageBtn setImage:picImage forState:UIControlStateNormal];
+}
 
 #pragma mark - Life Circle
 -(id)initWithFrame:(CGRect)frame{
@@ -120,9 +127,13 @@
         UIView* imageContainerView = [[UIView alloc] init];
         [self addSubview:imageContainerView];
         
-        UIImageView* picImageView = [[UIImageView alloc] init];
-        [picImageView setImage:[UIImage imageNamed:@"Avatar"]];
-        [imageContainerView addSubview:picImageView];
+//        UIImageView* picImageView = [[UIImageView alloc] init];
+//        [picImageView setImage:[UIImage imageNamed:@"Avatar"]];
+//        [imageContainerView addSubview:picImageView];
+        
+        _imageBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"Avatar"] highlightImage:[UIImage imageNamed:@"Avatar"]];
+        [_imageBtn addTarget:self action:@selector(imageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [imageContainerView addSubview:_imageBtn];
         
         //左边的文字部分取一个UIView
         UIView* leftView = [[UIView alloc] init];
@@ -139,15 +150,24 @@
             make.centerY.mas_equalTo(leftView);
             make.left.mas_equalTo(leftView.mas_right).with.offset(PXFIT_WIDTH(20));
             make.right.mas_equalTo(self).mas_equalTo(-PXFIT_WIDTH(20));
+            make.top.mas_equalTo(titleView.mas_bottom);
+            make.bottom.mas_equalTo(self.mas_bottom);
         }];
         [imageContainerView setContentCompressionResistancePriority:753 forAxis:UILayoutConstraintAxisHorizontal];
         
-        [picImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        CGFloat imageBtnWidth = 74;
+        CGFloat imageHeight = 102;
+        if (![UIScreen is480HeightScreen] && ![UIScreen is568HeightScreen]){
+            imageBtnWidth = 72*4/3;
+            imageHeight = 102*4/3;
+        }
+        
+        [_imageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(imageContainerView);
+            make.height.mas_equalTo(imageHeight);
+            make.width.mas_equalTo(imageBtnWidth);
         }];
 
-    
-        
         //姓名所占的第一行布局
         UIView* firstLineView = [[UIView alloc] init];
         [leftView addSubview:firstLineView];
@@ -241,9 +261,13 @@
         workTypeLabelTitle.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [secondeLineView addSubview:workTypeLabelTitle];
         
-        _workTypeBtn = [[UIButton alloc] init];
-        _workTypeBtn.titleLabel.text = _workType;
+        
+        _workTypeBtn = [UIButton buttonWithTitle:_workType
+                                       font:nil
+                                  textColor:[UIColor blackColor]
+                            backgroundColor:[UIColor clearColor]];
         _workTypeBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
+        _workTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [_workTypeBtn addTarget:self action:@selector(industryBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [secondeLineView addSubview:_workTypeBtn];
         
@@ -380,7 +404,7 @@
 }
 
 
-#pragma mark - HealthyCertificateViewDelegate
+#pragma mark - Action
 -(void)nameBtnClicked:(id)sender;
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(nameBtnClicked:)]){
@@ -410,4 +434,12 @@
         [self.delegate idCardBtnClicked:_idCard];
     }
 }
+
+-(void)imageBtnClicked:(id)sender
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(healthyImageClicked)]){
+        [self.delegate healthyImageClicked];
+    }
+}
+
 @end

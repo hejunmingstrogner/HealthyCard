@@ -49,7 +49,6 @@
 		252AB8971C7732C50085CC14 /* NavView.m in Sources */ = {isa = PBXBuildFile; fileRef = 252AB8961C7732C50085CC14 /* NavView.m */; };
 		252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 252AB89C1C783B260085CC14 /* NSDate+Custom.m */; };
 		254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */; };
-		254A8D8A1C7AE02300F2EC94 /* Avatar@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D871C7AE02300F2EC94 /* Avatar@1x.png */; };
 		254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D881C7AE02300F2EC94 /* Avatar@2x.png */; };
 		254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D891C7AE02300F2EC94 /* Avatar@3x.png */; };
 		254A8D931C7C2C8B00F2EC94 /* phonecall@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D901C7C2C8B00F2EC94 /* phonecall@1x.png */; };
@@ -80,8 +79,6 @@
 		254A8DD21C7D619C00F2EC94 /* Login_Logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */; };
 		254A8DD51C7DA0CE00F2EC94 /* NSString+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */; };
 		254A8DDE1C813BC200F2EC94 /* EditInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DDD1C813BC200F2EC94 /* EditInfoViewController.m */; };
-		254A8DEA1C81A88400F2EC94 /* libIDCardLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 254A8DE91C81A88400F2EC94 /* libIDCardLib.a */; };
-		254A8E441C82EB3300F2EC94 /* YMIDCardRecognition.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8E431C82EB3300F2EC94 /* YMIDCardRecognition.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		25A7A6ED1C842FB500054EE6 /* MethodResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A7A6EC1C842FB500054EE6 /* MethodResult.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
@@ -104,6 +101,8 @@
 		25BFEB4D1C75E61C0062F9B8 /* QRScan@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25BFEB4A1C75E61C0062F9B8 /* QRScan@1x.png */; };
 		25BFEB4E1C75E61C0062F9B8 /* QRScan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25BFEB4B1C75E61C0062F9B8 /* QRScan@2x.png */; };
 		25BFEB4F1C75E61C0062F9B8 /* QRScan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25BFEB4C1C75E61C0062F9B8 /* QRScan@3x.png */; };
+		25E983831C8535BE00CB027E /* WorkTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E983821C8535BE00CB027E /* WorkTypeViewController.m */; };
+		25E983861C853D1500CB027E /* WorkTypeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E983851C853D1500CB027E /* WorkTypeInfoModel.m */; };
 		30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E1C17F5EF743EC155F709C /* libPods.a */; };
 		B201CCC31C72046D00B8F624 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC21C72046D00B8F624 /* Info.plist */; };
 		B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC41C7205B100B8F624 /* Main.storyboard */; };
@@ -241,7 +240,6 @@
 		252AB89C1C783B260085CC14 /* NSDate+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Custom.m"; sourceTree = "<group>"; };
 		254A8D811C7A027E00F2EC94 /* HealthyCertificateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HealthyCertificateView.h; path = ../HealthyCertificateView.h; sourceTree = "<group>"; };
 		254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthyCertificateView.m; path = ../HealthyCertificateView.m; sourceTree = "<group>"; };
-		254A8D871C7AE02300F2EC94 /* Avatar@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@1x.png"; sourceTree = "<group>"; };
 		254A8D881C7AE02300F2EC94 /* Avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@2x.png"; sourceTree = "<group>"; };
 		254A8D891C7AE02300F2EC94 /* Avatar@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@3x.png"; sourceTree = "<group>"; };
 		254A8D901C7C2C8B00F2EC94 /* phonecall@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phonecall@1x.png"; sourceTree = "<group>"; };
@@ -276,12 +274,6 @@
 		254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Custom.m"; sourceTree = "<group>"; };
 		254A8DDC1C813BC200F2EC94 /* EditInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditInfoViewController.h; sourceTree = "<group>"; };
 		254A8DDD1C813BC200F2EC94 /* EditInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditInfoViewController.m; sourceTree = "<group>"; };
-		254A8DE91C81A88400F2EC94 /* libIDCardLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libIDCardLib.a; sourceTree = "<group>"; };
-		254A8DF11C81AB3700F2EC94 /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
-		254A8DF21C81AB6200F2EC94 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		254A8DF31C81AB8C00F2EC94 /* YMIDCardEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YMIDCardEngine.h; sourceTree = "<group>"; };
-		254A8E421C82EB3300F2EC94 /* YMIDCardRecognition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMIDCardRecognition.h; sourceTree = "<group>"; };
-		254A8E431C82EB3300F2EC94 /* YMIDCardRecognition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMIDCardRecognition.m; sourceTree = "<group>"; };
 		25A7A6EB1C842FB500054EE6 /* MethodResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodResult.h; sourceTree = "<group>"; };
 		25A7A6EC1C842FB500054EE6 /* MethodResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodResult.m; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
@@ -321,6 +313,10 @@
 		25BFEB4A1C75E61C0062F9B8 /* QRScan@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRScan@1x.png"; sourceTree = "<group>"; };
 		25BFEB4B1C75E61C0062F9B8 /* QRScan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRScan@2x.png"; sourceTree = "<group>"; };
 		25BFEB4C1C75E61C0062F9B8 /* QRScan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRScan@3x.png"; sourceTree = "<group>"; };
+		25E983811C8535BE00CB027E /* WorkTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkTypeViewController.h; sourceTree = "<group>"; };
+		25E983821C8535BE00CB027E /* WorkTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkTypeViewController.m; sourceTree = "<group>"; };
+		25E983841C853D1500CB027E /* WorkTypeInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkTypeInfoModel.h; sourceTree = "<group>"; };
+		25E983851C853D1500CB027E /* WorkTypeInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkTypeInfoModel.m; sourceTree = "<group>"; };
 		36C8931033D226234A0CF88D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		46E1C17F5EF743EC155F709C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D2243EB114EF1077978D1EA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -415,7 +411,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				254A8DEA1C81A88400F2EC94 /* libIDCardLib.a in Frameworks */,
 				30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -648,7 +643,6 @@
 				254A8DA21C7C32B800F2EC94 /* servicePoint@1x.png */,
 				254A8DA31C7C32B800F2EC94 /* servicePoint@2x.png */,
 				254A8DA41C7C32B800F2EC94 /* servicePoint@3x.png */,
-				254A8D871C7AE02300F2EC94 /* Avatar@1x.png */,
 				254A8D881C7AE02300F2EC94 /* Avatar@2x.png */,
 				254A8D891C7AE02300F2EC94 /* Avatar@3x.png */,
 				252AB87B1C76E3880085CC14 /* date_icon@1x.png */,
@@ -714,6 +708,8 @@
 				254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */,
 				254A8DDC1C813BC200F2EC94 /* EditInfoViewController.h */,
 				254A8DDD1C813BC200F2EC94 /* EditInfoViewController.m */,
+				25E983811C8535BE00CB027E /* WorkTypeViewController.h */,
+				25E983821C8535BE00CB027E /* WorkTypeViewController.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -741,12 +737,6 @@
 		254A8DE01C81A52100F2EC94 /* YMIDCardEngine */ = {
 			isa = PBXGroup;
 			children = (
-				254A8E421C82EB3300F2EC94 /* YMIDCardRecognition.h */,
-				254A8E431C82EB3300F2EC94 /* YMIDCardRecognition.m */,
-				254A8DF31C81AB8C00F2EC94 /* YMIDCardEngine.h */,
-				254A8DF21C81AB6200F2EC94 /* Common.h */,
-				254A8DF11C81AB3700F2EC94 /* Utility.h */,
-				254A8DE91C81A88400F2EC94 /* libIDCardLib.a */,
 			);
 			path = YMIDCardEngine;
 			sourceTree = "<group>";
@@ -756,6 +746,8 @@
 			children = (
 				25A7A6EB1C842FB500054EE6 /* MethodResult.h */,
 				25A7A6EC1C842FB500054EE6 /* MethodResult.m */,
+				25E983841C853D1500CB027E /* WorkTypeInfoModel.h */,
+				25E983851C853D1500CB027E /* WorkTypeInfoModel.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1161,7 +1153,6 @@
 				254A8DA11C7C2CAC00F2EC94 /* message@3x.png in Resources */,
 				254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */,
 				254A8D9D1C7C2CAC00F2EC94 /* detail@2x.png in Resources */,
-				254A8D8A1C7AE02300F2EC94 /* Avatar@1x.png in Resources */,
 				254A8D941C7C2C8B00F2EC94 /* phonecall@2x.png in Resources */,
 				25BFEB4F1C75E61C0062F9B8 /* QRScan@3x.png in Resources */,
 				25BFEB4D1C75E61C0062F9B8 /* QRScan@1x.png in Resources */,
@@ -1250,9 +1241,9 @@
 				B27B00E01C84622D00FBF895 /* BaseInfoTableViewCell.m in Sources */,
 				25BFEB401C74A5370062F9B8 /* ServicePointApointmentViewController.m in Sources */,
 				25BFEB1E1C731A630062F9B8 /* StringPacket.m in Sources */,
+				25E983861C853D1500CB027E /* WorkTypeInfoModel.m in Sources */,
 				B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */,
 				2512B41A1C7056C900EE661B /* UIFont+Custom.m in Sources */,
-				254A8E441C82EB3300F2EC94 /* YMIDCardRecognition.m in Sources */,
 				B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */,
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
 				B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */,
@@ -1314,6 +1305,7 @@
 				B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */,
 				B27B00D01C8461FE00FBF895 /* ServicePointCell.m in Sources */,
 				2512B41F1C7056C900EE661B /* UIScreen+Type.m in Sources */,
+				25E983831C8535BE00CB027E /* WorkTypeViewController.m in Sources */,
 				B2436C941C7AD28700F543E1 /* BRContract.m in Sources */,
 				252AB8941C770F890085CC14 /* CloudAppointmentDateVC.m in Sources */,
 				2512B41B1C7056C900EE661B /* UIImage+Color.m in Sources */,
@@ -1481,6 +1473,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 36C8931033D226234A0CF88D /* Pods.release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

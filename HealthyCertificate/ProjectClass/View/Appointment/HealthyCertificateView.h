@@ -22,6 +22,8 @@
 -(void)industryBtnClicked:(NSString*)industry;
 //点击身份证
 -(void)idCardBtnClicked:(NSString*)idCard;
+//点击修改头像
+-(void)healthyImageClicked;
 
 @end
 
@@ -40,8 +42,7 @@
 //证件编号
 @property (nonatomic, copy) NSString* num;
 //头像
-@property (nonatomic, copy) NSString* picStr;
-
+@property (nonatomic, strong) UIButton* imageBtn;
 
 
 @property (nonatomic, weak) id<HealthyCertificateViewDelegate> delegate;

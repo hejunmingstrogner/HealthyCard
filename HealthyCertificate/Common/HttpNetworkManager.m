@@ -12,6 +12,7 @@
 #import <MJExtension.h>
 #import "PositionUtil.h"
 #import "MethodResult.h"
+#import "WorkTypeInfoModel.h"
 
 @interface HttpNetworkManager()
 
@@ -191,6 +192,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     }
 }
 
+
 #pragma mark 查询单位员工列表
 // 查询单位员工列表
 - (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(HCArrayResultBlock)resultBlock;
@@ -201,6 +203,26 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         for (NSDictionary *dict in responseObject) {
             Customer *customer = [Customer mj_objectWithKeyValues:dict];
             [customerArray addObject:customer];
+        }
+        if (resultBlock) {
+            resultBlock(customerArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (resultBlock) {
+            resultBlock([NSArray array], error);
+        }
+    }];
+}
+
+- (void)getIndustryList:(NSString*)dataItemName resultBlock:(HCArrayResultBlock)resultBlock
+{
+    NSString *url = [NSString stringWithFormat:@"codeDataItem/findCodeDataItemConByName?dataItemName=%@", dataItemName];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *customerArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            WorkTypeInfoModel *workTypeInfoModel = [WorkTypeInfoModel mj_objectWithKeyValues:dict];
+            [customerArray addObject:workTypeInfoModel];
         }
         if (resultBlock) {
             resultBlock(customerArray, nil);
@@ -251,8 +273,40 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 // 个人预约相关
 -(void)createOrUpdatePersonalAppointment:(CustomerTest*)customerTest resultBlock:(HCDictionaryResultBlock)resultBlock
 {
+    NSDictionary* dicInfo = customerTest.mj_keyValues;
     NSString *url = [NSString stringWithFormat:@"customerTest/createOrUpdate"];
-    [self.sharedClient POST:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    [self.sharedClient POST:url parameters:dicInfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        if (resultBlock) {
+            resultBlock(responseObject, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (resultBlock) {
+            resultBlock(nil, error);
+        }
+    }];
+}
+
+-(void)customerUploadHealthyCertifyPhoto:(UIImage*)photo CusCheckCode:(NSString*)checkCode resultBlock:(HCDictionaryResultBlock)resultBlock
+{
+    NSData *imageData;
+    NSString *imagetype;
+    if(UIImagePNGRepresentation(photo) == nil){
+        imageData = UIImageJPEGRepresentation(photo, 1);
+        imagetype = @"jpeg";
+    }
+    else {
+        imageData = UIImagePNGRepresentation(photo);
+        imagetype= @"png";
+    }
+    
+    NSString *url = [NSString stringWithFormat:@"customerTest/uploadPrintPhoto"];
+    NSMutableDictionary *param = [[NSMutableDictionary alloc]init];
+    [param setObject:checkCode forKey:@"cCheckCode"];
+    [self.sharedClient POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        NSDateFormatter *formmettrt = [[NSDateFormatter alloc]init];
+        [formmettrt setDateFormat:@"yyyyMMddHHmmss"];
+        [formData appendPartWithFileData:imageData name:@"file" fileName:[NSString stringWithFormat:@"%@.%@", [formmettrt stringFromDate:[NSDate date]], imagetype] mimeType:[NSString stringWithFormat:@"image/%@", imagetype]];
+    } success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         if (resultBlock) {
             resultBlock(responseObject, nil);
         }
