@@ -31,6 +31,7 @@
 #import "EditInfoViewController.h"
 #import "HCWheelView.h"
 #import "WorkTypeViewController.h"
+#import "MyCheckListViewController.h"
 
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
@@ -312,7 +313,7 @@
             cell.textView.text = _customerTestInfo.linkPhone;
         }
         
-        //cell.textView.delegate = self;
+        cell.textView.delegate = self;
         _phoneNumTextView = cell.textView;
     }
     return cell;
@@ -355,7 +356,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return PXFIT_HEIGHT(96);
+    return PXFIT_HEIGHT(100);
 }
 
 #pragma mark - Storyboard Segue
@@ -422,6 +423,7 @@
             _customerTestInfo.hosCode = _sercersPositionInfo.cHostCode;
             //移动服务点 id 固定 cHostCode
             _customerTestInfo.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
+            _customerTestInfo.servicePoint = _sercersPositionInfo;
         }
     }
     _customerTestInfo.cityName = self.cityName; //预约城市
@@ -444,6 +446,11 @@
                     }else{
                     }
                 }];
+            }else{
+                MyCheckListViewController* myCheckListViewController = [[MyCheckListViewController alloc] init];
+                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:myCheckListViewController];
+                [self.parentViewController presentViewController:nav animated:YES completion:nil];
+
             }
 //            //预约成功 继续请求健康证照片
 //            NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], _customerTestInfo.checkCode]];
@@ -480,6 +487,22 @@
 
 -(void)cancelButtonClicked{
     _sexWheel.hidden = YES;
+}
+
+#pragma mark - UITextView Delegate
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if (![self isPureInt:text]){
+        return YES;
+    }
+    
+    if (textView.text.length > 10){
+        return NO;
+    }else if (textView.text.length == 10){
+        return YES;
+    }else{
+        return YES;
+    }
+
 }
 
 #pragma mark - UITextField Delegate

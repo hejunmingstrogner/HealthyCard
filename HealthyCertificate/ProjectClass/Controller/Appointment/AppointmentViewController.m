@@ -67,7 +67,7 @@
 #pragma mark - Life Circle
 -(void)viewDidLoad{
     [super viewDidLoad];
-    self.view.backgroundColor = MO_RGBCOLOR(250, 250, 250);
+    self.view.backgroundColor = [UIColor whiteColor];
     
     //加载界面布局
     UIView* navView = [[UIView alloc] init];
@@ -77,6 +77,15 @@
         make.left.right.mas_equalTo(self.view);
         make.top.mas_equalTo(self.view).with.offset(kStatusBarHeight);
         make.height.mas_equalTo(kNavigationBarHeight);
+    }];
+    
+    UIView* lineView = [[UIView alloc] init];
+    lineView.backgroundColor = MO_RGBCOLOR(239, 239, 239);
+    [self.view addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(self.view);
+        make.top.mas_equalTo(navView.mas_bottom);
+        make.height.mas_equalTo(1);
     }];
     
     UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -123,7 +132,7 @@
     self.currentView.backgroundColor = [UIColor greenColor];
     [self.view addSubview:self.currentView];
     [self.currentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(navView.mas_bottom);
+        make.top.mas_equalTo(lineView.mas_bottom);
         make.left.right.bottom.mas_equalTo(self.view);
     }];
     

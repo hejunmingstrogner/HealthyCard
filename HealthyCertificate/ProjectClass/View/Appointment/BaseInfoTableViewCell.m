@@ -44,11 +44,10 @@
     
    // self.textView.backgroundColor = [UIColor greenColor];
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self);
-       // make.width.mas_equalTo(200);
+        make.top.bottom.mas_equalTo(self);
 //        make.right.lessThanOrEqualTo(self.mas_right).with.offset(-10);
-        make.width.mas_equalTo(self.frame.size.width-20-imageView.frame.size.width);
-        make.height.mas_equalTo(self.frame.size.height-2);
+        make.width.mas_equalTo(self.frame.size.width-35-imageView.frame.size.width);
+       // make.height.mas_equalTo(self.frame.size.height-2);
     }];
 }
 
