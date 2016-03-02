@@ -475,7 +475,6 @@
         PositionUtil *posit = [[PositionUtil alloc]init];
         CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
         controller.centerCoordinate = coor;
-
         [self.navigationController pushViewController:controller animated:YES];
     }
 }

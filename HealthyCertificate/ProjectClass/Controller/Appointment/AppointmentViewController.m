@@ -69,13 +69,12 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self initNavgation];
-    
+
     //加载界面布局
     self.currentView = [[UIView alloc] init];
     self.currentView.backgroundColor = [UIColor greenColor];
     [self.view addSubview:self.currentView];
     [self.currentView mas_makeConstraints:^(MASConstraintMaker *make) {
-
         make.top.left.right.bottom.mas_equalTo(self.view);
     }];
     
@@ -173,6 +172,49 @@
         default:
             break;
     }
+    
+//    if (self.currentVC == _cloudAppointmentViewController && seg.selectedSegmentIndex == 0)
+//        return;
+//    if (self.currentVC == _servicePointAppointmentViewController && seg.selectedSegmentIndex == 1)
+//        return;
+//    if (self.currentVC == _cloudAppointmentCompanyViewController && seg.selectedSegmentIndex == 0)
+//        return;
+//    
+//    UIViewController* oldVC = self.currentVC;
+//    NSInteger index = seg.selectedSegmentIndex;
+//    switch (index) {
+//        case 0:
+//        {
+//            [self transitionFromViewController:self.currentVC toViewController:_cloudAppointmentCompanyViewController duration:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//                
+//            } completion:^(BOOL finished) {
+//                if(finished) {
+//                    self.currentVC = _cloudAppointmentCompanyViewController;
+//                }
+//                else {
+//                    self.currentVC = oldVC;
+//                }
+//            }];
+//        }
+//            break;
+//        case 1:
+//        {
+//            [self transitionFromViewController:self.currentVC toViewController:_servicePointAppointmentViewController duration:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+//                
+//            } completion:^(BOOL finished) {
+//                if(finished) {
+//                    self.currentVC = _servicePointAppointmentViewController;
+//                }
+//                else {
+//                    self.currentVC = oldVC;
+//                }
+//            }];
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
 }
 
 -(void)backBtnClicked:(UIButton*)sender
