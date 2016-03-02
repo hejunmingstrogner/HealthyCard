@@ -202,12 +202,12 @@
 
 #pragma mark - NavViewDelegate
 -(void)backBtnClicked{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)sureBtnClicked{
     _appointmentBlock([NSString combineString:_beginDateString And:_endDateString With:@"~"]);
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 //改变footerview的颜色

@@ -66,7 +66,6 @@
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)confirmBtnClicked:(UIBarButtonItem *)sender

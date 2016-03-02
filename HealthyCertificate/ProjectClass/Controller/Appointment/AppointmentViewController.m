@@ -177,7 +177,7 @@
 
 -(void)backBtnClicked:(UIButton*)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)QRScanButtonClicked:(UIButton*)sender

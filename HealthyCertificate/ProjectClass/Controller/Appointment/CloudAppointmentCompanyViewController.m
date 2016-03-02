@@ -262,7 +262,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -482,10 +481,13 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                     _location = address;
                     _centerCoordinate = coor;
                 }];
-                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
-                [self.parentViewController presentViewController:nav animated:YES completion:nil];
+#warning 提示，蒋旭待检测
+//                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
+//                [self.parentViewController presentViewController:nav animated:YES completion:nil];
+                [self.navigationController pushViewController:selectAddressViewController animated:YES];
             }else{
-                [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
+//                [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
+                [self.navigationController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
             }
         }
             break;
@@ -506,8 +508,10 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 weakSelf.customerArr = workerArray;
                 [weakSelf.staffTableView reloadData];
             }];
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:addworkerViewController];
-            [self.parentViewController presentViewController:nav animated:YES completion:nil];
+#warning 提示，蒋旭待检测
+//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:addworkerViewController];
+//            [self.parentViewController presentViewController:nav animated:YES completion:nil];
+            [self.navigationController pushViewController:addworkerViewController animated:YES];
             
         }
             break;
