@@ -64,7 +64,8 @@
     [_baseBgScrollView addSubview:_introduceLabel];
     _introduceLabel.text = @"测试使用的随意啊大家咖啡撒";
     _introduceLabel.numberOfLines = 0;
-    _introduceLabel.font = [UIFont fontWithType:0 size:15];
+    _introduceLabel.textColor = [UIColor grayColor];
+    _introduceLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
 
     // 按钮的背景色
     UIView *btnBgView = [[UIView alloc]init];

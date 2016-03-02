@@ -90,7 +90,7 @@
 {
     UILabel *bglabel = [[UILabel alloc]init];
     bglabel.layer.borderWidth = 1;
-    bglabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    bglabel.layer.borderColor = [UIColor colorWithRed:248/255.0 green:248/255.0 blue:248/255.0 alpha:1].CGColor;
     bglabel.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:bglabel];
     [bglabel mas_makeConstraints:^(MASConstraintMaker *make) {
