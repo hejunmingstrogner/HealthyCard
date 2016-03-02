@@ -177,25 +177,7 @@
         case USERINFORMATION_WORKUNITNAME:{
             NSInteger type = GetUserType;     // 1个人，2单位
             if (type == 1) {    // 个人单位修改
-                NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
-                [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
-                [personinfo setObject:_nameTextField.text forKey:@"unitName"];
-
-                [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
-                    if (successed) {
-                        gPersonInfo.cUnitName = _nameTextField.text;
-                        if (_updateBlcok) {
-                            _updateBlcok(YES, _nameTextField.text);
-                        }
-                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [self backToPre:nil];
-                        });
-                    }
-                    else{
-                        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
-                    }
-                }];
+                
             }
             else{   // 公司单位修改
                 NSMutableDictionary *cUnitInfo = [[NSMutableDictionary alloc]init];

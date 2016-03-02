@@ -54,8 +54,6 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.top.bottom.mas_equalTo(self.view);
     }];
-    
-    
 }
 
 #pragma mark - Setter & Getter

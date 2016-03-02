@@ -121,4 +121,13 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  *  @param block      回调
  */
 - (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCBoolResultBlock)block;
+
+#pragma mark 根据名字模糊查询单位信息
+/**
+ *  根据名字模糊查询单位信息
+ *
+ *  @param companyName 要查询的名字
+ *  @param block       回调 <BRServiceUnit>数组
+ */
+- (void)fuzzQueryBRServiceUnitsByName:(NSString *)companyName resultBlock:(HCArrayResultBlock)block;
 @end
