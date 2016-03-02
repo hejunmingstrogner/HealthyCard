@@ -19,6 +19,8 @@
 
     _mapManager = [[BMKMapManager alloc]init];
 
+    [[UINavigationBar appearance]setBarTintColor:[UIColor whiteColor]];
+
     BOOL ret = [_mapManager start:@"cRqr5CbUVzB2GkCbYXWXZXp8" generalDelegate:nil];
     if (!ret) {
         NSLog(@"百度地图使用错误");
