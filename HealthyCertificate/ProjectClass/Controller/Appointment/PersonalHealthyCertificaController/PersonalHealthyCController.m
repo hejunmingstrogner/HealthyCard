@@ -14,6 +14,17 @@
 #import "EditInfoViewController.h"
 #import "WorkTypeViewController.h"
 
+#import "TakePhoto.h"
+#import "HttpNetworkManager.h"
+
+
+@interface PersonalHealthyCController()
+{
+    BOOL        _isAvatarSet;
+}
+
+@end
+
 @implementation PersonalHealthyCController
 
 - (void)viewDidLoad
@@ -26,9 +37,10 @@
 
     [self initData];
 
-    wheelView = [[HCWheelView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height/3)];
+    wheelView = [[HCWheelView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height*2/3, self.view.frame.size.width, self.view.frame.size.height/3)];
     wheelView.pickerViewContentArr = [NSMutableArray arrayWithArray:@[@"男", @"女"]];
     wheelView.delegate = self;
+    wheelView.hidden = YES;
     [self.view addSubview:wheelView];
 }
 
@@ -61,6 +73,8 @@
 
 - (void)rightBtnClicked:(id)sender
 {
+    
+    
     NSLog(@"修改");
 }
 
@@ -245,7 +259,13 @@
 }
 //点击性别
 -(void)sexBtnClicked:(NSString*)gender{
-    NSLog(@"点击性别");
+    NSInteger index = 0;
+    for (; index < wheelView.pickerViewContentArr.count; ++index){
+        if ([gender isEqualToString:wheelView.pickerViewContentArr[index]])
+            break;
+    }
+    [wheelView.pickerView selectRow:index inComponent:0 animated:NO];
+    wheelView.hidden = NO;
 }
 //点击行业
 -(void)industryBtnClicked:(NSString*)industry{
@@ -268,4 +288,25 @@
     [self.navigationController pushViewController:editInfoViewController animated:YES];
 }
 
+//点击健康证图片
+-(void)healthyImageClicked;
+{
+    __weak typeof (self) wself = self;
+    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
+        photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthCertificateView.imageBtn.frame.size.width,
+                                                                          wself.healthCertificateView.imageBtn.frame.size.height)];
+        [wself.healthCertificateView.imageBtn setBackgroundImage:photoimage forState:UIControlStateNormal];
+        _isAvatarSet = YES; //代表修改了健康证图片
+    }];
+}
+
+#pragma mark - HCWheelViewDelegate
+-(void)sureBtnClicked:(NSString *)wheelText{
+    self.healthCertificateView.gender = wheelText;
+    wheelView.hidden = YES;
+}
+
+-(void)cancelButtonClicked{
+    wheelView.hidden = YES;
+}
 @end
