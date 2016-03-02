@@ -21,13 +21,13 @@
 #import "UIFont+Custom.h"
 #import "NSDate+Custom.h"
 
-#import "YMIDCardRecognition.h"
+//#import "YMIDCardRecognition.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 #define CloudController (GetUserType == 1 ? _cloudAppointmentViewController : _cloudAppointmentCompanyViewController)
 #define HideKeyBoard (GetUserType == 1 ? [_cloudAppointmentViewController hideTheKeyBoard]: [_cloudAppointmentCompanyViewController hideTheKeyBoard])
 
-@interface AppointmentViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate,YMIDCardRecognitionDelegate>
+@interface AppointmentViewController() <UIImagePickerControllerDelegate, UINavigationControllerDelegate/*YMIDCardRecognitionDelegate*/>
 {
     //个人云预约
     CloudAppointmentViewController              *_cloudAppointmentViewController;
@@ -79,14 +79,19 @@
         make.height.mas_equalTo(kNavigationBarHeight);
     }];
     
-    UIButton* backBtn = [UIButton buttonWithNormalImageName:@"back" highlightImageName:@"back"];
-    [navView addSubview:backBtn];
-    [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+   // UIButton* backBtn = [UIButton buttonWithNormalImageName:@"back" highlightImageName:@"back"];
+    [navView addSubview:backbtn];
+    [backbtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(navView);
-        make.left.mas_equalTo(navView.mas_left).with.offset(8);
+        make.left.mas_equalTo(navView.mas_left).with.offset(16);
+        make.height.mas_equalTo(30);
+        make.width.mas_equalTo(30);
     }];
-    backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
-    [backBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    backbtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    [backbtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     
     NSArray* segArr = [[NSArray alloc] initWithObjects:@"云预约", @"服务点", nil];
@@ -111,7 +116,7 @@
     [navView addSubview:QRScanButton];
     [QRScanButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(navView);
-        make.right.mas_equalTo(navView.mas_right).with.offset(-8);
+        make.right.mas_equalTo(navView.mas_right).with.offset(-16);
     }];
     
     self.currentView = [[UIView alloc] init];
@@ -268,25 +273,25 @@
         image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
     
     NSLog(@"originalImage width = %f height = %f",image.size.width,image.size.height);
-    [YMIDCardRecognition recongnitionWithCard:image delegate:self];
+   // [YMIDCardRecognition recongnitionWithCard:image delegate:self];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
-{
-//    UIAlertView *a=[[UIAlertView alloc]initWithTitle:@"提示" message:error.domain delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
-//    [a show];
-//    NSLog(@"%@", error.domain);
-}
-- (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
-{
-  //  [self performSelectorOnMainThread:@selector(recongnitionResult:) withObject:array waitUntilDone:YES];
-    _cloudAppointmentViewController.idCardInfo = array;
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+//- (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
+//{
+////    UIAlertView *a=[[UIAlertView alloc]initWithTitle:@"提示" message:error.domain delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+////    [a show];
+////    NSLog(@"%@", error.domain);
+//}
+//- (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
+//{
+//  //  [self performSelectorOnMainThread:@selector(recongnitionResult:) withObject:array waitUntilDone:YES];
+//    _cloudAppointmentViewController.idCardInfo = array;
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
 
 - (BOOL)getCancelProcess
 {
