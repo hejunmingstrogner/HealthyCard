@@ -12,9 +12,11 @@
 #import "HealthyCertificateView.h"
 #import "CustomerTest.h"
 #import "SelectAddressViewController.h"
-
-@interface PersonalHealthyCController : UIViewController<HealthyCertificateViewDelegate>
-
+#import "HCWheelView.h"
+@interface PersonalHealthyCController : UIViewController<HealthyCertificateViewDelegate, HCWheelViewDelegate>
+{
+    HCWheelView *wheelView;
+}
 @property (nonatomic, strong) HealthyCertificateOrderInfoView *orderinforView;      // 预约信息界面view
 
 @property (nonatomic, strong) HealthyCertificateView         *healthCertificateView;// 健康证界面view

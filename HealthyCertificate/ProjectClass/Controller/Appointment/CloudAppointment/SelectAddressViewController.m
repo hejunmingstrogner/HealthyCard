@@ -105,9 +105,9 @@
             _coordinateArray = [NSMutableArray arrayWithArray:coordinateArray];
             [_tableView reloadData];
         }
-        else {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"出现未知错误" removeDelay:2];
-        }
+//        else {
+//            [RzAlertView showAlertLabelWithTarget:self.view Message:@"出现未知错误" removeDelay:2];
+//        }
     }];
 }
 - (void)initSubViews
@@ -174,7 +174,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return fmaxf(44, [self cellheight:[NSString stringWithFormat:@"%@%@%@", _cityArray[indexPath.row], _districtArray[indexPath.row], _addressArray[indexPath.row]]]);
+    return fmaxf(55, [self cellheight:[NSString stringWithFormat:@"%@", _addressArray[indexPath.row]]]);
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -188,11 +188,14 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
         cell.textLabel.numberOfLines = 0;
-        cell.textLabel.font = [UIFont fontWithType:0 size:16];
+        cell.textLabel.font = [UIFont fontWithType:0 size:17];
+        cell.detailTextLabel.font = [UIFont fontWithType:0 size:14];
+        cell.detailTextLabel.textColor = [UIColor grayColor];
     }
-    cell.textLabel.text = [NSString stringWithFormat:@"%@%@%@", _cityArray[indexPath.row], _districtArray[indexPath.row], _addressArray[indexPath.row]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", _addressArray[indexPath.row]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@-%@", _cityArray[indexPath.row], _districtArray[indexPath.row]];
     return cell;
 }
 
@@ -207,7 +210,7 @@
 {
     UIFont *fnt = [UIFont systemFontOfSize:16];
     CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
-    CGFloat he = tmpRect.size.height+10;
+    CGFloat he = tmpRect.size.height+25;
     return he;
 }
 
