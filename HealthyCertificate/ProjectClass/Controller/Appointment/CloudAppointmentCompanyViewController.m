@@ -147,7 +147,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _baseInfoTableView.layer.cornerRadius = 5;
     [containerView addSubview:_baseInfoTableView];
     [_baseInfoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.mas_equalTo(containerView);
+        make.left.right.mas_equalTo(containerView);
+        make.top.mas_equalTo(containerView).with.offset(10);
         make.height.mas_equalTo(PXFIT_HEIGHT(96)*2);
     }];
     
@@ -369,8 +370,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     switch (tableView.tag) {
         case TABLEVIEW_BASEINFO:
         {
-            BaseInfoTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([BaseInfoTableViewCell class])
-                                                                          forIndexPath:indexPath];
+            BaseInfoTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
             if (indexPath.row == 0){
                 cell.iconName = @"search_icon";
                 cell.textView.text = _location;
@@ -389,8 +389,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }
         case TABLEVIEW_COMPANYINFO:
         {
-            CloudCompanyAppointmentCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])
-                                                                          forIndexPath:indexPath];
+            CloudCompanyAppointmentCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])];
             if (indexPath.row == 0){
                 cell.textField.placeholder = @"单位名称";
                 cell.textField.text = gCompanyInfo.cUnitName;
@@ -480,14 +479,28 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                     _cityName = city;
                     _location = address;
                     _centerCoordinate = coor;
+                    BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+                    cell.textView.text = _location;
+                    //[tableView reloadData];
                 }];
-#warning 提示，蒋旭待检测
-//                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
-//                [self.parentViewController presentViewController:nav animated:YES completion:nil];
                 [self.navigationController pushViewController:selectAddressViewController animated:YES];
             }else{
-//                [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
-                [self.navigationController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
+                CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
+                if (self.appointmentDateStr == nil){
+                    cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
+                    cloudAppointmentDateVC.endDateString = [[NSDate date] getDateStringWithInternel:2];
+                }
+                else{
+                    cloudAppointmentDateVC.beginDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][0];
+                    cloudAppointmentDateVC.endDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][1];
+                }
+                [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
+                    _appointmentDateStr = dateStr;
+                    BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+                    cell.textView.text = dateStr;
+                    _dateString = dateStr;
+                }];
+                [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
             }
         }
             break;
@@ -508,9 +521,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 weakSelf.customerArr = workerArray;
                 [weakSelf.staffTableView reloadData];
             }];
-#warning 提示，蒋旭待检测
-//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:addworkerViewController];
-//            [self.parentViewController presentViewController:nav animated:YES completion:nil];
             [self.navigationController pushViewController:addworkerViewController animated:YES];
             
         }

@@ -52,7 +52,8 @@
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.top.bottom.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.view).with.offset(kNavigationBarHeight+kStatusBarHeight);
     }];
 }
 

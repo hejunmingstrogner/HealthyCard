@@ -8,7 +8,6 @@
 
 #import "CloudAppointmentDateVC.h"
 
-#import "NavView.h"
 #import "Constants.h"
 #import "HCWheelView.h"
 #import "HealthyCertificateView.h"
@@ -22,12 +21,11 @@
 #define Text_Font FIT_FONTSIZE(24)
 #define Btn_Font FIT_FONTSIZE(23)
 
-@interface CloudAppointmentDateVC()<UITableViewDataSource,UITableViewDelegate,HCWheelViewDelegate,NavViewDelegate>
+@interface CloudAppointmentDateVC()<UITableViewDataSource,UITableViewDelegate,HCWheelViewDelegate>
 {
     HCWheelView             *_beginDateWheelView;
     HCWheelView             *_endDateWheelView;
     UITableView             *_tableView;
-    NavView                 *_navView;
 
     bool                     _isBeginDate;
     
@@ -83,15 +81,7 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    _navView = [[NavView alloc] init];
-    [self.view addSubview:_navView];
-    [_navView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view).with.offset(kStatusBarHeight);
-        make.left.right.mas_equalTo(self.view);
-        make.height.mas_equalTo(kNavigationBarHeight);
-    }];
-    _navView.delegate = self;
-    [_navView setNavTitle:@"预约日期选择"];
+    [self initNavgation];
     
     _tableView = [[UITableView alloc] init];
     _tableView.dataSource = self;
@@ -101,8 +91,7 @@
     _tableView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_navView.mas_bottom);
-        make.left.right.bottom.mas_equalTo(self.view);
+        make.top.left.right.bottom.mas_equalTo(self.view);
         make.height.mas_equalTo(SCREEN_HEIGHT - kNavigationBarHeight - kStatusBarHeight);
     }];
     
@@ -126,6 +115,23 @@
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
     [self initData];
+}
+
+- (void)initNavgation
+{
+    // 返回按钮
+    UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    backbtn.frame = CGRectMake(0, 0, 30, 30);
+    [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    [backbtn addTarget:self action:@selector(dateBackBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
+    self.navigationItem.leftBarButtonItem = backitem;
+    
+    self.title = @"预约日期选择";
+    
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(dateSureBtnClicked:)];
+    self.navigationItem.rightBarButtonItem = rightBtn;
 }
 
 #pragma mark - HCWheelViewDelegate
@@ -201,11 +207,11 @@
 }
 
 #pragma mark - NavViewDelegate
--(void)backBtnClicked{
+-(void)dateBackBtnClicked:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)sureBtnClicked{
+-(void)dateSureBtnClicked:(id)sender{
     _appointmentBlock([NSString combineString:_beginDateString And:_endDateString With:@"~"]);
     [self.navigationController popViewControllerAnimated:YES];
 }
