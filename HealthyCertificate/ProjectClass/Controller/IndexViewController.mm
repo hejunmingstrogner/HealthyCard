@@ -18,7 +18,7 @@
 #import "CloudAppointmentViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
 #import "NSDate+Custom.h"
-
+#import "UIFont+Custom.h"
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
 {
@@ -117,7 +117,7 @@
         make.top.equalTo(headerBtn);
     }];
     titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.font = [UIFont systemFontOfSize:20];
+    titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:20];
     titleLabel.text = @"知康";
     // 待处理按钮
     pendingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -126,15 +126,17 @@
         make.left.equalTo(headerBackGroundView).offset(10);
         make.bottom.equalTo(headerBackGroundView);
         make.height.mas_equalTo(30);
-        make.width.mas_equalTo(110);
+        make.width.mas_equalTo(112);
     }];
     [pendingBtn setTitle:@"待处理项" forState:UIControlStateNormal];
+    pendingBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     pendingBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [pendingBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [pendingBtn addTarget:self action:@selector(pendingWorkClicked) forControlEvents:UIControlEventTouchUpInside];
 
     pendingLabel = [[UILabel alloc]init];
     pendingLabel.textColor = [UIColor redColor];
+    pendingLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     pendingLabel.textAlignment = NSTextAlignmentLeft;
     [headerBackGroundView addSubview:pendingLabel];
     [pendingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -178,6 +180,7 @@
     orderBtn.layer.borderWidth = 2;
     orderBtn.layer.borderColor = [UIColor colorWithRed:70/255.0 green:180/255.0 blue:240/255.0 alpha:1].CGColor;
     [orderBtn setTitle:@"一键预约" forState:UIControlStateNormal];
+    orderBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:18];
     [orderBtn setTitleColor:[UIColor colorWithRed:70/255.0 green:180/255.0 blue:240/255.0 alpha:1] forState:UIControlStateNormal];
     orderBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     [orderBtn addTarget:self action:@selector(orderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -196,7 +199,7 @@
     [addressView addSubview:tijianLabel];
     tijianLabel.text = @"体检地址";
     tijianLabel.textAlignment = NSTextAlignmentCenter;
-    tijianLabel.font = [UIFont systemFontOfSize:14];
+    tijianLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
     [tijianLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(addressView).offset(10);
         make.centerY.equalTo(addressView);
@@ -217,12 +220,12 @@
     addressLabel = [[UILabel alloc]init];
     [addressView addSubview:addressLabel];
     addressLabel.numberOfLines = 0;
-    addressLabel.font = [UIFont systemFontOfSize:15];
+    addressLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
     [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(fengelabel).offset(10);
         make.right.equalTo(addressView).offset(-10);
-        make.top.equalTo(addressView).offset(5);
-        make.bottom.equalTo(addressView).offset(-5);
+        make.top.equalTo(addressView).offset(2);
+        make.bottom.equalTo(addressView).offset(-2);
     }];
 
     // 设置地图view的位置大小
@@ -253,6 +256,7 @@
     }];
     [removeToCurrentLocateBtn addTarget:self action:@selector(removeToCurrentLocate) forControlEvents:UIControlEventTouchUpInside];
 
+    // 刷新
     CustomButton *refresBtn = [[CustomButton alloc]init];
     [self.view addSubview:refresBtn];
     [refresBtn mas_makeConstraints:^(MASConstraintMaker *make) {

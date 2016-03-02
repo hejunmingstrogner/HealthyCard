@@ -37,10 +37,11 @@
 
     _titleLabel = [[UILabel alloc]init];
     [self.contentView addSubview:_titleLabel];
+    _titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_headerimageView.mas_right).offset(10);
         make.bottom.equalTo(self.contentView.mas_centerY);
-        make.top.equalTo(self.contentView);
+        make.top.equalTo(self.contentView).offset(5);
         make.right.equalTo(self.contentView).offset(-10);
     }];
 
@@ -49,7 +50,7 @@
     [_detialeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_centerY);
         make.left.right.equalTo(_titleLabel);
-        make.bottom.equalTo(self.contentView);
+        make.bottom.equalTo(self.contentView).offset(-5);
     }];
     _detialeLabel.font = [UIFont fontWithType:0 size:15];
 }
