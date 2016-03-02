@@ -22,6 +22,11 @@
     [self initSubViews];
 
     [self initData];
+
+    wheelView = [[HCWheelView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height/3)];
+    wheelView.pickerViewContentArr = [NSMutableArray arrayWithArray:@[@"男", @"女"]];
+    wheelView.delegate = self;
+    [self.view addSubview:wheelView];
 }
 
 - (void)initNavgation
@@ -35,11 +40,25 @@
     [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
     self.navigationItem.leftBarButtonItem = backitem;
+
+    UIButton *right = [UIButton buttonWithType:UIButtonTypeCustom];
+    [right setTitle:@"修改" forState:UIControlStateNormal];
+    right.frame = CGRectMake(0, 0, 40, 40);
+    [right setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    right.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
+    [right addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithCustomView:right];
+    self.navigationItem.rightBarButtonItem = rightBtn;
 }
 // 返回前一页
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)rightBtnClicked:(id)sender
+{
+    NSLog(@"修改");
 }
 
 - (void)initSubViews
