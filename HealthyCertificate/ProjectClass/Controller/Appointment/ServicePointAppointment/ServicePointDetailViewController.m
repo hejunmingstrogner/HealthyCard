@@ -42,7 +42,6 @@
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)initData
@@ -178,12 +177,6 @@
     cloudAppoint.sercersPositionInfo = _serverPositionItem;
     cloudAppoint.centerCoordinate = _appointCoordinate;
     cloudAppoint.title = _serverPositionItem.name;
-    if (self.navigationController) {
-        [self.navigationController pushViewController:cloudAppoint animated:YES];
-    }
-    else {
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
-        [self presentViewController:nav animated:YES completion:nil];
-    }
+    [self.navigationController pushViewController:cloudAppoint animated:YES];
 }
 @end

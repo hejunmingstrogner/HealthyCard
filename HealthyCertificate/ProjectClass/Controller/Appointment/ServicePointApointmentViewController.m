@@ -87,14 +87,16 @@
             //固定服务点
             ServicePointDetailViewController* fixedServicePointVC = [[ServicePointDetailViewController alloc] init];
             fixedServicePointVC.serverPositionItem = servicePositionAnnotionsModel;
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:fixedServicePointVC];
-            [wself.parentViewController presentViewController:nav animated:YES completion:nil];
+//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:fixedServicePointVC];
+//            [wself.parentViewController presentViewController:nav animated:YES completion:nil];
+            [wself.navigationController pushViewController:fixedServicePointVC animated:YES];
         }else{
             //移动服务点
             TemperaryServicePDeViewController* movingServicePointVC = [[TemperaryServicePDeViewController alloc] init];
             movingServicePointVC.servicePositionItem = servicePositionAnnotionsModel;
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:movingServicePointVC];
-            [wself.parentViewController presentViewController:nav animated:YES completion:nil];
+//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:movingServicePointVC];
+//            [wself.parentViewController presentViewController:nav animated:YES completion:nil];
+            [wself.navigationController pushViewController:movingServicePointVC animated:YES];
         }
     };
     ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
@@ -135,8 +137,7 @@
                                                [NSDate getHour_MinuteByDate:serverPoint.endTime]];
         }
         cloudAppoint.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
-        [self presentViewController:nav animated:YES completion:nil];
+        [self.navigationController pushViewController:cloudAppoint animated:YES];
     }else{
         //单位
         CloudAppointmentCompanyViewController* companyCloudAppointment = [[CloudAppointmentCompanyViewController alloc] init];
@@ -153,8 +154,7 @@
                                                [NSDate getHour_MinuteByDate:serverPoint.endTime]];
         }
         companyCloudAppointment.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:companyCloudAppointment];
-        [self presentViewController:nav animated:YES completion:nil];
+        [self.navigationController pushViewController:companyCloudAppointment animated:YES];
     }
     
    

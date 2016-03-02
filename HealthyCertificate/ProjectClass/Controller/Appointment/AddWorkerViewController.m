@@ -50,11 +50,7 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    if (_switchStyle == SWITCH_MISS){
-         [self dismissViewControllerAnimated:YES completion:nil];
-    }else{
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)getWorkerArrayWithBlock:(AddWorkerComfirmClicked)block
