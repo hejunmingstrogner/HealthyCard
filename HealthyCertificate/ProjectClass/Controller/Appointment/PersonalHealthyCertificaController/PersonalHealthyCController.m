@@ -11,6 +11,9 @@
 #import "UIFont+Custom.h"
 #import "CloudAppointmentDateVC.h"
 
+#import "EditInfoViewController.h"
+#import "WorkTypeViewController.h"
+
 @implementation PersonalHealthyCController
 
 - (void)viewDidLoad
@@ -213,7 +216,13 @@
 //点击姓名
 -(void)nameBtnClicked:(NSString*)name
 {
-    NSLog(@"点击姓名");
+    EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
+    editInfoViewController.editInfoType = EDITINFO_NAME;
+    __weak typeof (self) wself = self;
+    [editInfoViewController setEditInfoText:name WithBlock:^(NSString *resultStr) {
+        wself.healthCertificateView.name = resultStr;
+    }];
+    [self.navigationController pushViewController:editInfoViewController animated:YES];
 }
 //点击性别
 -(void)sexBtnClicked:(NSString*)gender{
@@ -221,12 +230,23 @@
 }
 //点击行业
 -(void)industryBtnClicked:(NSString*)industry{
-    NSLog(@"点击行业");
+    WorkTypeViewController* workTypeViewController = [[WorkTypeViewController alloc] init];
+    __weak typeof (self) wself = self;
+    workTypeViewController.block = ^(NSString* resultStr){
+        wself.healthCertificateView.workType = resultStr;
+    };
+    [self.navigationController pushViewController:workTypeViewController animated:YES];
 }
 //点击身份证
 -(void)idCardBtnClicked:(NSString*)idCard
 {
-    NSLog(@"点击身份证");
+    EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
+    editInfoViewController.editInfoType = EDITINFO_IDCARD;
+    __weak typeof (self) wself = self;
+    [editInfoViewController setEditInfoText:idCard WithBlock:^(NSString *resultStr) {
+        wself.healthCertificateView.idCard = resultStr;
+    }];
+    [self.navigationController pushViewController:editInfoViewController animated:YES];
 }
 
 @end

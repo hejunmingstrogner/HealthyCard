@@ -140,7 +140,6 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-
     [self initNavgation];
 
     UIScrollView* scrollView = [[UIScrollView alloc] init];
@@ -171,7 +170,7 @@
     [containerView addSubview:_baseInfoTableView];
     [_baseInfoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.mas_equalTo(containerView).with.offset(10);
-        make.right.mas_equalTo(containerView).with.offset(-10);
+        make.right.mas_equalTo(containerView).with.offset(-10) ;
        // make.width.mas_equalTo(SCREEN_WIDTH-20);
         make.height.mas_equalTo(PXFIT_HEIGHT(96)*3);
     }];
@@ -233,6 +232,13 @@
     [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(bottomView.mas_bottom);
     }];
+    
+    //添加手势
+    UITapGestureRecognizer* singleRecognizer;
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
+    singleRecognizer.numberOfTapsRequired = 1; // 单击
+    singleRecognizer.delegate = self;
+    [self.view addGestureRecognizer:singleRecognizer];
     
     _sexWheel = [[HCWheelView alloc] init];
     [self.view addSubview:_sexWheel];
@@ -340,13 +346,22 @@
         }];
         [self.navigationController pushViewController:selectAddressViewController animated:YES];
     }else if (indexPath.row == 1){
-        if (self.navigationController == nil){
-            [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
-        }else{
-            CloudAppointmentDateVC* vc = [[CloudAppointmentDateVC alloc] init];
-            vc.view.backgroundColor = [UIColor whiteColor];
-            [self.navigationController pushViewController:vc animated:YES];
+        CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
+        if (self.appointmentDateStr == nil){
+            cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
+            cloudAppointmentDateVC.endDateString = [[NSDate date] getDateStringWithInternel:2];
         }
+        else{
+            cloudAppointmentDateVC.beginDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][0];
+            cloudAppointmentDateVC.endDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][1];
+        }
+        
+        [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
+            _appointmentDateStr = dateStr;
+            BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+            cell.textView.text = dateStr;
+        }];
+        [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
     }else{
         
     }
