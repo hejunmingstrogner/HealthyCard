@@ -10,6 +10,7 @@
 #import <UIImageView+WebCache.h>
 #import "HttpNetworkManager.h"
 #import "LeftMenuViewHeaderinfoCell.h"
+#import "UIFont+Custom.h"
 
 @interface LeftMenuView ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -119,7 +120,9 @@
         if (indexPath.row != 0) {
             UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"xcell"];
             cell.imageView.image = [UIImage imageNamed:@"kongbai"];
+            cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
             if (indexPath.row != 2) {
+                cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
                 UIButton *switchbutton = [UIButton buttonWithType:UIButtonTypeCustom];
                 [cell.contentView addSubview:switchbutton];
                 [switchbutton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -155,6 +158,7 @@
     }
     cell.imageView.image = [UIImage imageNamed:((LeftMenuCellItem *)_menuItemArray[indexPath.section]).iconName];
     cell.textLabel.text = ((LeftMenuCellItem *)_menuItemArray[indexPath.section]).titleLabelText;
+    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     cell.detailTextLabel.text = ((LeftMenuCellItem *)_menuItemArray[indexPath.section]).detialLabelText;
     return cell;
 }

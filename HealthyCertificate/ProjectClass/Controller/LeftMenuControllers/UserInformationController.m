@@ -13,6 +13,7 @@
 #import "HttpNetworkManager.h"
 #import "HCWheelView.h"
 #import "TakePhoto.h"
+#import "UIFont+Custom.h"
 
 @interface UserInformationController()<UITableViewDataSource, UITableViewDelegate, HCWheelViewDelegate>
 {
@@ -128,6 +129,7 @@
     if (((UserinformationCellItem *)_dataArray[indexPath.row]).itemType == USERINFORMATION_HEADERIMAGE) {
         UITableViewCell *headcell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"head"];
         headcell.textLabel.text = ((UserinformationCellItem *)_dataArray[indexPath.row]).titleLabelText;
+        headcell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
         UIButton *headeimageBtn = [[UIButton alloc]init];
         NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode];
         NSLog(@"%@", str);
@@ -148,9 +150,12 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
         cell.detailTextLabel.textColor = [UIColor blackColor];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
+        cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
     }
     cell.textLabel.text = ((UserinformationCellItem *)_dataArray[indexPath.row]).titleLabelText;
     cell.detailTextLabel.text = ((UserinformationCellItem *)_dataArray[indexPath.row]).detialLabelText;
+
     return cell;
 }
 
