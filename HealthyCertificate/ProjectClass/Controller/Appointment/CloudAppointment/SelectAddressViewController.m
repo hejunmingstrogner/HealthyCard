@@ -113,7 +113,7 @@
 }
 - (void)initSubViews
 {
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
     _addressArray = [NSMutableArray array];
     _selectIndex = -2;
     
@@ -125,8 +125,9 @@
         make.right.equalTo(self.view).offset(5);
         make.height.mas_equalTo(44);
     }];
-    label.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:0.8];
+    label.backgroundColor = [UIColor whiteColor];
     label.layer.borderWidth = 1;
+    label.layer.borderColor = [UIColor colorWithRed:250/255.0 green:250/255.0 blue:250/255.0 alpha:0.8].CGColor;
 
     _textField = [[UITextField alloc]init];
     [self.view addSubview:_textField];
@@ -136,6 +137,7 @@
         make.edges.equalTo(label).insets(UIEdgeInsetsMake(0, 15, 0, 15));
     }];
     [_textField setClearButtonMode:UITextFieldViewModeWhileEditing];
+    _textField.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
 
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];

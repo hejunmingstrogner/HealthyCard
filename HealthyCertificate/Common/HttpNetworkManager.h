@@ -74,7 +74,7 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  */
 - (void)customerUploadPhoto:(UIImage *)photo resultBlock:(HCBoolResultBlock)block;
 
-#pragma mark - 查询信息
+#pragma mark - 查询信息员工
 /**
  *  查询单位所属的员工列表
  *
