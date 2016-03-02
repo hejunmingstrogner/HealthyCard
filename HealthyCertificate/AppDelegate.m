@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "UIFont+Custom.h"
 @interface AppDelegate ()
 
 @end
@@ -20,6 +20,7 @@
     _mapManager = [[BMKMapManager alloc]init];
 
     [[UINavigationBar appearance]setBarTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithType:UIFontOpenSansRegular size:19], NSFontAttributeName, nil]];
 
     BOOL ret = [_mapManager start:@"cRqr5CbUVzB2GkCbYXWXZXp8" generalDelegate:nil];
     if (!ret) {
