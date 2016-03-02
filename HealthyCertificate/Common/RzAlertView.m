@@ -9,6 +9,7 @@
 #import "RzAlertView.h"
 #import "NSDate+Custom.h"
 #import "UILabel+FontColor.h"
+#import "UIFont+Custom.h"
 
 @implementation CustomButton
 
@@ -69,7 +70,7 @@
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.numberOfLines = 0;
-    titleLabel.font = [UIFont systemFontOfSize:17];
+    titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
 
     // 旋转的菊花
     activityView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -221,7 +222,7 @@
     alertlabel.layer.masksToBounds = YES;
     alertlabel.layer.cornerRadius = 5;
     alertlabel.textColor = [UIColor whiteColor];
-    alertlabel.font = [UIFont systemFontOfSize:14];
+    alertlabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
     alertlabel.textAlignment = NSTextAlignmentCenter;
     alertlabel.backgroundColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.6];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -368,7 +369,7 @@
     // 地址
     UILabel *addressLabel = [[UILabel alloc]init];
     [actionSheetView addSubview:addressLabel];
-    addressLabel.font = [UIFont systemFontOfSize:14];
+    addressLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
     [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(actionSheetView);
         make.left.equalTo(green.mas_right).offset(5);
@@ -387,7 +388,7 @@
     //服务时间
     UILabel *servicetimelabel = [[UILabel alloc]init];
     [actionSheetView addSubview:servicetimelabel];
-    servicetimelabel.font = [UIFont systemFontOfSize:14];
+    servicetimelabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
     [servicetimelabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(addressLabel.mas_bottom);
         make.left.equalTo(addressLabel);
@@ -407,11 +408,11 @@
 
     CustomButton *orderBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
     [actionSheetView addSubview:orderBtn];
-    [orderBtn setTitle:@"预约" forState:UIControlStateNormal];
+    [orderBtn setTitle:@"预  约" forState:UIControlStateNormal];
     [orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(green);
         make.right.equalTo(bohao);
-        make.bottom.equalTo(actionSheetView).offset(-5);
+        make.bottom.equalTo(actionSheetView).offset(-10);
         make.top.equalTo(servicetimelabel.mas_bottom).offset(0);
     }];
     orderBtn.layer.masksToBounds = YES;
@@ -419,7 +420,6 @@
     [orderBtn setBackgroundColor:[UIColor colorWithRed:50/255.0 green:240/255.0 blue:50/255.0 alpha:1]];
     [orderBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         // 预约
-        NSLog(@"预约");
         [zhezhao removeFromSuperview];
         [UIView animateWithDuration:0.5 animations:^{
             actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);

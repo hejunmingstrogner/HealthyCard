@@ -8,6 +8,7 @@
 
 #import "WaitDocResultTableViewCell.h"
 #import <Masonry.h>
+#import "UIFont+Custom.h"
 
 @implementation WaitDocResultTableViewCell
 
@@ -29,10 +30,12 @@
         make.center.equalTo(self.contentView);
         make.width.mas_equalTo(self.contentView.frame.size.width/3);
     }];
+    _countAndTimeLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
 
     _titleLabel = [[UILabel alloc]init];
     [self.contentView addSubview:_titleLabel];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(self.contentView);
         make.left.equalTo(self.contentView).offset(20);
@@ -42,6 +45,7 @@
     _statusLabel = [[UILabel alloc]init];
     [self.contentView addSubview:_statusLabel];
     _statusLabel.textAlignment = NSTextAlignmentRight;
+     _statusLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
     [_statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(self.contentView);
         make.left.equalTo(_countAndTimeLabel.mas_right);
