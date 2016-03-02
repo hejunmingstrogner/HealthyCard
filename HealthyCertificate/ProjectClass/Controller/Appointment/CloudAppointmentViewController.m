@@ -39,13 +39,13 @@
 
 #define Button_Size 26
 
-@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate,HCWheelViewDelegate>
+@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate,HCWheelViewDelegate>
 {
     AppointmentInfoView     *_appointmentInfoView;
     
-    UITextField             *_phoneNumTextField;
+    UITextView             *_phoneNumTextView;
 //    UITextField             *_locationTextField;
-    UITextField             *_appointmentDateTextField;
+    UITextView             *_appointmentDateTextView;
     
     UITableView             *_baseInfoTableView;
     
@@ -70,7 +70,7 @@
 }
 
 @property (nonatomic, strong) HealthyCertificateView* healthyCertificateView;
-@property (nonatomic, strong) UITextField* locationTextField;
+@property (nonatomic, strong) UITextView* locationTextView;
 
 @end
 
@@ -79,7 +79,7 @@
 
 #pragma mark - Public Methods
 -(void)hideTheKeyBoard{
-    [_phoneNumTextField resignFirstResponder];
+    [_phoneNumTextView resignFirstResponder];
 }
 
 #pragma mark - Setter & Getter
@@ -94,7 +94,7 @@
 -(void)setAppointmentDateStr:(NSString *)appointmentDateStr
 {
     BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    cell.textField.text = appointmentDateStr;
+    cell.textView.text = appointmentDateStr;
     _appointmentDateStr = appointmentDateStr;
 }
 
@@ -109,7 +109,12 @@
     _sercersPositionInfo = sercersPositionInfo;
     _location = sercersPositionInfo.address;
     
-//    _appointmentDateStr = 
+    if (sercersPositionInfo.type == 0) {
+        _appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)", [NSDate getHour_MinuteByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.endTime/1000]];
+    }
+    else {
+        _appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",  [NSDate getYear_Month_DayByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.endTime/1000]];
+    }
 }
 
 #pragma mark - Life Circle
@@ -282,33 +287,33 @@
     
     if (indexPath.row == 0){
         cell.iconName = @"search_icon";
-        cell.textField.text = _location;
-        cell.textField.enabled = NO;
-        _locationTextField = cell.textField;
+        cell.textView.text = _location;
+        cell.textView.userInteractionEnabled = NO;
+        _locationTextView = cell.textView;
     }else if (indexPath.row == 1){
         cell.iconName = @"date_icon";
         
         if (self.isCustomerServerPoint == NO){
-            cell.textField.text = _appointmentDateStr;
-            cell.textField.enabled = NO;
+            cell.textView.text = _appointmentDateStr;
+            cell.textView.userInteractionEnabled = NO;
         }else{
-            cell.textField.text = [NSString combineString:[[NSDate date] getDateStringWithInternel:1]
+            cell.textView.text = [NSString combineString:[[NSDate date] getDateStringWithInternel:1]
                                                       And:[[NSDate date] getDateStringWithInternel:2]
                                                      With:@"~"];
-            cell.textField.enabled = NO;
+            cell.textView.userInteractionEnabled = NO;
         }
-        _appointmentDateTextField = cell.textField;
+        _appointmentDateTextView = cell.textView;
     }else{
         cell.iconName = @"phone_icon";
-        cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+        cell.textView.keyboardType = UIKeyboardTypeNumberPad;
         if (_customerTestInfo == nil){
-            cell.textField.text = gPersonInfo.StrTel;
+            cell.textView.text = gPersonInfo.StrTel;
         }else{
-            cell.textField.text = _customerTestInfo.linkPhone;
+            cell.textView.text = _customerTestInfo.linkPhone;
         }
         
-        cell.textField.delegate = self;
-        _phoneNumTextField = cell.textField;
+        //cell.textView.delegate = self;
+        _phoneNumTextView = cell.textView;
     }
     return cell;
 }
@@ -318,7 +323,7 @@
     //如果是自主服务点,那么就不可以修改日期和地址
     if (self.isCustomerServerPoint == NO)
     {
-        [_phoneNumTextField resignFirstResponder];
+        [_phoneNumTextView resignFirstResponder];
         return;
     }
     
@@ -330,7 +335,7 @@
         __weak typeof (self) wself = self;
         [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
             wself.cityName = city;
-            wself.locationTextField.text = address;
+            wself.locationTextView.text = address;
             wself.centerCoordinate = coor;
         }];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
@@ -362,7 +367,7 @@
             CloudAppointmentDateVC* cloudAppointmentDateVC = (CloudAppointmentDateVC*)destinationViewController;
             [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
                BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
-                cell.textField.text = dateStr;
+                cell.textView.text = dateStr;
             }];
         }
     }
@@ -398,16 +403,16 @@
     if (_isCustomerServerPoint){
         //如果是新建的预约 云预约
         
-        NSArray* array = [_appointmentDateTextField.text  componentsSeparatedByString:@"~"];
+        NSArray* array = [_appointmentDateTextView.text  componentsSeparatedByString:@"~"];
         _customerTestInfo.regBeginDate = [array[0] convertDateStrToLongLong];
         _customerTestInfo.regEndDate = [array[0] convertDateStrToLongLong];
-        _customerTestInfo.regPosAddr = _locationTextField.text; //预约地点
+        _customerTestInfo.regPosAddr = _locationTextView.text; //预约地点
         
         PositionUtil *posit = [[PositionUtil alloc] init];
         CLLocationCoordinate2D coor = [posit bd2wgs:self.centerCoordinate.latitude lon:self.centerCoordinate.longitude];
         _customerTestInfo.regPosLA = coor.latitude;
         _customerTestInfo.regPosLO = coor.longitude;
-        _customerTestInfo.linkPhone = _phoneNumTextField.text;
+        _customerTestInfo.linkPhone = _phoneNumTextView.text;
         
     }else{
         //如果是基于已有服务点的预约
@@ -463,7 +468,7 @@
 - (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
 {
     if (![recognizer.view isKindOfClass:[UITextField class]]){
-        [_phoneNumTextField resignFirstResponder];
+        [_phoneNumTextView resignFirstResponder];
     }
 }
 
@@ -492,6 +497,8 @@
         return YES;
     }
 }
+
+
 
 #pragma mark - UIGestureRecognizerDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
