@@ -79,14 +79,19 @@
         make.height.mas_equalTo(kNavigationBarHeight);
     }];
     
-    UIButton* backBtn = [UIButton buttonWithNormalImageName:@"back" highlightImageName:@"back"];
-    [navView addSubview:backBtn];
-    [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+   // UIButton* backBtn = [UIButton buttonWithNormalImageName:@"back" highlightImageName:@"back"];
+    [navView addSubview:backbtn];
+    [backbtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(navView);
         make.left.mas_equalTo(navView.mas_left).with.offset(16);
+        make.height.mas_equalTo(30);
+        make.width.mas_equalTo(30);
     }];
-    backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
-    [backBtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    backbtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    [backbtn addTarget:self action:@selector(backBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     
     NSArray* segArr = [[NSArray alloc] initWithObjects:@"云预约", @"服务点", nil];
@@ -111,7 +116,7 @@
     [navView addSubview:QRScanButton];
     [QRScanButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(navView);
-        make.right.mas_equalTo(navView.mas_right).with.offset(-8);
+        make.right.mas_equalTo(navView.mas_right).with.offset(-16);
     }];
     
     self.currentView = [[UIView alloc] init];

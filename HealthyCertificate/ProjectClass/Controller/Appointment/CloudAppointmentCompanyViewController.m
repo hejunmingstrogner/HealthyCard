@@ -96,6 +96,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 {
     _sercersPositionInfo = sercersPositionInfo;
     _location = sercersPositionInfo.address;
+    if (sercersPositionInfo.type == 0) {
+        _appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)", [NSDate getHour_MinuteByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.endTime/1000]];
+    }
+    else {
+        _appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",  [NSDate getYear_Month_DayByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.endTime/1000]];
+    }
 }
 
 #pragma mark - Public Methods
@@ -244,7 +250,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backbtn.frame = CGRectMake(0, 0, 30, 30);
     [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 10);
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
     self.navigationItem.leftBarButtonItem = backitem;
@@ -263,11 +269,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 #pragma mark - Action
 -(void)appointmentBtnClicked:(id)sender
 {
-    NSArray *dateArray = [_dateStrField.text componentsSeparatedByString:@"~"];
-    if (dateArray.count == 0) {
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"你还未填写预约时间" removeDelay:3];
-        return ;
-    }
     if(_brContract == nil)
     {
         _brContract = [[BRContract alloc]init];
@@ -308,8 +309,19 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _brContract.regPosAddr = _location;
     _brContract.regTime = [[NSDate date] timeIntervalSince1970];
 
-    _brContract.regBeginDate = [dateArray[0] convertDateStrToLongLong];
-    _brContract.regEndDate = [dateArray[1] convertDateStrToLongLong];
+    if (_sercersPositionInfo) {
+        _brContract.regBeginDate = _sercersPositionInfo.startTime;
+        _brContract.regEndDate = _sercersPositionInfo.endTime;
+    }
+    else {
+        NSArray *dateArray = [_dateStrField.text componentsSeparatedByString:@"~"];
+        if (dateArray.count == 0) {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"你还未填写预约时间" removeDelay:3];
+            return ;
+        }
+        _brContract.regBeginDate = [dateArray[0] convertDateStrToLongLong];
+        _brContract.regEndDate = [dateArray[1] convertDateStrToLongLong];
+    }
     _brContract.linkUser = _contactPersonField.text;
     _brContract.linkPhone = gCompanyInfo.cLinkPhone;
     _brContract.cityName = _cityName;
@@ -535,24 +547,23 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 -(void)keyboardWillShow:(NSNotification *)notification
 {
     CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
-    [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
     _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
 
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
         //self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
-        [self.view layoutIfNeeded];
-        
+        //[self.view layoutIfNeeded];
     } completion:NULL];
 }
 
 -(void)keyboardWillHide:(NSNotification *)notification
 {
     CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
-    [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
-        [self.view layoutIfNeeded];
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+        //[self.view layoutIfNeeded];
     } completion:NULL];
 }
 @end

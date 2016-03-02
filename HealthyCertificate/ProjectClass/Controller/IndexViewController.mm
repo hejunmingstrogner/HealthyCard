@@ -126,7 +126,7 @@
         make.left.equalTo(headerBackGroundView).offset(10);
         make.bottom.equalTo(headerBackGroundView);
         make.height.mas_equalTo(30);
-        make.width.mas_equalTo(90);
+        make.width.mas_equalTo(110);
     }];
     [pendingBtn setTitle:@"待处理项" forState:UIControlStateNormal];
     pendingBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -135,11 +135,11 @@
 
     pendingLabel = [[UILabel alloc]init];
     pendingLabel.textColor = [UIColor redColor];
-    pendingLabel.textAlignment = NSTextAlignmentRight;
+    pendingLabel.textAlignment = NSTextAlignmentLeft;
     [headerBackGroundView addSubview:pendingLabel];
     [pendingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.right.equalTo(pendingBtn);
-        make.width.equalTo(pendingLabel.mas_height);
+        make.width.equalTo(pendingLabel.mas_height).offset(10);
     }];
 
     // 最近服务点的位置按钮
@@ -261,7 +261,9 @@
     }];
     [refresBtn setImage:[UIImage imageNamed:@"shuaxindata"] forState:UIControlStateNormal];
     [refresBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        [self getCheckListData];
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新数据中..." removeDelay:2];
+        [self getCheckListData];    // 刷新待处理项
+        [self getAdress];           // 刷新体检地址
     }];
 }
 
@@ -426,10 +428,10 @@
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:checkcontroller];
     [self presentViewController:nav animated:YES completion:nil];
 }
+#pragma mark -最近服务点 点击
 // 最近的服务
 - (void)minDistanceBtnClicked
 {
-    NSLog(@"最近距离服务");
     if (nearbyServicePositionsArray.count == 0) {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"附近没有服务点" removeDelay:2];
         return ;
@@ -447,6 +449,8 @@
         CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
         cloudAppointCompany.sercersPositionInfo = nearbyServicePositionsArray[0];
         cloudAppointCompany.centerCoordinate = _mapView.centerCoordinate;
+        cloudAppointCompany.cityName = currentCityName;
+        cloudAppointCompany.isCustomerServerPoint = NO;
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppointCompany];
         cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
         [self presentViewController:nav animated:YES completion:nil];

@@ -14,10 +14,13 @@
 #import "BRContractTableFootCell.h"
 #import "PersonalHealthyCController.h"
 #import "CloudAppointmentCompanyViewController.h"
+#import "HttpNetworkManager.h"
 
 @interface MyCheckListViewController()
 {
     NSMutableArray *checkDataArray;
+    RzAlertView *waitAlertView;
+    UIRefreshControl *refreashController;
 }
 
 @end
@@ -33,8 +36,36 @@
     [self initNavgation];
 
     [self initSubViews];
+
+    [self getCheckData];
 }
 
+- (void)getCheckData{
+    if (checkDataArray.count != 0) {
+        return ;
+    }
+    if (waitAlertView == nil) {
+        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据加载中..."];
+    }
+    [waitAlertView show];
+    [[HttpNetworkManager getInstance] getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
+        if (error) {
+            waitAlertView.titleLabel.text = @"数据加载出错，请刷新试试";
+        }
+        if (_userType == 1) {
+            checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
+        }
+        else if (_userType == 2) {
+            checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
+        }
+        [_tableView reloadData];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            waitAlertView.titleLabel.text = @"数据加载中...";
+            [waitAlertView close];
+        });
+
+    }];
+}
 
 - (void)initNavgation
 {
@@ -43,7 +74,7 @@
     UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     backbtn.frame = CGRectMake(0, 0, 30, 30);
     [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 10);
+    backbtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
     self.navigationItem.leftBarButtonItem = backitem;
@@ -64,6 +95,37 @@
 
     _tableView.dataSource = self;
     _tableView.delegate = self;
+
+    refreashController = [[UIRefreshControl alloc]init];
+    refreashController.tintColor = [UIColor lightGrayColor];
+    refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新数据"];
+    [refreashController addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
+    [_tableView addSubview:refreashController];
+}
+
+- (void)refreshData {
+    refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新中。。。"];
+    [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
+        if (error) {
+            refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"加载出错,请重试."];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [refreashController endRefreshing];
+                refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新数据"];
+            });
+            return ;
+        }
+        if (_userType == 1) {
+            checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
+        }
+        else if (_userType == 2) {
+            checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
+        }
+        [_tableView reloadData];
+        [refreashController endRefreshing];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新数据"];
+        });
+    }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
