@@ -55,8 +55,6 @@
         make.bottom.mas_equalTo(self.view);
         make.top.mas_equalTo(self.view).with.offset(kNavigationBarHeight+kStatusBarHeight);
     }];
-    
-    
 }
 
 #pragma mark - Setter & Getter
