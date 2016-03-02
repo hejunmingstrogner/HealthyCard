@@ -477,28 +477,8 @@
         PositionUtil *posit = [[PositionUtil alloc]init];
         CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
         controller.centerCoordinate = coor;
-        
-       // [self addChildViewController:controller];
-        [self addChildViewController:controller];
-        
-//        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:controller];//先将root添加在navigation上
-//        [self. setRootViewController:nav];
-        
-        [controller.parentViewController.navigationController pushViewController:controller animated:YES];
-       // [self presentViewController:<#(nonnull UIViewController *)#> animated:<#(BOOL)#> completion:<#^(void)completion#>]
-        //[self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
-        
-        /*
-         AppointmentViewController* controller = (AppointmentViewController*)segue.destinationViewController;
-         controller.location = addressLabel.text;
-         controller.nearbyServicePointsArray = nearbyServicePositionsArray;
-         controller.cityName = currentCityName;
-         
-         // 将百度地图左边转换为gps坐标
-         PositionUtil *posit = [[PositionUtil alloc]init];
-         CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
-         controller.centerCoordinate = coor;
-         */
+
+        [self.navigationController pushViewController:controller animated:YES];
     }
 }
 // 点击了头像,显示左侧菜单
