@@ -526,7 +526,7 @@
  */
 - (void)didFailToLocateUserWithError:(NSError *)error
 {
-    [RzAlertView showAlertLabelWithTarget:self.view Message:@"定位失败,请检查网络后重试" removeDelay:2];
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"请检查网络并打开GPS定位后重试" removeDelay:2];
     [_locationServer startUserLocationService];
 }
 
