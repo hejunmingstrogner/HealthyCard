@@ -10,6 +10,7 @@
 #import <Masonry.h>
 #import "NSString+Count.h"
 #import "NSDate+Custom.h"
+#import "UIFont+Custom.h"
 
 @interface CustomerTestTableViewCell()
 {
@@ -44,6 +45,7 @@
     UILabel *name = [[UILabel alloc]init];
     name.text = @"姓名:";
     [self.contentView addSubview:name];
+    name.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     [name mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView).offset(5);
         make.left.equalTo(headerimageView.mas_right).offset(10);
@@ -53,7 +55,7 @@
 
     nameLabel = [[UILabel alloc]init];
     [self.contentView addSubview:nameLabel];
-    nameLabel.font = [UIFont systemFontOfSize:14];
+    nameLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];;
     nameLabel.textColor = [UIColor grayColor];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(name);
@@ -64,13 +66,14 @@
     UILabel *sex = [[UILabel alloc]init];
     [self.contentView addSubview:sex];
     sex.text = @"性别:";
+    sex.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     [sex mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.width.equalTo(name);
         make.left.equalTo(nameLabel.mas_right).offset(10);
     }];
     sexLabel = [[UILabel alloc]init];
     [self.contentView addSubview:sexLabel];
-    sexLabel.font = [UIFont systemFontOfSize:14];
+    sexLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
     sexLabel.textColor = [UIColor grayColor];
     [sexLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(nameLabel);
@@ -80,6 +83,7 @@
 
     UILabel *old = [[UILabel alloc]init];
     old.text = @"年龄:";
+    old.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     [self.contentView addSubview:old];
     [old mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.width.equalTo(name);
@@ -88,7 +92,7 @@
 
     oldLabel = [[UILabel alloc]init];
     [self.contentView addSubview:oldLabel];
-    oldLabel.font = [UIFont systemFontOfSize:14];
+    oldLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];;
     oldLabel.textColor = [UIColor grayColor];
     [oldLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(nameLabel);
@@ -98,6 +102,7 @@
 
     UILabel *serviceDate = [[UILabel alloc]init];
     serviceDate.text = @"服务时间:";
+    serviceDate.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     [self.contentView addSubview:serviceDate];
     [serviceDate mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView).offset(-5);
@@ -105,7 +110,7 @@
         make.width.mas_equalTo(80);
     }];
     serviceTimeLabel = [[UILabel alloc]init];
-    serviceTimeLabel.font = [UIFont systemFontOfSize:14];
+    serviceTimeLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];;
     serviceTimeLabel.textColor = [UIColor grayColor];
     [self.contentView addSubview:serviceTimeLabel];
     [serviceTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -117,6 +122,7 @@
 
     UILabel *serviceAddress = [[UILabel alloc]init];
     serviceAddress.text = @"服务地址:";
+    serviceAddress.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     [self.contentView addSubview:serviceAddress];
     [serviceAddress mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(name.mas_bottom).offset(5);
@@ -127,7 +133,7 @@
 
     serviceAddressLabel = [[UILabel alloc]init];
     [self.contentView addSubview:serviceAddressLabel];
-    serviceAddressLabel.font = [UIFont systemFontOfSize:14];
+    serviceAddressLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];;
     serviceAddressLabel.textColor = [UIColor grayColor];
     [serviceAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(serviceAddress);
