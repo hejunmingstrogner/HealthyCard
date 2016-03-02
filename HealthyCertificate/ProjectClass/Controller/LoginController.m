@@ -22,6 +22,8 @@
 #import "QueueServerInfo.h"
 #import "UIScreen+Type.h"
 
+#import "IndexViewController.h"
+
 #define LoginButtonColor 0x0097ed
 #define LoginButtonPlaceHolderColor 186
 
@@ -223,7 +225,10 @@
 -(void)getLoginInfoSucceed{
     //因为现在是异步队列，所以不能在该函数里面操作ui线程
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
+       // [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
+        IndexViewController* indexViewController = [[IndexViewController alloc] init];
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:indexViewController];
+        [self presentViewController:nav animated:YES completion:nil];
     });
 }
 
