@@ -11,12 +11,15 @@
 #import <Masonry.h>
 
 #import "UIColor+Expanded.h"
+#import "UIFont+Custom.h"
 #import "Constants.h"
 
 #define Back_Ground_Color 0xfafafa
 
+#define LineEditFont FIT_FONTSIZE(30)
+
 ///@property (nonatomic ,copy) EditInfoBlock resultBlock;
-@interface EditInfoViewController ()
+@interface EditInfoViewController () <UITextFieldDelegate>
 {
     UITextField         *_textField;
     EditInfoBlock       _block;
@@ -43,7 +46,7 @@
     [self initNavgationBar];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor colorWithRGBHex:Back_Ground_Color];
+    self.view.backgroundColor = MO_RGBCOLOR(240, 240, 242);
     
     UIView* textFieldBackView = [[UIView alloc] init];
     textFieldBackView.backgroundColor = [UIColor whiteColor];
@@ -56,7 +59,10 @@
     
     _textField = [[UITextField alloc] init];
     _textField.backgroundColor = [UIColor whiteColor];
+    _textField.font = [UIFont fontWithType:UIFontOpenSansRegular size:LineEditFont];
     _textField.text = _editInfoStr;
+    _textField.delegate = self;
+    _textField.returnKeyType = UIReturnKeyDone;
     [textFieldBackView addSubview:_textField];
     [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(textFieldBackView).with.offset(PXFIT_WIDTH(20));
@@ -122,6 +128,13 @@
 -(void)backToPre:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UITextFiled Delegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return  YES;
 }
 
 @end

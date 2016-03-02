@@ -29,20 +29,26 @@
 -(void)setIconName:(NSString *)iconName{
     UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:iconName]];
     [self addSubview:imageView];
+    
+    self.textView = [[UITextView alloc] init];
+    self.textView.textColor = [UIColor blackColor];
+    self.textView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
+    [self addSubview:self.textView];
+    
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self);
         make.left.mas_equalTo(self).with.offset(10);
+        make.right.mas_equalTo(self.textView.mas_left).with.offset(-10);
     }];
+    [imageView setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
     
-    self.textField = [[UITextField alloc] init];
-    self.textField.textColor = [UIColor blackColor];
-    self.textField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
-    [self addSubview:self.textField];
-    [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+   // self.textView.backgroundColor = [UIColor greenColor];
+    [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self);
-        make.left.mas_equalTo(imageView.mas_right).with.offset(10);
+       // make.width.mas_equalTo(200);
+//        make.right.lessThanOrEqualTo(self.mas_right).with.offset(-10);
         make.width.mas_equalTo(self.frame.size.width-20-imageView.frame.size.width);
-        make.height.mas_equalTo(self.frame.size.height - 2);
+        make.height.mas_equalTo(self.frame.size.height-2);
     }];
 }
 

@@ -11,6 +11,6 @@
 @interface BaseInfoTableViewCell : UITableViewCell
 
 @property (nonatomic, copy) NSString        *iconName;
-@property (nonatomic, strong) UITextField   *textField;
+@property (nonatomic, strong) UITextView    *textView;
 
 @end

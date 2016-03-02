@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     BOOL                 _isFirstShown;
     CGFloat              _viewHeight;
 
-    UITextField         *_dateStrField;
+    UITextView         *_dateStrTextView;
 }
 
 //选择的员工列表
@@ -82,7 +82,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
 -(void)setAppointmentDateStr:(NSString *)appointmentDateStr{
     BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    cell.textField.text = appointmentDateStr;
+    cell.textView.text = appointmentDateStr;
     _appointmentDateStr = appointmentDateStr;
 }
 
@@ -314,7 +314,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         _brContract.regEndDate = _sercersPositionInfo.endTime;
     }
     else {
-        NSArray *dateArray = [_dateStrField.text componentsSeparatedByString:@"~"];
+        NSArray *dateArray = [_dateStrTextView.text componentsSeparatedByString:@"~"];
         if (dateArray.count == 0) {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"你还未填写预约时间" removeDelay:3];
             return ;
@@ -374,17 +374,17 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                                                                           forIndexPath:indexPath];
             if (indexPath.row == 0){
                 cell.iconName = @"search_icon";
-                cell.textField.text = _location;
-                cell.textField.enabled = NO;
+                cell.textView.text = _location;
+                cell.textView.userInteractionEnabled = NO;
             }else{
                 cell.iconName = @"date_icon";
                 if (self.isCustomerServerPoint == NO){
-                    cell.textField.text = self.appointmentDateStr;
+                    cell.textView.text = self.appointmentDateStr;
                 }else{
-                    cell.textField.text = _dateString;
+                    cell.textView.text = _dateString;
                 }
-                cell.textField.enabled = NO;
-                _dateStrField = cell.textField;
+                cell.textView.userInteractionEnabled = NO;
+                _dateStrTextView = cell.textView;
             }
             return cell;
         }

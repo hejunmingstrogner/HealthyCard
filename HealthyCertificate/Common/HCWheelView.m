@@ -13,9 +13,12 @@
 #import "UIButton+Easy.h"
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
+#import "UIButton+HitTest.h"
 
 #define Text_Font FIT_FONTSIZE(24)
 #define Btn_Font FIT_FONTSIZE(23)
+
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface HCWheelView()<UIPickerViewDataSource, UIPickerViewAccessibilityDelegate>
 {
@@ -37,6 +40,7 @@
             make.left.mas_equalTo(self).with.offset(PXFIT_WIDTH(48));
             make.top.mas_equalTo(self).with.offset(PXFIT_HEIGHT(24));
         }];
+        sureBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
         [sureBtn addTarget:self action:@selector(sureBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton* cancelBtn = [UIButton buttonWithTitle:@"取消"
@@ -49,6 +53,7 @@
             make.centerY.mas_equalTo(sureBtn);
             make.height.mas_equalTo(sureBtn);
         }];
+        cancelBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
         [cancelBtn addTarget:self action:@selector(cancelBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         _pickerView = [[UIPickerView alloc] init];
