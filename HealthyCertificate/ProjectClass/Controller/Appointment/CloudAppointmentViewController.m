@@ -136,7 +136,6 @@
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)viewDidLoad{
@@ -339,15 +338,14 @@
             wself.locationTextView.text = address;
             wself.centerCoordinate = coor;
         }];
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:selectAddressViewController];
-        [self.parentViewController presentViewController:nav animated:YES completion:nil];
+        [self.navigationController pushViewController:selectAddressViewController animated:YES];
     }else if (indexPath.row == 1){
         if (self.navigationController == nil){
             [self.parentViewController performSegueWithIdentifier:@"ChooseDateIdentifier" sender:self];
         }else{
             CloudAppointmentDateVC* vc = [[CloudAppointmentDateVC alloc] init];
             vc.view.backgroundColor = [UIColor whiteColor];
-            [self presentViewController:vc animated:YES completion:nil];
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }else{
         
@@ -448,8 +446,9 @@
                 }];
             }else{
                 MyCheckListViewController* myCheckListViewController = [[MyCheckListViewController alloc] init];
-                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:myCheckListViewController];
-                [self.parentViewController presentViewController:nav animated:YES completion:nil];
+//                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:myCheckListViewController];
+//                [self.parentViewController presentViewController:nav animated:YES completion:nil];
+                [self.navigationController pushViewController:myCheckListViewController animated:YES];
 
             }
 //            //预约成功 继续请求健康证照片
@@ -545,9 +544,7 @@
     [editInfoViewController setEditInfoText:name WithBlock:^(NSString *resultStr) {
         wself.healthyCertificateView.name = resultStr;
     }];
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:editInfoViewController];
-    [self presentViewController:nav animated:YES completion:nil];
-    
+    [self.navigationController pushViewController:editInfoViewController animated:YES];
 }
 
 -(void)sexBtnClicked:(NSString *)gender
@@ -568,8 +565,7 @@
     workTypeViewController.block = ^(NSString* resultStr){
         wself.healthyCertificateView.workType = resultStr;
     };
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:workTypeViewController];
-    [self presentViewController:nav animated:YES completion:nil];
+    [self.navigationController pushViewController:workTypeViewController animated:YES];
 }
 
 -(void)idCardBtnClicked:(NSString *)idCard
@@ -580,8 +576,7 @@
     [editInfoViewController setEditInfoText:idCard WithBlock:^(NSString *resultStr) {
         wself.healthyCertificateView.idCard = resultStr;
     }];
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:editInfoViewController];
-    [self presentViewController:nav animated:YES completion:nil];
+    [self.navigationController pushViewController:editInfoViewController animated:YES];
 
 }
 

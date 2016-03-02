@@ -122,12 +122,12 @@
 -(void)completeBtnClicked:(id)sender
 {
     _block(_textField.text);
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)backToPre:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UITextFiled Delegate

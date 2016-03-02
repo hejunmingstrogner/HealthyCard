@@ -54,7 +54,7 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

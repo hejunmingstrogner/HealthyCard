@@ -173,7 +173,7 @@
         [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
             [weaktimeBtn setTitle:dateStr forState:UIControlStateNormal];
         }];
-        [weakself presentViewController:cloudData animated:YES completion:nil];
+        [weakself.navigationController pushViewController:cloudData animated:YES];
     }];
     [_orderinforView.phoneBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         // 点击电话

@@ -196,13 +196,8 @@
     cloudAppoint.sercersPositionInfo = _servicePositionItem;
     cloudAppoint.centerCoordinate = _appointCoordinate;
     cloudAppoint.title = _servicePositionItem.name;
-    if (self.navigationController) {
-        [self.navigationController pushViewController:cloudAppoint animated:YES];
-    }
-    else {
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
-        [self presentViewController:nav animated:YES completion:nil];
-    }
+
+    [self.navigationController pushViewController:cloudAppoint animated:YES];
 }
 
 @end
