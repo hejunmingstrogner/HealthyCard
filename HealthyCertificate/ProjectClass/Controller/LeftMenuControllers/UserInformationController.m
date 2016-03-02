@@ -14,6 +14,7 @@
 #import "HCWheelView.h"
 #import "TakePhoto.h"
 #import "UIFont+Custom.h"
+#import "SelectCompanyViewController.h"
 
 @interface UserInformationController()<UITableViewDataSource, UITableViewDelegate, HCWheelViewDelegate>
 {
@@ -164,7 +165,6 @@
     switch (((UserinformationCellItem *)_dataArray[indexPath.row]).itemType) {
         case USERINFORMATION_HEADERIMAGE:{
             return;
-            break;
         }
         case USERINFORMATION_NAME:{
             break;
@@ -180,16 +180,24 @@
         }
         case USERINFORMATION_TELPHONENO:{
             return;
-            break;
         }
         case USERINFORMATION_IDCARD:{
             break;
         }
         case USERINFORMATION_CALLING:{
             return;
-            break;
         }
         case USERINFORMATION_WORKUNITNAME:{
+            if (GetUserType == 1) {
+                SelectCompanyViewController *select = [[SelectCompanyViewController alloc]init];
+                select.companyName = ((UserinformationCellItem *)_dataArray[indexPath.row]).detialLabelText;
+                [select isupdataCompany:^(NSString *text) {
+                    [self getdata];
+                    [_tableView reloadData];
+                }];
+                [self.navigationController pushViewController:select animated:YES];
+                return;
+            }
             break;
         }
         case USERINFORMATION_WORKUNITADRESS:{

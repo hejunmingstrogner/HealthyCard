@@ -13,6 +13,7 @@
 #import "PositionUtil.h"
 #import "MethodResult.h"
 #import "WorkTypeInfoModel.h"
+#import "BRServiceUnit.h"
 
 @interface HttpNetworkManager()
 
@@ -351,4 +352,26 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         }
     }];
 }
+
+#pragma mark 根据名字模糊查询单位信息
+- (void)fuzzQueryBRServiceUnitsByName:(NSString *)companyName resultBlock:(HCArrayResultBlock)block
+{
+    NSString *url = [NSString stringWithFormat:@"brServiceUnit/fuzzyQueryByName?name=%@&maxReturnSize=10", companyName];
+    NSString *newurl = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    [self.sharedClient GET:newurl parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *dataArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            BRServiceUnit *brservice = [BRServiceUnit mj_objectWithKeyValues:dict];
+            [dataArray addObject:brservice];
+        }
+        if (block) {
+            block(dataArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (block) {
+            block(nil, error);
+        }
+    }];
+}
+
 @end
