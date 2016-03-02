@@ -84,7 +84,7 @@
 {
     _mapView = [[BMKMapView alloc]init];
     [self.view addSubview:_mapView];
-
+    self.view.backgroundColor = [UIColor whiteColor];
     // 头部的背景
     UIView *headerBackGroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 74)];
     headerBackGroundView.backgroundColor = [UIColor whiteColor];
@@ -344,8 +344,7 @@
             NSLog(@"用户信息");
             UserInformationController *userinfor = [[UserInformationController alloc]init];
             userinfor.delegate = self;
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:userinfor];
-            [self presentViewController:nav animated:YES completion:nil];
+            [self.navigationController pushViewController:userinfor animated:YES];
             break;
         }
         case LEFTMENUCELL_HISTORYRECORD:
@@ -357,8 +356,7 @@
         case LEFTMENUCELL_NOTICE:{
             NSLog(@"体检注意事项");
             PhysicalExaminationViewController *phy = [[PhysicalExaminationViewController alloc]init];
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:phy];
-            [self presentViewController:nav animated:YES completion:nil];
+            [self.navigationController pushViewController:phy animated:YES];
             break;
         }
         case LEFTMENUCELL_SHARE:
@@ -367,15 +365,13 @@
         case LEFTMENUCELL_ABOUTUS:{
             NSLog(@"关于我们");
             AboutUsViewController *aboutUs = [[AboutUsViewController alloc]init];
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:aboutUs];
-            [self presentViewController:nav animated: YES completion:nil];
+            [self.navigationController pushViewController:aboutUs animated:YES];
             break;
         }
         case LEFTMENUCELL_ADVICE:{
             NSLog(@"意见或建议");
             AdviceViewController *advice = [[AdviceViewController alloc]init];
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:advice];
-            [self presentViewController:nav animated:YES completion:nil];
+            [self.navigationController pushViewController:advice animated:YES];
             break;
         }
         case LEFTMENUCELL_EXIT:
@@ -401,6 +397,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
     [_mapView viewWillAppear];
     _mapView.delegate = self;
     _locationServer.delegate = self;
@@ -408,6 +406,9 @@
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+
     [_mapView viewWillDisappear];
     _mapView.delegate = nil;
     _locationServer.delegate = nil;
@@ -429,8 +430,7 @@
     }
     MyCheckListViewController *checkcontroller = [[MyCheckListViewController alloc]init];
     checkcontroller.checkDataArray = [NSMutableArray arrayWithArray:checkListData];
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:checkcontroller];
-    [self presentViewController:nav animated:YES completion:nil];
+    [self.navigationController pushViewController:checkcontroller animated:YES];
 }
 #pragma mark -最近服务点 点击
 // 最近的服务
@@ -445,9 +445,8 @@
         cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[0];
         cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
         cloudAppoint.isCustomerServerPoint = NO; //固定服务点预约
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
         cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
-        [self presentViewController:nav animated:YES completion:nil];
+        [self.navigationController pushViewController:cloudAppoint animated:YES];
     }
     else {                      // 单位
         CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
@@ -455,9 +454,8 @@
         cloudAppointCompany.centerCoordinate = _mapView.centerCoordinate;
         cloudAppointCompany.cityName = currentCityName;
         cloudAppointCompany.isCustomerServerPoint = NO;
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppointCompany];
         cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
-        [self presentViewController:nav animated:YES completion:nil];
+        [self.navigationController pushViewController:cloudAppointCompany animated:YES];
     }
 
 }
@@ -649,9 +647,8 @@
                 CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
                 cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[anno.tag];
                 cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
-                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:cloudAppoint];
                 cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
-                [self presentViewController:nav animated:YES completion:nil];
+                [self.navigationController pushViewController:cloudAppoint animated:YES];
             }
             else if(flag == 2){
                 // 移动服务点
@@ -659,15 +656,13 @@
                     TemperaryServicePDeViewController *serviceDetailcon = [[TemperaryServicePDeViewController alloc]init];
                     serviceDetailcon.servicePositionItem = nearbyServicePositionsArray[anno.tag];
                     serviceDetailcon.appointCoordinate = _mapView.centerCoordinate;
-                    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:serviceDetailcon];
-                    [self presentViewController:nav animated:YES completion:nil];
+                    [self.navigationController pushViewController:serviceDetailcon animated:YES];
                 }
                 else { // 固定服务点
                     ServicePointDetailViewController *servicedetial = [[ServicePointDetailViewController alloc]init];
                     servicedetial.serverPositionItem = nearbyServicePositionsArray[anno.tag];
                     servicedetial.appointCoordinate = _mapView.centerCoordinate;
-                    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:servicedetial];
-                    [self presentViewController:nav animated:YES completion:nil];
+                    [self.navigationController pushViewController:servicedetial animated:YES];
                 }
             }
             else if(flag == 3){
