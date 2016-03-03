@@ -13,6 +13,7 @@
 #import "UIColor+Expanded.h"
 #import "UIFont+Custom.h"
 #import "Constants.h"
+#import "RzAlertView.h"
 
 #define Back_Ground_Color 0xfafafa
 
@@ -81,6 +82,13 @@
         {
             self.title = @"身份证号码修改";
             _textField.placeholder = @"请输入身份证号码";
+            break;
+        }
+        case EDITINFO_LINKPHONE:{
+            self.title = @"电话号码修改";
+            _textField.placeholder = @"请输入电话号码";
+            _textField.keyboardType = UIKeyboardTypeNumberPad;
+            break;
         }
         default:
             break;
@@ -121,7 +129,16 @@
 #pragma mark - Action
 -(void)completeBtnClicked:(id)sender
 {
-    _block(_textField.text);
+    // 电话号码
+    if (_editInfoType == EDITINFO_LINKPHONE) {
+        if (_textField.text.length == 11) {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"电话号码位数不正确" removeDelay:3];
+            return;
+        }
+    }
+    if (_block) {
+        _block(_textField.text);
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -43,9 +43,9 @@
     [self addSubview:_segmentControl];
     [_segmentControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.top.equalTo(self).offset(5);
+        make.top.equalTo(self).offset(10);
         make.width.mas_equalTo(self.frame.size.width/2);
-        make.height.mas_equalTo(self.frame.size.height/4-10);
+        make.height.mas_equalTo(self.frame.size.height/4-20);
     }];
     _segmentControl.selectedSegmentIndex = 0;
     _segmentControl.tintColor = [UIColor colorWithRed:30/255.0 green:150/255.0 blue:200/255.0 alpha:1];
@@ -151,7 +151,7 @@
         else {
             [_addressBtn setTitle:_cutomerTest.regPosAddr forState:UIControlStateNormal];
             if (!_cutomerTest.regBeginDate || !_cutomerTest.regEndDate) {
-
+                [_timeBtn setTitle:@"" forState:UIControlStateNormal];
             }
             else {
                 NSString *startyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regBeginDate];
@@ -181,7 +181,7 @@
         else {
             [_addressBtn setTitle:_cutomerTest.servicePoint.address forState:UIControlStateNormal];
             if (!_cutomerTest.servicePoint.startTime || !_cutomerTest.servicePoint.endTime) {
-
+                [_timeBtn setTitle:@"" forState:UIControlStateNormal];
             }
             else {
                 NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime];
