@@ -65,7 +65,6 @@
         // 修改单位姓名
         case USERINFORMATION_WORKUNITNAME:{
             self.title = @"单位名称";
-            _nameTextField.text = _cacheFlag;
             _nameTextField.placeholder = @"请输入单位名称";
             break;
         }
@@ -84,6 +83,7 @@
         default:
             break;
     }
+    _nameTextField.text = _cacheFlag;
 }
 
 - (void)initsubViews

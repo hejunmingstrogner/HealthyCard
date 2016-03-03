@@ -51,7 +51,7 @@
     }
 
     if (!areaFlag) {
-        return false;
+        return NO;
     }
 
 
@@ -118,7 +118,7 @@
             return NO;
         }
         default:
-            return false;
+            return NO;
     }
 }
 @end

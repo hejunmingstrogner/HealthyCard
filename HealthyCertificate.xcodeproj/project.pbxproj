@@ -125,6 +125,7 @@
 		B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436CA51C7B007E00F543E1 /* BRContractTableFootCell.m */; };
 		B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2484DB81C71C20D00C0CCBB /* LoginController.m */; };
 		B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */; };
+		B259C9351C8827B300A6A767 /* MLImageCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C9341C8827B300A6A767 /* MLImageCrop.m */; };
 		B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */; };
 		B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CCF1C7C412400721CB5 /* UILabel+FontColor.m */; };
 		B2640CD41C7C7CF500721CB5 /* WaitDocResultSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CD31C7C7CF500721CB5 /* WaitDocResultSelectViewController.m */; };
@@ -363,6 +364,8 @@
 		B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IndexViewController.mm; sourceTree = "<group>"; };
 		B259C9301C86E28100A6A767 /* SelectCompanyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCompanyViewController.h; sourceTree = "<group>"; };
 		B259C9311C86E28100A6A767 /* SelectCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCompanyViewController.m; sourceTree = "<group>"; };
+		B259C9331C8827B300A6A767 /* MLImageCrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLImageCrop.h; sourceTree = "<group>"; };
+		B259C9341C8827B300A6A767 /* MLImageCrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLImageCrop.m; sourceTree = "<group>"; };
 		B2640CCB1C7C361A00721CB5 /* ServicePositionDetialCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePositionDetialCellItem.h; sourceTree = "<group>"; };
 		B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePositionDetialCellItem.m; sourceTree = "<group>"; };
 		B2640CCE1C7C412400721CB5 /* UILabel+FontColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+FontColor.h"; sourceTree = "<group>"; };
@@ -585,6 +588,8 @@
 		2512B4271C705B0500EE661B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B259C9331C8827B300A6A767 /* MLImageCrop.h */,
+				B259C9341C8827B300A6A767 /* MLImageCrop.m */,
 				25BFE9711C7199610062F9B8 /* RzAlertView.h */,
 				25BFE9721C7199610062F9B8 /* RzAlertView.m */,
 				25BFEB0B1C71C9110062F9B8 /* Constants.h */,
@@ -1288,6 +1293,7 @@
 				2512B3AF1C70557C00EE661B /* AppDelegate.m in Sources */,
 				B27B00E31C84622D00FBF895 /* HealthyCertificateOrderInfoView.m in Sources */,
 				B23A98131C76F0D400E3E054 /* AboutUsViewController.m in Sources */,
+				B259C9351C8827B300A6A767 /* MLImageCrop.m in Sources */,
 				2512B42E1C70632C00EE661B /* HMDataOperate.m in Sources */,
 				B23A98041C76BB6400E3E054 /* UserInformationController.m in Sources */,
 				254A8DB01C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m in Sources */,

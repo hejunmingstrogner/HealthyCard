@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) id  controller;
 @property (nonatomic, strong) UIImage *photoimage;
+@property (nonatomic, assign) CGFloat ratio;        // 宽 ／ 高 比例
 
 + (instancetype)getInstancetype;
 typedef void(^resultImageBlock)(UIImage *photoimage);
@@ -24,6 +25,15 @@ typedef void(^resultImageBlock)(UIImage *photoimage);
  *                    回调返回的是照片
  */
 - (void)takePhotoFromCurrentController:(id)controller resultBlock:(resultImageBlock)block;
+
+/**
+ *  调用拍照的方法
+ *
+ *  @param controller 当前显示的controller （传入 “self”）
+ *  @param ratio      宽高比例   ratio= 宽／高;
+ *  @param block      回调裁剪后的图片
+ */
+- (void)takePhotoFromCurrentController:(id)controller WithRatioOfWidthAndHeight:(CGFloat)ratio resultBlock:(resultImageBlock)block;
 
 // 缩放图片
 +(UIImage *)scaleImage:(UIImage *)image withSize:(CGSize)size;
