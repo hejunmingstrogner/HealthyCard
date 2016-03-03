@@ -10,4 +10,11 @@
 
 @interface MethodResult : NSObject
 
+
+@property (nonatomic, assign) BOOL succeed;
+
+@property (nonatomic, copy) NSString* errorMsg;
+
+@property (nonatomic, copy) NSString* object;
+
 @end

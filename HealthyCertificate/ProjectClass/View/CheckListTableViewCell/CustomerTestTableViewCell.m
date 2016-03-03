@@ -8,6 +8,10 @@
 
 #import "CustomerTestTableViewCell.h"
 #import <Masonry.h>
+#import <UIImageView+WebCache.h>
+
+#import "HttpNetworkManager.h"
+
 #import "NSString+Count.h"
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
@@ -144,7 +148,8 @@
 
 - (void)setCellItemWithTest:(CustomerTest *)customerTest
 {
-    headerimageView.image = [UIImage imageNamed:@"headimage"];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], customerTest.checkCode]];
+    [headerimageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"headimage"] options:SDWebImageRefreshCached];
     nameLabel.text = customerTest.custName;
     sexLabel.text = customerTest.sex == 0 ? @"男" : @"女";
     oldLabel.text = [NSString getOldYears:customerTest.custIdCard];
