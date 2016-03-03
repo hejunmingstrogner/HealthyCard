@@ -9,7 +9,7 @@
 #import "EditInfoViewController.h"
 
 #import <Masonry.h>
-
+#import "HCRule.h"
 #import "UIColor+Expanded.h"
 #import "UIFont+Custom.h"
 #import "Constants.h"
@@ -82,6 +82,7 @@
         {
             self.title = @"身份证号码修改";
             _textField.placeholder = @"请输入身份证号码";
+            _textField.keyboardType = UIKeyboardTypeNumberPad;
             break;
         }
         case EDITINFO_LINKPHONE:{
@@ -133,6 +134,14 @@
     if (_editInfoType == EDITINFO_LINKPHONE) {
         if (_textField.text.length == 11) {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"电话号码位数不正确" removeDelay:3];
+            return;
+        }
+    }
+
+    if(_editInfoType == EDITINFO_IDCARD){
+        BOOL isvalidate = [HCRule validateIDCardNumber:_textField.text];
+        if (isvalidate == NO) {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"身份证信息不正确" removeDelay:3];
             return;
         }
     }
