@@ -129,6 +129,38 @@
             endingLineNumber = "448"
             landmarkName = "-appointmentBtnClicked:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[CloudAppointmentViewController appointmentBtnClicked:]"
+                  moduleName = "HealthyCertificate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rztime/Desktop/HealthyCard/HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentViewController.m"
+                  timestampString = "478669768.890832"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "448"
+                  endingLineNumber = "448"
+                  offsetFromSymbolStart = "4160">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__56-[CloudAppointmentViewController appointmentBtnClicked:]_block_invoke"
+                  moduleName = "HealthyCertificate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rztime/Desktop/HealthyCard/HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentViewController.m"
+                  timestampString = "478669768.891109"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "448"
+                  endingLineNumber = "448"
+                  offsetFromSymbolStart = "42">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
