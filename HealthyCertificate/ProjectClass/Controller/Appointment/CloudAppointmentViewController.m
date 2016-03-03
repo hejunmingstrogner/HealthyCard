@@ -640,17 +640,6 @@
         
         //根据预约编号去请求图片
         NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], _customerTestInfo.checkCode]];
-//        [_healthyCertificateView.imageBtn sd_setImageWithURL:url
-//                                                    forState:UIControlStateNormal
-//                                            placeholderImage:nil
-//                                                     options:SDWebImageRefreshCached
-//                                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                                                       if (error != nil){
-//                                                           //_isAvatarSet = YES; //请求图片成功
-//                                                       }
-//            
-//        }];
-        
         [_healthyCertificateView.imageView sd_setImageWithURL:url placeholderImage:nil options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (error!=nil){}
         }];
