@@ -97,9 +97,9 @@
     [_workTypeBtn setTitle:_workType forState:UIControlStateNormal];
 }
 
--(void)setPicImage:(UIImage *)picImage{
-    [_imageBtn setImage:picImage forState:UIControlStateNormal];
-}
+//-(void)setPicImage:(UIImage *)picImage{
+//    [_imageBtn setImage:picImage forState:UIControlStateNormal];
+//}
 
 #pragma mark - Life Circle
 -(id)initWithFrame:(CGRect)frame{
@@ -127,13 +127,17 @@
         UIView* imageContainerView = [[UIView alloc] init];
         [self addSubview:imageContainerView];
         
-//        UIImageView* picImageView = [[UIImageView alloc] init];
-//        [picImageView setImage:[UIImage imageNamed:@"Avatar"]];
-//        [imageContainerView addSubview:picImageView];
+        _imageView = [[UIImageView alloc] init];
+        [_imageView setImage:[UIImage imageNamed:@"Avatar"]];
+        _imageView.userInteractionEnabled = YES;
+        [imageContainerView addSubview:_imageView];
+    
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
+        [_imageView addGestureRecognizer:singleTap];
         
-        _imageBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"Avatar"] highlightImage:[UIImage imageNamed:@"Avatar"]];
-        [_imageBtn addTarget:self action:@selector(imageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [imageContainerView addSubview:_imageBtn];
+//        _imageBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"Avatar"] highlightImage:[UIImage imageNamed:@"Avatar"]];
+//        [_imageBtn addTarget:self action:@selector(imageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//        [imageContainerView addSubview:_imageBtn];
         
         //左边的文字部分取一个UIView
         UIView* leftView = [[UIView alloc] init];
@@ -162,7 +166,7 @@
             imageHeight = 102*4/3;
         }
         
-        [_imageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(imageContainerView);
             make.height.mas_equalTo(imageHeight);
             make.width.mas_equalTo(imageBtnWidth);
@@ -436,6 +440,11 @@
 }
 
 -(void)imageBtnClicked:(id)sender
+{
+    
+}
+
+- (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(healthyImageClicked)]){
         [self.delegate healthyImageClicked];

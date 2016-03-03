@@ -10,7 +10,8 @@
 #import "Constants.h"
 
 #import <Masonry.h>
-#import <UIButton+WebCache.h>
+#import <UIImageView+WebCache.h>
+#import <MJExtension.h>
 
 #import "UIButton+Easy.h"
 #import "UIColor+Expanded.h"
@@ -36,6 +37,8 @@
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
 #import "TakePhoto.h"
+
+#import "MethodResult.h"
 
 
 #define Button_Size 26
@@ -441,46 +444,31 @@
     }
     _customerTestInfo.cityName = self.cityName; //预约城市
     
-    
     __weak typeof (self) wself = self;
     [[HttpNetworkManager getInstance] createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
-        if (error != nil){
-            //预约失败 to do
-         //   wself.healthyCertificateView.imageBtn =
-            
-        }else{
-            
-            if (_isAvatarSet == YES) //如果修改了图片,预约成功后要上传图片
-            {
-                [[HttpNetworkManager getInstance] customerUploadHealthyCertifyPhoto:wself.healthyCertificateView.imageBtn.imageView.image CusCheckCode:_customerTestInfo.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
-                    
-                    if (error == nil){
-                        //失败 to do
-                    }else{
-                    }
-                }];
-            }else{
-                MyCheckListViewController* myCheckListViewController = [[MyCheckListViewController alloc] init];
-//                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:myCheckListViewController];
-//                [self.parentViewController presentViewController:nav animated:YES completion:nil];
-                [self.navigationController pushViewController:myCheckListViewController animated:YES];
-
-            }
-//            //预约成功 继续请求健康证照片
-//            NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], _customerTestInfo.checkCode]];
-//            [_healthyCertificateView.imageBtn sd_setImageWithURL:url
-//                                                        forState:UIControlStateNormal
-//                                                placeholderImage:nil
-//                                                         options:SDWebImageRefreshCached
-//                                                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                                                           if (error != nil){
-//                                                               _isAvatarSet = YES; //请求图片成功
-//                                                           }
-//                                                           else{
-//                                                               //提醒健康证图片请求失败 to do
-//                                                           }
-//                                                           
-//                                                       }];
+        
+        if (error == nil){
+            //预约失败，主要是http的失败
+        }
+        
+        MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
+        if (methodResult.succeed == NO || [methodResult.object isEqualToString:@"0"]){
+            //预约失败
+        }
+        
+        //预约成功 获取编号
+        if (_isAvatarSet == YES) //如果修改了图片,预约成功后要上传图片
+        {
+            [[HttpNetworkManager getInstance] customerUploadHealthyCertifyPhoto:wself.healthyCertificateView.imageView.image CusCheckCode:methodResult.object resultBlock:^(NSDictionary *result, NSError *error) {
+                if (error == nil){
+                    //失败
+                }
+                MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
+                if (methodResult.succeed == NO || [methodResult.object isEqualToString:@"0"]){
+                    //预约失败
+                }
+                
+            }];
         }
     }];
 
@@ -535,15 +523,12 @@
     }
 }
 
-
-
 #pragma mark - UIGestureRecognizerDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     if (self.isCustomerServerPoint == NO)
         return NO;
-    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"] ||
-        [NSStringFromClass([touch.view class])isEqualToString:@"HealthyCertificateView"]) {//如果当前是tableView
+    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {//如果当前是tableView
         //做自己想做的事
         return NO;
     }
@@ -598,9 +583,10 @@
 -(void)healthyImageClicked{
     __weak typeof (self) wself = self;
     [[TakePhoto getInstancetype] takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
-        photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageBtn.frame.size.width,
-                                                             wself.healthyCertificateView.imageBtn.frame.size.height)];
-        [wself.healthyCertificateView.imageBtn setBackgroundImage:photoimage forState:UIControlStateNormal];
+        photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
+                                                             wself.healthyCertificateView.imageView.frame.size.height)];
+//        [wself.healthyCertificateView.image setBackgroundImage:photoimage forState:UIControlStateNormal];
+        [wself.healthyCertificateView.imageView setImage:photoimage];
         _isAvatarSet = YES; //代表修改了健康证图片
     }];
 }
@@ -654,15 +640,19 @@
         
         //根据预约编号去请求图片
         NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], _customerTestInfo.checkCode]];
-        [_healthyCertificateView.imageBtn sd_setImageWithURL:url
-                                                    forState:UIControlStateNormal
-                                            placeholderImage:nil
-                                                     options:SDWebImageRefreshCached
-                                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                                       if (error != nil){
-                                                           //_isAvatarSet = YES; //请求图片成功
-                                                       }
-            
+//        [_healthyCertificateView.imageBtn sd_setImageWithURL:url
+//                                                    forState:UIControlStateNormal
+//                                            placeholderImage:nil
+//                                                     options:SDWebImageRefreshCached
+//                                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                                                       if (error != nil){
+//                                                           //_isAvatarSet = YES; //请求图片成功
+//                                                       }
+//            
+//        }];
+        
+        [_healthyCertificateView.imageView sd_setImageWithURL:url placeholderImage:nil options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (error!=nil){}
         }];
         
     }else{

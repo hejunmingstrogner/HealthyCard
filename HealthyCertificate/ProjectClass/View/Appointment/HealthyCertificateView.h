@@ -42,7 +42,7 @@
 //证件编号
 @property (nonatomic, copy) NSString* num;
 //头像
-@property (nonatomic, strong) UIButton* imageBtn;
+@property (nonatomic, strong) UIImageView* imageView;
 
 
 @property (nonatomic, weak) id<HealthyCertificateViewDelegate> delegate;
