@@ -16,7 +16,8 @@
 
 #import "TakePhoto.h"
 #import "HttpNetworkManager.h"
-
+#import "PositionUtil.h"
+#import "NSDate+Custom.h"
 
 @interface PersonalHealthyCController()
 {
@@ -73,9 +74,46 @@
 
 - (void)rightBtnClicked:(id)sender
 {
-    
-    
+    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
+        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"对不起，现在不能修改信息" ActionTitle:@"明白了" ActionStyle:UIAlertActionStyleDefault];
+        return ;
+    }
     NSLog(@"修改");
+    CustomerTest *newCustomerTest = [[CustomerTest alloc]init];
+    newCustomerTest.checkCode = _customerTestInfo.checkCode;
+    newCustomerTest.custCode = _customerTestInfo.custCode;
+    newCustomerTest.unitCode = _customerTestInfo.unitCode;
+    newCustomerTest.custName = _healthCertificateView.name;
+    newCustomerTest.custIdCard = _healthCertificateView.idCard;
+    newCustomerTest.linkPhone = _linkerPhone;
+    newCustomerTest.jobDuty = _healthCertificateView.workType;
+    newCustomerTest.regPosLO = _posLo;
+    newCustomerTest.regPosLA = _posLa;
+    newCustomerTest.regBeginDate = _regbegindate;
+    newCustomerTest.regEndDate = _regenddate;
+    newCustomerTest.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0:1;
+
+    [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:newCustomerTest resultBlock:^(NSDictionary *result, NSError *error) {
+        if (!error) {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+            NSLog(@"result:%@", result);
+        }
+        else {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改失败,请检查网络后重试" removeDelay:2];
+        }
+    }];
+}
+
+- (void)setCustomerTestInfo:(CustomerTest *)customerTestInfo
+{
+    _customerTestInfo = customerTestInfo;
+    _city = customerTestInfo.cityName;
+    _address = customerTestInfo.regPosAddr;
+    _posLo = customerTestInfo.regPosLO;
+    _posLa = customerTestInfo.regPosLA;
+    _linkerPhone = customerTestInfo.linkPhone;
+    _regbegindate = customerTestInfo.regBeginDate;
+    _regenddate = customerTestInfo.regEndDate;
 }
 
 - (void)initSubViews
@@ -184,16 +222,42 @@
 
     __weak CustomButton *addressBtns = _orderinforView.addressBtn;
     [_orderinforView.addressBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        // 待检状态下可以修改信息，否则不可修改
+        if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
+            return ;
+        }
+        // 服务点信息不可修改
+        if (_orderinforView.segmentControl.selectedSegmentIndex != 0) {
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"不能修改服务点信息" removeDelay:3];
+            return ;
+        }
         // 点击地址搜索
         SelectAddressViewController *addressselect = [[SelectAddressViewController alloc]init];
         [addressselect getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
-            NSLog(@"address: %@", address);
+            weakself.city = city;
+            weakself.address = [NSString stringWithFormat:@"%@%@%@", city, district, address];
+            // 地址转换为gps坐标
+            PositionUtil *position = [[PositionUtil alloc]init];
+            coor = [position bd2wgs:coor.latitude lon:coor.longitude];
+            weakself.posLa = coor.latitude;
+            weakself.posLo = coor.longitude;
             [addressBtns setTitle:address forState:UIControlStateNormal];
         }];
         [weakself.navigationController pushViewController:addressselect animated:YES];
     }];
     __weak CustomButton *weaktimeBtn = _orderinforView.timeBtn;
     [_orderinforView.timeBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        // 待检状态下可以修改信息，否则不可修改
+        if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
+            return ;
+        }
+        // 服务点信息不可修改
+        if (_orderinforView.segmentControl.selectedSegmentIndex != 0) {
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"不能修改服务点信息" removeDelay:3];
+            return ;
+        }
         // 点击时间
         CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
         // 时间
@@ -207,6 +271,10 @@
             cloudData.endDateString = [[NSDate date]getDateStringWithInternel:2];
         }
         [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
+
+            NSArray *timeslist = [dateStr componentsSeparatedByString:@"~"];
+            weakself.regbegindate = [[NSDate formatDateFromChineseString:timeslist[0]] convertToLongLong];
+            weakself.regenddate = [[NSDate formatDateFromChineseString:timeslist[1]] convertToLongLong];
             [weaktimeBtn setTitle:dateStr forState:UIControlStateNormal];
         }];
         [weakself.navigationController pushViewController:cloudData animated:YES];
@@ -214,6 +282,22 @@
     [_orderinforView.phoneBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         // 点击电话
         NSLog(@"点击电话");
+        // 待检状态下可以修改信息，否则不可修改
+        if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
+            return ;
+        }
+        // 服务点信息不可修改
+        if (_orderinforView.segmentControl.selectedSegmentIndex != 0) {
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"不能修改服务点信息" removeDelay:3];
+            return ;
+        }
+        EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
+        editInfoViewController.editInfoType = EDITINFO_LINKPHONE;
+        [editInfoViewController setEditInfoText:weakself.linkerPhone WithBlock:^(NSString *resultStr) {
+            weakself.linkerPhone = resultStr;
+        }];
+        [weakself.navigationController pushViewController:editInfoViewController animated:YES];
     }];
 
     NSArray *arry0 = @[@"待检查", @"已签到", @"检查中"];
@@ -249,6 +333,10 @@
 //点击姓名
 -(void)nameBtnClicked:(NSString*)name
 {
+    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
+        return ;
+    }
     EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
     editInfoViewController.editInfoType = EDITINFO_NAME;
     __weak typeof (self) wself = self;
@@ -259,6 +347,11 @@
 }
 //点击性别
 -(void)sexBtnClicked:(NSString*)gender{
+    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
+        return ;
+    }
+
     NSInteger index = 0;
     for (; index < wheelView.pickerViewContentArr.count; ++index){
         if ([gender isEqualToString:wheelView.pickerViewContentArr[index]])
@@ -269,6 +362,11 @@
 }
 //点击行业
 -(void)industryBtnClicked:(NSString*)industry{
+    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
+        return ;
+    }
+
     WorkTypeViewController* workTypeViewController = [[WorkTypeViewController alloc] init];
     __weak typeof (self) wself = self;
     workTypeViewController.block = ^(NSString* resultStr){
@@ -279,6 +377,11 @@
 //点击身份证
 -(void)idCardBtnClicked:(NSString*)idCard
 {
+    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
+        return ;
+    }
+
     EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
     editInfoViewController.editInfoType = EDITINFO_IDCARD;
     __weak typeof (self) wself = self;
@@ -291,6 +394,11 @@
 //点击健康证图片
 -(void)healthyImageClicked;
 {
+    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
+        return ;
+    }
+
     __weak typeof (self) wself = self;
     [[TakePhoto getInstancetype] takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
         photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthCertificateView.imageBtn.frame.size.width,
