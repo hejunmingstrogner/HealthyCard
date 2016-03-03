@@ -276,10 +276,9 @@
 #pragma mark -点击头像 设置头像
 - (void)headerimageBtnClicked:(UIButton *)sender
 {
-    [[TakePhoto getInstancetype]takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
-        if (photoimage) {
+    [[TakePhoto getInstancetype]takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
+        if(photoimage){
             [waitAlertView show];
-            photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(400, 300)]; // 压缩图片
             [[HttpNetworkManager getInstance]customerUploadPhoto:photoimage resultBlock:^(BOOL result, NSError *error) {
                 [waitAlertView close];
                 if (result) {
@@ -290,7 +289,6 @@
                     }
                 }
                 else {
-                    NSLog(@"error :%@", error);
                     [RzAlertView showAlertLabelWithTarget:self.view Message:@"上传失败,请稍候重试" removeDelay:2];
                 }
             }];

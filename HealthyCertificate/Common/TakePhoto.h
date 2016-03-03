@@ -18,7 +18,7 @@
 typedef void(^resultImageBlock)(UIImage *photoimage);
 @property (nonatomic, strong) resultImageBlock block;
 /**
- *  调用牌照的方法，显示actionsheet选择
+ *  调用牌照的方法，不进行裁剪
  *
  *  @param controller 当前显示的controller
  *  @param allows     是否需要编辑照片
@@ -27,7 +27,7 @@ typedef void(^resultImageBlock)(UIImage *photoimage);
 - (void)takePhotoFromCurrentController:(id)controller resultBlock:(resultImageBlock)block;
 
 /**
- *  调用拍照的方法
+ *  调用拍照的方法 并进行裁剪
  *
  *  @param controller 当前显示的controller （传入 “self”）
  *  @param ratio      宽高比例   ratio= 宽／高;
