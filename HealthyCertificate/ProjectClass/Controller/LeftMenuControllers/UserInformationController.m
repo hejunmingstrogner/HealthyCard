@@ -209,6 +209,7 @@
             return;
     }
     UserinformationSetingViewController *setingController = [[UserinformationSetingViewController alloc]init];
+    setingController.cacheFlag = ((UserinformationCellItem *)_dataArray[indexPath.row]).detialLabelText;
     setingController.itemtype = ((UserinformationCellItem *)_dataArray[indexPath.row]).itemType;
 
     // 如果修改了信息，并且修改成功，则刷新列表
