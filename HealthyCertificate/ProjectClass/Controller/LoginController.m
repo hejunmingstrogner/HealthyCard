@@ -100,7 +100,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
                     //to do
                 }else{
                     //暂时先将socket的连接操作放在这里
-                    [[HMNetworkEngine getInstance] startControl];
+                    [[HMNetworkEngine getInstance] askLoginInfo:GetPhoneNumber];
                 }
             }];
         }
@@ -289,8 +289,8 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
                                                  SetUuid(dataDic[@"uuid"]);
                                                  SetLastLoginTime([[NSDate date] convertToLongLong]);
                                                  SetPhoneNumber(_phoneNumTextField.text);
-                
-                                                 [[HMNetworkEngine getInstance] startControl];
+                                                 [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
+                                                // [[HMNetworkEngine getInstance] startControl];
                                                  }];
 }
 

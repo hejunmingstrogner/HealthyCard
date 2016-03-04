@@ -210,11 +210,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     
     UIButton* appointmentBtn = [UIButton buttonWithTitle:@"预 约"
                                                     font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)]
-                                               textColor:MO_RGBCOLOR(70, 180, 240)
-                                         backgroundColor:[UIColor whiteColor]];
+                                               textColor:[UIColor whiteColor]
+                                         backgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
     appointmentBtn.layer.cornerRadius = 5;
-    appointmentBtn.layer.borderWidth = 2;
-    appointmentBtn.layer.borderColor = MO_RGBCOLOR(70, 180, 240).CGColor;
+//    appointmentBtn.layer.borderWidth = 2;
+//    appointmentBtn.layer.borderColor = MO_RGBCOLOR(70, 180, 240).CGColor;
     [appointmentBtn addTarget:self action:@selector(appointmentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:appointmentBtn];
     [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {

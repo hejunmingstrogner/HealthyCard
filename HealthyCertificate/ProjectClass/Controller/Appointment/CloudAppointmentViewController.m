@@ -38,6 +38,7 @@
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
 #import "TakePhoto.h"
+#import "RzAlertView.h"
 
 #import "MethodResult.h"
 
@@ -215,13 +216,13 @@
         make.height.mas_equalTo(PXFIT_HEIGHT(136));
     }];
     
-    UIButton* appointmentBtn = [UIButton buttonWithTitle:@"预 约"
+    UIButton* appointmentBtn = [UIButton buttonWithTitle:@"预   约"
                                                     font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)]
-                                               textColor:MO_RGBCOLOR(70, 180, 240)
-                                         backgroundColor:[UIColor whiteColor]];
+                                               textColor:[UIColor whiteColor]
+                                         backgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
     appointmentBtn.layer.cornerRadius = 5;
-    appointmentBtn.layer.borderWidth = 2;
-    appointmentBtn.layer.borderColor = MO_RGBCOLOR(70, 180, 240).CGColor;
+//    appointmentBtn.layer.borderWidth = 2;
+//    appointmentBtn.layer.borderColor = MO_RGBCOLOR(70, 180, 240).CGColor;
     [appointmentBtn addTarget:self action:@selector(appointmentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:appointmentBtn];
     [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -395,6 +396,40 @@
 -(void)appointmentBtnClicked:(id)sender
 {
     //先做一次数据有效性检查 to do
+    if (_locationTextView.text == nil || [_locationTextView.text isEqualToString:@""]){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:InputLocationInfo removeDelay:2];
+        return;
+    }
+    
+    if (_appointmentDateTextView.text == nil || [_appointmentDateTextView.text isEqualToString:@""]){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:InputDateInfo removeDelay:2];
+        return;
+    }
+    
+    if (_phoneNumTextView.text == nil || [_phoneNumTextView.text isEqualToString:@""]){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:InputTelephone removeDelay:2];
+        return;
+    }
+    
+    if (_healthyCertificateView.name == nil || [_healthyCertificateView.name isEqualToString:@""]){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:InputName removeDelay:2];
+        return;
+    }
+    
+    if (_healthyCertificateView.gender == nil || [_healthyCertificateView.gender isEqualToString:@""]){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:InputGender removeDelay:2];
+        return;
+    }
+    
+    if (_healthyCertificateView.workType == nil || [_healthyCertificateView.workType isEqualToString:@""]){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:InputIndustry removeDelay:2];
+        return;
+    }
+    
+    if (_healthyCertificateView.idCard == nil || [_healthyCertificateView.idCard isEqualToString:@""]){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:InputIdCard removeDelay:2];
+        return;
+    }
     
     if (_customerTestInfo == nil){
         _customerTestInfo = [[CustomerTest alloc] init];
@@ -434,7 +469,6 @@
         
     }else{
         //如果是基于已有服务点的预约
-        //sercersPositionInfo
         if (_sercersPositionInfo != nil){
             _customerTestInfo.regTime = _sercersPositionInfo.startTime;
             _customerTestInfo.hosCode = _sercersPositionInfo.cHostCode;
@@ -448,12 +482,16 @@
     __weak typeof (self) wself = self;
     [[HttpNetworkManager getInstance] createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
         
-        if (error == nil){
+        if (error != nil){
             //预约失败，主要是http的失败
+            [RzAlertView showAlertLabelWithTarget:self.view Message:MakeAppointmentFailed removeDelay:2];
+            return;
         }
         
         MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
         if (methodResult.succeed == NO || [methodResult.object isEqualToString:@"0"]){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:MakeAppointmentFailed removeDelay:2];
+            return;
             //预约失败
         }
         
@@ -462,17 +500,26 @@
         {
             [[HttpNetworkManager getInstance] customerUploadHealthyCertifyPhoto:wself.healthyCertificateView.imageView.image CusCheckCode:methodResult.object resultBlock:^(NSDictionary *result, NSError *error) {
                 if (error == nil){
-                    //失败
+                    //失败 to do
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:UploadHealthyPicFailed removeDelay:2];
+                    return;
                 }
                 MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
                 if (methodResult.succeed == NO || [methodResult.object isEqualToString:@"0"]){
-                    //预约失败
+                    //预约失败 to do
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:UploadHealthyPicFailed removeDelay:2];
+                    return;
                 }
                 
                 MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
                 mycheckListViewController.popStyle = POPTO_ROOT;
                 [self.navigationController pushViewController:mycheckListViewController animated:YES];
             }];
+        }else{
+            //如果没有修改图片，就不需要上传图片了
+            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
+            mycheckListViewController.popStyle = POPTO_ROOT;
+            [self.navigationController pushViewController:mycheckListViewController animated:YES];
         }
     }];
 

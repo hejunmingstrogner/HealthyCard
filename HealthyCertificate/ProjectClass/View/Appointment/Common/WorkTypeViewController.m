@@ -25,7 +25,7 @@
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 
-@interface WorkTypeViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface WorkTypeViewController ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 {
     NSArray         *_dataSource;
     UITableView     *_industryTableView;
@@ -57,6 +57,9 @@
     _inputTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:Text_Font];
     [inputTextFieldContainerView addSubview:_inputTextField];
     _inputTextField.backgroundColor = [UIColor whiteColor];
+    _inputTextField.delegate = self;
+    _inputTextField.returnKeyType = UIReturnKeyDone;
+    _inputTextField.placeholder = @"请输入行业";
     [_inputTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(inputTextFieldContainerView).with.offset(PXFIT_WIDTH(10));
         make.right.mas_equalTo(inputTextFieldContainerView).with.offset(-PXFIT_WIDTH(10));
@@ -121,11 +124,20 @@
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
+    
+    UIBarButtonItem *rightbtn = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(sureBtnClicked:)];
+    self.navigationItem.rightBarButtonItem = rightbtn;
 }
 
 #pragma mark - Action
 -(void)backToPre:(id)sender
 {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)sureBtnClicked:(id)sender
+{
+    _block(_inputTextField.text);
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -162,8 +174,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WorkTypeInfoModel* workInfoModel = (WorkTypeInfoModel*)_dataSource[indexPath.row];
-    _block(workInfoModel.name);
-    [self.navigationController popViewControllerAnimated:YES];
+    _inputTextField.text = workInfoModel.name;
 }
+
+#pragma mark - UITextFieldDelegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return  YES;
+}
+
 
 @end

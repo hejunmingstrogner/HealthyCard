@@ -118,4 +118,17 @@ extern CompanyInfoOfPhonePacket* gCompanyInfo;
 #define HC_Base_Blue_Pressed 0x0f9fce
 
 
+//一些提示语
+#define InputLocationInfo @"请填写预约地址"
+#define InputDateInfo     @"请填写预约时间"
+#define InputTelephone    @"请填写联系电话"
+
+#define InputName         @"请填写姓名"
+#define InputGender       @"请填写性别"
+#define InputIndustry     @"请填写行业"
+#define InputIdCard       @"请填写身份证号"
+
+#define MakeAppointmentFailed @"预约失败，请重试"
+#define UploadHealthyPicFailed @"上传健康证图片失败,请重试"
+
 #endif /* Constants_h */
