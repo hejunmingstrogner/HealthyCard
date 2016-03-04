@@ -13,6 +13,8 @@
 
 #import "UIColor+Expanded.h"
 #import "UIFont+Custom.h"
+#import "UIButton+Easy.h"
+#import "UIButton+HitTest.h"
 
 #import "WorkTypeInfoModel.h"
 #import "HttpNetworkManager.h"
@@ -20,6 +22,7 @@
 
 #define Text_Font FIT_FONTSIZE(24)
 #define Detail_Font FIT_FONTSIZE(23)
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 
 @interface WorkTypeViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -62,7 +65,7 @@
     }];
     
     UILabel* tipLabel = [[UILabel alloc] init];
-    tipLabel.text = @"搜索结果";
+    tipLabel.text = @"已有行业";
     tipLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Detail_Font];
     [self.view addSubview:tipLabel];
     [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -113,12 +116,10 @@
 -(void)initNavgationBar{
     // 返回按钮
     self.title = @"行业选择";
-    UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backbtn.frame = CGRectMake(0, 0, 30, 30);
-    [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    //backbtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
-    [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
+    UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
+    backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
 }
 

@@ -21,6 +21,7 @@
 #import "NSString+Custom.h"
 #import "UIScreen+Type.h"
 #import "NSString+Custom.h"
+#import "UIButton+HitTest.h"
 
 #import "BaseInfoTableViewCell.h"
 #import "CloudAppointmentDateVC.h"
@@ -42,6 +43,7 @@
 
 
 #define Button_Size 26
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate,HCWheelViewDelegate>
 {
@@ -125,12 +127,10 @@
 - (void)initNavgation
 {
     // 返回按钮
-    UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backbtn.frame = CGRectMake(0, 0, 30, 30);
-    [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    backbtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
+    UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
+    backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
     self.title = _sercersPositionInfo.name;
@@ -296,7 +296,8 @@
     
     if (indexPath.row == 0){
         cell.iconName = @"search_icon";
-        cell.textView.text = _location;
+        cell.textViewText = _location;
+        //cell.textView.text = _location;
         cell.textView.userInteractionEnabled = NO;
         _locationTextView = cell.textView;
     }else if (indexPath.row == 1){
@@ -585,16 +586,13 @@
 
 -(void)healthyImageClicked{
     __weak typeof (self) wself = self;
-    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.f/4.f resultBlock:^(UIImage *photoimage) {
+    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
+        photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
+                                                             wself.healthyCertificateView.imageView.frame.size.height)];
+//        [wself.healthyCertificateView.image setBackgroundImage:photoimage forState:UIControlStateNormal];
         [wself.healthyCertificateView.imageView setImage:photoimage];
         _isAvatarSet = YES; //代表修改了健康证图片
     }];
-//    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
-//        photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
-//                                                             wself.healthyCertificateView.imageView.frame.size.height)];
-////        [wself.healthyCertificateView.image setBackgroundImage:photoimage forState:UIControlStateNormal];
-//        
-//    }];
 }
 
 #pragma mark - Private Methods
