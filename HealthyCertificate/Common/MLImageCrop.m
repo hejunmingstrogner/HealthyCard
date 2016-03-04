@@ -170,7 +170,7 @@
     
     //设置frame,这里需要设置下，这样其会在最下层
     self.scrollView.frame = self.view.bounds;
-    self.overlayView.layer.borderColor = [UIColor colorWithWhite:0.966 alpha:1.000].CGColor;
+    self.overlayView.layer.borderColor = [UIColor greenColor].CGColor;
 
     //绘制底部按钮的背景View
     UIView *buttonBackgroundView = [[UIView alloc]init];
