@@ -15,7 +15,8 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
-
+#import "UIColor+Expanded.h"
+#import "Constants.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @implementation ServicePointDetailViewController
@@ -77,10 +78,9 @@
     }];
     _orderBtn.layer.masksToBounds = YES;
     _orderBtn.layer.cornerRadius = 5;
-    _orderBtn.layer.borderColor = [UIColor colorWithRed:50/255.0 green:170/255.0 blue:240/255.0 alpha:1].CGColor;
-    _orderBtn.layer.borderWidth = 1;
     [_orderBtn setTitle:@"预约" forState:UIControlStateNormal];
-    [_orderBtn setTitleColor:[UIColor colorWithRed:50/255.0 green:170/255.0 blue:240/255.0 alpha:1] forState:UIControlStateNormal];
+    [_orderBtn setTitleColor:[UIColor colorWithWhite:0.99 alpha:1] forState:UIControlStateNormal];
+    [_orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
     [_orderBtn addTarget:self action:@selector(orderBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
 
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];

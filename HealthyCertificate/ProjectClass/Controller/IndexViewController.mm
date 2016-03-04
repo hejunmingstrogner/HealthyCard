@@ -20,6 +20,7 @@
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
 #import "HistoryInformationVController.h"
+#import "UIColor+Expanded.h"
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -100,9 +101,9 @@
     headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [headerBackGroundView addSubview:headerBtn];
     [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headerBackGroundView).offset(10);
+        make.top.equalTo(headerBackGroundView).offset(7);
         make.left.equalTo(headerBackGroundView).offset(10);
-        make.width.height.mas_equalTo(24);
+        make.width.height.mas_equalTo(30);
     }];
     [headerBtn setImage:[UIImage imageNamed:@"headerimage"] forState:UIControlStateNormal];
     headerBtn.layer.masksToBounds = YES;
@@ -179,11 +180,10 @@
     }];
     orderBtn.layer.masksToBounds = YES;
     orderBtn.layer.cornerRadius = 5;
-    orderBtn.layer.borderWidth = 2;
-    orderBtn.layer.borderColor = [UIColor colorWithRed:70/255.0 green:180/255.0 blue:240/255.0 alpha:1].CGColor;
     [orderBtn setTitle:@"一键预约" forState:UIControlStateNormal];
     orderBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:18];
-    [orderBtn setTitleColor:[UIColor colorWithRed:70/255.0 green:180/255.0 blue:240/255.0 alpha:1] forState:UIControlStateNormal];
+    [orderBtn setTitleColor:[UIColor colorWithWhite:0.99 alpha:1] forState:UIControlStateNormal];
+    [orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
     orderBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     [orderBtn addTarget:self action:@selector(orderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     // 显示地址的view
