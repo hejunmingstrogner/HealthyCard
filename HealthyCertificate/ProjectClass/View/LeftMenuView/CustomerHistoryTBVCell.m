@@ -12,7 +12,6 @@
 #import "Constants.h"
 #import "HttpNetworkManager.h"
 #import <UIImageView+WebCache.h>
-#import "RzAlertView.h"
 #import "NSString+Count.h"
 
 @interface CustomerHistoryTBVCell()
@@ -23,13 +22,14 @@
     UILabel     *oldLabel;
     UILabel     *phoneLabel;
     UILabel     *dueTimeLabel;
-
     CustomButton    *reportBtn;
+
 }
 @end
 
 @implementation CustomerHistoryTBVCell
 
+@synthesize reportBtn = reportBtn;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

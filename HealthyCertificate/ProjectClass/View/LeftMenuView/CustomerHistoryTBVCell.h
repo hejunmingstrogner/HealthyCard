@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomerTest.h"
+#import "RzAlertView.h"
 @interface CustomerHistoryTBVCell : UITableViewCell
 
 @property (nonatomic, strong) CustomerTest *customerTest;
+@property (nonatomic, strong) CustomButton    *reportBtn;
 
 - (void)setCustomerTest:(CustomerTest *)customerTest;
 

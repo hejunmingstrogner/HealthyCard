@@ -138,12 +138,12 @@
                   moduleName = "HealthyCertificate"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rztime/Desktop/HealthyCard/HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentViewController.m"
-                  timestampString = "478752682.689591"
+                  timestampString = "478753134.446642"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "448"
                   endingLineNumber = "448"
-                  offsetFromSymbolStart = "2758">
+                  offsetFromSymbolStart = "4160">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -153,12 +153,12 @@
                   moduleName = "HealthyCertificate"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rztime/Desktop/HealthyCard/HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentViewController.m"
-                  timestampString = "478752682.690644"
+                  timestampString = "478753134.447165"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "448"
                   endingLineNumber = "448"
-                  offsetFromSymbolStart = "70">
+                  offsetFromSymbolStart = "42">
                </Location>
             </Locations>
          </BreakpointContent>
