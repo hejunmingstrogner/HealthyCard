@@ -374,4 +374,24 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     }];
 }
 
+#pragma mark -查询个人历史
+// List<CustomerTest>
+- (void)findCustomerTestHistoryRegByCustomId:(NSString *)customId resuluBlock:(HCArrayResultBlock)block
+{
+    NSString *url = [NSString stringWithFormat:@"customerTest/findHistoryReg?customId=%@", customId];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *dataArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            CustomerTest *customertest = [CustomerTest mj_objectWithKeyValues:dict];
+            [dataArray addObject:customertest];
+        }
+        if (block) {
+            block(dataArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (block) {
+            block(nil, error);
+        }
+    }];
+}
 @end
