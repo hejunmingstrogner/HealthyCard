@@ -9,13 +9,24 @@
 #import "WorkTypeViewController.h"
 #import <Masonry.h>
 
+#import "Constants.h"
+
+#import "UIColor+Expanded.h"
+#import "UIFont+Custom.h"
+
 #import "WorkTypeInfoModel.h"
 #import "HttpNetworkManager.h"
+
+
+#define Text_Font FIT_FONTSIZE(24)
+#define Detail_Font FIT_FONTSIZE(23)
+
 
 @interface WorkTypeViewController ()<UITableViewDataSource, UITableViewDelegate>
 {
     NSArray         *_dataSource;
     UITableView     *_industryTableView;
+    UITextField     *_inputTextField;
 }
 
 @end
@@ -25,7 +36,39 @@
 #pragma mark - Life Circle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initNavgationBar];
     // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
+    
+    UIView* inputTextFieldContainerView = [[UIView alloc] init];
+    inputTextFieldContainerView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:inputTextFieldContainerView];
+    [inputTextFieldContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.view).with.offset(PXFIT_HEIGHT(10)+kStatusBarHeight+kNavigationBarHeight);
+        make.height.mas_equalTo(PXFIT_HEIGHT(100));
+    }];
+    
+    _inputTextField = [[UITextField alloc] init];
+    _inputTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:Text_Font];
+    [inputTextFieldContainerView addSubview:_inputTextField];
+    _inputTextField.backgroundColor = [UIColor whiteColor];
+    [_inputTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(inputTextFieldContainerView).with.offset(PXFIT_WIDTH(10));
+        make.right.mas_equalTo(inputTextFieldContainerView).with.offset(-PXFIT_WIDTH(10));
+        make.centerY.mas_equalTo(inputTextFieldContainerView);
+        make.height.mas_equalTo(PXFIT_HEIGHT(100) - 2);
+    }];
+    
+    UILabel* tipLabel = [[UILabel alloc] init];
+    tipLabel.text = @"搜索结果";
+    tipLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Detail_Font];
+    [self.view addSubview:tipLabel];
+    [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view).with.offset(PXFIT_WIDTH(20));
+        make.top.mas_equalTo(inputTextFieldContainerView.mas_bottom).with.offset(PXFIT_HEIGHT(20));
+    }];
     
     _industryTableView = [[UITableView alloc] init];
     _industryTableView.dataSource = self;
@@ -33,11 +76,13 @@
     [_industryTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
     [self.view addSubview:_industryTableView];
     [_industryTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self.view);
+        make.left.right.bottom.mas_equalTo(self.view);
+        make.top.mas_equalTo(tipLabel.mas_bottom).with.offset(PXFIT_HEIGHT(20));
+        //make.edges.mas_equalTo(self.view);
     }];
     
     
-    [self initNavgationBar];
+    
     [self loadData];
 }
 
