@@ -86,7 +86,36 @@ extern CompanyInfoOfPhonePacket* gCompanyInfo;
 #define GetUserType [[[NSUserDefaults standardUserDefaults] objectForKey:@"userType"] integerValue]
 #define SetUserType(type) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", type] forKey:@"userType"]          // 设置用户类型，1:个人  2:单位
 
+#define SetUuidTimeOut(timeout) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", timeout] forKey:@"hc_uuid_timeout"]
+#define GetUuidTimeOut [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_uuid_timeout"]
 
+#define SetUuid(uuid) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", uuid] forKey:@"hc_uuid"]
+#define GetUuid [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_uuid"]
+
+#define SetLastLoginTime(lastLoginTime) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%lld", lastLoginTime] forKey:@"hc_lastloign_time"]
+#define GetLastLoginTime [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_lastloign_time"]
+
+#define SetPhoneNumber(phoneNumber) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", phoneNumber] forKey:@"hc_phoneNumber"]
+#define GetPhoneNumber [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_phoneNumber"]
+
+//灰色不可用
+#define HC_Gray_unable 0xcacaca
+//灰色字体
+#define HC_Gray_Text 0x888888
+//灰色描边
+#define HC_Gray_Egdes 0xe6e6e6
+//灰色横线
+#define HC_Gray_Line 0xcccccc
+//容器背景
+#define HC_Base_BackGround 0xf5f5f5
+//绿色正常/按下
+#define HC_Base_Green 0x5FB22C
+#define HC_BASE_Green_Pressed 0x529d23
+//蓝色 字
+#define HC_Blue_Text 0x2080be
+//蓝色 正常/按下
+#define HC_Base_Blue 0x06b6f0
+#define HC_Base_Blue_Pressed 0x0f9fce
 
 
 #endif /* Constants_h */

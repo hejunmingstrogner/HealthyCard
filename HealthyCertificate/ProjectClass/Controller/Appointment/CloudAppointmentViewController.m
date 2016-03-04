@@ -278,7 +278,7 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     BaseInfoTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
     {
         [cell setSeparatorInset:UIEdgeInsetsZero];
@@ -468,6 +468,9 @@
                     //预约失败
                 }
                 
+                MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
+                mycheckListViewController.popStyle = POPTO_ROOT;
+                [self.navigationController pushViewController:mycheckListViewController animated:YES];
             }];
         }
     }];

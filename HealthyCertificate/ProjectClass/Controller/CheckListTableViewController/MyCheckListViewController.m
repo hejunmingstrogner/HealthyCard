@@ -82,7 +82,11 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (_popStyle == POPTO_ROOT){
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 

@@ -5,6 +5,8 @@
 //  Created by JIANGXU on 16/2/21.
 //  Copyright © 2016年 JIANGXU. All rights reserved.
 //
+#import <UIImageView+WebCache.h>
+#import <Masonry.h>
 
 #import "HealthyCertificateView.h"
 #import "Constants.h"
@@ -14,9 +16,10 @@
 #import "UIButton+Easy.h"
 #import "NSString+Count.h"
 #import "UIScreen+Type.h"
-#import <UIButton+WebCache.h>
 
-#import <Masonry.h>
+#import "HttpNetworkManager.h"
+
+
 
 #define Title_Size 24
 #define Text_Size 23
@@ -55,7 +58,11 @@
     [_workTypeBtn setTitle:_workType forState:UIControlStateNormal];
     [_idCardBtn setTitle:_idCard forState:UIControlStateNormal];
     _orgLabel.text = _org;
-    _numLabel.text = _num;}
+    _numLabel.text = _num;
+    
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], customerTest.checkCode]];
+    [self.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Avatar"] options:SDWebImageRefreshCached];
+}
 
 -(void)setPersonInfoPacket:(PersonInfoOfPhonePacket *)personInfoPacket
 {
