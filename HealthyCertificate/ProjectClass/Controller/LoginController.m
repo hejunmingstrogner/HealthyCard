@@ -299,6 +299,8 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     if (_vertifyCount != 0){
         return;
     }
+    [_vertifyTextField resignFirstResponder];
+    [_phoneNumTextField resignFirstResponder];
     _vertifyCount = 60;
     _vertifyTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(vertifyTimerTrigger) userInfo:nil repeats:YES];
     
