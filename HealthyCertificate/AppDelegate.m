@@ -7,13 +7,28 @@
 //
 
 #import "AppDelegate.h"
+
+#include "HMNetworkEngine.h"
+#import "QueueServerInfo.h"
+
 #import "UIFont+Custom.h"
-@interface AppDelegate ()
+
+#import "LoginController.h"
+
+
+
+@interface AppDelegate ()<HMNetworkEngineDelegate>
 
 @end
 
 @implementation AppDelegate
 
+
+-(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:( NSDictionary *)launchOptions{
+    
+    return YES;
+    
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
@@ -27,6 +42,15 @@
         NSLog(@"百度地图使用错误");
     }
     // Override point for customization after application launch.
+    //
+   // UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    self.window = [[UIWindow alloc] init];
+    self.window.backgroundColor = [UIColor whiteColor];
+    
+    [[HMNetworkEngine getInstance] startControl];
+    [HMNetworkEngine getInstance].delegate = self;
+    
+//    [NSThread sleepForTimeInterval:3.0];
     return YES;
 }
 
@@ -83,6 +107,35 @@
     }
 }
 
+#pragma mark - HMNetworkEngine Delegate
+-(void)setUpControlSucceed{
+    [[HMNetworkEngine getInstance] queryServerList];
+}
 
+
+-(void)setUpControlFailed{
+    //to do连接socket服务器即代理服务器失败
+}
+
+-(void)queueServerListResult:(NSData *)data Index:(NSInteger *)index{
+    NSString* listString =  [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(*index, data.length-*index)] encoding:NSUTF8StringEncoding];
+    //return format tijian-510100-ZXQueueServer1,武汉国药阳光体检中心,描述:知名体检中心;tijian-510100-ZXQueueServer1,武汉国药阳光体检中心,描述:知名体检中心
+    NSArray *array = [listString componentsSeparatedByString:@";"];
+    
+    //返回的数据按理应该是一个，所以如果不为空，只取第一条数据
+    if (array.count != 0){
+        QueueServerInfo* info = [[QueueServerInfo alloc] initWithString:array[0]];
+        [HMNetworkEngine getInstance].serverID = info.serverID;
+        //这里才代表连接上了中心控制服务器
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
+            LoginController *loginViewController = [[LoginController alloc] init];
+            //self.window = [[UIWindow alloc] init];
+            self.window.rootViewController = loginViewController;
+            [self.window makeKeyAndVisible];
+        });
+        
+    }
+}
 
 @end
