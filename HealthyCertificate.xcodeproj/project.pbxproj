@@ -80,6 +80,7 @@
 		254A8DD51C7DA0CE00F2EC94 /* NSString+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */; };
 		254A8DDE1C813BC200F2EC94 /* EditInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DDD1C813BC200F2EC94 /* EditInfoViewController.m */; };
 		255C71F11C8714420074A41B /* SelectCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255C71F01C8714420074A41B /* SelectCompanyViewController.m */; };
+		2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */; };
 		25A7A6ED1C842FB500054EE6 /* MethodResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A7A6EC1C842FB500054EE6 /* MethodResult.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
@@ -280,6 +281,8 @@
 		254A8DDD1C813BC200F2EC94 /* EditInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditInfoViewController.m; sourceTree = "<group>"; };
 		255C71EF1C8714420074A41B /* SelectCompanyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCompanyViewController.h; sourceTree = "<group>"; };
 		255C71F01C8714420074A41B /* SelectCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCompanyViewController.m; sourceTree = "<group>"; };
+		2567AC3B1C89680800E51DFA /* HCNavigationBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCNavigationBackButton.h; sourceTree = "<group>"; };
+		2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCNavigationBackButton.m; sourceTree = "<group>"; };
 		25A7A6EB1C842FB500054EE6 /* MethodResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodResult.h; sourceTree = "<group>"; };
 		25A7A6EC1C842FB500054EE6 /* MethodResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodResult.m; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
@@ -609,6 +612,8 @@
 				B2436C891C7865D700F543E1 /* PositionUtil.m */,
 				B2FEA8651C7EF2D500106EE8 /* TakePhoto.h */,
 				B2FEA8661C7EF2D500106EE8 /* TakePhoto.m */,
+				2567AC3B1C89680800E51DFA /* HCNavigationBackButton.h */,
+				2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1322,6 +1327,7 @@
 				2512B4311C70634B00EE661B /* HMNetworkEngine.m in Sources */,
 				254A8DDE1C813BC200F2EC94 /* EditInfoViewController.m in Sources */,
 				252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */,
+				2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */,
 				25BFEB1B1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m in Sources */,
 				25BFEB301C74060B0062F9B8 /* QueueServerInfo.m in Sources */,
 				B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */,
