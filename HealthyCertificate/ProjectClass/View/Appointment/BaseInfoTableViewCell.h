@@ -12,5 +12,6 @@
 
 @property (nonatomic, copy) NSString        *iconName;
 @property (nonatomic, strong) UITextView    *textView;
+@property (nonatomic, copy) NSString        *textViewText;
 
 @end

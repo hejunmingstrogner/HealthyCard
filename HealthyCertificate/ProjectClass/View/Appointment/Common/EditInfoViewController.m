@@ -10,12 +10,17 @@
 
 #import <Masonry.h>
 #import "HCRule.h"
+
 #import "UIColor+Expanded.h"
 #import "UIFont+Custom.h"
+#import "UIButton+HitTest.h"
+#import "UIButton+Easy.h"
+
 #import "Constants.h"
 #import "RzAlertView.h"
 
 #define Back_Ground_Color 0xfafafa
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 #define LineEditFont FIT_FONTSIZE(30)
 
@@ -100,12 +105,11 @@
 
 -(void)initNavgationBar{
     // 返回按钮
-    UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backbtn.frame = CGRectMake(0, 0, 30, 30);
-    [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    backbtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
+    UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
+    backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+
+    [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
     UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(completeBtnClicked:)];

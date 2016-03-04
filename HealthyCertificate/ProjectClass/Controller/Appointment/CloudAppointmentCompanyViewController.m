@@ -16,6 +16,7 @@
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 #import "UIButton+Easy.h"
+#import "UIButton+HitTest.h"
 #import "NSDate+Custom.h"
 #import "NSString+Custom.h"
 #import "BaseInfoTableViewCell.h"
@@ -32,6 +33,8 @@
 #import "HttpNetworkManager.h"
 
 #define Button_Size 26
+
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 typedef NS_ENUM(NSInteger, TABLIEVIEWTAG)
 {
@@ -248,12 +251,10 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 - (void)initNavgation
 {
     // 返回按钮
-    UIButton *backbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backbtn.frame = CGRectMake(0, 0, 30, 30);
-    [backbtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
-    backbtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    [backbtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backbtn];
+    UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
+    backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
     self.title = _sercersPositionInfo.name;
