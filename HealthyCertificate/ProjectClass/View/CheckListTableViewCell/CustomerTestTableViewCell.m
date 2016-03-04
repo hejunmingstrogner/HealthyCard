@@ -49,78 +49,92 @@
     }];
     headerimageView.layer.masksToBounds = YES;
     headerimageView.layer.cornerRadius = 45;
-    
-    UILabel *name = [[UILabel alloc]init];
-    name.text = @"姓名:";
-    [self.contentView addSubview:name];
-    name.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
-    [name mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(5);
-        make.left.equalTo(headerimageView.mas_right).offset(10);
-        make.height.mas_equalTo(20);
-        make.width.mas_equalTo(35);
-    }];
 
-    nameLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:nameLabel];
-    nameLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];;
-    nameLabel.textColor = [UIColor grayColor];
-    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(name);
-        make.left.equalTo(name.mas_right);
-        make.width.mas_equalTo(60);
+
+    UIView *bgview = [[UIView alloc]init];
+    [self.contentView addSubview:bgview];
+    [bgview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.right.equalTo(self.contentView);
+        make.left.equalTo(headerimageView.mas_right).offset(5);
     }];
 
     UILabel *sex = [[UILabel alloc]init];
-    [self.contentView addSubview:sex];
+    [bgview addSubview:sex];
     sex.text = @"性别:";
     sex.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
     [sex mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.width.equalTo(name);
-        make.left.equalTo(nameLabel.mas_right);
+        make.centerX.equalTo(bgview);
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(21);
+        make.top.equalTo(bgview).offset(5);
     }];
     sexLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:sexLabel];
+    [bgview addSubview:sexLabel];
     sexLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
     sexLabel.textColor = [UIColor grayColor];
     [sexLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(nameLabel);
+        make.centerY.equalTo(sex);
         make.width.mas_equalTo(21);
+        make.height.equalTo(sex);
         make.left.equalTo(sex.mas_right);
+    }];
+
+    oldLabel = [[UILabel alloc]init];
+    [bgview addSubview:oldLabel];
+    oldLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];;
+    oldLabel.textColor = [UIColor grayColor];
+    [oldLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(sex);
+        make.right.equalTo(bgview).offset(-5);
+        make.width.mas_equalTo(25);
+        make.height.equalTo(sex);
     }];
 
     UILabel *old = [[UILabel alloc]init];
     old.text = @"年龄:";
     old.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
-    [self.contentView addSubview:old];
+    [bgview addSubview:old];
     [old mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.width.equalTo(name);
-        make.left.equalTo(sexLabel.mas_right);
+        make.centerY.equalTo(sex);
+        make.width.height.equalTo(sex);
+        make.right.equalTo(oldLabel.mas_left);
     }];
 
-    oldLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:oldLabel];
-    oldLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];;
-    oldLabel.textColor = [UIColor grayColor];
-    [oldLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(nameLabel);
-        make.left.equalTo(old.mas_right);
-        make.right.equalTo(self.contentView).offset(-5);
+    UILabel *name = [[UILabel alloc]init];
+    name.text = @"姓名:";
+    [bgview addSubview:name];
+    name.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+    [name mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(sex);
+        make.width.height.equalTo(sex);
+        make.left.equalTo(bgview);
     }];
+
+    nameLabel = [[UILabel alloc]init];
+    [bgview addSubview:nameLabel];
+    nameLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];;
+    nameLabel.textColor = [UIColor grayColor];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(sex);
+        make.left.equalTo(name.mas_right);
+        make.right.equalTo(sex.mas_left);
+        make.height.equalTo(sex);
+    }];
+
 
     UILabel *serviceDate = [[UILabel alloc]init];
     serviceDate.text = @"服务时间:";
     serviceDate.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
-    [self.contentView addSubview:serviceDate];
+    [bgview addSubview:serviceDate];
     [serviceDate mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.contentView).offset(-5);
+        make.bottom.equalTo(bgview).offset(-5);
         make.height.left.equalTo(name);
-        make.width.mas_equalTo(65);
+        make.width.mas_equalTo(70);
     }];
     serviceTimeLabel = [[UILabel alloc]init];
     serviceTimeLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];;
     serviceTimeLabel.textColor = [UIColor grayColor];
-    [self.contentView addSubview:serviceTimeLabel];
+    [bgview addSubview:serviceTimeLabel];
     [serviceTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(serviceDate);
         make.left.equalTo(serviceDate.mas_right).offset(5);
@@ -131,7 +145,7 @@
     UILabel *serviceAddress = [[UILabel alloc]init];
     serviceAddress.text = @"服务地址:";
     serviceAddress.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
-    [self.contentView addSubview:serviceAddress];
+    [bgview addSubview:serviceAddress];
     [serviceAddress mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(name.mas_bottom).offset(5);
         make.bottom.equalTo(serviceDate.mas_top).offset(-5);
@@ -140,7 +154,7 @@
     }];
 
     serviceAddressLabel = [[UILabel alloc]init];
-    [self.contentView addSubview:serviceAddressLabel];
+    [bgview addSubview:serviceAddressLabel];
     serviceAddressLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];;
     serviceAddressLabel.textColor = [UIColor grayColor];
     [serviceAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
