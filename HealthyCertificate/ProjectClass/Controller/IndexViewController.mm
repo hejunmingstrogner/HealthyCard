@@ -375,7 +375,11 @@
             break;
         }
         case LEFTMENUCELL_EXIT:
-            NSLog(@"退出");
+        {
+            SetUuid(@"");
+            SetPhoneNumber(@"");
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
             break;
         default:
             break;

@@ -37,7 +37,8 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         _manager = [[AFHTTPRequestOperationManager alloc] init];
         //_manager.requestSerializer = [NSSet setWithArray:@[@"text/plain",@"text/html",@"text/json"]];
         _manager.requestSerializer=[AFJSONRequestSerializer serializer];
-        //_manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/plain",@"text/html",@"text/json"]];
+       // _manager.responseSerializer = [AFJSONRequestSerializer serializer];
+        _manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", nil];;
     }
     return _manager;
 }
@@ -81,6 +82,27 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         resultBlock(nil,error);
     }];
 
+}
+
+-(void)vertifyPhoneNumber:(NSString*)phoneNum VertifyCode:(NSString*)code resultBlock:(HCDictionaryResultBlock)resultBlock
+{
+    NSString* url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?phone_num=%@&type=phoneNumValidate&auth_code=%@&gen_uuid=true&uuid_timeout=%ld", phoneNum,code,(long)7*24*3600*3600];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        resultBlock(responseObject, nil);
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        resultBlock(nil, error);
+    }];
+}
+
+-(void)loginWithUuid:(NSString*)uuid UuidTimeOut:(NSString*)uuidTimeout resultBlock:(HCDictionaryResultBlock)resultBlock{
+    NSString* url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?type=uuid_validate&uuid_timeout=%@&uuid=%@", uuidTimeout,uuid];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        resultBlock(responseObject, nil);
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        resultBlock(nil, error);
+    }];
 }
 
 #pragma mark - 获得当前位置服务点信息

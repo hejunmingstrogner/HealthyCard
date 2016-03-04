@@ -14,6 +14,7 @@
 #import "UIButton+Easy.h"
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
+#import "NSDate+Custom.h"
 
 #import "HttpNetworkManager.h"
 #import "UIScreen+Type.h"
@@ -33,6 +34,12 @@
 #define PlaceHolder_Font FIT_FONTSIZE(24)
 #define Btn_Font         FIT_FONTSIZE(27)
 
+typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
+{
+    LOGIN_PHONENUM_TEXTFIELD,
+    LOGIN_VERTIFY_TEXTFIELD
+};
+
 @interface LoginController()  <UITextFieldDelegate, HMNetworkEngineDelegate>
 {
     UITextField*    _phoneNumTextField;
@@ -41,12 +48,17 @@
     UIButton*       _loginButton;
     
     NSString*       _authCodeStr;
-    NSTimer*        _vertifyTimer;
+    
+    
     BOOL            _isFirstShown;
     CGFloat         _viewHeight;
     
     UIView*         _containerView;
     UIImageView*    _logoImageView;
+    
+    //验证定时相关
+    NSTimer*        _vertifyTimer;
+    NSInteger       _vertifyCount;
 }
 
 @end
@@ -57,6 +69,83 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    [HMNetworkEngine getInstance].delegate = self;
+    
+    if ( GetUuid != nil && ![GetUuid isEqualToString:@""]){
+        //如果保存有Uuid 判断是否过期
+        
+        if ([GetLastLoginTime longLongValue] + [GetUuidTimeOut longLongValue] < [[NSDate date] convertToLongLong]){
+            //uuid过期
+            [self loadLoginView];
+        }else{
+            [[HttpNetworkManager getInstance] loginWithUuid:GetUuid UuidTimeOut:GetUuidTimeOut resultBlock:^(NSDictionary *result, NSError *error) {
+                
+                if (error != nil){
+                    //to do
+                    [self loadLoginView];
+                    return;
+                }
+                
+                if ([[result objectForKey:@"code"] integerValue] != 0){
+                    //to do uuid登录失败
+                    [self loadLoginView];
+                    return;
+                }
+                else{
+                   // [[HMNetworkEngine getInstance] startControl];
+                }
+                
+                NSDictionary* dataDic = [result objectForKey:@"data"];
+                if (dataDic[@"code"] != 0){
+                    //to do
+                }else{
+                    //暂时先将socket的连接操作放在这里
+                    [[HMNetworkEngine getInstance] startControl];
+                }
+            }];
+        }
+    }else{
+        [self loadLoginView];
+    }
+    
+    
+    //先根据uuid判断是否需要执行登录操作
+
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    if ( GetUuid == nil || [GetUuid isEqualToString:@""]){
+        [self loadLoginView];
+    }
+    _phoneNumTextField.text = @"";
+    _vertifyTextField.text = @"";
+    [_vertifyButton setTitle:@"验证" forState:UIControlStateNormal];
+    
+    _vertifyButton.enabled = NO;
+    _loginButton.enabled = NO;
+    
+    [_vertifyButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
+    [_loginButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self registerKeyboardNotification];
+    
+    _vertifyCount = 0;
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+     [self cancelKeyboardNotification];
+    
+    if (_vertifyTimer.isValid) {
+        [_vertifyTimer invalidate];
+    }
+    _vertifyTimer=nil;
+}
+
+-(void)loadLoginView{
     UIImageView* backGroundIamgeView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"LoginBackGround"]];
     [self.view addSubview:backGroundIamgeView];
     [backGroundIamgeView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -78,9 +167,10 @@
         make.top.mas_equalTo(self.view).with.offset(SCREEN_HEIGHT*5/12);
         make.height.mas_equalTo(3*TextField_Height + 2*Gap);
     }];
-
+    
     _phoneNumTextField = [[UITextField alloc] init];
     _phoneNumTextField.backgroundColor = [UIColor whiteColor];
+    _phoneNumTextField.tag = LOGIN_PHONENUM_TEXTFIELD;
     [_containerView addSubview:_phoneNumTextField];
     [_phoneNumTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.mas_equalTo(_containerView);
@@ -94,6 +184,7 @@
     
     _vertifyTextField = [[UITextField alloc] init];
     _vertifyTextField.backgroundColor = [UIColor whiteColor];
+    _vertifyTextField.tag = LOGIN_VERTIFY_TEXTFIELD;
     [_containerView addSubview:_vertifyTextField];
     [_vertifyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_phoneNumTextField.mas_bottom).with.offset(Gap);
@@ -107,7 +198,11 @@
     [_vertifyTextField setValue: [UIFont fontWithType:UIFontOpenSansRegular size:PlaceHolder_Font] forKeyPath:@"_placeholderLabel.font"];
     
     
-    _vertifyButton = [UIButton buttonWithTitle:@"验证" font:[UIFont fontWithType:UIFontOpenSansRegular size:PlaceHolder_Font] textColor:MO_RGBCOLOR(83,182,234) backgroundColor:[UIColor whiteColor]];
+    _vertifyButton = [UIButton buttonWithTitle:@"验证"
+                                          font:[UIFont fontWithType:UIFontOpenSansRegular size:PlaceHolder_Font]
+                                     textColor:[UIColor whiteColor]
+                               backgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
+    [_vertifyButton setEnabled:NO];
     [_containerView addSubview:_vertifyButton];
     [_vertifyButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_vertifyTextField.mas_right).with.offset(FIT_WIDTH(5));
@@ -117,7 +212,12 @@
     }];
     [_vertifyButton addTarget:self action:@selector(veritifyBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
-    _loginButton = [UIButton buttonWithTitle:@"登 录" font:[UIFont fontWithType:UIFontOpenSansRegular size:Btn_Font] textColor:[UIColor whiteColor] backgroundColor:[UIColor colorWithRGBHex:LoginButtonColor]];
+    
+    _loginButton = [UIButton buttonWithTitle:@"登 录"
+                                        font:[UIFont fontWithType:UIFontOpenSansRegular size:Btn_Font]
+                                   textColor:[UIColor whiteColor]
+                             backgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
+    [_loginButton setEnabled:NO];
     _loginButton.layer.cornerRadius = 5;
     [_containerView addSubview:_loginButton];
     [_loginButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -160,43 +260,73 @@
     [self.view addGestureRecognizer:singleRecognizer];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [self registerKeyboardNotification];
-}
-
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-     [self cancelKeyboardNotification];
-}
-
 #pragma mark - Button Action
 -(void)loginBtnCliked:(id)sender
 {
-    //    if ([_authCodeStr isEqualToString:_vertifyTextField.text]){
-    //        [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
-    //    }else{
-    //    }
+    _loginButton.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
     
-    //暂时先将socket的连接操作放在这里
-    [HMNetworkEngine getInstance].delegate = self;
-    [[HMNetworkEngine getInstance] startControl];
-
-   // [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
+    //判断验证码是否正确
+    [[HttpNetworkManager getInstance] vertifyPhoneNumber:_phoneNumTextField.text
+                                             VertifyCode:_vertifyTextField.text
+                                             resultBlock:^(NSDictionary *result, NSError *error) {
+                                                 
+                                                 if (error != nil){
+                                                     //登录错误 to do
+                                                     return;
+                                                 }
+                                    
+                                                 
+                                                 if (![[result objectForKey:@"code"] integerValue] == 0){
+                                                      //登录错误 to do
+                                                     return;
+                                                 }
+                                                 
+                                                
+                                                 
+                                                 //接收到验证码，这里解析感觉可以封装到下层去
+                                                 NSDictionary* dataDic = [result objectForKey:@"data"];
+                                                 SetUuidTimeOut(dataDic[@"uuid_timeout"]);
+                                                 SetUuid(dataDic[@"uuid"]);
+                                                 SetLastLoginTime([[NSDate date] convertToLongLong]);
+                                                 SetPhoneNumber(_phoneNumTextField.text);
+                
+                                                 [[HMNetworkEngine getInstance] startControl];
+                                                 }];
 }
 
 -(void)veritifyBtnClicked:(id)sender
 {
+    if (_vertifyCount != 0){
+        return;
+    }
+    _vertifyCount = 60;
+    _vertifyTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(vertifyTimerTrigger) userInfo:nil repeats:YES];
+    
     [[HttpNetworkManager getInstance] verifyPhoneNumber:_phoneNumTextField.text resultBlock:^(NSDictionary *result, NSError *error) {
         if (error){
             NSLog(@"%@", error.localizedDescription);
+            return;
         }else{
             //接收到验证码，这里解析感觉可以封装到下层去
             NSDictionary* dataDic = [result objectForKey:@"data"];
+            if (!([[dataDic objectForKey:@"code"] longLongValue] == 0)){
+                //登录错误 to do
+                NSLog(@"验证太频繁");
+                return;
+            }
             _authCodeStr = [dataDic objectForKey:@"authCode"];
             _vertifyTextField.text = _authCodeStr;
+            
+
+            _loginButton.enabled = YES;
+            [_loginButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
         }
     }];
+}
+
+-(void)buttonBackgroundHighLight:(UIButton*)sender
+{
+    sender.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
 }
 
 #pragma mark - HMNetworkEngine Delegate
@@ -217,8 +347,12 @@
         QueueServerInfo* info = [[QueueServerInfo alloc] initWithString:array[0]];
         [HMNetworkEngine getInstance].serverID = info.serverID;
         
-        //获得机构后向服务端发送客户电话号码相关的信息 这里为了测试先定一个假数据
-        [[HMNetworkEngine getInstance] askLoginInfo:@"18380447466"];
+        if (_phoneNumTextField.text == nil){
+            [[HMNetworkEngine getInstance] askLoginInfo:GetPhoneNumber];
+        }else{
+            [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
+        }
+        
     }
 }
 
@@ -229,25 +363,32 @@
         IndexViewController* indexViewController = [[IndexViewController alloc] init];
         UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:indexViewController];
         [self presentViewController:nav animated:YES completion:nil];
+        
     });
 }
 
 #pragma mark - UITextField Delegate
+
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (![self isPureInt:string]){
-        _vertifyButton.enabled = NO;
+    if (textField.tag == LOGIN_VERTIFY_TEXTFIELD)
+    {
         return YES;
     }
-    
-    if (textField.text.length > 10){
+    if (![self isPureInt:string]){
         _vertifyButton.enabled = NO;
+        [_vertifyButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
+        return YES;
+    }
+    if (textField.text.length + string.length > 11){
         return NO;
     }else if (textField.text.length == 10){
         _vertifyButton.enabled = YES;
+        [_vertifyButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
         return YES;
     }else{
         _vertifyButton.enabled = NO;
+        [_vertifyButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
         return YES;
     }
 }
@@ -276,7 +417,7 @@
     if (_isFirstShown == NO){
         _isFirstShown = YES;
         CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
-        [[notification.userInfo valueForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardBounds];
+        [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
         _viewHeight = keyboardBounds.size.height;
     }
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
@@ -316,6 +457,17 @@
     if (![recognizer.view isKindOfClass:[UITextField class]]){
         [_phoneNumTextField resignFirstResponder];
         [_vertifyTextField resignFirstResponder];
+    }
+}
+
+-(void)vertifyTimerTrigger{
+    [_vertifyButton setTitle:[NSString stringWithFormat:@"%ld秒", _vertifyCount--] forState:UIControlStateNormal];
+    
+    if (_vertifyCount == 0){
+        [_vertifyButton setTitle:@"验证" forState:UIControlStateNormal];
+        _loginButton.enabled = NO;
+        [_loginButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
+        [_vertifyTimer invalidate];
     }
 }
 

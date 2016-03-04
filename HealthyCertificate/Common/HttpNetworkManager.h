@@ -35,6 +35,26 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
 
 
 /**
+ *  将得到的电话号码及输入的验证码发往服务端验证
+ *
+ *  @param phoneNum    电话号码
+ *  @param code        验证码
+ *  @param resultBlock 回调
+ */
+-(void)vertifyPhoneNumber:(NSString*)phoneNum VertifyCode:(NSString*)code resultBlock:(HCDictionaryResultBlock)resultBlock;
+
+
+/**
+ *  uuid登录
+ *
+ *  @param uuid        uuid
+ *  @param uuidTimeout uuid 过期时间
+ *  @param resultBlock 回调
+ */
+-(void)loginWithUuid:(NSString*)uuid UuidTimeOut:(NSString*)uuidTimeout resultBlock:(HCDictionaryResultBlock)resultBlock;
+
+
+/**
  *  根据当前位置查询服务点信息
  *
  *  @param location 当前查询位置

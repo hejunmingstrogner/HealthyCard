@@ -123,6 +123,13 @@ CompanyInfoOfPhonePacket* gCompanyInfo;
 #pragma mark - Public Methods
 -(void)startControl
 {
+    if ([HMSocket getInstance].isConnected == YES){
+        if (self.delegate && [self.delegate respondsToSelector:@selector(setUpControlSucceed)])
+        {
+            [self.delegate setUpControlSucceed];
+        }
+        return;
+    }
     [[HMSocket getInstance] connectToHost:SOCKET_HOST Port:SOCKET_PORT];
 }
 
