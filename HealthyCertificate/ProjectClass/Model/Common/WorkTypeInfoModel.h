@@ -24,6 +24,6 @@
 @property (nonatomic, assign) int sortOrder;
 
 //描述
-@property (nonatomic, readwrite) NSString* description;
+@property (nonatomic, readwrite) NSString* note;
 
 @end

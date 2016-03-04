@@ -72,6 +72,7 @@
         // so i choose to pass nil - (if it's not work, choose to pass own queue)
         dispatch_queue_t queue = dispatch_queue_create("com.healthyFriends.queue", DISPATCH_QUEUE_SERIAL);
         _asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:queue];
+        _isConnected = false;
     }
     return self;
 }
@@ -127,6 +128,7 @@
     }
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(didConnectToHost:port:)]) {
+        _isConnected = YES;
         [self.delegate didConnectToHost:host port:port];
     }
     
@@ -168,6 +170,7 @@
 -(void) socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err{
     NSLog(@"HMSocket socketDidDisconnect : %@", err.description);
     if (self.delegate && [self.delegate respondsToSelector:@selector(didDisconnectWithError:)]){
+        _isConnected = NO;
         [self.delegate didDisconnectWithError:err];
     }
     

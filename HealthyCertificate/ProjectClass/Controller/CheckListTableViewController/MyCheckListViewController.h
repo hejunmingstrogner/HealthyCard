@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM (NSInteger, POP_STYLE){
+    POPTO_LSAT,
+    POPTO_ROOT
+};
+
 @interface MyCheckListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -15,5 +20,8 @@
 @property (nonatomic, strong) NSMutableArray *checkDataArray;       
 
 @property (nonatomic, assign) NSInteger userType;
+
+@property (nonatomic, assign) POP_STYLE popStyle;
+
 
 @end

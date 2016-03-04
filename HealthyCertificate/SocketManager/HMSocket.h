@@ -31,4 +31,6 @@
 
 -(void)sendData:(NSData*)data TimeOut:(NSTimeInterval)timeout;
 
+@property (nonatomic, assign) BOOL isConnected; //socket是否已经连接
+
 @end

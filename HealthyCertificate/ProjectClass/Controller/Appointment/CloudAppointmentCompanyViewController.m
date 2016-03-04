@@ -385,6 +385,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 cell.textView.userInteractionEnabled = NO;
                 _dateStrTextView = cell.textView;
             }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }
         case TABLEVIEW_COMPANYINFO:
@@ -433,6 +434,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             {
                 [cell setLayoutMargins:UIEdgeInsetsZero];
             }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }
         case TABLEVIEW_STAFFINFO:
@@ -451,6 +453,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             {
                 [cell setLayoutMargins:UIEdgeInsetsZero];
             }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
             
         }

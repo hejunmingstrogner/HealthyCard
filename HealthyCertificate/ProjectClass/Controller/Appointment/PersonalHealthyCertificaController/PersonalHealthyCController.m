@@ -5,6 +5,7 @@
 //  Created by 乄若醉灬 on 16/2/25.
 //  Copyright © 2016年 JIANGXU. All rights reserved.
 //
+#import <UIImageView+WebCache.h>
 
 #import "PersonalHealthyCController.h"
 #import "Constants.h"
