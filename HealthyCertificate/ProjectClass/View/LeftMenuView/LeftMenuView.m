@@ -11,7 +11,7 @@
 #import "HttpNetworkManager.h"
 #import "LeftMenuViewHeaderinfoCell.h"
 #import "UIFont+Custom.h"
-
+#import "UIButton+Easy.h"
 @interface LeftMenuView ()<UITableViewDataSource, UITableViewDelegate>
 
 @end
@@ -38,10 +38,18 @@
 - (void)initWithSubViewsAndData
 {
     [self initData];
+    UIView *bgview = [[UIView alloc]init];
+    [self addSubview:bgview];
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width - 10, self.frame.size.height) style:UITableViewStyleGrouped];
     [self addSubview:_tableView];
+    _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.separatorStyle = NO;
+    [bgview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(_tableView);
+        make.bottom.equalTo(self);
+    }];
 }
 
 - (void)initData
@@ -126,10 +134,10 @@
                 UIButton *switchbutton = [UIButton buttonWithType:UIButtonTypeCustom];
                 [cell.contentView addSubview:switchbutton];
                 [switchbutton mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(cell.contentView).offset(5);
-                    make.bottom.equalTo(cell.contentView).offset(-5);
                     make.right.equalTo(cell).offset(-10);
-                    make.width.mas_equalTo(60);
+                    make.width.mas_equalTo(52);
+                    make.centerY.equalTo(cell.contentView);
+                    make.height.mas_equalTo(26);
                 }];
                 [switchbutton addTarget:self action:@selector(SettingBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
                 switchbutton.tag = indexPath.row;

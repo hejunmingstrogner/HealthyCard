@@ -63,14 +63,19 @@
     ServicePositionDetialCellItem *personInfo = [[ServicePositionDetialCellItem alloc]initWithTitle:@"人员详情" detialText:@""];
     ServicePositionDetialCellItem *leader = [[ServicePositionDetialCellItem alloc]initWithTitle:@"负责人" detialText:_servicePositionItem.brOutCheckArrange.leaderName];
     ServicePositionDetialCellItem *driver = [[ServicePositionDetialCellItem alloc]initWithTitle:@"司  机" detialText:_servicePositionItem.brOutCheckArrange.driverName];
-    ServicePositionDetialCellItem *memberList = [[ServicePositionDetialCellItem alloc]initWithTitle:@"随行列表" detialText:_servicePositionItem.brOutCheckArrange.memberList];
-    NSMutableArray *arry1 = [NSMutableArray arrayWithObjects:personInfo, leader, driver, memberList, nil];
+
+    NSMutableArray *arry1 = [NSMutableArray arrayWithObjects:personInfo, leader, driver, nil];
+
+     ServicePositionDetialCellItem *memberList = [[ServicePositionDetialCellItem alloc]initWithTitle:@"随行列表" detialText:nil];
+    ServicePositionDetialCellItem *menberListdata = [[ServicePositionDetialCellItem alloc]initWithTitle:_servicePositionItem.brOutCheckArrange.memberList detialText:nil];
+
+    NSMutableArray *arry2 = [NSMutableArray arrayWithObjects:memberList, menberListdata, nil];
 
     ServicePositionDetialCellItem *detials = [[ServicePositionDetialCellItem alloc]initWithTitle:@"详情介绍" detialText:@""];
     ServicePositionDetialCellItem *detialsText = [[ServicePositionDetialCellItem alloc]initWithTitle:@"详情介绍" detialText:@""];
-    NSMutableArray *arry2 = [NSMutableArray arrayWithObjects:detials, detialsText, nil];
+    NSMutableArray *arry3 = [NSMutableArray arrayWithObjects:detials, detialsText, nil];
 
-    _detialeInfoArray = [NSMutableArray arrayWithObjects:arry, arry1, arry2, nil];
+    _detialeInfoArray = [NSMutableArray arrayWithObjects:arry, arry1, arry2, arry3, nil];
 }
 
 - (void)initSubViews
@@ -115,11 +120,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if(_detialeInfoArray.count == 0)
-    {
-        return 0;
-    }
-    return 3;
+    return _detialeInfoArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -143,10 +144,10 @@
     if (indexPath.section == 0) {
         return 140;
     }
-    else if(indexPath.section == 1){
+    else if(indexPath.section == 1 || indexPath.section == 2){
         return 44;
     }
-    else if (indexPath.section == 2){
+    else if (indexPath.section == 3){
         return fmaxf(44, [self cellheight:((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).titleText]);
     }
     return 1;

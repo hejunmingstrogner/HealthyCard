@@ -439,7 +439,7 @@
     self.scrollView.maximumZoomScale = self.scrollView.minimumZoomScale;
     self.scrollView.zoomScale = self.scrollView.minimumZoomScale;
     self.scrollView.frame = self.view.bounds;
-    
+
     //overlayView
     //根据宽度找高度
 
@@ -467,7 +467,7 @@
     if (self.imageView.image) {
         CGSize imageSize = self.imageView.image.size;
         CGRect imageFrame = CGRectMake(0, 0, imageSize.width, imageSize.height);
-        
+
         if (frame.size.width<=frame.size.height) {
             //说白了就是竖屏时候
             CGFloat ratio = frame.size.width/imageFrame.size.width;
@@ -478,7 +478,7 @@
             imageFrame.size.width = imageFrame.size.width*ratio;
             imageFrame.size.height = frame.size.height;
         }
-        
+
         self.scrollView.contentSize = frame.size;
         
         BOOL isBaseOnWidth = [self isBaseOnWidthOfOverlayView];
@@ -489,9 +489,7 @@
             self.scrollView.contentInset = UIEdgeInsetsMake(CGRectGetMinY(self.overlayView.frame), CGRectGetMinX(self.overlayView.frame), CGRectGetHeight(self.view.bounds)-CGRectGetMaxY(self.overlayView.frame), CGRectGetWidth(self.view.bounds)-CGRectGetMaxX(self.overlayView.frame));
         }
 
-
         self.imageView.frame = imageFrame;
-        
         //初始化,让其不会有黑框出现
         CGFloat minScale = self.overlayView.frame.size.height/imageFrame.size.height;
         CGFloat minScale2 = self.overlayView.frame.size.width/imageFrame.size.width;

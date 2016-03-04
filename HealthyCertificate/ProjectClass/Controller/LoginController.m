@@ -79,7 +79,6 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
             [self loadLoginView];
         }else{
             [[HttpNetworkManager getInstance] loginWithUuid:GetUuid UuidTimeOut:GetUuidTimeOut resultBlock:^(NSDictionary *result, NSError *error) {
-                
                 if (error != nil){
                     //to do
                     [self loadLoginView];
