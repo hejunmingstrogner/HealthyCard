@@ -25,11 +25,13 @@
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 
-@interface WorkTypeViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface WorkTypeViewController ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 {
     NSArray         *_dataSource;
     UITableView     *_industryTableView;
     UITextField     *_inputTextField;
+    
+    UILabel         *_tipLabel;
 }
 
 @end
@@ -57,6 +59,9 @@
     _inputTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:Text_Font];
     [inputTextFieldContainerView addSubview:_inputTextField];
     _inputTextField.backgroundColor = [UIColor whiteColor];
+    _inputTextField.delegate = self;
+    _inputTextField.returnKeyType = UIReturnKeyDone;
+    _inputTextField.placeholder = @"请输入行业";
     [_inputTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(inputTextFieldContainerView).with.offset(PXFIT_WIDTH(10));
         make.right.mas_equalTo(inputTextFieldContainerView).with.offset(-PXFIT_WIDTH(10));
@@ -64,11 +69,11 @@
         make.height.mas_equalTo(PXFIT_HEIGHT(100) - 2);
     }];
     
-    UILabel* tipLabel = [[UILabel alloc] init];
-    tipLabel.text = @"已有行业";
-    tipLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Detail_Font];
-    [self.view addSubview:tipLabel];
-    [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    _tipLabel = [[UILabel alloc] init];
+    _tipLabel.text = @"已有行业";
+    _tipLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Detail_Font];
+    [self.view addSubview:_tipLabel];
+    [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view).with.offset(PXFIT_WIDTH(20));
         make.top.mas_equalTo(inputTextFieldContainerView.mas_bottom).with.offset(PXFIT_HEIGHT(20));
     }];
@@ -80,29 +85,29 @@
     [self.view addSubview:_industryTableView];
     [_industryTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.mas_equalTo(self.view);
-        make.top.mas_equalTo(tipLabel.mas_bottom).with.offset(PXFIT_HEIGHT(20));
-        //make.edges.mas_equalTo(self.view);
+        make.top.mas_equalTo(_tipLabel.mas_bottom).with.offset(PXFIT_HEIGHT(20));
     }];
-    
-    
     
     [self loadData];
 }
+
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self registerKeyboardNotification];
+    
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [self cancelKeyboardNotification];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 #pragma mark - Private Methods
 -(void)loadData
@@ -121,6 +126,9 @@
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
+    
+    UIBarButtonItem *rightbtn = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(sureBtnClicked:)];
+    self.navigationItem.rightBarButtonItem = rightbtn;
 }
 
 #pragma mark - Action
@@ -129,6 +137,40 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)sureBtnClicked:(id)sender
+{
+    _block(_inputTextField.text);
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Private Methods
+-(void)registerKeyboardNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillChangeFrameNotification  object:nil];
+}
+
+-(void)cancelKeyboardNotification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)keyboardWillShow:(NSNotification *)notification
+{
+    CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
+    [_industryTableView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.view).with.offset(-keyboardBounds.size.height);
+    }];
+}
+
+-(void)keyboardWillHide:(NSNotification *)notification
+{
+    [_industryTableView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.view);
+    }];
+}
 
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate
@@ -162,8 +204,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     WorkTypeInfoModel* workInfoModel = (WorkTypeInfoModel*)_dataSource[indexPath.row];
-    _block(workInfoModel.name);
-    [self.navigationController popViewControllerAnimated:YES];
+    _inputTextField.text = workInfoModel.name;
 }
+
+#pragma mark - UITextFieldDelegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return  YES;
+}
+
 
 @end
