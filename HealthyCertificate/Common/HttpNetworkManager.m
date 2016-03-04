@@ -86,7 +86,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 
 -(void)vertifyPhoneNumber:(NSString*)phoneNum VertifyCode:(NSString*)code resultBlock:(HCDictionaryResultBlock)resultBlock
 {
-    NSString* url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?phone_num=%@&type=phoneNumValidate&auth_code=%@&gen_uuid=true&uuid_timeout=%ld", phoneNum,code,(long)7*24*3600*3600];
+    NSString* url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?phone_num=%@&type=phoneNumValidate&auth_code=%@&gen_uuid=true&uuid_timeout=%lld", phoneNum,code,(long long)7*24*3600*3600];
     url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         resultBlock(responseObject, nil);
