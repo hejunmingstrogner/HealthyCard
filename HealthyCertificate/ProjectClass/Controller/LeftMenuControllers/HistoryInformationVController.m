@@ -120,8 +120,11 @@
         CustomerHistoryTBVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
         if (!cell) {
             cell = [[CustomerHistoryTBVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+            [cell.reportBtn addTarget:self action:@selector(reportBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         }
         cell.customerTest = (CustomerTest *)_historyArray[indexPath.section];
+        cell.reportBtn.tag = indexPath.section;
+
         return cell;
     }
     // 单位
@@ -164,7 +167,10 @@
         //        }
     }
 }
-
-
+// 报告按钮点击
+- (void)reportBtnClicked:(CustomButton *)sender
+{
+    NSLog(@"报告：%d", sender.tag);
+}
 
 @end
