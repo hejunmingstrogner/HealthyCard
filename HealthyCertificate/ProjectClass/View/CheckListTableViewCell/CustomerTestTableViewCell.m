@@ -148,6 +148,7 @@
         make.left.right.equalTo(serviceTimeLabel);
     }];
     serviceTimeLabel.numberOfLines = 0;
+    serviceAddressLabel.numberOfLines = 0;
 }
 
 - (void)setCellItemWithTest:(CustomerTest *)customerTest
