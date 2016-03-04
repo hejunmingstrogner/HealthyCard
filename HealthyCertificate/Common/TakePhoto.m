@@ -40,7 +40,7 @@
                 {
                     UIImagePickerController *picker = [[UIImagePickerController alloc]init];
                     picker.delegate = self;
-                    picker.allowsEditing = YES;
+                    picker.allowsEditing = NO;
                     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
                     [controller presentViewController:picker animated:YES completion:nil];
                 }
@@ -53,7 +53,7 @@
                 {
                     UIImagePickerController *picker = [[UIImagePickerController alloc]init];
                     picker.delegate = self;
-                    picker.allowsEditing = YES;
+                    picker.allowsEditing = NO;
                     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
                     [controller presentViewController:picker animated:YES completion:nil];
                 }
@@ -68,12 +68,12 @@
 
 - (void)takePhotoFromCurrentController:(id)controller WithRatioOfWidthAndHeight:(CGFloat)ratio resultBlock:(resultImageBlock)block
 {
-    _ratio = ratio;
     if (ratio < 0) {
         [RzAlertView showAlertViewControllerWithTarget:controller Title:@"警告" Message:@"⚠️ 您的宽高比例设置错误" ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDestructive];
         _ratio = -1;
         return;
     }
+    _ratio = ratio;
     [RzAlertView showAlertViewControllerWithTarget:controller Title:@"请选择" Message:nil preferredStyle:UIAlertControllerStyleActionSheet ActionTitlesArray:@[@"立即拍照", @"本地图片"] handle:^(NSInteger flag) {
         if(flag != 0){
             _controller = controller;
@@ -84,7 +84,7 @@
                 {
                     UIImagePickerController *picker = [[UIImagePickerController alloc]init];
                     picker.delegate = self;
-                    picker.allowsEditing = YES;
+                    picker.allowsEditing = NO;
                     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
                     [controller presentViewController:picker animated:YES completion:nil];
                 }
@@ -97,7 +97,7 @@
                 {
                     UIImagePickerController *picker = [[UIImagePickerController alloc]init];
                     picker.delegate = self;
-                    picker.allowsEditing = YES;
+                    picker.allowsEditing = NO;
                     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
                     [controller presentViewController:picker animated:YES completion:nil];
                 }
@@ -113,20 +113,13 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
     NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-    NSData *imagedata;
     if([mediaType isEqualToString:@"public.image"]){
-        UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 
-        if (UIImagePNGRepresentation(image) == nil) {
-            imagedata = UIImageJPEGRepresentation(image, 1);
-        }
-        else {
-            imagedata = UIImagePNGRepresentation(image);
-        }
-        UIImage *endimage = [UIImage imageWithData:imagedata];
+        image = [self fixOrientation:image];
 
         [picker dismissViewControllerAnimated:YES completion:nil];
-        _photoimage = endimage;
+        _photoimage = image;
         if (_ratio < 0) {
             if (_block) {
                 _block(_photoimage);
@@ -159,4 +152,81 @@
     return scaledImage;
 }
 
+#pragma mark -修正获取原图的时候自动旋转90的问题
+- (UIImage *)fixOrientation:(UIImage *)aImage {
+
+    // No-op if the orientation is already correct
+    if (aImage.imageOrientation == UIImageOrientationUp)
+        return aImage;
+
+    // We need to calculate the proper transformation to make the image upright.
+    // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.
+    CGAffineTransform transform = CGAffineTransformIdentity;
+
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationDown:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, aImage.size.height);
+            transform = CGAffineTransformRotate(transform, M_PI);
+            break;
+
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
+            transform = CGAffineTransformRotate(transform, M_PI_2);
+            break;
+
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, 0, aImage.size.height);
+            transform = CGAffineTransformRotate(transform, -M_PI_2);
+            break;
+        default:
+            break;
+    }
+
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationUpMirrored:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.height, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+        default:
+            break;
+    }
+
+    // Now we draw the underlying CGImage into a new context, applying the transform
+    // calculated above.
+    CGContextRef ctx = CGBitmapContextCreate(NULL, aImage.size.width, aImage.size.height,
+                                             CGImageGetBitsPerComponent(aImage.CGImage), 0,
+                                             CGImageGetColorSpace(aImage.CGImage),
+                                             CGImageGetBitmapInfo(aImage.CGImage));
+    CGContextConcatCTM(ctx, transform);
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            // Grr...
+            CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.height,aImage.size.width), aImage.CGImage);
+            break;
+
+        default:
+            CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.width,aImage.size.height), aImage.CGImage);
+            break;  
+    }  
+    
+    // And now we just create a new UIImage from the drawing context  
+    CGImageRef cgimg = CGBitmapContextCreateImage(ctx);  
+    UIImage *img = [UIImage imageWithCGImage:cgimg];  
+    CGContextRelease(ctx);  
+    CGImageRelease(cgimg);  
+    return img;  
+}
 @end

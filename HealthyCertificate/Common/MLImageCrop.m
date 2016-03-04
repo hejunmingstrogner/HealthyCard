@@ -489,6 +489,7 @@
             self.scrollView.contentInset = UIEdgeInsetsMake(CGRectGetMinY(self.overlayView.frame), CGRectGetMinX(self.overlayView.frame), CGRectGetHeight(self.view.bounds)-CGRectGetMaxY(self.overlayView.frame), CGRectGetWidth(self.view.bounds)-CGRectGetMaxX(self.overlayView.frame));
         }
 
+
         self.imageView.frame = imageFrame;
         
         //初始化,让其不会有黑框出现
