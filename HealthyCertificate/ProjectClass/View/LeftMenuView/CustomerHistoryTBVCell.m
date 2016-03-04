@@ -65,8 +65,9 @@
     sex.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
     [sex mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(bgview);
-        make.width.mas_equalTo(50);
+        make.width.mas_equalTo(45);
         make.height.mas_equalTo(21);
+        make.top.equalTo(bgview).offset(5);
     }];
     sexLabel = [[UILabel alloc]init];
     [bgview addSubview:sexLabel];
@@ -86,7 +87,7 @@
     [oldLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(sex);
         make.right.equalTo(bgview).offset(-5);
-        make.width.mas_equalTo(40);
+        make.width.mas_equalTo(25);
         make.height.equalTo(sex);
     }];
 
@@ -117,9 +118,8 @@
     nameLabel.textColor = [UIColor grayColor];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(sex);
-        make.left.equalTo(name);
-        make.right.equalTo(sex.mas_left);
         make.left.equalTo(name.mas_right);
+        make.right.equalTo(sex.mas_left);
         make.height.equalTo(sex);
     }];
 
@@ -130,7 +130,7 @@
     [phone mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(bgview);
         make.left.equalTo(name);
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(70);
         make.height.mas_equalTo(30);
     }];
 
@@ -166,7 +166,7 @@
     [dueToTime mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(bgview).offset(-5);
         make.height.left.equalTo(name);
-        make.width.mas_equalTo(80);
+        make.width.equalTo(phone);
     }];
     dueTimeLabel = [[UILabel alloc]init];
     dueTimeLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];;
