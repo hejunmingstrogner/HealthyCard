@@ -138,7 +138,7 @@
                   moduleName = "HealthyCertificate"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rztime/Desktop/HealthyCard/HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentViewController.m"
-                  timestampString = "478688830.020688"
+                  timestampString = "478750176.034808"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "448"
@@ -153,7 +153,7 @@
                   moduleName = "HealthyCertificate"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rztime/Desktop/HealthyCard/HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentViewController.m"
-                  timestampString = "478688830.020989"
+                  timestampString = "478750176.035123"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "448"
@@ -161,22 +161,6 @@
                   offsetFromSymbolStart = "42">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthyCertificate/Common/HttpNetworkManager.m"
-            timestampString = "478667348.702269"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
-            landmarkName = "-createOrUpdatePersonalAppointment:resultBlock:"
-            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

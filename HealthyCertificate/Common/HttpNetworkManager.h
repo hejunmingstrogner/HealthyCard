@@ -130,4 +130,13 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  *  @param block       回调 <BRServiceUnit>数组
  */
 - (void)fuzzQueryBRServiceUnitsByName:(NSString *)companyName resultBlock:(HCArrayResultBlock)block;
+
+#pragma mark - 查询个人历史
+/**
+ *  根据用户ID 查询获得个人历史 List<CustomerTest>
+ *
+ *  @param customId 用户ID
+ *  @param block    回调
+ */
+- (void)findCustomerTestHistoryRegByCustomId:(NSString *)customId resuluBlock:(HCArrayResultBlock)block;
 @end

@@ -19,6 +19,7 @@
 #import "CloudAppointmentCompanyViewController.h"
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
+#import "HistoryInformationVController.h"
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -348,9 +349,12 @@
             [self.navigationController pushViewController:userinfor animated:YES];
             break;
         }
-        case LEFTMENUCELL_HISTORYRECORD:
+        case LEFTMENUCELL_HISTORYRECORD:{
             NSLog(@"历史记录");
+            HistoryInformationVController *history = [[HistoryInformationVController alloc]init];
+            [self.navigationController pushViewController:history animated:YES];
             break;
+        }
         case LEFTMENUCELL_SETTING:
             NSLog(@"设置");
             break;
