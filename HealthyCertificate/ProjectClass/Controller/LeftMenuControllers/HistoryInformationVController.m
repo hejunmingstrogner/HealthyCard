@@ -169,6 +169,7 @@
         //            [self.navigationController pushViewController:cloudAppointCompany animated:YES];
         //        }
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 // 报告按钮点击
 - (void)reportBtnClicked:(CustomButton *)sender

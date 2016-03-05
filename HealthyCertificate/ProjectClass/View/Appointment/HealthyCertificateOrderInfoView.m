@@ -8,7 +8,8 @@
 
 #import "HealthyCertificateOrderInfoView.h"
 #import "UIFont+Custom.h"
-
+#import "Constants.h"
+#import "UIColor+Expanded.h"
 @interface HealthyCertificateOrderInfoView()
 
 @end
@@ -48,7 +49,7 @@
         make.height.mas_equalTo(self.frame.size.height/4-20);
     }];
     _segmentControl.selectedSegmentIndex = 0;
-    _segmentControl.tintColor = [UIColor colorWithRed:30/255.0 green:150/255.0 blue:200/255.0 alpha:1];
+    _segmentControl.tintColor = [UIColor colorWithRGBHex:HC_Base_Blue];
     _segmentControl.layer.masksToBounds = YES;
     _segmentControl.layer.cornerRadius = 5;
     [_segmentControl addTarget:self action:@selector(segmentControlClicked:) forControlEvents:UIControlEventValueChanged];
