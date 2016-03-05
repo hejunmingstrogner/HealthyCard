@@ -88,6 +88,7 @@
     _mapView = [[BMKMapView alloc]init];
     [self.view addSubview:_mapView];
     self.view.backgroundColor = [UIColor whiteColor];
+
     // 头部的背景
     UIView *headerBackGroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 74)];
     headerBackGroundView.backgroundColor = [UIColor whiteColor];
@@ -232,7 +233,7 @@
 
     // 设置地图view的位置大小
     [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headerBackGroundView);
+        make.top.equalTo(headerBackGroundView.mas_bottom);
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(orderView.mas_top);
     }];
@@ -555,8 +556,10 @@
 // 地图初始化完成之后
 - (void)mapViewDidFinishLoading:(BMKMapView *)mapView
 {
-    NSLog(@"地图初始化完成之后，%f", mapView.centerCoordinate.latitude);
+    _mapView.showMapScaleBar = YES;
     _mapView.zoomLevel = 14;
+    [_mapView setMapScaleBarPosition:CGPointMake(10, 10)];
+    _mapView.compassPosition = CGPointMake([UIScreen mainScreen].bounds.size.width - 50, 10);
 }
 
 // 拖拽地图设置用户服务位置
