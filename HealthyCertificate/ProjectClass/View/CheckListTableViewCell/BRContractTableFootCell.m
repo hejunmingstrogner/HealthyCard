@@ -51,7 +51,7 @@
     [_orderedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(status);
         make.left.equalTo(self.contentView.mas_centerX).offset(-20);
-        make.width.mas_equalTo(60);
+        make.width.mas_equalTo(80);
     }];
 
     _checkedLabel = [[UILabel alloc]init];

@@ -15,6 +15,7 @@
 #import "UILabel+FontColor.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "UIColor+Expanded.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -113,10 +114,9 @@
     }];
     _comfirmBtn.layer.masksToBounds = YES;
     _comfirmBtn.layer.cornerRadius = 5;
-    _comfirmBtn.layer.borderWidth = 1;
-    _comfirmBtn.layer.borderColor = [UIColor colorWithRed:50/255.0 green:170/255.0 blue:240/255.0 alpha:1].CGColor;
+    [_comfirmBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
     [_comfirmBtn setTitle:@"确   定" forState:UIControlStateNormal];
-    [_comfirmBtn setTitleColor:[UIColor colorWithRed:50/255.0 green:170/255.0 blue:240/255.0 alpha:1] forState:UIControlStateNormal];
+    [_comfirmBtn setTitleColor:[UIColor colorWithWhite:0.99 alpha:1] forState:UIControlStateNormal];
     [_comfirmBtn addTarget:self action:@selector(comfirmBtnCliked:) forControlEvents:UIControlEventTouchUpInside];
 
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];

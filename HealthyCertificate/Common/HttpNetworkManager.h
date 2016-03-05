@@ -159,4 +159,14 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  *  @param block    回调
  */
 - (void)findCustomerTestHistoryRegByCustomId:(NSString *)customId resuluBlock:(HCArrayResultBlock)block;
+
+#pragma mark - 查询单位预约历史记录
+/**
+ *  根据id 查询获得单位预约历史记录 List<BRContract>
+ *
+ *  @param customId 单位code
+ *  @param block    回调
+ */
+- (void)findBRContractHistoryRegByCustomId:(NSString *)customId resuleBlock:(HCArrayResultBlock)block;
+
 @end

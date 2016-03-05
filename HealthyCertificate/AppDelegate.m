@@ -14,9 +14,9 @@
 #import "UIFont+Custom.h"
 
 #import "LoginController.h"
+#import <Bugtags/Bugtags.h>
 
-
-
+#define bugTagsAppKey @"64cb2c33df5bab3d36ac0ea1ff907adf"
 @interface AppDelegate ()<HMNetworkEngineDelegate>
 
 @end
@@ -32,18 +32,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    _mapManager = [[BMKMapManager alloc]init];
-
     [[UINavigationBar appearance]setBarTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:20/255.0 green:20/255.0 blue:30/255.0 alpha:1], NSForegroundColorAttributeName, [UIFont fontWithType:UIFontOpenSansRegular size:17], NSFontAttributeName, nil]];
 
+    _mapManager = [[BMKMapManager alloc]init];
     BOOL ret = [_mapManager start:@"cRqr5CbUVzB2GkCbYXWXZXp8" generalDelegate:nil];
     if (!ret) {
         NSLog(@"百度地图使用错误");
     }
-    // Override point for customization after application launch.
-    //
-   // UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+
+    [Bugtags startWithAppKey:bugTagsAppKey invocationEvent:BTGInvocationEventBubble];
+    [Bugtags setInvocationEvent:BTGInvocationEventShake];
+
     self.window = [[UIWindow alloc] init];
     self.window.backgroundColor = [UIColor whiteColor];
     
