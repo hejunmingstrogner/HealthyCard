@@ -104,7 +104,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
             }];
         }
     }else{
-        [self loadLoginView];
+       // [self loadLoginView];
     }
     
     
