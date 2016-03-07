@@ -22,6 +22,7 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "AppointmentInfoView.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -127,7 +128,12 @@
     _baseBgScrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
     [self.view addSubview:_baseBgScrollView];
     _baseBgScrollView.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:0.9];
-    _baseBgScrollView.contentSize = CGSizeMake(self.view.frame.size.width, PXFIT_HEIGHT(460) + 200 + 50 + 90);  // 50待修改 [self labelHeight:介绍]
+
+    // 详情介绍
+    AppointmentInfoView *introduceView = [[AppointmentInfoView alloc]initWithFrame:CGRectMake(0, 10+ PXFIT_HEIGHT(460) + 10 + 210 , self.view.frame.size.width, 100)];
+
+    CGFloat heights = introduceView.frame.size.height + 10;
+    _baseBgScrollView.contentSize = CGSizeMake(self.view.frame.size.width, PXFIT_HEIGHT(460) + 200 + heights + 90);  // 80待修改 [self labelHeight:介绍]
 
     _healthCertificateView = [[HealthyCertificateView alloc]initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, PXFIT_HEIGHT(460))];
     [_baseBgScrollView addSubview:_healthCertificateView];
@@ -138,12 +144,8 @@
     _orderinforView = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(460) + 10, self.view.frame.size.width - 20, 200)];
     [_baseBgScrollView addSubview:_orderinforView];
 
-    _introduceLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(460) + 10 + 210, self.view.frame.size.width - 20, 50)]; // 50待修改 [self labelHeight:介绍]
-    [_baseBgScrollView addSubview:_introduceLabel];
-    _introduceLabel.text = @"测试使用的随意啊大家咖啡撒";
-    _introduceLabel.numberOfLines = 0;
-    _introduceLabel.textColor = [UIColor grayColor];
-    _introduceLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+
+    [_baseBgScrollView addSubview:introduceView];
 
     // 按钮的背景色
     UIView *btnBgView = [[UIView alloc]init];
@@ -159,10 +161,10 @@
     _leftBtn.layer.cornerRadius = 4;
     [_baseBgScrollView addSubview:_leftBtn];
     [_leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_introduceLabel.mas_bottom).offset(10);
         make.left.equalTo(_orderinforView);
         make.height.mas_equalTo(35);
         make.width.mas_equalTo(80);
+        make.centerY.equalTo(btnBgView);
     }];
     _leftBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
     [_leftBtn setTitle:@"已签到" forState:UIControlStateNormal];
@@ -199,8 +201,9 @@
     [btnBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(_centerBtn);
         make.left.right.equalTo(self.view);
-        make.top.equalTo(_centerBtn).offset(-10);
-        make.bottom.equalTo(_centerBtn).offset(10);
+        make.top.equalTo(introduceView.mas_bottom);
+//        make.bottom.equalTo(_centerBtn).offset(10);
+        make.height.mas_equalTo(80);
     }];
     [fengexian mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_leftBtn.mas_right).offset(-5);

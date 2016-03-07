@@ -23,8 +23,6 @@
 
 @property (nonatomic, strong) UIScrollView                   *baseBgScrollView;
 
-@property (nonatomic, strong) UILabel                        *introduceLabel;   // 文字说明label 
-
 @property (nonatomic, strong) CustomerTest                   *customerTestInfo;
 
 @property (nonatomic, strong) UIButton                       *leftBtn;          // 左侧按钮
