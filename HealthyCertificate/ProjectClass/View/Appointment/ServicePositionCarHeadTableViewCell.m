@@ -13,7 +13,7 @@
 #import "NSDate+Custom.h"
 #import "UILabel+FontColor.h"
 #import "UIFont+Custom.h"
-
+#import "Constants.h"
 @interface ServicePositionCarHeadTableViewCell()
 @property (nonatomic, strong) UIImageView *carImageView;
 @property (nonatomic, strong) UILabel     *carNo;   // 牌照
@@ -47,22 +47,15 @@
         make.width.equalTo(_carImageView.mas_height);
     }];
 
-    UIView *bgview = [[UIView alloc]init];
-    [self.contentView addSubview:bgview];
-    [bgview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.right.equalTo(self.contentView);
+    _scrollView = [[UIScrollView alloc]init];
+    [self.contentView addSubview:_scrollView];
+    [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.bottom.equalTo(self.contentView);
         make.left.equalTo(_carImageView.mas_right);
     }];
+    _scrollView.contentSize = CGSizeMake(0, 120);
 
-    _scrollView = [[UIScrollView alloc]init];
-    [bgview addSubview:_scrollView];
-    [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(bgview);
-    }];
-    //_scrollView.contentSize = CGSizeMake(self.contentView.frame.size.width - self.contentView.frame.size.height + 20, 140);
-    _scrollView.contentSize = CGSizeMake(0, 140);
-
-    _viewsBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width - 120, 140)];
+    _viewsBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width - 100, 140)];
     [_scrollView addSubview:_viewsBg];
 
     UIImageView *quanquan = [[UIImageView alloc]init];
@@ -72,7 +65,7 @@
     _carNo = [[UILabel alloc]init];
     _carNo.numberOfLines = 0;
     [_viewsBg addSubview:_carNo];
-    _carNo.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
+    _carNo.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
     [_carNo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_viewsBg).offset(5);
         make.right.equalTo(_viewsBg).offset(-10);
@@ -91,7 +84,7 @@
     // 地址
     _address = [[UILabel alloc]init];
     [_viewsBg addSubview:_address];
-    _address.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+    _address.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
     _address.numberOfLines = 0;
     _address.textColor = [UIColor grayColor];
     [_address mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -106,7 +99,7 @@
     _serviceTime = [[UILabel alloc]init];
     [_viewsBg addSubview:_serviceTime];
     _serviceTime.numberOfLines = 0;
-    _serviceTime.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+    _serviceTime.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
     _serviceTime.textColor = [UIColor grayColor];
     [_serviceTime mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_address.mas_bottom).offset(5);
@@ -142,7 +135,7 @@
         return ;
     }
 
-    NSString *sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:serviceInfo.startTime], [NSDate getHour_MinuteByDate:serviceInfo.startTime], [NSDate getHour_MinuteByDate:serviceInfo.endTime]];
+    NSString *sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.endTime/1000]];
     _serviceTime.text = sdate;
 
     int serHeight = [self Textheight:sdate fontSize:15];
@@ -152,13 +145,13 @@
 
     //_scrollView.contentSize = CGSizeMake(self.contentView.frame.size.width - self.contentView.frame.size.height + 20, carHeight + addrHeight + serHeight + 10);
     _scrollView.contentSize = CGSizeMake(0, carHeight + addrHeight + serHeight + 20);
-    _viewsBg.frame = CGRectMake(0, 0, self.contentView.frame.size.width - 120, carHeight + addrHeight + serHeight + 20);
+    _viewsBg.frame = CGRectMake(0, 0, self.contentView.frame.size.width - 100, carHeight + addrHeight + serHeight + 20);
 }
 
 - (CGFloat)Textheight:(NSString *)text fontSize:(NSInteger)size
 {
     UIFont *fnt = [UIFont systemFontOfSize:size];
-    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 140, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
+    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 120, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
     CGFloat he = tmpRect.size.height+10;
     return he;
 }
@@ -166,7 +159,7 @@
 - (CGFloat)titleHeight:(NSString *)text fontSize:(NSInteger)size
 {
     UIFont *fnt = [UIFont systemFontOfSize:size];
-    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 140 - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
+    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 120 - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
     CGFloat he = tmpRect.size.height+10;
     return he;
 }

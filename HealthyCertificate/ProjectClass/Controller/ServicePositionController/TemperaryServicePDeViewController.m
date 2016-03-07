@@ -106,16 +106,6 @@
     }];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-
-    UILabel *fenge = [[UILabel alloc]init];
-    [self.view addSubview:fenge];
-    [fenge mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_tableView.mas_bottom).offset(1);
-        make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(1);
-    }];
-    fenge.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    fenge.layer.borderWidth = 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -130,9 +120,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 0.1;
-    }
     return 10;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -142,7 +129,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 140;
+        return 120;
     }
     else if(indexPath.section == 1 || indexPath.section == 2){
         return 44;
