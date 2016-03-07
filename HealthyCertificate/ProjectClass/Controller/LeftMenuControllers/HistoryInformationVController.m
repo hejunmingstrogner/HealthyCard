@@ -15,6 +15,9 @@
 
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "BRContractHistoryTBHeaderCell.h"
+#import "BRContractHistoryTBFootCell.h"
+#import "PersonalHealthyCController.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -46,22 +49,42 @@
         waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据加载中..."];
     }
     [waitAlertView show];
-    [[HttpNetworkManager getInstance]findCustomerTestHistoryRegByCustomId:gPersonInfo.mCustCode resuluBlock:^(NSArray *result, NSError *error) {
-        [waitAlertView close];
-        if (!error) {
-            if (result.count != 0) {
-                _historyArray = [[NSMutableArray alloc]initWithArray:result];
-                [_tableView reloadData];
+    if (_userType == 1) {
+        [[HttpNetworkManager getInstance]findCustomerTestHistoryRegByCustomId:gPersonInfo.mCustCode resuluBlock:^(NSArray *result, NSError *error) {
+            [waitAlertView close];
+            if (!error) {
+                if (result.count != 0) {
+                    _historyArray = [[NSMutableArray alloc]initWithArray:result];
+                    [_tableView reloadData];
+                }
+                else {
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有个人历史记录" removeDelay:3];
+                }
             }
             else {
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有个人记录" removeDelay:3];
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
+                NSLog(@"error:%@", error);
             }
-        }
-        else {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
-            NSLog(@"error:%@", error);
-        }
-    }];
+        }];
+    }
+    else if(_userType == 2) {
+        [[HttpNetworkManager getInstance]findBRContractHistoryRegByCustomId:gCompanyInfo.cUnitCode resuleBlock:^(NSArray *result, NSError *error) {
+            [waitAlertView close];
+            if (!error) {
+                if (result.count != 0) {
+                    _historyArray = [[NSMutableArray alloc]initWithArray:result];
+                    [_tableView reloadData];
+                }
+                else {
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有历史记录" removeDelay:3];
+                }
+            }
+            else {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
+                NSLog(@"error:%@", error);
+            }
+        }];
+    }
 }
 
 - (void)initNavgation
@@ -100,6 +123,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if(_userType == 2)
+    {
+        return 2;
+    }
     return 1;
 }
 
@@ -113,7 +140,18 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 110;
+    if(_userType == 1){
+        return 110;
+    }
+    else {
+        if (indexPath.row == 0) {
+            return 80;
+        }
+        else
+        {
+            return 40;
+        }
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -132,32 +170,32 @@
     }
     // 单位
     else{
-//        if (indexPath.row == 0) {
-//            BRContractTableHeaerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellheader"];
-//            if (!cell) {
-//                cell = [[BRContractTableHeaerCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellheader"];
-//            }
-//            [cell setCellItem:(BRContract *)checkDataArray[indexPath.section]];
-//            return cell;
-//        }
-//        else {
-//            BRContractTableFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
-//            if (!cell ) {
-//                cell = [[BRContractTableFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
-//            }
-//            [cell setCellItem:(BRContract *)checkDataArray[indexPath.section]];
-//            return cell;
-//    }
-        return nil;
+        if (indexPath.row == 0) {
+            BRContractHistoryTBHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellheader"];
+            if (!cell) {
+                cell = [[BRContractHistoryTBHeaderCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellheader"];
+            }
+            [cell setBrContract:(BRContract *)_historyArray[indexPath.section]];
+            return cell;
+        }
+        else {
+            BRContractHistoryTBFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
+            if (!cell ) {
+                cell = [[BRContractHistoryTBFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
+            }
+            [cell setBrContract:(BRContract *)_historyArray[indexPath.section]];
+            return cell;
+        }
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     // 个人
     if (_userType == 1) {
 //        PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
-//        personalHealthyC.customerTestInfo = (CustomerTest *)checkDataArray[indexPath.section];
+//        personalHealthyC.customerTestInfo = (CustomerTest *)_historyArray[indexPath.section];
 //        [self.navigationController pushViewController:personalHealthyC animated:YES];
     }
     else {
@@ -169,7 +207,6 @@
         //            [self.navigationController pushViewController:cloudAppointCompany animated:YES];
         //        }
     }
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 // 报告按钮点击
 - (void)reportBtnClicked:(CustomButton *)sender
