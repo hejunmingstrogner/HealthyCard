@@ -14,4 +14,6 @@ typedef void(^WorkTypeBlock)(NSString* resultStr);
 
 @property (nonatomic, copy) WorkTypeBlock block;
 
+@property (nonatomic, copy) NSString* workTypeStr;
+
 @end
