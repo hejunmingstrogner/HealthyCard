@@ -11,7 +11,7 @@
 
 @interface ServicePositionCarHeadTableViewCell : UITableViewCell
 
-// 高 140
+// 高 120
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 - (void)setCellItem:(ServersPositionAnnotionsModel *)serviceInfo;
