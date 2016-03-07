@@ -50,8 +50,8 @@
     }];
     _segmentControl.selectedSegmentIndex = 0;
     _segmentControl.tintColor = [UIColor colorWithRGBHex:HC_Base_Blue];
-    _segmentControl.layer.masksToBounds = YES;
-    _segmentControl.layer.cornerRadius = 5;
+//    _segmentControl.layer.masksToBounds = YES;
+//    _segmentControl.layer.cornerRadius = 5;
     [_segmentControl addTarget:self action:@selector(segmentControlClicked:) forControlEvents:UIControlEventValueChanged];
 
     UIView *backview = [[UIView alloc]init];
