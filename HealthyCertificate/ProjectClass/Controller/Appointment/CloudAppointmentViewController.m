@@ -634,17 +634,9 @@
 
 -(void)healthyImageClicked{
     __weak typeof (self) wself = self;
-//    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
-//        photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
-//                                                             wself.healthyCertificateView.imageView.frame.size.height)];
-////        [wself.healthyCertificateView.image setBackgroundImage:photoimage forState:UIControlStateNormal];
-//        [wself.healthyCertificateView.imageView setImage:photoimage];
-//        _isAvatarSet = YES; //代表修改了健康证图片
-//    }];
     [[TakePhoto getInstancetype] takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
         photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
                                                                           wself.healthyCertificateView.imageView.frame.size.height)];
-        //        [wself.healthyCertificateView.image setBackgroundImage:photoimage forState:UIControlStateNormal];
         [wself.healthyCertificateView.imageView setImage:photoimage];
         _isAvatarSet = YES; //代表修改了健康证图片
 

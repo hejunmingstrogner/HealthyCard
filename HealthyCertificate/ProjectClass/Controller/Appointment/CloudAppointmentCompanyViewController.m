@@ -18,6 +18,7 @@
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
 #import "NSDate+Custom.h"
+#import "UILabel+Easy.h"
 #import "NSString+Custom.h"
 #import "BaseInfoTableViewCell.h"
 #import "CloudCompanyAppointmentCell.h"
@@ -33,6 +34,9 @@
 #import "HttpNetworkManager.h"
 
 #define Button_Size 26
+
+#define Cell_Font 24
+#define Cell_Font_Samll 23
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -50,7 +54,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     TEXTFIELD_CONTACTCOUNT
 };
 
-@interface CloudAppointmentCompanyViewController() <UITableViewDataSource, UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>
+@interface CloudAppointmentCompanyViewController() <UITableViewDataSource, UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UITextViewDelegate>
 {
     UITableView         *_baseInfoTableView;
     UITableView         *_companyInfoTableView;
@@ -67,6 +71,16 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     CGFloat              _viewHeight;
 
     UITextView         *_dateStrTextView;
+    
+    
+    //单位信息相关
+    UITextView          *_companyNameTextView;
+    UITextView          *_companyAddressTextView;
+    
+    UIView              *_companyInfoContainerView;
+    UIView              *_lineView;
+    
+    UILabel             *_exampleLabel;
 }
 
 //选择的员工列表
@@ -137,6 +151,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         make.width.equalTo(scrollView);
     }];
     
+    
+    //第一个板块 预约地址 & 预约时间
     _baseInfoTableView = [[UITableView alloc] init];
     _baseInfoTableView.tag = TABLEVIEW_BASEINFO;
     _baseInfoTableView.delegate = self;
@@ -144,10 +160,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _baseInfoTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     _baseInfoTableView.separatorColor = [UIColor colorWithRGBHex:0xe8e8e8];
     _baseInfoTableView.scrollEnabled = NO;
-    [_baseInfoTableView registerClass:[BaseInfoTableViewCell class] forCellReuseIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
     _baseInfoTableView.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
     _baseInfoTableView.layer.borderWidth = 1;
-    _baseInfoTableView.layer.cornerRadius = 5;
+    [_baseInfoTableView registerClass:[BaseInfoTableViewCell class] forCellReuseIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
     [containerView addSubview:_baseInfoTableView];
     [_baseInfoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(containerView);
@@ -155,6 +170,118 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         make.height.mas_equalTo(PXFIT_HEIGHT(96)*2);
     }];
     
+    //第二个板块 单位名称 & 单位地址
+    UILabel* companyNameLabel = [UILabel labelWithText:@"单位名称"
+                                                  font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]
+                                             textColor:[UIColor blackColor]];
+    NSDictionary* attribute = @{NSFontAttributeName:companyNameLabel.font};
+    CGSize size = [companyNameLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, PXFIT_HEIGHT(96)) options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+    //获得label的宽度
+    CGFloat labelTextWidth = size.width + 1;
+    CGFloat textViewWidth = SCREEN_WIDTH - labelTextWidth - PXFIT_WIDTH(20) * 3;
+    
+    
+    _companyInfoContainerView = [[UIView alloc] init];
+    _companyInfoContainerView.layer.borderWidth = 1;
+    _companyInfoContainerView.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
+    [containerView addSubview:_companyInfoContainerView];
+    
+    [_companyInfoContainerView addSubview:companyNameLabel];
+    _companyNameTextView = [[UITextView alloc] init];
+    _companyNameTextView.text = gCompanyInfo.cUnitName;
+    _companyNameTextView.scrollEnabled = NO;
+    _companyNameTextView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
+    _companyNameTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+
+    [_companyInfoContainerView addSubview:_companyNameTextView];
+    
+    UILabel* companyAddressLabel = [UILabel labelWithText:@"单位名称"
+                                                     font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]
+                                                textColor:[UIColor blackColor]];
+    [_companyInfoContainerView addSubview:companyAddressLabel];
+    
+    _companyAddressTextView = [[UITextView alloc] init];
+    _companyAddressTextView.text = gCompanyInfo.cUnitAddr;
+    _companyAddressTextView.scrollEnabled = NO;
+    _companyAddressTextView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
+    
+    
+    
+    //获得单位名称的高度 http://www.360doc.com/content/15/0608/16/11417867_476582625.shtml
+    size = [_companyNameTextView sizeThatFits:CGSizeMake(textViewWidth, MAXFLOAT)];
+//    size = [gCompanyInfo.cUnitName boundingRectWithSize:CGSizeMake(textViewWidth, MAXFLOAT)
+//                                                options: NSStringDrawingUsesFontLeading
+//                                             attributes:@{NSFontAttributeName:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]}
+//                                                context:nil].size;
+    CGFloat nameTextViewHeight = size.height;
+    
+    
+    //获得单位地址的高度
+//    size = [gCompanyInfo.cUnitAddr boundingRectWithSize:CGSizeMake(textViewWidth, MAXFLOAT)
+//                                                options: NSStringDrawingUsesFontLeading
+//                                             attributes:@{NSFontAttributeName:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]}
+//                                                context:nil].size;
+    size = [_companyAddressTextView sizeThatFits:CGSizeMake(textViewWidth, MAXFLOAT)];
+    CGFloat addressTextViewHeight = size.height;
+    
+    CGFloat containerViewHeight = (nameTextViewHeight < PXFIT_HEIGHT(96) ? PXFIT_HEIGHT(96) : nameTextViewHeight) + (addressTextViewHeight < PXFIT_HEIGHT(96) ? PXFIT_HEIGHT(96):addressTextViewHeight);
+
+   // _companyInfoContainerView = [[UIView alloc] init];
+    _companyInfoContainerView.backgroundColor = [UIColor whiteColor];
+    [containerView addSubview:_companyInfoContainerView];
+    [_companyInfoContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(containerView);
+        make.height.mas_equalTo(containerViewHeight + 1);
+        make.top.mas_equalTo(_baseInfoTableView.mas_bottom).with.offset(PXFIT_HEIGHT(20));
+    }];
+    
+  //  [_companyInfoContainerView addSubview:companyNameLabel];
+    [companyNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_companyInfoContainerView).with.offset(PXFIT_WIDTH(20));
+        make.top.mas_equalTo(_companyInfoContainerView);
+        make.height.mas_equalTo(nameTextViewHeight < PXFIT_HEIGHT(96)?PXFIT_HEIGHT(96):nameTextViewHeight);
+        make.width.mas_equalTo(labelTextWidth);
+    }];
+    
+    [companyNameLabel setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
+ //   _companyNameTextView = [[UITextView alloc] init];
+       [_companyNameTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(companyNameLabel.mas_right).with.offset(PXFIT_WIDTH(20));
+        make.right.mas_equalTo(_companyInfoContainerView).with.offset(-PXFIT_WIDTH(20));
+        make.centerY.mas_equalTo(companyNameLabel);
+        make.height.mas_equalTo( nameTextViewHeight);
+       // make.height.mas_equalTo(PXFIT_HEIGHT(96));
+    }];
+    
+    
+    _lineView = [[UIView alloc] init];
+    _lineView.backgroundColor = [UIColor colorWithRGBHex:0xe8e8e8];
+    [_companyInfoContainerView addSubview:_lineView];
+    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_companyInfoContainerView).with.offset(PXFIT_WIDTH(25));
+        make.right.mas_equalTo(_companyInfoContainerView).with.offset(-PXFIT_WIDTH(25));
+        make.height.mas_equalTo(0.5);
+        make.top.mas_equalTo(companyNameLabel.mas_bottom);
+    }];
+    
+    
+    [companyAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_companyInfoContainerView).with.offset(PXFIT_WIDTH(20));
+        make.top.mas_equalTo(_lineView.mas_bottom);
+        make.height.mas_equalTo(addressTextViewHeight);
+        //make.height.mas_equalTo(addressTextViewHeight < PXFIT_HEIGHT(96)?PXFIT_HEIGHT(96):addressTextViewHeight);
+        make.width.mas_equalTo(labelTextWidth);
+    }];
+    [companyAddressLabel setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
+    
+    _companyAddressTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+    [_companyInfoContainerView addSubview:_companyAddressTextView];
+    [_companyAddressTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(companyAddressLabel.mas_right).with.offset(PXFIT_WIDTH(20));
+        make.right.mas_equalTo(_companyInfoContainerView).with.offset(-PXFIT_WIDTH(20));
+        make.top.mas_equalTo(_lineView.mas_bottom);
+        make.height.mas_equalTo(addressTextViewHeight < PXFIT_HEIGHT(96)?PXFIT_HEIGHT(96):addressTextViewHeight);
+    }];
     
     _companyInfoTableView = [[UITableView alloc] init];
     _companyInfoTableView.tag = TABLEVIEW_COMPANYINFO;
@@ -162,41 +289,22 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _companyInfoTableView.dataSource = self;
     _companyInfoTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     _companyInfoTableView.separatorColor = [UIColor colorWithRGBHex:0xe8e8e8];
-    _companyInfoTableView.scrollEnabled = NO;
-    [_companyInfoTableView registerClass:[CloudCompanyAppointmentCell class] forCellReuseIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])];
     _companyInfoTableView.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
     _companyInfoTableView.layer.borderWidth = 1;
-    _companyInfoTableView.layer.cornerRadius = 5;
+    _companyInfoTableView.scrollEnabled = NO;
+    [_companyInfoTableView registerClass:[CloudCompanyAppointmentCell class] forCellReuseIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])];
     [containerView addSubview:_companyInfoTableView];
     [_companyInfoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(containerView);
-        make.top.mas_equalTo(_baseInfoTableView.mas_bottom).with.offset(PXFIT_HEIGHT(20));
-        make.height.mas_equalTo(PXFIT_HEIGHT(96)*5);
+        make.top.mas_equalTo(_companyInfoContainerView.mas_bottom).with.offset(PXFIT_HEIGHT(20));
+        make.height.mas_equalTo(PXFIT_HEIGHT(96)*4);
     }];
 
-    _staffTableView = [[UITableView alloc] init];
-    _staffTableView.tag = TABLEVIEW_STAFFINFO;
-    _staffTableView.delegate = self;
-    _staffTableView.dataSource = self;
-    _staffTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    _staffTableView.separatorColor = [UIColor colorWithRGBHex:0xe8e8e8];
-    _staffTableView.scrollEnabled = NO;
-    [_staffTableView registerClass:[CloudCompanyAppointmentCell class] forCellReuseIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])];
-    _staffTableView.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
-    _staffTableView.layer.borderWidth = 1;
-    _staffTableView.layer.cornerRadius = 5;
-    [containerView addSubview:_staffTableView];
-    [_staffTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(containerView);
-        make.top.mas_equalTo(_companyInfoTableView.mas_bottom).with.offset(PXFIT_HEIGHT(20));
-        make.height.mas_equalTo(PXFIT_HEIGHT(96));
-    }];
-    
     AppointmentInfoView* infoView = [[AppointmentInfoView alloc] init];
     [containerView addSubview:infoView];
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(containerView);
-        make.top.mas_equalTo(_staffTableView.mas_bottom).with.offset(PXFIT_HEIGHT(20));
+        make.top.mas_equalTo(_companyInfoTableView.mas_bottom).with.offset(PXFIT_HEIGHT(20));
     }];
     
     UIView* bottomView = [[UIView alloc] init];
@@ -213,8 +321,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                                                textColor:[UIColor whiteColor]
                                          backgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
     appointmentBtn.layer.cornerRadius = 5;
-//    appointmentBtn.layer.borderWidth = 2;
-//    appointmentBtn.layer.borderColor = MO_RGBCOLOR(70, 180, 240).CGColor;
     [appointmentBtn addTarget:self action:@selector(appointmentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:appointmentBtn];
     [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -238,9 +344,61 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     
 }
 
+-(void)loadData
+{
+//    CGFloat containerHeight = _companyInfoContainerView.frame.size.height;
+//    
+//    _companyNameTextView.text = gCompanyInfo.cUnitName;
+//    [_companyNameTextView sizeToFit];
+//    CGSize size = [_companyNameTextView sizeThatFits:CGSizeMake(CGRectGetWidth(_companyNameTextView.frame), FIT_HEIGHT(10000))];
+////    if (size.height <= PXFIT_HEIGHT(96)){
+////        
+////    }else{
+////        [_companyNameTextView mas_updateConstraints:^(MASConstraintMaker *make) {
+////            make.height.mas_equalTo([NSNumber numberWithFloat:size.height]);
+////        }];
+////    }
+//    /*
+//     make.left.mas_equalTo(companyAddressLabel.mas_right).with.offset(PXFIT_WIDTH(20));
+//     make.right.mas_equalTo(_companyInfoContainerView).with.offset(-PXFIT_WIDTH(20));
+//     make.top.mas_equalTo(_lineView.mas_bottom);
+//     make.height.mas_equalTo(PXFIT_HEIGHT(96));*/
+//    
+//    _companyAddressTextView.text = gCompanyInfo.cUnitAddr;
+//    [_companyAddressTextView sizeToFit];
+//   // CGSize size ;
+//    
+//    CGFloat testWidth = _companyAddressTextView.frame.size.width;
+//    size = [_companyAddressTextView sizeThatFits:CGSizeMake(300, FIT_HEIGHT(10000))];
+//    if (size.height <= PXFIT_HEIGHT(96))
+//        return;
+//    
+//    [_companyInfoContainerView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.height.mas_equalTo(_companyInfoContainerView.frame.size.height + size.height - PXFIT_HEIGHT(96));
+//    }];
+//    
+//    [_companyAddressTextView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.height.mas_equalTo([NSNumber numberWithFloat:size.height]);
+//    }];
+//    
+//    [self.view setNeedsLayout];
+    //[_companyNameTextView]
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self registerKeyboardNotification];
+    
+ //   [self loadData];
+    
+    
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -358,9 +516,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         case TABLEVIEW_BASEINFO:
             return 2;
         case TABLEVIEW_COMPANYINFO:
-            return 5;
-        case TABLEVIEW_STAFFINFO:
-            return 1;
+            return 4;
         default:
             break;
     }
@@ -391,72 +547,36 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }
         case TABLEVIEW_COMPANYINFO:
         {
+            if (indexPath.row == 3){
+                //添加单位员工
+                CloudCompanyAppointmentStaffCell* cell = [[CloudCompanyAppointmentStaffCell alloc] init];
+                cell.staffCount = _customerArr.count;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                return cell;
+            }
+            
             CloudCompanyAppointmentCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])];
             if (indexPath.row == 0){
-                cell.textField.placeholder = @"单位名称";
-                cell.textField.text = gCompanyInfo.cUnitName;
-                cell.textField.textColor = [UIColor colorWithRGBHex:0x6e6e6e];
-                cell.textField.enabled = NO;
-            }else if (indexPath.row == 1){
-                cell.textField.placeholder = @"单位地址";
-                cell.textField.text = gCompanyInfo.cUnitAddr;
-                cell.textField.textColor = [UIColor colorWithRGBHex:0x6e6e6e];
-                cell.textField.enabled = NO;
-            }else if (indexPath.row == 2){
-                cell.textField.placeholder = @"联系人";
+                cell.textFieldType = CDA_CONTACTPERSON;
                 cell.textField.text = gCompanyInfo.cLinkPeople;
                 cell.textField.enabled = YES;
-                cell.textField.tag = TEXTFIELD_CONTACT;
                 _contactPersonField = cell.textField;
-            }else if (indexPath.row == 3){
-                cell.textField.placeholder = @"请输入手机号码";
+                cell.textField.tag = TEXTFIELD_CONTACT;
+            }else if (indexPath.row == 1){
+                cell.textFieldType = CDA_CONTACTPHONE;
                 cell.textField.text = gCompanyInfo.cLinkPhone;
                 cell.textField.enabled = YES;
-                cell.textField.tag = TEXTFIELD_PHONE;
                 _phoneNumField = cell.textField;
-            }else{
-                cell.textField.placeholder = @"体检人数";
-                cell.textField.enabled = YES;
-                cell.textField.tag = TEXTFIELD_CONTACTCOUNT;
+                cell.textField.tag = TEXTFIELD_PHONE;
+            }else if (indexPath.row == 2){
+                cell.textFieldType = CDA_PERSON;
                 cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+                cell.textField.enabled = YES;
                 _exminationCountField = cell.textField;
-            }
-            if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
-            {
-                [cell setSeparatorInset:UIEdgeInsetsZero];
-            }
-            
-            if ( [cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)] )
-            {
-                [cell setPreservesSuperviewLayoutMargins:NO];
-            }
-            
-            if ( [cell respondsToSelector:@selector(setLayoutMargins:)] )
-            {
-                [cell setLayoutMargins:UIEdgeInsetsZero];
+                cell.textField.tag = TEXTFIELD_CONTACTCOUNT;
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
-        }
-        case TABLEVIEW_STAFFINFO:
-        {
-            CloudCompanyAppointmentStaffCell* cell = [[CloudCompanyAppointmentStaffCell alloc] init];
-            cell.staffCount = _customerArr.count;
-            if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
-            {
-                [cell setSeparatorInset:UIEdgeInsetsZero];
-            }
-            if ( [cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)] )
-            {
-                [cell setPreservesSuperviewLayoutMargins:NO];
-            }
-            if ( [cell respondsToSelector:@selector(setLayoutMargins:)] )
-            {
-                [cell setLayoutMargins:UIEdgeInsetsZero];
-            }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return cell;
-            
         }
         default:
             break;
@@ -595,4 +715,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         [self.view layoutIfNeeded];
     } completion:NULL];
 }
+
+
+
 @end
