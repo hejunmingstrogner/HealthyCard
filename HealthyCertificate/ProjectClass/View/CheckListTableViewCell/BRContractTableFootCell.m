@@ -26,7 +26,7 @@
     [self.contentView addSubview:status];
     status.font = [UIFont fontWithType:UIFontOpenSansRegular size:13];
     [status mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView).offset(10);
+        make.left.equalTo(self.contentView).offset(15);
         make.centerY.equalTo(self.contentView);
         make.height.mas_equalTo(20);
         make.width.mas_equalTo(40);
@@ -62,7 +62,7 @@
     [self.contentView addSubview:_checkedLabel];
     [_checkedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(_orderedLabel);
-        make.right.equalTo(self.contentView).offset(-10);
+        make.right.equalTo(self.contentView).offset(-15);
         make.left.equalTo(_orderedLabel.mas_right).offset(10);
     }];
 }

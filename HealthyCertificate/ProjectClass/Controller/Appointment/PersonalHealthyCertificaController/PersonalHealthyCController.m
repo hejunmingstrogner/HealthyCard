@@ -404,10 +404,8 @@
     }
 
     __weak typeof (self) wself = self;
-    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
-        photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthCertificateView.imageView.frame.size.width,
-                                                                          wself.healthCertificateView.imageView.frame.size.height)];
-       // [wself.healthCertificateView.imageBtn setBackgroundImage:photoimage forState:UIControlStateNormal];
+
+    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
         wself.healthCertificateView.imageView.image = photoimage;
         _isAvatarSet = YES; //代表修改了健康证图片
     }];
