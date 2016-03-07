@@ -41,6 +41,7 @@
 #import "PositionUtil.h"
 #import "TakePhoto.h"
 #import "RzAlertView.h"
+#import "HCRule.h"
 
 #import "MethodResult.h"
 
@@ -108,6 +109,10 @@
 }
 
 -(void)setIdCardInfo:(NSArray *)idCardInfo{
+    if ([HCRule validateIDCardNumber:idCardInfo[1]] == NO){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"扫描身份证信息失败，请注意聚焦" removeDelay:3];
+        return;
+    }
     _healthyCertificateView.name = idCardInfo[0];
     _healthyCertificateView.idCard = idCardInfo[1];
     _healthyCertificateView.gender = idCardInfo[2];
@@ -615,6 +620,7 @@
 -(void)industryBtnClicked:(NSString *)industry
 {
     WorkTypeViewController* workTypeViewController = [[WorkTypeViewController alloc] init];
+    workTypeViewController.workTypeStr = self.healthyCertificateView.workType;
     __weak typeof (self) wself = self;
     workTypeViewController.block = ^(NSString* resultStr){
         wself.healthyCertificateView.workType = resultStr;
