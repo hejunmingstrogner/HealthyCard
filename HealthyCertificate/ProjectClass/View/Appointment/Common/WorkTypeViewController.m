@@ -56,6 +56,8 @@
     }];
     
     _inputTextField = [[UITextField alloc] init];
+    _inputTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _inputTextField.text = _workTypeStr;
     _inputTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:Text_Font];
     [inputTextFieldContainerView addSubview:_inputTextField];
     _inputTextField.backgroundColor = [UIColor whiteColor];
@@ -120,7 +122,7 @@
 
 -(void)initNavgationBar{
     // 返回按钮
-    self.title = @"行业选择";
+    self.title = @"行业信息修改";
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
@@ -182,23 +184,9 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class]) forIndexPath:indexPath];
+    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Text_Font];
     WorkTypeInfoModel* workInfoModel = (WorkTypeInfoModel*)_dataSource[indexPath.row];
     cell.textLabel.text = workInfoModel.name;
-    if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
-    {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-    
-    if ( [cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)] )
-    {
-        [cell setPreservesSuperviewLayoutMargins:NO];
-    }
-    
-    if ( [cell respondsToSelector:@selector(setLayoutMargins:)] )
-    {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
-    }
-
     return cell;
 }
 
