@@ -115,6 +115,7 @@
 		B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A980F1C76E74500E3E054 /* PhysicalExaminationViewController.m */; };
 		B23A98131C76F0D400E3E054 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98121C76F0D400E3E054 /* AboutUsViewController.m */; };
 		B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98151C76F5C700E3E054 /* AdviceViewController.m */; };
+		B23C766D1C8D247B00E5C40A /* PersonalHealthyCHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B23C766C1C8D247B00E5C40A /* PersonalHealthyCHistoryVC.m */; };
 		B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C891C7865D700F543E1 /* PositionUtil.m */; };
 		B2436C8E1C7ACF8F00F543E1 /* CustomerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C8D1C7ACF8F00F543E1 /* CustomerTest.m */; };
 		B2436C911C7AD1D000F543E1 /* Customer.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C901C7AD1D000F543E1 /* Customer.m */; };
@@ -349,6 +350,8 @@
 		B23A98121C76F0D400E3E054 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		B23A98141C76F5C700E3E054 /* AdviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdviceViewController.h; sourceTree = "<group>"; };
 		B23A98151C76F5C700E3E054 /* AdviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdviceViewController.m; sourceTree = "<group>"; };
+		B23C766B1C8D247B00E5C40A /* PersonalHealthyCHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalHealthyCHistoryVC.h; sourceTree = "<group>"; };
+		B23C766C1C8D247B00E5C40A /* PersonalHealthyCHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalHealthyCHistoryVC.m; sourceTree = "<group>"; };
 		B2436C881C7865D700F543E1 /* PositionUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionUtil.h; sourceTree = "<group>"; };
 		B2436C891C7865D700F543E1 /* PositionUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PositionUtil.m; sourceTree = "<group>"; };
 		B2436C8C1C7ACF8F00F543E1 /* CustomerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerTest.h; sourceTree = "<group>"; };
@@ -1071,6 +1074,8 @@
 			children = (
 				B2FEA8621C7ED5D700106EE8 /* PersonalHealthyCController.h */,
 				B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */,
+				B23C766B1C8D247B00E5C40A /* PersonalHealthyCHistoryVC.h */,
+				B23C766C1C8D247B00E5C40A /* PersonalHealthyCHistoryVC.m */,
 			);
 			path = PersonalHealthyCertificaController;
 			sourceTree = "<group>";
@@ -1377,6 +1382,7 @@
 				B2436C941C7AD28700F543E1 /* BRContract.m in Sources */,
 				252AB8941C770F890085CC14 /* CloudAppointmentDateVC.m in Sources */,
 				2512B41B1C7056C900EE661B /* UIImage+Color.m in Sources */,
+				B23C766D1C8D247B00E5C40A /* PersonalHealthyCHistoryVC.m in Sources */,
 				B27B00DF1C84622D00FBF895 /* AppointmentInfoView.m in Sources */,
 				B27B00DE1C84622D00FBF895 /* AddWorkerTableViewCell.m in Sources */,
 				25BFEB391C7423610062F9B8 /* CompanyInfoOfPhonePacket.m in Sources */,
