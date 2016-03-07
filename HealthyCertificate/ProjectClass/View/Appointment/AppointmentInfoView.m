@@ -19,7 +19,8 @@
 @implementation AppointmentInfoView
 
 -(id)initWithFrame:(CGRect)frame{
-    if (self = [super initWithFrame:frame]){
+    CGFloat heigh = [self viewHeight];
+    if (self = [super initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, heigh)]){
         
         self.backgroundColor = [UIColor whiteColor];
         
@@ -59,6 +60,17 @@
         }];
     }
     return self;
+}
+
+- (CGFloat)viewHeight
+{
+    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
+    CGRect tmpRect = [@"注意事项" boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
+
+    CGRect tmpRect1 = [@"1、云预约时请确认预约体检地点和联系人电话有效性,以便我们方便联系您并为您提供优质的体检服务。" boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
+
+    CGRect tmpRect2 = [@"2、选定（指定）服务点后请按时到指定位置体检，以免错过时间给您带来不便。" boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
+    return tmpRect.size.height + PXFIT_HEIGHT(20) + tmpRect1.size.height + PXFIT_WIDTH(10) + tmpRect2.size.height + PXFIT_WIDTH(10);
 }
 
 @end
