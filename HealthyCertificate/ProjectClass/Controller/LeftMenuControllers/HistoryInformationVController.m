@@ -17,6 +17,7 @@
 #import "UIButton+HitTest.h"
 #import "BRContractHistoryTBHeaderCell.h"
 #import "BRContractHistoryTBFootCell.h"
+#import "PersonalHealthyCController.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -190,10 +191,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     // 个人
     if (_userType == 1) {
 //        PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
-//        personalHealthyC.customerTestInfo = (CustomerTest *)checkDataArray[indexPath.section];
+//        personalHealthyC.customerTestInfo = (CustomerTest *)_historyArray[indexPath.section];
 //        [self.navigationController pushViewController:personalHealthyC animated:YES];
     }
     else {
@@ -205,7 +207,6 @@
         //            [self.navigationController pushViewController:cloudAppointCompany animated:YES];
         //        }
     }
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 // 报告按钮点击
 - (void)reportBtnClicked:(CustomButton *)sender

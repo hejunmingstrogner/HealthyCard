@@ -129,6 +129,10 @@
 		B259C9351C8827B300A6A767 /* MLImageCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C9341C8827B300A6A767 /* MLImageCrop.m */; };
 		B259C9381C885EA600A6A767 /* HistoryInformationVController.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C9371C885EA600A6A767 /* HistoryInformationVController.m */; };
 		B259C93B1C88608800A6A767 /* CustomerHistoryTBVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C93A1C88608800A6A767 /* CustomerHistoryTBVCell.m */; };
+		B259C9421C8A78A400A6A767 /* libIDCardLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B259C93D1C8A78A400A6A767 /* libIDCardLib.a */; };
+		B259C9431C8A78A400A6A767 /* YMIDCardRecognition.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C9411C8A78A400A6A767 /* YMIDCardRecognition.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		B259C94D1C8ACEB200A6A767 /* BRContractHistoryTBHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C94C1C8ACEB200A6A767 /* BRContractHistoryTBHeaderCell.m */; };
+		B259C9501C8ACEC400A6A767 /* BRContractHistoryTBFootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C94F1C8ACEC400A6A767 /* BRContractHistoryTBFootCell.m */; };
 		B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */; };
 		B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CCF1C7C412400721CB5 /* UILabel+FontColor.m */; };
 		B2640CD41C7C7CF500721CB5 /* WaitDocResultSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CD31C7C7CF500721CB5 /* WaitDocResultSelectViewController.m */; };
@@ -375,6 +379,16 @@
 		B259C9371C885EA600A6A767 /* HistoryInformationVController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryInformationVController.m; sourceTree = "<group>"; };
 		B259C9391C88608800A6A767 /* CustomerHistoryTBVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerHistoryTBVCell.h; sourceTree = "<group>"; };
 		B259C93A1C88608800A6A767 /* CustomerHistoryTBVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerHistoryTBVCell.m; sourceTree = "<group>"; };
+		B259C93C1C8A78A400A6A767 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		B259C93D1C8A78A400A6A767 /* libIDCardLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libIDCardLib.a; sourceTree = "<group>"; };
+		B259C93E1C8A78A400A6A767 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		B259C93F1C8A78A400A6A767 /* YMIDCardEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMIDCardEngine.h; sourceTree = "<group>"; };
+		B259C9401C8A78A400A6A767 /* YMIDCardRecognition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMIDCardRecognition.h; sourceTree = "<group>"; };
+		B259C9411C8A78A400A6A767 /* YMIDCardRecognition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMIDCardRecognition.m; sourceTree = "<group>"; };
+		B259C94B1C8ACEB200A6A767 /* BRContractHistoryTBHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRContractHistoryTBHeaderCell.h; sourceTree = "<group>"; };
+		B259C94C1C8ACEB200A6A767 /* BRContractHistoryTBHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRContractHistoryTBHeaderCell.m; sourceTree = "<group>"; };
+		B259C94E1C8ACEC400A6A767 /* BRContractHistoryTBFootCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRContractHistoryTBFootCell.h; sourceTree = "<group>"; };
+		B259C94F1C8ACEC400A6A767 /* BRContractHistoryTBFootCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRContractHistoryTBFootCell.m; sourceTree = "<group>"; };
 		B2640CCB1C7C361A00721CB5 /* ServicePositionDetialCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePositionDetialCellItem.h; sourceTree = "<group>"; };
 		B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePositionDetialCellItem.m; sourceTree = "<group>"; };
 		B2640CCE1C7C412400721CB5 /* UILabel+FontColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+FontColor.h"; sourceTree = "<group>"; };
@@ -428,6 +442,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B259C9421C8A78A400A6A767 /* libIDCardLib.a in Frameworks */,
 				30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -758,6 +773,12 @@
 		254A8DE01C81A52100F2EC94 /* YMIDCardEngine */ = {
 			isa = PBXGroup;
 			children = (
+				B259C93C1C8A78A400A6A767 /* Common.h */,
+				B259C93D1C8A78A400A6A767 /* libIDCardLib.a */,
+				B259C93E1C8A78A400A6A767 /* Utility.h */,
+				B259C93F1C8A78A400A6A767 /* YMIDCardEngine.h */,
+				B259C9401C8A78A400A6A767 /* YMIDCardRecognition.h */,
+				B259C9411C8A78A400A6A767 /* YMIDCardRecognition.m */,
 			);
 			path = YMIDCardEngine;
 			sourceTree = "<group>";
@@ -973,6 +994,17 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		B259C9441C8ACE1F00A6A767 /* HistoryRegView */ = {
+			isa = PBXGroup;
+			children = (
+				B259C94B1C8ACEB200A6A767 /* BRContractHistoryTBHeaderCell.h */,
+				B259C94C1C8ACEB200A6A767 /* BRContractHistoryTBHeaderCell.m */,
+				B259C94E1C8ACEC400A6A767 /* BRContractHistoryTBFootCell.h */,
+				B259C94F1C8ACEC400A6A767 /* BRContractHistoryTBFootCell.m */,
+			);
+			path = HistoryRegView;
+			sourceTree = "<group>";
+		};
 		B2640CC41C7C0BAB00721CB5 /* ServicePositionController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1023,6 +1055,7 @@
 		B2F826271C73141100993F47 /* LeftMenuView */ = {
 			isa = PBXGroup;
 			children = (
+				B259C9441C8ACE1F00A6A767 /* HistoryRegView */,
 				B2F826281C73143200993F47 /* LeftMenuView.h */,
 				B2F826291C73143200993F47 /* LeftMenuView.m */,
 				B27B00C91C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.h */,
@@ -1304,6 +1337,7 @@
 				B2640CD41C7C7CF500721CB5 /* WaitDocResultSelectViewController.m in Sources */,
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
 				B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */,
+				B259C9501C8ACEC400A6A767 /* BRContractHistoryTBFootCell.m in Sources */,
 				25BFEB431C74A55B0062F9B8 /* AppointmentViewController.m in Sources */,
 				2512B3AF1C70557C00EE661B /* AppDelegate.m in Sources */,
 				B27B00E31C84622D00FBF895 /* HealthyCertificateOrderInfoView.m in Sources */,
@@ -1325,6 +1359,7 @@
 				2512B4131C7056C900EE661B /* NSString+Count.m in Sources */,
 				B259C93B1C88608800A6A767 /* CustomerHistoryTBVCell.m in Sources */,
 				2512B4311C70634B00EE661B /* HMNetworkEngine.m in Sources */,
+				B259C94D1C8ACEB200A6A767 /* BRContractHistoryTBHeaderCell.m in Sources */,
 				254A8DDE1C813BC200F2EC94 /* EditInfoViewController.m in Sources */,
 				252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */,
 				2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */,
@@ -1362,6 +1397,7 @@
 				B23A98001C7420DE00E3E054 /* ServersPositionAnnotionsModel.m in Sources */,
 				B259C9381C885EA600A6A767 /* HistoryInformationVController.m in Sources */,
 				B23A98071C76BCDA00E3E054 /* UserinformationCellItem.m in Sources */,
+				B259C9431C8A78A400A6A767 /* YMIDCardRecognition.m in Sources */,
 				B2436C911C7AD1D000F543E1 /* Customer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

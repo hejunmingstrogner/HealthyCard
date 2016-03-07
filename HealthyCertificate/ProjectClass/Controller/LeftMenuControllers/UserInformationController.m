@@ -20,6 +20,7 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "WorkTypeViewController.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -189,6 +190,27 @@
             break;
         }
         case USERINFORMATION_CALLING:{
+            if (GetUserType == 1) {
+                WorkTypeViewController *workType = [[WorkTypeViewController alloc]init];
+                workType.block = ^(NSString *resultStr){
+                    // 修改行业
+                    NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
+                    [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
+                    [personinfo setObject:resultStr forKey:@"custType"];
+                    [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
+                        if (!error) {
+                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业成功" removeDelay:2];
+                            gPersonInfo.cIndustry = resultStr;
+                            [self getdata];
+                            [_tableView reloadData];
+                        }
+                        else {
+                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业失败，请重试" removeDelay:3];
+                        }
+                    }];
+                };
+                [self.navigationController pushViewController:workType animated:YES];
+            }
             return;
         }
         case USERINFORMATION_WORKUNITNAME:{
