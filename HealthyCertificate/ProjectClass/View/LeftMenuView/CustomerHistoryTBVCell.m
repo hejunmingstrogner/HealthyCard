@@ -178,7 +178,6 @@
         make.right.equalTo(oldLabel);
     }];
     dueTimeLabel.numberOfLines = 0;
-
 }
 
 - (void)setCustomerTest:(CustomerTest *)customerTest

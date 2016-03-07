@@ -141,8 +141,8 @@
 
             }
             else {
-                NSString *year = [NSDate getYear_Month_DayByDate:_brContract.regBeginDate];
-                NSString *end = [NSDate getYear_Month_DayByDate:_brContract.regEndDate];
+                NSString *year = [NSDate getYear_Month_DayByDate:_brContract.regBeginDate/1000];
+                NSString *end = [NSDate getYear_Month_DayByDate:_brContract.regEndDate/1000];
                 NSString *time = [NSString stringWithFormat:@"%@~%@",year, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
@@ -155,8 +155,8 @@
                 [_timeBtn setTitle:@"" forState:UIControlStateNormal];
             }
             else {
-                NSString *startyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regBeginDate];
-                NSString *endyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regEndDate];
+                NSString *startyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regBeginDate/1000];
+                NSString *endyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regEndDate/1000];
                 NSString *time = [NSString stringWithFormat:@"%@~%@",startyear, endyear];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
@@ -172,8 +172,8 @@
 
             }
             else {
-                NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime];
-                NSString *end = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.endTime];
+                NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime/1000];
+                NSString *end = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.endTime/1000];
                 NSString *time = [NSString stringWithFormat:@"%@~%@",year, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
@@ -185,8 +185,8 @@
                 [_timeBtn setTitle:@"" forState:UIControlStateNormal];
             }
             else {
-                NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime];
-                NSString *end = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.endTime];
+                NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
+                NSString *end = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.endTime/1000];
                 NSString *time = [NSString stringWithFormat:@"%@~%@",year, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
