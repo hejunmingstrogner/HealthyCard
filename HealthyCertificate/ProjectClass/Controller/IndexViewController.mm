@@ -233,7 +233,7 @@
 
     // 设置地图view的位置大小
     [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headerBackGroundView.mas_bottom);
+        make.top.equalTo(headerBackGroundView.mas_bottom).offset(-2);
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(orderView.mas_top);
     }];
