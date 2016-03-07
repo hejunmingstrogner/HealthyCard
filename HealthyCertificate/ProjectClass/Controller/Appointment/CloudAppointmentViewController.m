@@ -21,6 +21,7 @@
 #import "NSString+Custom.h"
 #import "UIScreen+Type.h"
 #import "NSString+Custom.h"
+#import "NSString+Count.h"
 #import "UIButton+HitTest.h"
 
 #import "BaseInfoTableViewCell.h"
@@ -499,7 +500,7 @@
         if (_isAvatarSet == YES) //如果修改了图片,预约成功后要上传图片
         {
             [[HttpNetworkManager getInstance] customerUploadHealthyCertifyPhoto:wself.healthyCertificateView.imageView.image CusCheckCode:methodResult.object resultBlock:^(NSDictionary *result, NSError *error) {
-                if (error == nil){
+                if (error != nil){
                     //失败 to do
                     [RzAlertView showAlertLabelWithTarget:self.view Message:UploadHealthyPicFailed removeDelay:2];
                     return;
@@ -633,24 +634,13 @@
 
 -(void)healthyImageClicked{
     __weak typeof (self) wself = self;
-    
-    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:300/400 resultBlock:^(UIImage *photoimage) {
+    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
         photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
                                                                           wself.healthyCertificateView.imageView.frame.size.height)];
-        //        [wself.healthyCertificateView.image setBackgroundImage:photoimage forState:UIControlStateNormal];
         [wself.healthyCertificateView.imageView setImage:photoimage];
         _isAvatarSet = YES; //代表修改了健康证图片
 
     }];
-    
-    
-//    [[TakePhoto getInstancetype] takePhotoFromCurrentController:self resultBlock:^(UIImage *photoimage) {
-//        photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
-//                                                             wself.healthyCertificateView.imageView.frame.size.height)];
-////        [wself.healthyCertificateView.image setBackgroundImage:photoimage forState:UIControlStateNormal];
-//        [wself.healthyCertificateView.imageView setImage:photoimage];
-//        _isAvatarSet = YES; //代表修改了健康证图片
-//    }];
 }
 
 #pragma mark - Private Methods
@@ -678,9 +668,14 @@
     [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
     _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+        if(_isCustomerServerPoint)
+        {
+            self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+        }
+        else {
+            self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+        }
         [self.view layoutIfNeeded];
-        
     } completion:NULL];
 }
 
@@ -689,7 +684,12 @@
     CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
     [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+        if (!_isCustomerServerPoint) {
+            self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+        }
+        else {
+            self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+        }
         [self.view layoutIfNeeded];
     } completion:NULL];
 }

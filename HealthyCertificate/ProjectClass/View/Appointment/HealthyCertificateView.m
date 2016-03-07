@@ -97,6 +97,8 @@
 -(void)setIdCard:(NSString *)idCard{
     _idCard = idCard;
     [_idCardBtn setTitle:_idCard forState:UIControlStateNormal];
+    _age = [NSString getOldYears:idCard];
+    _ageLabel.text = _age;
 }
 
 -(void)setWorkType:(NSString *)workType{

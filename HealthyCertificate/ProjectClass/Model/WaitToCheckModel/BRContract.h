@@ -41,7 +41,7 @@
 /**
  * 合同状态
  */
-@property (nonatomic, strong) NSString * testStatus;
+@property (nonatomic, strong) NSString * testStatus; // -1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
 /**
  * 操作人员编号
  */
@@ -126,5 +126,7 @@
  * 所属的单位。 【非数据库字段】
  */
 @property (nonatomic, strong) BRServiceUnit *serviceUnit;
+
++ (NSString *)getTestStatus:(NSString *)testStatus;
 
 @end

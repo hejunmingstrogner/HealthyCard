@@ -689,7 +689,15 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
 
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+        if(_isCustomerServerPoint)
+        {
+            self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+        }
+        else {
+            self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+        }
+        [self.view layoutIfNeeded];
+
     } completion:NULL];
 }
 
@@ -698,7 +706,13 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
     [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+        if (!_isCustomerServerPoint) {
+            self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+        }
+        else {
+            self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+        }
+        [self.view layoutIfNeeded];
     } completion:NULL];
 }
 

@@ -416,4 +416,24 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         }
     }];
 }
+#pragma mark - 查询单位预约历史记录
+// List<BRContract>
+- (void)findBRContractHistoryRegByCustomId:(NSString *)customId resuleBlock:(HCArrayResultBlock)block
+{
+    NSString *url = [NSString stringWithFormat:@"brContract/findHistoryReg?customId=%@",customId];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *dataArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            BRContract *brcontract = [BRContract mj_objectWithKeyValues:dict];
+            [dataArray addObject:brcontract];
+        }
+        if (block) {
+            block(dataArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (block) {
+            block(nil, error);
+        }
+    }];
+}
 @end

@@ -5,3 +5,4 @@ pod 'KVNProgress'
 pod ‘BaiduMapKit’
 pod 'MJExtension'
 pod 'SDWebImage'
+pod ‘Bugtags’

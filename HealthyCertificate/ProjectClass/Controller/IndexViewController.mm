@@ -626,7 +626,7 @@
     }
 }
 
-#pragma mark - annotionview delegate
+#pragma mark - annotionview delegate  点击标注，选择预约点
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
 {
     MyPointeAnnotation *anno = view.annotation;
