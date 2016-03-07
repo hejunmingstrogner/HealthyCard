@@ -173,6 +173,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 0) {
         if ([_delegate respondsToSelector:@selector(leftMenuViewOfTableviewDidSelectItemWithType:)] && _delegate) {
             [_delegate leftMenuViewOfTableviewDidSelectItemWithType:((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType];

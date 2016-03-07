@@ -20,6 +20,7 @@
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
 #import "HistoryInformationVController.h"
+#import "UIColor+Expanded.h"
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -87,6 +88,7 @@
     _mapView = [[BMKMapView alloc]init];
     [self.view addSubview:_mapView];
     self.view.backgroundColor = [UIColor whiteColor];
+
     // 头部的背景
     UIView *headerBackGroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 74)];
     headerBackGroundView.backgroundColor = [UIColor whiteColor];
@@ -100,9 +102,9 @@
     headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [headerBackGroundView addSubview:headerBtn];
     [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headerBackGroundView).offset(10);
+        make.top.equalTo(headerBackGroundView).offset(7);
         make.left.equalTo(headerBackGroundView).offset(10);
-        make.width.height.mas_equalTo(24);
+        make.width.height.mas_equalTo(30);
     }];
     [headerBtn setImage:[UIImage imageNamed:@"headerimage"] forState:UIControlStateNormal];
     headerBtn.layer.masksToBounds = YES;
@@ -179,11 +181,10 @@
     }];
     orderBtn.layer.masksToBounds = YES;
     orderBtn.layer.cornerRadius = 5;
-    orderBtn.layer.borderWidth = 2;
-    orderBtn.layer.borderColor = [UIColor colorWithRed:70/255.0 green:180/255.0 blue:240/255.0 alpha:1].CGColor;
     [orderBtn setTitle:@"一键预约" forState:UIControlStateNormal];
     orderBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:18];
-    [orderBtn setTitleColor:[UIColor colorWithRed:70/255.0 green:180/255.0 blue:240/255.0 alpha:1] forState:UIControlStateNormal];
+    [orderBtn setTitleColor:[UIColor colorWithWhite:0.99 alpha:1] forState:UIControlStateNormal];
+    [orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
     orderBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     [orderBtn addTarget:self action:@selector(orderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     // 显示地址的view
@@ -232,7 +233,7 @@
 
     // 设置地图view的位置大小
     [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headerBackGroundView);
+        make.top.equalTo(headerBackGroundView.mas_bottom);
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(orderView.mas_top);
     }];
@@ -555,8 +556,10 @@
 // 地图初始化完成之后
 - (void)mapViewDidFinishLoading:(BMKMapView *)mapView
 {
-    NSLog(@"地图初始化完成之后，%f", mapView.centerCoordinate.latitude);
+    _mapView.showMapScaleBar = YES;
     _mapView.zoomLevel = 14;
+    [_mapView setMapScaleBarPosition:CGPointMake(10, 10)];
+    _mapView.compassPosition = CGPointMake([UIScreen mainScreen].bounds.size.width - 50, 10);
 }
 
 // 拖拽地图设置用户服务位置
