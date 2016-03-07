@@ -17,7 +17,8 @@ typedef NS_ENUM (NSInteger, POP_STYLE){
 
 @property (nonatomic, strong) UITableView *tableView;
 
-@property (nonatomic, strong) NSMutableArray *checkDataArray;       
+@property (nonatomic, strong) NSMutableArray *checkDataArray;           // 预约数据
+@property (nonatomic, strong) NSMutableArray *companyDataArray;         // 单位预约数据
 
 @property (nonatomic, assign) NSInteger userType;
 
