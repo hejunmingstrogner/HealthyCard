@@ -13,6 +13,7 @@
 		2512B3B71C70557C00EE661B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2512B3B61C70557C00EE661B /* Assets.xcassets */; };
 		2512B3C51C70557C00EE661B /* HealthyCertificateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3C41C70557C00EE661B /* HealthyCertificateTests.m */; };
 		2512B3D01C70557C00EE661B /* HealthyCertificateUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3CF1C70557C00EE661B /* HealthyCertificateUITests.m */; };
+		2512B3EC1C8D6133006E8608 /* UIView+borderWidth.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EB1C8D6133006E8608 /* UIView+borderWidth.m */; };
 		2512B40F1C7056C900EE661B /* NSDate+Easy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EA1C7056C900EE661B /* NSDate+Easy.m */; };
 		2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EC1C7056C900EE661B /* NSDictionary+NonNullStringValue.m */; };
 		2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3F01C7056C900EE661B /* NSString+CompatibleWithiOS7.m */; };
@@ -193,7 +194,9 @@
 		2512B3D11C70557C00EE661B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2512B3E91C7056C900EE661B /* NSDate+Easy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Easy.h"; sourceTree = "<group>"; };
 		2512B3EA1C7056C900EE661B /* NSDate+Easy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Easy.m"; sourceTree = "<group>"; };
+		2512B3EA1C8D6133006E8608 /* UIView+borderWidth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+borderWidth.h"; sourceTree = "<group>"; };
 		2512B3EB1C7056C900EE661B /* NSDictionary+NonNullStringValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NonNullStringValue.h"; sourceTree = "<group>"; };
+		2512B3EB1C8D6133006E8608 /* UIView+borderWidth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+borderWidth.m"; sourceTree = "<group>"; };
 		2512B3EC1C7056C900EE661B /* NSDictionary+NonNullStringValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NonNullStringValue.m"; sourceTree = "<group>"; };
 		2512B3EF1C7056C900EE661B /* NSString+CompatibleWithiOS7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CompatibleWithiOS7.h"; sourceTree = "<group>"; };
 		2512B3F01C7056C900EE661B /* NSString+CompatibleWithiOS7.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CompatibleWithiOS7.m"; sourceTree = "<group>"; };
@@ -581,6 +584,8 @@
 				B2640CCF1C7C412400721CB5 /* UILabel+FontColor.m */,
 				254A8DD31C7DA0CE00F2EC94 /* NSString+Custom.h */,
 				254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */,
+				2512B3EA1C8D6133006E8608 /* UIView+borderWidth.h */,
+				2512B3EB1C8D6133006E8608 /* UIView+borderWidth.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1349,6 +1354,7 @@
 				B27B00D11C8461FE00FBF895 /* ServicePositionCarHeadTableViewCell.m in Sources */,
 				B27B00E21C84622D00FBF895 /* CloudCompanyAppointmentStaffCell.m in Sources */,
 				25BFEB2D1C7405810062F9B8 /* PackageOperation.m in Sources */,
+				2512B3EC1C8D6133006E8608 /* UIView+borderWidth.m in Sources */,
 				B23C76751C8D30FF00E5C40A /* WorkTypeInfoModel.m in Sources */,
 				B2640CD41C7C7CF500721CB5 /* WaitDocResultSelectViewController.m in Sources */,
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
