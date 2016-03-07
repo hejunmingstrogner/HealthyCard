@@ -233,7 +233,7 @@
 
     // 设置地图view的位置大小
     [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headerBackGroundView.mas_bottom);
+        make.top.equalTo(headerBackGroundView.mas_bottom).offset(-2);
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(orderView.mas_top);
     }];
@@ -635,11 +635,24 @@
         [RzAlertView showActionSheetWithTarget:self.view servicePosition:nearbyServicePositionsArray[anno.tag] handle:^(NSInteger flag) {
             if (flag == 1)
             {
-                CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
-                cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[anno.tag];
-                cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
-                cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
-                [self.navigationController pushViewController:cloudAppoint animated:YES];
+                if (GetUserType == 1) {
+                    CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+                    cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[anno.tag];
+                    cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
+                    cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
+                    [self.navigationController pushViewController:cloudAppoint animated:YES];
+                }
+                else if (GetUserType == 2)
+                {
+                    CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
+                    cloudAppointCompany.sercersPositionInfo = nearbyServicePositionsArray[anno.tag];
+                    cloudAppointCompany.centerCoordinate = _mapView.centerCoordinate;
+                    cloudAppointCompany.cityName = currentCityName;
+                    cloudAppointCompany.isCustomerServerPoint = YES;
+                    cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[anno.tag]).name;
+                    [self.navigationController pushViewController:cloudAppointCompany animated:YES];
+                }
+
             }
             else if(flag == 2){
                 // 移动服务点
