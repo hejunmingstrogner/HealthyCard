@@ -96,7 +96,7 @@
     newCustomerTest.regPosLA = _posLa;
     newCustomerTest.regBeginDate = _regbegindate;
     newCustomerTest.regEndDate = _regenddate;
-    newCustomerTest.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0:1;
+    newCustomerTest.sex = [_healthCertificateView.gender isEqualToString:@"男"]? '0':'1';
 
     [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:newCustomerTest resultBlock:^(NSDictionary *result, NSError *error) {
         if (!error) {

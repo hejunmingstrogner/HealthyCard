@@ -11,6 +11,9 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "UIFont+Custom.h"
+#import "UIColor+Expanded.h"
+#import "Constants.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -100,7 +103,8 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     if (indexPath.row == 0) {
         cell.textLabel.text = _titleArray[indexPath.section];
-        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(28)];
+        cell.textLabel.textColor = [UIColor blackColor];
         if (indexPath.section == 2) {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
@@ -108,14 +112,15 @@
     else if (indexPath.row == 1)
     {
         cell.textLabel.text = _detailArray[indexPath.section];
-        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(27)];
+        cell.textLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
     }
     return cell;
 }
 
 - (CGFloat)cellhieght:(NSString *)text
 {
-    UIFont *fnt = [UIFont systemFontOfSize:16];
+    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(27)];
 
     CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
     return tmpRect.size.height + 20;
