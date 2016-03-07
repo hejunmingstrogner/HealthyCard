@@ -648,7 +648,7 @@
                     cloudAppointCompany.sercersPositionInfo = nearbyServicePositionsArray[anno.tag];
                     cloudAppointCompany.centerCoordinate = _mapView.centerCoordinate;
                     cloudAppointCompany.cityName = currentCityName;
-                    cloudAppointCompany.isCustomerServerPoint = YES;
+                    cloudAppointCompany.isCustomerServerPoint = NO;
                     cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[anno.tag]).name;
                     [self.navigationController pushViewController:cloudAppointCompany animated:YES];
                 }

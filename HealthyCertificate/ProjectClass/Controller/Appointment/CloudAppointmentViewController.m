@@ -23,6 +23,7 @@
 #import "NSString+Custom.h"
 #import "NSString+Count.h"
 #import "UIButton+HitTest.h"
+#import "UIView+borderWidth.h"
 
 #import "BaseInfoTableViewCell.h"
 #import "CloudAppointmentDateVC.h"
@@ -201,6 +202,7 @@
     }];
     
     _appointmentInfoView = [[AppointmentInfoView alloc] init];
+    [_appointmentInfoView addBordersToEdge:UIRectEdgeTop withColor:[UIColor colorWithRGBHex:0Xe8e8e8] andWidth:1];
     [containerView addSubview:_appointmentInfoView];
     [_appointmentInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(containerView);
