@@ -14,6 +14,8 @@
 		2512B3C51C70557C00EE661B /* HealthyCertificateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3C41C70557C00EE661B /* HealthyCertificateTests.m */; };
 		2512B3D01C70557C00EE661B /* HealthyCertificateUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3CF1C70557C00EE661B /* HealthyCertificateUITests.m */; };
 		2512B3EC1C8D6133006E8608 /* UIView+borderWidth.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EB1C8D6133006E8608 /* UIView+borderWidth.m */; };
+		2512B3EF1C8D8171006E8608 /* ReportResultQueryURLPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EE1C8D8171006E8608 /* ReportResultQueryURLPacket.m */; };
+		2512B3F21C8D8496006E8608 /* ReportResultReturnURLPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3F11C8D8496006E8608 /* ReportResultReturnURLPacket.m */; };
 		2512B40F1C7056C900EE661B /* NSDate+Easy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EA1C7056C900EE661B /* NSDate+Easy.m */; };
 		2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EC1C7056C900EE661B /* NSDictionary+NonNullStringValue.m */; };
 		2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3F01C7056C900EE661B /* NSString+CompatibleWithiOS7.m */; };
@@ -198,9 +200,13 @@
 		2512B3EB1C7056C900EE661B /* NSDictionary+NonNullStringValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NonNullStringValue.h"; sourceTree = "<group>"; };
 		2512B3EB1C8D6133006E8608 /* UIView+borderWidth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+borderWidth.m"; sourceTree = "<group>"; };
 		2512B3EC1C7056C900EE661B /* NSDictionary+NonNullStringValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NonNullStringValue.m"; sourceTree = "<group>"; };
+		2512B3ED1C8D8171006E8608 /* ReportResultQueryURLPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportResultQueryURLPacket.h; sourceTree = "<group>"; };
+		2512B3EE1C8D8171006E8608 /* ReportResultQueryURLPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportResultQueryURLPacket.m; sourceTree = "<group>"; };
 		2512B3EF1C7056C900EE661B /* NSString+CompatibleWithiOS7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CompatibleWithiOS7.h"; sourceTree = "<group>"; };
 		2512B3F01C7056C900EE661B /* NSString+CompatibleWithiOS7.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CompatibleWithiOS7.m"; sourceTree = "<group>"; };
+		2512B3F01C8D8496006E8608 /* ReportResultReturnURLPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportResultReturnURLPacket.h; sourceTree = "<group>"; };
 		2512B3F11C7056C900EE661B /* NSString+Count.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Count.h"; sourceTree = "<group>"; };
+		2512B3F11C8D8496006E8608 /* ReportResultReturnURLPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportResultReturnURLPacket.m; sourceTree = "<group>"; };
 		2512B3F21C7056C900EE661B /* NSString+Count.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Count.m"; sourceTree = "<group>"; };
 		2512B3F51C7056C900EE661B /* UIButton+Easy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Easy.h"; sourceTree = "<group>"; };
 		2512B3F61C7056C900EE661B /* UIButton+Easy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Easy.m"; sourceTree = "<group>"; };
@@ -820,6 +826,10 @@
 				25BFEB351C74096E0062F9B8 /* PersonInfoOfPhonePacket.m */,
 				25BFEB371C7423610062F9B8 /* CompanyInfoOfPhonePacket.h */,
 				25BFEB381C7423610062F9B8 /* CompanyInfoOfPhonePacket.m */,
+				2512B3ED1C8D8171006E8608 /* ReportResultQueryURLPacket.h */,
+				2512B3EE1C8D8171006E8608 /* ReportResultQueryURLPacket.m */,
+				2512B3F01C8D8496006E8608 /* ReportResultReturnURLPacket.h */,
+				2512B3F11C8D8496006E8608 /* ReportResultReturnURLPacket.m */,
 			);
 			path = Packet;
 			sourceTree = "<group>";
@@ -1388,6 +1398,7 @@
 				25BFEB1B1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m in Sources */,
 				25BFEB301C74060B0062F9B8 /* QueueServerInfo.m in Sources */,
 				B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */,
+				2512B3EF1C8D8171006E8608 /* ReportResultQueryURLPacket.m in Sources */,
 				B2640CE11C7D5DA600721CB5 /* AddWorkerViewController.m in Sources */,
 				2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */,
 				B2FEA8671C7EF2D500106EE8 /* TakePhoto.m in Sources */,
@@ -1415,6 +1426,7 @@
 				255C71F11C8714420074A41B /* SelectCompanyViewController.m in Sources */,
 				B2640CE71C7D613600721CB5 /* AddWorkerCellItem.m in Sources */,
 				B2640CF61C7D9D2100721CB5 /* SelectAddressViewController.m in Sources */,
+				2512B3F21C8D8496006E8608 /* ReportResultReturnURLPacket.m in Sources */,
 				254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */,
 				2512B4171C7056C900EE661B /* UIButton+VerticalLayout.m in Sources */,
 				B23C76741C8D30FF00E5C40A /* MethodResult.m in Sources */,
