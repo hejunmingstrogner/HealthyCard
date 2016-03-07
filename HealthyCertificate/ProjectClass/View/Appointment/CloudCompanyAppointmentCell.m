@@ -56,7 +56,7 @@
     switch (textFieldType) {
         case CDA_CONTACTPERSON:
         {
-            _titleLabel.text = [NSString stringWithFormat:@"联系人%@", @"    "];
+            _titleLabel.text = [NSString stringWithFormat:@"联 系 人"];
             self.textField.placeholder = @"请输入单位联系人";
         }
             break;

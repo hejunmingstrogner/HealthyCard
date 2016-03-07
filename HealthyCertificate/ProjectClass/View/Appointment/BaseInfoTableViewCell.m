@@ -40,7 +40,6 @@
     
     self.textView = [[UITextView alloc] init];
     self.textView.textColor = [UIColor blackColor];
-    //self.textView.backgroundColor = [UIColor greenColor];
     self.textView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     [self addSubview:self.textView];
     
@@ -60,9 +59,10 @@
 -(void)setTextViewText:(NSString *)textViewText{
     self.textView.text = textViewText;
     [self.textView sizeToFit];
-    CGSize size = [self.textView sizeThatFits:CGSizeMake(CGRectGetWidth(self.textView.frame), FIT_HEIGHT(100))];
+    CGSize size = [self.textView sizeThatFits:CGSizeMake(CGRectGetWidth(self.textView.frame), CGFLOAT_MAX)];
     [self.textView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo([NSNumber numberWithFloat:size.height]);
+        make.centerY.mas_equalTo(self);
     }];
     
     [self setNeedsLayout];

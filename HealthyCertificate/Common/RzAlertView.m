@@ -7,9 +7,14 @@
 //
 
 #import "RzAlertView.h"
+
+#import "Constants.h"
+
 #import "NSDate+Custom.h"
 #import "UILabel+FontColor.h"
 #import "UIFont+Custom.h"
+#import "UIColor+Expanded.h"
+
 
 @implementation CustomButton
 
@@ -417,7 +422,8 @@
     }];
     orderBtn.layer.masksToBounds = YES;
     orderBtn.layer.cornerRadius = 5;
-    [orderBtn setBackgroundColor:[UIColor colorWithRed:50/255.0 green:240/255.0 blue:50/255.0 alpha:1]];
+    [orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Green]];
+    //[orderBtn setBackgroundColor:[UIColor colorWithRed:50/255.0 green:240/255.0 blue:50/255.0 alpha:1]];
     [orderBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         // 预约
         [zhezhao removeFromSuperview];

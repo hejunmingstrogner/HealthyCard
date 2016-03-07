@@ -36,8 +36,8 @@
         //设置自动行数与字符换行
         [firstItemLabel setNumberOfLines:0];
         firstItemLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
-        firstItemLabel.textColor = [UIColor colorWithRGBHex:font_color];
-        firstItemLabel.text = @"1填表前请了解是否符合您的服务要求，否则交费后不能退款；填表字迹清楚、不缺页。";
+        firstItemLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        firstItemLabel.text = @"1、云预约时请确认预约体检地点和联系人电话有效性,以便我们方便联系您并为您提供优质的体检服务。";
         [self addSubview:firstItemLabel];
         [firstItemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self).with.offset(PXFIT_WIDTH(10));
@@ -48,8 +48,8 @@
         UILabel* secondItemLabel = [[UILabel alloc] init];
         [secondItemLabel setNumberOfLines:0];
         secondItemLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
-        secondItemLabel.textColor = [UIColor colorWithRGBHex:font_color];
-        secondItemLabel.text = @"2缴费后，请查看收费单上的姓名是否正确，以便及时修改。";
+        secondItemLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        secondItemLabel.text = @"2、选定（指定）服务点后请按时到指定位置体检，以免错过时间给您带来不便。";
         [self addSubview:secondItemLabel];
         [secondItemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self).with.offset(PXFIT_WIDTH(10));

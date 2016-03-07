@@ -34,7 +34,7 @@
     {
         UILabel* titleLabel = [[UILabel alloc] init];
         titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
-        titleLabel.text = @"添加员工列表";
+        titleLabel.text = @"单位员工";
         [self addSubview:titleLabel];
         
         _countLabel = [[UILabel alloc] init];

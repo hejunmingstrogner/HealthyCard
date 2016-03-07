@@ -167,7 +167,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     [_baseInfoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(containerView);
         make.top.mas_equalTo(containerView).with.offset(10);
-        make.height.mas_equalTo(PXFIT_HEIGHT(96)*2);
+        make.height.mas_equalTo(PXFIT_HEIGHT(100)*2);
     }];
     
     //第二个板块 单位名称 & 单位地址
@@ -341,64 +341,16 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     singleRecognizer.numberOfTapsRequired = 1; // 单击
     singleRecognizer.delegate = self;
     [self.view addGestureRecognizer:singleRecognizer];
-    
-}
-
--(void)loadData
-{
-//    CGFloat containerHeight = _companyInfoContainerView.frame.size.height;
-//    
-//    _companyNameTextView.text = gCompanyInfo.cUnitName;
-//    [_companyNameTextView sizeToFit];
-//    CGSize size = [_companyNameTextView sizeThatFits:CGSizeMake(CGRectGetWidth(_companyNameTextView.frame), FIT_HEIGHT(10000))];
-////    if (size.height <= PXFIT_HEIGHT(96)){
-////        
-////    }else{
-////        [_companyNameTextView mas_updateConstraints:^(MASConstraintMaker *make) {
-////            make.height.mas_equalTo([NSNumber numberWithFloat:size.height]);
-////        }];
-////    }
-//    /*
-//     make.left.mas_equalTo(companyAddressLabel.mas_right).with.offset(PXFIT_WIDTH(20));
-//     make.right.mas_equalTo(_companyInfoContainerView).with.offset(-PXFIT_WIDTH(20));
-//     make.top.mas_equalTo(_lineView.mas_bottom);
-//     make.height.mas_equalTo(PXFIT_HEIGHT(96));*/
-//    
-//    _companyAddressTextView.text = gCompanyInfo.cUnitAddr;
-//    [_companyAddressTextView sizeToFit];
-//   // CGSize size ;
-//    
-//    CGFloat testWidth = _companyAddressTextView.frame.size.width;
-//    size = [_companyAddressTextView sizeThatFits:CGSizeMake(300, FIT_HEIGHT(10000))];
-//    if (size.height <= PXFIT_HEIGHT(96))
-//        return;
-//    
-//    [_companyInfoContainerView mas_updateConstraints:^(MASConstraintMaker *make) {
-//        make.height.mas_equalTo(_companyInfoContainerView.frame.size.height + size.height - PXFIT_HEIGHT(96));
-//    }];
-//    
-//    [_companyAddressTextView mas_updateConstraints:^(MASConstraintMaker *make) {
-//        make.height.mas_equalTo([NSNumber numberWithFloat:size.height]);
-//    }];
-//    
-//    [self.view setNeedsLayout];
-    //[_companyNameTextView]
 }
 
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self registerKeyboardNotification];
-    
- //   [self loadData];
-    
-    
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -528,9 +480,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         case TABLEVIEW_BASEINFO:
         {
             BaseInfoTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             if (indexPath.row == 0){
                 cell.iconName = @"search_icon";
-                cell.textView.text = _location;
+                [cell setTextViewText:_location];
+               // cell.textView.text = _location;
                 cell.textView.userInteractionEnabled = NO;
             }else{
                 cell.iconName = @"date_icon";
@@ -542,7 +496,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 cell.textView.userInteractionEnabled = NO;
                 _dateStrTextView = cell.textView;
             }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }
         case TABLEVIEW_COMPANYINFO:
@@ -585,7 +538,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return PXFIT_HEIGHT(96);
+    return PXFIT_HEIGHT(100);
 }
 
 

@@ -66,19 +66,17 @@
                     WithEndText:@"临"
                    endTextColor:[UIColor redColor]];
         _timeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)",
-                           [NSDate getYear_Month_DayByDate:servicePoint.startTime],
-                           [NSDate getHour_MinuteByDate:servicePoint.startTime],
-                           [NSDate getHour_MinuteByDate:servicePoint.endTime]];
+                           [NSDate getYear_Month_DayByDate:servicePoint.startTime/1000],
+                           [NSDate getHour_MinuteByDate:servicePoint.startTime/1000],
+                           [NSDate getHour_MinuteByDate:servicePoint.endTime/1000]];
     }
     else{
         _locationLabel.text = servicePoint.address;
         _timeLabel.text = [NSString stringWithFormat:@"每天(%@~%@)",
-                               [NSDate getHour_MinuteByDate:servicePoint.startTime],
-                               [NSDate getHour_MinuteByDate:servicePoint.endTime]];
+                               [NSDate getHour_MinuteByDate:servicePoint.startTime/1000],
+                               [NSDate getHour_MinuteByDate:servicePoint.endTime/1000]];
         
     }
-    //_timeLabel.text = @"每天9:00-17:00";
-   // _distanceLabel.text = [NSString stringWithFormat:@"%f", servicePoint.distance];
 }
 
 #pragma mark - Life Circle

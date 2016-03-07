@@ -67,7 +67,7 @@
 
     NSMutableArray *arry1 = [NSMutableArray arrayWithObjects:personInfo, leader, driver, nil];
 
-     ServicePositionDetialCellItem *memberList = [[ServicePositionDetialCellItem alloc]initWithTitle:@"随行列表" detialText:nil];
+     ServicePositionDetialCellItem *memberList = [[ServicePositionDetialCellItem alloc]initWithTitle:@"医护人员" detialText:nil];
     ServicePositionDetialCellItem *menberListdata = [[ServicePositionDetialCellItem alloc]initWithTitle:_servicePositionItem.brOutCheckArrange.memberList detialText:nil];
 
     NSMutableArray *arry2 = [NSMutableArray arrayWithObjects:memberList, menberListdata, nil];

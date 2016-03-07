@@ -36,6 +36,8 @@
     
     ServicePointApointmentViewController        *_servicePointAppointmentViewController;
     RzAlertView                                 *waitAlertView;
+    
+    UIButton                                    *_QRScanButton;
 }
 
 @property (nonatomic, strong) UIViewController  *currentVC;
@@ -131,12 +133,19 @@
                            forState:UIControlStateNormal];
     [segment addTarget:self action:@selector(didClicksegmentedControlAction:) forControlEvents:UIControlEventValueChanged];
     self.navigationItem.titleView = segment;
-    
-    UIButton* QRScanButton = [UIButton buttonWithNormalImageName:@"QRScan" highlightImageName:@"QRScan"];
-    QRScanButton.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
-    [QRScanButton addTarget:self action:@selector(QRScanButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:QRScanButton];
+
+
+    _QRScanButton = [UIButton buttonWithNormalImageName:@"QRScan" highlightImageName:@"QRScan"];
+    _QRScanButton.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    [_QRScanButton addTarget:self action:@selector(QRScanButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:_QRScanButton];
     self.navigationItem.rightBarButtonItem = rightItem;
+
+    if (GetUserType == 1){
+        _QRScanButton.hidden = NO;
+    }else{
+        _QRScanButton.hidden = YES;
+    }
 }
 
 #pragma mark - Action
@@ -152,12 +161,15 @@
         case 0:
         {
             [CloudController.view setHidden:NO];
+            if (GetUserType == 1)
+                _QRScanButton.hidden = NO;
             [_servicePointAppointmentViewController.view setHidden:YES];
             self.currentVC = CloudController;
         }
             break;
         case 1:
         {
+            _QRScanButton.hidden = YES;
             [CloudController.view setHidden:YES];
             [_servicePointAppointmentViewController.view setHidden:NO];
             self.currentVC = _servicePointAppointmentViewController;
