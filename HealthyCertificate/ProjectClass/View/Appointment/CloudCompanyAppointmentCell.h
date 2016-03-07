@@ -8,8 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, CloudCompanyAppointmentTextFieldType)
+{
+    CDA_CONTACTPERSON,
+    CDA_CONTACTPHONE,
+    CDA_PERSON
+};
+
+
 @interface CloudCompanyAppointmentCell : UITableViewCell
 
 @property (nonatomic, strong) UITextField* textField;
+
+@property (nonatomic, assign) CloudCompanyAppointmentTextFieldType textFieldType;
 
 @end
