@@ -12,6 +12,9 @@
 #import "LeftMenuViewHeaderinfoCell.h"
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
+#import "UIColor+Expanded.h"
+#import "Constants.h"
+
 @interface LeftMenuView ()<UITableViewDataSource, UITableViewDelegate>
 
 @end
@@ -111,7 +114,18 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.01;
+    return 0.5;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == 0 || section == 1 || section == 2 || section == 5) {
+        UIView *uivie = [[UIView  alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1)];
+        //uivie.backgroundColor = [UIColor colorWithARGBHex:HC_Gray_Line];
+        uivie.backgroundColor = [UIColor grayColor];
+        uivie.alpha = 0.38;
+        return uivie;
+    }
+    return nil;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
