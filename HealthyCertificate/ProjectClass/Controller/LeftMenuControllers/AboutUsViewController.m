@@ -11,7 +11,7 @@
 
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
-
+#import "Constants.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @implementation AboutUsViewController
@@ -93,9 +93,9 @@
 
 - (CGFloat)cellhieght
 {
-    UIFont *fnt = [UIFont systemFontOfSize:17];
+    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(28)];
 
-    NSString *text = @"        知康是一款体检、就诊以及办理健康证为一体的操作APP。由知康科技有限公司和智行电子科技有限公司共同开发";
+    NSString *text = @"        健康证在线是一款体检、就诊以及办理健康证为一体的操作APP。由知康科技有限公司和智行电子科技有限公司共同开发。";
 
     CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
     return tmpRect.size.height + 20;
@@ -107,12 +107,13 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
         cell.textLabel.numberOfLines = 0;
-        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
-        cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(28)];
+        cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(27)];
+        cell.detailTextLabel.textColor = [UIColor blackColor];
     }
 
     if (indexPath.section == 0) {
-        cell.textLabel.text = @"        知康是一款体检、就诊以及办理健康证为一体的操作APP。由知康科技有限公司和智行电子科技有限公司共同开发";
+        cell.textLabel.text = @"        健康证在线是一款体检、就诊以及办理健康证为一体的操作APP。由知康科技有限公司和智行电子科技有限公司共同开发。";
     }
     else
     {
