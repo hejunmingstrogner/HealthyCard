@@ -37,7 +37,10 @@
 #define SERVER_PROXY_SERVER_DATA 26	//app发给统一认证服务器的数据
 
 //#define SERVER_EXTERNAL_SERVER_DATA 21 //app发给排队服务器的数据
-//#define SERVER_EXTERNAL_CLIENT_DATA 22 //排队服务器发送给app的数据
+//#define SERVER_EXTERNAL_CLIENT_DATA 22 //排队服务器发送给app的数据 REPORT_RESULT_QUERY_URL
+
+#define REPORT_RESULT_QUERY_URL 1603 //移动平台体检报告URL查询协议
+#define REPORT_RESULT_RETURN_URL 1604 //移动平台体检报告URL返回协议
 
 //心跳包
 //pda与排队服务器的
