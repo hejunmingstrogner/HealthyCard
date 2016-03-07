@@ -17,6 +17,9 @@
 #import "HttpNetworkManager.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "BaseTBCellItem.h"
+#import "UIFont+Custom.h"
+#import "UIColor+Expanded.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -46,6 +49,12 @@
 
 - (void)getCheckData{
     if (checkDataArray.count != 0) {
+        if (_userType == 1) {
+        }
+        else if (_userType == 2) {
+            [self initCompanyDataArray];
+            [_tableView reloadData];
+        }
         return ;
     }
     if (waitAlertView == nil) {
@@ -61,6 +70,7 @@
         }
         else if (_userType == 2) {
             checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
+            [self initCompanyDataArray];
         }
         [_tableView reloadData];
         [waitAlertView close];
@@ -101,6 +111,7 @@
 
     _tableView.dataSource = self;
     _tableView.delegate = self;
+    _tableView.separatorStyle = NO;
 
     refreashController = [[UIRefreshControl alloc]init];
     refreashController.tintColor = [UIColor lightGrayColor];
@@ -125,6 +136,7 @@
         }
         else if (_userType == 2) {
             checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
+            [self initCompanyDataArray];
         }
         [_tableView reloadData];
         [refreashController endRefreshing];
@@ -132,6 +144,40 @@
             refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新数据"];
         });
     }];
+}
+
+- (void)initCompanyDataArray
+{
+    _companyDataArray = [[NSMutableArray alloc]init];
+    for (BRContract *brContract in checkDataArray) {
+        BaseTBCellItem *cellitem0 = [[BaseTBCellItem alloc]initWithTitle:@"单位名称" detial:brContract.unitName cellStyle:0];
+        BaseTBCellItem *cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"服务地址" detial:brContract.servicePoint.address cellStyle:0];
+
+        NSString *timestatus;
+        if (brContract.checkSiteID == nil) {
+            timestatus = @"现场体检";
+        }
+        else
+        {
+            if (brContract.servicePoint != nil) {
+                if (!brContract.servicePoint.startTime || !brContract.servicePoint.endTime) {
+                    timestatus = @"获取时间出错";
+                }
+                else {
+                    NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime/1000];
+                    NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime/1000];
+                    NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime/1000];
+                    timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                }
+            }
+            else {
+                timestatus = @"获取失败";
+            }
+        }
+        BaseTBCellItem *cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"服务时间" detial:timestatus cellStyle:0];
+        NSArray *array = @[cellitem0, cellitem1, cellitem2];
+        [_companyDataArray addObject:array];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -144,7 +190,10 @@
     if (_userType == 1) {
         return 1;
     }
-    return 2;
+    else if (_userType == 2){
+        return 4;
+    }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -161,13 +210,7 @@
         return 110;
     }
     else {
-        if (indexPath.row == 0) {
-            return 80;
-        }
-        else
-        {
-            return 40;
-        }
+        return 35;
     }
 }
 
@@ -184,18 +227,30 @@
     }
     // 单位
     else{
-        if (indexPath.row == 0) {
-            BRContractTableHeaerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellheader"];
+        if (indexPath.row != 3) {
+//            BRContractTableHeaerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellheader"];
+//            if (!cell) {
+//                cell = [[BRContractTableHeaerCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellheader"];
+//            }
+//            [cell setCellItem:(BRContract *)checkDataArray[indexPath.section]];
+//            return cell;
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"brcell"];
             if (!cell) {
-                cell = [[BRContractTableHeaerCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellheader"];
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"brcell"];
+                cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+                cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
+                //cell.detailTextLabel.textColor = [UIColor colorWithARGBHex:HC_Gray_Text];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
-            [cell setCellItem:(BRContract *)checkDataArray[indexPath.section]];
+            cell.textLabel.text = ((BaseTBCellItem *)_companyDataArray[indexPath.section][indexPath.row]).titleText;
+            cell.detailTextLabel.text = ((BaseTBCellItem *)_companyDataArray[indexPath.section][indexPath.row]).detialText;
             return cell;
         }
         else {
             BRContractTableFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
             if (!cell ) {
                 cell = [[BRContractTableFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             [cell setCellItem:(BRContract *)checkDataArray[indexPath.section]];
             return cell;

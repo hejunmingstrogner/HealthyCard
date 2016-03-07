@@ -162,7 +162,7 @@
     minDistanceBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [minDistanceBtn setTitle:@"0km" forState:UIControlStateNormal];
     minDistanceBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [minDistanceBtn setTitleColor:[UIColor colorWithRed:255/255.0 green:100/255.0 blue:90/255.0 alpha:1] forState:UIControlStateNormal];
+    [minDistanceBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [minDistanceBtn addTarget:self action:@selector(minDistanceBtnClicked) forControlEvents:UIControlEventTouchUpInside];
 
     //   一键预约背景
