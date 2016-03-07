@@ -179,6 +179,6 @@
         return;
     }
     serviceAddressLabel.text = customerTest.servicePoint.address;
-    serviceTimeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)", [NSDate getYear_Month_DayByDate:customerTest.servicePoint.startTime], [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime], [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime]];
+    serviceTimeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)", [NSDate getYear_Month_DayByDate:customerTest.servicePoint.startTime/1000], [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000], [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000]];
 }
 @end

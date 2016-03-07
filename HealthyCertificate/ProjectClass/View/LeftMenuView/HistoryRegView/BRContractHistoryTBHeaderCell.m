@@ -72,6 +72,6 @@
     _unitNamelabel.text = brContract.unitName;
     _addressLabel.text = brContract.servicePoint.address;
 
-    _timeLabel.text = [NSString stringWithFormat:@"%@~%@", [NSDate getHour_MinuteByDate:brContract.regBeginDate], [NSDate getHour_MinuteByDate:brContract.regEndDate]];
+    _timeLabel.text = [NSString stringWithFormat:@"%@~%@", [NSDate getHour_MinuteByDate:brContract.regBeginDate/1000], [NSDate getHour_MinuteByDate:brContract.regEndDate/1000]];
 }
 @end

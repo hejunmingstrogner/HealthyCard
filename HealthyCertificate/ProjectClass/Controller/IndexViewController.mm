@@ -383,10 +383,7 @@
         case LEFTMENUCELL_EXIT:
         {
             [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您确定退出当前账号吗？" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"确定" Actionstyle:UIAlertActionStyleDefault cancleActionTitle:@"点错了" handle:^(NSInteger flag) {
-                if (flag == 0) {
-                    return ;
-                }
-                else if (flag == 1){
+                if (flag == 1){
                     SetUuid(@"");
                     SetPhoneNumber(@"");
                     [self dismissViewControllerAnimated:YES completion:nil];

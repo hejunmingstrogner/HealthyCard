@@ -127,13 +127,13 @@
         if (serverPoint.type == 1){
             //临时服务点
             cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",
-                                               [NSDate getYear_Month_DayByDate:serverPoint.startTime],
-                                               [NSDate getHour_MinuteByDate:serverPoint.startTime],
-                                               [NSDate getHour_MinuteByDate:serverPoint.endTime]];
+                                               [NSDate getYear_Month_DayByDate:serverPoint.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:serverPoint.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:serverPoint.endTime/1000]];
         }else{
             cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)",
-                                               [NSDate getHour_MinuteByDate:serverPoint.startTime],
-                                               [NSDate getHour_MinuteByDate:serverPoint.endTime]];
+                                               [NSDate getHour_MinuteByDate:serverPoint.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:serverPoint.endTime/1000]];
         }
         cloudAppoint.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
         [self.navigationController pushViewController:cloudAppoint animated:YES];
@@ -144,13 +144,13 @@
         if (serverPoint.type == 1){
             //临时服务点
             companyCloudAppointment.appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",
-                                               [NSDate getYear_Month_DayByDate:serverPoint.startTime],
-                                               [NSDate getHour_MinuteByDate:serverPoint.startTime],
-                                               [NSDate getHour_MinuteByDate:serverPoint.endTime]];
+                                               [NSDate getYear_Month_DayByDate:serverPoint.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:serverPoint.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:serverPoint.endTime/1000]];
         }else{
             companyCloudAppointment.appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)",
-                                               [NSDate getHour_MinuteByDate:serverPoint.startTime],
-                                               [NSDate getHour_MinuteByDate:serverPoint.endTime]];
+                                               [NSDate getHour_MinuteByDate:serverPoint.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:serverPoint.endTime/1000]];
         }
         companyCloudAppointment.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
         [self.navigationController pushViewController:companyCloudAppointment animated:YES];
