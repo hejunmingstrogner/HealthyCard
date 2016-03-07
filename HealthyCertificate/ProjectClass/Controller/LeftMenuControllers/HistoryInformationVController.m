@@ -17,7 +17,7 @@
 #import "UIButton+HitTest.h"
 #import "BRContractHistoryTBHeaderCell.h"
 #import "BRContractHistoryTBFootCell.h"
-#import "PersonalHealthyCController.h"
+#import "PersonalHealthyCHistoryVC.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -194,9 +194,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     // 个人
     if (_userType == 1) {
-//        PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
-//        personalHealthyC.customerTestInfo = (CustomerTest *)_historyArray[indexPath.section];
-//        [self.navigationController pushViewController:personalHealthyC animated:YES];
+        PersonalHealthyCHistoryVC *person = [[PersonalHealthyCHistoryVC alloc]init];
+        person.customerTestInfo = _historyArray[indexPath.section];
+        [self.navigationController pushViewController:person animated:YES];
     }
     else {
         // 单位预约点击
