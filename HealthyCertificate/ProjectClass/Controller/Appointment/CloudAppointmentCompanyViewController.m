@@ -626,26 +626,35 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 }];
                 [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
             }
+            [self inputWidgetResign];
         }
             break;
         case TABLEVIEW_COMPANYINFO:
         {
-            [_contactPersonField resignFirstResponder];
-            [_phoneNumField resignFirstResponder];
-            [_exminationCountField resignFirstResponder];
+            if (indexPath.row == 0){
+                [_contactPersonField becomeFirstResponder];
+                
+            }else if (indexPath.row == 1){
+                [_phoneNumField becomeFirstResponder];
+            }else if (indexPath.row == 2){
+                [_exminationCountField becomeFirstResponder];
+            }else{
+                AddWorkerViewController* addworkerViewController = [[AddWorkerViewController alloc] init];
+                addworkerViewController.switchStyle = SWITCH_MISS;
+                addworkerViewController.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];
+                __weak CloudAppointmentCompanyViewController * weakSelf = self;
+                [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {
+                    weakSelf.customerArr = workerArray;
+                    [weakSelf.staffTableView reloadData];
+                }];
+                [self.navigationController pushViewController:addworkerViewController animated:YES];
+                [self inputWidgetResign];
+            }
         }
             break;
         case TABLEVIEW_STAFFINFO:
         {
-            AddWorkerViewController* addworkerViewController = [[AddWorkerViewController alloc] init];
-            addworkerViewController.switchStyle = SWITCH_MISS;
-            addworkerViewController.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];
-            __weak CloudAppointmentCompanyViewController * weakSelf = self;
-            [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {
-                weakSelf.customerArr = workerArray;
-                [weakSelf.staffTableView reloadData];
-            }];
-            [self.navigationController pushViewController:addworkerViewController animated:YES];
+           
             
         }
             break;
@@ -696,8 +705,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         else {
             self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
         }
-        [self.view layoutIfNeeded];
-
     } completion:NULL];
 }
 
@@ -712,8 +719,16 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         else {
             self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
         }
-        [self.view layoutIfNeeded];
     } completion:NULL];
+}
+
+-(void)inputWidgetResign
+{
+    [_companyNameTextView resignFirstResponder];
+    [_companyAddressTextView resignFirstResponder];
+    [_contactPersonField resignFirstResponder];
+    [_phoneNumField resignFirstResponder];
+    [_exminationCountField resignFirstResponder];
 }
 
 
