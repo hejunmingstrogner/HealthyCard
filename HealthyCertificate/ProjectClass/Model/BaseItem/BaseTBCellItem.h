@@ -7,16 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 typedef enum{
   STYLE_NONE = 0,
 }CELL_STYLE;
 
 @interface BaseTBCellItem : NSObject
+@property (nonatomic, strong) UIImage  *image;
 @property (nonatomic, strong) NSString *titleText;
 @property (nonatomic, strong) NSString *detialText;
 @property (nonatomic, assign) CELL_STYLE cellStyle;
 
+- (instancetype)initWithTitle:(NSString *)title detial:(NSString *)detial;
+
 - (instancetype)initWithTitle:(NSString *)title detial:(NSString *)detial cellStyle:(CELL_STYLE)cellstyle;
+
+- (instancetype)initWithImage:(UIImage *)image title:(NSString *)title detial:(NSString *)detial cellStyle:(CELL_STYLE)cellstyle;
 
 @end

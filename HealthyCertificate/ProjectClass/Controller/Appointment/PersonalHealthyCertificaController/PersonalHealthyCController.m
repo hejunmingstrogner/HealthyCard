@@ -54,7 +54,7 @@
 
 - (void)initNavgation
 {
-    self.title = @"我的健康证";  // 车辆牌照
+    self.title = @"我的健康证";
     // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
