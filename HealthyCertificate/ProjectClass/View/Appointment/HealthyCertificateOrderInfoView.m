@@ -69,7 +69,7 @@
     [self addSubview:_addressBtn];
     [_addressBtn setImage:[UIImage imageNamed:@"sousuo"] forState:UIControlStateNormal];
 
-    [_addressBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_addressBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_addressBtn setBackgroundColor:[UIColor whiteColor]];
     _addressBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _addressBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);
@@ -87,7 +87,7 @@
     [self addSubview:_timeBtn];
     [_timeBtn setImage:[UIImage imageNamed:@"shijian"] forState:UIControlStateNormal];
 
-    [_timeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_timeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_timeBtn setBackgroundColor:[UIColor whiteColor]];
     _timeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _timeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);
@@ -103,7 +103,7 @@
     [self addSubview:_phoneBtn];
     [_phoneBtn setImage:[UIImage imageNamed:@"dianhua"] forState:UIControlStateNormal];
 
-    [_phoneBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_phoneBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_phoneBtn setBackgroundColor:[UIColor whiteColor]];
     _phoneBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _phoneBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);

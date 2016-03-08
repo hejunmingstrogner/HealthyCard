@@ -74,7 +74,7 @@
 /**
  * 预约人数
  */
-@property (nonatomic, assign) int regCheckNum;
+@property (nonatomic, assign) NSInteger regCheckNum;
 /**
  * 已检人数
  */
