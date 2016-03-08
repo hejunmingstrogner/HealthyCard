@@ -194,6 +194,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _companyNameTextView.scrollEnabled = NO;
     _companyNameTextView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     _companyNameTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+    _companyNameTextView.delegate = self;
+    _companyNameTextView.returnKeyType = UIReturnKeyDone;
 
     [_companyInfoContainerView addSubview:_companyNameTextView];
     
@@ -206,6 +208,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _companyAddressTextView.text = gCompanyInfo.cUnitAddr;
     _companyAddressTextView.scrollEnabled = NO;
     _companyAddressTextView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
+    _companyAddressTextView.delegate = self;
+    _companyAddressTextView.returnKeyType = UIReturnKeyDone;
     
     
     
@@ -614,7 +618,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                     [_companyInfoTableView reloadData];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if([_exminationCountField.text integerValue] < workerArray.count){
-                            _exminationCountField.text = [NSString stringWithFormat:@"%d", workerArray.count];
+                            _exminationCountField.text = [NSString stringWithFormat:@"%ld", workerArray.count];
                         }
                     });
                 }];
@@ -665,6 +669,16 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    return YES;
+}
+
+#pragma mark - UITextView Delegate
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
     return YES;
 }
 
