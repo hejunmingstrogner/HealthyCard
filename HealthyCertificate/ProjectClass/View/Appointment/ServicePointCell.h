@@ -13,8 +13,15 @@
 @interface ServicePointCell : UITableViewCell
 
 typedef void(^ServicePointCellBtnClickedBlock)();
+typedef void(^ServericePointCellPhoneNumBtnBlock)(NSString* phoneNum);
 
 @property (nonatomic, strong) ServersPositionAnnotionsModel* servicePoint;
+
+//点击详情过后的回调
 @property (nonatomic ,copy) ServicePointCellBtnClickedBlock serviceAppointmentBtnClickedBlock;
+
+
+//点击拨号后的回调
+@property (nonatomic ,copy)ServericePointCellPhoneNumBtnBlock servicePointCellPhoneNumBtnBlock;
 
 @end

@@ -86,18 +86,19 @@
             //固定服务点
             ServicePointDetailViewController* fixedServicePointVC = [[ServicePointDetailViewController alloc] init];
             fixedServicePointVC.serverPositionItem = servicePositionAnnotionsModel;
-//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:fixedServicePointVC];
-//            [wself.parentViewController presentViewController:nav animated:YES completion:nil];
             [wself.navigationController pushViewController:fixedServicePointVC animated:YES];
         }else{
             //移动服务点
             TemperaryServicePDeViewController* movingServicePointVC = [[TemperaryServicePDeViewController alloc] init];
             movingServicePointVC.servicePositionItem = servicePositionAnnotionsModel;
-//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:movingServicePointVC];
-//            [wself.parentViewController presentViewController:nav animated:YES completion:nil];
             [wself.navigationController pushViewController:movingServicePointVC animated:YES];
         }
     };
+    cell.servicePointCellPhoneNumBtnBlock = ^(NSString* phoneNumber){
+        NSString* urlNumberStr = [NSString stringWithFormat:@"tel://%@", phoneNumber];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlNumberStr]];
+    };
+    
     ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
     cell.servicePoint = serverPoint;
     

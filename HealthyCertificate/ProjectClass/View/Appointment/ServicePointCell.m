@@ -240,6 +240,7 @@
 
 -(void)phoneCallBtnClicked:(id)sender
 {
+    (_servicePointCellPhoneNumBtnBlock)(_servicePoint.leaderPhone);
 }
 
 -(void)detailBtnClicked:(id)sender

@@ -16,6 +16,7 @@
 
 @interface BaseInfoTableViewCell()
 {
+    UIImageView* _imageView;
 }
 
 @end
@@ -35,23 +36,23 @@
 
 #pragma mark - setter & getter
 -(void)setIconName:(NSString *)iconName{
-    UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:iconName]];
-    [self addSubview:imageView];
+    _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:iconName]];
+    [self addSubview:_imageView];
     
     self.textView = [[UITextView alloc] init];
     self.textView.textColor = [UIColor blackColor];
     self.textView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     [self addSubview:self.textView];
     
-    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self);
         make.left.mas_equalTo(self).with.offset(10);
     }];
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(imageView.mas_right).with.offset(10);
+        make.left.mas_equalTo(_imageView.mas_right).with.offset(10);
         make.right.mas_equalTo(self).with.offset(-10);
-        make.centerY.mas_equalTo(self);
         make.height.mas_equalTo(FIT_HEIGHT(50));
+        make.centerY.mas_equalTo(self);
     }];
     
     }
@@ -59,10 +60,10 @@
 -(void)setTextViewText:(NSString *)textViewText{
     self.textView.text = textViewText;
     [self.textView sizeToFit];
-    CGSize size = [self.textView sizeThatFits:CGSizeMake(CGRectGetWidth(self.textView.frame), CGFLOAT_MAX)];
+    CGSize size = [self.textView sizeThatFits:CGSizeMake(self.frame.size.width - _imageView.frame.size.width - 30, CGFLOAT_MAX)];
     [self.textView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo([NSNumber numberWithFloat:size.height]);
-        make.centerY.mas_equalTo(self);
+        make.height.mas_equalTo([NSNumber numberWithFloat:(size.height<FIT_HEIGHT(50)?size.height:FIT_HEIGHT(50))]);
+       // make.centerY.mas_equalTo(self);
     }];
     
     [self setNeedsLayout];
