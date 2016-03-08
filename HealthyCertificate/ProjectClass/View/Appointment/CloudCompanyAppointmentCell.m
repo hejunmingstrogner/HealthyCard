@@ -56,7 +56,13 @@
     switch (textFieldType) {
         case CDA_CONTACTPERSON:
         {
-            _titleLabel.text = [NSString stringWithFormat:@"联 系 人"];
+//            NSDictionary *attributeDict = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                           [UIFont systemFontOfSize:15.0],nil];
+            NSString* htmlStr = [NSString stringWithFormat:@"联&#8194系&#8194人"];
+            NSMutableAttributedString * attrStr = [[NSMutableAttributedString alloc] initWithData:[htmlStr dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+            [attrStr addAttribute:NSFontAttributeName value:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)] range:NSMakeRange(0,5)];
+            _titleLabel.attributedText = attrStr;
+           // _titleLabel.text = [NSString stringWithFormat:@"联 系 人"];
             self.textField.placeholder = @"请输入单位联系人";
         }
             break;

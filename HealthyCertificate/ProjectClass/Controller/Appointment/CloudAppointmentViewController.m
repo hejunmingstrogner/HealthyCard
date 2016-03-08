@@ -37,6 +37,7 @@
 #import "WorkTypeViewController.h"
 #import "MyCheckListViewController.h"
 
+#import "YMIDCardRecognition.h"
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
 #import "TakePhoto.h"
@@ -49,7 +50,7 @@
 #define Button_Size 26
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate,HCWheelViewDelegate>
+@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate,HCWheelViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate, YMIDCardRecognitionDelegate>
 {
     AppointmentInfoView     *_appointmentInfoView;
     
@@ -65,6 +66,8 @@
     
     //性别选择器
     HCWheelView             *_sexWheel;
+    
+    RzAlertView             *_waitAlertView;
     
     
     /*
@@ -740,4 +743,69 @@
         //_isAvatarSet = NO;
     }
 }
+
+//YMIDCardRecognitionDelegate
+#pragma mark - UIImagePickerControllerDelegate & YMIDCardRecognitionDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    //取得照片
+    UIImage *image;
+    //	NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    CGImageRef imRef = [image CGImage];
+    
+    UIImageOrientation orientation = [image imageOrientation];
+    
+    NSInteger texWidth = CGImageGetWidth(imRef);
+    NSInteger texHeight = CGImageGetHeight(imRef);
+    
+    float imageScale = 1;
+    
+    if(orientation == UIImageOrientationUp && texWidth < texHeight)
+        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationLeft];
+    else if((orientation == UIImageOrientationUp && texWidth > texHeight) || orientation == UIImageOrientationRight)
+        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
+    else if(orientation == UIImageOrientationDown)
+        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationDown];
+    else if(orientation == UIImageOrientationLeft)
+        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
+    
+    NSLog(@"originalImage width = %f height = %f",image.size.width,image.size.height);
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    if (!_waitAlertView) {
+        _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"身份证信息解析中"];
+    }
+    [_waitAlertView show];
+    [YMIDCardRecognition recongnitionWithCard:image delegate:self];
+    
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
+{
+    //    UIAlertView *a=[[UIAlertView alloc]initWithTitle:@"提示" message:error.domain delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+    //    [a show];
+    //    NSLog(@"%@", error.domain);
+}
+- (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
+{
+    //  [self performSelectorOnMainThread:@selector(recongnitionResult:) withObject:array waitUntilDone:YES];
+    [_waitAlertView close];
+    self.idCardInfo = array;
+    //    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)getCancelProcess
+{
+    return NO;
+}
+
+- (void)setCancelProcess:(BOOL)isCance
+{
+    //self.isProgressCanceled = isCance;
+}
+
 @end
