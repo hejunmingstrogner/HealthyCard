@@ -206,8 +206,7 @@
     [_baseInfoTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.mas_equalTo(containerView).with.offset(10);
         make.right.mas_equalTo(containerView).with.offset(-10) ;
-       // make.width.mas_equalTo(SCREEN_WIDTH-20);
-        make.height.mas_equalTo(PXFIT_HEIGHT(96)*3);
+        make.height.mas_equalTo(PXFIT_HEIGHT(100)*3);
     }];
     
 
@@ -329,20 +328,20 @@
     
     if (indexPath.row == 0){
         cell.iconName = @"search_icon";
-        cell.textViewText = _location;
-        //cell.textView.text = _location;
+        [cell setTextViewText:_location];
+        //cell.textViewText = _location;
         cell.textView.userInteractionEnabled = NO;
         _locationTextView = cell.textView;
     }else if (indexPath.row == 1){
         cell.iconName = @"date_icon";
         
         if (self.isCustomerServerPoint == NO){
-            cell.textView.text = _appointmentDateStr;
+            [cell setTextViewText:_appointmentDateStr];
             cell.textView.userInteractionEnabled = NO;
         }else{
-            cell.textView.text = [NSString combineString:[[NSDate date] getDateStringWithInternel:1]
-                                                      And:[[NSDate date] getDateStringWithInternel:2]
-                                                     With:@"~"];
+            [cell setTextViewText:[NSString combineString:[[NSDate date] getDateStringWithInternel:1]
+                                                     And:[[NSDate date] getDateStringWithInternel:2]
+                                                    With:@"~"]];
             cell.textView.userInteractionEnabled = NO;
         }
         _appointmentDateTextView = cell.textView;
@@ -350,9 +349,9 @@
         cell.iconName = @"phone_icon";
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
         if (_customerTestInfo == nil){
-            cell.textView.text = gPersonInfo.StrTel;
+            [cell setTextViewText:gPersonInfo.StrTel];
         }else{
-            cell.textView.text = _customerTestInfo.linkPhone;
+            [cell setTextViewText:_customerTestInfo.linkPhone];
         }
         
         cell.textView.delegate = self;

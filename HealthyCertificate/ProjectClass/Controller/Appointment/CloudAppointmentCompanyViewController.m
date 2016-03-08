@@ -498,9 +498,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             }else{
                 cell.iconName = @"date_icon";
                 if (self.isCustomerServerPoint == NO){
-                    cell.textView.text = self.appointmentDateStr;
+                    [cell setTextViewText:self.appointmentDateStr];
                 }else{
-                    cell.textView.text = _dateString;
+                    [cell setTextViewText:_dateString];
                 }
                 cell.textView.userInteractionEnabled = NO;
                 _dateStrTextView = cell.textView;
