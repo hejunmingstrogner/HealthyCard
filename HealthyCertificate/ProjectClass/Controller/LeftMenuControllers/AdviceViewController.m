@@ -12,7 +12,10 @@
 
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
-
+#import "UIFont+Custom.h"
+#import <Masonry.h>
+#import "UIColor+Expanded.h"
+#import "Constants.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @implementation AdviceViewController
@@ -63,9 +66,6 @@
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
-
-    UIBarButtonItem *rightbtn = [[UIBarButtonItem alloc]initWithTitle:@"提交" style:UIBarButtonItemStyleDone target:self action:@selector(confirmClicked:)];
-    self.navigationItem.rightBarButtonItem = rightbtn;
 }
 // 返回前一页
 - (void)backToPre:(id)sender
@@ -131,6 +131,21 @@
     _adviceTextView.keyboardType = UIKeyboardTypeDefault;
     _adviceTextView.font = [UIFont fontWithType:0 size:15];
     _selectMistakeFlagArray = [NSMutableArray arrayWithObjects:@"0", @"0", @"0", @"0", nil];
+
+    UIButton *confirmBtn = [UIButton buttonWithTitle:@"提   交" font:[UIFont fontWithType:UIFontOpenSansRegular size:17] textColor:[UIColor whiteColor] backgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+    [self.view addSubview:confirmBtn];
+    [confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.right.equalTo(self.view).offset(-10);
+        make.left.equalTo(self.view).offset(10);
+        make.height.mas_equalTo(40);
+    }];
+    confirmBtn.layer.cornerRadius = 4;
+    confirmBtn.layer.masksToBounds = YES;
+    [confirmBtn addTarget:self action:@selector(confirmClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.left.equalTo(self.view);
+        make.bottom.equalTo(confirmBtn.mas_top).offset(-10);
+    }];
 }
 
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -161,6 +176,11 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UITableViewHeaderFooterView *headerview = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"header"];
+
+    UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [headerview addSubview:closeBtn];
+    closeBtn.frame = headerview.frame;
+    [closeBtn addTarget:self action:@selector(closeKeyBoard:) forControlEvents:UIControlEventTouchUpInside];
 
     UIButton *gpsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     gpsBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 90);

@@ -20,8 +20,7 @@
 @property (nonatomic, strong) UILabel     *address;
 @property (nonatomic, strong) UILabel     *serviceTime; // 服务时间
 @property (nonatomic, strong) UIScrollView *scrollView;
-
-@property (nonatomic, strong) UIView      *viewsBg;
+@property (nonatomic, strong) UIView       *container;  // 背景容器view
 
 @end
 
@@ -46,65 +45,69 @@
         make.left.equalTo(self.contentView).offset(15);
         make.width.equalTo(_carImageView.mas_height);
     }];
+    _carImageView.layer.masksToBounds = YES;
+    _carImageView.layer.cornerRadius = 40;
 
     _scrollView = [[UIScrollView alloc]init];
     [self.contentView addSubview:_scrollView];
     [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.bottom.equalTo(self.contentView);
-        make.left.equalTo(_carImageView.mas_right);
+        make.top.bottom.equalTo(self.contentView);
+        make.right.equalTo(self.contentView).offset(-10);
+        make.left.equalTo(_carImageView.mas_right).offset(5);
     }];
-    _scrollView.contentSize = CGSizeMake(0, 120);
 
-    _viewsBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width - 100, 140)];
-    [_scrollView addSubview:_viewsBg];
+    _container = [UIView new];
+    [_scrollView addSubview:_container];
+    [_container mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(_scrollView);
+        make.width.equalTo(_scrollView);
+    }];
 
     UIImageView *quanquan = [[UIImageView alloc]init];
-    [_viewsBg addSubview:quanquan];
+    [_container addSubview:quanquan];
 
     // 标题
     _carNo = [[UILabel alloc]init];
     _carNo.numberOfLines = 0;
-    [_viewsBg addSubview:_carNo];
+    [_container addSubview:_carNo];
     _carNo.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
     [_carNo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_viewsBg).offset(5);
-        make.right.equalTo(_viewsBg).offset(-10);
-        make.left.equalTo(quanquan.mas_right).offset(5);
+        make.top.equalTo(_container).offset(20);
+        make.right.equalTo(_container);
+        make.left.equalTo(quanquan.mas_right);
         make.height.mas_equalTo(40);
     }];
 
     quanquan.image = [UIImage imageNamed:@"quanquan"];
     [quanquan mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_carNo.mas_left).offset(-5);
+        make.right.equalTo(_carNo.mas_left);
         make.centerY.equalTo(_carNo);
-        make.left.equalTo(_viewsBg).offset(3);
+        make.left.equalTo(_container);
         make.height.width.mas_equalTo(15);
     }];
 
     // 地址
     _address = [[UILabel alloc]init];
-    [_viewsBg addSubview:_address];
+    [_container addSubview:_address];
     _address.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
     _address.numberOfLines = 0;
     _address.textColor = [UIColor grayColor];
     [_address mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_carNo.mas_bottom).offset(5);
-        make.left.equalTo(_viewsBg).offset(5);
-        make.right.equalTo(_viewsBg).offset(-10);
-        //make.width.mas_equalTo(self.contentView.frame.size.width - self.contentView.frame.size.height + 10);
-        make.height.mas_equalTo(35);
+        make.top.equalTo(_carNo.mas_bottom).offset(10);
+        make.left.right.equalTo(_container);
+        make.height.mas_equalTo(40);
     }];
 
     // 服务时间
     _serviceTime = [[UILabel alloc]init];
-    [_viewsBg addSubview:_serviceTime];
+    [_container addSubview:_serviceTime];
     _serviceTime.numberOfLines = 0;
     _serviceTime.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
     _serviceTime.textColor = [UIColor grayColor];
     [_serviceTime mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_address.mas_bottom).offset(5);
+        make.top.equalTo(_address.mas_bottom).offset(10);
         make.left.right.equalTo(_address);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(30);
     }];
 }
 
@@ -114,7 +117,7 @@
 
     _carNo.text = serviceInfo.name;
 
-    int carHeight = [self titleHeight:serviceInfo.name fontSize:17];
+    int carHeight = [self titleHeight:serviceInfo.name fontSize:FIT_FONTSIZE(24)];
 
     [_carNo mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(carHeight);
@@ -127,7 +130,7 @@
         _address.text = serviceInfo.address;
     }
 
-    int addrHeight = [self Textheight:_address.text fontSize:15];
+    int addrHeight = [self Textheight:_address.text fontSize:FIT_FONTSIZE(23)];
     [_address mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(addrHeight);
     }];
@@ -138,29 +141,28 @@
     NSString *sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.endTime/1000]];
     _serviceTime.text = sdate;
 
-    int serHeight = [self Textheight:sdate fontSize:15];
+    int serHeight = [self Textheight:sdate fontSize:FIT_FONTSIZE(23)];
     [_serviceTime mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(serHeight);
     }];
-
-    //_scrollView.contentSize = CGSizeMake(self.contentView.frame.size.width - self.contentView.frame.size.height + 20, carHeight + addrHeight + serHeight + 10);
-    _scrollView.contentSize = CGSizeMake(0, carHeight + addrHeight + serHeight + 20);
-    _viewsBg.frame = CGRectMake(0, 0, self.contentView.frame.size.width - 100, carHeight + addrHeight + serHeight + 20);
+    [_container mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_serviceTime.mas_bottom).offset(20);
+    }];
 }
 
 - (CGFloat)Textheight:(NSString *)text fontSize:(NSInteger)size
 {
-    UIFont *fnt = [UIFont systemFontOfSize:size];
+    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:size];
     CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 120, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
-    CGFloat he = tmpRect.size.height+10;
+    CGFloat he = tmpRect.size.height+5;
     return he;
 }
 
 - (CGFloat)titleHeight:(NSString *)text fontSize:(NSInteger)size
 {
-    UIFont *fnt = [UIFont systemFontOfSize:size];
+    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:size];
     CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 120 - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
-    CGFloat he = tmpRect.size.height+10;
+    CGFloat he = tmpRect.size.height+5;
     return he;
 }
 @end

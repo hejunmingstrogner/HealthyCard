@@ -26,6 +26,7 @@
 
 {
     CLLocationCoordinate2D _centerCoordinate;
+    CustomButton  *coverBtn;            // 遮罩按钮
 }
 
 @end
@@ -272,6 +273,17 @@
         [self getCheckListData];    // 刷新待处理项
         [self getAdress];           // 刷新体检地址
     }];
+
+    // 遮罩层
+    coverBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
+    coverBtn.frame = self.view.frame;
+    [self.view addSubview:coverBtn];
+    [coverBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(20, 0, 0, 0));
+    }];
+    coverBtn.userInteractionEnabled = NO;
+    [coverBtn addTarget:self action:@selector(closeLeftView) forControlEvents:UIControlEventTouchUpInside];
+    [coverBtn setBackgroundColor:[UIColor colorWithRed:15/255.0 green:15/255.0 blue:15/255.0 alpha:0]];
 }
 
 - (void)initLeftViews
@@ -305,38 +317,50 @@
         }
         [leftMenuView setCenter:CGPointMake(x, leftMenuView.center.y)];
         [recognizer setTranslation:CGPointZero inView:self.view];
-
+        // 遮罩
+        float alphts = (float)CGRectGetMaxX(leftMenuView.frame)/[UIScreen mainScreen].bounds.size.width;
+        [coverBtn setBackgroundColor:[UIColor colorWithRed:15/255.0 green:15/255.0 blue:15/255.0 alpha:alphts]];
     }
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         // 右侧移动
         if (moveStatus) {
             if (leftMenuView.center.x > -leftMenuView.frame.size.width/2 + leftMenuView.frame.size.width/5) {
                 // 显示界面
-                [UIView animateWithDuration:0.7 animations:^{
-                    leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20);
-                }];
+                [self showLeftView];
             }
             else {
-                [UIView animateWithDuration:0.7 animations:^{
-                    leftMenuView.frame = CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.8 + 10, self.view.frame.size.height - 20);
-                }];
+                [self closeLeftView];
             }
         }
         else if(moveStatus == NO)
         {
             if (leftMenuView.center.x > leftMenuView.frame.size.width/2 - leftMenuView.frame.size.width/5) {
                 // 显示界面
-                [UIView animateWithDuration:0.7 animations:^{
-                    leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20);
-                }];
+                [self showLeftView];
             }
             else {
-                [UIView animateWithDuration:0.7 animations:^{
-                    leftMenuView.frame = CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.8 + 10, self.view.frame.size.height - 20);
-                }];
+                [self closeLeftView];
             }
         }
     }
+}
+
+- (void)showLeftView
+{
+    // 显示界面
+    [UIView animateWithDuration:0.7 animations:^{
+        leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20);
+        [coverBtn setBackgroundColor:[UIColor colorWithRed:15/255.0 green:15/255.0 blue:15/255.0 alpha:0.8]];
+    }];
+    coverBtn.userInteractionEnabled = YES;
+}
+- (void)closeLeftView
+{
+    [UIView animateWithDuration:0.7 animations:^{
+        leftMenuView.frame = CGRectMake(-self.view.frame.size.width * 0.80, 20, self.view.frame.size.width * 0.8 + 10, self.view.frame.size.height - 20);
+        [coverBtn setBackgroundColor:[UIColor colorWithRed:15/255.0 green:15/255.0 blue:15/255.0 alpha:0]];
+    }];
+    coverBtn.userInteractionEnabled = NO;
 }
 
 #pragma mark leftMenuView  delegate
@@ -495,9 +519,7 @@
 // 点击了头像,显示左侧菜单
 - (void)headerBtnClicked
 {
-    [UIView animateWithDuration:0.7 animations:^{
-        leftMenuView.frame = CGRectMake(0, 20, self.view.frame.size.width * 0.80 + 10, self.view.frame.size.height - 20);
-    }];
+    [self showLeftView];
 }
 #pragma mark -初始化定位服务
 - (void)initLocationServer
