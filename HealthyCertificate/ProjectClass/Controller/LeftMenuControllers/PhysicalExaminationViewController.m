@@ -103,7 +103,7 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     if (indexPath.row == 0) {
         cell.textLabel.text = _titleArray[indexPath.section];
-        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(28)];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
         cell.textLabel.textColor = [UIColor blackColor];
         if (indexPath.section == 2) {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -112,7 +112,7 @@
     else if (indexPath.row == 1)
     {
         cell.textLabel.text = _detailArray[indexPath.section];
-        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(27)];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
         cell.textLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
     }
     return cell;
@@ -120,9 +120,14 @@
 
 - (CGFloat)cellhieght:(NSString *)text
 {
-    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(27)];
+    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:16];
 
     CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
     return tmpRect.size.height + 20;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 @end

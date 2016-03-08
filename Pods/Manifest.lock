@@ -26,9 +26,24 @@ PODS:
   - KVNProgress (2.2.1)
   - Masonry (0.6.2)
   - MJExtension (3.0.10)
+  - Pingpp/Alipay (2.2.0):
+    - Pingpp/Core
+  - Pingpp/ApplePay (2.2.0):
+    - Pingpp/Core
+    - Pingpp/Network
+  - Pingpp/Core (2.2.0):
+    - Pingpp/Network
+  - Pingpp/Network (2.2.0)
+  - Pingpp/UnionPay (2.2.0):
+    - Pingpp/Core
+  - Pingpp/Wx (2.2.0):
+    - Pingpp/Core
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
+  - ZXingObjC (3.1.0):
+    - ZXingObjC/All (= 3.1.0)
+  - ZXingObjC/All (3.1.0)
 
 DEPENDENCIES:
   - AFNetworking
@@ -38,7 +53,12 @@ DEPENDENCIES:
   - KVNProgress
   - Masonry
   - MJExtension
+  - Pingpp/Alipay
+  - Pingpp/ApplePay
+  - Pingpp/UnionPay
+  - Pingpp/Wx
   - SDWebImage
+  - ZXingObjC
 
 SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
@@ -48,6 +68,8 @@ SPEC CHECKSUMS:
   KVNProgress: 7001d2d16a2755cee5599e8e485befe056f2197b
   Masonry: 362e8a1cc0beada4a4c4832d5e863da2a51533be
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
+  Pingpp: fcb58c6fa34609e231a172b6092ac6024778be51
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
 COCOAPODS: 0.39.0

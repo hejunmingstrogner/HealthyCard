@@ -6,3 +6,8 @@ pod ‘BaiduMapKit’
 pod 'MJExtension'
 pod 'SDWebImage'
 pod ‘Bugtags’
+pod 'Pingpp/Alipay'
+pod 'Pingpp/Wx'
+pod 'Pingpp/UnionPay'
+pod 'Pingpp/ApplePay'
+pod 'ZXingObjC'

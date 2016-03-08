@@ -146,6 +146,9 @@
 		B2640CE11C7D5DA600721CB5 /* AddWorkerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE01C7D5DA600721CB5 /* AddWorkerViewController.m */; };
 		B2640CE71C7D613600721CB5 /* AddWorkerCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */; };
 		B2640CF61C7D9D2100721CB5 /* SelectAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */; };
+		B27222A91C8EC747002494EA /* PayMoneyController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27222A81C8EC747002494EA /* PayMoneyController.m */; };
+		B27222AD1C8ECFBA002494EA /* PayInfoViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B27222AC1C8ECFBA002494EA /* PayInfoViewCell.m */; };
+		B27222B01C8ECFD3002494EA /* PayTypeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B27222AF1C8ECFD3002494EA /* PayTypeViewCell.m */; };
 		B27B00CB1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B27B00CA1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m */; };
 		B27B00D01C8461FE00FBF895 /* ServicePointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B27B00CD1C8461FE00FBF895 /* ServicePointCell.m */; };
 		B27B00D11C8461FE00FBF895 /* ServicePositionCarHeadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B27B00CF1C8461FE00FBF895 /* ServicePositionCarHeadTableViewCell.m */; };
@@ -420,6 +423,12 @@
 		B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerCellItem.m; sourceTree = "<group>"; };
 		B2640CF41C7D9D2100721CB5 /* SelectAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectAddressViewController.h; sourceTree = "<group>"; };
 		B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectAddressViewController.m; sourceTree = "<group>"; };
+		B27222A71C8EC747002494EA /* PayMoneyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayMoneyController.h; sourceTree = "<group>"; };
+		B27222A81C8EC747002494EA /* PayMoneyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayMoneyController.m; sourceTree = "<group>"; };
+		B27222AB1C8ECFBA002494EA /* PayInfoViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayInfoViewCell.h; sourceTree = "<group>"; };
+		B27222AC1C8ECFBA002494EA /* PayInfoViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayInfoViewCell.m; sourceTree = "<group>"; };
+		B27222AE1C8ECFD3002494EA /* PayTypeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayTypeViewCell.h; sourceTree = "<group>"; };
+		B27222AF1C8ECFD3002494EA /* PayTypeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayTypeViewCell.m; sourceTree = "<group>"; };
 		B27B00C91C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuViewHeaderinfoCell.h; sourceTree = "<group>"; };
 		B27B00CA1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewHeaderinfoCell.m; sourceTree = "<group>"; };
 		B27B00CC1C8461FE00FBF895 /* ServicePointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServicePointCell.h; path = HealthyCertificate/ProjectClass/View/Appointment/ServicePointCell.h; sourceTree = SOURCE_ROOT; };
@@ -668,6 +677,7 @@
 		252AB8761C76B9BE0085CC14 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				B27222AA1C8ECF8A002494EA /* PayTableVCell */,
 				254A8DDB1C813B1900F2EC94 /* ServicePoint */,
 				254A8DDA1C813B1100F2EC94 /* Common */,
 				254A8DD91C813B0500F2EC94 /* CloudAppointment */,
@@ -986,6 +996,7 @@
 		B2484DB41C71C1E600C0CCBB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B27222A61C8EC1B9002494EA /* PayController */,
 				B2640CC41C7C0BAB00721CB5 /* ServicePositionController */,
 				B2436C9D1C7AEE5500F543E1 /* CheckListTableViewController */,
 				B23A98011C76BA8F00E3E054 /* LeftMenuControllers */,
@@ -1060,6 +1071,26 @@
 				B2640CD71C7C7D7500721CB5 /* WaitDocResultTableViewCell.m */,
 			);
 			path = WaitDocResultSelectView;
+			sourceTree = "<group>";
+		};
+		B27222A61C8EC1B9002494EA /* PayController */ = {
+			isa = PBXGroup;
+			children = (
+				B27222A71C8EC747002494EA /* PayMoneyController.h */,
+				B27222A81C8EC747002494EA /* PayMoneyController.m */,
+			);
+			path = PayController;
+			sourceTree = "<group>";
+		};
+		B27222AA1C8ECF8A002494EA /* PayTableVCell */ = {
+			isa = PBXGroup;
+			children = (
+				B27222AB1C8ECFBA002494EA /* PayInfoViewCell.h */,
+				B27222AC1C8ECFBA002494EA /* PayInfoViewCell.m */,
+				B27222AE1C8ECFD3002494EA /* PayTypeViewCell.h */,
+				B27222AF1C8ECFD3002494EA /* PayTypeViewCell.m */,
+			);
+			path = PayTableVCell;
 			sourceTree = "<group>";
 		};
 		B2F8261F1C730D3E00993F47 /* ExaminationAdress */ = {
@@ -1346,6 +1377,7 @@
 				B2436CA31C7AF91800F543E1 /* BRContractTableHeaerCell.m in Sources */,
 				2512B4151C7056C900EE661B /* UIButton+Easy.m in Sources */,
 				B2436C9C1C7AE1E300F543E1 /* CustomerTestTableViewCell.m in Sources */,
+				B27222A91C8EC747002494EA /* PayMoneyController.m in Sources */,
 				B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */,
 				25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */,
 				2512B41E1C7056C900EE661B /* UILabel+Easy.m in Sources */,
@@ -1403,6 +1435,7 @@
 				2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */,
 				B2FEA8671C7EF2D500106EE8 /* TakePhoto.m in Sources */,
 				B23C76791C8D315B00E5C40A /* BaseTBCellItem.m in Sources */,
+				B27222AD1C8ECFBA002494EA /* PayInfoViewCell.m in Sources */,
 				B27B00CB1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m in Sources */,
 				B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */,
 				B27B00D01C8461FE00FBF895 /* ServicePointCell.m in Sources */,
@@ -1428,6 +1461,7 @@
 				B2640CF61C7D9D2100721CB5 /* SelectAddressViewController.m in Sources */,
 				2512B3F21C8D8496006E8608 /* ReportResultReturnURLPacket.m in Sources */,
 				254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */,
+				B27222B01C8ECFD3002494EA /* PayTypeViewCell.m in Sources */,
 				2512B4171C7056C900EE661B /* UIButton+VerticalLayout.m in Sources */,
 				B23C76741C8D30FF00E5C40A /* MethodResult.m in Sources */,
 				B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */,
