@@ -142,11 +142,32 @@
     self.navigationItem.leftBarButtonItem = backitem;
     
     self.title = _sercersPositionInfo.name;
+    
+    UIButton* QRScanButton = [UIButton buttonWithNormalImageName:@"QRScan" highlightImageName:@"QRScan"];
+    QRScanButton.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    [QRScanButton addTarget:self action:@selector(QRScanButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:QRScanButton];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 // 返回前一页
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)QRScanButtonClicked:(UIButton*)sender
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.delegate = self;
+        imagePicker.showsCameraControls = YES;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+    else
+    {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"开启摄像头权限后，才能使用该功能" removeDelay:2];
+    }
 }
 
 -(void)viewDidLoad{

@@ -24,6 +24,9 @@
 #import "PersonInfoOfPhonePacket.h"
 #import "CompanyInfoOfPhonePacket.h"
 
+#import "ReportResultReturnURLPacket.h"
+#import "ReportResultQueryURLPacket.h"
+
 PersonInfoOfPhonePacket* gPersonInfo;
 CompanyInfoOfPhonePacket* gCompanyInfo;
 
@@ -146,6 +149,14 @@ CompanyInfoOfPhonePacket* gCompanyInfo;
     [self sendPacketToQueueServer:packet];
 }
 
+-(void)getReportQueryUrl:(NSString*)examinationCode
+{
+    ReportResultQueryURLPacket* packet = [[ReportResultQueryURLPacket alloc] init];
+    packet.strCheckCode = examinationCode;
+    packet.bType = 2; //代表体检编号
+    [self sendPacketToQueueServer:packet];
+}
+
 
 #pragma mark - Private Methods
 -(void)proxyServerTimerTriggered{
@@ -196,7 +207,15 @@ CompanyInfoOfPhonePacket* gCompanyInfo;
                 [self.delegate getLoginInfoSucceed];
             }
         }
-            
+            break;
+        case REPORT_RESULT_RETURN_URL:
+        {
+            ReportResultReturnURLPacket* returnUrlPacket = [[ReportResultReturnURLPacket alloc] init];
+            [returnUrlPacket writeData:data Index:index];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(reportResultReturnUrlPacketSucceed:)]){
+                [self.delegate reportResultReturnUrlPacketSucceed:returnUrlPacket.strReportURL];
+            }
+        }
             break;
         default:
             break;

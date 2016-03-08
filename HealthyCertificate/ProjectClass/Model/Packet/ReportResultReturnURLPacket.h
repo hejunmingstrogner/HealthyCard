@@ -10,4 +10,6 @@
 
 @interface ReportResultReturnURLPacket : BasePacket
 
+@property (nonatomic, copy) NSString* strReportURL;
+
 @end
