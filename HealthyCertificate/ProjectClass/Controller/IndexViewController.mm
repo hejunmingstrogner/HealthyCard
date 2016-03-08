@@ -122,7 +122,7 @@
     }];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:20];
-    titleLabel.text = @"知康";
+    titleLabel.text = @"健康证在线";
     // 待处理按钮
     pendingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [headerBackGroundView addSubview:pendingBtn];

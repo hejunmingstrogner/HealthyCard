@@ -13,13 +13,19 @@
 
 @implementation ReportResultQueryURLPacket
 
-#pragma
-
+#pragma mark - Init
+-(id)init{
+    if (self = [super init]){
+        self.protocalNum = REPORT_RESULT_QUERY_URL;
+    }
+    return self;
+}
 
 #pragma mark - Override Methods
 -(NSMutableData*)readData{
     NSMutableData* resultData = [[NSMutableData alloc] init];
     [[HMDataOperate getInstance] writeShort:self.protocalNum To:resultData];
+    [[HMDataOperate getInstance] write256String:self.strCheckCode To:resultData];
     [[HMDataOperate getInstance] writeByte:self.bType To:resultData];
     return resultData;
 }

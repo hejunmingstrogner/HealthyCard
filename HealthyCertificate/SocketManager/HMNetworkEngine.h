@@ -14,6 +14,8 @@
 -(void)setUpControlSucceed;
 -(void)setUpControlFailed;
 
+-(void)reportResultReturnUrlPacketSucceed:(NSString*)urlStr;
+
 
 //这里解析服务端返回数据以后可以优化一下，现在是分别针对不同的操作有不同的函数来处理
 /**
@@ -48,6 +50,13 @@
  *  @param phoneNum 登录验证过的手机号
  */
 -(void)askLoginInfo:(NSString*)phoneNum;
+
+/**
+ *  得到体检报告的url
+ *
+ *  @param examinationCode 体检编号
+ */
+-(void)getReportQueryUrl:(NSString*)examinationCode;
 
 
 @property (nonatomic, weak) id<HMNetworkEngineDelegate> delegate;
