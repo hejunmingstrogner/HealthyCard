@@ -138,7 +138,7 @@
         if (_brContract) {
             [_addressBtn setTitle:_brContract.regPosAddr forState:UIControlStateNormal];
             if (!_brContract.regBeginDate || !_brContract.regEndDate) {
-
+                [_timeBtn setTitle:@"" forState:UIControlStateNormal];
             }
             else {
                 NSString *year = [NSDate getYear_Month_DayByDate:_brContract.regBeginDate/1000];
@@ -163,13 +163,12 @@
 
             [_phoneBtn setTitle:_cutomerTest.linkPhone forState:UIControlStateNormal];
         }
-
     }
     else if(index == 1) {
         if (_brContract) {
             [_addressBtn setTitle:_brContract.servicePoint.address forState:UIControlStateNormal];
             if (!_brContract.servicePoint.startTime || !_brContract.servicePoint.endTime) {
-
+                [_timeBtn setTitle:@"" forState:UIControlStateNormal];
             }
             else {
                 NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime/1000];
