@@ -391,7 +391,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _brContract.unitName = gCompanyInfo.cUnitName;
     int customercount;
     @try {
-       customercount = [_exminationCountField.text integerValue] + _customerArr.count;
+       customercount = [_exminationCountField.text integerValue];
     }
     @catch (NSException *e){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"请输入正确的体检人数" removeDelay:2];
@@ -400,6 +400,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     if(customercount <= 0){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"体检人数不能为 0" removeDelay:3];
         return ;
+    }
+    if (customercount < _customerArr.count) {
+        customercount = _customerArr.count;
     }
     _brContract.regCheckNum = customercount;    // 体检人数
 
@@ -607,7 +610,13 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 __weak CloudAppointmentCompanyViewController * weakSelf = self;
                 [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {
                     weakSelf.customerArr = workerArray;
-                    [weakSelf.staffTableView reloadData];
+                    //[weakSelf.staffTableView reloadData];
+                    [_companyInfoTableView reloadData];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if([_exminationCountField.text integerValue] < workerArray.count){
+                            _exminationCountField.text = [NSString stringWithFormat:@"%d", workerArray.count];
+                        }
+                    });
                 }];
                 [self.navigationController pushViewController:addworkerViewController animated:YES];
                 [self inputWidgetResign];

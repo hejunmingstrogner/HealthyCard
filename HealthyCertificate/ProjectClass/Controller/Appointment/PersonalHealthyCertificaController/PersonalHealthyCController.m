@@ -79,26 +79,21 @@
 
 - (void)rightBtnClicked:(id)sender
 {
-    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
+    if (![_customerTestInfo.testStatus isEqualToString:@"-1"] || _customerTestInfo == nil) {
         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"对不起，现在不能修改信息" ActionTitle:@"明白了" ActionStyle:UIAlertActionStyleDefault];
         return ;
     }
-    NSLog(@"修改");
-    CustomerTest *newCustomerTest = [[CustomerTest alloc]init];
-    newCustomerTest.checkCode = _customerTestInfo.checkCode;
-    newCustomerTest.custCode = _customerTestInfo.custCode;
-    newCustomerTest.unitCode = _customerTestInfo.unitCode;
-    newCustomerTest.custName = _healthCertificateView.name;
-    newCustomerTest.custIdCard = _healthCertificateView.idCard;
-    newCustomerTest.linkPhone = _linkerPhone;
-    newCustomerTest.jobDuty = _healthCertificateView.workType;
-    newCustomerTest.regPosLO = _posLo;
-    newCustomerTest.regPosLA = _posLa;
-    newCustomerTest.regBeginDate = _regbegindate;
-    newCustomerTest.regEndDate = _regenddate;
-    newCustomerTest.sex = [_healthCertificateView.gender isEqualToString:@"男"]? '0':'1';
+    _customerTestInfo.custName = _healthCertificateView.name;
+    _customerTestInfo.custIdCard = _healthCertificateView.idCard;
+    _customerTestInfo.linkPhone = _linkerPhone;
+    _customerTestInfo.jobDuty = _healthCertificateView.workType;
+    _customerTestInfo.regPosLO = _posLo;
+    _customerTestInfo.regPosLA = _posLa;
+    _customerTestInfo.regBeginDate = _regbegindate;
+    _customerTestInfo.regEndDate = _regenddate;
+    _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? '0':'1';
 
-    [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:newCustomerTest resultBlock:^(NSDictionary *result, NSError *error) {
+    [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
         if (!error) {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
             NSLog(@"result:%@", result);
