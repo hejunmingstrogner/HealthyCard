@@ -20,6 +20,8 @@
 #import "NSDate+Custom.h"
 #import "UILabel+Easy.h"
 #import "NSString+Custom.h"
+#import "UIView+borderWidth.h"
+
 #import "BaseInfoTableViewCell.h"
 #import "CloudCompanyAppointmentCell.h"
 #import "CloudCompanyAppointmentStaffCell.h"
@@ -195,7 +197,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
     [_companyInfoContainerView addSubview:_companyNameTextView];
     
-    UILabel* companyAddressLabel = [UILabel labelWithText:@"单位名称"
+    UILabel* companyAddressLabel = [UILabel labelWithText:@"单位地址"
                                                      font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]
                                                 textColor:[UIColor blackColor]];
     [_companyInfoContainerView addSubview:companyAddressLabel];
@@ -301,6 +303,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }];
 
     AppointmentInfoView* infoView = [[AppointmentInfoView alloc] init];
+    [infoView addBordersToEdge:UIRectEdgeTop withColor:[UIColor colorWithRGBHex:0Xe8e8e8] andWidth:1];
     [containerView addSubview:infoView];
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(containerView);
@@ -487,7 +490,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             if (indexPath.row == 0){
                 cell.iconName = @"search_icon";
                 [cell setTextViewText:_location];
-               // cell.textView.text = _location;
                 cell.textView.userInteractionEnabled = NO;
             }else{
                 cell.iconName = @"date_icon";
@@ -516,20 +518,27 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 cell.textFieldType = CDA_CONTACTPERSON;
                 cell.textField.text = gCompanyInfo.cLinkPeople;
                 cell.textField.enabled = YES;
-                _contactPersonField = cell.textField;
                 cell.textField.tag = TEXTFIELD_CONTACT;
+                cell.textField.returnKeyType = UIReturnKeyDone;
+                cell.textField.delegate = self;
+                _contactPersonField = cell.textField;
             }else if (indexPath.row == 1){
                 cell.textFieldType = CDA_CONTACTPHONE;
                 cell.textField.text = gCompanyInfo.cLinkPhone;
+                cell.textField.keyboardType = UIKeyboardTypeNumberPad;
                 cell.textField.enabled = YES;
-                _phoneNumField = cell.textField;
                 cell.textField.tag = TEXTFIELD_PHONE;
+                //cell.textField.returnKeyType = UIReturnKeyDone;
+                cell.textField.delegate = self;
+                _phoneNumField = cell.textField;
             }else if (indexPath.row == 2){
                 cell.textFieldType = CDA_PERSON;
                 cell.textField.keyboardType = UIKeyboardTypeNumberPad;
                 cell.textField.enabled = YES;
-                _exminationCountField = cell.textField;
                 cell.textField.tag = TEXTFIELD_CONTACTCOUNT;
+                cell.textField.returnKeyType = UIReturnKeyDone;
+                cell.textField.delegate = self;
+                _exminationCountField = cell.textField;
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
@@ -614,12 +623,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             }
         }
             break;
-        case TABLEVIEW_STAFFINFO:
-        {
-           
-            
-        }
-            break;
         default:
             break;
     }
@@ -633,6 +636,38 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }
     return YES;
 }
+
+#pragma mark - UITextFieldDelegate
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if ([string isEqualToString:@"\n"]) {
+        [textField resignFirstResponder];
+        return NO;
+    }
+    
+    //判断电话号码
+    if (textField.tag == TEXTFIELD_PHONE){
+        if (![self isPureInt:string]){
+            return YES;
+        }
+        if (textField.text.length + string.length > 11){
+            return NO;
+        }else if (textField.text.length == 10){
+            return YES;
+        }else{
+            return YES;
+        }
+    }
+    
+    
+    return YES;
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
 
 #pragma mark - Private Methods
 - (BOOL)isPureInt:(NSString*)string{

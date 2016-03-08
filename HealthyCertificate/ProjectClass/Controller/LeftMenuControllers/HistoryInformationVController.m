@@ -12,6 +12,7 @@
 #import "CustomerHistoryTBVCell.h"
 #import "RzAlertView.h"
 #import "HttpNetworkManager.h"
+#import "HMNetworkEngine.h"
 
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
@@ -19,9 +20,11 @@
 #import "BRContractHistoryTBFootCell.h"
 #import "PersonalHealthyCHistoryVC.h"
 
+
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface HistoryInformationVController ()<UITableViewDataSource, UITableViewDelegate>
+@interface HistoryInformationVController ()<UITableViewDataSource, UITableViewDelegate,HMNetworkEngineDelegate>
 {
     RzAlertView *waitAlertView;
 }
@@ -116,6 +119,7 @@
 }
 
 
+#pragma mark - UITableViewDataSource & UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return _historyArray.count;
@@ -208,10 +212,23 @@
         //        }
     }
 }
+
+#pragma mark - Action
 // 报告按钮点击
 - (void)reportBtnClicked:(CustomButton *)sender
 {
-    NSLog(@"报告：%d", sender.tag);
+    CustomerTest* selectCustomerTest = (CustomerTest *)_historyArray[sender.tag];
+    [HMNetworkEngine getInstance].delegate = self;
+    [[HMNetworkEngine getInstance] getReportQueryUrl:selectCustomerTest.checkCode];
+    //NSLog(@"报告：%d", sender.tag);
+}
+
+
+#pragma mark - HMNetworkEngineDelegate
+-(void)reportResultReturnUrlPacketSucceed:(NSString*)urlStr
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+    //[[UIApplication sharedApplication] openURL:[NSURL urlWithString:urlStr];
 }
 
 @end
