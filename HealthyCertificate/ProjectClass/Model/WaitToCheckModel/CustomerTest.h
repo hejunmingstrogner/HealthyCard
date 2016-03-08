@@ -92,11 +92,11 @@
 /**
  * 预约经度
  */
-@property (nonatomic, assign) long long regPosLO;
+@property (nonatomic, assign) double regPosLO;
 /**
  * 预约纬度
  */
-@property (nonatomic, assign) long long regPosLA;
+@property (nonatomic, assign) double regPosLA;
 /**
  * 预约地址
  */
