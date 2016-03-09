@@ -151,14 +151,27 @@
         }
         else {
             [_addressBtn setTitle:_cutomerTest.regPosAddr forState:UIControlStateNormal];
-            if (!_cutomerTest.regBeginDate || !_cutomerTest.regEndDate) {
-                [_timeBtn setTitle:@"" forState:UIControlStateNormal];
+            if(_cutomerTest.checkSiteID) // 服务点预约
+            {
+                if (!_cutomerTest.regTime) {
+                    [_timeBtn setTitle:@"" forState:UIControlStateNormal];
+                }
+                else {
+                    NSString *startyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regTime/1000];
+                    [_timeBtn setTitle:startyear forState:UIControlStateNormal];
+                }
             }
-            else {
-                NSString *startyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regBeginDate/1000];
-                NSString *endyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regEndDate/1000];
-                NSString *time = [NSString stringWithFormat:@"%@~%@",startyear, endyear];
-                [_timeBtn setTitle:time forState:UIControlStateNormal];
+            else {  // 云预约
+
+                if (!_cutomerTest.regBeginDate || !_cutomerTest.regEndDate) {
+                    [_timeBtn setTitle:@"" forState:UIControlStateNormal];
+                }
+                else {
+                    NSString *startyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regBeginDate/1000];
+                    NSString *endyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regEndDate/1000];
+                    NSString *time = [NSString stringWithFormat:@"%@~%@",startyear, endyear];
+                    [_timeBtn setTitle:time forState:UIControlStateNormal];
+                }
             }
 
             [_phoneBtn setTitle:_cutomerTest.linkPhone forState:UIControlStateNormal];
@@ -185,7 +198,7 @@
                 [_addressBtn setTitle:@"现场体检" forState:UIControlStateNormal];
             }
             else {
-                if(_cutomerTest.servicePoint.type == 1) // 临时服务点
+                if(_cutomerTest.servicePoint.type == 1) // 移动服务点
                 {
                     NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
                     NSString *hour1 = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime/1000];
@@ -200,7 +213,6 @@
                     [_timeBtn setTitle:time forState:UIControlStateNormal];
                 }
             }
-
             [_phoneBtn setTitle:_cutomerTest.servicePoint.leaderPhone forState:UIControlStateNormal];
         }
 

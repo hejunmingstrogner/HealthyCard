@@ -86,7 +86,7 @@
  */
 @property (nonatomic, strong) NSString * contractCode;
 /**
- * 体检服务点
+ * 体检服务点  为空是云预约，存在是服务点预约
  */
 @property (nonatomic, strong) NSString * checkSiteID;
 /**
