@@ -6,3 +6,4 @@ pod ‘BaiduMapKit’
 pod 'MJExtension'
 pod 'SDWebImage'
 pod ‘Bugtags’
+pod 'RealReachability'

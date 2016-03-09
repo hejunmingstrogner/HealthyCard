@@ -22,6 +22,8 @@
 #import "HistoryInformationVController.h"
 #import "UIColor+Expanded.h"
 
+#import "LoginController.h"
+
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
 {
@@ -410,7 +412,8 @@
                 if (flag == 1){
                     SetUuid(@"");
                     SetPhoneNumber(@"");
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    LoginController* loginViewController = [[LoginController alloc] init];
+                    [self presentViewController:loginViewController animated:NO completion:nil] ;
                 }
             }];
         }
@@ -500,7 +503,7 @@
 //  一键预约
 - (void)orderBtnClicked
 {
-    if (addressLabel.text == nil){
+    if (addressLabel.text == nil || [addressLabel.text isEqualToString:@""]){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"位置信息未加载完成" removeDelay:3];
     }else{
        // [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];

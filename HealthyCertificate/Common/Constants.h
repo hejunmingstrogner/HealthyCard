@@ -11,6 +11,7 @@
 
 #import "PersonInfoOfPhonePacket.h"
 #import "CompanyInfoOfPhonePacket.h"
+#import <RealReachability.h>
 
 #define PACKAGE_LENGTH 4
 
@@ -60,6 +61,7 @@ typedef NS_ENUM(NSInteger, SWITCH_STYLE)
 
 extern PersonInfoOfPhonePacket* gPersonInfo;
 extern CompanyInfoOfPhonePacket* gCompanyInfo;
+extern RealReachability* reachAbility;
 
 #define kiOS6NavigationBarHeight 44
 #define kiOS7NavigationBarHeight 44

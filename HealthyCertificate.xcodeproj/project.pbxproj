@@ -51,6 +51,12 @@
 		252AB8941C770F890085CC14 /* CloudAppointmentDateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 252AB8931C770F890085CC14 /* CloudAppointmentDateVC.m */; };
 		252AB8971C7732C50085CC14 /* NavView.m in Sources */ = {isa = PBXBuildFile; fileRef = 252AB8961C7732C50085CC14 /* NavView.m */; };
 		252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 252AB89C1C783B260085CC14 /* NSDate+Custom.m */; };
+		254502B01C8ED1FF00F47F46 /* UIView+RoundingCornor.m in Sources */ = {isa = PBXBuildFile; fileRef = 254502AF1C8ED1FF00F47F46 /* UIView+RoundingCornor.m */; };
+		254502F91C8FB61E00F47F46 /* LauchScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254502F81C8FB61E00F47F46 /* LauchScreenController.m */; };
+		254502FE1C8FB77000F47F46 /* hclaunchscreen@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254502FB1C8FB77000F47F46 /* hclaunchscreen@1x.png */; };
+		254502FF1C8FB77000F47F46 /* hclaunchscreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254502FC1C8FB77000F47F46 /* hclaunchscreen@2x.png */; };
+		254503001C8FB77000F47F46 /* hclaunchscreen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254502FD1C8FB77000F47F46 /* hclaunchscreen@3x.png */; };
+		254503021C8FBDC500F47F46 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254503011C8FBDC500F47F46 /* Images.xcassets */; };
 		254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */; };
 		254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D881C7AE02300F2EC94 /* Avatar@2x.png */; };
 		254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D891C7AE02300F2EC94 /* Avatar@3x.png */; };
@@ -258,6 +264,14 @@
 		252AB8961C7732C50085CC14 /* NavView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavView.m; path = ../NavView.m; sourceTree = "<group>"; };
 		252AB89B1C783B260085CC14 /* NSDate+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Custom.h"; sourceTree = "<group>"; };
 		252AB89C1C783B260085CC14 /* NSDate+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Custom.m"; sourceTree = "<group>"; };
+		254502AE1C8ED1FF00F47F46 /* UIView+RoundingCornor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RoundingCornor.h"; sourceTree = "<group>"; };
+		254502AF1C8ED1FF00F47F46 /* UIView+RoundingCornor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RoundingCornor.m"; sourceTree = "<group>"; };
+		254502F71C8FB61E00F47F46 /* LauchScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LauchScreenController.h; sourceTree = "<group>"; };
+		254502F81C8FB61E00F47F46 /* LauchScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LauchScreenController.m; sourceTree = "<group>"; };
+		254502FB1C8FB77000F47F46 /* hclaunchscreen@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hclaunchscreen@1x.png"; sourceTree = "<group>"; };
+		254502FC1C8FB77000F47F46 /* hclaunchscreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hclaunchscreen@2x.png"; sourceTree = "<group>"; };
+		254502FD1C8FB77000F47F46 /* hclaunchscreen@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hclaunchscreen@3x.png"; sourceTree = "<group>"; };
+		254503011C8FBDC500F47F46 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		254A8D811C7A027E00F2EC94 /* HealthyCertificateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HealthyCertificateView.h; path = ../HealthyCertificateView.h; sourceTree = "<group>"; };
 		254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthyCertificateView.m; path = ../HealthyCertificateView.m; sourceTree = "<group>"; };
 		254A8D881C7AE02300F2EC94 /* Avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@2x.png"; sourceTree = "<group>"; };
@@ -511,6 +525,7 @@
 				2512B3DD1C70567F00EE661B /* Categories */,
 				2512B3DE1C70567F00EE661B /* Fonts */,
 				2512B3E41C70567F00EE661B /* Resources */,
+				254503011C8FBDC500F47F46 /* Images.xcassets */,
 				2512B3AA1C70557C00EE661B /* Supporting Files */,
 			);
 			path = HealthyCertificate;
@@ -592,6 +607,8 @@
 				254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */,
 				2512B3EA1C8D6133006E8608 /* UIView+borderWidth.h */,
 				2512B3EB1C8D6133006E8608 /* UIView+borderWidth.m */,
+				254502AE1C8ED1FF00F47F46 /* UIView+RoundingCornor.h */,
+				254502AF1C8ED1FF00F47F46 /* UIView+RoundingCornor.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -609,6 +626,7 @@
 		2512B3E41C70567F00EE661B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				254502FA1C8FB76400F47F46 /* Common */,
 				252AB87A1C76E3880085CC14 /* Appointment */,
 				25BFEB441C75BF1F0062F9B8 /* back@1x.png */,
 				25BFEB451C75BF1F0062F9B8 /* back@2x.png */,
@@ -722,6 +740,16 @@
 				B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */,
 			);
 			path = CloudAppointment;
+			sourceTree = "<group>";
+		};
+		254502FA1C8FB76400F47F46 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				254502FB1C8FB77000F47F46 /* hclaunchscreen@1x.png */,
+				254502FC1C8FB77000F47F46 /* hclaunchscreen@2x.png */,
+				254502FD1C8FB77000F47F46 /* hclaunchscreen@3x.png */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 		254A8DB11C7C574A00F2EC94 /* ServicePointAppointment */ = {
@@ -994,6 +1022,8 @@
 				B2484DB81C71C20D00C0CCBB /* LoginController.m */,
 				B2484DBA1C71C25900C0CCBB /* IndexViewController.h */,
 				B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */,
+				254502F71C8FB61E00F47F46 /* LauchScreenController.h */,
+				254502F81C8FB61E00F47F46 /* LauchScreenController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1221,6 +1251,7 @@
 				254A8DA61C7C32B800F2EC94 /* servicePoint@2x.png in Resources */,
 				25BFEB4E1C75E61C0062F9B8 /* QRScan@2x.png in Resources */,
 				254A8DAC1C7C380400F2EC94 /* nameIcon@2x.png in Resources */,
+				254502FE1C8FB77000F47F46 /* hclaunchscreen@1x.png in Resources */,
 				252AB88B1C76E3880085CC14 /* search_icon@2x.png in Resources */,
 				254A8DD11C7D619C00F2EC94 /* Login_Logo@2x.png in Resources */,
 				254A8DCA1C7D574100F2EC94 /* LoginBackGround@1x.png in Resources */,
@@ -1240,6 +1271,8 @@
 				254A8DA51C7C32B800F2EC94 /* servicePoint@1x.png in Resources */,
 				252AB8841C76E3880085CC14 /* date_icon@1x.png in Resources */,
 				254A8D931C7C2C8B00F2EC94 /* phonecall@1x.png in Resources */,
+				254503001C8FB77000F47F46 /* hclaunchscreen@3x.png in Resources */,
+				254502FF1C8FB77000F47F46 /* hclaunchscreen@2x.png in Resources */,
 				254A8DAB1C7C380400F2EC94 /* nameIcon@1x.png in Resources */,
 				254A8DA01C7C2CAC00F2EC94 /* message@2x.png in Resources */,
 				254A8D9C1C7C2CAC00F2EC94 /* detail@1x.png in Resources */,
@@ -1256,6 +1289,7 @@
 				254A8DA71C7C32B800F2EC94 /* servicePoint@3x.png in Resources */,
 				2512B3B71C70557C00EE661B /* Assets.xcassets in Resources */,
 				2512B4241C7056D200EE661B /* OpenSans-Bold.ttf in Resources */,
+				254503021C8FBDC500F47F46 /* Images.xcassets in Resources */,
 				254A8DC21C7D401A00F2EC94 /* arrow@2x.png in Resources */,
 				252AB88C1C76E3880085CC14 /* search_icon@3x.png in Resources */,
 				B201CCC31C72046D00B8F624 /* Info.plist in Resources */,
@@ -1372,9 +1406,11 @@
 				B259C9501C8ACEC400A6A767 /* BRContractHistoryTBFootCell.m in Sources */,
 				25BFEB431C74A55B0062F9B8 /* AppointmentViewController.m in Sources */,
 				2512B3AF1C70557C00EE661B /* AppDelegate.m in Sources */,
+				254502B01C8ED1FF00F47F46 /* UIView+RoundingCornor.m in Sources */,
 				B27B00E31C84622D00FBF895 /* HealthyCertificateOrderInfoView.m in Sources */,
 				B23A98131C76F0D400E3E054 /* AboutUsViewController.m in Sources */,
 				B259C9351C8827B300A6A767 /* MLImageCrop.m in Sources */,
+				254502F91C8FB61E00F47F46 /* LauchScreenController.m in Sources */,
 				2512B42E1C70632C00EE661B /* HMDataOperate.m in Sources */,
 				B23A98041C76BB6400E3E054 /* UserInformationController.m in Sources */,
 				254A8DB01C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m in Sources */,

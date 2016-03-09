@@ -15,6 +15,7 @@
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
+#import "UIView+RoundingCornor.h"
 
 #import "HttpNetworkManager.h"
 #import "UIScreen+Type.h"
@@ -69,53 +70,18 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    [HMNetworkEngine getInstance].delegate = self;
     
-    if ( GetUuid != nil && ![GetUuid isEqualToString:@""]){
-        //如果保存有Uuid 判断是否过期
-        
-        if ([GetLastLoginTime longLongValue] + [GetUuidTimeOut longLongValue] < [[NSDate date] convertToLongLong]){
-            //uuid过期
-            [self loadLoginView];
-        }else{
-            [[HttpNetworkManager getInstance] loginWithUuid:GetUuid UuidTimeOut:GetUuidTimeOut resultBlock:^(NSDictionary *result, NSError *error) {
-                if (error != nil){
-                    //to do
-                    [self loadLoginView];
-                    return;
-                }
-                
-                if ([[result objectForKey:@"code"] integerValue] != 0){
-                    //to do uuid登录失败
-                    [self loadLoginView];
-                    return;
-                }
-                else{
-                   // [[HMNetworkEngine getInstance] startControl];
-                }
-                
-                NSDictionary* dataDic = [result objectForKey:@"data"];
-                if (dataDic[@"code"] != 0){
-                    //to do
-                }else{
-                    //暂时先将socket的连接操作放在这里
-                    [[HMNetworkEngine getInstance] askLoginInfo:GetPhoneNumber];
-                }
-            }];
-        }
-    }else{
-       // [self loadLoginView];
-    }
+    [self loadLoginView];
     
+   // [_vertifyTextField addRoundingCornor:UIRectCornerTopLeft | UIRectCornerBottomLeft WithCornerRadii:CGSizeMake(4, 4)];
     
     //先根据uuid判断是否需要执行登录操作
 
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    if ( GetUuid == nil || [GetUuid isEqualToString:@""]){
-        [self loadLoginView];
-    }
+    [HMNetworkEngine getInstance].delegate = self;
+    
     _phoneNumTextField.text = @"";
     _vertifyTextField.text = @"";
     [_vertifyButton setTitle:@"验证" forState:UIControlStateNormal];
@@ -185,6 +151,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     _vertifyTextField.backgroundColor = [UIColor whiteColor];
     _vertifyTextField.tag = LOGIN_VERTIFY_TEXTFIELD;
     [_containerView addSubview:_vertifyTextField];
+   // [_vertifyTextField addRoundingCornor:UIRectCornerTopLeft | UIRectCornerBottomLeft WithCornerRadii:CGSizeMake(4, 4)];
     [_vertifyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_phoneNumTextField.mas_bottom).with.offset(Gap);
         make.left.mas_equalTo(_containerView);
@@ -209,6 +176,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
         make.centerY.mas_equalTo(_vertifyTextField);
         make.height.mas_equalTo(_phoneNumTextField.mas_height);
     }];
+   // [_vertifyButton addRoundingCornor:UIRectCornerTopRight | UIRectCornerBottomRight WithCornerRadii:CGSizeMake(4, 4)];
     [_vertifyButton addTarget:self action:@selector(veritifyBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     
@@ -227,7 +195,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     }];
     [_loginButton addTarget:self action:@selector(loginBtnCliked:) forControlEvents:UIControlEventTouchUpInside];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_vertifyButton.bounds byRoundingCorners:UIRectCornerTopRight | UIRectCornerBottomRight cornerRadii:CGSizeMake(5, 5)];
         CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
         maskLayer.frame = _vertifyButton.bounds;
@@ -271,12 +239,14 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
                                                  
                                                  if (error != nil){
                                                      //登录错误 to do
+                                                     [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络错误,请连接后重试" removeDelay:2];
                                                      return;
                                                  }
                                     
                                                  
                                                  if (![[result objectForKey:@"code"] integerValue] == 0){
                                                       //登录错误 to do
+                                                     [RzAlertView showAlertLabelWithTarget:self.view Message:@"验证码错误" removeDelay:2];
                                                      return;
                                                  }
                                                  
@@ -310,11 +280,21 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
         }else{
             //接收到验证码，这里解析感觉可以封装到下层去
             NSDictionary* dataDic = [result objectForKey:@"data"];
-            if (!([[dataDic objectForKey:@"code"] longLongValue] == 0)){
-                //登录错误 to do
-                NSLog(@"验证太频繁");
+    
+            if (dataDic.count == 0){
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"验证太频繁" removeDelay:2];
                 return;
+            }else{
+                
             }
+        
+            
+         //   NSInteger hehe = [test longLongValue];
+//            if (!([[dataDic objectForKey:@"code"] longLongValue] == 0)){
+//                //登录错误 to do
+//                NSLog(@"验证太频繁");
+//                return;
+//            }
             _authCodeStr = [dataDic objectForKey:@"authCode"];
             _vertifyTextField.text = _authCodeStr;
             

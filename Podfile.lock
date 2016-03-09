@@ -26,6 +26,7 @@ PODS:
   - KVNProgress (2.2.1)
   - Masonry (0.6.2)
   - MJExtension (3.0.10)
+  - RealReachability (1.1.1)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -38,6 +39,7 @@ DEPENDENCIES:
   - KVNProgress
   - Masonry
   - MJExtension
+  - RealReachability
   - SDWebImage
 
 SPEC CHECKSUMS:
@@ -48,6 +50,7 @@ SPEC CHECKSUMS:
   KVNProgress: 7001d2d16a2755cee5599e8e485befe056f2197b
   Masonry: 362e8a1cc0beada4a4c4832d5e863da2a51533be
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
+  RealReachability: 0b0f7d686a75466680d452d3fad00e1a1388b923
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
 
 COCOAPODS: 0.39.0
