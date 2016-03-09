@@ -252,6 +252,9 @@
 
     __weak CustomButton *addressBtns = _orderinforView.addressBtn;
     [_orderinforView.addressBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        if (weakself.customerTestInfo.checkSiteID) {
+            return ;
+        }
         // 待检状态下可以修改信息，否则不可修改
         if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
             [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
@@ -278,6 +281,9 @@
     }];
     __weak CustomButton *weaktimeBtn = _orderinforView.timeBtn;
     [_orderinforView.timeBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        if (weakself.customerTestInfo.checkSiteID) {
+            return ;
+        }
         // 待检状态下可以修改信息，否则不可修改
         if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
             [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
