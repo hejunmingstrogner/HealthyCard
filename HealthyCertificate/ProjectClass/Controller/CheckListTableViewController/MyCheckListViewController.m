@@ -54,6 +54,7 @@
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
+    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
 }
 // 返回前一页
 - (void)backToPre:(id)sender
@@ -64,7 +65,6 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
-
 
 - (void)initSubViews
 {
