@@ -45,9 +45,7 @@
     [bckImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
-    
-   // self.view.backgroundColor = [UIColor whiteColor];
-    
+
     [[HMNetworkEngine getInstance] startControl];
     [HMNetworkEngine getInstance].delegate = self;
 }
