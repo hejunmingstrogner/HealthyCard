@@ -102,6 +102,16 @@
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改失败,请检查网络后重试" removeDelay:2];
         }
     }];
+
+    if(_isAvatarSet == YES){
+        [[HttpNetworkManager getInstance]customerUploadHealthyCertifyPhoto:_healthCertificateView.imageView.image CusCheckCode:_customerTestInfo.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
+            if (!error) {
+            }
+            else {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"图片上传失败,请检查网络后重试" removeDelay:2];
+            }
+        }];
+    }
 }
 
 - (void)setCustomerTestInfo:(CustomerTest *)customerTestInfo

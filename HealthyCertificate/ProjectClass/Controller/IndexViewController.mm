@@ -236,7 +236,7 @@
     [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(headerBackGroundView.mas_bottom).offset(-2);
         make.left.right.equalTo(self.view);
-        make.bottom.equalTo(orderView.mas_top);
+        make.bottom.equalTo(orderView.mas_top).offset(1);
     }];
 
     locateimageview = [[UIImageView alloc]init];

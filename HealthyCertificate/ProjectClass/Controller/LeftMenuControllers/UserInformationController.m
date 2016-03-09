@@ -108,12 +108,12 @@
     }
     else{
         // 单位
-        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gCompanyInfo.cUnitAddr isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitAddr itemtype:USERINFORMATION_WORKUNITADRESS];
         UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gCompanyInfo.cUnitName isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitName itemtype:USERINFORMATION_WORKUNITNAME];
+        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gCompanyInfo.cUnitAddr isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitAddr itemtype:USERINFORMATION_WORKUNITADRESS];
         UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位联系人" detialLabelText:[gCompanyInfo.cLinkPeople isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPeople itemtype:USERINFORMATION_WORKUNITCONTACTS];
         UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gCompanyInfo.cLinkPhone isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPhone itemtype:USERINFORMATION_TELPHONENO];
         UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gCompanyInfo.cUnitType isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitType itemtype:USERINFORMATION_CALLING];
-        _dataArray = [NSMutableArray arrayWithObjects:workUnitAdress, workUnitName, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
+        _dataArray = [NSMutableArray arrayWithObjects:workUnitName, workUnitAdress, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
     }
 }
 

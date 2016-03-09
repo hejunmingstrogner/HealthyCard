@@ -141,11 +141,11 @@
     CGFloat width = 0;
     CGFloat hight = 0;
     if (_ratio > 1) {
-        width = self.view.bounds.size.width * 0.8;
+        width = 300;
         hight = width/_ratio;
     }
     else {
-        hight = self.view.bounds.size.height * 0.8;
+        hight = 400;
         width = hight * _ratio;
     }
     cropImage = [TakePhoto scaleImage:cropImage withSize:CGSizeMake(width, hight)]; // 压缩图片
