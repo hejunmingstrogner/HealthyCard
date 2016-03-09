@@ -29,6 +29,7 @@
 @interface PersonalHealthyCController()
 {
     BOOL        _isAvatarSet;
+    RzAlertView *waitAlertView;
 }
 
 @end
@@ -93,22 +94,39 @@
     _customerTestInfo.regEndDate = _regenddate;
     _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? '0':'1';
 
-    [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
-        if (!error) {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
-            NSLog(@"result:%@", result);
-        }
-        else {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改失败,请检查网络后重试" removeDelay:2];
-        }
-    }];
-
     if(_isAvatarSet == YES){
+        if(!waitAlertView){
+            waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@""];
+        }
+        waitAlertView.titleLabel.text = @"图片上传中...";
+        [waitAlertView show];
         [[HttpNetworkManager getInstance]customerUploadHealthyCertifyPhoto:_healthCertificateView.imageView.image CusCheckCode:_customerTestInfo.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
             if (!error) {
+                [waitAlertView close];
+                [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
+                    if (!error) {
+                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                    }
+                    else {
+                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改失败,请检查网络后重试" removeDelay:2];
+                    }
+                }];
             }
             else {
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"图片上传失败,请检查网络后重试" removeDelay:2];
+                waitAlertView.titleLabel.text = @"图片上传失败，请检查网络后重试";
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [waitAlertView close];
+                });
+            }
+        }];
+    }
+    else {
+        [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
+            if (!error) {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+            }
+            else {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改失败,请检查网络后重试" removeDelay:2];
             }
         }];
     }
