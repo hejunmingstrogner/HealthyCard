@@ -418,6 +418,7 @@
                 if (flag == 1){
                     SetUuid(@"");
                     SetPhoneNumber(@"");
+                    SetUserType(-1);
                     LoginController* loginViewController = [[LoginController alloc] init];
                     [self presentViewController:loginViewController animated:NO completion:nil] ;
                 }

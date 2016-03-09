@@ -126,7 +126,7 @@
     segment.frame = CGRectMake(0, 0, SCREEN_WIDTH/2, 30);
     segment.selectedSegmentIndex = 0;//默认索引
     segment.tintColor = MO_RGBCOLOR(0, 169, 234);
-    UIFont *font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(20)];
+    UIFont *font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
     NSDictionary *attributes = [NSDictionary dictionaryWithObject:font
                                                            forKey:NSFontAttributeName];
     [segment setTitleTextAttributes:attributes

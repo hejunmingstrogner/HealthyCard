@@ -30,6 +30,7 @@
 
 #import "SelectAddressViewController.h"
 #import "AddWorkerViewController.h"
+#import "MyCheckListViewController.h"
 
 #import "Customer.h"
 #import "PositionUtil.h"
@@ -387,6 +388,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 #pragma mark - Action
 -(void)appointmentBtnClicked:(id)sender
 {
+    if(reachAbility.currentReachabilityStatus == 0){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
+        return;
+    }
+    
     if(_brContract == nil)
     {
         _brContract = [[BRContract alloc]init];
@@ -452,12 +458,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     [[HttpNetworkManager getInstance]createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(BOOL result, NSError *error) {
         if (!error) {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约成功！" removeDelay:3];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self backToPre:nil];
-            });
+            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
+            mycheckListViewController.popStyle = POPTO_ROOT;
+            [self.navigationController pushViewController:mycheckListViewController animated:YES];
         }
         else {
-            NSLog(@"error :%@", error);
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约失败,请检查网络设置" removeDelay:2];
         }
     }];
 }

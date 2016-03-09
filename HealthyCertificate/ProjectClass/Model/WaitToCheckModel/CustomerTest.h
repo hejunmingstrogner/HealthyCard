@@ -136,7 +136,7 @@
 @property (nonatomic, strong) NSString * marryFlag;
 @property (nonatomic, strong) NSString * affirmdate;
 @property (nonatomic, strong) NSString * operdate;
-@property (nonatomic, assign) float regPrice;
+@property (nonatomic, assign) float payMoney;
 @property (nonatomic, strong) NSString * packNo;
 @property (nonatomic, strong) NSString * password;
 @property (nonatomic, strong) NSString * zoneCode;

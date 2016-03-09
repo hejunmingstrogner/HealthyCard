@@ -10,4 +10,13 @@
 
 @implementation CustomerTest
 
+
+-(ServersPositionAnnotionsModel*)servicePoint{
+    if (_servicePoint == nil){
+        _servicePoint = [[ServersPositionAnnotionsModel alloc] init];
+    }
+    
+    return _servicePoint;
+}
+
 @end
