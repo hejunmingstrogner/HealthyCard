@@ -42,7 +42,7 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    UITableView* tableView = [[UITableView alloc] init];
+    UITableView* tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     
     [self.view addSubview:tableView];
     tableView.dataSource = self;
