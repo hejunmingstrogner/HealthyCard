@@ -342,7 +342,7 @@
     NSArray *arry3 = @[@"检查中", @"延期", @"待出证"];
     NSArray *arry4 = @[@"检查中", @"延期", @"待出证"];
     NSArray *arry = [NSArray arrayWithObjects:arry0, arry1, arry2, arry3, arry4, nil];
-    int statu = [_customerTestInfo.testStatus integerValue] + 1;
+    NSInteger statu = [_customerTestInfo.testStatus integerValue] + 1;
     NSArray *status = [NSArray arrayWithArray: arry[statu]];
 
     [_leftBtn setTitle:status[0] forState:UIControlStateNormal];
