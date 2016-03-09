@@ -8,24 +8,35 @@
 
 #import "AppDelegate.h"
 
-#include "HMNetworkEngine.h"
-#import "QueueServerInfo.h"
+#import <Bugtags/Bugtags.h>
+#import <RealReachability.h>
 
 #import "UIFont+Custom.h"
 
-#import "LoginController.h"
-#import <Bugtags/Bugtags.h>
+#include "HMNetworkEngine.h"
+#import "RzAlertView.h"
+
+#import "QueueServerInfo.h"
+#import "LauchScreenController.h"
+
 
 #define bugTagsAppKey @"64cb2c33df5bab3d36ac0ea1ff907adf"
+
+RealReachability* reachAbility;
+
 @interface AppDelegate ()<HMNetworkEngineDelegate>
 
 @end
 
 @implementation AppDelegate
 
-
 -(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:( NSDictionary *)launchOptions{
     
+    [GLobalRealReachability startNotifier];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(networkChanged:)
+                                                 name:kRealReachabilityChangedNotification
+                                               object:nil];
     return YES;
     
 }
@@ -43,14 +54,13 @@
 
     [Bugtags startWithAppKey:bugTagsAppKey invocationEvent:BTGInvocationEventBubble];
     [Bugtags setInvocationEvent:BTGInvocationEventShake];
-
-    self.window = [[UIWindow alloc] init];
-    self.window.backgroundColor = [UIColor whiteColor];
     
-    [[HMNetworkEngine getInstance] startControl];
-    [HMNetworkEngine getInstance].delegate = self;
     
-//    [NSThread sleepForTimeInterval:3.0];
+//    LauchScreenController* launchScreenController = [[LauchScreenController alloc] init];
+//    self.window = [[UIWindow alloc] init];
+//    self.window.rootViewController = launchScreenController;
+//    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -107,35 +117,16 @@
     }
 }
 
-#pragma mark - HMNetworkEngine Delegate
--(void)setUpControlSucceed{
-    [[HMNetworkEngine getInstance] queryServerList];
-}
-
-
--(void)setUpControlFailed{
-    //to do连接socket服务器即代理服务器失败
-}
-
--(void)queueServerListResult:(NSData *)data Index:(NSInteger *)index{
-    NSString* listString =  [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(*index, data.length-*index)] encoding:NSUTF8StringEncoding];
-    //return format tijian-510100-ZXQueueServer1,武汉国药阳光体检中心,描述:知名体检中心;tijian-510100-ZXQueueServer1,武汉国药阳光体检中心,描述:知名体检中心
-    NSArray *array = [listString componentsSeparatedByString:@";"];
-    
-    //返回的数据按理应该是一个，所以如果不为空，只取第一条数据
-    if (array.count != 0){
-        QueueServerInfo* info = [[QueueServerInfo alloc] initWithString:array[0]];
-        [HMNetworkEngine getInstance].serverID = info.serverID;
-        //这里才代表连接上了中心控制服务器
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
-            LoginController *loginViewController = [[LoginController alloc] init];
-            //self.window = [[UIWindow alloc] init];
-            self.window.rootViewController = loginViewController;
-            [self.window makeKeyAndVisible];
-        });
-        
+#pragma mark - Action
+- (void)networkChanged:(NSNotification *)notification
+{
+    reachAbility = (RealReachability *)notification.object;
+   // ReachabilityStatus status = [reachAbility currentReachabilityStatus];
+    if (reachAbility.currentReachabilityStatus == 0){
+        //代表没有网络链接，socket没有链接上
+        [RzAlertView showAlertLabelWithTarget:self.window Message:@"网络链接失败，请检查网络设置" removeDelay:3];
     }
 }
+
 
 @end

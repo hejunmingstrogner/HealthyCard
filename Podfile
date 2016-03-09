@@ -1,11 +1,12 @@
 pod 'CocoaAsyncSocket'
-pod 'AFNetworking'
+pod 'AFNetworking','~> 2.6.0'
 pod 'Masonry'
 pod 'KVNProgress'
-pod ‘BaiduMapKit’
+pod 'BaiduMapKit'
 pod 'MJExtension'
 pod 'SDWebImage'
-pod ‘Bugtags’
+pod 'Bugtags'
+pod 'RealReachability'
 pod 'Pingpp/Alipay'
 pod 'Pingpp/Wx'
 pod 'Pingpp/UnionPay'
