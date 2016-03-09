@@ -27,7 +27,6 @@
 @interface MyCheckListViewController()<DJRefreshDelegate>
 {
     NSMutableArray *checkDataArray;
-    RzAlertView *waitAlertView;
     DJRefresh  *_refresh;
 }
 
@@ -44,40 +43,6 @@
     [self initNavgation];
 
     [self initSubViews];
-
-    [self getCheckData];
-}
-
-- (void)getCheckData{
-    if (checkDataArray.count != 0) {
-        if (_userType == 2) {
-            [self initCompanyDataArray];
-            [_tableView reloadData];
-        }
-        return ;
-    }
-    if (waitAlertView == nil) {
-        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据加载中..."];
-    }
-    [waitAlertView show];
-    [[HttpNetworkManager getInstance] getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
-        if (error) {
-            waitAlertView.titleLabel.text = @"数据加载出错，请刷新试试";
-        }
-        if (_userType == 1) {
-            checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
-        }
-        else if (_userType == 2) {
-            checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
-            [self initCompanyDataArray];
-        }
-        [_tableView reloadData];
-        [waitAlertView close];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            waitAlertView.titleLabel.text = @"数据加载中...";
-        });
-
-    }];
 }
 
 - (void)initNavgation
