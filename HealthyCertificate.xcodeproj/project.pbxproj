@@ -676,7 +676,6 @@
 		2512B4271C705B0500EE661B /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				B27222B41C8FBD37002494EA /* DJRefresh */,
 				B259C9331C8827B300A6A767 /* MLImageCrop.h */,
 				B259C9341C8827B300A6A767 /* MLImageCrop.m */,
 				25BFE9711C7199610062F9B8 /* RzAlertView.h */,
@@ -841,6 +840,7 @@
 		254A8DDF1C81A52100F2EC94 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				B27222B41C8FBD37002494EA /* DJRefresh */,
 				254A8DE01C81A52100F2EC94 /* YMIDCardEngine */,
 			);
 			path = ThirdParty;
@@ -1152,7 +1152,8 @@
 				B27222B71C8FBD37002494EA /* DJRefresh.m */,
 				B27222B81C8FBD37002494EA /* DJRefreshView */,
 			);
-			path = DJRefresh;
+			name = DJRefresh;
+			path = ../Common/DJRefresh;
 			sourceTree = "<group>";
 		};
 		B27222B81C8FBD37002494EA /* DJRefreshView */ = {
