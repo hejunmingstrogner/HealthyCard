@@ -108,12 +108,12 @@
     }
     else{
         // 单位
-        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gCompanyInfo.cUnitAddr isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitAddr itemtype:USERINFORMATION_WORKUNITADRESS];
         UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gCompanyInfo.cUnitName isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitName itemtype:USERINFORMATION_WORKUNITNAME];
+        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gCompanyInfo.cUnitAddr isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitAddr itemtype:USERINFORMATION_WORKUNITADRESS];
         UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位联系人" detialLabelText:[gCompanyInfo.cLinkPeople isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPeople itemtype:USERINFORMATION_WORKUNITCONTACTS];
         UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gCompanyInfo.cLinkPhone isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPhone itemtype:USERINFORMATION_TELPHONENO];
         UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gCompanyInfo.cUnitType isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitType itemtype:USERINFORMATION_CALLING];
-        _dataArray = [NSMutableArray arrayWithObjects:workUnitAdress, workUnitName, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
+        _dataArray = [NSMutableArray arrayWithObjects:workUnitName, workUnitAdress, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
     }
 }
 
@@ -216,6 +216,28 @@
                         if (!error) {
                             [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业成功" removeDelay:2];
                             gPersonInfo.cIndustry = resultStr;
+                            [self getdata];
+                            [_tableView reloadData];
+                        }
+                        else {
+                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业失败，请重试" removeDelay:3];
+                        }
+                    }];
+                };
+                [self.navigationController pushViewController:workType animated:YES];
+            }
+            else if(GetUserType == 2){
+                WorkTypeViewController *workType = [[WorkTypeViewController alloc]init];
+                workType.workTypeStr = item.detialLabelText;
+                workType.block = ^(NSString *resultStr){
+                    // 修改行业
+                    NSMutableDictionary *company = [[NSMutableDictionary alloc]init];
+                    [company setObject:gCompanyInfo.cUnitCode forKey:@"unitCode"];
+                    [company setObject:resultStr forKey:@"unitType"];
+                    [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:company resultBlock:^(BOOL successed, NSError *error) {
+                        if (!error) {
+                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业成功" removeDelay:2];
+                            gCompanyInfo.cUnitType = resultStr;
                             [self getdata];
                             [_tableView reloadData];
                         }

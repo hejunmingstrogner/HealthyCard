@@ -393,7 +393,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }
     _brContract.unitCode = gCompanyInfo.cUnitCode;
     _brContract.unitName = gCompanyInfo.cUnitName;
-    int customercount;
+    NSInteger customercount;
     @try {
        customercount = [_exminationCountField.text integerValue];
     }

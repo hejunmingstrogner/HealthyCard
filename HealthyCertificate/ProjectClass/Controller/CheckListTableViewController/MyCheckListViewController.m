@@ -20,14 +20,14 @@
 #import "BaseTBCellItem.h"
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
+#import "DJRefresh.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface MyCheckListViewController()
+@interface MyCheckListViewController()<DJRefreshDelegate>
 {
     NSMutableArray *checkDataArray;
-    RzAlertView *waitAlertView;
-    UIRefreshControl *refreashController;
+    DJRefresh  *_refresh;
 }
 
 @end
@@ -43,42 +43,6 @@
     [self initNavgation];
 
     [self initSubViews];
-
-    [self getCheckData];
-}
-
-- (void)getCheckData{
-    if (checkDataArray.count != 0) {
-        if (_userType == 1) {
-        }
-        else if (_userType == 2) {
-            [self initCompanyDataArray];
-            [_tableView reloadData];
-        }
-        return ;
-    }
-    if (waitAlertView == nil) {
-        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据加载中..."];
-    }
-    [waitAlertView show];
-    [[HttpNetworkManager getInstance] getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
-        if (error) {
-            waitAlertView.titleLabel.text = @"数据加载出错，请刷新试试";
-        }
-        if (_userType == 1) {
-            checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
-        }
-        else if (_userType == 2) {
-            checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
-            [self initCompanyDataArray];
-        }
-        [_tableView reloadData];
-        [waitAlertView close];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            waitAlertView.titleLabel.text = @"数据加载中...";
-        });
-
-    }];
 }
 
 - (void)initNavgation
@@ -113,39 +77,35 @@
     _tableView.delegate = self;
     _tableView.separatorStyle = NO;
 
-    refreashController = [[UIRefreshControl alloc]init];
-    refreashController.tintColor = [UIColor lightGrayColor];
-    refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新数据"];
-    [refreashController addTarget:self action:@selector(refreshData) forControlEvents:UIControlEventValueChanged];
-    [_tableView addSubview:refreashController];
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.left.right.equalTo(self.view);
+        make.top.equalTo(self.view).offset(64);
+    }];
+
+    _refresh = [[DJRefresh alloc]initWithScrollView:_tableView delegate:self];
+    _refresh.topEnabled = YES;
+    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
 }
 
-- (void)refreshData {
-    refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新中。。。"];
+- (void)refresh:(DJRefresh *)refresh didEngageRefreshDirection:(DJRefreshDirection)direction
+{
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
-        if (error) {
-            refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"加载出错,请重试."];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [refreashController endRefreshing];
-                refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新数据"];
-            });
-            return ;
+        [refresh finishRefreshingDirection:direction animation:YES];
+        if (!error) {
+            if (_userType == 1) {
+                checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
+            }
+            else if (_userType == 2) {
+                checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
+                [self initCompanyDataArray];
+            }
+            [_tableView reloadData];
         }
-        if (_userType == 1) {
-            checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
+        else {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
         }
-        else if (_userType == 2) {
-            checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
-            [self initCompanyDataArray];
-        }
-        [_tableView reloadData];
-        [refreashController endRefreshing];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            refreashController.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新数据"];
-        });
     }];
 }
-
 - (void)initCompanyDataArray
 {
     _companyDataArray = [[NSMutableArray alloc]init];
@@ -228,12 +188,6 @@
     // 单位
     else{
         if (indexPath.row != 3) {
-//            BRContractTableHeaerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellheader"];
-//            if (!cell) {
-//                cell = [[BRContractTableHeaerCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellheader"];
-//            }
-//            [cell setCellItem:(BRContract *)checkDataArray[indexPath.section]];
-//            return cell;
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"brcell"];
             if (!cell) {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"brcell"];
