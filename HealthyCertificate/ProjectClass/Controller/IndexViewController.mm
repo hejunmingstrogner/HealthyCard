@@ -370,38 +370,38 @@
 {
     switch (type) {
         case LEFTMENUCELL_USERINFOR:{
-            NSLog(@"用户信息");
+//            NSLog(@"用户信息");
             UserInformationController *userinfor = [[UserInformationController alloc]init];
             userinfor.delegate = self;
             [self.navigationController pushViewController:userinfor animated:YES];
             break;
         }
         case LEFTMENUCELL_HISTORYRECORD:{
-            NSLog(@"历史记录");
+//            NSLog(@"历史记录");
             HistoryInformationVController *history = [[HistoryInformationVController alloc]init];
             [self.navigationController pushViewController:history animated:YES];
             break;
         }
         case LEFTMENUCELL_SETTING:
-            NSLog(@"设置");
+//            NSLog(@"设置");
             break;
         case LEFTMENUCELL_NOTICE:{
-            NSLog(@"体检注意事项");
+//            NSLog(@"体检注意事项");
             PhysicalExaminationViewController *phy = [[PhysicalExaminationViewController alloc]init];
             [self.navigationController pushViewController:phy animated:YES];
             break;
         }
         case LEFTMENUCELL_SHARE:
-            NSLog(@"分享");
+//            NSLog(@"分享");
             break;
         case LEFTMENUCELL_ABOUTUS:{
-            NSLog(@"关于我们");
+//            NSLog(@"关于我们");
             AboutUsViewController *aboutUs = [[AboutUsViewController alloc]init];
             [self.navigationController pushViewController:aboutUs animated:YES];
             break;
         }
         case LEFTMENUCELL_ADVICE:{
-            NSLog(@"意见或建议");
+//            NSLog(@"意见或建议");
             AdviceViewController *advice = [[AdviceViewController alloc]init];
             [self.navigationController pushViewController:advice animated:YES];
             break;

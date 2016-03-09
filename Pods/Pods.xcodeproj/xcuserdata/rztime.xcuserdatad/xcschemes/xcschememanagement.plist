@@ -32,7 +32,7 @@
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>6</integer>
+			<integer>2</integer>
 		</dict>
 		<key>RealReachability.xcscheme</key>
 		<dict>
@@ -87,12 +87,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>921AF0C4B7018B5BA5C47811CA1B8696</key>
+		<key>70864FC303659A626A623EB78A5D8ED0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9EAB3E42EF957541E6C3C76D35FD008E</key>
+		<key>9CBFBFA43F550ACA0F3770E1325F745C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>ECFE0958DDB7FEC79B3AA1C9337BC941</key>
 		<dict>
 			<key>primary</key>
 			<true/>
