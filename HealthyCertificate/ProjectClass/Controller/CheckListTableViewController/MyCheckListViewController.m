@@ -223,12 +223,12 @@
     }
     else {
         // 单位预约点击
-        if (_userType == 2) {
-            CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
-            cloudAppointCompany.isCustomerServerPoint = NO;
-            cloudAppointCompany.brContract = checkDataArray[indexPath.section];
-            [self.navigationController pushViewController:cloudAppointCompany animated:YES];
-        }
+//        if (_userType == 2) {
+//            CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
+//            cloudAppointCompany.isCustomerServerPoint = NO;
+//            cloudAppointCompany.brContract = checkDataArray[indexPath.section];
+//            [self.navigationController pushViewController:cloudAppointCompany animated:YES];
+//        }
     }
 }
 
