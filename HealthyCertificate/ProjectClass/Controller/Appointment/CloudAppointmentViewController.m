@@ -426,6 +426,12 @@
 #pragma mark - Action
 -(void)appointmentBtnClicked:(id)sender
 {
+    if(reachAbility.currentReachabilityStatus == 0){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
+        return;
+    }
+    
+    
     //先做一次数据有效性检查 to do
     if (_locationTextView.text == nil || [_locationTextView.text isEqualToString:@""]){
         [RzAlertView showAlertLabelWithTarget:self.view Message:InputLocationInfo removeDelay:2];
