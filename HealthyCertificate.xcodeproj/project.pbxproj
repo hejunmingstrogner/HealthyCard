@@ -57,6 +57,7 @@
 		254502FF1C8FB77000F47F46 /* hclaunchscreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254502FC1C8FB77000F47F46 /* hclaunchscreen@2x.png */; };
 		254503001C8FB77000F47F46 /* hclaunchscreen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254502FD1C8FB77000F47F46 /* hclaunchscreen@3x.png */; };
 		254503021C8FBDC500F47F46 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254503011C8FBDC500F47F46 /* Images.xcassets */; };
+		254503061C90043800F47F46 /* QRController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254503051C90043800F47F46 /* QRController.m */; };
 		254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */; };
 		254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D881C7AE02300F2EC94 /* Avatar@2x.png */; };
 		254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D891C7AE02300F2EC94 /* Avatar@3x.png */; };
@@ -281,6 +282,8 @@
 		254502FC1C8FB77000F47F46 /* hclaunchscreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hclaunchscreen@2x.png"; sourceTree = "<group>"; };
 		254502FD1C8FB77000F47F46 /* hclaunchscreen@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hclaunchscreen@3x.png"; sourceTree = "<group>"; };
 		254503011C8FBDC500F47F46 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		254503041C90043800F47F46 /* QRController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRController.h; sourceTree = "<group>"; };
+		254503051C90043800F47F46 /* QRController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRController.m; sourceTree = "<group>"; };
 		254A8D811C7A027E00F2EC94 /* HealthyCertificateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HealthyCertificateView.h; path = ../HealthyCertificateView.h; sourceTree = "<group>"; };
 		254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthyCertificateView.m; path = ../HealthyCertificateView.m; sourceTree = "<group>"; };
 		254A8D881C7AE02300F2EC94 /* Avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@2x.png"; sourceTree = "<group>"; };
@@ -782,6 +785,15 @@
 			name = Common;
 			sourceTree = "<group>";
 		};
+		254503031C90042000F47F46 /* QRController */ = {
+			isa = PBXGroup;
+			children = (
+				254503041C90043800F47F46 /* QRController.h */,
+				254503051C90043800F47F46 /* QRController.m */,
+			);
+			name = QRController;
+			sourceTree = "<group>";
+		};
 		254A8DB11C7C574A00F2EC94 /* ServicePointAppointment */ = {
 			isa = PBXGroup;
 			children = (
@@ -1045,6 +1057,7 @@
 		B2484DB41C71C1E600C0CCBB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				254503031C90042000F47F46 /* QRController */,
 				B27222A61C8EC1B9002494EA /* PayController */,
 				B2640CC41C7C0BAB00721CB5 /* ServicePositionController */,
 				B2436C9D1C7AEE5500F543E1 /* CheckListTableViewController */,
@@ -1468,6 +1481,7 @@
 				2512B40F1C7056C900EE661B /* NSDate+Easy.m in Sources */,
 				B27B00E11C84622D00FBF895 /* CloudCompanyAppointmentCell.m in Sources */,
 				B2640CDB1C7C7FC000721CB5 /* WaitDocResultSelectItem.m in Sources */,
+				254503061C90043800F47F46 /* QRController.m in Sources */,
 				B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */,
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
 				B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */,
