@@ -489,6 +489,13 @@
     _customerTestInfo.custIdCard = _healthyCertificateView.idCard;
     _customerTestInfo.bornDate = [_healthyCertificateView.idCard getLongLongBornDate];
     _customerTestInfo.jobDuty = _healthyCertificateView.workType;
+    
+    PositionUtil *posit = [[PositionUtil alloc] init];
+    CLLocationCoordinate2D coor = [posit bd2wgs:self.centerCoordinate.latitude lon:self.centerCoordinate.longitude];
+    _customerTestInfo.regPosLA = coor.latitude;
+    _customerTestInfo.regPosLO = coor.longitude;
+    _customerTestInfo.linkPhone = _phoneNumTextView.text;
+    _customerTestInfo.regPosAddr = _locationTextView.text;
 
     if (_isCustomerServerPoint){
         //如果是新建的预约 云预约
@@ -497,13 +504,6 @@
         _customerTestInfo.regBeginDate = [array[0] convertDateStrToLongLong];
         _customerTestInfo.regEndDate = [array[0] convertDateStrToLongLong];
         _customerTestInfo.regPosAddr = _locationTextView.text; //预约地点
-        
-        PositionUtil *posit = [[PositionUtil alloc] init];
-        CLLocationCoordinate2D coor = [posit bd2wgs:self.centerCoordinate.latitude lon:self.centerCoordinate.longitude];
-        _customerTestInfo.regPosLA = coor.latitude;
-        _customerTestInfo.regPosLO = coor.longitude;
-        _customerTestInfo.linkPhone = _phoneNumTextView.text;
-        
     }else{
         //如果是基于已有服务点的预约
         if (_sercersPositionInfo != nil){
@@ -511,7 +511,6 @@
             _customerTestInfo.hosCode = _sercersPositionInfo.cHostCode;
             //移动服务点 id 固定 cHostCode
             _customerTestInfo.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
-            _customerTestInfo.servicePoint = _sercersPositionInfo;
         }
     }
     _customerTestInfo.cityName = self.cityName; //预约城市
