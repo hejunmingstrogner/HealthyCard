@@ -93,7 +93,7 @@
 
 - (CGFloat)cellhieght
 {
-    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(28)];
+    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:17];
 
     NSString *text = @"        健康证在线是一款体检、就诊以及办理健康证为一体的操作APP。由知康科技有限公司和智行电子科技有限公司共同开发。";
 
@@ -107,8 +107,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
         cell.textLabel.numberOfLines = 0;
-        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(28)];
-        cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(27)];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
+        cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
         cell.detailTextLabel.textColor = [UIColor blackColor];
     }
 
