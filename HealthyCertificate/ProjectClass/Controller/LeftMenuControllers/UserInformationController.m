@@ -226,6 +226,28 @@
                 };
                 [self.navigationController pushViewController:workType animated:YES];
             }
+            else if(GetUserType == 2){
+                WorkTypeViewController *workType = [[WorkTypeViewController alloc]init];
+                workType.workTypeStr = item.detialLabelText;
+                workType.block = ^(NSString *resultStr){
+                    // 修改行业
+                    NSMutableDictionary *company = [[NSMutableDictionary alloc]init];
+                    [company setObject:gCompanyInfo.cUnitCode forKey:@"unitCode"];
+                    [company setObject:resultStr forKey:@"unitType"];
+                    [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:company resultBlock:^(BOOL successed, NSError *error) {
+                        if (!error) {
+                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业成功" removeDelay:2];
+                            gCompanyInfo.cUnitType = resultStr;
+                            [self getdata];
+                            [_tableView reloadData];
+                        }
+                        else {
+                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业失败，请重试" removeDelay:3];
+                        }
+                    }];
+                };
+                [self.navigationController pushViewController:workType animated:YES];
+            }
             return;
         }
         case USERINFORMATION_WORKUNITNAME:{
