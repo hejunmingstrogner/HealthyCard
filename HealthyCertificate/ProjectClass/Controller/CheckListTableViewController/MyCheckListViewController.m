@@ -45,6 +45,12 @@
     [self initSubViews];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self refresh:nil didEngageRefreshDirection:1];
+}
+
 - (void)initNavgation
 {
     self.title = @"我的预约";
@@ -89,8 +95,9 @@
 
 - (void)refresh:(DJRefresh *)refresh didEngageRefreshDirection:(DJRefreshDirection)direction
 {
+    NSLog(@"11111111111");
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
-        [refresh finishRefreshingDirection:direction animation:YES];
+        [_refresh finishRefreshing];
         if (!error) {
             if (_userType == 1) {
                 checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];

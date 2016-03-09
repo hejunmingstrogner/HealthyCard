@@ -182,12 +182,23 @@
             [_addressBtn setTitle:_cutomerTest.servicePoint.address forState:UIControlStateNormal];
             if (!_cutomerTest.servicePoint.startTime || !_cutomerTest.servicePoint.endTime) {
                 [_timeBtn setTitle:@"" forState:UIControlStateNormal];
+                [_addressBtn setTitle:@"现场体检" forState:UIControlStateNormal];
             }
             else {
-                NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
-                NSString *end = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.endTime/1000];
-                NSString *time = [NSString stringWithFormat:@"%@~%@",year, end];
-                [_timeBtn setTitle:time forState:UIControlStateNormal];
+                if(_cutomerTest.servicePoint.type == 1) // 临时服务点
+                {
+                    NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
+                    NSString *hour1 = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime/1000];
+                    NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime/1000];
+                    NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
+                    [_timeBtn setTitle:time forState:UIControlStateNormal];
+                }
+                else {
+                    NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
+                    NSString *end = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.endTime/1000];
+                    NSString *time = [NSString stringWithFormat:@"%@~%@",year, end];
+                    [_timeBtn setTitle:time forState:UIControlStateNormal];
+                }
             }
 
             [_phoneBtn setTitle:_cutomerTest.servicePoint.leaderPhone forState:UIControlStateNormal];
