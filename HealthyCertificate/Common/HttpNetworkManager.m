@@ -27,9 +27,9 @@
 
 @end
 
-//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.51:8080/zkwebservice/webservice/";
+static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.51:8080/zkwebservice/webservice/";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.34:8080/zkwebservice/webservice/";
-static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
+//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
 
 
 
@@ -448,47 +448,47 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 - (void)payMoneyWithChargeParameter:(ChargeParameter *)chargeParame viewController:(UIViewController *)_self resultBlock:(void (^)(NSString *, NSError *))block
 {
 
-//    NSString *urlstr = [NSString stringWithFormat:@"%@charge/newCharge", [HttpNetworkManager baseURL]];
-//    NSURL    *url = [NSURL URLWithString:urlstr];
-//    NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:url];
+    NSString *urlstr = [NSString stringWithFormat:@"%@charge/newCharge", [HttpNetworkManager baseURL]];
+    NSURL    *url = [NSURL URLWithString:urlstr];
+    NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:url];
     NSDictionary *dict = [chargeParame mj_keyValues];
 
-//    NSData* data = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
-//    NSString *bodyData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//
-//    [postRequest setHTTPBody:[NSData dataWithBytes:[bodyData UTF8String] length:strlen([bodyData UTF8String])]];
-//    [postRequest setHTTPMethod:@"POST"];
-//    [postRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-//
-//    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-//    [NSURLConnection sendAsynchronousRequest:postRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-//            // 网络连接出现失败
-//            if (httpResponse.statusCode != 200 || connectionError != nil) {
-//                block(@"网络出现错误，请检查网络", [NSError errorWithDomain:@"error" code:100 userInfo:[NSDictionary dictionaryWithObject:@"网络出现错误，请检查网络" forKey:@"error"]]);
-//                return;
-//            }
-//            NSDictionary *resultObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-//            NSLog(@"resuleobject :%@", resultObject);
-////            NSString* charge = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-////            NSLog(@"charge = %@", charge);
-////            [Pingpp createPayment:charge viewController:_self appURLScheme:kUrlScheme withCompletion:^(NSString *result, PingppError *error) {
-////                NSError *failerror = nil;
-////                if (error != nil) {
-////                    failerror = [NSError errorWithDomain:@"error" code:error.code userInfo:[NSDictionary dictionaryWithObject:[error getMsg] forKey:@"error"]];
-////                }
-////                block(result, failerror);
-////            }];
-//        });
-//    }];
+    NSData* data = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *bodyData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
-    NSString *url = @"charge/newCharge";
+    [postRequest setHTTPBody:[NSData dataWithBytes:[bodyData UTF8String] length:strlen([bodyData UTF8String])]];
+    [postRequest setHTTPMethod:@"POST"];
+    [postRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
 
-    [self.sharedClient POST:url parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        NSLog(@"response:%@", responseObject);
-    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        NSLog(@"error : %@", error);
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [NSURLConnection sendAsynchronousRequest:postRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+            // 网络连接出现失败
+            if (httpResponse.statusCode != 200 || connectionError != nil) {
+                block(@"网络出现错误，请检查网络", [NSError errorWithDomain:@"error" code:100 userInfo:[NSDictionary dictionaryWithObject:@"网络出现错误，请检查网络" forKey:@"error"]]);
+                return;
+            }
+            NSDictionary *resultObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            NSLog(@"resuleobject :%@", resultObject);
+            NSString* charge = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//            NSLog(@"charge = %@", charge);
+//            [Pingpp createPayment:charge viewController:_self appURLScheme:kUrlScheme withCompletion:^(NSString *result, PingppError *error) {
+//                NSError *failerror = nil;
+//                if (error != nil) {
+//                    failerror = [NSError errorWithDomain:@"error" code:error.code userInfo:[NSDictionary dictionaryWithObject:[error getMsg] forKey:@"error"]];
+//                }
+//                block(result, failerror);
+//            }];
+        });
     }];
+
+//    NSString *url = @"charge/newCharge";
+//
+//    [self.sharedClient POST:url parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+//        NSLog(@"response:%@", responseObject);
+//    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+//        NSLog(@"error : %@", error);
+//    }];
 }
 @end

@@ -239,6 +239,7 @@
             [_delegate payMoneyFail];
         }
     }];
+    [self deselectChannelPay];
 }
 - (void)payCancel
 {
@@ -247,6 +248,15 @@
             [_delegate payMoneyCencel];
         }
     }];
+    [self deselectChannelPay];
 }
 
+// 去掉选择的付款渠道
+- (void)deselectChannelPay
+{
+    for (int i = 0; i < _dataArray.count; i++) {
+        ((BaseTBCellItem *)_dataArray[i]).flag = 0;
+    }
+    [_tableView reloadData];
+}
 @end

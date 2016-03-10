@@ -50,8 +50,6 @@
     // 定位服务
     [self initLocationServer];
 
-    [self getCheckListData];
-
     if (GetUserType != 1 && GetUserType != 2 ) {
         [RzAlertView showAlertWithTarget:self.view Title:@"用户类型" oneButtonTitle:@"个人" oneButtonImageName:@"" twoButtonTitle:@"单位" twoButtonImageName:@"" handle:^(NSInteger flag) {
             // 设置用户类型  1:个人，2单位
@@ -66,6 +64,7 @@
         }];
     }
     else{
+        [self getCheckListData];
         [self initLeftViews];    // 初始化左侧菜单
     }
 
@@ -82,6 +81,9 @@
 
 - (void)getCheckListData
 {
+    if (GetUserType != 1 && GetUserType != 2) {
+        return;
+    }
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
         if (!error) {
             NSInteger type = GetUserType;
