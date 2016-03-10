@@ -16,7 +16,6 @@
 		2512B3EC1C8D6133006E8608 /* UIView+borderWidth.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EB1C8D6133006E8608 /* UIView+borderWidth.m */; };
 		2512B3EF1C8D8171006E8608 /* ReportResultQueryURLPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EE1C8D8171006E8608 /* ReportResultQueryURLPacket.m */; };
 		2512B3F21C8D8496006E8608 /* ReportResultReturnURLPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3F11C8D8496006E8608 /* ReportResultReturnURLPacket.m */; };
-		2512B40F1C7056C900EE661B /* NSDate+Easy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EA1C7056C900EE661B /* NSDate+Easy.m */; };
 		2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3EC1C7056C900EE661B /* NSDictionary+NonNullStringValue.m */; };
 		2512B4121C7056C900EE661B /* NSString+CompatibleWithiOS7.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3F01C7056C900EE661B /* NSString+CompatibleWithiOS7.m */; };
 		2512B4131C7056C900EE661B /* NSString+Count.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B3F21C7056C900EE661B /* NSString+Count.m */; };
@@ -213,8 +212,6 @@
 		2512B3CB1C70557C00EE661B /* HealthyCertificateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HealthyCertificateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2512B3CF1C70557C00EE661B /* HealthyCertificateUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HealthyCertificateUITests.m; sourceTree = "<group>"; };
 		2512B3D11C70557C00EE661B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2512B3E91C7056C900EE661B /* NSDate+Easy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Easy.h"; sourceTree = "<group>"; };
-		2512B3EA1C7056C900EE661B /* NSDate+Easy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Easy.m"; sourceTree = "<group>"; };
 		2512B3EA1C8D6133006E8608 /* UIView+borderWidth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+borderWidth.h"; sourceTree = "<group>"; };
 		2512B3EB1C7056C900EE661B /* NSDictionary+NonNullStringValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NonNullStringValue.h"; sourceTree = "<group>"; };
 		2512B3EB1C8D6133006E8608 /* UIView+borderWidth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+borderWidth.m"; sourceTree = "<group>"; };
@@ -606,8 +603,6 @@
 		2512B3DD1C70567F00EE661B /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				2512B3E91C7056C900EE661B /* NSDate+Easy.h */,
-				2512B3EA1C7056C900EE661B /* NSDate+Easy.m */,
 				2512B3EB1C7056C900EE661B /* NSDictionary+NonNullStringValue.h */,
 				2512B3EC1C7056C900EE661B /* NSDictionary+NonNullStringValue.m */,
 				2512B3EF1C7056C900EE661B /* NSString+CompatibleWithiOS7.h */,
@@ -1502,7 +1497,6 @@
 				2512B41E1C7056C900EE661B /* UILabel+Easy.m in Sources */,
 				25BFEB3D1C74A50F0062F9B8 /* CloudAppointmentViewController.m in Sources */,
 				B2436CA01C7AEE8C00F543E1 /* MyCheckListViewController.m in Sources */,
-				2512B40F1C7056C900EE661B /* NSDate+Easy.m in Sources */,
 				B27B00E11C84622D00FBF895 /* CloudCompanyAppointmentCell.m in Sources */,
 				B2640CDB1C7C7FC000721CB5 /* WaitDocResultSelectItem.m in Sources */,
 				254503061C90043800F47F46 /* QRController.m in Sources */,

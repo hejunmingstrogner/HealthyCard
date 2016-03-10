@@ -30,6 +30,8 @@
 
 #import "OrdersAlertView.h"
 
+BOOL   _isLocationInfoHasBeenSent;
+
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 

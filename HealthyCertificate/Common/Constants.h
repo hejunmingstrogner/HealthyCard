@@ -65,7 +65,7 @@ extern PersonInfoOfPhonePacket* gPersonInfo;
 extern CompanyInfoOfPhonePacket* gCompanyInfo;
 extern RealReachability* reachAbility;
 
-BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送过定位信息
+extern BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送过定位信息
 
 #define kiOS6NavigationBarHeight 44
 #define kiOS7NavigationBarHeight 44
