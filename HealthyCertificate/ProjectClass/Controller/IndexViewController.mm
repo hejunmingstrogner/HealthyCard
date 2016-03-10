@@ -399,6 +399,10 @@
             [self.navigationController pushViewController:history animated:YES];
             break;
         }
+        case LEFTMENUCELL_ERWEIMA:{
+            NSLog(@"二维码");
+            break;
+        }
         case LEFTMENUCELL_SETTING:
 //            NSLog(@"设置");
             break;
