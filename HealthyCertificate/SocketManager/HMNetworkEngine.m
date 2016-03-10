@@ -26,6 +26,7 @@
 
 #import "ReportResultReturnURLPacket.h"
 #import "ReportResultQueryURLPacket.h"
+#import "CustomerPositionLogPacket.h"
 
 PersonInfoOfPhonePacket* gPersonInfo;
 CompanyInfoOfPhonePacket* gCompanyInfo;
@@ -155,6 +156,20 @@ CompanyInfoOfPhonePacket* gCompanyInfo;
     packet.strCheckCode = examinationCode;
     packet.bType = 2; //代表体检编号
     [self sendPacketToQueueServer:packet];
+}
+
+-(void)sendCustomerCode:(NSString *)custCode LinkPhone:(NSString *)linkPhone LO:(NSString *)lo LA:(NSString *)la PositionDirection:(NSString *)positionDirection PositionAddr:(NSString *)positionAddr LocTime:(NSDate *)locTime CityName:(NSString *)cityName
+{
+    CustomerPositionLogPacket* customerPositionLogPacket = [[CustomerPositionLogPacket alloc] init];
+    customerPositionLogPacket.m_strCustCode = custCode;
+    customerPositionLogPacket.m_strLinkPhone = linkPhone;
+    customerPositionLogPacket.m_strPositionLO = lo;
+    customerPositionLogPacket.m_strPositionLA = la;
+    customerPositionLogPacket.m_strPositionDirection = positionDirection;
+    customerPositionLogPacket.m_strPositionAddr = positionAddr;
+    customerPositionLogPacket.m_tAtTheTime = locTime;
+    customerPositionLogPacket.m_strCityName = cityName;
+    [self sendPacketToQueueServer:customerPositionLogPacket];
 }
 
 

@@ -12,6 +12,7 @@
 #import "ServersPositionAnnotionsModel.h"
 
 #import "HttpNetworkManager.h"
+#import "HMNetworkEngine.h"
 #import "PositionUtil.h"
 
 #import "NSDate+Custom.h"
@@ -28,6 +29,7 @@
 #import "LoginController.h"
 
 #import "OrdersAlertView.h"
+
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -626,8 +628,14 @@
         if(!error)
         {
             //得到定位信息后，需要往排队服务器发送地理位置信息
-            
-            
+            [[HMNetworkEngine getInstance] sendCustomerCode:gPersonInfo.mCustCode
+                                                  LinkPhone:gPersonInfo.StrTel
+                                                         LO:@""
+                                                         LA:@""
+                                          PositionDirection:@""
+                                               PositionAddr:adress
+                                                    LocTime:[NSDate date]
+                                                   CityName:city];
             currentCityName = city;
             addressLabel.text = adress;
             _centerCoordinate = _mapView.centerCoordinate;

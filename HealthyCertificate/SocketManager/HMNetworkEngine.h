@@ -59,6 +59,30 @@
 -(void)getReportQueryUrl:(NSString*)examinationCode;
 
 
+/**
+ *  定位成功后，向服务端发送定位信息包
+ *
+ *  @param custCode          客户编号
+ *  @param linkPhone         电话号码
+ *  @param lo                定位经度
+ *  @param la                定位纬度
+ *  @param positionDirection 定位方向
+ *  @param positionAddr      定位地址
+ *  @param locTime           定位时间
+ *  @param cityName          定位城市
+ */
+-(void)sendCustomerCode:(NSString*)custCode
+              LinkPhone:(NSString*)linkPhone
+                     LO:(NSString*)lo
+                     LA:(NSString*)la
+      PositionDirection:(NSString*)positionDirection
+           PositionAddr:(NSString*)positionAddr
+                LocTime:(NSDate*)locTime
+               CityName:(NSString*)cityName;
+
+
+
+
 @property (nonatomic, weak) id<HMNetworkEngineDelegate> delegate;
 
 @property (nonatomic, copy) NSString* serverID;

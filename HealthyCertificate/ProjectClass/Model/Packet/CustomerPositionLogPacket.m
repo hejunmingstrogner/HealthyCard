@@ -31,9 +31,9 @@
     [[HMDataOperate getInstance] writeInt:self.m_nUID To:resultData];
     [[HMDataOperate getInstance] write256String:self.m_strCustCode To:resultData];
     [[HMDataOperate getInstance] write256String:self.m_strLinkPhone To:resultData];
-    [[HMDataOperate getInstance] writeFloat:self.m_fPositionLO To:resultData];
-    [[HMDataOperate getInstance] writeFloat:self.m_fPositionLA To:resultData];
-    [[HMDataOperate getInstance] writeFloat:self.m_fPositionDirection To:resultData];
+    [[HMDataOperate getInstance] write256String:self.m_strPositionLO To:resultData];
+    [[HMDataOperate getInstance] write256String:self.m_strPositionLA To:resultData];
+    [[HMDataOperate getInstance] write256String:self.m_strPositionDirection To:resultData];
     [[HMDataOperate getInstance] write256String:self.m_strPositionAddr To:resultData];
     [[HMDataOperate getInstance] writeDate:self.m_tAtTheTime To:resultData];
     [[HMDataOperate getInstance] write256String:self.m_strCityName To:resultData];
