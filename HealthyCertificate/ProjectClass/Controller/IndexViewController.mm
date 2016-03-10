@@ -631,15 +631,18 @@
     [[LocationSearchModel getInstance] getExaminationAdressByLocation:_mapView.centerCoordinate WithBlock:^(NSString *city,NSString *adress, NSError *error) {
         if(!error)
         {
-            //得到定位信息后，需要往排队服务器发送地理位置信息
-            [[HMNetworkEngine getInstance] sendCustomerCode:gPersonInfo.mCustCode
-                                                  LinkPhone:gPersonInfo.StrTel
-                                                         LO:@""
-                                                         LA:@""
-                                          PositionDirection:@""
-                                               PositionAddr:adress
-                                                    LocTime:[NSDate date]
-                                                   CityName:city];
+            if (_isLocationInfoHasBeenSent == NO){
+                //得到定位信息后，需要往排队服务器发送地理位置信息
+                [[HMNetworkEngine getInstance] sendCustomerCode:gPersonInfo.mCustCode
+                                                      LinkPhone:gPersonInfo.StrTel
+                                                             LO:@""
+                                                             LA:@""
+                                              PositionDirection:@""
+                                                   PositionAddr:adress
+                                                        LocTime:[NSDate date]
+                                                       CityName:city];
+                _isLocationInfoHasBeenSent = YES;
+            }
             currentCityName = city;
             addressLabel.text = adress;
             _centerCoordinate = _mapView.centerCoordinate;
