@@ -192,5 +192,14 @@
  * 年龄 【非数据库字段】
  */
 @property (nonatomic, assign)  int age;
+/**
+ * 体检单位名称
+ * [非数据库字段]
+ */
+@property (nonatomic, copy) NSString* hosName;
+/**
+ * 健康证编号
+ */
+@property (nonatomic, copy) NSString* healthCardNo;
 
 @end
