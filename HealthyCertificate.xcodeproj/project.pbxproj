@@ -58,6 +58,7 @@
 		254503001C8FB77000F47F46 /* hclaunchscreen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254502FD1C8FB77000F47F46 /* hclaunchscreen@3x.png */; };
 		254503021C8FBDC500F47F46 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254503011C8FBDC500F47F46 /* Images.xcassets */; };
 		254503061C90043800F47F46 /* QRController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254503051C90043800F47F46 /* QRController.m */; };
+		254503091C9119EC00F47F46 /* CustomerPositionLogPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 254503081C9119EC00F47F46 /* CustomerPositionLogPacket.m */; };
 		254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */; };
 		254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D881C7AE02300F2EC94 /* Avatar@2x.png */; };
 		254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D891C7AE02300F2EC94 /* Avatar@3x.png */; };
@@ -284,6 +285,8 @@
 		254503011C8FBDC500F47F46 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		254503041C90043800F47F46 /* QRController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRController.h; sourceTree = "<group>"; };
 		254503051C90043800F47F46 /* QRController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRController.m; sourceTree = "<group>"; };
+		254503071C9119EC00F47F46 /* CustomerPositionLogPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerPositionLogPacket.h; sourceTree = "<group>"; };
+		254503081C9119EC00F47F46 /* CustomerPositionLogPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerPositionLogPacket.m; sourceTree = "<group>"; };
 		254A8D811C7A027E00F2EC94 /* HealthyCertificateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HealthyCertificateView.h; path = ../HealthyCertificateView.h; sourceTree = "<group>"; };
 		254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthyCertificateView.m; path = ../HealthyCertificateView.m; sourceTree = "<group>"; };
 		254A8D881C7AE02300F2EC94 /* Avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@2x.png"; sourceTree = "<group>"; };
@@ -901,6 +904,8 @@
 				2512B3EE1C8D8171006E8608 /* ReportResultQueryURLPacket.m */,
 				2512B3F01C8D8496006E8608 /* ReportResultReturnURLPacket.h */,
 				2512B3F11C8D8496006E8608 /* ReportResultReturnURLPacket.m */,
+				254503071C9119EC00F47F46 /* CustomerPositionLogPacket.h */,
+				254503081C9119EC00F47F46 /* CustomerPositionLogPacket.m */,
 			);
 			path = Packet;
 			sourceTree = "<group>";
@@ -1510,6 +1515,7 @@
 				254A8DB01C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m in Sources */,
 				25BFEB361C74096E0062F9B8 /* PersonInfoOfPhonePacket.m in Sources */,
 				254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */,
+				254503091C9119EC00F47F46 /* CustomerPositionLogPacket.m in Sources */,
 				2512B3AC1C70557C00EE661B /* main.m in Sources */,
 				25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */,
 				252AB8971C7732C50085CC14 /* NavView.m in Sources */,

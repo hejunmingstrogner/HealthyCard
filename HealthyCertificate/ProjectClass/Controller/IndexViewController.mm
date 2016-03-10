@@ -510,9 +510,9 @@
 //  一键预约
 - (void)orderBtnClicked
 {
-    if (addressLabel.text == nil || [addressLabel.text isEqualToString:@""]){
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"位置信息未加载完成" removeDelay:3];
-    }else{
+//    if (addressLabel.text == nil || [addressLabel.text isEqualToString:@""]){
+//        [RzAlertView showAlertLabelWithTarget:self.view Message:@"位置信息未加载完成" removeDelay:3];
+//    }else{
        // [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
         AppointmentViewController* controller = [[AppointmentViewController alloc] init];
         controller.location = addressLabel.text;
@@ -524,7 +524,7 @@
         CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
         controller.centerCoordinate = coor;
         [self.navigationController pushViewController:controller animated:YES];
-    }
+   // }
 }
 // 点击了头像,显示左侧菜单
 - (void)headerBtnClicked
@@ -614,6 +614,9 @@
     [[LocationSearchModel getInstance] getExaminationAdressByLocation:_mapView.centerCoordinate WithBlock:^(NSString *city,NSString *adress, NSError *error) {
         if(!error)
         {
+            //得到定位信息后，需要往排队服务器发送地理位置信息
+            
+            
             currentCityName = city;
             addressLabel.text = adress;
             _centerCoordinate = _mapView.centerCoordinate;
