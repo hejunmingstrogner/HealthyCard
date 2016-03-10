@@ -67,7 +67,10 @@
          userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gCompanyInfo.cUnitName detialLabelText:gPersonInfo.StrTel itemtype:LEFTMENUCELL_USERINFOR];
     }
     LeftMenuCellItem *historyRecord = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"历史记录" detialLabelText:nil itemtype:LEFTMENUCELL_HISTORYRECORD];
-    LeftMenuCellItem *setting = [[LeftMenuCellItem alloc]initWithiconName:@"setting" titleLabelText:@"设置" detialLabelText:nil itemtype:LEFTMENUCELL_SETTING];
+    LeftMenuCellItem *erweima = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"二维码" detialLabelText:nil itemtype:LEFTMENUCELL_ERWEIMA];
+    LeftMenuCellItem *userType = [[LeftMenuCellItem alloc]initWithiconName:@"leixing" titleLabelText:@"用户类型" detialLabelText:nil itemtype:LEFTMENUCELL_USERTYPE];
+
+    //LeftMenuCellItem *setting = [[LeftMenuCellItem alloc]initWithiconName:@"setting" titleLabelText:@"设置" detialLabelText:nil itemtype:LEFTMENUCELL_SETTING];
     LeftMenuCellItem *notice = [[LeftMenuCellItem alloc]initWithiconName:@"notice" titleLabelText:@"体检注意事项" detialLabelText:nil itemtype:LEFTMENUCELL_NOTICE];
     //LeftMenuCellItem *share = [[LeftMenuCellItem alloc]initWithiconName:@"share" titleLabelText:@"分享" detialLabelText:nil itemtype:LEFTMENUCELL_SHARE];
     //LeftMenuCellItem *uintlogin = [[LeftMenuCellItem alloc]initWithiconName:@"danweilogin" titleLabelText:@"单位注册" detialLabelText:nil itemtype:LEFTMENUCELL_LOGIN];
@@ -75,9 +78,7 @@
     LeftMenuCellItem *advice = [[LeftMenuCellItem alloc]initWithiconName:@"advice" titleLabelText:@"意见或建议" detialLabelText:nil itemtype:LEFTMENUCELL_ADVICE];
     LeftMenuCellItem *exit = [[LeftMenuCellItem alloc]initWithiconName:@"exit" titleLabelText:@"退出当前账号" detialLabelText:nil itemtype:LEFTMENUCELL_EXIT];
 
-    _menuItemArray = [NSMutableArray arrayWithObjects:userinformation, historyRecord, setting, notice, aboutUs, advice, exit, nil];
-
-    _settingItemArray = [NSMutableArray arrayWithObjects:@"设置", @"用户类型", @"版本更新", nil];
+    _menuItemArray = [NSMutableArray arrayWithObjects:userinformation, historyRecord, erweima, userType, notice, aboutUs, advice, exit, nil];
 }
 //#pragma mark - delegate and datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -87,25 +88,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (((LeftMenuCellItem *)_menuItemArray[section]).itemType == LEFTMENUCELL_SETTING) {
-        return _settingItemArray.count;
-    }
     return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType == LEFTMENUCELL_USERINFOR) {
-        //return PXFIT_HEIGHT(168);
         return 70;
     }
-    if (((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType == LEFTMENUCELL_SETTING) {
-        if (indexPath.row != 0) {
-            //return PXFIT_HEIGHT(84);
-            return 40;
-        }
-    }
-    //return PXFIT_HEIGHT(96);
     return 44;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -137,39 +127,31 @@
         return cell;
     }
     // 设置
-    else if(((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType == LEFTMENUCELL_SETTING)
+    else if(((LeftMenuCellItem *)_menuItemArray[indexPath.section]).itemType == LEFTMENUCELL_USERTYPE)
     {
-        if (indexPath.row != 0) {
-            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"xcell"];
-            cell.imageView.image = [UIImage imageNamed:@"kongbai"];
-            cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
-            if (indexPath.row != 2) {
-                cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
-                UIButton *switchbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-                [cell.contentView addSubview:switchbutton];
-                [switchbutton mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.right.equalTo(cell).offset(-10);
-                    make.width.mas_equalTo(52);
-                    make.centerY.equalTo(cell.contentView);
-                    make.height.mas_equalTo(26);
-                }];
-                [switchbutton addTarget:self action:@selector(SettingBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-                switchbutton.tag = indexPath.row;
-                if (indexPath.row == 1) {
-//                    [switchbutton setImage:[UIImage imageNamed:@"open"] forState:UIControlStateNormal];       // 提醒
-//                }
-//                else {
-                    if (GetUserType == 1) {
-                        [switchbutton setBackgroundImage:[UIImage imageNamed:@"open_person"] forState:UIControlStateNormal];
-                    }
-                    else {
-                        [switchbutton setBackgroundImage:[UIImage imageNamed:@"open_company"] forState:UIControlStateNormal];
-                    }
-                }
+        if (indexPath.row == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"xcell"];
+            if (!cell) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"xcell"];
             }
-            cell.textLabel.text = _settingItemArray[indexPath.row];
-            if (indexPath.row == 2) {
-                cell.detailTextLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+            cell.imageView.image = [UIImage imageNamed:((LeftMenuCellItem *)_menuItemArray[indexPath.section]).iconName];
+            cell.textLabel.text = ((LeftMenuCellItem *)_menuItemArray[indexPath.section]).titleLabelText;
+            cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
+            UIButton *switchbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [cell.contentView addSubview:switchbutton];
+            [switchbutton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(cell).offset(-10);
+                make.width.mas_equalTo(52);
+                make.centerY.equalTo(cell.contentView);
+                make.height.mas_equalTo(26);
+            }];
+            [switchbutton addTarget:self action:@selector(SettingBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            switchbutton.tag = indexPath.row;
+            if (GetUserType == 1) {
+                [switchbutton setBackgroundImage:[UIImage imageNamed:@"open_person"] forState:UIControlStateNormal];
+            }
+            else {
+                [switchbutton setBackgroundImage:[UIImage imageNamed:@"open_company"] forState:UIControlStateNormal];
             }
             return cell;
         }
@@ -198,12 +180,7 @@
 //  设置中的按钮开关
 - (void)SettingBtnClicked:(UIButton *)sender
 {
-//    if(sender.tag == 1)
-//    {
-//
-//    }
-//    else
-    if(sender.tag == 1){
+    if(sender.tag == 0){
         if (GetUserType == 1) {
             [sender setBackgroundImage:[UIImage imageNamed:@"open_company"] forState:UIControlStateNormal];
             SetUserType(2);
