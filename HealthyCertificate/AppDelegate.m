@@ -18,7 +18,7 @@
 
 #import "QueueServerInfo.h"
 #import "LauchScreenController.h"
-
+#import <Pingpp.h>
 
 #define bugTagsAppKey @"64cb2c33df5bab3d36ac0ea1ff907adf"
 
@@ -127,6 +127,20 @@ RealReachability* reachAbility;
         [RzAlertView showAlertLabelWithTarget:self.window Message:@"网络链接失败，请检查网络设置" removeDelay:3];
     }
 }
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_9_0    // 当前支持的sdk版本是否低于8.0
+　// ios 8及以下
+- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nonnull id)annotation
+{
+    return [Pingpp handleOpenURL:url withCompletion:nil];
+}
+#else
+// ios 9以上
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
+    return [Pingpp handleOpenURL:url withCompletion:nil];
+}
+
+#endif
 
 
 @end
