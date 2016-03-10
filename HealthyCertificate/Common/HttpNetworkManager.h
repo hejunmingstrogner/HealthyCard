@@ -13,6 +13,17 @@
 #import "CustomerTest.h"
 #import "BRContract.h"
 #import "Constants.h"
+#import "ChargeParameter.h"
+
+/**
+ *  支付渠道
+ */
+typedef enum{
+    PAY_NONE = 0,
+    PAY_WX,         // 微信
+    PAY_ALIPAY,     // 支付宝
+    PAY_UPACP       // 银联
+}PAYCHANNEL;
 
 //http请求后，解析的数据格式的获取采用block的形式来获取
 typedef void (^HCDictionaryResultBlock)(NSDictionary* result, NSError* error);
@@ -168,5 +179,14 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  *  @param block    回调
  */
 - (void)findBRContractHistoryRegByCustomId:(NSString *)customId resuleBlock:(HCArrayResultBlock)block;
+
+/**
+ *  付款  提供付款金额，付款渠道 （金额 以保留到两位小数 如 11.56元,2.00元）
+ *
+ *  @param amount  金额  以保留到两位小数 如 11.56元，整数也同样两位 2.00元
+ *  @param channel 渠道  wx  alipay upacp
+ *  @param block   回调，如果没有error，则表示没有问题，resule提示支付结果
+ */
+- (void)payMoneyWithChargeParameter:(ChargeParameter *)chargeParame viewController:(UIViewController *)_self resultBlock:(void(^)(NSString *result, NSError *error))block;
 
 @end

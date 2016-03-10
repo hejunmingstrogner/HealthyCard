@@ -25,10 +25,9 @@
 #import "CloudAppointmentViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
 #import "HistoryInformationVController.h"
-
-
 #import "LoginController.h"
 
+#import "OrdersAlertView.h"
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -51,8 +50,6 @@
     // 定位服务
     [self initLocationServer];
 
-    [self getCheckListData];
-
     if (GetUserType != 1 && GetUserType != 2 ) {
         [RzAlertView showAlertWithTarget:self.view Title:@"用户类型" oneButtonTitle:@"个人" oneButtonImageName:@"" twoButtonTitle:@"单位" twoButtonImageName:@"" handle:^(NSInteger flag) {
             // 设置用户类型  1:个人，2单位
@@ -67,12 +64,26 @@
         }];
     }
     else{
+        [self getCheckListData];
         [self initLeftViews];    // 初始化左侧菜单
     }
+
+    // 测试使用
+//    CustomButton *cutbtn = [CustomButton buttonWithType:UIButtonTypeCustom];
+//    cutbtn.frame = self.view.frame;
+//    [self.view addSubview:cutbtn];
+//    [cutbtn addClickedBlock:^(UIButton * _Nonnull sender) {
+//        [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
+//            NSLog(@"flag: %ld", (long)flag);
+//        }];
+//    }];
 }
 
 - (void)getCheckListData
 {
+    if (GetUserType != 1 && GetUserType != 2) {
+        return;
+    }
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
         if (!error) {
             NSInteger type = GetUserType;

@@ -90,8 +90,16 @@ typedef void (^ButtonActionBlock)(UIButton *sender);
                                   Message:(nullable NSString *)message
                               ActionTitle:(nullable NSString *)actiontitle
                               ActionStyle:(UIAlertActionStyle)actionstyle;
-
-
+/**
+ *  显示提示信息，只有一个按钮，且有唯一回调
+ *
+ *  @param controller
+ *  @param title
+ *  @param message
+ *  @param actiontitle
+ *  @param actionstyle
+ */
++ (void)showAlertViewControllerWithViewController:(id)controller title:(NSString *)title Message:(NSString *)message ActionTitle:(NSString *)actiontitle ActionStyle:(UIAlertActionStyle)actionstyle handle:(void(^)(NSInteger flag))block;
 /**
  *  显示一个包含多个按钮的alert，按钮title在Array中设置，block回调以1开始，自动添加取消按钮
  *

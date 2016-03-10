@@ -8,7 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol PayMoneyDelegate <NSObject>
+/**
+ *  支付成功
+ */
+- (void)payMoneySuccessed;
+/**
+ *  支付取消
+ */
+- (void)payMoneyCencel;
+/**
+ *  支付失败
+ */
+- (void)payMoneyFail;
+
+@end
+
 @interface PayMoneyController : UIViewController
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIButton    *comfirmBtn;
+
+@property (nonatomic, strong) id<PayMoneyDelegate>delegate;
+
 @end

@@ -12,8 +12,9 @@ typedef enum{
     STYLE_NONE = 0,
     STYLE_HEADERIMAGE,
     STYLE_HEATHYCINFO,
-    STYLE_WXPAY,
-    STYLE_ALIPAY
+    STYLE_WXPAY,            // 微信支付
+    STYLE_ALIPAY,           // 支付宝支付
+    STYLE_UPACP             // 银联支付
 }CELL_STYLE;
 
 @interface BaseTBCellItem : NSObject
