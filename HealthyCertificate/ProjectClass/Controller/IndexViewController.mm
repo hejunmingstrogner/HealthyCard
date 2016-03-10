@@ -25,10 +25,9 @@
 #import "CloudAppointmentViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
 #import "HistoryInformationVController.h"
-
-
 #import "LoginController.h"
 
+#import "OrdersAlertView.h"
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -69,6 +68,16 @@
     else{
         [self initLeftViews];    // 初始化左侧菜单
     }
+
+    // 测试使用
+//    CustomButton *cutbtn = [CustomButton buttonWithType:UIButtonTypeCustom];
+//    cutbtn.frame = self.view.frame;
+//    [self.view addSubview:cutbtn];
+//    [cutbtn addClickedBlock:^(UIButton * _Nonnull sender) {
+//        [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
+//            NSLog(@"flag: %ld", (long)flag);
+//        }];
+//    }];
 }
 
 - (void)getCheckListData

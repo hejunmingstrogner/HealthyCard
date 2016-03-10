@@ -171,6 +171,8 @@
 		B27B00E11C84622D00FBF895 /* CloudCompanyAppointmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B27B00D91C84622D00FBF895 /* CloudCompanyAppointmentCell.m */; };
 		B27B00E21C84622D00FBF895 /* CloudCompanyAppointmentStaffCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B27B00DB1C84622D00FBF895 /* CloudCompanyAppointmentStaffCell.m */; };
 		B27B00E31C84622D00FBF895 /* HealthyCertificateOrderInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B27B00DD1C84622D00FBF895 /* HealthyCertificateOrderInfoView.m */; };
+		B2866A611C910ADA00F4B3B9 /* OrdersAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2866A601C910ADA00F4B3B9 /* OrdersAlertView.m */; };
+		B2866A671C91662600F4B3B9 /* ChargeParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = B2866A661C91662600F4B3B9 /* ChargeParameter.m */; };
 		B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
@@ -482,6 +484,10 @@
 		B27B00DB1C84622D00FBF895 /* CloudCompanyAppointmentStaffCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudCompanyAppointmentStaffCell.m; path = HealthyCertificate/ProjectClass/View/Appointment/CloudCompanyAppointmentStaffCell.m; sourceTree = SOURCE_ROOT; };
 		B27B00DC1C84622D00FBF895 /* HealthyCertificateOrderInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HealthyCertificateOrderInfoView.h; path = HealthyCertificate/ProjectClass/View/Appointment/HealthyCertificateOrderInfoView.h; sourceTree = SOURCE_ROOT; };
 		B27B00DD1C84622D00FBF895 /* HealthyCertificateOrderInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthyCertificateOrderInfoView.m; path = HealthyCertificate/ProjectClass/View/Appointment/HealthyCertificateOrderInfoView.m; sourceTree = SOURCE_ROOT; };
+		B2866A5F1C910ADA00F4B3B9 /* OrdersAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrdersAlertView.h; sourceTree = "<group>"; };
+		B2866A601C910ADA00F4B3B9 /* OrdersAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersAlertView.m; sourceTree = "<group>"; };
+		B2866A651C91662600F4B3B9 /* ChargeParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeParameter.h; sourceTree = "<group>"; };
+		B2866A661C91662600F4B3B9 /* ChargeParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeParameter.m; sourceTree = "<group>"; };
 		B2F81B4B1C7EAE680089F51C /* TemperaryServicePDeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemperaryServicePDeViewController.h; sourceTree = "<group>"; };
 		B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemperaryServicePDeViewController.m; sourceTree = "<group>"; };
 		B2F826201C730D6000993F47 /* LocationSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchModel.h; sourceTree = "<group>"; };
@@ -1076,6 +1082,7 @@
 		B2484DB51C71C1E600C0CCBB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B2866A5E1C910A3C00F4B3B9 /* PayMoney */,
 				B23C76761C8D313E00E5C40A /* BaseItem */,
 				B23C766E1C8D30F300E5C40A /* CompanyAppointMent */,
 				25A7A6EF1C845BFD00054EE6 /* PersonalAppointment */,
@@ -1153,6 +1160,8 @@
 				B27222AC1C8ECFBA002494EA /* PayInfoViewCell.m */,
 				B27222AE1C8ECFD3002494EA /* PayTypeViewCell.h */,
 				B27222AF1C8ECFD3002494EA /* PayTypeViewCell.m */,
+				B2866A5F1C910ADA00F4B3B9 /* OrdersAlertView.h */,
+				B2866A601C910ADA00F4B3B9 /* OrdersAlertView.m */,
 			);
 			path = PayTableVCell;
 			sourceTree = "<group>";
@@ -1181,6 +1190,15 @@
 				B27222BF1C8FBD37002494EA /* DJRefreshView.m */,
 			);
 			path = DJRefreshView;
+			sourceTree = "<group>";
+		};
+		B2866A5E1C910A3C00F4B3B9 /* PayMoney */ = {
+			isa = PBXGroup;
+			children = (
+				B2866A651C91662600F4B3B9 /* ChargeParameter.h */,
+				B2866A661C91662600F4B3B9 /* ChargeParameter.m */,
+			);
+			path = PayMoney;
 			sourceTree = "<group>";
 		};
 		B2F8261F1C730D3E00993F47 /* ExaminationAdress */ = {
@@ -1464,6 +1482,7 @@
 				25BFEB1E1C731A630062F9B8 /* StringPacket.m in Sources */,
 				B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */,
 				2512B41A1C7056C900EE661B /* UIFont+Custom.m in Sources */,
+				B2866A671C91662600F4B3B9 /* ChargeParameter.m in Sources */,
 				B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */,
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
 				B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */,
@@ -1555,6 +1574,7 @@
 				B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */,
 				B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */,
 				25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */,
+				B2866A611C910ADA00F4B3B9 /* OrdersAlertView.m in Sources */,
 				25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */,
 				252AB88F1C7703690085CC14 /* HCWheelView.m in Sources */,
 				2512B41D1C7056C900EE661B /* UIImageView+Easy.m in Sources */,

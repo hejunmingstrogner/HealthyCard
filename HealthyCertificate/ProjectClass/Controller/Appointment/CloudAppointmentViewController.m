@@ -45,7 +45,8 @@
 #import "HCRule.h"
 
 #import "MethodResult.h"
-
+#import "OrdersAlertView.h"
+#import "PayMoneyController.h"
 
 #define Button_Size 26
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
@@ -546,16 +547,34 @@
                     [RzAlertView showAlertLabelWithTarget:self.view Message:UploadHealthyPicFailed removeDelay:2];
                     return;
                 }
-                
-                MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-                mycheckListViewController.popStyle = POPTO_ROOT;
-                [self.navigationController pushViewController:mycheckListViewController animated:YES];
+                // d订单成功提示框
+                [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
+                    if (flag == 1) {
+                        PayMoneyController *pay = [[PayMoneyController alloc]init];
+                        [self.navigationController pushViewController:pay animated:YES];
+                    }
+                    else {
+                        MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
+                        mycheckListViewController.popStyle = POPTO_ROOT;
+                        [self.navigationController pushViewController:mycheckListViewController animated:YES];
+                    }
+                }];
+
             }];
         }else{
             //如果没有修改图片，就不需要上传图片了
-            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-            mycheckListViewController.popStyle = POPTO_ROOT;
-            [self.navigationController pushViewController:mycheckListViewController animated:YES];
+            // d订单成功提示框
+            [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
+                if (flag == 1) {
+                    PayMoneyController *pay = [[PayMoneyController alloc]init];
+                    [self.navigationController pushViewController:pay animated:YES];
+                }
+                else {
+                    MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
+                    mycheckListViewController.popStyle = POPTO_ROOT;
+                    [self.navigationController pushViewController:mycheckListViewController animated:YES];
+                }
+            }];
         }
     }];
 

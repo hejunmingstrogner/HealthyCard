@@ -16,6 +16,8 @@
 #import "BaseTBCellItem.h"
 #import "PayInfoViewCell.h"
 #import "PayTypeViewCell.h"
+#import "HttpNetworkManager.h"
+#import "RzAlertView.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 @interface PayMoneyController ()<UITableViewDataSource, UITableViewDelegate>
@@ -152,6 +154,8 @@
         [_tableView reloadData];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    [self orderBtnClicked:nil];
 }
 
 - (CGFloat)cellheight:(NSString *)text
@@ -165,7 +169,84 @@
 
 - (void)orderBtnClicked:(UIButton *)sender
 {
-    
+    for (BaseTBCellItem *item in _dataArray) {
+        if (item.flag == 1) {
+            NSString *channel;
+            switch (item.cellStyle) {
+                case STYLE_WXPAY:
+                    channel = @"wx";
+                    break;
+                case STYLE_ALIPAY:
+                    channel = @"alipay";
+                    break;
+                case STYLE_UPACP:
+                    channel = @"upacp";
+                    break;
+                default:
+                    channel = nil;
+                    break;
+            }
+            if (channel == nil) {
+                return;
+            }
+
+            ChargeParameter *param = [[ChargeParameter alloc]init];
+            param.amount = 1235;
+            param.channel = channel;
+            param.subject = @"健康证在线";
+            param.body = @"知康科技健康证在线";
+            [[HttpNetworkManager getInstance]payMoneyWithChargeParameter:param viewController:self resultBlock:^(NSString *result, NSError *error) {
+                if (!error) {
+                    if ([result isEqualToString:@"success"]) {
+                        [self paySuccessed];
+                    }
+                }
+                else{
+                    if([result isEqualToString:@"cancel"]){
+                        [self payCancel];
+                    }
+                    else{
+                        [self payFail:error result:result];
+                    }
+                }
+            }];
+            break;
+        }
+    }
+}
+
+- (void)paySuccessed
+{
+    [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:@"支付成功" ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
+        if ([_delegate respondsToSelector:@selector(payMoneySuccessed)] && _delegate != nil) {
+            [self backToPre:nil];
+            [_delegate payMoneySuccessed];
+        }
+    }];
+}
+
+- (void)payFail:(NSError *)error result:(NSString *)result
+{
+    NSString *message;
+    if ([result isEqualToString:@"fail"]) {
+        message = @"支付失败，请重试";
+    }
+    else{
+        message = @"网络连接失败，请重试";
+    }
+    [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:message ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
+        if ([_delegate respondsToSelector:@selector(payMoneyFail)] && _delegate != nil) {
+            [_delegate payMoneyFail];
+        }
+    }];
+}
+- (void)payCancel
+{
+    [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:@"您取消了支付" ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
+        if ([_delegate respondsToSelector:@selector(payMoneyCencel)] && _delegate != nil) {
+            [_delegate payMoneyCencel];
+        }
+    }];
 }
 
 @end

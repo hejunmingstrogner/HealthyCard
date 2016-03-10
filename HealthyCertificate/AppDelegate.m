@@ -52,9 +52,11 @@ RealReachability* reachAbility;
         NSLog(@"百度地图使用错误");
     }
 
+    //  bug 集成
     [Bugtags startWithAppKey:bugTagsAppKey invocationEvent:BTGInvocationEventBubble];
     [Bugtags setInvocationEvent:BTGInvocationEventShake];
-    
+    // ping ++ debug log
+    [Pingpp setDebugMode:YES];
     
 //    LauchScreenController* launchScreenController = [[LauchScreenController alloc] init];
 //    self.window = [[UIWindow alloc] init];
@@ -141,6 +143,5 @@ RealReachability* reachAbility;
 }
 
 #endif
-
 
 @end
