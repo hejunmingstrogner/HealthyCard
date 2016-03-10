@@ -103,6 +103,7 @@
         [[HttpNetworkManager getInstance]customerUploadHealthyCertifyPhoto:_healthCertificateView.imageView.image CusCheckCode:_customerTestInfo.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
             if (!error) {
                 [waitAlertView close];
+                _isAvatarSet = NO;
                 [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
                     if (!error) {
                         [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];

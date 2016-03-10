@@ -177,6 +177,20 @@
     [target presentViewController:alert animated:YES completion:nil];
 }
 
++ (void)showAlertViewControllerWithViewController:(id)controller title:(NSString *)title Message:(NSString *)message ActionTitle:(NSString *)actiontitle ActionStyle:(UIAlertActionStyle)actionstyle handle:(void (^)(NSInteger))block
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    if (actiontitle != nil) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:actiontitle style:actionstyle handler:^(UIAlertAction * _Nonnull action) {
+            if (block) {
+                block(1);
+            }
+        }];
+        [alert addAction:action];
+    }
+    [controller presentViewController:alert animated:YES completion:nil];
+}
+
 // 用于多个alert按钮，默认包含取消
 + (void)showAlertViewControllerWithTarget:(id)target
                                     Title:(NSString *)title
