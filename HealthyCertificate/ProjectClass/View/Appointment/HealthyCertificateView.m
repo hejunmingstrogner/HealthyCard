@@ -49,8 +49,8 @@
     _gender = customerTest.sex == 0 ? @"男":@"女";
     _workType = customerTest.jobDuty;
     _idCard = customerTest.custIdCard;
-    _org = @"";
-    _num = @"";
+    _org = customerTest.hosName;
+    _num = customerTest.healthCardNo;
 
     [_nameBtn setTitle:_name forState:UIControlStateNormal];
     _ageLabel.text = _age;
