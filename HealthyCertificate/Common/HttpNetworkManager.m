@@ -27,9 +27,9 @@
 
 @end
 
-static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.51:8080/zkwebservice/webservice/";
+//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.51:8080/zkwebservice/webservice/";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.34:8080/zkwebservice/webservice/";
-//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
+static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
 
 
 
@@ -471,15 +471,16 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.15
             }
             NSDictionary *resultObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
             NSLog(@"resuleobject :%@", resultObject);
-            NSString* charge = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//            NSLog(@"charge = %@", charge);
-//            [Pingpp createPayment:charge viewController:_self appURLScheme:kUrlScheme withCompletion:^(NSString *result, PingppError *error) {
-//                NSError *failerror = nil;
-//                if (error != nil) {
-//                    failerror = [NSError errorWithDomain:@"error" code:error.code userInfo:[NSDictionary dictionaryWithObject:[error getMsg] forKey:@"error"]];
-//                }
-//                block(result, failerror);
-//            }];
+            //NSString* charge = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSString *charge = [resultObject objectForKey:@"object"];
+            NSLog(@"charge = %@", charge);
+            [Pingpp createPayment:charge viewController:_self appURLScheme:kUrlScheme withCompletion:^(NSString *result, PingppError *error) {
+                NSError *failerror = nil;
+                if (error != nil) {
+                    failerror = [NSError errorWithDomain:@"error" code:error.code userInfo:[NSDictionary dictionaryWithObject:[error getMsg] forKey:@"error"]];
+                }
+                block(result, failerror);
+            }];
         });
     }];
 
