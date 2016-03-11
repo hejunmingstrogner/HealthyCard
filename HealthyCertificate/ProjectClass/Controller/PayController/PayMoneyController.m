@@ -35,6 +35,9 @@
 {
     [super viewDidLoad];
 
+    if (_cityName.length == 0) {
+        _cityName = gCurrentCityName;
+    }
     [self initNavgation];
 
     [self initSubView];
