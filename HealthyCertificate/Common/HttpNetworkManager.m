@@ -16,6 +16,7 @@
 #import "BRServiceUnit.h"
 #import <Pingpp.h>
 #import <AVFoundation/AVFoundation.h>
+#import "RzAlertView.h"
 
 #define kUrlScheme  @"wx8b40ee373b8d6864"
 
@@ -27,9 +28,9 @@
 
 @end
 
-//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.51:8080/zkwebservice/webservice/";
+static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.51:8080/zkwebservice/webservice/";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.34:8080/zkwebservice/webservice/";
-static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
+//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
 
 
 
@@ -447,49 +448,56 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 #pragma mark -付款
 - (void)payMoneyWithChargeParameter:(ChargeParameter *)chargeParame viewController:(UIViewController *)_self resultBlock:(void (^)(NSString *, NSError *))block
 {
-
-    NSString *urlstr = [NSString stringWithFormat:@"%@charge/newCharge", [HttpNetworkManager baseURL]];
-    NSURL    *url = [NSURL URLWithString:urlstr];
-    NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:url];
+    RzAlertView *waitAlert = [[RzAlertView alloc]initWithSuperView:_self.view Title:@"正在发起交易..."];
+    [waitAlert show];
     NSDictionary *dict = [chargeParame mj_keyValues];
 
-    NSData* data = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *bodyData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-
-    [postRequest setHTTPBody:[NSData dataWithBytes:[bodyData UTF8String] length:strlen([bodyData UTF8String])]];
-    [postRequest setHTTPMethod:@"POST"];
-    [postRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    [NSURLConnection sendAsynchronousRequest:postRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-            // 网络连接出现失败
-            if (httpResponse.statusCode != 200 || connectionError != nil) {
-                block(@"网络出现错误，请检查网络", [NSError errorWithDomain:@"error" code:100 userInfo:[NSDictionary dictionaryWithObject:@"网络出现错误，请检查网络" forKey:@"error"]]);
-                return;
+    NSString *url1 = [NSString stringWithFormat:@"charge/newCharge"];
+    [self.sharedClient POST:url1 parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        [waitAlert close];
+        Boolean succeed = [[responseObject objectForKey:@"succeed"] boolValue];
+        if(succeed == NO){
+            block([responseObject objectForKey:@"errorMsg"], [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:[responseObject objectForKey:@"errorMsg"] forKey:@"error"]]);
+            return;
+        }
+        NSString *charge = [responseObject objectForKey:@"object"];
+        [Pingpp createPayment:charge viewController:_self appURLScheme:kUrlScheme withCompletion:^(NSString *result, PingppError *error) {
+            NSError *failerror = nil;
+            if (error != nil) {
+                failerror = [NSError errorWithDomain:@"error" code:error.code userInfo:[NSDictionary dictionaryWithObject:[error getMsg] forKey:@"error"]];
             }
-            NSDictionary *resultObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-            NSLog(@"resuleobject :%@", resultObject);
-            //NSString* charge = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSString *charge = [resultObject objectForKey:@"object"];
-            NSLog(@"charge = %@", charge);
-            [Pingpp createPayment:charge viewController:_self appURLScheme:kUrlScheme withCompletion:^(NSString *result, PingppError *error) {
-                NSError *failerror = nil;
-                if (error != nil) {
-                    failerror = [NSError errorWithDomain:@"error" code:error.code userInfo:[NSDictionary dictionaryWithObject:[error getMsg] forKey:@"error"]];
-                }
-                block(result, failerror);
-            }];
-        });
+            block(result, failerror);
+        }];
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        [waitAlert close];
+        if(block){
+            block(@"发起交易失败，请检查网络", error);
+        }
     }];
+}
 
-//    NSString *url = @"charge/newCharge";
-//
-//    [self.sharedClient POST:url parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-//        NSLog(@"response:%@", responseObject);
-//    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-//        NSLog(@"error : %@", error);
-//    }];
+// 得到城市对应的体检价格
+- (void)getCustomerTestChargePriceWithCityName:(NSString *)cityName checkType:(NSString *)checktype resultBlcok:(void (^)(NSString *, NSError *))block
+{
+    checktype = checktype.length == 0 ? @"健康证在线" : checktype;
+    NSString *url = [NSString stringWithFormat:@"%@charge/customerTestChargePrice?cityName=%@&checkType=%@",AFHTTPRequestOperationBaseURLString, cityName, checktype];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSLog(@"url:%@", url);
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    NSError *error = nil;
+    NSData *requestData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    if (error) {
+        if (block) {
+            block(nil, error);
+        }
+    }
+    else
+    {
+        NSString *strs = [[NSString alloc]initWithData:requestData encoding:NSUTF8StringEncoding];
+        if (block) {
+            block(strs, nil);
+        }
+    }
+
 }
 @end

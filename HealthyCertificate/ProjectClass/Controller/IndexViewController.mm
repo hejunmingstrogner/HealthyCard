@@ -73,13 +73,18 @@ BOOL   _isLocationInfoHasBeenSent;
         [self initLeftViews];    // 初始化左侧菜单
     }
 
-    // 测试使用
+//    // 测试使用
 //    CustomButton *cutbtn = [CustomButton buttonWithType:UIButtonTypeCustom];
 //    cutbtn.frame = self.view.frame;
 //    [self.view addSubview:cutbtn];
 //    [cutbtn addClickedBlock:^(UIButton * _Nonnull sender) {
-//        [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
-//            NSLog(@"flag: %ld", (long)flag);
+//        [[HttpNetworkManager getInstance]getCustomerTestChargePriceWithCityName:@"成都市" checkType:nil resultBlcok:^(NSString *result, NSError *error) {
+//            if (!error) {
+//                NSLog(@"result :%@", result);
+//            }
+//            else{
+//                NSLog(@"error:%@", error);
+//            }
 //        }];
 //    }];
 }
@@ -472,7 +477,11 @@ BOOL   _isLocationInfoHasBeenSent;
     [_mapView viewWillAppear];
     _mapView.delegate = self;
     _locationServer.delegate = self;
-    [self getCheckListData];
+    static int flag = 0;
+    if (flag != 0) {
+        [self getCheckListData];
+    }
+    flag++;
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -512,6 +521,7 @@ BOOL   _isLocationInfoHasBeenSent;
     }
     if (GetUserType == 1) {     // 个人
         CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+        cloudAppoint.cityName = currentCityName;
         cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[0];
         cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
         cloudAppoint.isCustomerServerPoint = NO; //固定服务点预约
