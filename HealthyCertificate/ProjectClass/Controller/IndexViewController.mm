@@ -27,6 +27,7 @@
 #import "CloudAppointmentCompanyViewController.h"
 #import "HistoryInformationVController.h"
 #import "LoginController.h"
+#import "QRController.h"
 
 #import "OrdersAlertView.h"
 
@@ -404,7 +405,9 @@ BOOL   _isLocationInfoHasBeenSent;
             break;
         }
         case LEFTMENUCELL_ERWEIMA:{
-            NSLog(@"二维码");
+//            NSLog(@"二维码");
+            QRController* qrController = [[QRController alloc] init];
+            [self.navigationController pushViewController:qrController animated:YES];
             break;
         }
         case LEFTMENUCELL_SETTING:
@@ -635,14 +638,14 @@ BOOL   _isLocationInfoHasBeenSent;
         {
             if (_isLocationInfoHasBeenSent == NO){
                 //得到定位信息后，需要往排队服务器发送地理位置信息
-                [[HMNetworkEngine getInstance] sendCustomerCode:gPersonInfo.mCustCode
-                                                      LinkPhone:gPersonInfo.StrTel
-                                                             LO:@""
-                                                             LA:@""
-                                              PositionDirection:@""
-                                                   PositionAddr:adress
-                                                        LocTime:[NSDate date]
-                                                       CityName:city];
+//                [[HMNetworkEngine getInstance] sendCustomerCode:gPersonInfo.mCustCode
+//                                                      LinkPhone:gPersonInfo.StrTel
+//                                                             LO:@""
+//                                                             LA:@""
+//                                              PositionDirection:@""
+//                                                   PositionAddr:adress
+//                                                        LocTime:[NSDate date]
+//                                                       CityName:city];
                 _isLocationInfoHasBeenSent = YES;
             }
             currentCityName = city;
