@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ChargeType.h"
 @protocol PayMoneyDelegate <NSObject>
 /**
  *  支付成功
@@ -27,7 +27,11 @@
 @interface PayMoneyController : UIViewController
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIButton    *comfirmBtn;
-
+@property (nonatomic, assign) float       money;
+#warning 下面类型在初始化时必须填写
+@property (nonatomic, strong) NSString *checkCode;      // 体检编号
+@property (nonatomic, assign) chargetype chargetype;    // 用户类型
+@property (nonatomic, strong) NSString *cityName;       // 城市编号，用于获取体检费用
 @property (nonatomic, strong) id<PayMoneyDelegate>delegate;
 
 @end

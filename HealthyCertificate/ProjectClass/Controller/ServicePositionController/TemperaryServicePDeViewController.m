@@ -67,8 +67,8 @@
 
     NSMutableArray *arry1 = [NSMutableArray arrayWithObjects:personInfo, leader, driver, nil];
 
-     ServicePositionDetialCellItem *memberList = [[ServicePositionDetialCellItem alloc]initWithTitle:@"医护人员" detialText:nil];
-    ServicePositionDetialCellItem *menberListdata = [[ServicePositionDetialCellItem alloc]initWithTitle:_servicePositionItem.brOutCheckArrange.memberList detialText:nil];
+     ServicePositionDetialCellItem *memberList = [[ServicePositionDetialCellItem alloc]initWithTitle:@"服务车辆" detialText:nil];
+    ServicePositionDetialCellItem *menberListdata = [[ServicePositionDetialCellItem alloc]initWithTitle:_servicePositionItem.brOutCheckArrange.plateNo detialText:_servicePositionItem.brOutCheckArrange.vehicleInfo];
 
     NSMutableArray *arry2 = [NSMutableArray arrayWithObjects:memberList, menberListdata, nil];
 

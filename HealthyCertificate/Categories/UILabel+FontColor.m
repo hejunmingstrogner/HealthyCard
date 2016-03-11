@@ -29,9 +29,9 @@
 {
     NSInteger Textlength = text.length;
 
-    NSInteger endTextLength = [NSString stringWithFormat:@" %d", count].length;
+    NSInteger endTextLength = [NSString stringWithFormat:@" %ld", (long)count].length;
 
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@ %d", text, count]];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@ %ld", text, (long)count]];
     // 设置最后字体颜色
     [str addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(Textlength, endTextLength)];
     // 设置字体
@@ -50,6 +50,21 @@
     [str addAttribute:NSForegroundColorAttributeName value:endcolor range:NSMakeRange(Textlength, endTextLength)];
     // 设置字体
     [str addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, str.length)];
+    self.attributedText = str;
+}
+
+-(void)setText:(NSString *)text textFont:(UIFont *)font WithEndText:(NSString *)endText endtextFont:(UIFont *)endtextfont textcolor:(UIColor *)textcolor
+{
+    NSInteger Textlength = text.length;
+
+    NSInteger endTextLength = [NSString stringWithFormat:@"%@", endText].length;
+
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@", text, endText]];
+
+    [str addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, Textlength)];
+    [str addAttribute:NSFontAttributeName value:endtextfont range:NSMakeRange(Textlength, endTextLength)];
+    // 设置字体
+    [str addAttribute:NSForegroundColorAttributeName value:textcolor range:NSMakeRange(0, str.length)];
     self.attributedText = str;
 }
 @end

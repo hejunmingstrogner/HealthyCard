@@ -189,4 +189,13 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  */
 - (void)payMoneyWithChargeParameter:(ChargeParameter *)chargeParame viewController:(UIViewController *)_self resultBlock:(void(^)(NSString *result, NSError *error))block;
 
+/**
+ *  获得城市中客户体检的价格
+ *
+ *  @param cityName  城市名
+ *  @param checktype 体检类型 - 健康证体检
+ *  @param block     返回价格 或者错误信息
+ */
+- (void)getCustomerTestChargePriceWithCityName:(NSString *)cityName checkType:(NSString *)checktype resultBlcok:(void(^)(NSString *result, NSError *error))block;
+
 @end

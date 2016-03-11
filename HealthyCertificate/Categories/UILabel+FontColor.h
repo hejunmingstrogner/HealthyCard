@@ -39,4 +39,15 @@
  */
 - (void) setText:(NSString *)text Font:(UIFont *)font WithEndText:(NSString *)endText endTextColor:(UIColor *)endcolor;
 
+/**
+ *  设置文本字体不一样大小
+ *
+ *  @param text        文本1
+ *  @param textfont    文本1字体
+ *  @param endText     文本2
+ *  @param endtextfont 文本2字体
+ *  @param textcolor   文本颜色
+ */
+- (void) setText:(NSString *)text  textFont:(UIFont *)textfont WithEndText:(NSString *)endText   endtextFont:(UIFont *)endtextfont textcolor:(UIColor *)textcolor;
+
 @end
