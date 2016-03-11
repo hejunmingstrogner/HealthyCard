@@ -12,13 +12,13 @@
 
 @interface ChargeType : NSObject
 
-//typedef NS_ENUM(NSInteger, chargetype) {
-//    NONE = -1,           //
-//    NULLNONE,
-//    Customer = 1,       //
-//    CUSTOMERTEST = 2,   // 个人客户预约
-//    BRCONTRACT = 3     // 单位预约
-//};
+typedef NS_ENUM(NSInteger, chargetype) {
+    NONE = -1,           //
+    NULLNONE = 0,
+    CUSTOMER = 1,       //
+    CUSTOMERTEST = 2,   // 个人客户预约
+    BRCONTRACT = 3     // 单位预约
+};
 
 
 @property (nonatomic, assign) NSInteger value;

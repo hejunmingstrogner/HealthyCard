@@ -11,6 +11,8 @@
 
 @interface ChargeBusinessObj : NSObject
 
-//@property (nonatomic, assign) chargetype type;
+@property (nonatomic, copy) NSString *type;
+
+@property (nonatomic, assign) chargetype enumType;
 
 @end

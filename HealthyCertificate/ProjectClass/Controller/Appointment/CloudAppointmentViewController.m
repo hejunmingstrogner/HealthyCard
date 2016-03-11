@@ -51,7 +51,7 @@
 #define Button_Size 26
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate,HCWheelViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate, YMIDCardRecognitionDelegate>
+@interface CloudAppointmentViewController()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIGestureRecognizerDelegate,HealthyCertificateViewDelegate,HCWheelViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate, YMIDCardRecognitionDelegate, PayMoneyDelegate>
 {
     AppointmentInfoView     *_appointmentInfoView;
     
@@ -425,8 +425,9 @@
 }
 
 #pragma mark - Action
--(void)appointmentBtnClicked:(id)sender
+-(void)appointmentBtnClicked:(UIButton *)sender
 {
+    sender.enabled = NO;
     if(reachAbility.currentReachabilityStatus == 0){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
         return;
@@ -518,7 +519,7 @@
     
     __weak typeof (self) wself = self;
     [[HttpNetworkManager getInstance] createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
-        
+        sender.enabled = YES;
         if (error != nil){
             //预约失败，主要是http的失败
             [RzAlertView showAlertLabelWithTarget:self.view Message:MakeAppointmentFailed removeDelay:2];
@@ -531,7 +532,7 @@
             return;
             //预约失败
         }
-        
+
         //预约成功 获取编号
         if (_isAvatarSet == YES) //如果修改了图片,预约成功后要上传图片
         {
@@ -547,38 +548,59 @@
                     [RzAlertView showAlertLabelWithTarget:self.view Message:UploadHealthyPicFailed removeDelay:2];
                     return;
                 }
-                // d订单成功提示框
-                [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
-                    if (flag == 1) {
-                        PayMoneyController *pay = [[PayMoneyController alloc]init];
-                        [self.navigationController pushViewController:pay animated:YES];
-                    }
-                    else {
-                        MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-                        mycheckListViewController.popStyle = POPTO_ROOT;
-                        [self.navigationController pushViewController:mycheckListViewController animated:YES];
-                    }
-                }];
-
+                // 进入支付界面
+                [self orderSuccessed:methodResult.object];
             }];
         }else{
-            //如果没有修改图片，就不需要上传图片了
-            // d订单成功提示框
-            [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
-                if (flag == 1) {
-                    PayMoneyController *pay = [[PayMoneyController alloc]init];
-                    [self.navigationController pushViewController:pay animated:YES];
-                }
-                else {
-                    MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-                    mycheckListViewController.popStyle = POPTO_ROOT;
-                    [self.navigationController pushViewController:mycheckListViewController animated:YES];
-                }
-            }];
+            //如果没有修改图片，就不需要上传图片了 进入支付界面
+            [self orderSuccessed:methodResult.object];
         }
     }];
 
 }
+#pragma mark - 订单成功之后提示在线支付窗口
+// 订单成功提示框
+- (void)orderSuccessed:(NSString *)checkcode
+{
+    [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
+        if (flag == 1) {
+            PayMoneyController *pay = [[PayMoneyController alloc]init];
+            pay.chargetype = CUSTOMERTEST;
+            pay.checkCode = checkcode;
+            pay.cityName = _cityName;
+            pay.delegate = self;
+            [self.navigationController pushViewController:pay animated:YES];
+        }
+        else {
+            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
+            mycheckListViewController.popStyle = POPTO_ROOT;
+            [self.navigationController pushViewController:mycheckListViewController animated:YES];
+        }
+    }];
+}
+
+#pragma mark -paymoney Delegate 支付款项之后的delegate
+/**
+ *  支付成功
+ */
+- (void)payMoneySuccessed{
+    MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
+    mycheckListViewController.popStyle = POPTO_ROOT;
+    [self.navigationController pushViewController:mycheckListViewController animated:YES];
+}
+/**
+ *  支付取消
+ */
+- (void)payMoneyCencel{
+    NSLog(@"预约支付取消");
+}
+/**
+ *  支付失败
+ */
+- (void)payMoneyFail{
+    NSLog(@"预约支付失败");
+}
+
 
 - (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
 {

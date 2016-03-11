@@ -19,9 +19,13 @@
 #import "HttpNetworkManager.h"
 #import "RzAlertView.h"
 #import "ChargeType.h"
+#import "UILabel+FontColor.h"
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 @interface PayMoneyController ()<UITableViewDataSource, UITableViewDelegate>
-
+{
+    RzAlertView *waitAlertView;
+}
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @end
 
@@ -33,9 +37,9 @@
 
     [self initNavgation];
 
-    [self initData];
-
     [self initSubView];
+
+    [self initData];
 }
 
 - (void)initNavgation
@@ -51,6 +55,10 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
+    if([_delegate respondsToSelector:(@selector(payCancel))] && _delegate)
+    {
+        [_delegate payMoneyCencel];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -64,12 +72,42 @@
 
 - (void)initData
 {
+
     BaseTBCellItem *item0 = [[BaseTBCellItem alloc]initWithImage:[UIImage imageNamed:@"payhead"] title:nil detial:nil cellStyle:STYLE_HEADERIMAGE];
     BaseTBCellItem *item1 = [[BaseTBCellItem alloc]initWithImage:nil title:@"健康证套餐" detial:@"张三" detial2:@"知康科技健康证在线" cellStyle:STYLE_HEATHYCINFO];
     BaseTBCellItem *item2 = [[BaseTBCellItem alloc]initWithImage:[UIImage imageNamed:@"wx"] title:@"微信支付" detial:@"推荐安装微信5.0及以上版本" cellStyle:STYLE_WXPAY flag:0];
     BaseTBCellItem *item3 = [[BaseTBCellItem alloc]initWithImage:[UIImage imageNamed:@"alipay"] title:@"支付宝支付" detial:@"推荐有支付宝账号的使用" cellStyle:STYLE_ALIPAY flag:0];
 
     _dataArray = [[NSMutableArray alloc]initWithObjects:item0, item1, item2, item3, nil];
+
+    [self getCityPrice];
+}
+
+- (void)getCityPrice
+{
+    if (waitAlertView) {
+        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@""];
+    }
+    waitAlertView.titleLabel.text = [NSString stringWithFormat:@"获取%@预约价格...",_cityName];
+    [waitAlertView show];
+    [[HttpNetworkManager getInstance]getCustomerTestChargePriceWithCityName:_cityName checkType:nil resultBlcok:^(NSString *result, NSError *error) {
+        [waitAlertView close];
+        if (!error) {
+            self.money = [result floatValue];
+            [_tableView reloadData];
+        }
+        else {
+            [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"获取支付金额失败，请重试" ActionTitle:@"确定" ActionStyle:UIAlertActionStyleDestructive];
+            [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"获取支付金额失败，请重试" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"重试" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
+                if (flag != 0) {
+                    [self getCityPrice];
+                }
+                else {
+                    [self payCancel];
+                }
+            }];
+        }
+    }];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -92,11 +130,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEADERIMAGE) {
-        return PXFIT_HEIGHT(322);
+        return PXFIT_HEIGHT(332);
     }
     else if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEATHYCINFO){
         //return PXFIT_HEIGHT(178);
-        return 105;
+        return 75;
     }
 //    return PXFIT_HEIGHT(152);
     return 85;
@@ -112,6 +150,22 @@
             make.edges.equalTo(cell);
         }];
         imageview.image = [UIImage imageNamed:@"payhead"];
+
+        UIImageView *moneyView = [[UIImageView alloc]init];
+        [cell addSubview:moneyView];
+        moneyView.image = [UIImage imageNamed:@"moneybg"];
+        [moneyView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(cell);
+            make.height.width.mas_equalTo(PXFIT_HEIGHT(322)/2.5);
+        }];
+
+        UILabel *moneylabel = [[UILabel alloc]init];
+        [cell addSubview:moneylabel];
+        moneylabel.textAlignment = NSTextAlignmentCenter;
+        [moneylabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(moneyView);
+        }];
+        [moneylabel setText:@"¥" textFont:[UIFont fontWithType:UIFontOpenSansRegular size:18] WithEndText:[NSString stringWithFormat:@"%.0f", _money] endtextFont:[UIFont fontWithType:UIFontOpenSansRegular size:21] textcolor:[UIColor whiteColor]];
         return cell;
     }
     else if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEATHYCINFO){
@@ -119,10 +173,11 @@
         if (!cell) {
             cell = [[PayInfoViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"info"];
         }
-        cell.titleName = ((BaseTBCellItem *)_dataArray[indexPath.section]).titleText;
-        cell.payManName = ((BaseTBCellItem *)_dataArray[indexPath.section]).detialText;
-        cell.getManName = ((BaseTBCellItem *)_dataArray[indexPath.section]).detialText_2;
-        cell.money = @"90";
+        //cell.titleName = ((BaseTBCellItem *)_dataArray[indexPath.section]).titleText;
+        cell.textLabel.text = ((BaseTBCellItem *)_dataArray[indexPath.section]).titleText;
+        //cell.payManName = ((BaseTBCellItem *)_dataArray[indexPath.section]).detialText;
+        //cell.getManName = ((BaseTBCellItem *)_dataArray[indexPath.section]).detialText_2;
+        cell.money = [NSString stringWithFormat:@"%.0f", _money];
         return cell;
     }
     else {
@@ -169,6 +224,10 @@
 
 - (void)orderBtnClicked:(UIButton *)sender
 {
+    if (_money <= 0) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"交易金额不正确" removeDelay:2];
+        return;
+    }
     for (BaseTBCellItem *item in _dataArray) {
         if (item.flag == 1) {
             NSString *channel;
@@ -191,11 +250,12 @@
             }
 
             ChargeParameter *param = [[ChargeParameter alloc]init];
-            param.amount = 1235;
+            param.amount = _money*100;
             param.channel = channel;
             param.subject = @"健康证在线";
             param.body = @"知康科技健康证在线";
-            //param.businessObj.type = Customer;
+            param.businessObj.enumType = _chargetype;
+            param.businessObj.checkCode = _checkCode;
             [[HttpNetworkManager getInstance]payMoneyWithChargeParameter:param viewController:self resultBlock:^(NSString *result, NSError *error) {
                 if (!error) {
                     if ([result isEqualToString:@"success"]) {
@@ -233,7 +293,7 @@
         message = @"支付失败，请重试";
     }
     else{
-        message = @"网络连接失败，请重试";
+        message = [error.userInfo objectForKey:@"error"];
     }
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:message ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
         if ([_delegate respondsToSelector:@selector(payMoneyFail)] && _delegate != nil) {

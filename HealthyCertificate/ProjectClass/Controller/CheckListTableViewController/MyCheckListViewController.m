@@ -118,7 +118,7 @@
     _companyDataArray = [[NSMutableArray alloc]init];
     for (BRContract *brContract in checkDataArray) {
         BaseTBCellItem *cellitem0 = [[BaseTBCellItem alloc]initWithTitle:@"单位名称" detial:brContract.unitName cellStyle:0];
-        BaseTBCellItem *cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"服务地址" detial:brContract.servicePoint.address cellStyle:0];
+        BaseTBCellItem *cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:brContract.servicePoint.address cellStyle:0];
 
         NSString *timestatus;
         if (brContract.checkSiteID == nil) {
@@ -141,7 +141,7 @@
                 timestatus = @"获取失败";
             }
         }
-        BaseTBCellItem *cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"服务时间" detial:timestatus cellStyle:0];
+        BaseTBCellItem *cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:timestatus cellStyle:0];
         NSArray *array = @[cellitem0, cellitem1, cellitem2];
         [_companyDataArray addObject:array];
     }
