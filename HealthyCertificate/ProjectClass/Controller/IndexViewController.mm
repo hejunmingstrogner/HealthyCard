@@ -12,6 +12,7 @@
 #import "ServersPositionAnnotionsModel.h"
 
 #import "HttpNetworkManager.h"
+#import "HMNetworkEngine.h"
 #import "PositionUtil.h"
 
 #import "NSDate+Custom.h"
@@ -26,8 +27,12 @@
 #import "CloudAppointmentCompanyViewController.h"
 #import "HistoryInformationVController.h"
 #import "LoginController.h"
+#import "QRController.h"
 
 #import "OrdersAlertView.h"
+
+BOOL   _isLocationInfoHasBeenSent;
+
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -400,7 +405,9 @@
             break;
         }
         case LEFTMENUCELL_ERWEIMA:{
-            NSLog(@"二维码");
+//            NSLog(@"二维码");
+            QRController* qrController = [[QRController alloc] init];
+            [self.navigationController pushViewController:qrController animated:YES];
             break;
         }
         case LEFTMENUCELL_SETTING:
@@ -525,9 +532,9 @@
 //  一键预约
 - (void)orderBtnClicked
 {
-    if (addressLabel.text == nil || [addressLabel.text isEqualToString:@""]){
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"位置信息未加载完成" removeDelay:3];
-    }else{
+//    if (addressLabel.text == nil || [addressLabel.text isEqualToString:@""]){
+//        [RzAlertView showAlertLabelWithTarget:self.view Message:@"位置信息未加载完成" removeDelay:3];
+//    }else{
        // [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
         AppointmentViewController* controller = [[AppointmentViewController alloc] init];
         controller.location = addressLabel.text;
@@ -539,7 +546,7 @@
         CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
         controller.centerCoordinate = coor;
         [self.navigationController pushViewController:controller animated:YES];
-    }
+   // }
 }
 // 点击了头像,显示左侧菜单
 - (void)headerBtnClicked
@@ -629,6 +636,18 @@
     [[LocationSearchModel getInstance] getExaminationAdressByLocation:_mapView.centerCoordinate WithBlock:^(NSString *city,NSString *adress, NSError *error) {
         if(!error)
         {
+            if (_isLocationInfoHasBeenSent == NO){
+                //得到定位信息后，需要往排队服务器发送地理位置信息
+//                [[HMNetworkEngine getInstance] sendCustomerCode:gPersonInfo.mCustCode
+//                                                      LinkPhone:gPersonInfo.StrTel
+//                                                             LO:@""
+//                                                             LA:@""
+//                                              PositionDirection:@""
+//                                                   PositionAddr:adress
+//                                                        LocTime:[NSDate date]
+//                                                       CityName:city];
+                _isLocationInfoHasBeenSent = YES;
+            }
             currentCityName = city;
             addressLabel.text = adress;
             _centerCoordinate = _mapView.centerCoordinate;

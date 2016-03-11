@@ -43,6 +43,8 @@
 #define REPORT_RESULT_QUERY_URL 1603 //移动平台体检报告URL查询协议
 #define REPORT_RESULT_RETURN_URL 1604 //移动平台体检报告URL返回协议
 
+#define CUSTOMER_POSITION_LOG   1617 //定位信息
+
 //心跳包
 //pda与排队服务器的
 #define APP_SERVER_PDA_HEARTBEAT 1608
@@ -62,6 +64,8 @@ typedef NS_ENUM(NSInteger, SWITCH_STYLE)
 extern PersonInfoOfPhonePacket* gPersonInfo;
 extern CompanyInfoOfPhonePacket* gCompanyInfo;
 extern RealReachability* reachAbility;
+
+extern BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送过定位信息
 
 #define kiOS6NavigationBarHeight 44
 #define kiOS7NavigationBarHeight 44

@@ -8,6 +8,15 @@
 
 #import "LocationSearchModel.h"
 
+@interface LocationSearchModel()
+{
+    //第一次获得地理位置信息
+    BOOL                _isLocationFirstSet;
+}
+
+@end
+
+
 @implementation LocationSearchModel
 
 +(instancetype)getInstance{
