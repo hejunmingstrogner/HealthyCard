@@ -503,8 +503,8 @@
         //如果是新建的预约 云预约
         
         NSArray* array = [_appointmentDateTextView.text  componentsSeparatedByString:@"~"];
-        _customerTestInfo.regBeginDate = [array[0] convertDateStrToLongLong];
-        _customerTestInfo.regEndDate = [array[0] convertDateStrToLongLong];
+        _customerTestInfo.regBeginDate = [array[0] convertDateStrToLongLong]*1000;
+        _customerTestInfo.regEndDate = [array[1] convertDateStrToLongLong]*1000;
         _customerTestInfo.regPosAddr = _locationTextView.text; //预约地点
     }else{
         //如果是基于已有服务点的预约
