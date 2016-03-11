@@ -18,7 +18,7 @@
 #import "PayTypeViewCell.h"
 #import "HttpNetworkManager.h"
 #import "RzAlertView.h"
-
+#import "ChargeType.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 @interface PayMoneyController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -195,6 +195,7 @@
             param.channel = channel;
             param.subject = @"健康证在线";
             param.body = @"知康科技健康证在线";
+            //param.businessObj.type = Customer;
             [[HttpNetworkManager getInstance]payMoneyWithChargeParameter:param viewController:self resultBlock:^(NSString *result, NSError *error) {
                 if (!error) {
                     if ([result isEqualToString:@"success"]) {

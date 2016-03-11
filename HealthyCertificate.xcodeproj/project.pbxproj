@@ -116,6 +116,9 @@
 		30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E1C17F5EF743EC155F709C /* libPods.a */; };
 		B201CCC31C72046D00B8F624 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC21C72046D00B8F624 /* Info.plist */; };
 		B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC41C7205B100B8F624 /* Main.storyboard */; };
+		B23506031C91A6DD00B35E1E /* ChargeBusinessObj.m in Sources */ = {isa = PBXBuildFile; fileRef = B23506021C91A6DD00B35E1E /* ChargeBusinessObj.m */; };
+		B23506061C91A6FA00B35E1E /* ChargeType.m in Sources */ = {isa = PBXBuildFile; fileRef = B23506051C91A6FA00B35E1E /* ChargeType.m */; };
+		B23506091C91A7B500B35E1E /* ChargeBusinessForCustomerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B23506081C91A7B500B35E1E /* ChargeBusinessForCustomerTest.m */; };
 		B23A98001C7420DE00E3E054 /* ServersPositionAnnotionsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A97FF1C7420DE00E3E054 /* ServersPositionAnnotionsModel.m */; };
 		B23A98041C76BB6400E3E054 /* UserInformationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98031C76BB6400E3E054 /* UserInformationController.m */; };
 		B23A98071C76BCDA00E3E054 /* UserinformationCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B23A98061C76BCDA00E3E054 /* UserinformationCellItem.m */; };
@@ -370,6 +373,12 @@
 		6D2243EB114EF1077978D1EA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B201CCC21C72046D00B8F624 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B201CCC41C7205B100B8F624 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B23506011C91A6DD00B35E1E /* ChargeBusinessObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeBusinessObj.h; sourceTree = "<group>"; };
+		B23506021C91A6DD00B35E1E /* ChargeBusinessObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeBusinessObj.m; sourceTree = "<group>"; };
+		B23506041C91A6FA00B35E1E /* ChargeType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeType.h; sourceTree = "<group>"; };
+		B23506051C91A6FA00B35E1E /* ChargeType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeType.m; sourceTree = "<group>"; };
+		B23506071C91A7B500B35E1E /* ChargeBusinessForCustomerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeBusinessForCustomerTest.h; sourceTree = "<group>"; };
+		B23506081C91A7B500B35E1E /* ChargeBusinessForCustomerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeBusinessForCustomerTest.m; sourceTree = "<group>"; };
 		B23A97FE1C7420DE00E3E054 /* ServersPositionAnnotionsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServersPositionAnnotionsModel.h; sourceTree = "<group>"; };
 		B23A97FF1C7420DE00E3E054 /* ServersPositionAnnotionsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServersPositionAnnotionsModel.m; sourceTree = "<group>"; };
 		B23A98021C76BB6400E3E054 /* UserInformationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInformationController.h; sourceTree = "<group>"; };
@@ -1197,6 +1206,12 @@
 			children = (
 				B2866A651C91662600F4B3B9 /* ChargeParameter.h */,
 				B2866A661C91662600F4B3B9 /* ChargeParameter.m */,
+				B23506011C91A6DD00B35E1E /* ChargeBusinessObj.h */,
+				B23506021C91A6DD00B35E1E /* ChargeBusinessObj.m */,
+				B23506041C91A6FA00B35E1E /* ChargeType.h */,
+				B23506051C91A6FA00B35E1E /* ChargeType.m */,
+				B23506071C91A7B500B35E1E /* ChargeBusinessForCustomerTest.h */,
+				B23506081C91A7B500B35E1E /* ChargeBusinessForCustomerTest.m */,
 			);
 			path = PayMoney;
 			sourceTree = "<group>";
@@ -1484,6 +1499,7 @@
 				2512B41A1C7056C900EE661B /* UIFont+Custom.m in Sources */,
 				B2866A671C91662600F4B3B9 /* ChargeParameter.m in Sources */,
 				B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */,
+				B23506061C91A6FA00B35E1E /* ChargeType.m in Sources */,
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
 				B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */,
 				2512B3B21C70557C00EE661B /* ViewController.m in Sources */,
@@ -1565,6 +1581,7 @@
 				B27222C31C8FBD37002494EA /* DJRefreshTopView.m in Sources */,
 				252AB8941C770F890085CC14 /* CloudAppointmentDateVC.m in Sources */,
 				2512B41B1C7056C900EE661B /* UIImage+Color.m in Sources */,
+				B23506031C91A6DD00B35E1E /* ChargeBusinessObj.m in Sources */,
 				B23C766D1C8D247B00E5C40A /* PersonalHealthyCHistoryVC.m in Sources */,
 				B27B00DF1C84622D00FBF895 /* AppointmentInfoView.m in Sources */,
 				B27B00DE1C84622D00FBF895 /* AddWorkerTableViewCell.m in Sources */,
@@ -1592,6 +1609,7 @@
 				B259C9381C885EA600A6A767 /* HistoryInformationVController.m in Sources */,
 				B23A98071C76BCDA00E3E054 /* UserinformationCellItem.m in Sources */,
 				B259C9431C8A78A400A6A767 /* YMIDCardRecognition.m in Sources */,
+				B23506091C91A7B500B35E1E /* ChargeBusinessForCustomerTest.m in Sources */,
 				B2436C911C7AD1D000F543E1 /* Customer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
