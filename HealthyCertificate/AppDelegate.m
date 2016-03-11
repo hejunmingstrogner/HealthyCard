@@ -20,6 +20,10 @@
 #import "LauchScreenController.h"
 #import <Pingpp.h>
 
+#import "UMSocial.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialWechatHandler.h"
+
 #define bugTagsAppKey @"64cb2c33df5bab3d36ac0ea1ff907adf"
 
 RealReachability* reachAbility;
@@ -58,10 +62,9 @@ RealReachability* reachAbility;
     // ping ++ debug log
     [Pingpp setDebugMode:YES];
     
-//    LauchScreenController* launchScreenController = [[LauchScreenController alloc] init];
-//    self.window = [[UIWindow alloc] init];
-//    self.window.rootViewController = launchScreenController;
-//    [self.window makeKeyAndVisible];
+    [UMSocialData setAppKey:@"56e22bbd67e58e71f9000e8b"];
+    [UMSocialQQHandler setQQWithAppId:@"1105172405" appKey:@"Fe18WR9AciIlUZBP" url:@"http://www.zeekkeji.com/"];
+    [UMSocialWechatHandler setWXAppId:@"wx8b40ee373b8d6864" appSecret:@"55325d44ba360016ca90d9a7c24b11b4" url:@"http://www.zeekkeji.com/"];
     
     return YES;
 }
@@ -86,6 +89,18 @@ RealReachability* reachAbility;
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return  [UMSocialSnsService handleOpenURL:url];
+}
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return  [UMSocialSnsService handleOpenURL:url];
 }
 
 

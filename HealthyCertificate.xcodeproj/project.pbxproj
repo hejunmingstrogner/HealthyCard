@@ -1350,6 +1350,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 2512B39E1C70557C00EE661B;
 			productRefGroup = 2512B3A81C70557C00EE661B /* Products */;
@@ -1739,11 +1740,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/TencentOpenAPI",
+				);
 				INFOPLIST_FILE = HealthyCertificate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/YMIDCardEngine",
+					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/UMSocial_Sdk_5.0",
+					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/TencentOpenAPI",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Highmore.HealthyCertificate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1762,11 +1769,17 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/TencentOpenAPI",
+				);
 				INFOPLIST_FILE = HealthyCertificate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/YMIDCardEngine",
+					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/UMSocial_Sdk_5.0",
+					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/TencentOpenAPI",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Highmore.HealthyCertificate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
