@@ -194,6 +194,11 @@ THE SOFTWARE.
 
 
 
+## UMengSocial
+
+Copyright 2011 - 2016 UMeng.com. All rights reserved.
+
+
 ## ZXingObjC
 
                                  Apache License

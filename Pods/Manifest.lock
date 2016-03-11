@@ -48,6 +48,7 @@ PODS:
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
+  - UMengSocial (5.0)
   - ZXingObjC (3.1.0):
     - ZXingObjC/All (= 3.1.0)
   - ZXingObjC/All (3.1.0)
@@ -66,6 +67,7 @@ DEPENDENCIES:
   - Pingpp/Wx
   - RealReachability
   - SDWebImage
+  - UMengSocial
   - ZXingObjC
 
 SPEC CHECKSUMS:
@@ -79,6 +81,7 @@ SPEC CHECKSUMS:
   Pingpp: fcb58c6fa34609e231a172b6092ac6024778be51
   RealReachability: 0b0f7d686a75466680d452d3fad00e1a1388b923
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  UMengSocial: 48b67179c492a8cf7803fbb0438b8f55432e2fc1
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
 COCOAPODS: 0.39.0

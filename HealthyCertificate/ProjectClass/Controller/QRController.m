@@ -18,17 +18,29 @@
 #import "UIColor+Expanded.h"
 
 #import "Constants.h"
+#import "UMSocial.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 #define TOP_MARGIN FIT_FONTSIZE(40)
 #define H_MARTIN FIT_FONTSIZE(72)
 
+@interface QRController()<UMSocialUIDelegate>
+
+{
+    UIImageView*       _qrImageView;
+    
+    UIImage*           _testImage;
+}
+
+@end
+
 
 @implementation QRController
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+  //  [UMSocialConfig setSnsPlatformNames:@[UMShareToQQ, nil]];
     
     self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
@@ -40,11 +52,12 @@
                                   height:SCREEN_WIDTH - 2 * H_MARTIN
                                    error:&error];
     if (result) {
+        _testImage = [UIImage imageWithCGImage: [ZXImage imageWithMatrix:result].cgimage];
         UIImage* image = [UIImage imageWithCGImage: [ZXImage imageWithMatrix:result].cgimage];
         
-        UIImageView* bckImageView = [[UIImageView alloc] initWithImage:image];
-        [self.view addSubview:bckImageView];
-        [bckImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        _qrImageView = [[UIImageView alloc] initWithImage:image];
+        [self.view addSubview:_qrImageView];
+        [_qrImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             //make.center.mas_equalTo(self.view);
             make.top.mas_equalTo(self.view).with.offset(TOP_MARGIN + kNavigationBarHeight + kStatusBarHeight);
             make.centerX.mas_equalTo(self.view);
@@ -72,8 +85,25 @@
                                               font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
                                          textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
                                    backgroundColor:[UIColor clearColor]];
+    [shareBtn addTarget:self action:@selector(shareBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:shareBtn];
     self.navigationItem.rightBarButtonItem = rightItem;
+}
+
+
+-(void)shareBtnClicked:(UIButton*)sender
+{
+    [UMSocialData defaultData].extConfig.qqData.shareImage = _testImage;
+    [UMSocialData defaultData].extConfig.qzoneData.shareImage = _testImage;
+    [UMSocialData defaultData].extConfig.wechatSessionData.shareImage = _testImage;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.shareImage = _testImage;
+
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:@"56e22bbd67e58e71f9000e8b"
+                                      shareText:@"知康科技"
+                                     shareImage:nil
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline,nil]
+                                       delegate:self];
 }
 
 // 返回前一页
@@ -81,6 +111,20 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+    }
+}
+
+//-(void)didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData{
+//    socialData.shareImage = _testImage;
+//}
 
 
 @end
