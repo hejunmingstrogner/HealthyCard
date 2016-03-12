@@ -63,6 +63,16 @@
  */
 -(long long)convertToLongLong;
 
+
+/**
+ *  将long long转化为 NSDate
+ *
+ *  @param dateLong long long型的日期
+ *
+ *  @return xxxx年xx月xx日
+ */
++(NSString*)converLongLongToChineseStringDate:(long long)dateLong;
+
 // 计算时间 年月日
 + (NSString *)getYear_Month_DayByDate:(long long)itDate;
 // 计算 时分

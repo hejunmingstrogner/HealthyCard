@@ -29,6 +29,7 @@ typedef enum{
 typedef void (^HCDictionaryResultBlock)(NSDictionary* result, NSError* error);
 typedef void (^HCBoolResultBlock)(BOOL result, NSError* error);
 typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
+typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
 
 @interface HttpNetworkManager : NSObject
 
@@ -37,6 +38,8 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
 + (NSString *)baseURL;
 //执行的http请求
 
+
+#pragma mark - 登录相关
 /**
  *  电话号码验证
  *
@@ -74,6 +77,7 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
 - (void)getNearbyServicePointsWithCLLocation:(CLLocationCoordinate2D)location resultBlock:(HCArrayResultBlock)resultBlock;
 
 
+#pragma mark - 个人 单位信息相关
 /**
  *  更新或修改个人信息
  *
@@ -180,6 +184,8 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  */
 - (void)findBRContractHistoryRegByCustomId:(NSString *)customId resuleBlock:(HCArrayResultBlock)block;
 
+
+#pragma mark - 支付相关
 /**
  *  付款  提供付款金额，付款渠道 （金额 以保留到两位小数 如 11.56元,2.00元）
  *
@@ -197,5 +203,16 @@ typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
  *  @param block     返回价格 或者错误信息
  */
 - (void)getCustomerTestChargePriceWithCityName:(NSString *)cityName checkType:(NSString *)checktype resultBlcok:(void(^)(NSString *result, NSError *error))block;
+
+#pragma mark - 二维码
+/**
+ *  get二维码图片
+ *
+ *  @param content   二维码内容
+ *  @param type      二维码类型
+ *  @param edgeLength 二维码图片的边长度
+ *  @param resultBlock 得到图片后的回调
+ */
+-(void)getQRImageByGet:(NSString*)content Type:(NSString*) type EdgeLength:(NSInteger)edgeLength resultBlock:(HCImageResultBlock)resultBlock;
 
 @end

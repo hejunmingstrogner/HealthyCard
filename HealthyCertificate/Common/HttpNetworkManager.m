@@ -7,16 +7,20 @@
 //
 
 #import "HttpNetworkManager.h"
-#import <AFNetworking.h>
-#import "ServersPositionAnnotionsModel.h"
+
+#import <Pingpp.h>
 #import <MJExtension.h>
+#import <AFNetworking.h>
+#import <AVFoundation/AVFoundation.h>
+
+#import "RzAlertView.h"
+
+#import "ServersPositionAnnotionsModel.h"
 #import "PositionUtil.h"
 #import "MethodResult.h"
 #import "WorkTypeInfoModel.h"
 #import "BRServiceUnit.h"
-#import <Pingpp.h>
-#import <AVFoundation/AVFoundation.h>
-#import "RzAlertView.h"
+
 
 #define kUrlScheme  @"wx8b40ee373b8d6864"
 
@@ -32,6 +36,7 @@
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.34:8080/zkwebservice/webservice/";
 static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://lyx.witaction.com/zkwebservice";
+
 
 @implementation HttpNetworkManager
 
@@ -497,6 +502,10 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
             block(strs, nil);
         }
     }
+}
 
+
+-(void)getQRImageByGet:(NSString*)content Type:(NSString*) type EdgeLength:(NSInteger)edgeLength resultBlock:(HCImageResultBlock)resultBlock
+{
 }
 @end

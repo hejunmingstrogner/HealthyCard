@@ -647,15 +647,19 @@ BOOL   _isLocationInfoHasBeenSent;
         if(!error)
         {
             if (_isLocationInfoHasBeenSent == NO){
+                
+                // 将百度地图左边转换为gps坐标
+                PositionUtil *posit = [[PositionUtil alloc]init];
+                CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
                 //得到定位信息后，需要往排队服务器发送地理位置信息
-//                [[HMNetworkEngine getInstance] sendCustomerCode:gPersonInfo.mCustCode
-//                                                      LinkPhone:gPersonInfo.StrTel
-//                                                             LO:@""
-//                                                             LA:@""
-//                                              PositionDirection:@""
-//                                                   PositionAddr:adress
-//                                                        LocTime:[NSDate date]
-//                                                       CityName:city];
+                [[HMNetworkEngine getInstance] sendCustomerCode:gPersonInfo.mCustCode
+                                                      LinkPhone:gPersonInfo.StrTel
+                                                             LO:[NSString stringWithFormat:@"%lf", coor.longitude]
+                                                             LA:[NSString stringWithFormat:@"%lf", coor.latitude]
+                                              PositionDirection:[NSString stringWithFormat:@"%lf", _locationServer.userLocation.heading.magneticHeading]
+                                                   PositionAddr:adress
+                                                        LocTime:[NSDate date]
+                                                       CityName:city];
                 _isLocationInfoHasBeenSent = YES;
             }
             currentCityName = city;
