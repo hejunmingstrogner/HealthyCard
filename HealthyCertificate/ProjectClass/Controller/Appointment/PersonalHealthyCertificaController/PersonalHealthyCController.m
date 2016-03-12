@@ -92,7 +92,7 @@
     _customerTestInfo.regPosLA = _posLa;
     _customerTestInfo.regBeginDate = _regbegindate;
     _customerTestInfo.regEndDate = _regenddate;
-    _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? '0':'1';
+    _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
 
     if(_isAvatarSet == YES){
         if(!waitAlertView){
@@ -251,7 +251,6 @@
     _healthCertificateView.customerTest = _customerTestInfo;
     _orderinforView.cutomerTest = _customerTestInfo;
 
-    __weak CustomButton *addressBtns = _orderinforView.addressBtn;
     [_orderinforView.addressBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         if (weakself.customerTestInfo.checkSiteID) {
             return ;
@@ -276,11 +275,10 @@
             coor = [position bd2wgs:coor.latitude lon:coor.longitude];
             weakself.posLa = coor.latitude;
             weakself.posLo = coor.longitude;
-            [addressBtns setTitle:address forState:UIControlStateNormal];
+            [sender setTitle:address forState:UIControlStateNormal];
         }];
         [weakself.navigationController pushViewController:addressselect animated:YES];
     }];
-    __weak CustomButton *weaktimeBtn = _orderinforView.timeBtn;
     [_orderinforView.timeBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         if (weakself.customerTestInfo.checkSiteID) {
             return ;
@@ -298,7 +296,7 @@
         // 点击时间
         CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
         // 时间
-        NSArray *timearray = [weaktimeBtn.titleLabel.text componentsSeparatedByString:@"~"];
+        NSArray *timearray = [sender.titleLabel.text componentsSeparatedByString:@"~"];
         if (timearray.count == 2) {
             cloudData.beginDateString = timearray[0];
             cloudData.endDateString = timearray[1];
@@ -312,7 +310,7 @@
             NSArray *timeslist = [dateStr componentsSeparatedByString:@"~"];
             weakself.regbegindate = [[NSDate formatDateFromChineseString:timeslist[0]] convertToLongLong];
             weakself.regenddate = [[NSDate formatDateFromChineseString:timeslist[1]] convertToLongLong];
-            [weaktimeBtn setTitle:dateStr forState:UIControlStateNormal];
+            [sender setTitle:dateStr forState:UIControlStateNormal];
         }];
         [weakself.navigationController pushViewController:cloudData animated:YES];
     }];
@@ -333,6 +331,7 @@
         editInfoViewController.editInfoType = EDITINFO_LINKPHONE;
         [editInfoViewController setEditInfoText:weakself.linkerPhone WithBlock:^(NSString *resultStr) {
             weakself.linkerPhone = resultStr;
+            [sender setTitle:resultStr forState:UIControlStateNormal];
         }];
         [weakself.navigationController pushViewController:editInfoViewController animated:YES];
     }];

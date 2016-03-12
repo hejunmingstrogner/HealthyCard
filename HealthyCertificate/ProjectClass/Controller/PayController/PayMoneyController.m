@@ -58,11 +58,11 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    if([_delegate respondsToSelector:(@selector(payCancel))] && _delegate)
+    [self.navigationController popViewControllerAnimated:YES];
+    if([_delegate respondsToSelector:(@selector(payMoneyCencel))] && _delegate)
     {
         [_delegate payMoneyCencel];
     }
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)initSubView
@@ -297,22 +297,27 @@
     }
     else{
         message = [error.userInfo objectForKey:@"error"];
+        if (message == nil) {
+            message = @"支付失败";
+        }
     }
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:message ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
-        if ([_delegate respondsToSelector:@selector(payMoneyFail)] && _delegate != nil) {
-            [_delegate payMoneyFail];
-        }
+//        if ([_delegate respondsToSelector:@selector(payMoneyFail)] && _delegate != nil) {
+//            [_delegate payMoneyFail];
+//        }
+        [self deselectChannelPay];
     }];
-    [self deselectChannelPay];
+
 }
 - (void)payCancel
 {
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:@"您取消了支付" ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
-        if ([_delegate respondsToSelector:@selector(payMoneyCencel)] && _delegate != nil) {
-            [_delegate payMoneyCencel];
-        }
+//        if ([_delegate respondsToSelector:@selector(payMoneyCencel)] && _delegate != nil) {
+//            [_delegate payMoneyCencel];
+//        }
+        [self deselectChannelPay];
     }];
-    [self deselectChannelPay];
+
 }
 
 // 去掉选择的付款渠道
