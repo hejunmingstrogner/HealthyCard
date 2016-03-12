@@ -11,6 +11,9 @@
 #import <ZXingObjCAztec.h>
 #import <ZXMultiFormatWriter.h>
 #import <Masonry.h>
+#import <UIImageView+WebCache.h>
+
+#import "HttpNetworkManager.h"
 
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
@@ -44,28 +47,54 @@
     
     self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
-    NSError *error = nil;
-    ZXMultiFormatWriter *writer = [ZXMultiFormatWriter writer];
-    ZXBitMatrix* result = [writer encode:@"A string to encode"
-                                  format:kBarcodeFormatQRCode
-                                   width:SCREEN_WIDTH - 2 * H_MARTIN
-                                  height:SCREEN_WIDTH - 2 * H_MARTIN
-                                   error:&error];
-    if (result) {
-        _testImage = [UIImage imageWithCGImage: [ZXImage imageWithMatrix:result].cgimage];
-        UIImage* image = [UIImage imageWithCGImage: [ZXImage imageWithMatrix:result].cgimage];
-        
-        _qrImageView = [[UIImageView alloc] initWithImage:image];
-        [self.view addSubview:_qrImageView];
-        [_qrImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            //make.center.mas_equalTo(self.view);
-            make.top.mas_equalTo(self.view).with.offset(TOP_MARGIN + kNavigationBarHeight + kStatusBarHeight);
-            make.centerX.mas_equalTo(self.view);
-        }];
-        
-    } else {
-        NSString *errorMessage = [error localizedDescription];
-    }
+    //启动app的时候，就加载二维码图片，以后优化
+    //根据预约编号去请求图片
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@qrCode/generateByGet?content=%@&type=%@&height=%ld&width=%ld",
+                                       [HttpNetworkManager baseURL], @"http://www.liuyx.net", @"URL",
+                                       (NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN),
+                                       (NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN)]];
+    _qrImageView = [[UIImageView alloc] init];
+    [self.view addSubview:_qrImageView];
+    [_qrImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.view).with.offset(TOP_MARGIN + kNavigationBarHeight + kStatusBarHeight);
+        make.centerX.mas_equalTo(self.view);
+        make.height.mas_equalTo((NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN));
+        make.width.mas_equalTo((NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN));
+    }];
+    
+    [_qrImageView sd_setImageWithURL:url placeholderImage:nil options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    }];
+    
+//    [_qrImageView sd_setImageWithURL:url placeholderImage:nil options:options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//        
+//    }]
+    
+    //    [_healthyCertificateView.imageView sd_setImageWithURL:url placeholderImage:nil options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    //        if (error!=nil){}
+    //    }];
+    
+//    NSError *error = nil;
+//    ZXMultiFormatWriter *writer = [ZXMultiFormatWriter writer];
+//    ZXBitMatrix* result = [writer encode:@"A string to encode"
+//                                  format:kBarcodeFormatQRCode
+//                                   width:SCREEN_WIDTH - 2 * H_MARTIN
+//                                  height:SCREEN_WIDTH - 2 * H_MARTIN
+//                                   error:&error];
+//    if (result) {
+//        _testImage = [UIImage imageWithCGImage: [ZXImage imageWithMatrix:result].cgimage];
+//        UIImage* image = [UIImage imageWithCGImage: [ZXImage imageWithMatrix:result].cgimage];
+//        
+//        _qrImageView = [[UIImageView alloc] initWithImage:image];
+//        [self.view addSubview:_qrImageView];
+//        [_qrImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            //make.center.mas_equalTo(self.view);
+//            make.top.mas_equalTo(self.view).with.offset(TOP_MARGIN + kNavigationBarHeight + kStatusBarHeight);
+//            make.centerX.mas_equalTo(self.view);
+//        }];
+//        
+//    } else {
+//        //NSString *errorMessage = [error localizedDescription];
+//    }
     
     [self initNavgation];
 }
@@ -93,10 +122,17 @@
 
 -(void)shareBtnClicked:(UIButton*)sender
 {
-    [UMSocialData defaultData].extConfig.qqData.shareImage = _testImage;
-    [UMSocialData defaultData].extConfig.qzoneData.shareImage = _testImage;
-    [UMSocialData defaultData].extConfig.wechatSessionData.shareImage = _testImage;
-    [UMSocialData defaultData].extConfig.wechatTimelineData.shareImage = _testImage;
+  //  [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
+    [UMSocialData defaultData].extConfig.qqData.shareImage = _qrImageView.image;
+  //  [UMSocialData defaultData].extConfig.qqData.title = @"qq消息";
+    
+    [UMSocialData defaultData].extConfig.qzoneData.shareImage = _qrImageView.image;
+    
+    [UMSocialData defaultData].extConfig.wechatSessionData.wxMessageType = UMSocialWXMessageTypeImage;
+    [UMSocialData defaultData].extConfig.wechatSessionData.shareImage = _qrImageView.image;
+    
+    [UMSocialData defaultData].extConfig.wechatTimelineData.wxMessageType = UMSocialWXMessageTypeImage;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.shareImage = _qrImageView.image;
 
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:@"56e22bbd67e58e71f9000e8b"

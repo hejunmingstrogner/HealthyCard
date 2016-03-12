@@ -113,6 +113,8 @@
 		25BFEB4E1C75E61C0062F9B8 /* QRScan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25BFEB4B1C75E61C0062F9B8 /* QRScan@2x.png */; };
 		25BFEB4F1C75E61C0062F9B8 /* QRScan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25BFEB4C1C75E61C0062F9B8 /* QRScan@3x.png */; };
 		25E983831C8535BE00CB027E /* WorkTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E983821C8535BE00CB027E /* WorkTypeViewController.m */; };
+		25F592241C93A8340036F881 /* CompanyAppointmentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F592231C93A8340036F881 /* CompanyAppointmentListViewController.m */; };
+		25F592271C93A8870036F881 /* CompanyItemListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F592261C93A8870036F881 /* CompanyItemListCell.m */; };
 		30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E1C17F5EF743EC155F709C /* libPods.a */; };
 		B201CCC31C72046D00B8F624 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC21C72046D00B8F624 /* Info.plist */; };
 		B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC41C7205B100B8F624 /* Main.storyboard */; };
@@ -368,6 +370,10 @@
 		25BFEB4C1C75E61C0062F9B8 /* QRScan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRScan@3x.png"; sourceTree = "<group>"; };
 		25E983811C8535BE00CB027E /* WorkTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkTypeViewController.h; sourceTree = "<group>"; };
 		25E983821C8535BE00CB027E /* WorkTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkTypeViewController.m; sourceTree = "<group>"; };
+		25F592221C93A8340036F881 /* CompanyAppointmentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyAppointmentListViewController.h; sourceTree = "<group>"; };
+		25F592231C93A8340036F881 /* CompanyAppointmentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyAppointmentListViewController.m; sourceTree = "<group>"; };
+		25F592251C93A8870036F881 /* CompanyItemListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyItemListCell.h; sourceTree = "<group>"; };
+		25F592261C93A8870036F881 /* CompanyItemListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyItemListCell.m; sourceTree = "<group>"; };
 		36C8931033D226234A0CF88D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		46E1C17F5EF743EC155F709C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D2243EB114EF1077978D1EA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -819,6 +825,8 @@
 		254A8DD91C813B0500F2EC94 /* CloudAppointment */ = {
 			isa = PBXGroup;
 			children = (
+				25F592251C93A8870036F881 /* CompanyItemListCell.h */,
+				25F592261C93A8870036F881 /* CompanyItemListCell.m */,
 				B27B00D21C84622D00FBF895 /* AddWorkerTableViewCell.h */,
 				B27B00D31C84622D00FBF895 /* AddWorkerTableViewCell.m */,
 				B27B00D41C84622D00FBF895 /* AppointmentInfoView.h */,
@@ -923,6 +931,7 @@
 		25BFEB3A1C74A4DD0062F9B8 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				25F592211C93A8340036F881 /* CompanyAppointment */,
 				B2FEA8611C7ED5BC00106EE8 /* PersonalHealthyCertificaController */,
 				254A8DB11C7C574A00F2EC94 /* ServicePointAppointment */,
 				252AB8911C770F6A0085CC14 /* CloudAppointment */,
@@ -936,6 +945,15 @@
 				254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */,
 			);
 			path = Appointment;
+			sourceTree = "<group>";
+		};
+		25F592211C93A8340036F881 /* CompanyAppointment */ = {
+			isa = PBXGroup;
+			children = (
+				25F592221C93A8340036F881 /* CompanyAppointmentListViewController.h */,
+				25F592231C93A8340036F881 /* CompanyAppointmentListViewController.m */,
+			);
+			path = CompanyAppointment;
 			sourceTree = "<group>";
 		};
 		5ACDF65DB22729E1828D6C5D /* Frameworks */ = {
@@ -1527,6 +1545,7 @@
 				B27B00D11C8461FE00FBF895 /* ServicePositionCarHeadTableViewCell.m in Sources */,
 				B27B00E21C84622D00FBF895 /* CloudCompanyAppointmentStaffCell.m in Sources */,
 				25BFEB2D1C7405810062F9B8 /* PackageOperation.m in Sources */,
+				25F592271C93A8870036F881 /* CompanyItemListCell.m in Sources */,
 				2512B3EC1C8D6133006E8608 /* UIView+borderWidth.m in Sources */,
 				B23C76751C8D30FF00E5C40A /* WorkTypeInfoModel.m in Sources */,
 				B2640CD41C7C7CF500721CB5 /* WaitDocResultSelectViewController.m in Sources */,
@@ -1583,6 +1602,7 @@
 				252AB8941C770F890085CC14 /* CloudAppointmentDateVC.m in Sources */,
 				2512B41B1C7056C900EE661B /* UIImage+Color.m in Sources */,
 				B23506031C91A6DD00B35E1E /* ChargeBusinessObj.m in Sources */,
+				25F592241C93A8340036F881 /* CompanyAppointmentListViewController.m in Sources */,
 				B23C766D1C8D247B00E5C40A /* PersonalHealthyCHistoryVC.m in Sources */,
 				B27B00DF1C84622D00FBF895 /* AppointmentInfoView.m in Sources */,
 				B27B00DE1C84622D00FBF895 /* AddWorkerTableViewCell.m in Sources */,
