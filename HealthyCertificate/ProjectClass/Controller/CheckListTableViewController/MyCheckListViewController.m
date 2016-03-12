@@ -98,7 +98,7 @@
 - (void)refresh:(DJRefresh *)refresh didEngageRefreshDirection:(DJRefreshDirection)direction
 {
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
-        [_refresh finishRefreshing];
+
         if (!error) {
             if (_userType == 1) {
                 checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
@@ -112,6 +112,9 @@
         else {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
         }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [refresh finishRefreshingDirection:direction animation:YES];
+        });
     }];
 }
 - (void)initCompanyDataArray
@@ -196,6 +199,7 @@
             CustomerTestTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
             if (!cell) {
                 cell = [[CustomerTestTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             [cell setCellItemWithTest:(CustomerTest *)checkDataArray[indexPath.section]];
             return cell;
@@ -205,6 +209,7 @@
             if (!cell) {
                 cell = [[CheckListPayMoneyCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"paycell"];
                 [cell.payMoneyBtn addTarget:self action:@selector(payMoneyBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             cell.payMoneyBtn.tag = indexPath.section;
             return cell;
@@ -273,16 +278,18 @@
  *  支付成功
  */
 - (void)payMoneySuccessed{
-    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
-    //[_tableView reloadData];
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的预约支付已完成" removeDelay:2];
+
+    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
 }
 /**
  *  支付取消
  */
 - (void)payMoneyCencel{
-    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
+
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"您取消了支付" removeDelay:2];
+    
+    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
 }
 /**
  *  支付失败

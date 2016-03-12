@@ -69,18 +69,20 @@
 
 - (void)setCellItem:(BRContract *)brContract
 {
-    if ([brContract.testStatus isEqualToString:@"-1"]) {
-        _statusLabel.text = @"未完成";
-    }
-    else if ([brContract.testStatus isEqualToString:@"3"]) {
-        _statusLabel.text = @"全部已检";
-    }
-    else if ([brContract.testStatus isEqualToString:@"4"]) {
-        _statusLabel.text = @"已出证";
-    }
-    else if ([brContract.testStatus isEqualToString:@"5"]) {
-        _statusLabel.text = @"已评价";
-    }
+//    if ([brContract.testStatus isEqualToString:@"-1"]) {
+//        _statusLabel.text = @"未完成";
+//    }
+//    else if ([brContract.testStatus isEqualToString:@"3"]) {
+//        _statusLabel.text = @"全部已检";
+//    }
+//    else if ([brContract.testStatus isEqualToString:@"4"]) {
+//        _statusLabel.text = @"已出证";
+//    }
+//    else if ([brContract.testStatus isEqualToString:@"5"]) {
+//        _statusLabel.text = @"已评价";
+//    }
+    NSString *status = [BRContract getTestStatus:brContract.testStatus];    //  得到检查状态
+    _statusLabel.text = status;
     _orderedLabel.text = [NSString stringWithFormat:@"已预约:%d", brContract.regCheckNum];
     _checkedLabel.text = [NSString stringWithFormat:@"已检查:%d", brContract.factCheckNum];
 }
