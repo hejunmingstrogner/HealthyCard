@@ -88,4 +88,12 @@
     return (long long)[self timeIntervalSince1970];
 }
 
++(NSString*)converLongLongToChineseStringDate:(long long)dateLong
+{
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:dateLong];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy年MM月dd日"];
+    NSString *dateString = [formatter stringFromDate:date];
+    return dateString;
+}
 @end

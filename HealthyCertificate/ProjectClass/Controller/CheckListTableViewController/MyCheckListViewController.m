@@ -8,21 +8,30 @@
 
 #import "MyCheckListViewController.h"
 #import "Constants.h"
-#import "CustomerTestTableViewCell.h"
-#import "BRContract.h"
-#import "BRContractTableHeaerCell.h"
-#import "BRContractTableFootCell.h"
-#import "PersonalHealthyCController.h"
-#import "CloudAppointmentCompanyViewController.h"
+
 #import "HttpNetworkManager.h"
+#import "DJRefresh.h"
+
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
-#import "BaseTBCellItem.h"
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
-#import "DJRefresh.h"
+
+#import "BaseTBCellItem.h"
+#import "BRContract.h"
+
+#import "CompanyAppointmentListViewController.h"
+#import "CloudAppointmentCompanyViewController.h"
+#import "PersonalHealthyCController.h"
+
+#import "CustomerTestTableViewCell.h"
+#import "BRContractTableHeaerCell.h"
+#import "BRContractTableFootCell.h"
+
+
 #import "CheckListPayMoneyCell.h"
 #import "PayMoneyController.h"
+
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -253,12 +262,11 @@
     }
     else {
         // 单位预约点击
-//        if (_userType == 2) {
-//            CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
-//            cloudAppointCompany.isCustomerServerPoint = NO;
-//            cloudAppointCompany.brContract = checkDataArray[indexPath.section];
-//            [self.navigationController pushViewController:cloudAppointCompany animated:YES];
-//        }
+        if (_userType == 2){
+            CompanyAppointmentListViewController* companyAppointmentListViewController = [[CompanyAppointmentListViewController alloc] init];
+            companyAppointmentListViewController.brContract = checkDataArray[indexPath.section];
+            [self.navigationController pushViewController:companyAppointmentListViewController animated:YES];
+        }
     }
 }
 
