@@ -41,7 +41,7 @@
 /**
  * 合同状态
  */
-@property (nonatomic, strong) NSString * testStatus; // -1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
+@property (nonatomic, strong) NSString * testStatus; // -1所有员工未开始检查，3所有员工完成体检，4所有员工已出健康证
 /**
  * 操作人员编号
  */

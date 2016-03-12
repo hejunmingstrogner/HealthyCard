@@ -17,6 +17,8 @@
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
 #import "Constants.h"
+#import "CloudAppointmentCompanyViewController.h"
+#import "NSDate+Custom.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -188,12 +190,41 @@
 
 - (void)orderBtnClicked:(UIButton *)sender
 {
-    CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
-    cloudAppoint.sercersPositionInfo = _servicePositionItem;
-    cloudAppoint.centerCoordinate = _appointCoordinate;
-    cloudAppoint.title = _servicePositionItem.name;
-
-    [self.navigationController pushViewController:cloudAppoint animated:YES];
+    if (GetUserType == 1){
+        //个人
+        CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+        cloudAppoint.sercersPositionInfo = _servicePositionItem;
+        if (_servicePositionItem.type == 1){
+            //临时服务点
+            cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",
+                                               [NSDate getYear_Month_DayByDate:_servicePositionItem.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:_servicePositionItem.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:_servicePositionItem.endTime/1000]];
+        }else{
+            cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)",
+                                               [NSDate getHour_MinuteByDate:_servicePositionItem.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:_servicePositionItem.endTime/1000]];
+        }
+        cloudAppoint.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
+        [self.navigationController pushViewController:cloudAppoint animated:YES];
+    }else{
+        //单位
+        CloudAppointmentCompanyViewController* companyCloudAppointment = [[CloudAppointmentCompanyViewController alloc] init];
+        companyCloudAppointment.sercersPositionInfo = _servicePositionItem;
+        if (_servicePositionItem.type == 1){
+            //临时服务点
+            companyCloudAppointment.appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",
+                                                          [NSDate getYear_Month_DayByDate:_servicePositionItem.startTime/1000],
+                                                          [NSDate getHour_MinuteByDate:_servicePositionItem.startTime/1000],
+                                                          [NSDate getHour_MinuteByDate:_servicePositionItem.endTime/1000]];
+        }else{
+            companyCloudAppointment.appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)",
+                                                          [NSDate getHour_MinuteByDate:_servicePositionItem.startTime/1000],
+                                                          [NSDate getHour_MinuteByDate:_servicePositionItem.endTime/1000]];
+        }
+        companyCloudAppointment.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
+        [self.navigationController pushViewController:companyCloudAppointment animated:YES];
+    }
 }
 
 @end

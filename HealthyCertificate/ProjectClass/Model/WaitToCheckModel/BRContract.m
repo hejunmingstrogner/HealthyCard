@@ -28,27 +28,30 @@
     NSString *test;
     switch (stauts) {
         case -1:{
-            test = @"待检";
+            test = @"未检查";
             break;
         }
         case 0:{
-            test = @"已签到";
+            test = @"";
             break;
         }
         case 1:{
-            test = @"检查中";
+            test = @"";
             break;
         }
         case 2:{
-            test = @"延期";
+            test = @"";
             break;
         }
         case 3:{
-            test = @"已完成";
+            test = @"完成体检";
             break;
         }
+        case 4:{
+            test = @"已出健康证";
+        }
         case 9:{
-            test = @"已出报告和健康证";
+            test = @"";
             break;
         }
         default:{

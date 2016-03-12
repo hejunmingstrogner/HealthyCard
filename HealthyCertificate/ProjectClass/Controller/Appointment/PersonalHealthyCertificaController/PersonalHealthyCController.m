@@ -17,7 +17,7 @@
 #import "TakePhoto.h"
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
-
+#import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
@@ -336,35 +336,15 @@
         [weakself.navigationController pushViewController:editInfoViewController animated:YES];
     }];
 
-    NSArray *arry0 = @[@"待检查", @"已签到", @"检查中"];
-    NSArray *arry1 = @[@"待检查", @"已签到", @"检查中"];
-    NSArray *arry2 = @[@"已签到", @"检查中", @"延期"];
-    NSArray *arry3 = @[@"检查中", @"延期", @"待出证"];
-    NSArray *arry4 = @[@"检查中", @"延期", @"待出证"];
-    NSArray *arry = [NSArray arrayWithObjects:arry0, arry1, arry2, arry3, arry4, nil];
-    NSInteger statu = [_customerTestInfo.testStatus integerValue] + 1;
-    NSArray *status = [NSArray arrayWithArray: arry[statu]];
+    // 设置体检状态
+    NSArray *status = [_customerTestInfo getTestStatusArrayWithTestStatus:_customerTestInfo.testStatus];
 
     [_leftBtn setTitle:status[0] forState:UIControlStateNormal];
     [_centerBtn setTitle:status[1] forState:UIControlStateNormal];
     [_rightBtn setTitle:status[2] forState:UIControlStateNormal];
 
-    switch (statu) {
-        case 0:
-            [_leftBtn setBackgroundColor:[UIColor colorWithRed:31/255.0 green:183/255.0 blue:238/255.0 alpha:1]];
-            [_leftBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            break;
-        case 1:
-            [_centerBtn setBackgroundColor:[UIColor colorWithRed:31/255.0 green:183/255.0 blue:238/255.0 alpha:1]];
-            [_centerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            break;
-        case 2:
-            [_rightBtn setBackgroundColor:[UIColor colorWithRed:31/255.0 green:183/255.0 blue:238/255.0 alpha:1]];
-            [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            break;
-        default:
-            break;
-    }
+    [_centerBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+    [_centerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 //点击姓名
 -(void)nameBtnClicked:(NSString*)name

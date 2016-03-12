@@ -128,7 +128,17 @@
 /**
  *
  */
-@property (nonatomic, strong) NSString * testStatus;        // -1待检 0签到 1在检 2延期 3待出证
+@property (nonatomic, strong) NSString * testStatus;        // -1未检，0签到，1在检，2延期，3完成，4已通过总检确认，5已打印体检卡，6已打印条码，9已出报告和健康证
+
+/**
+ *  获得当前状态以及两边的状态的数组
+ *
+ *  @param teststatus 当前合同状态
+ *
+ *  @return 反回三个状态
+ */
+- (NSArray *)getTestStatusArrayWithTestStatus:(NSString *)teststatus;
+
 @property (nonatomic, assign) int mainItemNum;
 @property (nonatomic, strong) NSString * rfidNo;
 @property (nonatomic, strong) NSDate * synTime;
