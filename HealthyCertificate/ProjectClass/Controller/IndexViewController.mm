@@ -31,6 +31,8 @@
 
 #import "OrdersAlertView.h"
 
+NSString *gCurrentCityName;
+
 BOOL   _isLocationInfoHasBeenSent;
 
 
@@ -72,7 +74,6 @@ BOOL   _isLocationInfoHasBeenSent;
         [self getCheckListData];
         [self initLeftViews];    // 初始化左侧菜单
     }
-
 //    // 测试使用
 //    CustomButton *cutbtn = [CustomButton buttonWithType:UIButtonTypeCustom];
 //    cutbtn.frame = self.view.frame;
@@ -537,7 +538,6 @@ BOOL   _isLocationInfoHasBeenSent;
         cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
         [self.navigationController pushViewController:cloudAppointCompany animated:YES];
     }
-
 }
 //  一键预约
 - (void)orderBtnClicked
@@ -663,6 +663,7 @@ BOOL   _isLocationInfoHasBeenSent;
                 _isLocationInfoHasBeenSent = YES;
             }
             currentCityName = city;
+            gCurrentCityName = city;
             addressLabel.text = adress;
             _centerCoordinate = _mapView.centerCoordinate;
             [[HttpNetworkManager getInstance] getNearbyServicePointsWithCLLocation:_mapView.centerCoordinate resultBlock:^(NSArray *result, NSError *error) {

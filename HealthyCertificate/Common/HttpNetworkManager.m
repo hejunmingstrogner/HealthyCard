@@ -35,7 +35,7 @@
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.51:8080/zkwebservice/webservice/";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.34:8080/zkwebservice/webservice/";
 static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
-
+//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://lyx.witaction.com/zkwebservice";
 
 
 @implementation HttpNetworkManager

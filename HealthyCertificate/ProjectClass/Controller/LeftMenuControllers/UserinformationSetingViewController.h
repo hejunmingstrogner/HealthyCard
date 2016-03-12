@@ -24,6 +24,8 @@
 
 typedef void(^updateInfo)(BOOL successed, NSString *updataText);
 
+@property (nonatomic, assign) NSInteger textLength;         // 限制文本输入长度
+
 // 更新成功之后的回调
 @property (nonatomic, strong)updateInfo updateBlcok;
 - (void)isUpdateInfoSucceed:(updateInfo) block;

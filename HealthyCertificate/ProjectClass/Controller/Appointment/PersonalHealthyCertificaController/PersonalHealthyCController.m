@@ -17,7 +17,7 @@
 #import "TakePhoto.h"
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
-
+#import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
@@ -92,7 +92,7 @@
     _customerTestInfo.regPosLA = _posLa;
     _customerTestInfo.regBeginDate = _regbegindate;
     _customerTestInfo.regEndDate = _regenddate;
-    _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? '0':'1';
+    _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
 
     if(_isAvatarSet == YES){
         if(!waitAlertView){
@@ -251,7 +251,6 @@
     _healthCertificateView.customerTest = _customerTestInfo;
     _orderinforView.cutomerTest = _customerTestInfo;
 
-    __weak CustomButton *addressBtns = _orderinforView.addressBtn;
     [_orderinforView.addressBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         if (weakself.customerTestInfo.checkSiteID) {
             return ;
@@ -276,11 +275,10 @@
             coor = [position bd2wgs:coor.latitude lon:coor.longitude];
             weakself.posLa = coor.latitude;
             weakself.posLo = coor.longitude;
-            [addressBtns setTitle:address forState:UIControlStateNormal];
+            [sender setTitle:address forState:UIControlStateNormal];
         }];
         [weakself.navigationController pushViewController:addressselect animated:YES];
     }];
-    __weak CustomButton *weaktimeBtn = _orderinforView.timeBtn;
     [_orderinforView.timeBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         if (weakself.customerTestInfo.checkSiteID) {
             return ;
@@ -298,7 +296,7 @@
         // 点击时间
         CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
         // 时间
-        NSArray *timearray = [weaktimeBtn.titleLabel.text componentsSeparatedByString:@"~"];
+        NSArray *timearray = [sender.titleLabel.text componentsSeparatedByString:@"~"];
         if (timearray.count == 2) {
             cloudData.beginDateString = timearray[0];
             cloudData.endDateString = timearray[1];
@@ -312,7 +310,7 @@
             NSArray *timeslist = [dateStr componentsSeparatedByString:@"~"];
             weakself.regbegindate = [[NSDate formatDateFromChineseString:timeslist[0]] convertToLongLong];
             weakself.regenddate = [[NSDate formatDateFromChineseString:timeslist[1]] convertToLongLong];
-            [weaktimeBtn setTitle:dateStr forState:UIControlStateNormal];
+            [sender setTitle:dateStr forState:UIControlStateNormal];
         }];
         [weakself.navigationController pushViewController:cloudData animated:YES];
     }];
@@ -333,39 +331,20 @@
         editInfoViewController.editInfoType = EDITINFO_LINKPHONE;
         [editInfoViewController setEditInfoText:weakself.linkerPhone WithBlock:^(NSString *resultStr) {
             weakself.linkerPhone = resultStr;
+            [sender setTitle:resultStr forState:UIControlStateNormal];
         }];
         [weakself.navigationController pushViewController:editInfoViewController animated:YES];
     }];
 
-    NSArray *arry0 = @[@"待检查", @"已签到", @"检查中"];
-    NSArray *arry1 = @[@"待检查", @"已签到", @"检查中"];
-    NSArray *arry2 = @[@"已签到", @"检查中", @"延期"];
-    NSArray *arry3 = @[@"检查中", @"延期", @"待出证"];
-    NSArray *arry4 = @[@"检查中", @"延期", @"待出证"];
-    NSArray *arry = [NSArray arrayWithObjects:arry0, arry1, arry2, arry3, arry4, nil];
-    NSInteger statu = [_customerTestInfo.testStatus integerValue] + 1;
-    NSArray *status = [NSArray arrayWithArray: arry[statu]];
+    // 设置体检状态
+    NSArray *status = [_customerTestInfo getTestStatusArrayWithTestStatus:_customerTestInfo.testStatus];
 
     [_leftBtn setTitle:status[0] forState:UIControlStateNormal];
     [_centerBtn setTitle:status[1] forState:UIControlStateNormal];
     [_rightBtn setTitle:status[2] forState:UIControlStateNormal];
 
-    switch (statu) {
-        case 0:
-            [_leftBtn setBackgroundColor:[UIColor colorWithRed:31/255.0 green:183/255.0 blue:238/255.0 alpha:1]];
-            [_leftBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            break;
-        case 1:
-            [_centerBtn setBackgroundColor:[UIColor colorWithRed:31/255.0 green:183/255.0 blue:238/255.0 alpha:1]];
-            [_centerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            break;
-        case 2:
-            [_rightBtn setBackgroundColor:[UIColor colorWithRed:31/255.0 green:183/255.0 blue:238/255.0 alpha:1]];
-            [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            break;
-        default:
-            break;
-    }
+    [_centerBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+    [_centerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 //点击姓名
 -(void)nameBtnClicked:(NSString*)name
