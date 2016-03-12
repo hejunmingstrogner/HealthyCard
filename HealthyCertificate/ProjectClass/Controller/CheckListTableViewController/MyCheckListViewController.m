@@ -21,10 +21,12 @@
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 #import "DJRefresh.h"
+#import "CheckListPayMoneyCell.h"
+#import "PayMoneyController.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface MyCheckListViewController()<DJRefreshDelegate>
+@interface MyCheckListViewController()<DJRefreshDelegate, PayMoneyDelegate>
 {
     NSMutableArray *checkDataArray;
     DJRefresh  *_refresh;
@@ -95,7 +97,6 @@
 
 - (void)refresh:(DJRefresh *)refresh didEngageRefreshDirection:(DJRefreshDirection)direction
 {
-    NSLog(@"11111111111");
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
         [_refresh finishRefreshing];
         if (!error) {
@@ -155,6 +156,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (_userType == 1) {
+        if (((CustomerTest *)checkDataArray[section]).payMoney <= 0) {
+            return 2;
+        }
         return 1;
     }
     else if (_userType == 2){
@@ -174,7 +178,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(_userType == 1){
-        return 110;
+        if (indexPath.row == 0) {
+            return 110;
+        }
+        return 35;
     }
     else {
         return 35;
@@ -185,12 +192,23 @@
 {
     // 个人
     if (_userType == 1) {
-        CustomerTestTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-        if (!cell) {
-            cell = [[CustomerTestTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        if (indexPath.row == 0) {
+            CustomerTestTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+            if (!cell) {
+                cell = [[CustomerTestTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+            }
+            [cell setCellItemWithTest:(CustomerTest *)checkDataArray[indexPath.section]];
+            return cell;
         }
-        [cell setCellItemWithTest:(CustomerTest *)checkDataArray[indexPath.section]];
-        return cell;
+        else {
+            CheckListPayMoneyCell *cell = [tableView dequeueReusableCellWithIdentifier:@"paycell"];
+            if (!cell) {
+                cell = [[CheckListPayMoneyCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"paycell"];
+                [cell.payMoneyBtn addTarget:self action:@selector(payMoneyBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            cell.payMoneyBtn.tag = indexPath.section;
+            return cell;
+        }
     }
     // 单位
     else{
@@ -237,6 +255,40 @@
 //            [self.navigationController pushViewController:cloudAppointCompany animated:YES];
 //        }
     }
+}
+
+// 点击支付按钮
+- (void)payMoneyBtnClicked:(UIButton *)sender
+{
+    PayMoneyController *pay = [[PayMoneyController alloc]init];
+    pay.chargetype = CUSTOMERTEST;
+    pay.checkCode = ((CustomerTest *)checkDataArray[sender.tag]).checkCode;
+    pay.cityName = ((CustomerTest *)checkDataArray[sender.tag]).cityName;
+    pay.delegate = self;
+    [self.navigationController pushViewController:pay animated:YES];
+}
+
+#pragma mark -paymoney Delegate 支付款项之后的delegate
+/**
+ *  支付成功
+ */
+- (void)payMoneySuccessed{
+    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
+    //[_tableView reloadData];
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的预约支付已完成" removeDelay:2];
+}
+/**
+ *  支付取消
+ */
+- (void)payMoneyCencel{
+    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"您取消了支付" removeDelay:2];
+}
+/**
+ *  支付失败
+ */
+- (void)payMoneyFail{
+    NSLog(@"预约支付失败");
 }
 
 @end

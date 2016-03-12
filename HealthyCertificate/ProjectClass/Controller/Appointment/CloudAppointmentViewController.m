@@ -592,7 +592,9 @@
  *  支付取消
  */
 - (void)payMoneyCencel{
-    NSLog(@"预约支付取消");
+    MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
+    mycheckListViewController.popStyle = POPTO_ROOT;
+    [self.navigationController pushViewController:mycheckListViewController animated:YES];
 }
 /**
  *  支付失败

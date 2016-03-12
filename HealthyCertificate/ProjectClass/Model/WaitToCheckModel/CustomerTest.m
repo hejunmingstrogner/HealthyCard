@@ -13,6 +13,7 @@
 
 -(ServersPositionAnnotionsModel*)servicePoint{
     if (_servicePoint == nil){
+        _payMoney = 0;
         _servicePoint = [[ServersPositionAnnotionsModel alloc] init];
     }
     

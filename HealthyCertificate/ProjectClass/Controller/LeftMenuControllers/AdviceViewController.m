@@ -28,14 +28,48 @@
 
     [self initSubviews];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillChangeFrameNotification  object:nil];
+    // 限制文本输入长度
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textFiledEditChanged:)
+                                                name:@"UITextViewTextDidChangeNotification"
+                                              object:_adviceTextView];
+}
+
+#pragma mark -限制文本输入长度
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:@"UITextViewTextDidChangeNotification"
+                                                 object:_adviceTextView];
+}
+-(void)textFiledEditChanged:(NSNotification *)obj{
+    UITextView *textField = (UITextView *)obj.object;
+    static NSInteger _textLength = 300;
+    NSString *toBeString = textField.text;
+    // 键盘输入模式
+    NSString *lang = [[UIApplication sharedApplication]textInputMode].primaryLanguage;
+    if ([lang isEqualToString:@"zh-Hans"]) { // 简体中文输入，包括简体拼音，健体五笔，简体手写
+        UITextRange *selectedRange = [textField markedTextRange];
+        //获取高亮部分
+        UITextPosition *position = [textField positionFromPosition:selectedRange.start offset:0];
+        // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
+        if (!position) {
+            if (toBeString.length > _textLength) {
+                textField.text = [toBeString substringToIndex:_textLength];
+            }
+        }
+        // 有高亮选择的字符串，则暂不对文字进行统计和限制
+        else{
+
+        }
+    }
+    // 中文输入法以外的直接对其统计限制即可，不考虑其他语种情况
+    else{
+        if (toBeString.length > _textLength) {
+            textField.text = [toBeString substringToIndex:_textLength];
+        }
+    }
 }
 
 // 键盘将要显示
@@ -43,16 +77,16 @@
 {
     CGRect rect = [[notif.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     [UIView animateWithDuration:0.3 animations:^{
-        _tableView.frame = CGRectMake(0, 0, _tableView.frame.size.width, _tableView.frame.size.height - rect.size.height);
+        _tableView.frame = CGRectMake(0, 0, _tableView.frame.size.width, self.view.frame.size.height - rect.size.height);
     }];
     [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 // 键盘将要隐藏
 - (void)keyboardWillHide:(NSNotification *)notif
 {
-    CGRect rect = [[notif.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    [self.view endEditing:YES];
     [UIView animateWithDuration:0.3 animations:^{
-        _tableView.frame =  CGRectMake(0, 0, _tableView.frame.size.width, _tableView.frame.size.height  + rect.size.height);
+        _tableView.frame =  self.view.frame;
     }];
 }
 
@@ -118,7 +152,7 @@
 // 关闭键盘
 - (void)closeKeyBoard:(UIButton *)sender
 {
-    [_adviceTextView resignFirstResponder];
+    [self.view endEditing:YES];
 }
 - (void)initSubviews
 {
@@ -142,10 +176,6 @@
     confirmBtn.layer.cornerRadius = 4;
     confirmBtn.layer.masksToBounds = YES;
     [confirmBtn addTarget:self action:@selector(confirmClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.left.equalTo(self.view);
-        make.bottom.equalTo(confirmBtn.mas_top).offset(-10);
-    }];
 }
 
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -280,7 +310,7 @@
 
 - (void)selectBtnClicked:(UIButton *)sender
 {
-    [_adviceTextView resignFirstResponder];
+    [self.view endEditing:YES];
     if ([_selectMistakeFlagArray[sender.tag] isEqualToString:@"0"]) {
         _selectMistakeFlagArray[sender.tag] = @"1";
         [sender setImage:[UIImage imageNamed:@"xuanzhong_on"] forState:UIControlStateNormal];
@@ -294,8 +324,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        [_adviceTextView resignFirstResponder];
-    }
+    [self.view endEditing:YES];
 }
 @end

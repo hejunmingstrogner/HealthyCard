@@ -176,6 +176,7 @@
 		B27B00E31C84622D00FBF895 /* HealthyCertificateOrderInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B27B00DD1C84622D00FBF895 /* HealthyCertificateOrderInfoView.m */; };
 		B2866A611C910ADA00F4B3B9 /* OrdersAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2866A601C910ADA00F4B3B9 /* OrdersAlertView.m */; };
 		B2866A671C91662600F4B3B9 /* ChargeParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = B2866A661C91662600F4B3B9 /* ChargeParameter.m */; };
+		B297EB281C93AA98001E1B71 /* CheckListPayMoneyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B297EB271C93AA98001E1B71 /* CheckListPayMoneyCell.m */; };
 		B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
@@ -497,6 +498,8 @@
 		B2866A601C910ADA00F4B3B9 /* OrdersAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrdersAlertView.m; sourceTree = "<group>"; };
 		B2866A651C91662600F4B3B9 /* ChargeParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeParameter.h; sourceTree = "<group>"; };
 		B2866A661C91662600F4B3B9 /* ChargeParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeParameter.m; sourceTree = "<group>"; };
+		B297EB261C93AA98001E1B71 /* CheckListPayMoneyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckListPayMoneyCell.h; sourceTree = "<group>"; };
+		B297EB271C93AA98001E1B71 /* CheckListPayMoneyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckListPayMoneyCell.m; sourceTree = "<group>"; };
 		B2F81B4B1C7EAE680089F51C /* TemperaryServicePDeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemperaryServicePDeViewController.h; sourceTree = "<group>"; };
 		B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemperaryServicePDeViewController.m; sourceTree = "<group>"; };
 		B2F826201C730D6000993F47 /* LocationSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchModel.h; sourceTree = "<group>"; };
@@ -1045,6 +1048,8 @@
 				B2436CA21C7AF91800F543E1 /* BRContractTableHeaerCell.m */,
 				B2436CA41C7B007E00F543E1 /* BRContractTableFootCell.h */,
 				B2436CA51C7B007E00F543E1 /* BRContractTableFootCell.m */,
+				B297EB261C93AA98001E1B71 /* CheckListPayMoneyCell.h */,
+				B297EB271C93AA98001E1B71 /* CheckListPayMoneyCell.m */,
 			);
 			path = CheckListTableViewCell;
 			sourceTree = "<group>";
@@ -1587,6 +1592,7 @@
 				B27B00DF1C84622D00FBF895 /* AppointmentInfoView.m in Sources */,
 				B27B00DE1C84622D00FBF895 /* AddWorkerTableViewCell.m in Sources */,
 				25BFEB391C7423610062F9B8 /* CompanyInfoOfPhonePacket.m in Sources */,
+				B297EB281C93AA98001E1B71 /* CheckListPayMoneyCell.m in Sources */,
 				2512B42B1C70631600EE661B /* HMSocket.m in Sources */,
 				25BFEB181C7310CA0062F9B8 /* BasePacket.m in Sources */,
 				B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */,
