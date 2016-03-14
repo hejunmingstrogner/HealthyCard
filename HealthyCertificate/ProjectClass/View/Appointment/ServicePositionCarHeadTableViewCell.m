@@ -124,7 +124,7 @@
     }];
 
     if (serviceInfo.type == 1) {
-        [_address setText:serviceInfo.address textFont:[UIFont systemFontOfSize:15] WithEndText:@"临" endTextColor:[UIColor redColor]];
+        [_address setText:serviceInfo.address textFont:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)] WithEndText:@"临" endTextColor:[UIColor redColor]];
     }
     else {
         _address.text = serviceInfo.address;

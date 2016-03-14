@@ -539,6 +539,7 @@ BOOL   _isLocationInfoHasBeenSent;
         [self.navigationController pushViewController:cloudAppointCompany animated:YES];
     }
 }
+#pragma mark - 一键预约
 //  一键预约
 - (void)orderBtnClicked
 {
@@ -553,8 +554,7 @@ BOOL   _isLocationInfoHasBeenSent;
         
         // 将百度地图左边转换为gps坐标
         PositionUtil *posit = [[PositionUtil alloc]init];
-        CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
-        controller.centerCoordinate = coor;
+        controller.centerCoordinate = _mapView.centerCoordinate;
         [self.navigationController pushViewController:controller animated:YES];
    // }
 }
