@@ -73,6 +73,9 @@
 
 - (void)confirmBtnClicked:(UIBarButtonItem *)sender
 {
+    if (_textField.text.length == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     if (_selectIndex < 0) {
         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"请选择地址" ActionTitle:@"确认" ActionStyle:0];
     }

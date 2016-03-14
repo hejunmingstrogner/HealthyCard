@@ -11,12 +11,14 @@
 #import <Masonry.h>
 #import "CloudAppointmentViewController.h"
 #import "ServicePositionDetialCellItem.h"
-
+#import "CloudAppointmentCompanyViewController.h"
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
 #import "UIColor+Expanded.h"
 #import "Constants.h"
+#import "NSDate+Custom.h"
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @implementation ServicePointDetailViewController
@@ -52,14 +54,18 @@
 {
     NSArray *arry0 = [NSArray arrayWithObject:_serverPositionItem];
 
+    NSString *str = @"成都信息工程大学（Chengdu University of Information Technology）简称“成信大”，由中国气象局和四川省人民政府共建，入选中国首批“卓越工程师教育培养计划”、“中西部高校基础能力建设工程”、“2011计划”，为国际CDIO组织正式成员、中国气象人才培养联盟成员、全国CDIO工程教育联盟常务理事单位，是第一所为中国人民解放军火箭军部队培养国防生的一般本科院校，是以信息学科和大气学科为重点，学科交叉为特色，工学、理学、管理学为主要学科门类的省属重点大学。";
+    if(_serverPositionItem.introduce.length == 0){
+        _serverPositionItem.introduce = str;
+    }
     ServicePositionDetialCellItem *item10 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"详情介绍" detialText:@""];
-    ServicePositionDetialCellItem *item11 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"随便说一些吧，真的，认真就好，努力就好" detialText:@""];
+    ServicePositionDetialCellItem *item11 = [[ServicePositionDetialCellItem alloc]initWithTitle:_serverPositionItem.introduce detialText:@""];
     NSArray *arry1 = [NSArray arrayWithObjects:item10, item11, nil];
 
     ServicePositionDetialCellItem *item20 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"地址路线" detialText:@""];
-    ServicePositionDetialCellItem *item21 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"中心地址" detialText:_serverPositionItem.centerAddress];
+    ServicePositionDetialCellItem *item21 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"中心地址" detialText:_serverPositionItem.address];
     ServicePositionDetialCellItem *item22 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"咨询电话" detialText:_serverPositionItem.leaderPhone];
-    ServicePositionDetialCellItem *item23 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"公交路线" detialText:_serverPositionItem.busWay];
+    ServicePositionDetialCellItem *item23 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"公交路线" detialText:_serverPositionItem.busWay.length == 0? @"306、304" : _serverPositionItem.busWay];
     NSArray *arry2 = [NSArray arrayWithObjects:item20, item21, item22, item23, nil];
 
     _inforArray = [[NSMutableArray alloc]initWithObjects:arry0, arry1, arry2, nil];
@@ -165,10 +171,40 @@
 
 - (void)orderBtnClicked:(UIButton *)sender
 {
-    CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
-    cloudAppoint.sercersPositionInfo = _serverPositionItem;
-    cloudAppoint.centerCoordinate = _appointCoordinate;
-    cloudAppoint.title = _serverPositionItem.name;
-    [self.navigationController pushViewController:cloudAppoint animated:YES];
+    if (GetUserType == 1){
+        //个人
+        CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+        cloudAppoint.sercersPositionInfo = _serverPositionItem;
+        if (_serverPositionItem.type == 1){
+            //临时服务点
+            cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",
+                                               [NSDate getYear_Month_DayByDate:_serverPositionItem.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:_serverPositionItem.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:_serverPositionItem.endTime/1000]];
+        }else{
+            cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)",
+                                               [NSDate getHour_MinuteByDate:_serverPositionItem.startTime/1000],
+                                               [NSDate getHour_MinuteByDate:_serverPositionItem.endTime/1000]];
+        }
+        cloudAppoint.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
+        [self.navigationController pushViewController:cloudAppoint animated:YES];
+    }else{
+        //单位
+        CloudAppointmentCompanyViewController* companyCloudAppointment = [[CloudAppointmentCompanyViewController alloc] init];
+        companyCloudAppointment.sercersPositionInfo = _serverPositionItem;
+        if (_serverPositionItem.type == 1){
+            //临时服务点
+            companyCloudAppointment.appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",
+                                                          [NSDate getYear_Month_DayByDate:_serverPositionItem.startTime/1000],
+                                                          [NSDate getHour_MinuteByDate:_serverPositionItem.startTime/1000],
+                                                          [NSDate getHour_MinuteByDate:_serverPositionItem.endTime/1000]];
+        }else{
+            companyCloudAppointment.appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)",
+                                                          [NSDate getHour_MinuteByDate:_serverPositionItem.startTime/1000],
+                                                          [NSDate getHour_MinuteByDate:_serverPositionItem.endTime/1000]];
+        }
+        companyCloudAppointment.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
+        [self.navigationController pushViewController:companyCloudAppointment animated:YES];
+    }
 }
 @end

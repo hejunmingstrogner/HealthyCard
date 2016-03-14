@@ -57,7 +57,15 @@ BOOL   _isLocationInfoHasBeenSent;
     // 定位服务
     [self initLocationServer];
 
-    if (GetUserType != 1 && GetUserType != 2 ) {
+    NSInteger userTypeflag = GetUserType;
+
+    if (gPersonInfo.cUnitCode == nil || [gPersonInfo.cUnitCode isEqualToString:@""]) {
+        if (userTypeflag != 1) {
+            SetUserType(1);
+            userTypeflag  = 1;
+        }
+    }
+    if (userTypeflag != 1 && userTypeflag != 2 ) {
         [RzAlertView showAlertWithTarget:self.view Title:@"用户类型" oneButtonTitle:@"个人" oneButtonImageName:@"" twoButtonTitle:@"单位" twoButtonImageName:@"" handle:^(NSInteger flag) {
             // 设置用户类型  1:个人，2单位
             if(flag == 1) {
@@ -547,15 +555,16 @@ BOOL   _isLocationInfoHasBeenSent;
 //        [RzAlertView showAlertLabelWithTarget:self.view Message:@"位置信息未加载完成" removeDelay:3];
 //    }else{
        // [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
-        AppointmentViewController* controller = [[AppointmentViewController alloc] init];
-        controller.location = addressLabel.text;
-        controller.nearbyServicePointsArray = nearbyServicePositionsArray;
-        controller.cityName = currentCityName;
-        
-        // 将百度地图左边转换为gps坐标
-        PositionUtil *posit = [[PositionUtil alloc]init];
-        controller.centerCoordinate = _mapView.centerCoordinate;
-        [self.navigationController pushViewController:controller animated:YES];
+    AppointmentViewController* controller = [[AppointmentViewController alloc] init];
+    controller.location = addressLabel.text;
+    controller.nearbyServicePointsArray = nearbyServicePositionsArray;
+    controller.cityName = currentCityName;
+
+    // 将百度地图左边转换为gps坐标
+    PositionUtil *posit = [[PositionUtil alloc]init];
+    CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
+    controller.centerCoordinate = coor;
+    [self.navigationController pushViewController:controller animated:YES];
    // }
 }
 // 点击了头像,显示左侧菜单

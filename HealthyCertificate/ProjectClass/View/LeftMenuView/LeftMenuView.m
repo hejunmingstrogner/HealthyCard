@@ -181,6 +181,10 @@
 - (void)SettingBtnClicked:(UIButton *)sender
 {
     if(sender.tag == 0){
+        if ([gPersonInfo.cUnitCode isEqualToString:@""] || gPersonInfo.cUnitCode == nil) {
+            return;
+        }
+
         if (GetUserType == 1) {
             [sender setBackgroundImage:[UIImage imageNamed:@"open_company"] forState:UIControlStateNormal];
             SetUserType(2);

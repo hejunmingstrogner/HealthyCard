@@ -123,7 +123,7 @@
 
 
     UILabel *serviceDate = [[UILabel alloc]init];
-    serviceDate.text = @"服务时间:";
+    serviceDate.text = @"体检时间:";
     serviceDate.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
     [bgview addSubview:serviceDate];
     [serviceDate mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -143,7 +143,7 @@
 
 
     UILabel *serviceAddress = [[UILabel alloc]init];
-    serviceAddress.text = @"服务地址:";
+    serviceAddress.text = @"体检地址:";
     serviceAddress.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
     [bgview addSubview:serviceAddress];
     [serviceAddress mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -173,12 +173,51 @@
     sexLabel.text = customerTest.sex == 0 ? @"男" : @"女";
     oldLabel.text = [NSString getOldYears:customerTest.custIdCard];
 
-    // 服务时间为空时，不显示
-    if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
-        serviceAddressLabel.text = @"现场体检";
-        return;
+//    // 0固定服务点；
+//    if(customerTest.servicePoint.type == 0)
+//    {
+//        serviceAddressLabel.text = customerTest.servicePoint.address;
+//        
+//    }
+//    else {
+//        // 服务时间为空时，不显示
+//        if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
+//            serviceAddressLabel.text = @"现场体检";
+//            return;
+//        }
+//        serviceAddressLabel.text = customerTest.servicePoint.address;
+//        serviceTimeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)", [NSDate getYear_Month_DayByDate:customerTest.servicePoint.startTime/1000], [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000], [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000]];
+//    }
+
+
+    if(customerTest.checkSiteID) // 服务点预约
+    {
+        serviceAddressLabel.text = customerTest.servicePoint.address;
+        if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
+            serviceTimeLabel.text = @"";
+            serviceAddressLabel.text =@"获取失败";
+        }
+        else {
+            NSString *year = [NSDate getYear_Month_DayByDate:customerTest.servicePoint.startTime/1000];
+            NSString *hour1 = [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000];
+            NSString *end = [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000];
+            NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
+            serviceTimeLabel.text = time;
+        }
+
     }
-    serviceAddressLabel.text = customerTest.servicePoint.address;
-    serviceTimeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)", [NSDate getYear_Month_DayByDate:customerTest.servicePoint.startTime/1000], [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000], [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000]];
+    else {  // 云预约
+        serviceAddressLabel.text = customerTest.regPosAddr;
+        if (!customerTest.regBeginDate || !customerTest.regEndDate) {
+            serviceTimeLabel.text = @"";
+            serviceAddressLabel.text = @"获取失败";
+        }
+        else {
+            NSString *startyear = [NSDate getYear_Month_DayByDate:customerTest.regBeginDate/1000];
+            NSString *endyear = [NSDate getYear_Month_DayByDate:customerTest.regEndDate/1000];
+            NSString *time = [NSString stringWithFormat:@"%@~%@",startyear, endyear];
+            serviceTimeLabel.text = time;
+        }
+    }
 }
 @end

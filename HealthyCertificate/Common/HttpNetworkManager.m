@@ -36,7 +36,7 @@
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.34:8080/zkwebservice/webservice/";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://lyx.witaction.com/zkwebservice";
-static NSString * const AFHTTPRequestOperationBaseURLString = @"http://182.140.132.214:8080/zkwebservice/webservice/";
+static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com/webserver/webservice/";
 
 @implementation HttpNetworkManager
 
@@ -458,7 +458,8 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://182.140.1
 {
     RzAlertView *waitAlert = [[RzAlertView alloc]initWithSuperView:_self.view Title:@"正在发起交易..."];
     [waitAlert show];
-    NSDictionary *dict = [chargeParame mj_keyValues];
+
+    NSMutableDictionary *dict = [chargeParame mj_keyValues];
 
     NSString *url1 = [NSString stringWithFormat:@"charge/newCharge"];
     [self.sharedClient POST:url1 parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
