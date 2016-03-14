@@ -137,6 +137,7 @@
         ServicePositionCarHeadTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"carcell"];
         if (!cell) {
             cell = [[ServicePositionCarHeadTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"carcell"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         [cell setCellItem:_serverPositionItem];
         return cell;
@@ -146,6 +147,7 @@
         if (!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
             cell.textLabel.numberOfLines = 0;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.font = [UIFont fontWithType:0 size:15];
             cell.detailTextLabel.font = [UIFont fontWithType:0 size:15];
         }
