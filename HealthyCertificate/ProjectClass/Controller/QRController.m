@@ -49,8 +49,18 @@
     
     //启动app的时候，就加载二维码图片，以后优化
     //根据预约编号去请求图片
+    NSString* content;
+    if (GetUserType == 1){
+        //个人
+        content = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp"];
+        
+    }else{
+        //单位
+        content = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/staffRegister.jsp?unitCode=%@", gCompanyInfo.cUnitCode];
+    }
+    
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@qrCode/generateByGet?content=%@&type=%@&height=%ld&width=%ld",
-                                       [HttpNetworkManager baseURL], @"http://www.liuyx.net", @"URL",
+                                       [HttpNetworkManager baseURL], content, @"URL",
                                        (NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN),
                                        (NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN)]];
     _qrImageView = [[UIImageView alloc] init];
