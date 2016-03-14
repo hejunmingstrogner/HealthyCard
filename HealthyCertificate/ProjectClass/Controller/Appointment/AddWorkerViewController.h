@@ -35,8 +35,6 @@ typedef void(^AddWorkerComfirmClicked)(NSArray *workerArray);
 
 @property (nonatomic, strong) AddWorkerComfirmClicked block;
 
-@property (nonatomic, assign) SWITCH_STYLE switchStyle;
-
 - (void)getWorkerArrayWithBlock:(AddWorkerComfirmClicked )block;
 
 @end

@@ -122,7 +122,7 @@
 
 -(void)shareBtnClicked:(UIButton*)sender
 {
-  //  [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
+    [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
     [UMSocialData defaultData].extConfig.qqData.shareImage = _qrImageView.image;
   //  [UMSocialData defaultData].extConfig.qqData.title = @"qq消息";
     
