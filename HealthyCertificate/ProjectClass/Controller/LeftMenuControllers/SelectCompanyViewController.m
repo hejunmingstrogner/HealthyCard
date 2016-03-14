@@ -20,7 +20,7 @@
 
 @interface SelectCompanyViewController()
 {
-    NSInteger *userTypeFlag;
+    NSInteger userTypeFlag;
 }
 @end
 
