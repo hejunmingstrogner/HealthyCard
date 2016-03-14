@@ -91,6 +91,7 @@
     }];
     
     [self loadData];
+    _industryTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 

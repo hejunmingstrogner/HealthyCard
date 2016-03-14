@@ -139,7 +139,7 @@
         return;
     }
     if (![self isconnectionNet]) {
-        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"网络链接错误，请检查后重试" ActionTitle:@"确认" ActionStyle:0];
+        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"网络连接错误，请检查后重试" ActionTitle:@"确认" ActionStyle:0];
     }
     else {
         [self.view endEditing:YES];

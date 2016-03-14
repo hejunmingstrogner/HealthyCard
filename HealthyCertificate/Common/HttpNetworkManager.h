@@ -118,6 +118,14 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 - (void)getWorkerCustomerDataWithcUnitCode:(NSString *)cUnitCode resultBlock:(HCArrayResultBlock)resultBlock;
 
+/**
+ *  查询合同相关的员工
+ *
+ *  @param contractCode 合同编号
+ *  @param resultBlock  回调
+ */
+-(void)getCustomerListByBRContract:(NSString*)contractCode resultBlock:(HCArrayResultBlock)resultBlock;
+
 
 /**
  *  查询行业类型列表

@@ -249,6 +249,27 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     }];
 }
 
+//查询合同关联的客户
+-(void)getCustomerListByBRContract:(NSString*)contractCode resultBlock:(HCArrayResultBlock)resultBlock
+{
+    NSString *url = [NSString stringWithFormat:@"customer/queryByBRContract?contractCode=%@", contractCode];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *customerArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            Customer *customer = [Customer mj_objectWithKeyValues:dict];
+            [customerArray addObject:customer];
+        }
+        if (resultBlock) {
+            resultBlock(customerArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (resultBlock) {
+            resultBlock([NSArray array], error);
+        }
+    }];
+}
+
+
 - (void)getIndustryList:(NSString*)dataItemName resultBlock:(HCArrayResultBlock)resultBlock
 {
     NSString *url = [NSString stringWithFormat:@"codeDataItem/findCodeDataItemConByName?dataItemName=%@", dataItemName];
