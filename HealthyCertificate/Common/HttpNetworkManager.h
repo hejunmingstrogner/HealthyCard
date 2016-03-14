@@ -155,7 +155,7 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  *  @param employees  体检员工的列表
  *  @param block      回调
  */
-- (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCBoolResultBlock)block;
+- (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCDictionaryResultBlock)block;
 
 #pragma mark 根据名字模糊查询单位信息
 /**

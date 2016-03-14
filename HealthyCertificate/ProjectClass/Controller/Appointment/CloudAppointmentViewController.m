@@ -492,10 +492,9 @@
     _customerTestInfo.bornDate = [_healthyCertificateView.idCard getLongLongBornDate];
     _customerTestInfo.jobDuty = _healthyCertificateView.workType;
     
-    PositionUtil *posit = [[PositionUtil alloc] init];
-    CLLocationCoordinate2D coor = [posit bd2wgs:self.centerCoordinate.latitude lon:self.centerCoordinate.longitude];
-    _customerTestInfo.regPosLA = coor.latitude;
-    _customerTestInfo.regPosLO = coor.longitude;
+    _customerTestInfo.regPosLA = self.centerCoordinate.latitude;
+    _customerTestInfo.regPosLO = self.centerCoordinate.longitude;
+    
     _customerTestInfo.linkPhone = _phoneNumTextView.text;
     _customerTestInfo.regPosAddr = _locationTextView.text;
 
