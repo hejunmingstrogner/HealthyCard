@@ -116,7 +116,7 @@ BOOL   _isLocationInfoHasBeenSent;
             pendingLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)checkListData.count];
         }
         else {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取预约数据失败" removeDelay:2];
+            //[RzAlertView showAlertLabelWithTarget:self.view Message:@"获取预约数据失败" removeDelay:2];
             pendingLabel.text = @"";
         }
     }];
@@ -645,7 +645,7 @@ BOOL   _isLocationInfoHasBeenSent;
     if (changeStatusTimer != nil) {
         [changeStatusTimer invalidate];
     }
-    changeStatusTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(getAdress) userInfo:nil repeats:NO];
+    changeStatusTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(getAdress) userInfo:nil repeats:NO];
 }
 
 #pragma mark -得到体检地址 获取附近服务点信息
