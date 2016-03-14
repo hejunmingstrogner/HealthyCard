@@ -9,6 +9,8 @@
 #import "BRContractTableFootCell.h"
 #import <Masonry.h>
 #import "UIFont+Custom.h"
+#import "UILabel+FontColor.h"
+
 @implementation BRContractTableFootCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -69,21 +71,9 @@
 
 - (void)setCellItem:(BRContract *)brContract
 {
-//    if ([brContract.testStatus isEqualToString:@"-1"]) {
-//        _statusLabel.text = @"未完成";
-//    }
-//    else if ([brContract.testStatus isEqualToString:@"3"]) {
-//        _statusLabel.text = @"全部已检";
-//    }
-//    else if ([brContract.testStatus isEqualToString:@"4"]) {
-//        _statusLabel.text = @"已出证";
-//    }
-//    else if ([brContract.testStatus isEqualToString:@"5"]) {
-//        _statusLabel.text = @"已评价";
-//    }
     NSString *status = [BRContract getTestStatus:brContract.testStatus];    //  得到检查状态
     _statusLabel.text = status;
-    _orderedLabel.text = [NSString stringWithFormat:@"已预约:%d", brContract.regCheckNum];
-    _checkedLabel.text = [NSString stringWithFormat:@"已检查:%d", brContract.factCheckNum];
+    [_orderedLabel setText:@"已预约:" Font:[UIFont fontWithType:UIFontOpenSansRegular size:13] count:brContract.regCheckNum endColor:[UIColor blackColor]];
+    [_checkedLabel setText:@"已检查" Font:[UIFont fontWithType:UIFontOpenSansRegular size:13] count:(brContract.factCheckNum <0 ? 0 : brContract.factCheckNum) endColor:[UIColor redColor]];
 }
 @end
