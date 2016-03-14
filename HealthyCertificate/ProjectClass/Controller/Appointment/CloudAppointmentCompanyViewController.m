@@ -196,6 +196,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _companyNameTextView = [[UITextView alloc] init];
     _companyNameTextView.text = gCompanyInfo.cUnitName;
     _companyNameTextView.scrollEnabled = NO;
+    _companyNameTextView.userInteractionEnabled = NO;
     _companyNameTextView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     _companyNameTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
     _companyNameTextView.delegate = self;
@@ -211,6 +212,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _companyAddressTextView = [[UITextView alloc] init];
     _companyAddressTextView.text = gCompanyInfo.cUnitAddr;
     _companyAddressTextView.scrollEnabled = NO;
+    _companyAddressTextView.userInteractionEnabled = NO;
     _companyAddressTextView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     _companyAddressTextView.delegate = self;
     _companyAddressTextView.returnKeyType = UIReturnKeyDone;
@@ -435,6 +437,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _brContract.regPosLO = _centerCoordinate.longitude;
     _brContract.regPosAddr = _location;
     _brContract.regTime = [[NSDate date] timeIntervalSince1970];
+    
+    if (_phoneNumField.text.length != 11){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请输入正确的电话号码" removeDelay:3];
+        return;
+    }
 
     if (_sercersPositionInfo) {
         _brContract.regBeginDate = _sercersPositionInfo.startTime;
@@ -450,7 +457,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         _brContract.regEndDate = [dateArray[1] convertDateStrToLongLong]*1000;
     }
     _brContract.linkUser = _contactPersonField.text;
-    _brContract.linkPhone = gCompanyInfo.cLinkPhone;
+    _brContract.linkPhone = _phoneNumField.text;
     _brContract.cityName = _cityName;
     _brContract.checkType = @"1";
     _brContract.testStatus = @"-1"; // -1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
@@ -645,8 +652,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 __weak CloudAppointmentCompanyViewController * weakSelf = self;
                 [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {
                     weakSelf.customerArr = workerArray;
-                    //[weakSelf.staffTableView reloadData];
-                    [_companyInfoTableView reloadData];
+                    NSIndexPath *path = [NSIndexPath indexPathForItem:3 inSection:0];
+                    [_companyInfoTableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
                  
                     if([_exminationCountField.text integerValue] < workerArray.count){
                         _exminationCountField.text = [NSString stringWithFormat:@"%ld", workerArray.count];

@@ -174,6 +174,15 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     _linkPhone = _brContract.linkPhone;
     _appointmentCount = [NSString stringWithFormat:@"%ld", _brContract.regCheckNum];
     _staffCount = 0;
+    
+    [[HttpNetworkManager getInstance] getCustomerListByBRContract:_brContract.code resultBlock:^(NSArray *result, NSError *error) {
+        if (error != nil){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"查询单位员工失败" removeDelay:3];
+            return;
+        }
+        
+        _customerArr = result;
+    }];
 
 }
 
@@ -194,27 +203,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     _brContract.linkUser = _contactPersonField.text;
     _brContract.linkPhone = _phoneNumField.text;
     _brContract.regCheckNum = [_exminationCountField.text intValue];
-    
-    /*
-     //    [self.sharedClient POST:newurl parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-     //        NSError *error = nil;
-     //
-     //
-     //        if ([[responseObject objectForKey:@"object"] isEqualToString:@"0"]) {
-     //            error = [NSError errorWithDomain:@"error" code:0 userInfo:[NSDictionary dictionaryWithObject:@"预约异常失败，请重试" forKey:@"error"]];
-     //        }
-     //        else if ([[responseObject objectForKey:@"object"] isEqualToString:@"1" ]){
-     //            error = [NSError errorWithDomain:@"error" code:1 userInfo:[NSDictionary dictionaryWithObject:@"已达到修改次数上限" forKey:@"error"]];
-     //        }
-     //        if (block) {
-     //            block(YES, error);
-     //        }
-     //    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-     //        if (block) {
-     //            block(NO, error);
-     //        }
-     //    }];|| [methodResult.object isEqualToString:@"0"]
-     */
     
     [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(NSDictionary *result, NSError *error) {
         if (error != nil){

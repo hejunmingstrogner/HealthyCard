@@ -175,7 +175,7 @@
     }
     
     //断线后，开启重连服务器的定时器
-    _connectTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(reconnectToServer) userInfo:nil repeats:YES];
+    _connectTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(reconnectToServer) userInfo:nil repeats:NO];
     [_connectTimer fire];
 }
 
@@ -185,6 +185,7 @@
 
 //断线重连定时器
 -(void)reconnectToServer{
+    [NSThread sleepForTimeInterval:10.0f];
     [self connectToHost:SOCKET_HOST Port:SOCKET_PORT];
 }
 

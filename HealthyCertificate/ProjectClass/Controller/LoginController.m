@@ -60,6 +60,8 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     //验证定时相关
     NSTimer*        _vertifyTimer;
     NSInteger       _vertifyCount;
+    
+    BOOL           _isVertified;
 }
 
 @end
@@ -239,7 +241,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
                                                  
                                                  if (error != nil){
                                                      //登录错误 to do
-                                                     [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络错误,请连接后重试" removeDelay:2];
+                                                     [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接错误,请检查网络设置" removeDelay:2];
                                                      return;
                                                  }
                                     
@@ -259,12 +261,20 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
                                                  SetLastLoginTime([[NSDate date] convertToLongLong]);
                                                  SetPhoneNumber(_phoneNumTextField.text);
                                                  [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
+                                                 _isVertified = YES;
                                                 // [[HMNetworkEngine getInstance] startControl];
                                                  }];
 }
 
 -(void)veritifyBtnClicked:(id)sender
 {
+    //如果当前网络不好，则提示
+    if (reachAbility.currentReachabilityStatus == 0)
+    {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:3];
+        return;
+    }
+    
     if (_vertifyCount != 0){
         return;
     }
@@ -287,14 +297,6 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
             }else{
                 
             }
-        
-            
-         //   NSInteger hehe = [test longLongValue];
-//            if (!([[dataDic objectForKey:@"code"] longLongValue] == 0)){
-//                //登录错误 to do
-//                NSLog(@"验证太频繁");
-//                return;
-//            }
             _authCodeStr = [dataDic objectForKey:@"authCode"];
             _vertifyTextField.text = _authCodeStr;
             
@@ -304,6 +306,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
         }
     }];
 }
+
 
 -(void)buttonBackgroundHighLight:(UIButton*)sender
 {
@@ -338,6 +341,9 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
 }
 
 -(void)getLoginInfoSucceed{
+    if (!_isVertified)
+        return;
+    
     //因为现在是异步队列，所以不能在该函数里面操作ui线程
     dispatch_async(dispatch_get_main_queue(), ^{
        // [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
@@ -354,8 +360,29 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
 {
     if (textField.tag == LOGIN_VERTIFY_TEXTFIELD)
     {
+        if (![self isPureInt:string]){
+            if (![string isEqualToString:@""]){
+                return NO;
+            }else{
+                if (textField.text.length == 4 && [string isEqualToString:@""]){
+                    _loginButton.enabled = NO;
+                    [_loginButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
+                    return YES;
+                }
+            }
+        }
+        //如果是4位及以上的验证码，则按钮可以点击
+        if (textField.text.length + string.length < 4){
+            _loginButton.enabled = NO;
+            [_loginButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
+        }else{
+            _loginButton.enabled = YES;
+            [_loginButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+        }
         return YES;
     }
+    
+    
     if (![self isPureInt:string]){
         _vertifyButton.enabled = NO;
         [_vertifyButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
@@ -446,8 +473,6 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     
     if (_vertifyCount == 0){
         [_vertifyButton setTitle:@"验证" forState:UIControlStateNormal];
-        _loginButton.enabled = NO;
-        [_loginButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
         [_vertifyTimer invalidate];
     }
 }
