@@ -18,6 +18,12 @@
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
+@interface SelectCompanyViewController()
+{
+    NSInteger *userTypeFlag;
+}
+@end
+
 @implementation SelectCompanyViewController
 
 - (void)viewDidLoad
@@ -29,6 +35,8 @@
     [self initSubViews];
 
     [self getData];
+
+    userTypeFlag = GetUserType;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification  object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification  object:nil];
@@ -75,8 +83,11 @@
 // 确定
 - (void)confirmBtnClicked:(UIBarButtonItem *)sender
 {
+    if (_textField.text.length == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     if (_selectIndex < 0) {
-        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"请选择地址" ActionTitle:@"确认" ActionStyle:0];
+        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"请选择公司" ActionTitle:@"确认" ActionStyle:0];
     }
     else {
         NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
@@ -147,7 +158,7 @@
     }];
     [_textField setClearButtonMode:UITextFieldViewModeWhileEditing];
     _textField.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
-    _textField.text = _companyName;
+    _textField.text = [_companyName isEqualToString:@"暂无"]? @"" : _companyName;
     _textField.placeholder = @"请输入单位名称";
 
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];

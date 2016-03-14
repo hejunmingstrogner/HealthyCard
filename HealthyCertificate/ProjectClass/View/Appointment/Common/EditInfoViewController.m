@@ -15,7 +15,7 @@
 #import "UIFont+Custom.h"
 #import "UIButton+HitTest.h"
 #import "UIButton+Easy.h"
-
+#import "NSString+Custom.h"
 #import "Constants.h"
 #import "RzAlertView.h"
 
@@ -190,8 +190,15 @@
             return;
         }
     }
+
+    NSString *_text = [_textField.text deleteSpaceWithHeadAndFootWithString:_textField.text];
+    if (_text.length == 0) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"您还没有输入" removeDelay:3];
+        _textField.text = _text;
+        return;
+    }
     if (_block) {
-        _block(_textField.text);
+        _block(_text);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

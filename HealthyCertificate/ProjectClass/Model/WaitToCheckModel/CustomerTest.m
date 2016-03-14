@@ -28,18 +28,18 @@
     return _servicePoint;
 }
 
- // -1未检，0签到，1在检，2延期，3完成，4已通过总检确认，5已打印体检卡，6已打印条码，9已出报告和健康证
+ // -1待检，0签到，1在检，2延期，3完成，4已通过总检确认，5已打印体检卡，6已打印条码，9已出报告和健康证
 - (NSArray *)getTestStatusArrayWithTestStatus:(NSString *)teststatus
 {
     NSArray *aarry;
     NSInteger test = [teststatus integerValue];
     switch (test) {
         case -1:{
-            aarry = @[@" ", @"未检", @"签到"];
+            aarry = @[@" ", @"待检", @"签到"];
             break;
         }
         case 0:{
-            aarry = @[@"未检", @"签到", @"在检"];
+            aarry = @[@"待检", @"签到", @"在检"];
             break;
         }
         case 1:{

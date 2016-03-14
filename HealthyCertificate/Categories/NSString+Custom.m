@@ -47,5 +47,10 @@
     return (long long)[resultDate timeIntervalSince1970];
 }
 
+
+- (NSString *)deleteSpaceWithHeadAndFootWithString:(NSString *)text
+{
+    return [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
 @end
 

@@ -85,8 +85,8 @@
 {
         // 个人
     if (GetUserType == 1) {
-        UserinformationCellItem *head = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"头像" detialLabelText:nil itemtype:USERINFORMATION_HEADERIMAGE];
-        UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:[gPersonInfo.mCustName isEqualToString:@""] ? @"暂无":gPersonInfo.mCustName itemtype:USERINFORMATION_NAME];
+        UserinformationCellItem *head = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"头像" detialLabelText:nil itemtype:PERSON_HEADERIMAGE];
+        UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:[gPersonInfo.mCustName isEqualToString:@""] ? @"暂无":gPersonInfo.mCustName itemtype:PERSON_NAME];
         NSString *bGender;
         if (gPersonInfo.bGender == 0) {
             bGender = @"男";
@@ -97,22 +97,22 @@
         else{
             bGender = @"暂无";
         }
-        UserinformationCellItem *sex = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"性别" detialLabelText:bGender itemtype:USERINFORMATION_GENDER];
-        UserinformationCellItem *old = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"年龄" detialLabelText:[NSString getOldYears:gPersonInfo.CustId] itemtype:USERINFORMATION_OLD];
-        UserinformationCellItem *telPhoneNo = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gPersonInfo.StrTel isEqualToString:@""] ? @"暂无" : gPersonInfo.StrTel itemtype:USERINFORMATION_TELPHONENO];
-        UserinformationCellItem *idCard = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"身份证号" detialLabelText:[gPersonInfo.CustId isEqualToString:@""] ? @"暂无" : gPersonInfo.CustId itemtype:USERINFORMATION_IDCARD];
-        UserinformationCellItem *calling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gPersonInfo.cIndustry isEqualToString:@""] ? @"暂无" : gPersonInfo.cIndustry itemtype:USERINFORMATION_CALLING];
-        UserinformationCellItem *workUnit = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gPersonInfo.cUnitName isEqualToString:@""] ? @"暂无" : gPersonInfo.cUnitName itemtype:USERINFORMATION_WORKUNITNAME];
+        UserinformationCellItem *sex = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"性别" detialLabelText:bGender itemtype:PERSON_GENDER];
+        UserinformationCellItem *old = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"年龄" detialLabelText:[NSString getOldYears:gPersonInfo.CustId] itemtype:PERSON_AGE];
+        UserinformationCellItem *telPhoneNo = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gPersonInfo.StrTel isEqualToString:@""] ? @"暂无" : gPersonInfo.StrTel itemtype:PERSON_TELPHONE];
+        UserinformationCellItem *idCard = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"身份证号" detialLabelText:[gPersonInfo.CustId isEqualToString:@""] ? @"暂无" : gPersonInfo.CustId itemtype:PERSON_IDCARD];
+        UserinformationCellItem *calling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gPersonInfo.cIndustry isEqualToString:@""] ? @"暂无" : gPersonInfo.cIndustry itemtype:PERSON_CALLING];
+        UserinformationCellItem *workUnit = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gPersonInfo.cUnitName isEqualToString:@""] ? @"暂无" : gPersonInfo.cUnitName itemtype:PERSON_COMPANY_NAME];
 
         _dataArray = [NSMutableArray arrayWithObjects:head, name, sex, old, telPhoneNo, idCard, calling, workUnit, nil];
     }
     else{
         // 单位
-        UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gCompanyInfo.cUnitName isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitName itemtype:USERINFORMATION_WORKUNITNAME];
-        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gCompanyInfo.cUnitAddr isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitAddr itemtype:USERINFORMATION_WORKUNITADRESS];
-        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位联系人" detialLabelText:[gCompanyInfo.cLinkPeople isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPeople itemtype:USERINFORMATION_WORKUNITCONTACTS];
-        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gCompanyInfo.cLinkPhone isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPhone itemtype:USERINFORMATION_TELPHONENO];
-        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gCompanyInfo.cUnitType isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitType itemtype:USERINFORMATION_CALLING];
+        UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gCompanyInfo.cUnitName isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitName itemtype:COMPANY_NAME];
+        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gCompanyInfo.cUnitAddr isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitAddr itemtype:COMPANY_ADDRESS];
+        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位联系人" detialLabelText:[gCompanyInfo.cLinkPeople isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPeople itemtype:COMPANY_CONTACT];
+        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gCompanyInfo.cLinkPhone isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPhone itemtype:COMPANY_LINKPHONE];
+        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gCompanyInfo.cUnitType isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitType itemtype:COMPANY_CALLING];
         _dataArray = [NSMutableArray arrayWithObjects:workUnitName, workUnitAdress, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
     }
 }
@@ -126,7 +126,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (((UserinformationCellItem *)_dataArray[indexPath.row]).itemType == USERINFORMATION_HEADERIMAGE) {
+    if (((UserinformationCellItem *)_dataArray[indexPath.row]).itemType == PERSON_HEADERIMAGE) {
         return 70;
     }
     return 44;
@@ -139,7 +139,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // 有头像
-    if (((UserinformationCellItem *)_dataArray[indexPath.row]).itemType == USERINFORMATION_HEADERIMAGE) {
+    if (((UserinformationCellItem *)_dataArray[indexPath.row]).itemType == PERSON_HEADERIMAGE) {
         UITableViewCell *headcell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"head"];
         headcell.textLabel.text = ((UserinformationCellItem *)_dataArray[indexPath.row]).titleLabelText;
         headcell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:CELL_FONT];
@@ -167,7 +167,7 @@
     }
     UserinformationCellItem* usefInformationCellItem = (UserinformationCellItem *)_dataArray[indexPath.row];
     cell.textLabel.text = usefInformationCellItem.titleLabelText;
-    if (usefInformationCellItem.itemType == USERINFORMATION_OLD){
+    if (usefInformationCellItem.itemType == PERSON_AGE){
         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
     }else{
         cell.detailTextLabel.textColor = [UIColor blackColor];
@@ -182,28 +182,28 @@
 {
     UserinformationCellItem* item = (UserinformationCellItem *)_dataArray[indexPath.row];
     switch (item.itemType) {
-        case USERINFORMATION_HEADERIMAGE:{
+        case PERSON_HEADERIMAGE:{
             return;
         }
-        case USERINFORMATION_NAME:{
+        case PERSON_NAME:{
             break;
         }
-        case USERINFORMATION_GENDER:{
+        case PERSON_GENDER:{
             [UIView animateWithDuration:0.5 animations:^{
                 wheelView.frame = CGRectMake(0, self.view.frame.size.height - self.view.frame.size.height/3, self.view.frame.size.width, self.view.frame.size.height/3);
             }];
             return;
         }
-        case USERINFORMATION_OLD:{
+        case PERSON_AGE:{
             return;
         }
-        case USERINFORMATION_TELPHONENO:{
+        case PERSON_TELPHONE:{
             return;
         }
-        case USERINFORMATION_IDCARD:{
+        case PERSON_IDCARD:{
             break;
         }
-        case USERINFORMATION_CALLING:{
+        case PERSON_CALLING:{
             if (GetUserType == 1) {
                 WorkTypeViewController *workType = [[WorkTypeViewController alloc]init];
                 workType.workTypeStr = item.detialLabelText;
@@ -226,7 +226,27 @@
                 };
                 [self.navigationController pushViewController:workType animated:YES];
             }
-            else if(GetUserType == 2){
+
+            return;
+        }
+        case PERSON_COMPANY_NAME:{
+            if (GetUserType == 1) {
+                SelectCompanyViewController *select = [[SelectCompanyViewController alloc]init];
+                select.companyName = ((UserinformationCellItem *)_dataArray[indexPath.row]).detialLabelText;
+                [select isupdataCompany:^(NSString *text) {
+                    [self getdata];
+                    [_tableView reloadData];
+                }];
+                [self.navigationController pushViewController:select animated:YES];
+                return;
+            }
+            break;
+        }
+        case COMPANY_NAME:{
+            break;
+        }
+        case COMPANY_CALLING:{
+            if(GetUserType == 2){
                 WorkTypeViewController *workType = [[WorkTypeViewController alloc]init];
                 workType.workTypeStr = item.detialLabelText;
                 workType.block = ^(NSString *resultStr){
@@ -250,23 +270,11 @@
             }
             return;
         }
-        case USERINFORMATION_WORKUNITNAME:{
-            if (GetUserType == 1) {
-                SelectCompanyViewController *select = [[SelectCompanyViewController alloc]init];
-                select.companyName = ((UserinformationCellItem *)_dataArray[indexPath.row]).detialLabelText;
-                [select isupdataCompany:^(NSString *text) {
-                    [self getdata];
-                    [_tableView reloadData];
-                }];
-                [self.navigationController pushViewController:select animated:YES];
-                return;
-            }
+
+        case COMPANY_ADDRESS:{
             break;
         }
-        case USERINFORMATION_WORKUNITADRESS:{
-            break;
-        }
-        case USERINFORMATION_WORKUNITCONTACTS:{
+        case COMPANY_CONTACT:{
             break;
         }
         default:
@@ -287,43 +295,46 @@
 - (void)updataSuccessThenChangeUserinformation:(NSInteger)index Text:(NSString *)text
 {
     switch (((UserinformationCellItem *)_dataArray[index]).itemType) {
-        case USERINFORMATION_HEADERIMAGE:{
+        case PERSON_HEADERIMAGE:{
             break;
         }
-        case USERINFORMATION_NAME:{
+        case PERSON_NAME:{
             gPersonInfo.mCustName = text;
             break;
         }
-        case USERINFORMATION_GENDER:{
+        case PERSON_GENDER:{
             break;
         }
-        case USERINFORMATION_OLD:{
+        case PERSON_AGE:{
             return;
         }
-        case USERINFORMATION_TELPHONENO:{
+        case PERSON_TELPHONE:{
             break;
         }
-        case USERINFORMATION_IDCARD:{
+        case PERSON_IDCARD:{
             gPersonInfo.CustId = text;
             break;
         }
-        case USERINFORMATION_CALLING:{
+        case PERSON_CALLING:{
             break;
         }
-        case USERINFORMATION_WORKUNITNAME:{
+        case PERSON_COMPANY_NAME:{
             if (GetUserType == 1) {
                 gPersonInfo.cUnitName = text;
             }
-            else {
+            break;
+        }
+        case COMPANY_NAME:{
+            if (GetUserType == 2) {
                 gCompanyInfo.cUnitName = text;
             }
             break;
         }
-        case USERINFORMATION_WORKUNITADRESS:{
+        case COMPANY_ADDRESS:{
             gCompanyInfo.cUnitAddr = text;
             break;
         }
-        case USERINFORMATION_WORKUNITCONTACTS:{
+        case COMPANY_CONTACT:{
             gCompanyInfo.cLinkPeople = text;
             break;
         }

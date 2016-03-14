@@ -36,4 +36,12 @@
  */
 -(long long)convertDateStrToLongLong;
 
+/**
+ *  删除文字头尾的空格
+ *
+ *  @param text 要删除的原文本
+ *
+ *  @return 返回没有空格的文本
+ */
+- (NSString *)deleteSpaceWithHeadAndFootWithString:(NSString *)text;
 @end
