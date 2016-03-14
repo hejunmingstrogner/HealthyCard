@@ -93,7 +93,7 @@ RealReachability* reachAbility;
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    return  [UMSocialSnsService handleOpenURL:url];
+    return  [UMSocialSnsService handleOpenURL:url];   
 }
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
@@ -140,8 +140,8 @@ RealReachability* reachAbility;
     reachAbility = (RealReachability *)notification.object;
    // ReachabilityStatus status = [reachAbility currentReachabilityStatus];
     if (reachAbility.currentReachabilityStatus == 0){
-        //代表没有网络链接，socket没有链接上
-        [RzAlertView showAlertLabelWithTarget:self.window Message:@"网络链接失败，请检查网络设置" removeDelay:3];
+        //代表没有网络连接，socket没有链接上
+        [RzAlertView showAlertLabelWithTarget:self.window Message:@"网络连接失败，请检查网络设置" removeDelay:3];
     }
 }
 
