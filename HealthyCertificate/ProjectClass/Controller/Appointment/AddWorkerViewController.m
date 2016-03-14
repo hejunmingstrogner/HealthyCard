@@ -91,10 +91,10 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
             for (Customer *customer in _workerData) {
                 AddWorkerCellItem *cellItem;
                 if ([array containsObject:customer.custCode]) {
-                    cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.cTel endDate:customer.operdate selectFlag:1];
+                    cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:1];
                 }
                 else{
-                    cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.cTel endDate:customer.operdate selectFlag:0];
+                    cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:0];
                 }
                 [_workerArray addObject:cellItem];
             }

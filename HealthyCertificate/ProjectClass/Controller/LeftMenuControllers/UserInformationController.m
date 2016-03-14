@@ -140,7 +140,7 @@
 {
     // 有头像
     if (((UserinformationCellItem *)_dataArray[indexPath.row]).itemType == PERSON_HEADERIMAGE) {
-        UITableViewCell *headcell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"head"];
+        UITableViewCell *headcell = [[UITableViewCell alloc]init];
         headcell.textLabel.text = ((UserinformationCellItem *)_dataArray[indexPath.row]).titleLabelText;
         headcell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:CELL_FONT];
         UIButton *headeimageBtn = [[UIButton alloc]init];
@@ -294,6 +294,7 @@
 // 修改成功之后，改变本地数据
 - (void)updataSuccessThenChangeUserinformation:(NSInteger)index Text:(NSString *)text
 {
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:1];
     switch (((UserinformationCellItem *)_dataArray[index]).itemType) {
         case PERSON_HEADERIMAGE:{
             break;

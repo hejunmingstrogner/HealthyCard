@@ -27,8 +27,11 @@
 /**
  * 单位地址。
  */
-// @property (nonatomic, strong) NSString * cUnitAdrr;
-@property (nonatomic, strong) NSString * cUnitName;
+@property (nonatomic, strong) NSString * unitAdrr;
+/**
+ * 单位名称。
+ */
+@property (nonatomic, strong) NSString * unitName;
 /**
  * 所属行业。
  */
@@ -44,11 +47,11 @@
 /**
  * 民族
  */
-@property (nonatomic, strong) NSString * cNation;
+@property (nonatomic, strong) NSString * nation;
 /**
  * 住址。
  */
-@property (nonatomic, strong) NSString * cAddress;
+@property (nonatomic, strong) NSString * addr;
 /**
  * 出生日期。
  */
@@ -64,11 +67,11 @@
 /**
  * 电话
  */
-@property (nonatomic, strong) NSString * cTel;
+@property (nonatomic, strong) NSString * tel;
 /**
  * 联系人电话
  */
-@property (nonatomic, strong) NSString * cLinkPhone;
+@property (nonatomic, strong) NSString * linkPhone;
 /**
  * 邮件地址。
  */
@@ -93,6 +96,6 @@
 /**
  * 上一次体检时间。
  */
-@property (nonatomic, strong) NSDate * lastCheckTime;
+@property (nonatomic, strong) NSString * lastCheckTime;
 
 @end
