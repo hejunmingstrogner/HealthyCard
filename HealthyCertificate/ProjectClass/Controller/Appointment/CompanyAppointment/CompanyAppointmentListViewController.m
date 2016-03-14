@@ -9,29 +9,58 @@
 #import "CompanyAppointmentListViewController.h"
 
 #import <Masonry.h>
+#import <MJExtension.h>
 
 #import "UIFont+Custom.h"
 #import "UIButton+HitTest.h"
 #import "UIButton+Easy.h"
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
+#import "NSString+Custom.h"
 
 #import "Constants.h"
 
+#import "HttpNetworkManager.h"
+
+#import "MethodResult.h"
+
 #import "SelectAddressViewController.h"
+#import "AddWorkerViewController.h"
 #import "CloudAppointmentDateVC.h"
 #import "CloudCompanyAppointmentStaffCell.h"
 #import "CloudCompanyAppointmentCell.h"
 #import "CompanyItemListCell.h"
 
 
-@interface CompanyAppointmentListViewController()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface CompanyAppointmentListViewController()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate,UIGestureRecognizerDelegate>
 {
     UITextField *_contactPersonField;
     UITextField *_phoneNumField;
     UITextField *_exminationCountField;
     CGFloat      _viewHeight;
+    
+    UITextView  *_addressTextView;
+    UITextView  *_dateTextView;
+    
+    UITableView *_tableView;
+    
+    CLLocationCoordinate2D _centerCoordinate;
+    
+    //预约/体检 地址
+    NSString    *_address;
+    // 预约/体检 时间
+    NSString    *_date;
+    // 联系人
+    NSString    *_linkPerson;
+    // 联系电话
+    NSString    *_linkPhone;
+    // 预约人数
+    NSString    *_appointmentCount;
+    //单位员工
+    NSInteger   _staffCount;
 }
+
+@property (nonatomic, copy) NSArray* customerArr;
 
 @end
 
@@ -41,11 +70,11 @@
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 #define TopMargin FIT_FONTSIZE(20)
 
-typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
+typedef NS_ENUM(NSInteger, CompanyListTextField)
 {
-    TEXTFIELD_CONTACT = 2001,
-    TEXTFIELD_PHONE,
-    TEXTFIELD_CONTACTCOUNT
+    CompanyList_LinkPerson,
+    CompanyList_LinePhone,
+    CompanyList_AppointmentCount
 };
 
 #pragma mark - Life Circle
@@ -56,19 +85,27 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     
     self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
-    UITableView* tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
-    tableView.dataSource = self;
-    tableView.delegate = self;
-    [self.view addSubview:tableView];
-    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+    [self.view addSubview:_tableView];
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         //make.top.mas_equalTo(self.view).with.offset(TopMargin);
         make.left.right.mas_equalTo(self.view);
         make.top.bottom.mas_equalTo(self.view);
     }];
     
-    [tableView registerClass:[CloudCompanyAppointmentCell class] forCellReuseIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])];
-    [tableView registerClass:[CloudCompanyAppointmentStaffCell class] forCellReuseIdentifier:NSStringFromClass([CloudCompanyAppointmentStaffCell class])];
-    [tableView registerClass:[CompanyItemListCell class] forCellReuseIdentifier:NSStringFromClass([CompanyItemListCell class])];
+    
+    [_tableView registerClass:[CloudCompanyAppointmentStaffCell class] forCellReuseIdentifier:NSStringFromClass([CloudCompanyAppointmentStaffCell class])];
+    [_tableView registerClass:[CloudCompanyAppointmentCell class] forCellReuseIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])];
+    [_tableView registerClass:[CompanyItemListCell class] forCellReuseIdentifier:NSStringFromClass([CompanyItemListCell class])];
+    
+    //添加手势
+    UITapGestureRecognizer* singleRecognizer;
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
+    singleRecognizer.numberOfTapsRequired = 1; // 单击
+    singleRecognizer.delegate = self;
+    [self.view addGestureRecognizer:singleRecognizer];
 }
 
 -(void)initNavigation
@@ -101,10 +138,106 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     [self cancelKeyboardNotification];
 }
 
+#pragma mark - Setter & Getter
+-(NSArray*)customerArr{
+    if (_customerArr == nil)
+        _customerArr = [[NSArray alloc] init];
+    return _customerArr;
+}
+
+-(void)setBrContract:(BRContract *)brContract
+{
+    _brContract = brContract;
+    
+    _address = _brContract.regPosAddr;
+    
+    
+    if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
+        
+        _date = [NSString stringWithFormat:@"%@~%@", [NSDate converLongLongToChineseStringDate:_brContract.regBeginDate/1000],
+                 [NSDate converLongLongToChineseStringDate:_brContract.regEndDate/1000]];
+    }else{
+        //基于服务点(移动+固定)
+        if ([_brContract.hosCode isEqualToString:_brContract.checkSiteID]){
+            //固定
+            _date = [NSString stringWithFormat:@"工作日(%@~%@)", [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime/1000],
+                     [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime/1000]];
+        }else{
+            NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime/1000];
+            NSString *start = [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime/1000];
+            NSString *end = [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime/1000];
+            _date = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+        }
+    }
+    
+    _linkPerson = _brContract.linkUser;
+    _linkPhone = _brContract.linkPhone;
+    _appointmentCount = [NSString stringWithFormat:@"%ld", _brContract.regCheckNum];
+    _staffCount = 0;
+
+}
+
 #pragma mark - Action
 -(void)editBtnClicked:(UIButton*)sender
 {
+    //非服务点预约才能修改地址和时间
+    if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""])
+    {
+        NSArray* array = [_dateTextView.text  componentsSeparatedByString:@"~"];
+        _brContract.regBeginDate = [array[0] convertDateStrToLongLong]*1000;
+        _brContract.regEndDate = [array[1] convertDateStrToLongLong]*1000;
+        _brContract.regPosAddr = _addressTextView.text;
+        _brContract.regPosLA = _centerCoordinate.latitude;
+        _brContract.regPosLO = _centerCoordinate.longitude;
+    }
     
+    _brContract.linkUser = _contactPersonField.text;
+    _brContract.linkPhone = _phoneNumField.text;
+    _brContract.regCheckNum = [_exminationCountField.text intValue];
+    
+    /*
+     //    [self.sharedClient POST:newurl parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+     //        NSError *error = nil;
+     //
+     //
+     //        if ([[responseObject objectForKey:@"object"] isEqualToString:@"0"]) {
+     //            error = [NSError errorWithDomain:@"error" code:0 userInfo:[NSDictionary dictionaryWithObject:@"预约异常失败，请重试" forKey:@"error"]];
+     //        }
+     //        else if ([[responseObject objectForKey:@"object"] isEqualToString:@"1" ]){
+     //            error = [NSError errorWithDomain:@"error" code:1 userInfo:[NSDictionary dictionaryWithObject:@"已达到修改次数上限" forKey:@"error"]];
+     //        }
+     //        if (block) {
+     //            block(YES, error);
+     //        }
+     //    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+     //        if (block) {
+     //            block(NO, error);
+     //        }
+     //    }];|| [methodResult.object isEqualToString:@"0"]
+     */
+    
+    [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(NSDictionary *result, NSError *error) {
+        if (error != nil){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
+            return;
+        }
+        
+        MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
+        if (methodResult.succeed == NO){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
+            return;
+        }
+        
+        if ([methodResult.object isEqualToString:@"0"]){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
+            return;
+        }
+        
+        if ([methodResult.object isEqualToString:@"1"]){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"已达到修改次数上限" removeDelay:2];
+            return;
+        }
+    }];
 }
 
 -(void)backToPre:(UIButton*)sender
@@ -112,6 +245,22 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
+{
+    if(recognizer.view.tag != CompanyList_AppointmentCount && recognizer.view.tag != CompanyList_LinePhone && recognizer.view.tag != CompanyList_LinkPerson){
+        [_contactPersonField resignFirstResponder];
+        [_phoneNumField resignFirstResponder];
+        [_exminationCountField resignFirstResponder];
+    }
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"] || [NSStringFromClass([touch.view class]) isEqualToString:@"UITableView"]) {//如果当前是tableView
+        return NO; //继续传递
+    }
+    return YES;
+}
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -138,7 +287,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 1 && indexPath.row == 3){
         CloudCompanyAppointmentStaffCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CloudCompanyAppointmentStaffCell class])];
-        // cell.staffCount = _customerArr.count; to do
+        cell.staffCount = _staffCount;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -148,28 +297,28 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         CloudCompanyAppointmentCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])];
         if (indexPath.row == 0){
             cell.textFieldType = CDA_CONTACTPERSON;
-            cell.textField.text = gCompanyInfo.cLinkPeople;
+            cell.textField.text = _linkPerson;
             cell.textField.enabled = YES;
-            cell.textField.tag = TEXTFIELD_CONTACT;
             cell.textField.returnKeyType = UIReturnKeyDone;
             cell.textField.delegate = self;
+            cell.textField.tag = CompanyList_LinkPerson;
             _contactPersonField = cell.textField;
         }else if (indexPath.row == 1){
             cell.textFieldType = CDA_CONTACTPHONE;
-            cell.textField.text = gCompanyInfo.cLinkPhone;
+            cell.textField.text = _linkPhone;
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;
             cell.textField.enabled = YES;
-            cell.textField.tag = TEXTFIELD_PHONE;
-            //cell.textField.returnKeyType = UIReturnKeyDone;
+            cell.textField.tag = CompanyList_LinePhone;
             cell.textField.delegate = self;
             _phoneNumField = cell.textField;
         }else if (indexPath.row == 2){
             cell.textFieldType = CDA_PERSON;
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;
             cell.textField.enabled = YES;
-            cell.textField.tag = TEXTFIELD_CONTACTCOUNT;
             cell.textField.returnKeyType = UIReturnKeyDone;
             cell.textField.delegate = self;
+            cell.textField.text = _appointmentCount;
+            cell.textField.tag = CompanyList_AppointmentCount;
             _exminationCountField = cell.textField;
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -178,56 +327,56 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }
     
     CompanyItemListCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CompanyItemListCell class])];
-    cell.userInteractionEnabled = NO;
+    cell.textView.userInteractionEnabled = NO;
     if (indexPath.row == 0){
         if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
             //代表预约，可以修改
             cell.itemType = CDA_APPOINTMENTADDRESS;
+            cell.userInteractionEnabled = YES;
         }else{
             //代表体检，不可修改
             cell.itemType = CDA_EXAMADDRESS;
+           cell.userInteractionEnabled = NO;
             cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
         }
-        [cell setTextViewText:_brContract.regPosAddr];
+        [cell setTextViewText:_address];
+        _addressTextView = cell.textView;
     }else{
         if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
             cell.itemType = CDA_APPOINTMENTTIME;
-            
-            //云预约服务点显示格式
-            [cell setTextViewText:[NSString stringWithFormat:@"%@~%@", [NSDate converLongLongToChineseStringDate:_brContract.regBeginDate/1000],
-                                   [NSDate converLongLongToChineseStringDate:_brContract.regEndDate/1000]]];
+            cell.userInteractionEnabled = YES;
         }else{
             cell.itemType = CDA_EXAMTIME;
+            cell.userInteractionEnabled = NO;
             cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-            
-            //基于服务点(移动+固定)
-            if ([_brContract.hosCode isEqualToString:_brContract.checkSiteID]){
-                //固定服务点
-                [cell setTextViewText:[NSString stringWithFormat:@"工作日(%@)", [NSDate getHour_MinuteByDate:_brContract.regTime/1000]]];
-            }else{
-                 NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime/1000];
-                 NSString *start = [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime/1000];
-                 NSString *end = [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime/1000];
-                [cell setTextViewText:[NSString stringWithFormat:@"%@(%@~%@)", year, start, end]];
-            }
         }
+        [cell setTextViewText:_date];
+        _dateTextView = cell.textView;
     }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0){
-        
         if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
             if (indexPath.row == 0){
                 SelectAddressViewController* selectAddressVC = [[SelectAddressViewController alloc] init];
+                selectAddressVC.addressStr = _addressTextView.text;
+                [selectAddressVC getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
+                    _addressTextView.text = address;
+                    _centerCoordinate = coor;
+                }];
                 [self.navigationController pushViewController:selectAddressVC animated:YES];
             }else{
                 CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
+                cloudAppointmentDateVC.beginDateString = [_dateTextView.text componentsSeparatedByString:@"~"][0];
+                cloudAppointmentDateVC.endDateString = [_dateTextView.text componentsSeparatedByString:@"~"][1];
+                [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
+                    _dateTextView.text = dateStr;
+                }];
                 [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
             }
         }
-        
         return;
     }
     else{
@@ -238,7 +387,20 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }else if (indexPath.row == 2){
             [_exminationCountField becomeFirstResponder];
         }else{
-            
+            AddWorkerViewController* addWorkerVC = [[AddWorkerViewController alloc] init];
+            addWorkerVC.selectWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;
+            __weak typeof(self) weakSelf = self;
+            [addWorkerVC getWorkerArrayWithBlock:^(NSArray *workerArray) {
+                weakSelf.customerArr = workerArray;
+                if([_exminationCountField.text integerValue] < workerArray.count){
+                    _exminationCountField.text = [NSString stringWithFormat:@"%ld", workerArray.count];
+                    _staffCount = workerArray.count;
+                    NSIndexPath *path = [NSIndexPath indexPathForItem:3 inSection:1];
+                    [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+                }
+            }];
+            [self.navigationController pushViewController:addWorkerVC animated:YES];
+            [self inputWidgetResign];
         }
     }
 }
@@ -277,6 +439,36 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 }
 
 #pragma mark - UITextFieldDelegate
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField.tag != CompanyList_LinePhone){
+        return YES;
+    }
+    
+    if (![self isPureInt:string]){
+        return YES;
+    }
+    if (textField.text.length + string.length > 11){
+        return NO;
+    }else{
+        return YES;
+    }
+}
 
+#pragma mark - Private Methods
+- (BOOL)isPureInt:(NSString*)string{
+    NSScanner* scan = [NSScanner scannerWithString:string];
+    int val;
+    return[scan scanInt:&val] && [scan isAtEnd];
+}
+
+-(void)inputWidgetResign
+{
+    [_addressTextView resignFirstResponder];
+    [_dateTextView resignFirstResponder];
+    [_contactPersonField resignFirstResponder];
+    [_phoneNumField resignFirstResponder];
+    [_exminationCountField resignFirstResponder];
+}
 
 @end

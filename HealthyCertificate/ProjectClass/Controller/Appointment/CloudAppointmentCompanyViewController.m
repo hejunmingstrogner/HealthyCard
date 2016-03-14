@@ -10,6 +10,7 @@
 #import "CloudAppointmentDateVC.h"
 
 #import <Masonry.h>
+#import <MJExtension.h>
 
 #import "Constants.h"
 
@@ -35,6 +36,8 @@
 #import "Customer.h"
 #import "PositionUtil.h"
 #import "HttpNetworkManager.h"
+
+#import "MethodResult.h"
 
 #define Button_Size 26
 
@@ -428,11 +431,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"体检地址不存在，请选择一个地址" removeDelay:3];
         return ;
     }
-    // 将百度地图转为gps地图
-    PositionUtil *positionUtil = [[PositionUtil alloc]init];
-    CLLocationCoordinate2D gpsCoor = [positionUtil bd2wgs:_centerCoordinate.latitude lon:_centerCoordinate.longitude];
-    _brContract.regPosLO = gpsCoor.longitude;
-    _brContract.regPosLA = gpsCoor.latitude;
+    _brContract.regPosLA = _centerCoordinate.latitude;
+    _brContract.regPosLO = _centerCoordinate.longitude;
     _brContract.regPosAddr = _location;
     _brContract.regTime = [[NSDate date] timeIntervalSince1970];
 
@@ -446,26 +446,53 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"你还未填写预约时间" removeDelay:3];
             return ;
         }
-        _brContract.regBeginDate = [dateArray[0] convertDateStrToLongLong];
-        _brContract.regEndDate = [dateArray[1] convertDateStrToLongLong];
+        _brContract.regBeginDate = [dateArray[0] convertDateStrToLongLong]*1000;
+        _brContract.regEndDate = [dateArray[1] convertDateStrToLongLong]*1000;
     }
     _brContract.linkUser = _contactPersonField.text;
     _brContract.linkPhone = gCompanyInfo.cLinkPhone;
     _brContract.cityName = _cityName;
     _brContract.checkType = @"1";
     _brContract.testStatus = @"-1"; // -1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
-
-    [[HttpNetworkManager getInstance]createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(BOOL result, NSError *error) {
-        if (!error) {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约成功！" removeDelay:3];
-            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-            mycheckListViewController.popStyle = POPTO_ROOT;
-            [self.navigationController pushViewController:mycheckListViewController animated:YES];
+    
+    [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(NSDictionary *result, NSError *error) {
+        if (error != nil){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
+            return;
         }
-        else {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约失败,请检查网络设置" removeDelay:2];
+        
+        MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
+        if (methodResult.succeed == NO){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
+            return;
         }
+        
+        if ([methodResult.object isEqualToString:@"0"]){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
+            return;
+        }
+        
+        if ([methodResult.object isEqualToString:@"1"]){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"已达到修改次数上限" removeDelay:2];
+            return;
+        }
+        
+        MyCheckListViewController* mycheckListVC = [[MyCheckListViewController alloc] init];
+        mycheckListVC.popStyle = POPTO_ROOT;
+        [self.navigationController pushViewController:mycheckListVC animated:YES];
     }];
+
+//    [[HttpNetworkManager getInstance]createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(BOOL result, NSError *error) {
+//        if (!error) {
+//            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约成功！" removeDelay:3];
+//            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
+//            mycheckListViewController.popStyle = POPTO_ROOT;
+//            [self.navigationController pushViewController:mycheckListViewController animated:YES];
+//        }
+//        else {
+//            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约失败,请检查网络设置" removeDelay:2];
+//        }
+//    }];
 }
 
 - (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
@@ -573,7 +600,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             if (indexPath.row == 0){
                 SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
                 selectAddressViewController.addressStr = _location;
-                selectAddressViewController.switchStyle = SWITCH_MISS;
                 [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
                     _cityName = city;
                     _location = address;
@@ -615,18 +641,17 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 [_exminationCountField becomeFirstResponder];
             }else{
                 AddWorkerViewController* addworkerViewController = [[AddWorkerViewController alloc] init];
-                addworkerViewController.switchStyle = SWITCH_MISS;
                 addworkerViewController.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];
                 __weak CloudAppointmentCompanyViewController * weakSelf = self;
                 [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {
                     weakSelf.customerArr = workerArray;
                     //[weakSelf.staffTableView reloadData];
                     [_companyInfoTableView reloadData];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if([_exminationCountField.text integerValue] < workerArray.count){
-                            _exminationCountField.text = [NSString stringWithFormat:@"%ld", workerArray.count];
-                        }
-                    });
+                 
+                    if([_exminationCountField.text integerValue] < workerArray.count){
+                        _exminationCountField.text = [NSString stringWithFormat:@"%ld", workerArray.count];
+                    }
+                 
                 }];
                 [self.navigationController pushViewController:addworkerViewController animated:YES];
                 [self inputWidgetResign];

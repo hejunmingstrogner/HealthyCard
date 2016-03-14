@@ -772,19 +772,19 @@ BOOL   _isLocationInfoHasBeenSent;
 
 #pragma mark - Storyboard Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"AppointmentIdentifier"]){
-        if ([segue.destinationViewController isKindOfClass:[AppointmentViewController class]]){
-            AppointmentViewController* controller = (AppointmentViewController*)segue.destinationViewController;
-            controller.location = addressLabel.text;
-            controller.nearbyServicePointsArray = nearbyServicePositionsArray;
-            controller.cityName = currentCityName;
-            
-            // 将百度地图左边转换为gps坐标
-            PositionUtil *posit = [[PositionUtil alloc]init];
-            CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
-            controller.centerCoordinate = coor;
-        }
-    }
+//    if ([segue.identifier isEqualToString:@"AppointmentIdentifier"]){
+//        if ([segue.destinationViewController isKindOfClass:[AppointmentViewController class]]){
+//            AppointmentViewController* controller = (AppointmentViewController*)segue.destinationViewController;
+//            controller.location = addressLabel.text;
+//            controller.nearbyServicePointsArray = nearbyServicePositionsArray;
+//            controller.cityName = currentCityName;
+//            
+//            // 将百度地图左边转换为gps坐标
+//            PositionUtil *posit = [[PositionUtil alloc]init];
+//            CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
+//            controller.centerCoordinate = coor;
+//        }
+//    }
 }
 
 #pragma mark - 计算附近最近的服务点到当前定位点的距离

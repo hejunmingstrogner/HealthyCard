@@ -55,12 +55,6 @@ typedef NS_ENUM(NSInteger, PACKAGEPART)
     PACKAGE_BODY
 };
 
-typedef NS_ENUM(NSInteger, SWITCH_STYLE)
-{
-    SWITCH_POP,
-    SWITCH_MISS
-};
-
 extern PersonInfoOfPhonePacket* gPersonInfo;
 extern CompanyInfoOfPhonePacket* gCompanyInfo;
 extern RealReachability* reachAbility;

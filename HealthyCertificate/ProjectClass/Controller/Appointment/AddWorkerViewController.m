@@ -21,6 +21,12 @@
 
 @implementation AddWorkerViewController
 
+typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
+{
+    CompanyList_PhoneNumber = 3001,
+    CompanyList_LinkPerson
+};
+
 
 - (void)viewDidLoad
 {

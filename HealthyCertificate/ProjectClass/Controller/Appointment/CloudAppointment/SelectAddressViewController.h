@@ -25,9 +25,6 @@
 
 @property (nonatomic, strong) NSString *addressStr;
 
-@property (nonatomic, assign) SWITCH_STYLE switchStyle;
-
-
 typedef void(^getAddressAndCoordinate)(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor);
 @property (nonatomic, strong)getAddressAndCoordinate block;
 

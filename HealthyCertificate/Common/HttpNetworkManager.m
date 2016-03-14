@@ -308,6 +308,11 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 // 个人预约相关
 -(void)createOrUpdatePersonalAppointment:(CustomerTest*)customerTest resultBlock:(HCDictionaryResultBlock)resultBlock
 {
+    PositionUtil *posit = [[PositionUtil alloc] init];
+    CLLocationCoordinate2D coor = [posit bd2wgs:customerTest.regPosLA lon:customerTest.regPosLO];
+    customerTest.regPosLA = coor.latitude;
+    customerTest.regPosLO = coor.longitude;
+
     NSDictionary* dicInfo = customerTest.mj_keyValues;
     NSString *url = [NSString stringWithFormat:@"customerTest/createOrUpdate"];
     [self.sharedClient POST:url parameters:dicInfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
@@ -354,8 +359,13 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 
 #pragma mark - 单位预约
 // 单位预约
-- (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCBoolResultBlock)block
+- (void)createOrUpdateBRCoontract:(BRContract *)brcontract employees:(NSArray *)employees reslutBlock:(HCDictionaryResultBlock)block
 {
+    PositionUtil* positionUtil = [[PositionUtil alloc] init];
+    CLLocationCoordinate2D gpsCoor = [positionUtil bd2wgs:brcontract.regPosLA lon:brcontract.regPosLO];
+    brcontract.regPosLA = gpsCoor.latitude;
+    brcontract.regPosLO = gpsCoor.longitude;
+    
     NSMutableString *url = [NSMutableString stringWithFormat:@"brContract/createOrUpdate?employeeStr="];
     if (employees.count != 0) {
         for (int i = 0; i < employees.count; i ++) {
@@ -369,20 +379,14 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 
     NSString *newurl = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSMutableDictionary *dict = [brcontract mj_keyValues];
+    
     [self.sharedClient POST:newurl parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        NSError *error = nil;
-        if ([[responseObject objectForKey:@"object"] isEqualToString:@"0"]) {
-            error = [NSError errorWithDomain:@"error" code:0 userInfo:[NSDictionary dictionaryWithObject:@"预约异常失败，请重试" forKey:@"error"]];
-        }
-        else if ([[responseObject objectForKey:@"object"] isEqualToString:@"1" ]){
-            error = [NSError errorWithDomain:@"error" code:1 userInfo:[NSDictionary dictionaryWithObject:@"已达到修改次数上限" forKey:@"error"]];
-        }
         if (block) {
-            block(YES, error);
+            block(responseObject, nil);
         }
-    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         if (block) {
-            block(NO, error);
+            block(nil, error);
         }
     }];
 }
