@@ -80,6 +80,9 @@
     
     //返回的数据按理应该是一个，所以如果不为空，只取第一条数据
     if (array.count != 0){
+        if ([array[0] isEqualToString:@""])
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"远端服务器关闭" removeDelay:2];
+        
         QueueServerInfo* info = [[QueueServerInfo alloc] initWithString:array[0]];
         [HMNetworkEngine getInstance].serverID = info.serverID;
         //这里才代表连接上了中心控制服务器
