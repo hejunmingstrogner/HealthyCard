@@ -95,8 +95,10 @@
     _tableView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.bottom.mas_equalTo(self.view);
-        make.height.mas_equalTo(SCREEN_HEIGHT - kNavigationBarHeight - kStatusBarHeight);
+//        make.top.left.right.bottom.mas_equalTo(self.view);
+//        make.height.mas_equalTo(SCREEN_HEIGHT - kNavigationBarHeight - kStatusBarHeight);
+        make.top.mas_equalTo(self.view).with.offset(FIT_HEIGHT(20));
+        make.left.right.bottom.mas_equalTo(self.view);
     }];
     
     _beginDateWheelView = [[HCWheelView alloc] init];

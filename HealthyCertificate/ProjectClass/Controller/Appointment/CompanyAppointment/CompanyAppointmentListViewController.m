@@ -18,6 +18,8 @@
 
 #import "Constants.h"
 
+#import "SelectAddressViewController.h"
+#import "CloudAppointmentDateVC.h"
 #import "CloudCompanyAppointmentStaffCell.h"
 #import "CloudCompanyAppointmentCell.h"
 #import "CompanyItemListCell.h"
@@ -28,6 +30,7 @@
     UITextField *_contactPersonField;
     UITextField *_phoneNumField;
     UITextField *_exminationCountField;
+    CGFloat      _viewHeight;
 }
 
 @end
@@ -49,9 +52,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
     [self initNavigation];
+    
+    self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
     UITableView* tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     tableView.dataSource = self;
@@ -88,12 +91,15 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
-//#pragma mark - Setter & Getter
-//-(void)setBrContract:(BRContract *)brContract
-//{
-//    _brContract = brContract;
-//}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self registerKeyboardNotification];
+}
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self cancelKeyboardNotification];
+}
 
 #pragma mark - Action
 -(void)editBtnClicked:(UIButton*)sender
@@ -172,7 +178,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }
     
     CompanyItemListCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CompanyItemListCell class])];
-    cell.editing = NO;
+    cell.userInteractionEnabled = NO;
     if (indexPath.row == 0){
         if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
             //代表预约，可以修改
@@ -180,6 +186,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }else{
             //代表体检，不可修改
             cell.itemType = CDA_EXAMADDRESS;
+            cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
         }
         [cell setTextViewText:_brContract.regPosAddr];
     }else{
@@ -191,6 +198,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                                    [NSDate converLongLongToChineseStringDate:_brContract.regEndDate/1000]]];
         }else{
             cell.itemType = CDA_EXAMTIME;
+            cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
             
             //基于服务点(移动+固定)
             if ([_brContract.hosCode isEqualToString:_brContract.checkSiteID]){
@@ -203,14 +211,72 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 [cell setTextViewText:[NSString stringWithFormat:@"%@(%@~%@)", year, start, end]];
             }
         }
-        
-
-        
     }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0){
+        
+        if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
+            if (indexPath.row == 0){
+                SelectAddressViewController* selectAddressVC = [[SelectAddressViewController alloc] init];
+                [self.navigationController pushViewController:selectAddressVC animated:YES];
+            }else{
+                CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
+                [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
+            }
+        }
+        
+        return;
+    }
+    else{
+        if (indexPath.row == 0){
+            [_contactPersonField becomeFirstResponder];
+        }else if (indexPath.row == 1){
+            [_phoneNumField becomeFirstResponder];
+        }else if (indexPath.row == 2){
+            [_exminationCountField becomeFirstResponder];
+        }else{
+            
+        }
+    }
 }
+
+#pragma mark - KeyBorad
+-(void)registerKeyboardNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillChangeFrameNotification  object:nil];
+}
+
+-(void)cancelKeyboardNotification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)keyboardWillShow:(NSNotification *)notification
+{
+    CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
+    _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
+    
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
+    } completion:NULL];
+}
+
+-(void)keyboardWillHide:(NSNotification *)notification
+{
+    CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
+    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+    } completion:NULL];
+}
+
+#pragma mark - UITextFieldDelegate
+
 
 @end
