@@ -59,7 +59,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self refresh:nil didEngageRefreshDirection:1];
 }
 
 - (void)initNavgation
@@ -232,7 +231,7 @@
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"brcell"];
                 cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
                 cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
-                //cell.detailTextLabel.textColor = [UIColor colorWithARGBHex:HC_Gray_Text];
+                cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             cell.textLabel.text = ((BaseTBCellItem *)_companyDataArray[indexPath.section][indexPath.row]).titleText;
@@ -260,13 +259,10 @@
         personalHealthyC.customerTestInfo = (CustomerTest *)checkDataArray[indexPath.section];
         [self.navigationController pushViewController:personalHealthyC animated:YES];
     }
-    else {
-        // 单位预约点击
-        if (_userType == 2){
-            CompanyAppointmentListViewController* companyAppointmentListViewController = [[CompanyAppointmentListViewController alloc] init];
-            companyAppointmentListViewController.brContract = checkDataArray[indexPath.section];
-            [self.navigationController pushViewController:companyAppointmentListViewController animated:YES];
-        }
+    else if (_userType == 2){ // 单位预约点击
+        CompanyAppointmentListViewController* companyAppointmentListViewController = [[CompanyAppointmentListViewController alloc] init];
+        companyAppointmentListViewController.brContract = checkDataArray[indexPath.section];
+        [self.navigationController pushViewController:companyAppointmentListViewController animated:YES];
     }
 }
 
