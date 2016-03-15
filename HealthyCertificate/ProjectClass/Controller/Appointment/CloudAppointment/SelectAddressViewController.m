@@ -14,7 +14,7 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
-
+#import "NSString+Custom.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @implementation SelectAddressViewController
@@ -73,9 +73,15 @@
 
 - (void)confirmBtnClicked:(UIBarButtonItem *)sender
 {
+    _textField.text = [_textField.text deleteSpaceWithHeadAndFootWithString:_textField.text];
     if (_textField.text.length == 0) {
+        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您未填写信息" ActionTitle:@"明白了" ActionStyle:0];
+        return ;
+    }
+    if ([_textField.text isEqualToString:_addressStr]) {
         [self.navigationController popViewControllerAnimated:YES];
     }
+
     if (_selectIndex < 0) {
         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"请选择地址" ActionTitle:@"确认" ActionStyle:0];
     }
