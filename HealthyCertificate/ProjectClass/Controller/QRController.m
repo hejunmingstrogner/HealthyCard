@@ -72,8 +72,7 @@
         make.width.mas_equalTo((NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN));
     }];
     
-    [_qrImageView sd_setImageWithURL:url placeholderImage:nil options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-    }];
+    [_qrImageView sd_setImageWithURL:url placeholderImage:nil options:SDWebImageRefreshCached|SDWebImageRetryFailed completed:nil];
     
 //    [_qrImageView sd_setImageWithURL:url placeholderImage:nil options:options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
 //        

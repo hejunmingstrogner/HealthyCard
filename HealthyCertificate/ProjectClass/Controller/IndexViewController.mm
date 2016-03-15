@@ -516,7 +516,7 @@ BOOL   _isLocationInfoHasBeenSent;
     if (checkListData.count == 0) {
         return;
     }
-    MyCheckListViewController *checkcontroller = [[MyCheckListViewController alloc]init];
+    MyCheckListViewController *checkcontroller = [MyCheckListViewController new];
     checkcontroller.checkDataArray = [NSMutableArray arrayWithArray:checkListData];
     [self.navigationController pushViewController:checkcontroller animated:YES];
 }

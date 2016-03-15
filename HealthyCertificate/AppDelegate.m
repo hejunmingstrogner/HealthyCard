@@ -25,7 +25,7 @@
 #import "UMSocialWechatHandler.h"
 
 #define bugTagsAppKey @"64cb2c33df5bab3d36ac0ea1ff907adf"
-
+#define BaiDuAppKey @"cRqr5CbUVzB2GkCbYXWXZXp8"
 RealReachability* reachAbility;
 
 @interface AppDelegate ()<HMNetworkEngineDelegate>
@@ -51,7 +51,7 @@ RealReachability* reachAbility;
     [[UINavigationBar appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:20/255.0 green:20/255.0 blue:30/255.0 alpha:1], NSForegroundColorAttributeName, [UIFont fontWithType:UIFontOpenSansRegular size:17], NSFontAttributeName, nil]];
 
     _mapManager = [[BMKMapManager alloc]init];
-    BOOL ret = [_mapManager start:@"cRqr5CbUVzB2GkCbYXWXZXp8" generalDelegate:nil];
+    BOOL ret = [_mapManager start:BaiDuAppKey generalDelegate:nil];
     if (!ret) {
         NSLog(@"百度地图使用错误");
     }
