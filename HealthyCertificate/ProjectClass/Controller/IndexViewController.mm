@@ -691,13 +691,13 @@ BOOL   _isLocationInfoHasBeenSent;
                     }
                 }
                 else {
-                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取附近服务点信息失败" removeDelay:2];
+                    //[RzAlertView showAlertLabelWithTarget:self.view Message:@"获取附近服务点信息失败" removeDelay:2];
                 }
             }];
         }
         else {
             addressLabel.text = @"";
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:2];
+            //[RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:2];
         }
         [changeStatusTimer invalidate];
     }];
