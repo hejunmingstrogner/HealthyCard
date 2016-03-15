@@ -298,7 +298,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
                 
             }
             _authCodeStr = [dataDic objectForKey:@"authCode"];
-            //_vertifyTextField.text = _authCodeStr;
+            _vertifyTextField.text = _authCodeStr;
             
 
             _loginButton.enabled = YES;
