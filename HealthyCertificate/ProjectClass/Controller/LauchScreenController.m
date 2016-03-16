@@ -69,8 +69,9 @@
 
 -(void)setUpControlFailed{
     //to do连接socket服务器即代理服务器失败
-    
-    [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接错误，请检查网络设置" removeDelay:3];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接错误，请检查网络设置" removeDelay:3];
+    });
 }
 
 -(void)queueServerListResult:(NSData *)data Index:(NSInteger *)index{

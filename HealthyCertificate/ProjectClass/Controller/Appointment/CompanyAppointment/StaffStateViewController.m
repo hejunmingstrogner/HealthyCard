@@ -18,6 +18,7 @@
 #import "UIColor+Expanded.h"
 
 #import "HttpNetworkManager.h"
+#import "RzAlertView.h"
 
 #import "CustomerTest.h"
 
@@ -81,6 +82,10 @@
 {
     __typeof (self) __weak weakSelf = self;
     [[HttpNetworkManager getInstance] getCustomerTestListByContract:_contractCode resultBlock:^(NSArray *result, NSError *error) {
+        if (error == nil){
+            return;
+        }
+        
         __typeof (self)  strongSelf = weakSelf; //防止循环引用
         strongSelf->_dataSource = result;
         [strongSelf->_tableView reloadData];

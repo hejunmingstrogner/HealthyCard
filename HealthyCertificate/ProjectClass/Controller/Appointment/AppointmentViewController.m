@@ -75,7 +75,6 @@
 
     //加载界面布局
     self.currentView = [[UIView alloc] init];
-    self.currentView.backgroundColor = [UIColor greenColor];
     [self.view addSubview:self.currentView];
     [self.currentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.bottom.mas_equalTo(self.view);

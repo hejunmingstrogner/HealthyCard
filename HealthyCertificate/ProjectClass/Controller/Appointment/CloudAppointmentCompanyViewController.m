@@ -36,6 +36,7 @@
 #import "Customer.h"
 #import "PositionUtil.h"
 #import "HttpNetworkManager.h"
+#import "HCNetworkReachability.h"
 
 #import "MethodResult.h"
 
@@ -64,7 +65,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 {
     UITableView         *_baseInfoTableView;
     UITableView         *_companyInfoTableView;
-    //UITableView         *_staffTableView;
     
     NSString            *_dateString;
     
@@ -221,24 +221,15 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     
     //获得单位名称的高度 http://www.360doc.com/content/15/0608/16/11417867_476582625.shtml
     size = [_companyNameTextView sizeThatFits:CGSizeMake(textViewWidth, MAXFLOAT)];
-//    size = [gCompanyInfo.cUnitName boundingRectWithSize:CGSizeMake(textViewWidth, MAXFLOAT)
-//                                                options: NSStringDrawingUsesFontLeading
-//                                             attributes:@{NSFontAttributeName:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]}
-//                                                context:nil].size;
     CGFloat nameTextViewHeight = size.height;
     
     
     //获得单位地址的高度
-//    size = [gCompanyInfo.cUnitAddr boundingRectWithSize:CGSizeMake(textViewWidth, MAXFLOAT)
-//                                                options: NSStringDrawingUsesFontLeading
-//                                             attributes:@{NSFontAttributeName:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]}
-//                                                context:nil].size;
     size = [_companyAddressTextView sizeThatFits:CGSizeMake(textViewWidth, MAXFLOAT)];
     CGFloat addressTextViewHeight = size.height;
     
     CGFloat containerViewHeight = (nameTextViewHeight < PXFIT_HEIGHT(96) ? PXFIT_HEIGHT(96) : nameTextViewHeight) + (addressTextViewHeight < PXFIT_HEIGHT(96) ? PXFIT_HEIGHT(96):addressTextViewHeight);
 
-   // _companyInfoContainerView = [[UIView alloc] init];
     _companyInfoContainerView.backgroundColor = [UIColor whiteColor];
     [containerView addSubview:_companyInfoContainerView];
     [_companyInfoContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -247,7 +238,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         make.top.mas_equalTo(_baseInfoTableView.mas_bottom).with.offset(PXFIT_HEIGHT(20));
     }];
     
-  //  [_companyInfoContainerView addSubview:companyNameLabel];
     [companyNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_companyInfoContainerView).with.offset(PXFIT_WIDTH(20));
         make.top.mas_equalTo(_companyInfoContainerView);
@@ -256,13 +246,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }];
     
     [companyNameLabel setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
- //   _companyNameTextView = [[UITextView alloc] init];
        [_companyNameTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(companyNameLabel.mas_right).with.offset(PXFIT_WIDTH(20));
         make.right.mas_equalTo(_companyInfoContainerView).with.offset(-PXFIT_WIDTH(20));
         make.centerY.mas_equalTo(companyNameLabel);
         make.height.mas_equalTo( nameTextViewHeight);
-       // make.height.mas_equalTo(PXFIT_HEIGHT(96));
     }];
     
     
@@ -281,7 +269,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         make.left.mas_equalTo(_companyInfoContainerView).with.offset(PXFIT_WIDTH(20));
         make.top.mas_equalTo(_lineView.mas_bottom);
         make.height.mas_equalTo(addressTextViewHeight);
-        //make.height.mas_equalTo(addressTextViewHeight < PXFIT_HEIGHT(96)?PXFIT_HEIGHT(96):addressTextViewHeight);
         make.width.mas_equalTo(labelTextWidth);
     }];
     [companyAddressLabel setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
@@ -393,7 +380,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 #pragma mark - Action
 -(void)appointmentBtnClicked:(id)sender
 {
-    if(reachAbility.currentReachabilityStatus == 0){
+    if([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
         return;
     }
@@ -488,18 +475,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         mycheckListVC.popStyle = POPTO_ROOT;
         [self.navigationController pushViewController:mycheckListVC animated:YES];
     }];
-
-//    [[HttpNetworkManager getInstance]createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(BOOL result, NSError *error) {
-//        if (!error) {
-//            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约成功！" removeDelay:3];
-//            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-//            mycheckListViewController.popStyle = POPTO_ROOT;
-//            [self.navigationController pushViewController:mycheckListViewController animated:YES];
-//        }
-//        else {
-//            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约失败,请检查网络设置" removeDelay:2];
-//        }
-//    }];
 }
 
 - (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
@@ -545,6 +520,14 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 cell.textView.userInteractionEnabled = NO;
                 _dateStrTextView = cell.textView;
             }
+            
+            if (_isCustomerServerPoint){
+                //云预约，信息可以修改，灰色
+                cell.textView.textColor = [UIColor blackColor];
+            }else{
+                cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+            }
+            
             return cell;
         }
         case TABLEVIEW_COMPANYINFO:

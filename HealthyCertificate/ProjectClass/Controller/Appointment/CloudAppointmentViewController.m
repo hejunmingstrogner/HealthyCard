@@ -39,6 +39,7 @@
 
 #import "YMIDCardRecognition.h"
 #import "HttpNetworkManager.h"
+#import "HCNetworkReachability.h"
 #import "PositionUtil.h"
 #import "TakePhoto.h"
 #import "RzAlertView.h"
@@ -428,7 +429,8 @@
 -(void)appointmentBtnClicked:(UIButton *)sender
 {
     sender.enabled = NO;
-    if(reachAbility.currentReachabilityStatus == 0){
+    if([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
+        sender.enabled = YES;
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
         return;
     }

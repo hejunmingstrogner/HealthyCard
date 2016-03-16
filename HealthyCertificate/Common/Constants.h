@@ -57,7 +57,6 @@ typedef NS_ENUM(NSInteger, PACKAGEPART)
 
 extern PersonInfoOfPhonePacket* gPersonInfo;
 extern CompanyInfoOfPhonePacket* gCompanyInfo;
-extern RealReachability* reachAbility;
 
 extern NSString *gCurrentCityName;  // 当前城市名字
 

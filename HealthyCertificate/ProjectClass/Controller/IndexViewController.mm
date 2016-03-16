@@ -754,7 +754,6 @@ BOOL   _isLocationInfoHasBeenSent;
                     cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[anno.tag]).name;
                     [self.navigationController pushViewController:cloudAppointCompany animated:YES];
                 }
-
             }
             else if(flag == 2){
                 // 移动服务点
