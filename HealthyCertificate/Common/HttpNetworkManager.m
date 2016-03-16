@@ -98,7 +98,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
         resultBlock(nil,error);
     }];
-
 }
 
 -(void)vertifyPhoneNumber:(NSString*)phoneNum VertifyCode:(NSString*)code resultBlock:(HCDictionaryResultBlock)resultBlock

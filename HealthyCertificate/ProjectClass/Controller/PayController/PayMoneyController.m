@@ -100,7 +100,6 @@
             [_tableView reloadData];
         }
         else {
-            [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"获取支付金额失败，请重试" ActionTitle:@"确定" ActionStyle:UIAlertActionStyleDestructive];
             [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"获取支付金额失败，请重试" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"重试" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
                 if (flag != 0) {
                     [self getCityPrice];
@@ -136,10 +135,8 @@
         return PXFIT_HEIGHT(332);
     }
     else if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEATHYCINFO){
-        //return PXFIT_HEIGHT(178);
         return 75;
     }
-//    return PXFIT_HEIGHT(152);
     return 85;
 }
 
@@ -176,10 +173,7 @@
         if (!cell) {
             cell = [[PayInfoViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"info"];
         }
-        //cell.titleName = ((BaseTBCellItem *)_dataArray[indexPath.section]).titleText;
         cell.textLabel.text = ((BaseTBCellItem *)_dataArray[indexPath.section]).titleText;
-        //cell.payManName = ((BaseTBCellItem *)_dataArray[indexPath.section]).detialText;
-        //cell.getManName = ((BaseTBCellItem *)_dataArray[indexPath.section]).detialText_2;
         cell.money = [NSString stringWithFormat:@"%.0f", _money];
         return cell;
     }
@@ -302,9 +296,6 @@
         }
     }
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:message ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
-//        if ([_delegate respondsToSelector:@selector(payMoneyFail)] && _delegate != nil) {
-//            [_delegate payMoneyFail];
-//        }
         [self deselectChannelPay];
     }];
 
@@ -312,9 +303,6 @@
 - (void)payCancel
 {
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:@"您取消了支付" ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
-//        if ([_delegate respondsToSelector:@selector(payMoneyCencel)] && _delegate != nil) {
-//            [_delegate payMoneyCencel];
-//        }
         [self deselectChannelPay];
     }];
 
