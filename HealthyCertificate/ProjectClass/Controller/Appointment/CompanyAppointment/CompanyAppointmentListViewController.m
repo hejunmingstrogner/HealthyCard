@@ -24,12 +24,15 @@
 
 #import "MethodResult.h"
 
+#import "StaffStateViewController.h"
+#import "QRController.h"
 #import "SelectAddressViewController.h"
 #import "AddWorkerViewController.h"
 #import "CloudAppointmentDateVC.h"
 #import "CloudCompanyAppointmentStaffCell.h"
 #import "CloudCompanyAppointmentCell.h"
 #import "CompanyItemListCell.h"
+#import "CompanyItemStaffStateCell.h"
 
 
 @interface CompanyAppointmentListViewController()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate,UIGestureRecognizerDelegate>
@@ -67,7 +70,7 @@
 
 @implementation CompanyAppointmentListViewController
 
-#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-5, -5, -5, -5)
 #define TopMargin FIT_FONTSIZE(20)
 
 typedef NS_ENUM(NSInteger, CompanyListTextField)
@@ -90,29 +93,34 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        //make.top.mas_equalTo(self.view).with.offset(TopMargin);
-        make.left.right.mas_equalTo(self.view);
-        make.top.bottom.mas_equalTo(self.view);
+        make.edges.mas_equalTo(self.view);
     }];
-    
     
     [_tableView registerClass:[CloudCompanyAppointmentStaffCell class] forCellReuseIdentifier:NSStringFromClass([CloudCompanyAppointmentStaffCell class])];
     [_tableView registerClass:[CloudCompanyAppointmentCell class] forCellReuseIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])];
     [_tableView registerClass:[CompanyItemListCell class] forCellReuseIdentifier:NSStringFromClass([CompanyItemListCell class])];
+    [_tableView registerClass:[CompanyItemStaffStateCell class] forCellReuseIdentifier:NSStringFromClass([CompanyItemStaffStateCell class])];
     
-    //添加手势
+    //界面点击事件
     UITapGestureRecognizer* singleRecognizer;
     singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
     singleRecognizer.numberOfTapsRequired = 1; // 单击
     singleRecognizer.delegate = self;
     [self.view addGestureRecognizer:singleRecognizer];
+    
+    //导航栏点击事件
+    UITapGestureRecognizer* tapRecon = [[UITapGestureRecognizer alloc]
+                                        initWithTarget:self action:@selector(toggleMenu)];
+    tapRecon.delegate = self;
+    tapRecon.numberOfTapsRequired = 1;
+    [self.navigationController.navigationBar addGestureRecognizer:tapRecon];
 }
 
 -(void)initNavigation
 {
     // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
-    backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    //backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
@@ -151,7 +159,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     
     _address = _brContract.regPosAddr;
     
-    
     if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
         
         _date = [NSString stringWithFormat:@"%@~%@", [NSDate converLongLongToChineseStringDate:_brContract.regBeginDate/1000],
@@ -175,15 +182,20 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     _appointmentCount = [NSString stringWithFormat:@"%ld", _brContract.regCheckNum];
     _staffCount = 0;
     
+    __typeof (self) __weak weakSelf = self;
     [[HttpNetworkManager getInstance] getCustomerListByBRContract:_brContract.code resultBlock:^(NSArray *result, NSError *error) {
         if (error != nil){
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"查询单位员工失败" removeDelay:3];
             return;
         }
-        
-        _customerArr = result;
+        weakSelf.customerArr = result;
+        __typeof (self)  strongSelf = weakSelf; //防止循环引用
+        strongSelf->_staffCount = result.count;
+        [strongSelf->_tableView reloadData];
+//        NSIndexPath *path = [NSIndexPath indexPathForItem:2 inSection:1];
+//        [strongSelf->_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
     }];
-
+    
 }
 
 #pragma mark - Action
@@ -242,25 +254,42 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     }
 }
 
+-(void)toggleMenu
+{
+    [self inputWidgetResign];
+}
+
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"] || [NSStringFromClass([touch.view class]) isEqualToString:@"UITableView"]) {//如果当前是tableView
         return NO; //继续传递
     }
+    
+    for (UIView* sub in self.navigationController.navigationBar.subviews) {
+        NSString *cl = NSStringFromClass([sub class]);
+        if ([cl isEqualToString:@"UINavigationItemButtonView"]) {
+            CGRect bback = sub.frame;
+            CGPoint pointInView = [touch locationInView:gestureRecognizer.view];
+            return !CGRectContainsPoint(bback, pointInView);
+        }
+    }
+    
     return YES;
 }
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0){
         return 2;
-    }else{
+    }else if (section == 1) {
         return 4;
+    }else {
+        return 1;
     }
 }
 
@@ -268,12 +297,30 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     return PXFIT_HEIGHT(20);
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 1;
+}
+
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section{
     view.tintColor = MO_RGBCOLOR(250, 250, 250);
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 1 && indexPath.row == 3){
+    
+    if (indexPath.section == 2){
+        CompanyItemStaffStateCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CompanyItemStaffStateCell class])];
+        cell.titleText = @"员工状态";
+        return cell;
+    }
+    
+    if (indexPath.section == 3){
+        CompanyItemStaffStateCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CompanyItemStaffStateCell class])];
+        cell.titleText = @"二维码";
+        return cell;
+    }
+    
+    if (indexPath.section == 1 && indexPath.row == 2){
         CloudCompanyAppointmentStaffCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CloudCompanyAppointmentStaffCell class])];
         cell.staffCount = _staffCount;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -299,7 +346,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
             cell.textField.tag = CompanyList_LinePhone;
             cell.textField.delegate = self;
             _phoneNumField = cell.textField;
-        }else if (indexPath.row == 2){
+        }else if (indexPath.row == 3){
             cell.textFieldType = CDA_PERSON;
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;
             cell.textField.enabled = YES;
@@ -324,7 +371,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
         }else{
             //代表体检，不可修改
             cell.itemType = CDA_EXAMADDRESS;
-           cell.userInteractionEnabled = NO;
+            cell.userInteractionEnabled = NO;
             cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
         }
         [cell setTextViewText:_address];
@@ -365,26 +412,39 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
                 [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
             }
         }
-        return;
-    }
-    else{
+    }else if (indexPath.section == 2){
+        StaffStateViewController* staffStateVC = [[StaffStateViewController alloc] init];
+        staffStateVC.contractCode = _brContract.code;
+        [self.navigationController pushViewController:staffStateVC animated:YES];
+         [self inputWidgetResign];
+    }else if (indexPath.section == 3){
+        QRController* qrController = [[QRController alloc] init];
+        qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/staffRegister.jsp?brContractCode=%@", _brContract.code];
+        [self.navigationController pushViewController:qrController animated:YES];
+        [self inputWidgetResign];
+    }else{
         if (indexPath.row == 0){
             [_contactPersonField becomeFirstResponder];
         }else if (indexPath.row == 1){
             [_phoneNumField becomeFirstResponder];
-        }else if (indexPath.row == 2){
+        }else if (indexPath.row == 3){
             [_exminationCountField becomeFirstResponder];
         }else{
             AddWorkerViewController* addWorkerVC = [[AddWorkerViewController alloc] init];
-            addWorkerVC.selectWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;
-            __weak typeof(self) weakSelf = self;
+            addWorkerVC.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;
+            __typeof (self) __weak weakSelf = self;
             [addWorkerVC getWorkerArrayWithBlock:^(NSArray *workerArray) {
+                __typeof (self)  strongSelf = weakSelf; //防止循环引用
                 weakSelf.customerArr = workerArray;
+                strongSelf->_staffCount = workerArray.count;
+                NSIndexPath *path = [NSIndexPath indexPathForItem:2 inSection:1];
+                [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
                 if([_exminationCountField.text integerValue] < workerArray.count){
                     _exminationCountField.text = [NSString stringWithFormat:@"%ld", workerArray.count];
-                    _staffCount = workerArray.count;
+                    strongSelf->_appointmentCount = [NSString stringWithFormat:@"%ld", workerArray.count];
                     NSIndexPath *path = [NSIndexPath indexPathForItem:3 inSection:1];
                     [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    
                 }
             }];
             [self.navigationController pushViewController:addWorkerVC animated:YES];
@@ -432,7 +492,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     if (textField.tag != CompanyList_LinePhone){
         return YES;
     }
-    
     if (![self isPureInt:string]){
         return YES;
     }
@@ -441,6 +500,11 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     }else{
         return YES;
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 #pragma mark - Private Methods

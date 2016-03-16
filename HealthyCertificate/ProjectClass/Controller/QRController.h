@@ -10,4 +10,6 @@
 
 @interface QRController : UIViewController
 
+@property (nonatomic, copy) NSString* qrContent;
+
 @end

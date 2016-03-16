@@ -89,6 +89,8 @@
 		254A8DD21C7D619C00F2EC94 /* Login_Logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */; };
 		254A8DD51C7DA0CE00F2EC94 /* NSString+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */; };
 		254A8DDE1C813BC200F2EC94 /* EditInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DDD1C813BC200F2EC94 /* EditInfoViewController.m */; };
+		254D95951C97F2A0003B64D4 /* CompanyItemStaffStateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D95941C97F2A0003B64D4 /* CompanyItemStaffStateCell.m */; };
+		254D95981C980AF5003B64D4 /* StaffStateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D95971C980AF5003B64D4 /* StaffStateViewController.m */; };
 		255C71F11C8714420074A41B /* SelectCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255C71F01C8714420074A41B /* SelectCompanyViewController.m */; };
 		2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
@@ -328,6 +330,10 @@
 		254A8DD41C7DA0CE00F2EC94 /* NSString+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Custom.m"; sourceTree = "<group>"; };
 		254A8DDC1C813BC200F2EC94 /* EditInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditInfoViewController.h; sourceTree = "<group>"; };
 		254A8DDD1C813BC200F2EC94 /* EditInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditInfoViewController.m; sourceTree = "<group>"; };
+		254D95931C97F2A0003B64D4 /* CompanyItemStaffStateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyItemStaffStateCell.h; sourceTree = "<group>"; };
+		254D95941C97F2A0003B64D4 /* CompanyItemStaffStateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyItemStaffStateCell.m; sourceTree = "<group>"; };
+		254D95961C980AF5003B64D4 /* StaffStateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaffStateViewController.h; sourceTree = "<group>"; };
+		254D95971C980AF5003B64D4 /* StaffStateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaffStateViewController.m; sourceTree = "<group>"; };
 		255C71EF1C8714420074A41B /* SelectCompanyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCompanyViewController.h; sourceTree = "<group>"; };
 		255C71F01C8714420074A41B /* SelectCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCompanyViewController.m; sourceTree = "<group>"; };
 		2567AC3B1C89680800E51DFA /* HCNavigationBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCNavigationBackButton.h; sourceTree = "<group>"; };
@@ -842,6 +848,8 @@
 				B27B00DB1C84622D00FBF895 /* CloudCompanyAppointmentStaffCell.m */,
 				B27B00DC1C84622D00FBF895 /* HealthyCertificateOrderInfoView.h */,
 				B27B00DD1C84622D00FBF895 /* HealthyCertificateOrderInfoView.m */,
+				254D95931C97F2A0003B64D4 /* CompanyItemStaffStateCell.h */,
+				254D95941C97F2A0003B64D4 /* CompanyItemStaffStateCell.m */,
 			);
 			path = CloudAppointment;
 			sourceTree = "<group>";
@@ -955,6 +963,8 @@
 			children = (
 				25F592221C93A8340036F881 /* CompanyAppointmentListViewController.h */,
 				25F592231C93A8340036F881 /* CompanyAppointmentListViewController.m */,
+				254D95961C980AF5003B64D4 /* StaffStateViewController.h */,
+				254D95971C980AF5003B64D4 /* StaffStateViewController.m */,
 			);
 			path = CompanyAppointment;
 			sourceTree = "<group>";
@@ -1529,6 +1539,7 @@
 				2512B3B21C70557C00EE661B /* ViewController.m in Sources */,
 				B23A980D1C76E12700E3E054 /* UserinformationSetingViewController.m in Sources */,
 				B2436CA31C7AF91800F543E1 /* BRContractTableHeaerCell.m in Sources */,
+				254D95981C980AF5003B64D4 /* StaffStateViewController.m in Sources */,
 				2512B4151C7056C900EE661B /* UIButton+Easy.m in Sources */,
 				B2436C9C1C7AE1E300F543E1 /* CustomerTestTableViewCell.m in Sources */,
 				B27222A91C8EC747002494EA /* PayMoneyController.m in Sources */,
@@ -1594,6 +1605,7 @@
 				B2FEA8671C7EF2D500106EE8 /* TakePhoto.m in Sources */,
 				B23C76791C8D315B00E5C40A /* BaseTBCellItem.m in Sources */,
 				B27222AD1C8ECFBA002494EA /* PayInfoViewCell.m in Sources */,
+				254D95951C97F2A0003B64D4 /* CompanyItemStaffStateCell.m in Sources */,
 				B27222B31C8FB9BD002494EA /* UIScrollView+BottomRefreshControl.m in Sources */,
 				B27B00CB1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m in Sources */,
 				B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */,

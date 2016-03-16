@@ -374,7 +374,7 @@
     if (indexPath.row == 0){
         //跳转地址
         SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
-        selectAddressViewController.addressStr = _location;
+        selectAddressViewController.addressStr = _locationTextView.text;
         __weak typeof (self) wself = self;
         [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
             wself.cityName = city;
@@ -716,6 +716,7 @@
         photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
                                                                           wself.healthyCertificateView.imageView.frame.size.height)];
         [wself.healthyCertificateView.imageView setImage:photoimage];
+       // [[SDWebImageManager sharedManager].imageCache clearMemory];
         _isAvatarSet = YES; //代表修改了健康证图片
 
     }];

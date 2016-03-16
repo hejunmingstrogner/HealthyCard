@@ -60,7 +60,7 @@
     }
     
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@qrCode/generateByGet?content=%@&type=%@&height=%ld&width=%ld",
-                                       [HttpNetworkManager baseURL], content, @"URL",
+                                       [HttpNetworkManager baseURL], _qrContent, @"URL",
                                        (NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN),
                                        (NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN)]];
     _qrImageView = [[UIImageView alloc] init];

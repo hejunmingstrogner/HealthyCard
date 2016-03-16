@@ -128,6 +128,8 @@ extern BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送
 //蓝色 正常/按下
 #define HC_Base_Blue 0x06b6f0
 #define HC_Base_Blue_Pressed 0x0f9fce
+//橙色
+#define HC_Base_Orange_Text 0xff4200
 
 
 //一些提示语
