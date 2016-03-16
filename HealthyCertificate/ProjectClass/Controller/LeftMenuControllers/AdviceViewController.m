@@ -16,6 +16,7 @@
 #import <Masonry.h>
 #import "UIColor+Expanded.h"
 #import "Constants.h"
+#import "NSString+Custom.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @implementation AdviceViewController
@@ -133,9 +134,10 @@
 
 - (void)confirmClicked:(id)sender
 {
-    if(_adviceTextView.text.length == 0)
-    {
-        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您还未填写完整" ActionTitle:@"确认" ActionStyle:0];
+    NSString *text = [_adviceTextView.text deleteSpaceWithHeadAndFootWithString:_adviceTextView.text];
+    if (text.length == 0) {
+        _adviceTextView.text = text;
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的填写无效" removeDelay:2];
         return;
     }
     if (![self isconnectionNet]) {

@@ -31,6 +31,8 @@ typedef void(^AddWorkerComfirmClicked)(NSArray *workerArray);
 
 @property (nonatomic, strong) NSMutableArray *selectWorkerArray;    // 选择的员工
 
+@property (nonatomic, strong) NSArray     *needcanlceWorkersArray;  // 需要过滤掉的员工
+
 @property (nonatomic, strong) RzAlertView *waitAlertView;
 
 @property (nonatomic, strong) AddWorkerComfirmClicked block;
