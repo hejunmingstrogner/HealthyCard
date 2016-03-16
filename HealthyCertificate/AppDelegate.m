@@ -9,16 +9,16 @@
 #import "AppDelegate.h"
 
 #import <Bugtags/Bugtags.h>
-#import <RealReachability.h>
+#import <Pingpp.h>
 
 #import "UIFont+Custom.h"
-
 #include "HMNetworkEngine.h"
-#import "RzAlertView.h"
 
+#import "RzAlertView.h"
 #import "QueueServerInfo.h"
 #import "LauchScreenController.h"
-#import <Pingpp.h>
+
+#import "HCNetworkReachability.h"
 
 #import "UMSocial.h"
 #import "UMSocialQQHandler.h"
@@ -26,7 +26,7 @@
 
 #define bugTagsAppKey @"64cb2c33df5bab3d36ac0ea1ff907adf"
 #define BaiDuAppKey @"cRqr5CbUVzB2GkCbYXWXZXp8"
-RealReachability* reachAbility;
+
 
 @interface AppDelegate ()<HMNetworkEngineDelegate>
 
@@ -35,14 +35,8 @@ RealReachability* reachAbility;
 @implementation AppDelegate
 
 -(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:( NSDictionary *)launchOptions{
-    
-    [GLobalRealReachability startNotifier];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(networkChanged:)
-                                                 name:kRealReachabilityChangedNotification
-                                               object:nil];
+    [HCNetworkReachability getInstance];
     return YES;
-    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -131,17 +125,6 @@ RealReachability* reachAbility;
     }
     else {
         NSLog(@"onGetPermissionState %d",iError);
-    }
-}
-
-#pragma mark - Action
-- (void)networkChanged:(NSNotification *)notification
-{
-    reachAbility = (RealReachability *)notification.object;
-   // ReachabilityStatus status = [reachAbility currentReachabilityStatus];
-    if (reachAbility.currentReachabilityStatus == 0){
-        //代表没有网络连接，socket没有链接上
-        [RzAlertView showAlertLabelWithTarget:self.window Message:@"网络连接失败，请检查网络设置" removeDelay:3];
     }
 }
 

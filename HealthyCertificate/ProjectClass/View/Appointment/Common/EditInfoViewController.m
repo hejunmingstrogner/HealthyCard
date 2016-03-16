@@ -76,6 +76,15 @@
         make.top.bottom.mas_equalTo(textFieldBackView);
     }];
     
+    /*
+     //联系人
+     EDITINFO_COMPANY_LINKPERSON,
+     //联系电话
+     EDITINFO_COMPANY_LINKPHONE,
+     //预约人数
+     EDITINFO_COMPANY_APPOINTMENTCOUNT
+     */
+    
     switch (_editInfoType) {
         case EDITINFO_NAME:
         {
@@ -97,6 +106,29 @@
             _textField.placeholder = @"请输入电话号码";
             _textField.keyboardType = UIKeyboardTypeNumberPad;
             _textLength = TELPHONENO_LENGTH;
+            break;
+        }
+        case EDITINFO_COMPANY_LINKPERSON:
+        {
+            self.title = @"联系人修改";
+            _textField.placeholder = @"请输入姓名";
+            _textLength = NAME_LENGTH;
+            break;
+        }
+        case EDITINFO_COMPANY_LINKPHONE:
+        {
+            self.title = @"联系电话修改";
+            _textField.placeholder = @"请输入电话号码";
+            _textField.keyboardType = UIKeyboardTypeNumberPad;
+            _textLength = TELPHONENO_LENGTH;
+            break;
+        }
+        case EDITINFO_COMPANY_APPOINTMENTCOUNT:
+        {
+            self.title = @"预约人数修改";
+            _textField.placeholder = @"请输入电话号码";
+            _textField.keyboardType = UIKeyboardTypeNumberPad;
+            _textLength = CGFLOAT_MAX;
             break;
         }
         default:

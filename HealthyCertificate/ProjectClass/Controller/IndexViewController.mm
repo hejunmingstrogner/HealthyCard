@@ -428,6 +428,14 @@ BOOL   _isLocationInfoHasBeenSent;
         case LEFTMENUCELL_ERWEIMA:{
 //            NSLog(@"二维码");
             QRController* qrController = [[QRController alloc] init];
+            if (GetUserType == 1){
+                //个人
+                qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp"];
+                
+            }else{
+                //单位
+                qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/staffRegister.jsp?unitCode=%@", gCompanyInfo.cUnitCode];
+            }
             [self.navigationController pushViewController:qrController animated:YES];
             break;
         }
@@ -757,7 +765,6 @@ BOOL   _isLocationInfoHasBeenSent;
                     cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[anno.tag]).name;
                     [self.navigationController pushViewController:cloudAppointCompany animated:YES];
                 }
-
             }
             else if(flag == 2){
                 // 移动服务点

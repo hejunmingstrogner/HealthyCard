@@ -12,6 +12,7 @@
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
+#import "UILabel+Easy.h"
 
 #import <Masonry.h>
 
@@ -42,19 +43,30 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     
-    UITableView* tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+    self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
-    [self.view addSubview:tableView];
-    tableView.dataSource = self;
-    tableView.delegate = self;
-    [tableView registerClass:[ServicePointCell class] forCellReuseIdentifier:NSStringFromClass([ServicePointCell class])];
-    tableView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
-    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view);
-        make.width.mas_equalTo(SCREEN_WIDTH);
-        make.bottom.mas_equalTo(self.view);
-        make.top.mas_equalTo(self.view).with.offset(kNavigationBarHeight+kStatusBarHeight);
-    }];
+    if (_serverPointList.count == 0){
+        UILabel* label = [UILabel labelWithText:@"暂无服务点" font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(25)] textColor:[UIColor blackColor]];
+        [self.view addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.mas_equalTo(self.view);
+        }];
+        
+    }else{
+        UITableView* tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+        
+        [self.view addSubview:tableView];
+        tableView.dataSource = self;
+        tableView.delegate = self;
+        [tableView registerClass:[ServicePointCell class] forCellReuseIdentifier:NSStringFromClass([ServicePointCell class])];
+        tableView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.view);
+            make.width.mas_equalTo(SCREEN_WIDTH);
+            make.bottom.mas_equalTo(self.view);
+            make.top.mas_equalTo(self.view).with.offset(kNavigationBarHeight+kStatusBarHeight);
+        }];
+    }
 }
 
 #pragma mark - Setter & Getter

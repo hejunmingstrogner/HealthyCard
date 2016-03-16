@@ -273,6 +273,26 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
     }];
 }
 
+//获取合同关联的个人预约
+-(void)getCustomerTestListByContract:(NSString*)contractCode resultBlock:(HCArrayResultBlock)resultBlock
+{
+    NSString *url = [NSString stringWithFormat:@"customer/queryByBRContract?contractCode=%@", contractCode];
+    [self.sharedClient GET:url parameters:contractCode success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *customerArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            CustomerTest *customerTest = [CustomerTest mj_objectWithKeyValues:dict];
+            [customerArray addObject:customerTest];
+        }
+        if (resultBlock) {
+            resultBlock(customerArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        if (resultBlock) {
+            resultBlock(nil, error);
+        }
+    }];
+}
+
 
 - (void)getIndustryList:(NSString*)dataItemName resultBlock:(HCArrayResultBlock)resultBlock
 {
