@@ -15,7 +15,13 @@ typedef NS_ENUM(NSInteger, EDITINFOTYPE)
     //身份证号
     EDITINFO_IDCARD,
     // 电话号码
-    EDITINFO_LINKPHONE
+    EDITINFO_LINKPHONE,
+    //联系人
+    EDITINFO_COMPANY_LINKPERSON,
+    //联系电话
+    EDITINFO_COMPANY_LINKPHONE,
+    //预约人数
+    EDITINFO_COMPANY_APPOINTMENTCOUNT
 };
 
 @interface EditInfoViewController : UIViewController

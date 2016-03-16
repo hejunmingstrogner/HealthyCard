@@ -30,6 +30,7 @@
 
 -(id)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]){
+        
         self.backgroundColor = [UIColor whiteColor];
         UIButton* sureBtn = [UIButton buttonWithTitle:@"确定"
                                                  font:[UIFont fontWithType:UIFontOpenSansSemibold size:Btn_Font]

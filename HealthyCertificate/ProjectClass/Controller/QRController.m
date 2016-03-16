@@ -32,7 +32,6 @@
 
 {
     UIImageView*       _qrImageView;
-    
     UIImage*           _testImage;
 }
 
@@ -43,24 +42,11 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-  //  [UMSocialConfig setSnsPlatformNames:@[UMShareToQQ, nil]];
-    
     self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
     //启动app的时候，就加载二维码图片，以后优化
-    //根据预约编号去请求图片
-    NSString* content;
-    if (GetUserType == 1){
-        //个人
-        content = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp"];
-        
-    }else{
-        //单位
-        content = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/staffRegister.jsp?unitCode=%@", gCompanyInfo.cUnitCode];
-    }
-    
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@qrCode/generateByGet?content=%@&type=%@&height=%ld&width=%ld",
-                                       [HttpNetworkManager baseURL], content, @"URL",
+                                       [HttpNetworkManager baseURL], _qrContent, @"URL",
                                        (NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN),
                                        (NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN)]];
     _qrImageView = [[UIImageView alloc] init];
@@ -73,37 +59,6 @@
     }];
     
     [_qrImageView sd_setImageWithURL:url placeholderImage:nil options:SDWebImageRefreshCached|SDWebImageRetryFailed completed:nil];
-    
-//    [_qrImageView sd_setImageWithURL:url placeholderImage:nil options:options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//        
-//    }]
-    
-    //    [_healthyCertificateView.imageView sd_setImageWithURL:url placeholderImage:nil options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-    //        if (error!=nil){}
-    //    }];
-    
-//    NSError *error = nil;
-//    ZXMultiFormatWriter *writer = [ZXMultiFormatWriter writer];
-//    ZXBitMatrix* result = [writer encode:@"A string to encode"
-//                                  format:kBarcodeFormatQRCode
-//                                   width:SCREEN_WIDTH - 2 * H_MARTIN
-//                                  height:SCREEN_WIDTH - 2 * H_MARTIN
-//                                   error:&error];
-//    if (result) {
-//        _testImage = [UIImage imageWithCGImage: [ZXImage imageWithMatrix:result].cgimage];
-//        UIImage* image = [UIImage imageWithCGImage: [ZXImage imageWithMatrix:result].cgimage];
-//        
-//        _qrImageView = [[UIImageView alloc] initWithImage:image];
-//        [self.view addSubview:_qrImageView];
-//        [_qrImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            //make.center.mas_equalTo(self.view);
-//            make.top.mas_equalTo(self.view).with.offset(TOP_MARGIN + kNavigationBarHeight + kStatusBarHeight);
-//            make.centerX.mas_equalTo(self.view);
-//        }];
-//        
-//    } else {
-//        //NSString *errorMessage = [error localizedDescription];
-//    }
     
     [self initNavgation];
 }
@@ -167,9 +122,6 @@
     }
 }
 
-//-(void)didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData{
-//    socialData.shareImage = _testImage;
-//}
 
 
 @end

@@ -39,6 +39,7 @@
 
 #import "YMIDCardRecognition.h"
 #import "HttpNetworkManager.h"
+#import "HCNetworkReachability.h"
 #import "PositionUtil.h"
 #import "TakePhoto.h"
 #import "RzAlertView.h"
@@ -374,7 +375,7 @@
     if (indexPath.row == 0){
         //跳转地址
         SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
-        selectAddressViewController.addressStr = _location;
+        selectAddressViewController.addressStr = _locationTextView.text;
         __weak typeof (self) wself = self;
         [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
             wself.cityName = city;
@@ -428,7 +429,8 @@
 -(void)appointmentBtnClicked:(UIButton *)sender
 {
     sender.enabled = NO;
-    if(reachAbility.currentReachabilityStatus == 0){
+    if([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
+        sender.enabled = YES;
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
         return;
     }
@@ -716,6 +718,7 @@
         photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
                                                                           wself.healthyCertificateView.imageView.frame.size.height)];
         [wself.healthyCertificateView.imageView setImage:photoimage];
+       // [[SDWebImageManager sharedManager].imageCache clearMemory];
         _isAvatarSet = YES; //代表修改了健康证图片
 
     }];

@@ -16,9 +16,11 @@
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
 #import "UIView+RoundingCornor.h"
+#import "UIScreen+Type.h"
 
 #import "HttpNetworkManager.h"
-#import "UIScreen+Type.h"
+#import "HCNetworkReachability.h"
+
 
 #import "HMNetworkEngine.h"
 #import "QueueServerInfo.h"
@@ -74,11 +76,6 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     [super viewDidLoad];
     
     [self loadLoginView];
-    
-   // [_vertifyTextField addRoundingCornor:UIRectCornerTopLeft | UIRectCornerBottomLeft WithCornerRadii:CGSizeMake(4, 4)];
-    
-    //先根据uuid判断是否需要执行登录操作
-
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -252,8 +249,6 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
                                                      return;
                                                  }
                                                  
-                                                
-                                                 
                                                  //接收到验证码，这里解析感觉可以封装到下层去
                                                  NSDictionary* dataDic = [result objectForKey:@"data"];
                                                  SetUuidTimeOut(dataDic[@"uuid_timeout"]);
@@ -262,15 +257,12 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
                                                  SetPhoneNumber(_phoneNumTextField.text);
                                                  [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
                                                  _isVertified = YES;
-                                                // [[HMNetworkEngine getInstance] startControl];
                                                  }];
 }
 
 -(void)veritifyBtnClicked:(id)sender
 {
-    //如果当前网络不好，则提示
-    if (reachAbility.currentReachabilityStatus == 0)
-    {
+    if ([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:3];
         return;
     }

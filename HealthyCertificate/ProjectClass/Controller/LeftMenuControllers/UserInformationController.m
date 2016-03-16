@@ -68,6 +68,14 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        wheelView.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height/3);
+    }];
+}
+
 
 - (void)initSubviews
 {

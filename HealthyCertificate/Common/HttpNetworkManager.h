@@ -126,6 +126,13 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 -(void)getCustomerListByBRContract:(NSString*)contractCode resultBlock:(HCArrayResultBlock)resultBlock;
 
+/**
+ *  获取合同关联的个人预约
+ *
+ *  @param contractCode 合同编号
+ *  @param resultBlock  回调
+ */
+-(void)getCustomerTestListByContract:(NSString*)contractCode resultBlock:(HCArrayResultBlock)resultBlock;
 
 /**
  *  查询行业类型列表
