@@ -16,7 +16,7 @@
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
 #import "UIColor+Expanded.h"
-
+#import "NSDate+Custom.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @implementation AddWorkerViewController
@@ -81,13 +81,24 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     }
 
     [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
-        _workerData = [NSMutableArray arrayWithArray:result];
-        [_workerArray removeAllObjects];
         if(result.count == 0)
         {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有员工数据..." removeDelay:3];
         }
         if (!error) {
+            _workerData = [NSMutableArray arrayWithArray:result];
+            // 过滤掉已经选择过的员工
+            if (_needcanlceWorkersArray.count != 0) {
+                for (int i = 0; i< _needcanlceWorkersArray.count; i++) {
+                    for (int j = 0; j < _workerData.count; j++) {
+                        if ([((Customer *)_workerData[j]).custCode isEqualToString:((Customer *)_needcanlceWorkersArray[i]).custCode]) {
+                            [_workerData removeObjectAtIndex:j];
+                            break;
+                        }
+                    }
+                }
+            }
+            [_workerArray removeAllObjects];
             for (Customer *customer in _workerData) {
                 AddWorkerCellItem *cellItem;
                 if ([array containsObject:customer.custCode]) {
