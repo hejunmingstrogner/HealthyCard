@@ -83,6 +83,10 @@
 {
     _userType = GetUserType;
 
+    if(_userType == 2){
+        [self initCompanyDataArray];
+    }
+
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
 
