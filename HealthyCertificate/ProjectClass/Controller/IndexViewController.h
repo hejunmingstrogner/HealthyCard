@@ -51,5 +51,6 @@
     BOOL        moveStatus;
 }
 
+@property (nonatomic, assign, getter=isRefreshData) BOOL isRefreshData;
 
 @end

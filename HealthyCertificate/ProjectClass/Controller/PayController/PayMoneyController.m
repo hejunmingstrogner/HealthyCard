@@ -96,7 +96,7 @@
     [[HttpNetworkManager getInstance]getCustomerTestChargePriceWithCityName:_cityName checkType:nil resultBlcok:^(NSString *result, NSError *error) {
         [waitAlertView close];
         if (!error) {
-            self.money = [result floatValue];
+            self.money = result;
             [_tableView reloadData];
         }
         else {
@@ -111,6 +111,31 @@
         }
     }];
 }
+
+- (void)setMoney:(NSString *)money
+{
+    money = [NSString stringWithFormat:@"%f", [money floatValue]];
+    _money = [self changeFloat:money];
+}
+// 有小数时，去掉小数后的无效 ‘0’
+-(NSString *)changeFloat:(NSString *)stringFloat
+{
+    NSUInteger length = [stringFloat length];
+    for(int i = 1; i<=6; i++)
+    {
+        NSString *subString = [stringFloat substringFromIndex:length - i];
+        if(![subString isEqualToString:@"0"])
+        {
+            return stringFloat;
+        }
+        else
+        {
+            stringFloat = [stringFloat substringToIndex:length - i];
+        }
+    }
+    return [stringFloat substringToIndex:length - 7];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return _dataArray.count;
@@ -165,7 +190,7 @@
         [moneylabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(moneyView);
         }];
-        [moneylabel setText:@"¥" textFont:[UIFont fontWithType:UIFontOpenSansRegular size:18] WithEndText:[NSString stringWithFormat:@"%.0f", _money] endtextFont:[UIFont fontWithType:UIFontOpenSansRegular size:21] textcolor:[UIColor whiteColor]];
+        [moneylabel setText:@"¥" textFont:[UIFont fontWithType:UIFontOpenSansRegular size:18] WithEndText:_money endtextFont:[UIFont fontWithType:UIFontOpenSansRegular size:21] textcolor:[UIColor whiteColor]];
         return cell;
     }
     else if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEATHYCINFO){
@@ -174,7 +199,7 @@
             cell = [[PayInfoViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"info"];
         }
         cell.textLabel.text = ((BaseTBCellItem *)_dataArray[indexPath.section]).titleText;
-        cell.money = [NSString stringWithFormat:@"%.0f", _money];
+        cell.money = _money;
         return cell;
     }
     else {
@@ -247,7 +272,7 @@
             }
 
             ChargeParameter *param = [[ChargeParameter alloc]init];
-            param.amount = _money*100;
+            param.amount = [_money floatValue] *100;
             param.channel = channel;
             param.subject = @"健康证在线";
             param.body = @"知康科技健康证在线";

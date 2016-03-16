@@ -103,6 +103,7 @@ BOOL   _isLocationInfoHasBeenSent;
     if (GetUserType != 1 && GetUserType != 2) {
         return;
     }
+    _isRefreshData = YES;
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
         if (!error) {
             NSInteger type = GetUserType;
@@ -119,7 +120,13 @@ BOOL   _isLocationInfoHasBeenSent;
             //[RzAlertView showAlertLabelWithTarget:self.view Message:@"获取预约数据失败" removeDelay:2];
             pendingLabel.text = @"";
         }
+        _isRefreshData = NO;
     }];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
 }
 // 初始化主界面的view
 - (void)initSubViews
@@ -521,6 +528,10 @@ BOOL   _isLocationInfoHasBeenSent;
 // 点击待处理按钮
 - (void)pendingWorkClicked
 {
+    if ([self isRefreshData]) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新中，请稍后..." removeDelay:2];
+        return ;
+    }
     if (checkListData.count == 0) {
         return;
     }

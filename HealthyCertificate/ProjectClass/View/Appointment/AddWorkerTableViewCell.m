@@ -9,7 +9,7 @@
 #import "AddWorkerTableViewCell.h"
 #import <Masonry.h>
 #import "UIFont+Custom.h"
-
+#import "NSDate+Custom.h"
 @implementation AddWorkerTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -75,7 +75,7 @@
         _endDateLabel.text = @"无体检记录";
     }
     else {
-        _endDateLabel.text = cellItem.endDate;
+        _endDateLabel.text = [NSDate getYear_Month_DayByDate:[cellItem.endDate longLongValue]];
     }
 
     if (cellItem.isSelectFlag == 0) {
