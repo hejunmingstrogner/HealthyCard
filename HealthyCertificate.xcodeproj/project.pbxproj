@@ -140,7 +140,6 @@
 		B2436C941C7AD28700F543E1 /* BRContract.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C931C7AD28700F543E1 /* BRContract.m */; };
 		B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C961C7AD3B900F543E1 /* BRServiceUnit.m */; };
 		B2436C9C1C7AE1E300F543E1 /* CustomerTestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C9B1C7AE1E300F543E1 /* CustomerTestTableViewCell.m */; };
-		B2436CA01C7AEE8C00F543E1 /* MyCheckListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436C9F1C7AEE8C00F543E1 /* MyCheckListViewController.m */; };
 		B2436CA31C7AF91800F543E1 /* BRContractTableHeaerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436CA21C7AF91800F543E1 /* BRContractTableHeaerCell.m */; };
 		B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2436CA51C7B007E00F543E1 /* BRContractTableFootCell.m */; };
 		B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2484DB81C71C20D00C0CCBB /* LoginController.m */; };
@@ -187,6 +186,7 @@
 		B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826291C73143200993F47 /* LeftMenuView.m */; };
 		B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */; };
 		B2FEA8671C7EF2D500106EE8 /* TakePhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8661C7EF2D500106EE8 /* TakePhoto.m */; };
+		B2FED7051C97BD43003D8E41 /* MyCheckListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FED7041C97BD43003D8E41 /* MyCheckListViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -426,8 +426,6 @@
 		B2436C961C7AD3B900F543E1 /* BRServiceUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRServiceUnit.m; sourceTree = "<group>"; };
 		B2436C9A1C7AE1E300F543E1 /* CustomerTestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerTestTableViewCell.h; sourceTree = "<group>"; };
 		B2436C9B1C7AE1E300F543E1 /* CustomerTestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerTestTableViewCell.m; sourceTree = "<group>"; };
-		B2436C9E1C7AEE8C00F543E1 /* MyCheckListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCheckListViewController.h; sourceTree = "<group>"; };
-		B2436C9F1C7AEE8C00F543E1 /* MyCheckListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCheckListViewController.m; sourceTree = "<group>"; };
 		B2436CA11C7AF91800F543E1 /* BRContractTableHeaerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRContractTableHeaerCell.h; sourceTree = "<group>"; };
 		B2436CA21C7AF91800F543E1 /* BRContractTableHeaerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRContractTableHeaerCell.m; sourceTree = "<group>"; };
 		B2436CA41C7B007E00F543E1 /* BRContractTableFootCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRContractTableFootCell.h; sourceTree = "<group>"; };
@@ -524,6 +522,8 @@
 		B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalHealthyCController.m; sourceTree = "<group>"; };
 		B2FEA8651C7EF2D500106EE8 /* TakePhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakePhoto.h; sourceTree = "<group>"; };
 		B2FEA8661C7EF2D500106EE8 /* TakePhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakePhoto.m; sourceTree = "<group>"; };
+		B2FED7031C97BD43003D8E41 /* MyCheckListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCheckListViewController.h; sourceTree = "<group>"; };
+		B2FED7041C97BD43003D8E41 /* MyCheckListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCheckListViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1085,9 +1085,9 @@
 		B2436C9D1C7AEE5500F543E1 /* CheckListTableViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B2FED7031C97BD43003D8E41 /* MyCheckListViewController.h */,
+				B2FED7041C97BD43003D8E41 /* MyCheckListViewController.m */,
 				B2640CD11C7C7CC800721CB5 /* WaitDocResultSelectController */,
-				B2436C9E1C7AEE8C00F543E1 /* MyCheckListViewController.h */,
-				B2436C9F1C7AEE8C00F543E1 /* MyCheckListViewController.m */,
 			);
 			path = CheckListTableViewController;
 			sourceTree = "<group>";
@@ -1364,7 +1364,7 @@
 				TargetAttributes = {
 					2512B3A61C70557C00EE661B = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = LBSWTUGGNB;
+						DevelopmentTeam = J24PKUB77U;
 					};
 					2512B3BF1C70557C00EE661B = {
 						CreatedOnToolsVersion = 7.2;
@@ -1547,7 +1547,6 @@
 				25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */,
 				2512B41E1C7056C900EE661B /* UILabel+Easy.m in Sources */,
 				25BFEB3D1C74A50F0062F9B8 /* CloudAppointmentViewController.m in Sources */,
-				B2436CA01C7AEE8C00F543E1 /* MyCheckListViewController.m in Sources */,
 				B27B00E11C84622D00FBF895 /* CloudCompanyAppointmentCell.m in Sources */,
 				B2640CDB1C7C7FC000721CB5 /* WaitDocResultSelectItem.m in Sources */,
 				254503061C90043800F47F46 /* QRController.m in Sources */,
@@ -1565,6 +1564,7 @@
 				2512B3EC1C8D6133006E8608 /* UIView+borderWidth.m in Sources */,
 				B23C76751C8D30FF00E5C40A /* WorkTypeInfoModel.m in Sources */,
 				B2640CD41C7C7CF500721CB5 /* WaitDocResultSelectViewController.m in Sources */,
+				B2FED7051C97BD43003D8E41 /* MyCheckListViewController.m in Sources */,
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
 				B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */,
 				B259C9501C8ACEC400A6A767 /* BRContractHistoryTBFootCell.m in Sources */,
@@ -1790,7 +1790,7 @@
 					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/UMSocial_Sdk_5.0",
 					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/TencentOpenAPI",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Highmore.HealthyCertificate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zxkjTechnology.healthyCertificate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -1819,7 +1819,7 @@
 					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/UMSocial_Sdk_5.0",
 					"$(PROJECT_DIR)/HealthyCertificate/ThirdParty/TencentOpenAPI",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Highmore.HealthyCertificate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zxkjTechnology.healthyCertificate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "armv7 armv7s arm64";

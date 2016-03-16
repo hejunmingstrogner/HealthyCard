@@ -180,6 +180,9 @@
         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您未填写信息" ActionTitle:@"明白了" ActionStyle:0];
         return;
     }
+    if ([textName isEqualToString:_cacheFlag]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     [_nameTextField resignFirstResponder];
     switch (_itemtype) {
             // 修改姓名

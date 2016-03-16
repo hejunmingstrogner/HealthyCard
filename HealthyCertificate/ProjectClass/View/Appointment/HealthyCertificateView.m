@@ -61,7 +61,7 @@
     _numLabel.text = _num;
     
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], customerTest.checkCode]];
-    [self.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Avatar"] options:SDWebImageRefreshCached];
+    [self.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Avatar"] options:SDWebImageRefreshCached|SDWebImageRetryFailed];
 }
 
 -(void)setPersonInfoPacket:(PersonInfoOfPhonePacket *)personInfoPacket

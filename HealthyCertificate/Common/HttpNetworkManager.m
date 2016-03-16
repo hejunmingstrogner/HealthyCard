@@ -36,7 +36,12 @@
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://222.18.159.34:8080/zkwebservice/webservice/";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://lyx.witaction.com/zkwebservice";
-static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/webservice/";
+
+// 开发环境
+//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/webservice/";
+
+// 运营环境
+static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver.zeekstar.com/webserver/webservice/";
 
 @implementation HttpNetworkManager
 
@@ -87,7 +92,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 #pragma mark - Public Methods
 -(void)verifyPhoneNumber:(NSString*)phoneNum resultBlock:(HCDictionaryResultBlock)resultBlock;
 {
-    NSString *url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?phone_num=%@&type=auth_code&debug=true",phoneNum];//false
+    NSString *url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?phone_num=%@&type=auth_code&debug=ture",phoneNum];//false
     [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         resultBlock(responseObject,nil);
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
@@ -188,13 +193,13 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     if (type == 1) {
         NSString *url = [NSString stringWithFormat:@"customerTest/findMyCheckList?customId=%@&cCheckType=1&linkPhone=%@", gPersonInfo.mCustCode, gPersonInfo.StrTel];
         [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-            NSMutableArray *brArray = [[NSMutableArray alloc]init];
+            NSMutableArray *customerTestArray = [[NSMutableArray alloc]init];
             for (NSDictionary *dict in responseObject) {
                 CustomerTest *custom = [CustomerTest mj_objectWithKeyValues:dict];
-                [brArray addObject:custom];
+                [customerTestArray addObject:custom];
             }
             if (block) {
-                block(brArray, nil, nil);
+                block(customerTestArray, nil, nil);
             }
         } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
             if (block) {
@@ -532,7 +537,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     checktype = checktype.length == 0 ? @"健康证在线" : checktype;
     NSString *url = [NSString stringWithFormat:@"%@charge/customerTestChargePrice?cityName=%@&checkType=%@",AFHTTPRequestOperationBaseURLString, cityName, checktype];
     url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    NSLog(@"url:%@", url);
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
     NSError *error = nil;
     NSData *requestData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];

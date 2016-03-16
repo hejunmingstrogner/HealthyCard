@@ -15,6 +15,7 @@
 #import "NSString+Count.h"
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
+#import <UIImageView+AFNetworking.h>
 
 @interface CustomerTestTableViewCell()
 {
@@ -168,7 +169,7 @@
 - (void)setCellItemWithTest:(CustomerTest *)customerTest
 {
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], customerTest.checkCode]];
-    [headerimageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"headimage"] options:SDWebImageRefreshCached];
+    [headerimageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"headimage"] options:SDWebImageRefreshCached | SDWebImageRetryFailed];
     nameLabel.text = customerTest.custName;
     sexLabel.text = customerTest.sex == 0 ? @"男" : @"女";
     oldLabel.text = [NSString getOldYears:customerTest.custIdCard];

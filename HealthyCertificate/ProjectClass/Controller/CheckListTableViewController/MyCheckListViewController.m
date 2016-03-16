@@ -37,15 +37,12 @@
 
 @interface MyCheckListViewController()<DJRefreshDelegate, PayMoneyDelegate>
 {
-    NSMutableArray *checkDataArray;
     DJRefresh  *_refresh;
 }
 
 @end
 
 @implementation MyCheckListViewController
-
-@synthesize checkDataArray;
 
 - (void)viewDidLoad
 {
@@ -109,10 +106,10 @@
 
         if (!error) {
             if (_userType == 1) {
-                checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
+                _checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
             }
             else if (_userType == 2) {
-                checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
+                _checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
                 [self initCompanyDataArray];
             }
             [_tableView reloadData];
@@ -128,7 +125,7 @@
 - (void)initCompanyDataArray
 {
     _companyDataArray = [[NSMutableArray alloc]init];
-    for (BRContract *brContract in checkDataArray) {
+    for (BRContract *brContract in _checkDataArray) {
         BaseTBCellItem *cellitem0 = [[BaseTBCellItem alloc]initWithTitle:@"单位名称" detial:brContract.unitName cellStyle:0];
         BaseTBCellItem *cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:brContract.regPosAddr cellStyle:0];
 
@@ -158,13 +155,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return checkDataArray.count;
+    return _checkDataArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (_userType == 1) {
-        if (((CustomerTest *)checkDataArray[section]).payMoney <= 0) {
+        if (((CustomerTest *)_checkDataArray[section]).payMoney <= 0) {
             return 2;
         }
         return 1;
@@ -206,7 +203,8 @@
                 cell = [[CustomerTestTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
-            [cell setCellItemWithTest:(CustomerTest *)checkDataArray[indexPath.section]];
+            [cell setCellItemWithTest:(CustomerTest *)_checkDataArray[indexPath.section]];
+
             return cell;
         }
         else {
@@ -241,7 +239,7 @@
                 cell = [[BRContractTableFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
-            [cell setCellItem:(BRContract *)checkDataArray[indexPath.section]];
+            [cell setCellItem:(BRContract *)_checkDataArray[indexPath.section]];
             return cell;
         }
     }
@@ -253,12 +251,12 @@
     // 个人
     if (_userType == 1) {
         PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
-        personalHealthyC.customerTestInfo = (CustomerTest *)checkDataArray[indexPath.section];
+        personalHealthyC.customerTestInfo = (CustomerTest *)_checkDataArray[indexPath.section];
         [self.navigationController pushViewController:personalHealthyC animated:YES];
     }
     else if (_userType == 2){ // 单位预约点击
         CompanyAppointmentListViewController* companyAppointmentListViewController = [[CompanyAppointmentListViewController alloc] init];
-        companyAppointmentListViewController.brContract = checkDataArray[indexPath.section];
+        companyAppointmentListViewController.brContract = _checkDataArray[indexPath.section];
         [self.navigationController pushViewController:companyAppointmentListViewController animated:YES];
     }
 }
@@ -268,8 +266,8 @@
 {
     PayMoneyController *pay = [[PayMoneyController alloc]init];
     pay.chargetype = CUSTOMERTEST;
-    pay.checkCode = ((CustomerTest *)checkDataArray[sender.tag]).checkCode;
-    pay.cityName = ((CustomerTest *)checkDataArray[sender.tag]).cityName;
+    pay.checkCode = ((CustomerTest *)_checkDataArray[sender.tag]).checkCode;
+    pay.cityName = ((CustomerTest *)_checkDataArray[sender.tag]).cityName;
     pay.delegate = self;
     [self.navigationController pushViewController:pay animated:YES];
 }

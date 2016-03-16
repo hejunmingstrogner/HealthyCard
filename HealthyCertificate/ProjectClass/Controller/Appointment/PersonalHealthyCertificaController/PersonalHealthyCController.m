@@ -78,12 +78,13 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)rightBtnClicked:(id)sender
+- (void)rightBtnClicked:(UIButton *)sender
 {
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"] || _customerTestInfo == nil) {
         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"对不起，现在不能修改信息" ActionTitle:@"明白了" ActionStyle:UIAlertActionStyleDefault];
         return ;
     }
+    sender.enabled = NO;
     _customerTestInfo.custName = _healthCertificateView.name;
     _customerTestInfo.custIdCard = _healthCertificateView.idCard;
     _customerTestInfo.linkPhone = _linkerPhone;
@@ -101,6 +102,7 @@
         waitAlertView.titleLabel.text = @"图片上传中...";
         [waitAlertView show];
         [[HttpNetworkManager getInstance]customerUploadHealthyCertifyPhoto:_healthCertificateView.imageView.image CusCheckCode:_customerTestInfo.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
+            sender.enabled = YES;
             if (!error) {
                 [waitAlertView close];
                 _isAvatarSet = NO;
@@ -123,6 +125,7 @@
     }
     else {
         [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
+            sender.enabled = YES;
             if (!error) {
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
             }
