@@ -22,8 +22,8 @@
 
 //http://lt.witaction.com:8080
 //#define SOCKET_HOST @"cert.witaction.com"
-//#define SOCKET_HOST @"yiscert.witaction.com"
-#define SOCKET_HOST @"182.140.132.214"
+#define SOCKET_HOST @"yiscert.witaction.com"
+//#define SOCKET_HOST @"182.140.132.214"
 //#define SOCKET_HOST @"10.254.244.59"
 #define SOCKET_PORT 6413 //服务器端口号
 
@@ -94,7 +94,8 @@ extern BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送
 
 #define DataOperate [HMDataOperate getInstance]
 
-#define GetUserType [[[NSUserDefaults standardUserDefaults] objectForKey:@"userType"] integerValue]
+#define RemoveUserType [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"userType"];   // 移除用户类型
+#define GetUserType [[[NSUserDefaults standardUserDefaults] objectForKey:@"userType"] integerValue] // 获得用户类型
 #define SetUserType(type) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", type] forKey:@"userType"]          // 设置用户类型，1:个人  2:单位
 
 #define SetUuidTimeOut(timeout) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", timeout] forKey:@"hc_uuid_timeout"]

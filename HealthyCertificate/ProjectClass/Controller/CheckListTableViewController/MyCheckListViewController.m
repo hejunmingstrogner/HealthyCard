@@ -40,6 +40,8 @@
     DJRefresh  *_refresh;
 }
 
+@property (nonatomic, assign, getter=isRefreshing) BOOL isRefreshing;
+
 @end
 
 @implementation MyCheckListViewController
@@ -56,6 +58,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    static int flag = 1;
+    if (flag == 1) {
+        flag ++;
+        return;
+    }
+    if ([self isRefreshing]) {
+        return;
+    }
+    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
 }
 
 - (void)initNavgation
@@ -106,8 +117,9 @@
 
 - (void)refresh:(DJRefresh *)refresh didEngageRefreshDirection:(DJRefreshDirection)direction
 {
+    _isRefreshing = YES;
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
-
+        _isRefreshing = NO;
         if (!error) {
             if (_userType == 1) {
                 _checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];

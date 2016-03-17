@@ -213,7 +213,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 50;
+    return 40;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -245,8 +245,8 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 {
     if (_needcanlceWorkersArray.count != 0 && section == 0) {
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 200, 30)];
-        label.text = @"已预约过的员工不能被取消";
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 300, 30)];
+        label.text = @"已上已经预约过的员工不能被取消";
         label.textColor = [UIColor grayColor];
         label.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
         [view addSubview:label];

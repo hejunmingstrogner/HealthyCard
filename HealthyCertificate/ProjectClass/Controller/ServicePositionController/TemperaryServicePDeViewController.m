@@ -75,7 +75,7 @@
     NSMutableArray *arry2 = [NSMutableArray arrayWithObjects:memberList, menberListdata, nil];
 
     ServicePositionDetialCellItem *detials = [[ServicePositionDetialCellItem alloc]initWithTitle:@"详情介绍" detialText:@""];
-    ServicePositionDetialCellItem *detialsText = [[ServicePositionDetialCellItem alloc]initWithTitle:@"详情介绍" detialText:@""];
+    ServicePositionDetialCellItem *detialsText = [[ServicePositionDetialCellItem alloc]initWithTitle:@"暂无介绍" detialText:@""];
     NSMutableArray *arry3 = [NSMutableArray arrayWithObjects:detials, detialsText, nil];
 
     _detialeInfoArray = [NSMutableArray arrayWithObjects:arry, arry1, arry2, arry3, nil];
