@@ -178,49 +178,6 @@
         default:
             break;
     }
-    
-//    if (self.currentVC == _cloudAppointmentViewController && seg.selectedSegmentIndex == 0)
-//        return;
-//    if (self.currentVC == _servicePointAppointmentViewController && seg.selectedSegmentIndex == 1)
-//        return;
-//    if (self.currentVC == _cloudAppointmentCompanyViewController && seg.selectedSegmentIndex == 0)
-//        return;
-//    
-//    UIViewController* oldVC = self.currentVC;
-//    NSInteger index = seg.selectedSegmentIndex;
-//    switch (index) {
-//        case 0:
-//        {
-//            [self transitionFromViewController:self.currentVC toViewController:_cloudAppointmentCompanyViewController duration:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//                
-//            } completion:^(BOOL finished) {
-//                if(finished) {
-//                    self.currentVC = _cloudAppointmentCompanyViewController;
-//                }
-//                else {
-//                    self.currentVC = oldVC;
-//                }
-//            }];
-//        }
-//            break;
-//        case 1:
-//        {
-//            [self transitionFromViewController:self.currentVC toViewController:_servicePointAppointmentViewController duration:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-//                
-//            } completion:^(BOOL finished) {
-//                if(finished) {
-//                    self.currentVC = _servicePointAppointmentViewController;
-//                }
-//                else {
-//                    self.currentVC = oldVC;
-//                }
-//            }];
-//        }
-//            break;
-//            
-//        default:
-//            break;
-//    }
 }
 
 -(void)backBtnClicked:(UIButton*)sender
@@ -233,6 +190,7 @@
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.videoQuality=UIImagePickerControllerQualityTypeLow;
         imagePicker.delegate = self;
         imagePicker.showsCameraControls = YES;
         [self presentViewController:imagePicker animated:YES completion:nil];
@@ -284,41 +242,32 @@
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    //取得照片
-    UIImage *image;
-    //	NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    CGImageRef imRef = [image CGImage];
-    
-    UIImageOrientation orientation = [image imageOrientation];
-    
-    NSInteger texWidth = CGImageGetWidth(imRef);
-    NSInteger texHeight = CGImageGetHeight(imRef);
-    
-    float imageScale = 1;
-    
-    if(orientation == UIImageOrientationUp && texWidth < texHeight)
-        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationLeft];
-    else if((orientation == UIImageOrientationUp && texWidth > texHeight) || orientation == UIImageOrientationRight)
-        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
-    else if(orientation == UIImageOrientationDown)
-        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationDown];
-    else if(orientation == UIImageOrientationLeft)
-        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
-    
-    NSLog(@"originalImage width = %f height = %f",image.size.width,image.size.height);
-    [picker dismissViewControllerAnimated:YES completion:nil];
-
-    if (!waitAlertView) {
-        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"身份证信息解析中"];
-    }
-    [waitAlertView show];
-    [YMIDCardRecognition recongnitionWithCard:image delegate:self];
-
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    __weak typeof (self) wself = self;
+    UIImage *originImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *image = [wself reSizeImage:originImage toSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT)];
+        CGImageRef imRef = [image CGImage];
+        UIImageOrientation orientation = [image imageOrientation];
+        NSInteger texWidth = CGImageGetWidth(imRef);
+        NSInteger texHeight = CGImageGetHeight(imRef);
+        float imageScale = 1;
+        if(orientation == UIImageOrientationUp && texWidth < texHeight)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationLeft];
+        else if((orientation == UIImageOrientationUp && texWidth > texHeight) || orientation == UIImageOrientationRight)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
+        else if(orientation == UIImageOrientationDown)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationDown];
+        else if(orientation == UIImageOrientationLeft)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [picker dismissViewControllerAnimated:YES completion:nil];
+            if (!waitAlertView) {
+                waitAlertView = [[RzAlertView alloc]initWithSuperView:wself.view Title:@"身份证信息解析中"];
+            }
+            [waitAlertView show];
+            [YMIDCardRecognition recongnitionWithCard:image delegate:wself];
+        });
+    });
 }
 
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
@@ -329,10 +278,10 @@
 }
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
 {
-  //  [self performSelectorOnMainThread:@selector(recongnitionResult:) withObject:array waitUntilDone:YES];
-    [waitAlertView close];
-    _cloudAppointmentViewController.idCardInfo = array;
-//    [self dismissViewControllerAnimated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [waitAlertView close];
+        _cloudAppointmentViewController.idCardInfo = array;
+    });
 }
 
 - (BOOL)getCancelProcess
@@ -351,6 +300,28 @@
     _cloudAppointmentCompanyViewController.cityName = _cityName;
     _cloudAppointmentViewController.cityName = _cityName;
 }
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    
+}
+
+- (UIImage *)reSizeImage:(UIImage *)image toSize:(CGSize)reSize
+
+{
+    UIGraphicsBeginImageContext(CGSizeMake(reSize.width, reSize.height));
+    [image drawInRect:CGRectMake(0, 0, reSize.width, reSize.height)];
+    UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return reSizeImage;
+    
+}
+
+
 
 
 @end
