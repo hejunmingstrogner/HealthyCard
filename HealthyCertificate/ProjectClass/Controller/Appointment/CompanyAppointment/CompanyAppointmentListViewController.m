@@ -252,6 +252,8 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"已达到修改次数上限" removeDelay:2];
             return;
         }
+        
+                                                        [self.navigationController popViewControllerAnimated:YES];
     }];
 }
 
@@ -447,7 +449,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
         }else{
             AddWorkerViewController* addWorkerVC = [[AddWorkerViewController alloc] init];
             addWorkerVC.needcanlceWorkersArray = self.originArr;
-            //addWorkerVC.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;
+            addWorkerVC.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;
             __typeof (self) __weak weakSelf = self;
             [addWorkerVC getWorkerArrayWithBlock:^(NSArray *workerArray) {
                 __typeof (self)  strongSelf = weakSelf; //防止循环引用
