@@ -19,6 +19,7 @@
 #import "UIButton+HitTest.h"
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
+#import "UILabel+Easy.h"
 
 #import "Constants.h"
 #import "UMSocial.h"
@@ -43,6 +44,19 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
+    
+    
+    UILabel* tipLabel = [UILabel labelWithText:@"二维码生成中..."
+                                          font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(26)]
+                                     textColor:[UIColor blackColor]];
+    tipLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:tipLabel];
+    [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.view).with.offset(TOP_MARGIN + kNavigationBarHeight + kStatusBarHeight);
+        make.centerX.mas_equalTo(self.view);
+        make.height.mas_equalTo((NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN));
+        make.width.mas_equalTo((NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN));
+    }];
     
     //启动app的时候，就加载二维码图片，以后优化
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@qrCode/generateByGet?content=%@&type=%@&height=%ld&width=%ld",
