@@ -118,7 +118,7 @@ BOOL   _isLocationInfoHasBeenSent;
         }
         else {
             //[RzAlertView showAlertLabelWithTarget:self.view Message:@"获取预约数据失败" removeDelay:2];
-            pendingLabel.text = @"";
+            pendingLabel.text = @"0";
         }
         _isRefreshData = NO;
     }];
@@ -469,7 +469,7 @@ BOOL   _isLocationInfoHasBeenSent;
                 if (flag == 1){
                     SetUuid(@"");
                     SetPhoneNumber(@"");
-                    SetUserType(-1);
+                    RemoveUserType;
                     LoginController* loginViewController = [[LoginController alloc] init];
                     [self presentViewController:loginViewController animated:NO completion:nil] ;
                 }
