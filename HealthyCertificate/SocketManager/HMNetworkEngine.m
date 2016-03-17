@@ -109,7 +109,7 @@ CompanyInfoOfPhonePacket* gCompanyInfo;
     short outLayerProtocol =  [[PackageOperation getInstance] outerLayerProtocol:data Index:&index];
     
     if (outLayerProtocol == SERVER_STATUS_ECHO){
-        NSLog(@"来自统一认证服务器的心跳包响应");
+       // NSLog(@"来自统一认证服务器的心跳包响应");
         //[self sendPacketToQueueServer:_queueServerHeartBeatPacket];
     }else if (outLayerProtocol == SERVER_PROXY_LIST_QUERY){
         NSLog(@"查询得到排队服务器列表");
