@@ -87,7 +87,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         [array addObject:custom.custCode];
     }
 
-    [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
+    [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
         if(result.count == 0)
         {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有员工数据..." removeDelay:3];

@@ -126,6 +126,15 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 -(void)getCustomerListByBRContract:(NSString*)contractCode resultBlock:(HCArrayResultBlock)resultBlock;
 
+
+/**
+ *  查询单位下，未完成体检的员工
+ *
+ *  @param unitCode    单位编号
+ *  @param resultBlock 回调
+ */
+-(void)getUnitsCustomersWithoutCheck:(NSString*) unitCode resultBlock:(HCArrayResultBlock)resultBlock;
+
 /**
  *  获取合同关联的个人预约
  *
