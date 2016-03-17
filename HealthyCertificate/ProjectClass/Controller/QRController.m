@@ -20,6 +20,7 @@
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 #import "UILabel+Easy.h"
+#import "NSString+QRCode.h"
 
 #import "Constants.h"
 #import "UMSocial.h"
@@ -58,21 +59,27 @@
         make.width.mas_equalTo((NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN));
     }];
     
-    //启动app的时候，就加载二维码图片，以后优化
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@qrCode/generateByGet?content=%@&type=%@&height=%ld&width=%ld",
-                                       [HttpNetworkManager baseURL], _qrContent, @"URL",
-                                       (NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN),
-                                       (NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN)]];
     _qrImageView = [[UIImageView alloc] init];
     [self.view addSubview:_qrImageView];
     [_qrImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.view).with.offset(TOP_MARGIN + kNavigationBarHeight + kStatusBarHeight);
         make.centerX.mas_equalTo(self.view);
-        make.height.mas_equalTo((NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN));
-        make.width.mas_equalTo((NSInteger)(SCREEN_WIDTH - 2 * H_MARTIN));
     }];
     
-    [_qrImageView sd_setImageWithURL:url placeholderImage:nil options:SDWebImageRefreshCached|SDWebImageRetryFailed completed:nil];
+    _qrImageView.image = [_qrContent qrcodeImageWithSize:SCREEN_WIDTH - 2 * H_MARTIN];
+    
+    
+    UIImageView* shareImageView = [[UIImageView alloc] init];
+    NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode];
+    [shareImageView sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil options:SDWebImageRefreshCached|SDWebImageRetryFailed];
+    shareImageView.layer.masksToBounds = YES;
+    shareImageView.layer.cornerRadius = 25;
+    [self.view addSubview:shareImageView];
+    [shareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.mas_equalTo(_qrImageView);
+        make.height.mas_equalTo( (SCREEN_WIDTH-2*H_MARTIN) / 4);
+        make.width.mas_equalTo((SCREEN_WIDTH-2*H_MARTIN) / 4);
+    }];
     
     [self initNavgation];
 }

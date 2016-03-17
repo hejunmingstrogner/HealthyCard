@@ -57,9 +57,7 @@
     AppointmentInfoView     *_appointmentInfoView;
     
     UITextView             *_phoneNumTextView;
-//    UITextField             *_locationTextField;
     UITextView             *_appointmentDateTextView;
-    
     UITableView             *_baseInfoTableView;
     
     //键盘相关
@@ -70,7 +68,6 @@
     HCWheelView             *_sexWheel;
     
     RzAlertView             *_waitAlertView;
-    
     
     /*
      1. 如果是云预约 
@@ -160,21 +157,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)QRScanButtonClicked:(UIButton*)sender
-{
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        imagePicker.delegate = self;
-        imagePicker.showsCameraControls = YES;
-        [self presentViewController:imagePicker animated:YES completion:nil];
-    }
-    else
-    {
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"开启摄像头权限后，才能使用该功能" removeDelay:2];
-    }
-}
-
 -(void)viewDidLoad{
     [super viewDidLoad];
     [self initNavgation];
@@ -185,7 +167,6 @@
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
-    
     
     UIView* containerView = [[UIView alloc] init];
     [scrollView addSubview:containerView];
@@ -254,8 +235,6 @@
                                                textColor:[UIColor whiteColor]
                                          backgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
     appointmentBtn.layer.cornerRadius = 5;
-//    appointmentBtn.layer.borderWidth = 2;
-//    appointmentBtn.layer.borderColor = MO_RGBCOLOR(70, 180, 240).CGColor;
     [appointmentBtn addTarget:self action:@selector(appointmentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:appointmentBtn];
     [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -529,7 +508,7 @@
         
         MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
         if (methodResult.succeed == NO || [methodResult.object isEqualToString:@"0"]){
-            [RzAlertView showAlertLabelWithTarget:self.view Message:MakeAppointmentFailed removeDelay:2];
+            [RzAlertView showAlertLabelWithTarget:self.view Message:methodResult.object removeDelay:2];
             return;
             //预约失败
         }
@@ -558,6 +537,21 @@
         }
     }];
 
+}
+
+-(void)QRScanButtonClicked:(UIButton*)sender
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.delegate = self;
+        imagePicker.showsCameraControls = YES;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+    else
+    {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"开启摄像头权限后，才能使用该功能" removeDelay:2];
+    }
 }
 #pragma mark - 订单成功之后提示在线支付窗口
 // 订单成功提示框
