@@ -17,7 +17,14 @@
 #import "UIButton+HitTest.h"
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
+#import "UIFont+Custom.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
+
+@interface AddWorkerViewController()
+{
+    NSMutableArray *_needCanleWorkerDateArray;
+}
+@end
 
 @implementation AddWorkerViewController
 
@@ -55,7 +62,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
     _seletingCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 70, 44)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:_seletingCountLabel];
-    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count endColor:[UIColor blueColor]];
+    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:(_selectWorkerArray.count + _needcanlceWorkersArray.count) endColor:[UIColor blueColor]];
 }
 // 返回前一页
 - (void)backToPre:(id)sender
@@ -89,7 +96,11 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
             _workerData = [NSMutableArray arrayWithArray:result];
             // 过滤掉已经选择过的员工
             if (_needcanlceWorkersArray.count != 0) {
+                _needCanleWorkerDateArray = [[NSMutableArray alloc]init];
                 for (int i = 0; i< _needcanlceWorkersArray.count; i++) {
+                    Customer *customer = _needcanlceWorkersArray[i];
+                    AddWorkerCellItem *cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:1];
+                    [_needCanleWorkerDateArray addObject:cellItem];
                     for (int j = 0; j < _workerData.count; j++) {
                         if ([((Customer *)_workerData[j]).custCode isEqualToString:((Customer *)_needcanlceWorkersArray[i]).custCode]) {
                             [_workerData removeObjectAtIndex:j];
@@ -168,19 +179,33 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (_workerArray.count != 0) {
+    if(_needcanlceWorkersArray.count == 0)
+    {
+        if (_workerArray.count != 0) {
+            return 1;
+        }
+    }
+    else {
+        if (_workerArray.count != 0) {
+            return 2;
+        }
         return 1;
     }
     return 0;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (_needcanlceWorkersArray.count != 0) {
+        if (section == 0) {
+            return _needcanlceWorkersArray.count;
+        }
+    }
     return _workerArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 44;
+    return 54;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -188,13 +213,14 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 1;
+    return 50;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    UIView *uiview = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 54)];
     AddWorkerTableViewCell *cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"haed"];
-    cell.frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
+    cell.frame = CGRectMake(0, 10, self.view.frame.size.width, 44);
     cell.nameLabel.text = @"姓名";
     cell.phoneLabel.text = @"电话";
     cell.endDateLabel.text = @"到期时间";
@@ -211,11 +237,36 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         make.top.bottom.equalTo(cell.contentView);
     }];
     cell.backgroundColor = [UIColor whiteColor];
-    return cell;
+    [uiview addSubview:cell];
+    return uiview;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (_needcanlceWorkersArray.count != 0 && section == 0) {
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 200, 30)];
+        label.text = @"已预约过的员工不能被取消";
+        label.textColor = [UIColor grayColor];
+        label.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+        [view addSubview:label];
+        return view;
+    }
+    return nil;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_needcanlceWorkersArray.count != 0) {
+        if (indexPath.section == 0) {
+            AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+            if (!cell) {
+                cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+            }
+            [cell setSelectedCellItem:(AddWorkerCellItem *)_needCanleWorkerDateArray[indexPath.row]];
+            return cell;
+        }
+    }
+
     AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
         cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
@@ -227,6 +278,9 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_needcanlceWorkersArray.count != 0 && indexPath.section == 0) {
+        return;
+    }
     AddWorkerTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell changeSelectStatus:(AddWorkerCellItem *)_workerArray[indexPath.row]];
 
@@ -236,6 +290,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
             [_selectWorkerArray addObject:_workerData[i]];
         }
     }
-    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count endColor:[UIColor blueColor]];
+    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count + _needcanlceWorkersArray.count endColor:[UIColor blueColor]];
 }
 @end

@@ -20,8 +20,10 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
-- (void)setCellItem:(AddWorkerCellItem *)cellItem;
+- (void)setCellItem:(AddWorkerCellItem *)cellItem;          // 将要选择的cellitem
 
 - (void)changeSelectStatus:(AddWorkerCellItem *)cellitem;
+
+- (void)setSelectedCellItem:(AddWorkerCellItem *)cellitem;  // 选择过的要过滤的cellitem
 
 @end

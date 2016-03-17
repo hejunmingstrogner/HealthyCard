@@ -86,6 +86,26 @@
     }
 }
 
+- (void)setSelectedCellItem:(AddWorkerCellItem *)cellitem
+{
+    _nameLabel.text = cellitem.name;
+    if (cellitem.phone.length == 0) {
+        _phoneLabel.text = @"未查到";
+    }
+    else {
+        _phoneLabel.text = cellitem.phone;
+    }
+    if (cellitem.endDate.length == 0) {
+        _endDateLabel.text = @"无体检记录";
+    }
+    else {
+        _endDateLabel.text = [NSDate getYear_Month_DayByDate:[cellitem.endDate longLongValue]];
+    }
+
+    _selectImageView.image = [UIImage imageNamed:@"tuoyuanhui"];
+
+}
+
 - (void)changeSelectStatus:(AddWorkerCellItem *)cellitem
 {
     if (cellitem.isSelectFlag == 0) {
