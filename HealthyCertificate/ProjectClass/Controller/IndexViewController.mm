@@ -50,7 +50,7 @@ BOOL   _isLocationInfoHasBeenSent;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    self.navigationController.interactivePopGestureRecognizer.delegate = nil;
     // 初始化主界面的view
     [self initSubViews];
 
