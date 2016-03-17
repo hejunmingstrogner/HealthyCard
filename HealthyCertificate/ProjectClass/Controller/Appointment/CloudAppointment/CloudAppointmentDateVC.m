@@ -19,6 +19,7 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "UIColor+Expanded.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -134,8 +135,14 @@
     
     self.title = @"预约日期选择";
     
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(dateSureBtnClicked:)];
-    self.navigationItem.rightBarButtonItem = rightBtn;
+    
+    UIButton* rightBtn = [UIButton buttonWithTitle:@"确定"
+                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
+                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
+                                   backgroundColor:[UIColor clearColor]];
+    [rightBtn addTarget:self action:@selector(dateSureBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 #pragma mark - HCWheelViewDelegate

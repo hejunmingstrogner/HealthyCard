@@ -39,6 +39,7 @@
         [self addSubview:_titleLabel];
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self);
+            make.height.mas_equalTo(self);
             make.left.mas_equalTo(self).with.offset(10);
         }];
         
@@ -56,7 +57,7 @@
 -(void)setTitleText:(NSString *)titleText
 {
     _titleLabel.text = titleText;
-    [_titleLabel sizeToFit];
+   // [_titleLabel sizeToFit];
 }
 
 @end
