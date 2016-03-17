@@ -179,28 +179,33 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if(_needcanlceWorkersArray.count == 0)
+    if(_workerArray.count == 0 && _needcanlceWorkersArray.count == 0)
     {
-        if (_workerArray.count != 0) {
-            return 1;
-        }
+        return 0;
     }
-    else {
-        if (_workerArray.count != 0) {
-            return 2;
-        }
+    if ((_workerArray.count == 0 && _needcanlceWorkersArray.count != 0) || (_workerArray.count != 0 && _needcanlceWorkersArray.count == 0)) {
         return 1;
+    }
+    if (_workerArray.count != 0 && _needcanlceWorkersArray.count != 0) {
+        return 2;
     }
     return 0;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (_needcanlceWorkersArray.count != 0) {
-        if (section == 0) {
-            return _needcanlceWorkersArray.count;
-        }
+    if (_workerArray.count == 0) {
+        return _needCanleWorkerDateArray.count;
     }
-    return _workerArray.count;
+    if (_needCanleWorkerDateArray.count == 0) {
+        return _workerArray.count;
+    }
+    if (section == 0) {
+        return _workerArray.count;
+    }
+    if (section == 1) {
+        return _needCanleWorkerDateArray.count;
+    }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -213,6 +218,11 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (_workerArray.count != 0) {
+        if (section == 0) {
+            return 10;
+        }
+    }
     return 40;
 }
 
@@ -243,7 +253,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (_needcanlceWorkersArray.count != 0 && section == 0) {
+    if ((_needcanlceWorkersArray.count != 0 && section == 1) || _workerArray.count == 0) {
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 300, 30)];
         label.text = @"已上已经预约过的员工不能被取消";
@@ -256,15 +266,13 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_needcanlceWorkersArray.count != 0) {
-        if (indexPath.section == 0) {
-            AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-            if (!cell) {
-                cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-            }
-            [cell setSelectedCellItem:(AddWorkerCellItem *)_needCanleWorkerDateArray[indexPath.row]];
-            return cell;
+    if ((_needcanlceWorkersArray.count != 0 && indexPath.section == 1) || _workerArray.count == 0) {
+        AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+        if (!cell) {
+            cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         }
+        [cell setSelectedCellItem:(AddWorkerCellItem *)_needCanleWorkerDateArray[indexPath.row]];
+        return cell;
     }
 
     AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -278,7 +286,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_needcanlceWorkersArray.count != 0 && indexPath.section == 0) {
+    if ((_needcanlceWorkersArray.count != 0 && indexPath.section == 1 ) || _workerArray.count == 0) {
         return;
     }
     AddWorkerTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
