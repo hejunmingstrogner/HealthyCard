@@ -105,7 +105,7 @@
                     [self getCityPrice];
                 }
                 else {
-                    [self payCancel];
+                    [self backToPre:nil];
                 }
             }];
         }
@@ -234,15 +234,15 @@
 
     [self orderBtnClicked:nil];
 }
-
-- (CGFloat)cellheight:(NSString *)text
-{
-    UIFont *fnt = [UIFont systemFontOfSize:17];
-
-    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
-    CGFloat he = tmpRect.size.height+10;
-    return he;
-}
+//
+//- (CGFloat)cellheight:(NSString *)text
+//{
+//    UIFont *fnt = [UIFont systemFontOfSize:17];
+//
+//    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
+//    CGFloat he = tmpRect.size.height+10;
+//    return he;
+//}
 
 - (void)orderBtnClicked:(UIButton *)sender
 {
