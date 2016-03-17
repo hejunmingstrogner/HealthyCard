@@ -74,15 +74,7 @@
     BMKSuggestionSearchOption* option = [[BMKSuggestionSearchOption alloc] init];
     option.cityname = @"";
     option.keyword  = text;
-    BOOL flag = [_sugSearcher suggestionSearch:option];
-    if(flag)
-    {
-        NSLog(@"建议检索发送成功");
-    }
-    else
-    {
-        NSLog(@"建议检索发送失败");
-    }
+    [_sugSearcher suggestionSearch:option];
 }
 //实现Delegate处理回调结果
 - (void)onGetSuggestionResult:(BMKSuggestionSearch*)searcher result:(BMKSuggestionResult*)result errorCode:(BMKSearchErrorCode)error{
