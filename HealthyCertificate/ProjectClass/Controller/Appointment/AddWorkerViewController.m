@@ -60,7 +60,8 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
 
-    _seletingCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 70, 44)];
+    _seletingCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, 44)];
+    _seletingCountLabel.textAlignment = NSTextAlignmentRight;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:_seletingCountLabel];
     [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:(_selectWorkerArray.count + _needcanlceWorkersArray.count) endColor:[UIColor blueColor]];
 }
@@ -256,7 +257,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     if ((_needcanlceWorkersArray.count != 0 && section == 1) || _workerArray.count == 0) {
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 300, 30)];
-        label.text = @"已上已经预约过的员工不能被取消";
+        label.text = @"以上已经预约过的员工不能被取消";
         label.textColor = [UIColor grayColor];
         label.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
         [view addSubview:label];

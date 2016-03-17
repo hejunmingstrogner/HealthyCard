@@ -796,6 +796,7 @@
     //    UIAlertView *a=[[UIAlertView alloc]initWithTitle:@"提示" message:error.domain delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
     //    [a show];
     //    NSLog(@"%@", error.domain);
+    [_waitAlertView close];
 }
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
 {

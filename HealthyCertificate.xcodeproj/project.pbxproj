@@ -55,7 +55,6 @@
 		254502FE1C8FB77000F47F46 /* hclaunchscreen@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254502FB1C8FB77000F47F46 /* hclaunchscreen@1x.png */; };
 		254502FF1C8FB77000F47F46 /* hclaunchscreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254502FC1C8FB77000F47F46 /* hclaunchscreen@2x.png */; };
 		254503001C8FB77000F47F46 /* hclaunchscreen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254502FD1C8FB77000F47F46 /* hclaunchscreen@3x.png */; };
-		254503021C8FBDC500F47F46 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254503011C8FBDC500F47F46 /* Images.xcassets */; };
 		254503061C90043800F47F46 /* QRController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254503051C90043800F47F46 /* QRController.m */; };
 		254503091C9119EC00F47F46 /* CustomerPositionLogPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 254503081C9119EC00F47F46 /* CustomerPositionLogPacket.m */; };
 		254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */; };
@@ -292,7 +291,6 @@
 		254502FB1C8FB77000F47F46 /* hclaunchscreen@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hclaunchscreen@1x.png"; sourceTree = "<group>"; };
 		254502FC1C8FB77000F47F46 /* hclaunchscreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hclaunchscreen@2x.png"; sourceTree = "<group>"; };
 		254502FD1C8FB77000F47F46 /* hclaunchscreen@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hclaunchscreen@3x.png"; sourceTree = "<group>"; };
-		254503011C8FBDC500F47F46 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		254503041C90043800F47F46 /* QRController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRController.h; sourceTree = "<group>"; };
 		254503051C90043800F47F46 /* QRController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRController.m; sourceTree = "<group>"; };
 		254503071C9119EC00F47F46 /* CustomerPositionLogPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerPositionLogPacket.h; sourceTree = "<group>"; };
@@ -593,7 +591,6 @@
 				2512B3DD1C70567F00EE661B /* Categories */,
 				2512B3DE1C70567F00EE661B /* Fonts */,
 				2512B3E41C70567F00EE661B /* Resources */,
-				254503011C8FBDC500F47F46 /* Images.xcassets */,
 				2512B3AA1C70557C00EE661B /* Supporting Files */,
 			);
 			path = HealthyCertificate;
@@ -1462,7 +1459,6 @@
 				254A8DA71C7C32B800F2EC94 /* servicePoint@3x.png in Resources */,
 				2512B3B71C70557C00EE661B /* Assets.xcassets in Resources */,
 				2512B4241C7056D200EE661B /* OpenSans-Bold.ttf in Resources */,
-				254503021C8FBDC500F47F46 /* Images.xcassets in Resources */,
 				254A8DC21C7D401A00F2EC94 /* arrow@2x.png in Resources */,
 				252AB88C1C76E3880085CC14 /* search_icon@3x.png in Resources */,
 				B201CCC31C72046D00B8F624 /* Info.plist in Resources */,
