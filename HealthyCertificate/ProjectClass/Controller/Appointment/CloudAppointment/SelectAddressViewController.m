@@ -38,16 +38,13 @@
 {
     CGRect rect = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_textField.mas_bottom).offset(5);
-        make.left.right.equalTo(self.view);
         make.bottom.equalTo(self.view).offset(-rect.size.height);
     }];
 }
 - (void)keyboardWillHide:(NSNotification *)notification
 {
     [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_textField.mas_bottom).offset(5);
-        make.left.right.bottom.equalTo(self.view);
+        make.bottom.equalTo(self.view);
     }];
 }
 
