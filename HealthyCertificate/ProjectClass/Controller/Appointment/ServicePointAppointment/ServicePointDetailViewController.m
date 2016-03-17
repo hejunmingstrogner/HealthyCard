@@ -65,8 +65,8 @@
     ServicePositionDetialCellItem *item20 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"地址路线" detialText:@""];
     ServicePositionDetialCellItem *item21 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"中心地址" detialText:_serverPositionItem.address];
     ServicePositionDetialCellItem *item22 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"咨询电话" detialText:_serverPositionItem.leaderPhone];
-    ServicePositionDetialCellItem *item23 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"公交路线" detialText:_serverPositionItem.busWay.length == 0? @"306、304" : _serverPositionItem.busWay];
-    NSArray *arry2 = [NSArray arrayWithObjects:item20, item21, item22, item23, nil];
+    //ServicePositionDetialCellItem *item23 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"公交路线" detialText:_serverPositionItem.busWay.length == 0? @"306、304" : _serverPositionItem.busWay];
+    NSArray *arry2 = [NSArray arrayWithObjects:item20, item21, item22, nil];
 
     _inforArray = [[NSMutableArray alloc]initWithObjects:arry0, arry1, arry2, nil];
 }
