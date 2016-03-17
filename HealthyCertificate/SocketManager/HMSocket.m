@@ -180,7 +180,7 @@
 }
 
 -(void)socket:(GCDAsyncReadPacket*)sock didWriteDataWithTag:(long)tag{
-    NSLog(@"%ld", tag);
+//    NSLog(@"%ld", tag);
 }
 
 //断线重连定时器

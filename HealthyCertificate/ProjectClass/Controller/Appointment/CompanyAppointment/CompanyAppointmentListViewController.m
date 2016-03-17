@@ -63,7 +63,9 @@
     NSInteger   _staffCount;
 }
 
-@property (nonatomic, copy) NSArray* customerArr;
+@property (nonatomic, copy) NSMutableArray* customerArr;
+
+@property (nonatomic, copy) NSArray* originArr;
 
 @end
 
@@ -149,8 +151,14 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
 #pragma mark - Setter & Getter
 -(NSArray*)customerArr{
     if (_customerArr == nil)
-        _customerArr = [[NSArray alloc] init];
+        _customerArr = [[NSMutableArray alloc] init];
     return _customerArr;
+}
+
+-(NSArray*)originArr{
+    if (_originArr == nil)
+        _originArr = [[NSArray alloc] init];
+    return _originArr;
 }
 
 -(void)setBrContract:(BRContract *)brContract
@@ -188,7 +196,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"查询单位员工失败" removeDelay:3];
             return;
         }
-        weakSelf.customerArr = result;
+        weakSelf.originArr = result;
         __typeof (self)  strongSelf = weakSelf; //防止循环引用
         strongSelf->_staffCount = result.count;
         [strongSelf->_tableView reloadData];
@@ -216,7 +224,14 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     _brContract.linkPhone = _phoneNumField.text;
     _brContract.regCheckNum = [_exminationCountField.text intValue];
     
-    [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(NSDictionary *result, NSError *error) {
+
+    
+    NSMutableArray* array = [[NSMutableArray alloc] init];
+    [array addObjectsFromArray:_customerArr];
+    [array addObjectsFromArray:_originArr];
+    [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract
+                                                      employees:array
+                                                    reslutBlock:^(NSDictionary *result, NSError *error) {
         if (error != nil){
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
             return;
@@ -431,17 +446,18 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
             [_exminationCountField becomeFirstResponder];
         }else{
             AddWorkerViewController* addWorkerVC = [[AddWorkerViewController alloc] init];
-            addWorkerVC.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;
+            addWorkerVC.needcanlceWorkersArray = self.originArr;
+            //addWorkerVC.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;
             __typeof (self) __weak weakSelf = self;
             [addWorkerVC getWorkerArrayWithBlock:^(NSArray *workerArray) {
                 __typeof (self)  strongSelf = weakSelf; //防止循环引用
-                weakSelf.customerArr = workerArray;
-                strongSelf->_staffCount = workerArray.count;
+                weakSelf.customerArr = [NSMutableArray arrayWithArray:workerArray];
+                strongSelf->_staffCount = workerArray.count + _originArr.count;
                 NSIndexPath *path = [NSIndexPath indexPathForItem:2 inSection:1];
                 [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
-                if([_exminationCountField.text integerValue] < workerArray.count){
-                    _exminationCountField.text = [NSString stringWithFormat:@"%ld", workerArray.count];
-                    strongSelf->_appointmentCount = [NSString stringWithFormat:@"%ld", workerArray.count];
+                if([_exminationCountField.text integerValue] < workerArray.count + _originArr.count){
+                    _exminationCountField.text = [NSString stringWithFormat:@"%ld", workerArray.count + _originArr.count];
+                    strongSelf->_appointmentCount = [NSString stringWithFormat:@"%ld", workerArray.count + _originArr.count];
                     NSIndexPath *path = [NSIndexPath indexPathForItem:3 inSection:1];
                     [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
                     

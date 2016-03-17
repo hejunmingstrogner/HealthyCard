@@ -38,10 +38,10 @@
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://lyx.witaction.com/zkwebservice";
 
 // 开发环境
-//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/webservice/";
+static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/webservice/";
 
 // 运营环境
-static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver.zeekstar.com/webserver/webservice/";
+//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver.zeekstar.com/webserver/webservice/";
 
 @implementation HttpNetworkManager
 
@@ -84,7 +84,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         sharedNetworkHttpManager = [[HttpNetworkManager alloc] init];
-    });
+    }); 
     return sharedNetworkHttpManager;
 }
 

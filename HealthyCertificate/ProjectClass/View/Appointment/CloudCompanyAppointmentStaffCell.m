@@ -48,7 +48,7 @@
         
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self);
-            make.left.mas_equalTo(PXFIT_WIDTH(24));
+            make.left.mas_equalTo(10);
         }];
         [titleLabel setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
         
@@ -60,9 +60,9 @@
         
        
         [arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self).with.offset(-PXFIT_WIDTH(24));
+            make.right.mas_equalTo(self).with.offset(-10);
             make.centerY.mas_equalTo(self);
-            make.left.greaterThanOrEqualTo(_countLabel.mas_right).with.offset(PXFIT_WIDTH(24));
+            make.left.greaterThanOrEqualTo(_countLabel.mas_right).with.offset(10);
         }];
         [arrowImageView setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
     }
