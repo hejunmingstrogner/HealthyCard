@@ -572,8 +572,10 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
         [waitAlert close];
         Boolean succeed = [[responseObject objectForKey:@"succeed"] boolValue];
         if(succeed == NO){
-            block([responseObject objectForKey:@"errorMsg"], [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:[responseObject objectForKey:@"errorMsg"] forKey:@"error"]]);
-            return;
+            if (block) {
+                block([responseObject objectForKey:@"errorMsg"], [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:[responseObject objectForKey:@"errorMsg"] forKey:@"error"]]);
+                return;
+            }
         }
         NSString *charge = [responseObject objectForKey:@"object"];
         [Pingpp createPayment:charge viewController:_self appURLScheme:kUrlScheme withCompletion:^(NSString *result, PingppError *error) {
@@ -581,12 +583,14 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
             if (error != nil) {
                 failerror = [NSError errorWithDomain:@"error" code:error.code userInfo:[NSDictionary dictionaryWithObject:[error getMsg] forKey:@"error"]];
             }
-            block(result, failerror);
+            if (block) {
+                block(result, failerror);
+            }
         }];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         [waitAlert close];
         if(block){
-            block(@"发起交易失败，请检查网络", error);
+            block(@"发起交易失败，请检查网络后重试", error);
         }
     }];
 }
@@ -605,8 +609,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
             block(nil, error);
         }
     }
-    else
-    {
+    else{
         NSString *strs = [[NSString alloc]initWithData:requestData encoding:NSUTF8StringEncoding];
         if (block) {
             block(strs, nil);

@@ -366,7 +366,8 @@
             [[HttpNetworkManager getInstance]customerUploadPhoto:photoimage resultBlock:^(BOOL result, NSError *error) {
                 [waitAlertView close];
                 if (result) {
-                    [sender setImage:photoimage forState:UIControlStateNormal];
+                    //[sender setImage:photoimage forState:UIControlStateNormal];
+                    [_tableView reloadData];
                     // 刷新左侧菜单的头像
                     if ([_delegate respondsToSelector:@selector(reloadLeftMenuViewByChangedUserinfor)] && _delegate) {
                         [_delegate reloadLeftMenuViewByChangedUserinfor];

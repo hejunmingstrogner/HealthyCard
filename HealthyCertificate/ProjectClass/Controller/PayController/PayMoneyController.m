@@ -58,7 +58,7 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:NO];
     if([_delegate respondsToSelector:(@selector(payMoneyCencel))] && _delegate)
     {
         [_delegate payMoneyCencel];
@@ -275,7 +275,7 @@
             param.amount = [_money floatValue] *100;
             param.channel = channel;
             param.subject = @"健康证在线";
-            param.body = @"知康科技健康证在线";
+            param.body = @"健康证在线是专注于为从业人员提供在线一键办证服务的平台，实现医疗机构和从业人员的无缝对接";
             param.businessObj.enumType = _chargetype;
             param.businessObj.checkCode = _checkCode;
             [[HttpNetworkManager getInstance]payMoneyWithChargeParameter:param viewController:self resultBlock:^(NSString *result, NSError *error) {
@@ -310,20 +310,9 @@
 
 - (void)payFail:(NSError *)error result:(NSString *)result
 {
-    NSString *message;
-    if ([result isEqualToString:@"fail"]) {
-        message = @"支付失败，请重试";
-    }
-    else{
-        message = [error.userInfo objectForKey:@"error"];
-        if (message == nil) {
-            message = @"支付失败，请重试";
-        }
-    }
-    [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:message ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
+    [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:result ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
         [self deselectChannelPay];
     }];
-
 }
 - (void)payCancel
 {

@@ -130,11 +130,7 @@ BOOL   _isLocationInfoHasBeenSent;
     UIView *headerBackGroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 74)];
     headerBackGroundView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:headerBackGroundView];
-    [headerBackGroundView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(self.view).offset(20);
-        make.height.mas_equalTo(74);
-    }];
+
     // 头像按钮
     headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [headerBackGroundView addSubview:headerBtn];
@@ -456,8 +452,8 @@ BOOL   _isLocationInfoHasBeenSent;
         }
         case LEFTMENUCELL_EXIT:
         {
-            [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您确定退出当前账号吗？" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"确定" Actionstyle:UIAlertActionStyleDefault cancleActionTitle:@"点错了" handle:^(NSInteger flag) {
-                if (flag == 1){
+            [RzAlertView showAlertViewControllerWithController:self title:@"提示" message:@"您确定要退出当前账号吗？" confirmTitle:@"确定" cancleTitle:@"点错了" handle:^(NSInteger flag) {
+                if (flag == 1) {
                     SetUuid(@"");
                     SetPhoneNumber(@"");
                     RemoveUserType;

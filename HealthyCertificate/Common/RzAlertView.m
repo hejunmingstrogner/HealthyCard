@@ -468,6 +468,25 @@
             block(0);
         }
     }];
-
 }
+
+// 显示两个按钮，取消按钮默认为 “提示”状态
++ (void)showAlertViewControllerWithController:(UIViewController *)target title:(NSString *)title message:(NSString *)message confirmTitle:(NSString *)confirmTitle cancleTitle:(NSString *)cancleTitle handle:(void (^)(NSInteger))block
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:confirmTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (block) {
+            block(1);
+        }
+    }];
+    [alert addAction:confirm];
+    UIAlertAction *cancleaction = [UIAlertAction actionWithTitle:cancleTitle style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        if (block) {
+            block(0);
+        }
+    }];
+    [alert addAction:cancleaction];
+    [target presentViewController:alert animated:YES completion:nil];
+}
+
 @end
