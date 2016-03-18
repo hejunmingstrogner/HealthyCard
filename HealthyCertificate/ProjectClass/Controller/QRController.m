@@ -22,6 +22,7 @@
 
 #import "Constants.h"
 #import "UMSocial.h"
+#import "InsetsLabel.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -77,6 +78,20 @@
         make.center.mas_equalTo(_qrImageView);
         make.height.mas_equalTo( (SCREEN_WIDTH-2*H_MARTIN) / 4);
         make.width.mas_equalTo((SCREEN_WIDTH-2*H_MARTIN) / 4);
+    }];
+    
+    InsetsLabel* infoLabel = [[InsetsLabel alloc] init];
+    infoLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+    infoLabel.text = _infoStr;
+    infoLabel.backgroundColor = [UIColor whiteColor];
+    infoLabel.layer.borderColor = [UIColor colorWithRGBHex:HC_Gray_Egdes].CGColor;
+    infoLabel.layer.borderWidth = 1.0;
+    infoLabel.numberOfLines = 0;
+    [self.view addSubview:infoLabel];
+    [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(_qrImageView);
+        make.top.mas_equalTo(_qrImageView.mas_bottom);
+        make.width.mas_equalTo(SCREEN_WIDTH-2*H_MARTIN);
     }];
     
     [self initNavgation];
