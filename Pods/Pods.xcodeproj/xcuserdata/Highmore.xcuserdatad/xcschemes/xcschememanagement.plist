@@ -14,11 +14,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>KVNProgress.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>MJExtension.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,12 +42,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>06B2232CE73059846F04E5C3DFEE0D38</key>
+		<key>2831884C71FB5330D9C972317C84D216</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3737B499E915C386AC616329AF0C6AFB</key>
+		<key>3D0FAF477B930D8781CAA7D96C07B32A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -67,17 +62,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4D33AA6EC6C34AFA0B7C3F0AFB9052A0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>53480ED0BE09FF49E34B1702D485CAAB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>73D0BC87CCCE086ED6D606E6E2AEDD55</key>
+		<key>59E6F1E9AB3EC2E99551F38632F37C51</key>
 		<dict>
 			<key>primary</key>
 			<true/>
