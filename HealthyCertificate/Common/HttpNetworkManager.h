@@ -39,6 +39,12 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
 //执行的http请求
 
 
+/**
+ *  检查版本更新
+ */
+-(void)checkVersionWithResultBlock:(HCBoolResultBlock)resultBlock;
+
+
 #pragma mark - 登录相关
 /**
  *  电话号码验证

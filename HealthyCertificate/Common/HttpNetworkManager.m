@@ -90,6 +90,48 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 
 
 #pragma mark - Public Methods
+
+-(void)checkVersionWithResultBlock:(HCBoolResultBlock)resultBlock
+{
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    //CFBundleShortVersionString 代表发布版本号
+    //CFBundleVersion 内部版本号
+    NSString *currentVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
+    NSString *urlStr = [NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@", @"954270"];
+    
+    [self.manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSDictionary* jsonDic = (NSDictionary*)responseObject;
+        
+        NSArray* infoArray = [jsonDic objectForKey:@"results"];
+        if ([infoArray count])
+        {
+            NSDictionary* releaseInfo = [infoArray objectAtIndex:0];
+            NSString* lastVersion = [releaseInfo objectForKey:@"version"];
+            if (![lastVersion isEqualToString:currentVersion])
+            {
+                resultBlock(YES, nil);
+            }else{
+                resultBlock(NO, nil);
+            }
+        }
+        
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        NSLog(@"%@",error.description);
+    }];
+}
+
+-(void)checkVersion{
+    
+//    NSMutableURLRequest* urlRequest = [[NSMutableURLRequest alloc] init];
+//    [urlRequest setURL:[NSURL URLWithString:urlStr]];
+//    [urlRequest setHTTPMethod:@"POST"];
+//    
+//    NSData* returnData = [NSURLConnection sendsy]
+    
+    NSLog(@"test");
+}
+
+
 -(void)verifyPhoneNumber:(NSString*)phoneNum resultBlock:(HCDictionaryResultBlock)resultBlock;
 {
     NSString *url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?phone_num=%@&type=auth_code&debug=ture",phoneNum];//false
