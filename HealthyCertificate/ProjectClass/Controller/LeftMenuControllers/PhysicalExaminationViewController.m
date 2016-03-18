@@ -129,5 +129,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if(indexPath.section == 2){
+        // 用户协议
+    }
 }
 @end
