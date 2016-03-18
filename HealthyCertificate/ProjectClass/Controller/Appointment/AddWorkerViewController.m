@@ -22,7 +22,17 @@
 
 @interface AddWorkerViewController()
 {
-    NSMutableArray *_needCanleWorkerDateArray;
+    NSMutableArray *_workerData;       // 原始的员工数据
+    NSMutableArray *_needCanleWorkerDateArray;  // 封装的需要过滤的员工数据
+    NSMutableArray *_workerArray;      // 封装的员工数据
+    NSMutableArray *_selectWorkerArray;    // 选择的员工   返回的选择的数据
+
+    UILabel        *_seletingCountLabel;
+    RzAlertView    *_waitAlertView;
+
+    UITableView    *_tableView;
+
+    UIButton       *_comfirmBtn; // 确定
 }
 @end
 

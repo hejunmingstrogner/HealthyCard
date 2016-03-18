@@ -49,6 +49,7 @@
         }
         case 4:{
             test = @"已出健康证";
+            break;
         }
         case 9:{
             test = @"";
