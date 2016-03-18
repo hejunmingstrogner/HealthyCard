@@ -10,7 +10,9 @@
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
 @interface ConsumerAgreement()
-
+{
+    UIWebView *webView;
+}
 @end
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
@@ -23,6 +25,8 @@
     [self initNavgation];
 
     [self initSubviews];
+
+    [self loadURLView];
 }
 
 - (void)initNavgation
@@ -43,6 +47,18 @@
 
 - (void)initSubviews
 {
+    webView = [[UIWebView alloc]initWithFrame:self.view.frame];
+    webView.dataDetectorTypes = UIDataDetectorTypeAll;
+    [self.view addSubview:webView];
+}
 
+- (void)loadURLView
+{
+    NSString *str = @"https://www.baidu.com";
+    NSURL *url = [NSURL URLWithString:str];
+
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+
+    [webView loadRequest:request];
 }
 @end

@@ -177,10 +177,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (_userType == 1) {
-        if (((CustomerTest *)_checkDataArray[section]).payMoney <= 0) {
-            return 2;
-        }
-        return 1;
+//        if (((CustomerTest *)_checkDataArray[section]).payMoney <= 0) {
+//            return 2;
+//        }
+        return 2;
     }
     else if (_userType == 2){
         return 4;
@@ -220,7 +220,6 @@
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             [cell setCellItemWithTest:(CustomerTest *)_checkDataArray[indexPath.section]];
-
             return cell;
         }
         else {
@@ -231,6 +230,7 @@
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             cell.payMoneyBtn.tag = indexPath.section;
+            cell.payMoney =((CustomerTest *)_checkDataArray[indexPath.section]).payMoney;
             return cell;
         }
     }
@@ -280,6 +280,9 @@
 // 点击支付按钮
 - (void)payMoneyBtnClicked:(UIButton *)sender
 {
+    if (sender.tag < 0) {
+        return;
+    }
     PayMoneyController *pay = [[PayMoneyController alloc]init];
     pay.chargetype = CUSTOMERTEST;
     pay.checkCode = ((CustomerTest *)_checkDataArray[sender.tag]).checkCode;

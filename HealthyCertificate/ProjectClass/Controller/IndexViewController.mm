@@ -50,7 +50,6 @@ BOOL   _isLocationInfoHasBeenSent;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.interactivePopGestureRecognizer.delegate = nil;
     [self initSubViews];
 
     // 定位服务
@@ -484,14 +483,15 @@ BOOL   _isLocationInfoHasBeenSent;
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+
     [_mapView viewWillAppear];
     _mapView.delegate = self;
     _locationServer.delegate = self;
     static int flag = 0;
     if (flag != 0) {
         [self getCheckListData];
+        flag++;
     }
-    flag++;
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
