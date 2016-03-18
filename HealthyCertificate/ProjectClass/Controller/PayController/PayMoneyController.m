@@ -317,7 +317,7 @@
     else{
         message = [error.userInfo objectForKey:@"error"];
         if (message == nil) {
-            message = @"支付失败";
+            message = @"支付失败，请重试";
         }
     }
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:message ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {

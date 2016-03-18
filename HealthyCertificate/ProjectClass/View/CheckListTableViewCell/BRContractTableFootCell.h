@@ -11,8 +11,6 @@
 
 @interface BRContractTableFootCell : UITableViewCell
 
-@property (nonatomic, strong)UILabel *statusLabel;
-
 @property (nonatomic, strong)UILabel *orderedLabel;
 @property (nonatomic, strong)UILabel *checkedLabel;
 

@@ -23,26 +23,7 @@
 
 - (void)initSubViews
 {
-    UILabel *status = [[UILabel alloc]init];
-    status.text = @"状态:";
-    [self.contentView addSubview:status];
-    status.font = [UIFont fontWithType:UIFontOpenSansRegular size:13];
-    [status mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView).offset(15);
-        make.centerY.equalTo(self.contentView);
-        make.height.mas_equalTo(20);
-        make.width.mas_equalTo(40);
-    }];
-
-    _statusLabel = [[UILabel alloc]init];
-    _statusLabel.textColor = [UIColor grayColor];
-    _statusLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:13];
-    [self.contentView addSubview:_statusLabel];
-    [_statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(status.mas_right);
-        make.bottom.top.equalTo(status);
-        make.width.mas_equalTo(80);
-    }];
+    self.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:13];
 
     _orderedLabel = [[UILabel alloc]init];
     [self.contentView addSubview:_orderedLabel];
@@ -51,7 +32,7 @@
     _orderedLabel.textColor = [UIColor grayColor];
     _orderedLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:13];
     [_orderedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(status);
+        make.top.bottom.equalTo(self.contentView);
         make.left.equalTo(self.contentView.mas_centerX).offset(-20);
         make.width.mas_equalTo(80);
     }];
@@ -72,7 +53,7 @@
 - (void)setCellItem:(BRContract *)brContract
 {
     NSString *status = [BRContract getTestStatus:brContract.testStatus];    //  得到检查状态
-    _statusLabel.text = status;
+    [self.textLabel setText:@"状态: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:13] WithEndText:status endTextColor:[UIColor grayColor]];
     [_orderedLabel setText:@"已预约:" Font:[UIFont fontWithType:UIFontOpenSansRegular size:13] count:brContract.regCheckNum endColor:[UIColor blackColor]];
     [_checkedLabel setText:@"已检查" Font:[UIFont fontWithType:UIFontOpenSansRegular size:13] count:(brContract.factCheckNum <0 ? 0 : brContract.factCheckNum) endColor:[UIColor redColor]];
 }
