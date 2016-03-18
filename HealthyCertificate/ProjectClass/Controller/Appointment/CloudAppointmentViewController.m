@@ -445,9 +445,6 @@
     _customerTestInfo.bornDate = [_healthyCertificateView.idCard getLongLongBornDate];
     _customerTestInfo.jobDuty = _healthyCertificateView.workType;
     
-    _customerTestInfo.regPosLA = self.centerCoordinate.latitude;
-    _customerTestInfo.regPosLO = self.centerCoordinate.longitude;
-    
     _customerTestInfo.linkPhone = _phoneNumTextView.text;
     _customerTestInfo.regPosAddr = _locationTextView.text;
 
@@ -458,16 +455,23 @@
         _customerTestInfo.regBeginDate = [array[0] convertDateStrToLongLong]*1000;
         _customerTestInfo.regEndDate = [array[1] convertDateStrToLongLong]*1000;
         _customerTestInfo.regPosAddr = _locationTextView.text; //预约地点
+        
+        _customerTestInfo.regPosLA = self.centerCoordinate.latitude;
+        _customerTestInfo.regPosLO = self.centerCoordinate.longitude;
     }else{
         //如果是基于已有服务点的预约
         if (_sercersPositionInfo != nil){
+            
+            _customerTestInfo.regPosLA = _sercersPositionInfo.positionLa;
+            _customerTestInfo.regPosLO = _sercersPositionInfo.positionLo;
+            
             _customerTestInfo.regTime = _sercersPositionInfo.startTime;
             _customerTestInfo.hosCode = _sercersPositionInfo.cHostCode;
             //移动服务点 id 固定 cHostCode
             _customerTestInfo.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
         }
     }
-    _customerTestInfo.cityName = self.cityName; //预约城市
+    _customerTestInfo.cityName = gCurrentCityName; //预约城市
     
     __weak typeof (self) wself = self;
     [[HttpNetworkManager getInstance] createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {

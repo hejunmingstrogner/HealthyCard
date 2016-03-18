@@ -385,56 +385,50 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         return;
     }
     
-    if(_brContract == nil)
+    if (_location == nil || [_location isEqualToString:@""])
     {
-        _brContract = [[BRContract alloc]init];
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"体检地址不存在，请选择一个地址" removeDelay:3];
+        return ;
     }
-    _brContract.unitCode = gCompanyInfo.cUnitCode;
-    _brContract.unitName = gCompanyInfo.cUnitName;
+    
+    if (_contactPersonField.text.length == 0)
+    {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请输入联系人" removeDelay:3];
+        return ;
+    }
+    
+    if (_phoneNumField.text.length != 11)
+    {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请输入正确的电话号码" removeDelay:3];
+        return;
+    }
+    
     NSInteger customercount;
     @try {
-       customercount = [_exminationCountField.text integerValue];
+        customercount = [_exminationCountField.text integerValue];
     }
     @catch (NSException *e){
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请输入正确的体检人数" removeDelay:2];
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请输入正确的预约人数" removeDelay:2];
         return ;
     }
     if(customercount <= 0){
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"体检人数不能为 0" removeDelay:3];
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约人数不能为 0" removeDelay:3];
         return ;
     }
     if (customercount < _customerArr.count) {
         customercount = _customerArr.count;
     }
-    _brContract.regCheckNum = customercount;    // 体检人数
-
-    if(_centerCoordinate.latitude < 0){
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"体检地址不存在，请选择一个地址" removeDelay:3];
-        return ;
-    }
-    if (_contactPersonField.text.length == 0) {
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请输入联系人" removeDelay:3];
-        return ;
-    }
-    if (_cityName == nil) {
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"体检地址不存在，请选择一个地址" removeDelay:3];
-        return ;
-    }
-    _brContract.regPosLA = _centerCoordinate.latitude;
-    _brContract.regPosLO = _centerCoordinate.longitude;
-    _brContract.regPosAddr = _location;
-    _brContract.regTime = [[NSDate date] timeIntervalSince1970];
     
-    if (_phoneNumField.text.length != 11){
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请输入正确的电话号码" removeDelay:3];
-        return;
+    if(_brContract == nil)
+    {
+        _brContract = [[BRContract alloc]init];
+        _brContract.unitCode = gCompanyInfo.cUnitCode;
+        _brContract.unitName = gCompanyInfo.cUnitName;
     }
-
-    if (_sercersPositionInfo) {
-        _brContract.regBeginDate = _sercersPositionInfo.startTime;
-        _brContract.regEndDate = _sercersPositionInfo.endTime;
-    }
-    else {
+    
+    if (_sercersPositionInfo == nil)
+    {
+        //云预约
         NSArray *dateArray = [_dateStrTextView.text componentsSeparatedByString:@"~"];
         if (dateArray.count == 0) {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"你还未填写预约时间" removeDelay:3];
@@ -442,12 +436,33 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }
         _brContract.regBeginDate = [dateArray[0] convertDateStrToLongLong]*1000;
         _brContract.regEndDate = [dateArray[1] convertDateStrToLongLong]*1000;
+        _brContract.regPosLA = _centerCoordinate.latitude;
+        _brContract.regPosLO = _centerCoordinate.longitude;
+        _brContract.regPosAddr = _location;
     }
+    else
+    {
+        //基于服务点预约
+        _brContract.servicePoint = _sercersPositionInfo;
+        _brContract.regTime = _sercersPositionInfo.startTime;
+        _brContract.regBeginDate = _sercersPositionInfo.startTime;
+        _brContract.regEndDate = _sercersPositionInfo.endTime;
+        _brContract.regPosAddr = _sercersPositionInfo.address;
+        _brContract.regPosLA = _sercersPositionInfo.positionLa;
+        _brContract.regPosLO = _sercersPositionInfo.positionLo;
+        _brContract.hosCode = _sercersPositionInfo.cHostCode;
+        //移动服务点 id 固定 cHostCode
+         _brContract.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
+    }
+
+    
     _brContract.linkUser = _contactPersonField.text;
     _brContract.linkPhone = _phoneNumField.text;
-    _brContract.cityName = _cityName;
-    _brContract.checkType = @"1";
+    _brContract.checkType = @"1";// 1为健康证
     _brContract.testStatus = @"-1"; // -1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
+    _brContract.regCheckNum = customercount;
+    _brContract.cityName = gCurrentCityName;
+ 
     
     [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(NSDictionary *result, NSError *error) {
         if (error != nil){
