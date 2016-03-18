@@ -14,6 +14,7 @@
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 #import "Constants.h"
+#import "ConsumerAgreement.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -131,6 +132,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if(indexPath.section == 2){
         // 用户协议
+        ConsumerAgreement *consumer = [[ConsumerAgreement alloc]init];
+        [self.navigationController pushViewController:consumer animated:YES];
     }
 }
 @end

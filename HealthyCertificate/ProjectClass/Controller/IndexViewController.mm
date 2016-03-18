@@ -50,7 +50,6 @@ BOOL   _isLocationInfoHasBeenSent;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.interactivePopGestureRecognizer.delegate = nil;
     [self initSubViews];
 
     // 定位服务
@@ -497,14 +496,15 @@ BOOL   _isLocationInfoHasBeenSent;
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+
     [_mapView viewWillAppear];
     _mapView.delegate = self;
     _locationServer.delegate = self;
     static int flag = 0;
     if (flag != 0) {
         [self getCheckListData];
+        flag++;
     }
-    flag++;
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -731,6 +731,10 @@ BOOL   _isLocationInfoHasBeenSent;
 #pragma mark - annotionview delegate  点击标注，选择预约点
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
 {
+    if(![view.annotation isKindOfClass:[MyPointeAnnotation class]])
+    {
+        return ;
+    }
     MyPointeAnnotation *anno = view.annotation;
     if (nearbyServicePositionsArray.count != 0) {
         // 回调 0 取消，1预约，2显示基本信息，3拨打电话

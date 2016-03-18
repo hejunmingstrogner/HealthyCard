@@ -11,5 +11,6 @@
 @interface CheckListPayMoneyCell : UITableViewCell
 
 @property (nonatomic, strong) UIButton *payMoneyBtn;
+@property (nonatomic, assign) float    payMoney;
 
 @end
