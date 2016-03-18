@@ -122,6 +122,7 @@
 		30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E1C17F5EF743EC155F709C /* libPods.a */; };
 		B201CCC31C72046D00B8F624 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC21C72046D00B8F624 /* Info.plist */; };
 		B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC41C7205B100B8F624 /* Main.storyboard */; };
+		B23163C61C9BEF5300377B27 /* ConsumerAgreement.m in Sources */ = {isa = PBXBuildFile; fileRef = B23163C51C9BEF5300377B27 /* ConsumerAgreement.m */; };
 		B23506031C91A6DD00B35E1E /* ChargeBusinessObj.m in Sources */ = {isa = PBXBuildFile; fileRef = B23506021C91A6DD00B35E1E /* ChargeBusinessObj.m */; };
 		B23506061C91A6FA00B35E1E /* ChargeType.m in Sources */ = {isa = PBXBuildFile; fileRef = B23506051C91A6FA00B35E1E /* ChargeType.m */; };
 		B23506091C91A7B500B35E1E /* ChargeBusinessForCustomerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B23506081C91A7B500B35E1E /* ChargeBusinessForCustomerTest.m */; };
@@ -392,6 +393,8 @@
 		6D2243EB114EF1077978D1EA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B201CCC21C72046D00B8F624 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B201CCC41C7205B100B8F624 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B23163C41C9BEF5300377B27 /* ConsumerAgreement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsumerAgreement.h; sourceTree = "<group>"; };
+		B23163C51C9BEF5300377B27 /* ConsumerAgreement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsumerAgreement.m; sourceTree = "<group>"; };
 		B23506011C91A6DD00B35E1E /* ChargeBusinessObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeBusinessObj.h; sourceTree = "<group>"; };
 		B23506021C91A6DD00B35E1E /* ChargeBusinessObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeBusinessObj.m; sourceTree = "<group>"; };
 		B23506041C91A6FA00B35E1E /* ChargeType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeType.h; sourceTree = "<group>"; };
@@ -1028,6 +1031,8 @@
 				B259C9311C86E28100A6A767 /* SelectCompanyViewController.m */,
 				B259C9361C885EA600A6A767 /* HistoryInformationVController.h */,
 				B259C9371C885EA600A6A767 /* HistoryInformationVController.m */,
+				B23163C41C9BEF5300377B27 /* ConsumerAgreement.h */,
+				B23163C51C9BEF5300377B27 /* ConsumerAgreement.m */,
 			);
 			path = LeftMenuControllers;
 			sourceTree = "<group>";
@@ -1543,6 +1548,7 @@
 				2512B41A1C7056C900EE661B /* UIFont+Custom.m in Sources */,
 				254D95B41C9A7FF8003B64D4 /* NSString+QRCode.m in Sources */,
 				B2866A671C91662600F4B3B9 /* ChargeParameter.m in Sources */,
+				B23163C61C9BEF5300377B27 /* ConsumerAgreement.m in Sources */,
 				B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */,
 				B23506061C91A6FA00B35E1E /* ChargeType.m in Sources */,
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
