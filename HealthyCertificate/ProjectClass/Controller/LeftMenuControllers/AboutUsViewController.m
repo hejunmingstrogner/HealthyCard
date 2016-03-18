@@ -47,7 +47,8 @@
     _titleArray = [NSMutableArray arrayWithObjects:@"软件版本", @"最新版本", @"官方网址", @"微信公众号", nil];
 
     // 当前版本号
-    NSString *currentVision = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+//    NSString *currentVision = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *currentVision = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     // 最新版本号
     NSString *newVision = currentVision;
 
