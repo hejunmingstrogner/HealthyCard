@@ -157,5 +157,22 @@ typedef void (^ButtonActionBlock)(UIButton *sender);
 + (void)showActionSheetWithTarget:(UIView *)superView
                   servicePosition:(ServersPositionAnnotionsModel *)servicePositionItem
                            handle:(void(^)(NSInteger flag))block;
+
+/**
+ *  显示两个按钮，取消按钮默认为 “提示”状态
+ *
+ *  @param target       显示的controller
+ *  @param title        标题
+ *  @param message      信息
+ *  @param confirmTitle 确认按钮名字
+ *  @param cancleTitle  取消按钮名字
+ *  @param block        点击之后的回调
+ */
++ (void)showAlertViewControllerWithController:(UIViewController *)target
+                                        title:(NSString *)title
+                                      message:(NSString *)message
+                                 confirmTitle:(NSString *)confirmTitle
+                                  cancleTitle:(NSString *)cancleTitle
+                                       handle:(void(^)(NSInteger flag))block;
 @end
 NS_ASSUME_NONNULL_END

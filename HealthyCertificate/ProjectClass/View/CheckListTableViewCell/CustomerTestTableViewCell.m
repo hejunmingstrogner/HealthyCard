@@ -39,17 +39,15 @@
 }
 - (void)initSubViews
 {
-    headerimageView = [[UIImageView alloc]init];
+    headerimageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
     [self.contentView addSubview:headerimageView];
     [headerimageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView).offset(10);
         make.centerY.equalTo(self.contentView);
-        make.top.equalTo(self.contentView).offset(10);
-        make.bottom.equalTo(self.contentView).offset(-10);
-        make.width.equalTo(headerimageView.mas_height);
+        make.width.height.mas_equalTo(60);
     }];
     headerimageView.layer.masksToBounds = YES;
-    headerimageView.layer.cornerRadius = 45;
+    headerimageView.layer.cornerRadius = 30;
 
 
     UIView *bgview = [[UIView alloc]init];
@@ -174,23 +172,6 @@
     sexLabel.text = customerTest.sex == 0 ? @"男" : @"女";
     oldLabel.text = [NSString getOldYears:customerTest.custIdCard];
 
-//    // 0固定服务点；
-//    if(customerTest.servicePoint.type == 0)
-//    {
-//        serviceAddressLabel.text = customerTest.servicePoint.address;
-//        
-//    }
-//    else {
-//        // 服务时间为空时，不显示
-//        if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
-//            serviceAddressLabel.text = @"现场体检";
-//            return;
-//        }
-//        serviceAddressLabel.text = customerTest.servicePoint.address;
-//        serviceTimeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)", [NSDate getYear_Month_DayByDate:customerTest.servicePoint.startTime/1000], [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000], [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000]];
-//    }
-
-
     if(customerTest.checkSiteID) // 服务点预约
     {
         serviceAddressLabel.text = customerTest.servicePoint.address;
@@ -199,7 +180,7 @@
             serviceAddressLabel.text =@"获取失败";
         }
         else {
-            NSString *year = [NSDate getYear_Month_DayByDate:customerTest.servicePoint.startTime/1000];
+            NSString *year = [NSDate getYearMonthDayByDate:customerTest.servicePoint.startTime/1000];
             NSString *hour1 = [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000];
             NSString *end = [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000];
             NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
@@ -214,8 +195,8 @@
             serviceAddressLabel.text = @"获取失败";
         }
         else {
-            NSString *startyear = [NSDate getYear_Month_DayByDate:customerTest.regBeginDate/1000];
-            NSString *endyear = [NSDate getYear_Month_DayByDate:customerTest.regEndDate/1000];
+            NSString *startyear = [NSDate getYearMonthDayByDate:customerTest.regBeginDate/1000];
+            NSString *endyear = [NSDate getYearMonthDayByDate:customerTest.regEndDate/1000];
             NSString *time = [NSString stringWithFormat:@"%@~%@",startyear, endyear];
             serviceTimeLabel.text = time;
         }

@@ -24,8 +24,20 @@
     }
     return array;
 }
+// 计算时间 XX.XX.XX
++ (NSString *)getYearMonthDayByDate:(long long)itDate
+{
+    if (!itDate) {
+        return @"";
+    }
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:itDate];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy.MM.dd"];
+    NSString *time = [formatter stringFromDate:date];
+    return time;
+}
 
-// 计算时间 年月日
+// 计算时间 XX年XX月XX日
 + (NSString *)getYear_Month_DayByDate:(long long)itDate
 {
     if (!itDate) {
