@@ -138,12 +138,14 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [self registerKeyboardNotification];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
+-(void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     [self cancelKeyboardNotification];
 }
@@ -164,7 +166,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
 -(void)setBrContract:(BRContract *)brContract
 {
     _brContract = brContract;
-    
     _address = _brContract.regPosAddr;
     
     if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
@@ -200,8 +201,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
         __typeof (self)  strongSelf = weakSelf; //防止循环引用
         strongSelf->_staffCount = result.count;
         [strongSelf->_tableView reloadData];
-//        NSIndexPath *path = [NSIndexPath indexPathForItem:2 inSection:1];
-//        [strongSelf->_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
     }];
     
 }
@@ -224,11 +223,10 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     _brContract.linkPhone = _phoneNumField.text;
     _brContract.regCheckNum = [_exminationCountField.text intValue];
     
-
-    
     NSMutableArray* array = [[NSMutableArray alloc] init];
     [array addObjectsFromArray:_customerArr];
     [array addObjectsFromArray:_originArr];
+    __weak typeof (self) wself = self;
     [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract
                                                       employees:array
                                                     reslutBlock:^(NSDictionary *result, NSError *error) {
@@ -252,8 +250,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"已达到修改次数上限" removeDelay:2];
             return;
         }
-        
-                                                        [self.navigationController popViewControllerAnimated:YES];
+                                                        [wself.navigationController popViewControllerAnimated:YES];
     }];
 }
 
@@ -462,7 +459,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
                     strongSelf->_appointmentCount = [NSString stringWithFormat:@"%ld", workerArray.count + _originArr.count];
                     NSIndexPath *path = [NSIndexPath indexPathForItem:3 inSection:1];
                     [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    
                 }
             }];
             [self.navigationController pushViewController:addWorkerVC animated:YES];
@@ -520,13 +516,15 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
     [textField resignFirstResponder];
     return YES;
 }
 
 #pragma mark - Private Methods
-- (BOOL)isPureInt:(NSString*)string{
+- (BOOL)isPureInt:(NSString*)string
+{
     NSScanner* scan = [NSScanner scannerWithString:string];
     int val;
     return[scan scanInt:&val] && [scan isAtEnd];
