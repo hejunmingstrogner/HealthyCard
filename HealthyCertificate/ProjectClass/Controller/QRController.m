@@ -8,8 +8,6 @@
 
 #import "QRController.h"
 
-#import <ZXingObjCAztec.h>
-#import <ZXMultiFormatWriter.h>
 #import <Masonry.h>
 #import <UIImageView+WebCache.h>
 

@@ -44,30 +44,15 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>ZXingObjC.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>030A9050983E819FDB561EAA8D3248B5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>0609A7CA71B599002668F81844E7B6FC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>06B2232CE73059846F04E5C3DFEE0D38</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1DAFB6731AC4E56379ED447D3810160B</key>
+		<key>3737B499E915C386AC616329AF0C6AFB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,12 +67,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>4D33AA6EC6C34AFA0B7C3F0AFB9052A0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>53480ED0BE09FF49E34B1702D485CAAB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>921AF0C4B7018B5BA5C47811CA1B8696</key>
+		<key>73D0BC87CCCE086ED6D606E6E2AEDD55</key>
 		<dict>
 			<key>primary</key>
 			<true/>

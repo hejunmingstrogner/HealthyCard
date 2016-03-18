@@ -59,7 +59,6 @@ install_resource()
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "BaiduMapKit/BaiduMapKit/BaiduMapAPI_Map.framework/Resources/mapapi.bundle"
-  install_resource "Bugtags/Bugtags.bundle"
   install_resource "KVNProgress/KVNProgress/Resources/KVNProgressView.xib"
   install_resource "Pingpp/lib/Channels/Alipay/AlipaySDK.bundle"
   install_resource "Pingpp/lib/Pingpp.bundle"
@@ -79,7 +78,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "BaiduMapKit/BaiduMapKit/BaiduMapAPI_Map.framework/Resources/mapapi.bundle"
-  install_resource "Bugtags/Bugtags.bundle"
   install_resource "KVNProgress/KVNProgress/Resources/KVNProgressView.xib"
   install_resource "Pingpp/lib/Channels/Alipay/AlipaySDK.bundle"
   install_resource "Pingpp/lib/Pingpp.bundle"
