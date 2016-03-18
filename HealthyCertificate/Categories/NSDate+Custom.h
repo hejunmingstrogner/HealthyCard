@@ -73,9 +73,18 @@
  */
 +(NSString*)converLongLongToChineseStringDate:(long long)dateLong;
 
-// 计算时间 年月日
+// 计算时间 年月日 返回 XX年XX月XX日
 + (NSString *)getYear_Month_DayByDate:(long long)itDate;
 // 计算 时分
 + (NSString *)getHour_MinuteByDate:(long long)itDate;
+
+/**
+ *  计算时间 年月日 返回XX.XX.XX
+ *
+ *  @param itDate
+ *
+ *  @return
+ */
++ (NSString *)getYearMonthDayByDate:(long long)itDate;
 
 @end
