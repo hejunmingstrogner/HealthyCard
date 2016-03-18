@@ -71,7 +71,7 @@
     
     UIImageView* shareImageView = [[UIImageView alloc] init];
     NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode];
-    [shareImageView sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil options:SDWebImageRefreshCached|SDWebImageRetryFailed];
+    [shareImageView sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"QRDefault"] options:SDWebImageRefreshCached|SDWebImageRetryFailed];
     shareImageView.layer.masksToBounds = YES;
     shareImageView.layer.cornerRadius = 25;
     [self.view addSubview:shareImageView];

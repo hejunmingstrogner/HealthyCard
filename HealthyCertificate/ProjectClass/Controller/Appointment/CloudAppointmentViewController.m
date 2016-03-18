@@ -271,7 +271,6 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self registerKeyboardNotification];
-    
     [self loadData];
 }
 
@@ -293,48 +292,40 @@
     BaseInfoTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([BaseInfoTableViewCell class])];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
-    {
         [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-    
     if ( [cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)] )
-    {
         [cell setPreservesSuperviewLayoutMargins:NO];
-    }
-    
     if ( [cell respondsToSelector:@selector(setLayoutMargins:)] )
-    {
         [cell setLayoutMargins:UIEdgeInsetsZero];
-    }
     
-    if (indexPath.row == 0){
+    if (indexPath.row == 0)
+    {
         cell.iconName = @"search_icon";
         [cell setTextViewText:_location];
-        //cell.textViewText = _location;
         cell.textView.userInteractionEnabled = NO;
+        cell.textView.textColor = _isCustomerServerPoint?[UIColor blackColor]:[UIColor colorWithRGBHex:HC_Gray_Text];
         _locationTextView = cell.textView;
-    }else if (indexPath.row == 1){
+    }
+    else if (indexPath.row == 1)
+    {
         cell.iconName = @"date_icon";
-        
-        if (self.isCustomerServerPoint == NO){
-            [cell setTextViewText:_appointmentDateStr];
-            cell.textView.userInteractionEnabled = NO;
-        }else{
-            [cell setTextViewText:[NSString combineString:[[NSDate date] getDateStringWithInternel:1]
-                                                     And:[[NSDate date] getDateStringWithInternel:2]
-                                                    With:@"~"]];
-            cell.textView.userInteractionEnabled = NO;
-        }
+        [cell setTextViewText:_isCustomerServerPoint?[NSString combineString:[[NSDate date] getDateStringWithInternel:1]
+                                                                        And:[[NSDate date] getDateStringWithInternel:2]
+                                                                        With:@"~"]:_appointmentDateStr];
+         cell.textView.userInteractionEnabled = NO;
+        cell.textView.textColor = _isCustomerServerPoint?[UIColor blackColor]:[UIColor colorWithRGBHex:HC_Gray_Text];
         _appointmentDateTextView = cell.textView;
-    }else{
+    }
+    else
+    {
         cell.iconName = @"phone_icon";
+        cell.textView.scrollEnabled = NO;
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
         if (_customerTestInfo == nil){
-            [cell setTextViewText:gPersonInfo.StrTel];
+            cell.textView.text = gPersonInfo.StrTel;
         }else{
-            [cell setTextViewText:_customerTestInfo.linkPhone];
+            cell.textView.text = _customerTestInfo.linkPhone;
         }
-        
         cell.textView.delegate = self;
         _phoneNumTextView = cell.textView;
     }
@@ -350,9 +341,7 @@
         return;
     }
     
-    
     if (indexPath.row == 0){
-        //跳转地址
         SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
         selectAddressViewController.addressStr = _locationTextView.text;
         __weak typeof (self) wself = self;
@@ -382,26 +371,10 @@
     }else{
         
     }
-    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return PXFIT_HEIGHT(100);
-}
-
-#pragma mark - Storyboard Segue
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"ChooseDateIdentifier"]){
-        UIViewController* destinationViewController = segue.destinationViewController;
-        if ([destinationViewController isKindOfClass:[CloudAppointmentDateVC class]])
-        {
-            CloudAppointmentDateVC* cloudAppointmentDateVC = (CloudAppointmentDateVC*)destinationViewController;
-            [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
-               BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
-                cell.textView.text = dateStr;
-            }];
-        }
-    }
 }
 
 #pragma mark - Action
@@ -413,7 +386,6 @@
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
         return;
     }
-    
     
     //先做一次数据有效性检查 to do
     if (_locationTextView.text == nil || [_locationTextView.text isEqualToString:@""]){
@@ -621,7 +593,6 @@
     if (![self isPureInt:text]){
         return YES;
     }
-    
     if (textView.text.length > 10){
         return NO;
     }else if (textView.text.length == 10){
@@ -638,7 +609,6 @@
     if (![self isPureInt:string]){
         return YES;
     }
-    
     if (textField.text.length > 10){
         return NO;
     }else if (textField.text.length == 10){
@@ -712,9 +682,7 @@
         photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
                                                                           wself.healthyCertificateView.imageView.frame.size.height)];
         [wself.healthyCertificateView.imageView setImage:photoimage];
-       // [[SDWebImageManager sharedManager].imageCache clearMemory];
         _isAvatarSet = YES; //代表修改了健康证图片
-
     }];
 }
 
@@ -790,36 +758,32 @@
 //YMIDCardRecognitionDelegate
 #pragma mark - UIImagePickerControllerDelegate & YMIDCardRecognitionDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    //取得照片
-    UIImage *image;
-    //	NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-    image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    CGImageRef imRef = [image CGImage];
-    
-    UIImageOrientation orientation = [image imageOrientation];
-    
-    NSInteger texWidth = CGImageGetWidth(imRef);
-    NSInteger texHeight = CGImageGetHeight(imRef);
-    
-    float imageScale = 1;
-    
-    if(orientation == UIImageOrientationUp && texWidth < texHeight)
-        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationLeft];
-    else if((orientation == UIImageOrientationUp && texWidth > texHeight) || orientation == UIImageOrientationRight)
-        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
-    else if(orientation == UIImageOrientationDown)
-        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationDown];
-    else if(orientation == UIImageOrientationLeft)
-        image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
-    
-    NSLog(@"originalImage width = %f height = %f",image.size.width,image.size.height);
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    
-    if (!_waitAlertView) {
-        _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"身份证信息解析中"];
-    }
-    [_waitAlertView show];
-    [YMIDCardRecognition recongnitionWithCard:image delegate:self];
+    __weak typeof (self) wself = self;
+    UIImage *originImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *image = [wself reSizeImage:originImage toSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT)];
+        CGImageRef imRef = [image CGImage];
+        UIImageOrientation orientation = [image imageOrientation];
+        NSInteger texWidth = CGImageGetWidth(imRef);
+        NSInteger texHeight = CGImageGetHeight(imRef);
+        float imageScale = 1;
+        if(orientation == UIImageOrientationUp && texWidth < texHeight)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationLeft];
+        else if((orientation == UIImageOrientationUp && texWidth > texHeight) || orientation == UIImageOrientationRight)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
+        else if(orientation == UIImageOrientationDown)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationDown];
+        else if(orientation == UIImageOrientationLeft)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [picker dismissViewControllerAnimated:YES completion:nil];
+            if (!_waitAlertView) {
+                _waitAlertView = [[RzAlertView alloc]initWithSuperView:wself.view Title:@"身份证信息解析中"];
+            }
+            [_waitAlertView show];
+            [YMIDCardRecognition recongnitionWithCard:image delegate:wself];
+        });
+    });
     
 }
 
@@ -836,10 +800,10 @@
 }
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
 {
-    //  [self performSelectorOnMainThread:@selector(recongnitionResult:) withObject:array waitUntilDone:YES];
-    [_waitAlertView close];
-    self.idCardInfo = array;
-    //    [self dismissViewControllerAnimated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_waitAlertView close];
+        self.idCardInfo = array;
+    });
 }
 
 - (BOOL)getCancelProcess
@@ -850,6 +814,15 @@
 - (void)setCancelProcess:(BOOL)isCance
 {
     //self.isProgressCanceled = isCance;
+}
+
+- (UIImage *)reSizeImage:(UIImage *)image toSize:(CGSize)reSize
+{
+    UIGraphicsBeginImageContext(CGSizeMake(reSize.width, reSize.height));
+    [image drawInRect:CGRectMake(0, 0, reSize.width, reSize.height)];
+    UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return reSizeImage;
 }
 
 @end

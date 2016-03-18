@@ -59,6 +59,7 @@
     [UMSocialData setAppKey:@"56e22bbd67e58e71f9000e8b"];
     [UMSocialQQHandler setQQWithAppId:@"1105172405" appKey:@"Fe18WR9AciIlUZBP" url:@"http://www.zeekkeji.com/"];
     [UMSocialWechatHandler setWXAppId:@"wx8b40ee373b8d6864" appSecret:@"55325d44ba360016ca90d9a7c24b11b4" url:@"http://www.zeekkeji.com/"];
+    [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ, UMShareToQzone, UMShareToWechatSession, UMShareToWechatTimeline]];
     
     return YES;
 }

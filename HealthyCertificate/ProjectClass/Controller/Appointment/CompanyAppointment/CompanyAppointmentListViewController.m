@@ -72,7 +72,7 @@
 
 @implementation CompanyAppointmentListViewController
 
-#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-5, -5, -5, -5)
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-10, -10, -10, -10)
 #define TopMargin FIT_FONTSIZE(20)
 
 typedef NS_ENUM(NSInteger, CompanyListTextField)
@@ -444,6 +444,10 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
         }else if (indexPath.row == 3){
             [_exminationCountField becomeFirstResponder];
         }else{
+            if (![_brContract.testStatus isEqualToString:@"-1"]){
+                return;
+            }
+            
             AddWorkerViewController* addWorkerVC = [[AddWorkerViewController alloc] init];
             addWorkerVC.needcanlceWorkersArray = self.originArr;
             addWorkerVC.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;

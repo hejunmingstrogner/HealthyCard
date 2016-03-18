@@ -31,6 +31,7 @@
 #pragma mark - Life Circle
 -(id)init{
     if (self = [super init]){
+        [GLobalRealReachability startNotifier];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(networkChanged:)
                                                      name:kRealReachabilityChangedNotification
