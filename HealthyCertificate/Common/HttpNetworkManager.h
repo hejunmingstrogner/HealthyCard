@@ -39,6 +39,12 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
 //执行的http请求
 
 
+/**
+ *  检查版本更新
+ */
+-(void)checkVersionWithResultBlock:(HCBoolResultBlock)resultBlock;
+
+
 #pragma mark - 登录相关
 /**
  *  电话号码验证
@@ -125,6 +131,15 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  *  @param resultBlock  回调
  */
 -(void)getCustomerListByBRContract:(NSString*)contractCode resultBlock:(HCArrayResultBlock)resultBlock;
+
+
+/**
+ *  查询单位下，未完成体检的员工
+ *
+ *  @param unitCode    单位编号
+ *  @param resultBlock 回调
+ */
+-(void)getUnitsCustomersWithoutCheck:(NSString*) unitCode resultBlock:(HCArrayResultBlock)resultBlock;
 
 /**
  *  获取合同关联的个人预约

@@ -51,7 +51,6 @@ BOOL   _isLocationInfoHasBeenSent;
 {
     [super viewDidLoad];
     self.navigationController.interactivePopGestureRecognizer.delegate = nil;
-    // 初始化主界面的view
     [self initSubViews];
 
     // 定位服务
@@ -82,20 +81,16 @@ BOOL   _isLocationInfoHasBeenSent;
         [self getCheckListData];
         [self initLeftViews];    // 初始化左侧菜单
     }
-//    // 测试使用
-//    CustomButton *cutbtn = [CustomButton buttonWithType:UIButtonTypeCustom];
-//    cutbtn.frame = self.view.frame;
-//    [self.view addSubview:cutbtn];
-//    [cutbtn addClickedBlock:^(UIButton * _Nonnull sender) {
-//        [[HttpNetworkManager getInstance]getCustomerTestChargePriceWithCityName:@"成都市" checkType:nil resultBlcok:^(NSString *result, NSError *error) {
-//            if (!error) {
-//                NSLog(@"result :%@", result);
-//            }
-//            else{
-//                NSLog(@"error:%@", error);
-//            }
-//        }];
-//    }];
+    
+    [self onCheckVersion];
+}
+
+//版本控制相关
+-(void)onCheckVersion
+{
+    [[HttpNetworkManager getInstance] checkVersionWithResultBlock:^(BOOL result, NSError *error) {
+        NSLog(@"测试一下");
+    }];
 }
 
 - (void)getCheckListData
@@ -124,10 +119,6 @@ BOOL   _isLocationInfoHasBeenSent;
     }];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
 // 初始化主界面的view
 - (void)initSubViews
 {
@@ -484,7 +475,6 @@ BOOL   _isLocationInfoHasBeenSent;
 #pragma  mark - delegtate  改变了个人信息之后，刷新左侧界面
 - (void)reloadLeftMenuViewByChangedUserinfor
 {
-    NSLog(@"刷新");
     [leftMenuView initData];
     [leftMenuView.tableView reloadData];
 }
@@ -540,7 +530,6 @@ BOOL   _isLocationInfoHasBeenSent;
     [self.navigationController pushViewController:checkcontroller animated:YES];
 }
 #pragma mark -最近服务点 点击
-// 最近的服务
 - (void)minDistanceBtnClicked
 {
     if (nearbyServicePositionsArray.count == 0) {
@@ -567,13 +556,8 @@ BOOL   _isLocationInfoHasBeenSent;
     }
 }
 #pragma mark - 一键预约
-//  一键预约
 - (void)orderBtnClicked
 {
-//    if (addressLabel.text == nil || [addressLabel.text isEqualToString:@""]){
-//        [RzAlertView showAlertLabelWithTarget:self.view Message:@"位置信息未加载完成" removeDelay:3];
-//    }else{
-       // [self performSegueWithIdentifier:@"AppointmentIdentifier" sender:self];
     AppointmentViewController* controller = [[AppointmentViewController alloc] init];
     controller.location = addressLabel.text;
     controller.nearbyServicePointsArray = nearbyServicePositionsArray;
@@ -584,7 +568,6 @@ BOOL   _isLocationInfoHasBeenSent;
     CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
     controller.centerCoordinate = coor;
     [self.navigationController pushViewController:controller animated:YES];
-   // }
 }
 // 点击了头像,显示左侧菜单
 - (void)headerBtnClicked
@@ -786,23 +769,6 @@ BOOL   _isLocationInfoHasBeenSent;
             }
         }];
     }
-}
-
-#pragma mark - Storyboard Segue
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    if ([segue.identifier isEqualToString:@"AppointmentIdentifier"]){
-//        if ([segue.destinationViewController isKindOfClass:[AppointmentViewController class]]){
-//            AppointmentViewController* controller = (AppointmentViewController*)segue.destinationViewController;
-//            controller.location = addressLabel.text;
-//            controller.nearbyServicePointsArray = nearbyServicePositionsArray;
-//            controller.cityName = currentCityName;
-//            
-//            // 将百度地图左边转换为gps坐标
-//            PositionUtil *posit = [[PositionUtil alloc]init];
-//            CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
-//            controller.centerCoordinate = coor;
-//        }
-//    }
 }
 
 #pragma mark - 计算附近最近的服务点到当前定位点的距离

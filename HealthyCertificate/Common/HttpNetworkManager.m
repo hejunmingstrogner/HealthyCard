@@ -90,6 +90,48 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
 
 
 #pragma mark - Public Methods
+
+-(void)checkVersionWithResultBlock:(HCBoolResultBlock)resultBlock
+{
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    //CFBundleShortVersionString 代表发布版本号
+    //CFBundleVersion 内部版本号
+    NSString *currentVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
+    NSString *urlStr = [NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@", @"954270"];
+    
+    [self.manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSDictionary* jsonDic = (NSDictionary*)responseObject;
+        
+        NSArray* infoArray = [jsonDic objectForKey:@"results"];
+        if ([infoArray count])
+        {
+            NSDictionary* releaseInfo = [infoArray objectAtIndex:0];
+            NSString* lastVersion = [releaseInfo objectForKey:@"version"];
+            if (![lastVersion isEqualToString:currentVersion])
+            {
+                resultBlock(YES, nil);
+            }else{
+                resultBlock(NO, nil);
+            }
+        }
+        
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        NSLog(@"%@",error.description);
+    }];
+}
+
+-(void)checkVersion{
+    
+//    NSMutableURLRequest* urlRequest = [[NSMutableURLRequest alloc] init];
+//    [urlRequest setURL:[NSURL URLWithString:urlStr]];
+//    [urlRequest setHTTPMethod:@"POST"];
+//    
+//    NSData* returnData = [NSURLConnection sendsy]
+    
+    NSLog(@"test");
+}
+
+
 -(void)verifyPhoneNumber:(NSString*)phoneNum resultBlock:(HCDictionaryResultBlock)resultBlock;
 {
     NSString *url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?phone_num=%@&type=auth_code&debug=ture",phoneNum];//false
@@ -277,11 +319,30 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
 -(void)getCustomerTestListByContract:(NSString*)contractCode resultBlock:(HCArrayResultBlock)resultBlock
 {
     NSString *url = [NSString stringWithFormat:@"customer/queryByBRContract?contractCode=%@", contractCode];
-    [self.sharedClient GET:url parameters:contractCode success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         NSMutableArray *customerArray = [[NSMutableArray alloc]init];
         for (NSDictionary *dict in responseObject) {
             CustomerTest *customerTest = [CustomerTest mj_objectWithKeyValues:dict];
             [customerArray addObject:customerTest];
+        }
+        if (resultBlock) {
+            resultBlock(customerArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        if (resultBlock) {
+            resultBlock(nil, error);
+        }
+    }];
+}
+
+-(void)getUnitsCustomersWithoutCheck:(NSString *)unitCode resultBlock:(HCArrayResultBlock)resultBlock
+{
+    NSString* url = [NSString stringWithFormat:@"customer/findUnitsCustomersWithoutCheck?unitCode=%@", unitCode];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *customerArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            Customer *customer = [Customer mj_objectWithKeyValues:dict];
+            [customerArray addObject:customer];
         }
         if (resultBlock) {
             resultBlock(customerArray, nil);

@@ -95,6 +95,7 @@
 		254D95B01C995DA6003B64D4 /* QRScan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254D95AD1C995DA6003B64D4 /* QRScan@2x.png */; };
 		254D95B11C995DA6003B64D4 /* QRScan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254D95AE1C995DA6003B64D4 /* QRScan@3x.png */; };
 		254D95B41C9A7FF8003B64D4 /* NSString+QRCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D95B31C9A7FF8003B64D4 /* NSString+QRCode.m */; };
+		254D95B91C9ACB1B003B64D4 /* QRDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = 254D95B81C9ACB1B003B64D4 /* QRDefault.png */; };
 		255C71F11C8714420074A41B /* SelectCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255C71F01C8714420074A41B /* SelectCompanyViewController.m */; };
 		2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
@@ -341,6 +342,7 @@
 		254D95AE1C995DA6003B64D4 /* QRScan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRScan@3x.png"; sourceTree = "<group>"; };
 		254D95B21C9A7FF8003B64D4 /* NSString+QRCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+QRCode.h"; sourceTree = "<group>"; };
 		254D95B31C9A7FF8003B64D4 /* NSString+QRCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+QRCode.m"; sourceTree = "<group>"; };
+		254D95B81C9ACB1B003B64D4 /* QRDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = QRDefault.png; sourceTree = "<group>"; };
 		255C71EF1C8714420074A41B /* SelectCompanyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCompanyViewController.h; sourceTree = "<group>"; };
 		255C71F01C8714420074A41B /* SelectCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCompanyViewController.m; sourceTree = "<group>"; };
 		2567AC3B1C89680800E51DFA /* HCNavigationBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCNavigationBackButton.h; sourceTree = "<group>"; };
@@ -761,6 +763,7 @@
 		252AB87A1C76E3880085CC14 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				254D95B81C9ACB1B003B64D4 /* QRDefault.png */,
 				254D95AC1C995DA6003B64D4 /* QRScan@1x.png */,
 				254D95AD1C995DA6003B64D4 /* QRScan@2x.png */,
 				254D95AE1C995DA6003B64D4 /* QRScan@3x.png */,
@@ -1442,6 +1445,7 @@
 				254502FF1C8FB77000F47F46 /* hclaunchscreen@2x.png in Resources */,
 				254A8DAB1C7C380400F2EC94 /* nameIcon@1x.png in Resources */,
 				254A8DA01C7C2CAC00F2EC94 /* message@2x.png in Resources */,
+				254D95B91C9ACB1B003B64D4 /* QRDefault.png in Resources */,
 				254A8D9C1C7C2CAC00F2EC94 /* detail@1x.png in Resources */,
 				254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */,
 				254A8DCB1C7D574100F2EC94 /* LoginBackGround@2x.png in Resources */,

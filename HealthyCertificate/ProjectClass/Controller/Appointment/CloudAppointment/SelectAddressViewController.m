@@ -59,7 +59,7 @@
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
 
-    UIBarButtonItem *confirmBtn = [[UIBarButtonItem alloc]initWithTitle:@"确认" style:UIBarButtonItemStylePlain target:self action:@selector(confirmBtnClicked:)];
+    UIBarButtonItem *confirmBtn = [[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(confirmBtnClicked:)];
     self.navigationItem.rightBarButtonItem = confirmBtn;
 }
 // 返回前一页
