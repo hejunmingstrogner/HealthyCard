@@ -107,7 +107,6 @@
         case PERSON_IDCARD:{
             self.title = @"身份证号码修改";
             _nameTextField.placeholder = @"请输入身份证号码";
-            _nameTextField.keyboardType = UIKeyboardTypeNumberPad;
             _textLength = IDCARD_LENGTH;
             break;
         }

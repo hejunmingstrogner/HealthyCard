@@ -718,6 +718,10 @@ BOOL   _isLocationInfoHasBeenSent;
 #pragma mark - annotionview delegate  点击标注，选择预约点
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
 {
+    if(![view.annotation isKindOfClass:[MyPointeAnnotation class]])
+    {
+        return ;
+    }
     MyPointeAnnotation *anno = view.annotation;
     if (nearbyServicePositionsArray.count != 0) {
         // 回调 0 取消，1预约，2显示基本信息，3拨打电话
