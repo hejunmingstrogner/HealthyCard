@@ -208,6 +208,12 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
 #pragma mark - Action
 -(void)editBtnClicked:(UIButton*)sender
 {
+    //如果预约人数 小于 已选员工
+    if ([_exminationCountField.text intValue] < _customerArr.count + _originArr.count){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约人数必须大于所选员工数" removeDelay:3];
+        return ;
+    }
+    
     //非服务点预约才能修改地址和时间
     if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""])
     {
@@ -426,6 +432,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
                 [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
             }
         }
+        [self inputWidgetResign];
     }else if (indexPath.section == 2){
         StaffStateViewController* staffStateVC = [[StaffStateViewController alloc] init];
         staffStateVC.contractCode = _brContract.code;
@@ -434,6 +441,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     }else if (indexPath.section == 3){
         QRController* qrController = [[QRController alloc] init];
         qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/staffRegister.jsp?brContractCode=%@", _brContract.code];
+        qrController.infoStr = @"您还有员工没有在合同里面？分享二维码给他直接加入。";
         [self.navigationController pushViewController:qrController animated:YES];
         [self inputWidgetResign];
     }else{

@@ -12,4 +12,6 @@
 
 @property (nonatomic, copy) NSString* qrContent;
 
+@property (nonatomic, copy) NSString* infoStr;
+
 @end

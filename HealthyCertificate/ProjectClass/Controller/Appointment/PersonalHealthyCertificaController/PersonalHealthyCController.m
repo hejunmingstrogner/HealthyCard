@@ -308,8 +308,8 @@
         [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
 
             NSArray *timeslist = [dateStr componentsSeparatedByString:@"~"];
-            weakself.regbegindate = [[NSDate formatDateFromChineseString:timeslist[0]] convertToLongLong];
-            weakself.regenddate = [[NSDate formatDateFromChineseString:timeslist[1]] convertToLongLong];
+            weakself.regbegindate = [[NSDate formatDateFromChineseString:timeslist[0]] convertToLongLong]*1000;
+            weakself.regenddate = [[NSDate formatDateFromChineseString:timeslist[1]] convertToLongLong]*1000;
             [sender setTitle:dateStr forState:UIControlStateNormal];
         }];
         [weakself.navigationController pushViewController:cloudData animated:YES];
@@ -346,6 +346,8 @@
     [_centerBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
     [_centerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
+
+#pragma mark - HealthyCertificateViewDelegate
 //点击姓名
 -(void)nameBtnClicked:(NSString*)name
 {
