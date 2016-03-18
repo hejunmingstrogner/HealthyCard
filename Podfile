@@ -1,7 +1,6 @@
 pod 'CocoaAsyncSocket'
 pod 'AFNetworking','~> 2.6.0'
 pod 'Masonry'
-pod 'KVNProgress'
 pod 'BaiduMapKit'
 pod 'MJExtension'
 pod 'SDWebImage'

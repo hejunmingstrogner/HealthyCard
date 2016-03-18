@@ -28,7 +28,6 @@ PODS:
     - CocoaAsyncSocket/RunLoop
   - CocoaAsyncSocket/GCD (7.4.3)
   - CocoaAsyncSocket/RunLoop (7.4.3)
-  - KVNProgress (2.2.4)
   - Masonry (0.6.4)
   - MJExtension (3.0.10)
   - Pingpp/Alipay (2.2.0):
@@ -53,7 +52,6 @@ DEPENDENCIES:
   - AFNetworking (~> 2.6.0)
   - BaiduMapKit
   - CocoaAsyncSocket
-  - KVNProgress
   - Masonry
   - MJExtension
   - Pingpp/Alipay
@@ -68,7 +66,6 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BaiduMapKit: 5df028c6b455d29e68e89694adbcf9d37a4bcc99
   CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
-  KVNProgress: 541edcea5a1fef592aceac8d791a410d38cb499d
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
   Pingpp: fcb58c6fa34609e231a172b6092ac6024778be51
