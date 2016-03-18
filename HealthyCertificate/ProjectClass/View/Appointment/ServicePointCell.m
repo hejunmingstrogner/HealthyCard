@@ -72,7 +72,7 @@
     }
     else{
         _locationLabel.text = servicePoint.address;
-        _timeLabel.text = [NSString stringWithFormat:@"每天(%@~%@)",
+        _timeLabel.text = [NSString stringWithFormat:@"工作日(%@~%@)",
                                [NSDate getHour_MinuteByDate:servicePoint.startTime/1000],
                                [NSDate getHour_MinuteByDate:servicePoint.endTime/1000]];
         

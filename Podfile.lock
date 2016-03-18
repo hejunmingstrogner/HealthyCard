@@ -21,7 +21,6 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - BaiduMapKit (2.10.0)
-  - Bugtags (1.1.9)
   - CocoaAsyncSocket (7.4.3):
     - CocoaAsyncSocket/All (= 7.4.3)
   - CocoaAsyncSocket/All (7.4.3):
@@ -29,7 +28,6 @@ PODS:
     - CocoaAsyncSocket/RunLoop
   - CocoaAsyncSocket/GCD (7.4.3)
   - CocoaAsyncSocket/RunLoop (7.4.3)
-  - KVNProgress (2.2.4)
   - Masonry (0.6.4)
   - MJExtension (3.0.10)
   - Pingpp/Alipay (2.2.0):
@@ -49,16 +47,11 @@ PODS:
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - UMengSocial (5.0)
-  - ZXingObjC (3.1.0):
-    - ZXingObjC/All (= 3.1.0)
-  - ZXingObjC/All (3.1.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.6.0)
   - BaiduMapKit
-  - Bugtags
   - CocoaAsyncSocket
-  - KVNProgress
   - Masonry
   - MJExtension
   - Pingpp/Alipay
@@ -68,20 +61,16 @@ DEPENDENCIES:
   - RealReachability
   - SDWebImage
   - UMengSocial
-  - ZXingObjC
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BaiduMapKit: 5df028c6b455d29e68e89694adbcf9d37a4bcc99
-  Bugtags: cff5f312f214af51b2f4fcdd65258d1874a0fd2e
   CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
-  KVNProgress: 541edcea5a1fef592aceac8d791a410d38cb499d
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
   Pingpp: fcb58c6fa34609e231a172b6092ac6024778be51
   RealReachability: 0b0f7d686a75466680d452d3fad00e1a1388b923
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   UMengSocial: 48b67179c492a8cf7803fbb0438b8f55432e2fc1
-  ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
 COCOAPODS: 0.39.0

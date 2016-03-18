@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 
-#import <Bugtags/Bugtags.h>
 #import <Pingpp.h>
 
 #import "UIFont+Custom.h"
@@ -49,10 +48,6 @@
     if (!ret) {
         NSLog(@"百度地图使用错误");
     }
-
-    //  bug 集成
-    [Bugtags startWithAppKey:bugTagsAppKey invocationEvent:BTGInvocationEventBubble];
-    [Bugtags setInvocationEvent:BTGInvocationEventShake];
     // ping ++ debug log
     [Pingpp setDebugMode:YES];
     
