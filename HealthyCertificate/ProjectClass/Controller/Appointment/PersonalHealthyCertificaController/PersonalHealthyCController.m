@@ -273,9 +273,6 @@
         [addressselect getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
             weakself.city = city;
             weakself.address = [NSString stringWithFormat:@"%@%@%@", city, district, address];
-            // 地址转换为gps坐标
-            PositionUtil *position = [[PositionUtil alloc]init];
-            coor = [position bd2wgs:coor.latitude lon:coor.longitude];
             weakself.posLa = coor.latitude;
             weakself.posLo = coor.longitude;
             [sender setTitle:address forState:UIControlStateNormal];

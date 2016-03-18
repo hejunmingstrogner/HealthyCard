@@ -559,10 +559,7 @@ BOOL   _isLocationInfoHasBeenSent;
     controller.nearbyServicePointsArray = nearbyServicePositionsArray;
     controller.cityName = currentCityName;
 
-    // 将百度地图左边转换为gps坐标
-    PositionUtil *posit = [[PositionUtil alloc]init];
-    CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
-    controller.centerCoordinate = coor;
+    controller.centerCoordinate = _mapView.centerCoordinate;
     [self.navigationController pushViewController:controller animated:YES];
 }
 // 点击了头像,显示左侧菜单
