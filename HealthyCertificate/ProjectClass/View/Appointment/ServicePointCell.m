@@ -190,15 +190,15 @@
             make.top.mas_equalTo(lineView.mas_bottom);
         }];
         
-        UIButton* messageBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"message"]
-                                                highlightImage:[UIImage imageNamed:@"message"]];
-        messageBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
-        [messageBtn addTarget:self action:@selector(messageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [bottomView addSubview:messageBtn];
-        [messageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(bottomView);
-            make.right.mas_equalTo(bottomView).with.offset(-PXFIT_WIDTH(24));
-        }];
+//        UIButton* messageBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"message"]
+//                                                highlightImage:[UIImage imageNamed:@"message"]];
+//        messageBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+//        [messageBtn addTarget:self action:@selector(messageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//        [bottomView addSubview:messageBtn];
+//        [messageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.mas_equalTo(bottomView);
+//            make.right.mas_equalTo(bottomView).with.offset(-PXFIT_WIDTH(24));
+//        }];
         
         UIButton* phoneCallBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"phonecall"]
                                                   highlightImage:[UIImage imageNamed:@"phonecall"]];
@@ -207,7 +207,8 @@
         [bottomView addSubview:phoneCallBtn];
         [phoneCallBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(bottomView);
-            make.right.mas_equalTo(messageBtn.mas_left).with.offset(-PXFIT_WIDTH(76));
+           // make.right.mas_equalTo(messageBtn.mas_left).with.offset(-PXFIT_WIDTH(76));
+            make.right.mas_equalTo(bottomView).with.offset(-PXFIT_WIDTH(24));
         }];
         
         UIButton* detailBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"detail"]
@@ -234,9 +235,9 @@
 }
 
 #pragma mark - Action
--(void)messageBtnClicked:(id)sender
-{
-}
+//-(void)messageBtnClicked:(id)sender
+//{
+//}
 
 -(void)phoneCallBtnClicked:(id)sender
 {

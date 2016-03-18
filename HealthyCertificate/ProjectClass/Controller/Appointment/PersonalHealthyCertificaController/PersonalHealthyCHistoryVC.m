@@ -13,6 +13,7 @@
 #import "CloudAppointmentDateVC.h"
 #import "EditInfoViewController.h"
 #import "WorkTypeViewController.h"
+#import "QRController.h"
 
 #import "TakePhoto.h"
 #import "HttpNetworkManager.h"
@@ -22,6 +23,7 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "UIColor+Expanded.h"
 #import <UIImageView+WebCache.h>
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
@@ -48,7 +50,23 @@
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
+    
+    UIButton* shareBtn = [UIButton buttonWithTitle:@"分享"
+                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
+                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
+                                   backgroundColor:[UIColor clearColor]];
+    [shareBtn addTarget:self action:@selector(shareBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:shareBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
+
+-(void)shareBtnClicked:(UIButton*)sender
+{
+    QRController* qrController = [[QRController alloc] init];
+    qrController.infoStr = @"健康证防伪信息查看，有您的体检数据详情。分享请慎重！";
+    [self.navigationController pushViewController:qrController animated:YES];
+}
+
 // 返回前一页
 - (void)backToPre:(id)sender
 {

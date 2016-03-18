@@ -84,11 +84,22 @@ BOOL   _isLocationInfoHasBeenSent;
     [self onCheckVersion];
 }
 
-//版本控制相关
+//版本更新
 -(void)onCheckVersion
 {
     [[HttpNetworkManager getInstance] checkVersionWithResultBlock:^(BOOL result, NSError *error) {
-        NSLog(@"测试一下");
+        
+        if (result == NO){
+            //提示用户更新
+            [RzAlertView showAlertViewControllerWithTarget:self Title:@"提醒" Message:@"发现新版本，更新将带来更好的用户体检" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"更新" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
+                //回调  flag ＝ 1 执行action，flag ＝ 0 执行取消
+                if (flag == 1){
+                    //更新
+                    NSString *appStoreLink = [NSString stringWithFormat:@"http://itunes.apple.com/cn/app/id%@",@"1093442955"];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appStoreLink]];
+                }
+            }];
+        }
     }];
 }
 
@@ -416,11 +427,13 @@ BOOL   _isLocationInfoHasBeenSent;
             QRController* qrController = [[QRController alloc] init];
             if (GetUserType == 1){
                 //个人
-                qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp"];
+                qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp?_recommenderType=customer&_recommender=%@",gPersonInfo.mCustCode];
+                qrController.infoStr = @"您有朋友没办理健康证？二维码分享给他可以快速预约办理。";
                 
             }else{
                 //单位
-                qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/staffRegister.jsp?unitCode=%@", gCompanyInfo.cUnitCode];
+                qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp?_recommenderType=serviceUnit&_recommender=%@", gCompanyInfo.cUnitCode];
+                qrController.infoStr = @" 让员工扫二维码注册到您的单位，也可以直接分享给他。";
             }
             [self.navigationController pushViewController:qrController animated:YES];
             break;

@@ -416,7 +416,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         return ;
     }
     if (customercount < _customerArr.count) {
-        customercount = _customerArr.count;
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约人数必须大于所选员工数" removeDelay:3];
+        return ;
     }
     
     if(_brContract == nil)
@@ -547,7 +548,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }
         case TABLEVIEW_COMPANYINFO:
         {
-            if (indexPath.row == 3){
+            if (indexPath.row == 2){
                 //添加单位员工
                 CloudCompanyAppointmentStaffCell* cell = [[CloudCompanyAppointmentStaffCell alloc] init];
                 cell.staffCount = _customerArr.count;
@@ -573,7 +574,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 //cell.textField.returnKeyType = UIReturnKeyDone;
                 cell.textField.delegate = self;
                 _phoneNumField = cell.textField;
-            }else if (indexPath.row == 2){
+            }else if (indexPath.row == 3){
                 cell.textFieldType = CDA_PERSON;
                 cell.textField.keyboardType = UIKeyboardTypeNumberPad;
                 cell.textField.enabled = YES;
@@ -642,7 +643,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 
             }else if (indexPath.row == 1){
                 [_phoneNumField becomeFirstResponder];
-            }else if (indexPath.row == 2){
+            }else if (indexPath.row == 3){
                 [_exminationCountField becomeFirstResponder];
             }else{
                 AddWorkerViewController* addworkerViewController = [[AddWorkerViewController alloc] init];
@@ -650,7 +651,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 __weak CloudAppointmentCompanyViewController * weakSelf = self;
                 [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {
                     weakSelf.customerArr = workerArray;
-                    NSIndexPath *path = [NSIndexPath indexPathForItem:3 inSection:0];
+                    NSIndexPath *path = [NSIndexPath indexPathForItem:2 inSection:0];
                     [_companyInfoTableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
                  
                     if([_exminationCountField.text integerValue] < workerArray.count){
@@ -684,7 +685,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         [textField resignFirstResponder];
         return NO;
     }
-    
     //判断电话号码
     if (textField.tag == TEXTFIELD_PHONE){
         if (![self isPureInt:string]){

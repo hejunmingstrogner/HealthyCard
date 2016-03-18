@@ -16,6 +16,7 @@
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
 #import "UIColor+Expanded.h"
+#import "UILabel+Easy.h"
 
 #import "HttpNetworkManager.h"
 #import "RzAlertView.h"
@@ -24,8 +25,9 @@
 
 @interface StaffStateViewController()<UITableViewDataSource, UITableViewDelegate>
 {
-    NSArray*        _dataSource;
-    UITableView*    _tableView;
+    NSArray             *_dataSource;
+    UITableView         *_tableView;
+    UILabel             *_tipLabel;
 }
 
 @end
@@ -62,7 +64,6 @@
 
 - (void)initNavgation
 {
-    // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
@@ -71,7 +72,7 @@
     
     self.title = @"员工状态";
 }
-// 返回前一页
+
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -85,7 +86,6 @@
         if (error == nil){
             return;
         }
-        
         __typeof (self)  strongSelf = weakSelf; //防止循环引用
         strongSelf->_dataSource = result;
         [strongSelf->_tableView reloadData];
@@ -106,9 +106,6 @@
     if (cell == nil){
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:NSStringFromClass([StaffStateViewController class])];
     }
-    
-    //cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"brcell"];
-    
     cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     

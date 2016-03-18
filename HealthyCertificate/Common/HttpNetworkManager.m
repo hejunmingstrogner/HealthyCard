@@ -97,7 +97,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
     //CFBundleShortVersionString 代表发布版本号
     //CFBundleVersion 内部版本号
     NSString *currentVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
-    NSString *urlStr = [NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@", @"954270"];
+    NSString *urlStr = [NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@", @"1093442955"];
     
     [self.manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         NSDictionary* jsonDic = (NSDictionary*)responseObject;
@@ -115,22 +115,12 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
             }
         }
         
+        //resultBlock(NO, nil);
+        
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         NSLog(@"%@",error.description);
     }];
 }
-
--(void)checkVersion{
-    
-//    NSMutableURLRequest* urlRequest = [[NSMutableURLRequest alloc] init];
-//    [urlRequest setURL:[NSURL URLWithString:urlStr]];
-//    [urlRequest setHTTPMethod:@"POST"];
-//    
-//    NSData* returnData = [NSURLConnection sendsy]
-    
-    NSLog(@"test");
-}
-
 
 -(void)verifyPhoneNumber:(NSString*)phoneNum resultBlock:(HCDictionaryResultBlock)resultBlock;
 {

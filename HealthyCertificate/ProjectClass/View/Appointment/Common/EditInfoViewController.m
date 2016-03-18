@@ -97,7 +97,6 @@
         {
             self.title = @"身份证号码修改";
             _textField.placeholder = @"请输入身份证号码";
-            _textField.keyboardType = UIKeyboardTypeNumberPad;
             _textLength = IDCARD_LENGTH;
             break;
         }
