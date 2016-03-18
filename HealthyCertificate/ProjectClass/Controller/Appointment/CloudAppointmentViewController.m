@@ -508,7 +508,7 @@
         
         MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
         if (methodResult.succeed == NO || [methodResult.object isEqualToString:@"0"]){
-            [RzAlertView showAlertLabelWithTarget:self.view Message:methodResult.object removeDelay:2];
+            [RzAlertView showAlertLabelWithTarget:self.view Message:methodResult.errorMsg removeDelay:2];
             return;
             //预约失败
         }
