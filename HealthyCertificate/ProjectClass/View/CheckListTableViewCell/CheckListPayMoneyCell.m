@@ -32,7 +32,22 @@
     _payMoneyBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
     _payMoneyBtn.layer.masksToBounds = YES;
     _payMoneyBtn.layer.cornerRadius = 4;
-    [_payMoneyBtn setBackgroundColor:[UIColor colorWithRed:1 green:155/255.0 blue:18/255.0 alpha:1]];
-    [_payMoneyBtn setTitle:@"在线支付" forState:UIControlStateNormal];
+
+
+}
+
+- (void)setPayMoney:(float)payMoney
+{
+    _payMoney = payMoney;
+
+    if (payMoney > 0) {
+        [_payMoneyBtn setTitle:@"已支付" forState:UIControlStateNormal];
+        [_payMoneyBtn setBackgroundColor:[UIColor colorWithRed:95/255.0 green:177/255.0 blue:58/255.0 alpha:1]];
+        _payMoneyBtn.tag = -1;
+    }
+    else {
+        [_payMoneyBtn setTitle:@"在线支付" forState:UIControlStateNormal];
+        [_payMoneyBtn setBackgroundColor:[UIColor colorWithRed:1 green:155/255.0 blue:18/255.0 alpha:1]];
+    }
 }
 @end

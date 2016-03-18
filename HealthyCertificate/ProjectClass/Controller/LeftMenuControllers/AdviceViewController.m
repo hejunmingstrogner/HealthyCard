@@ -77,18 +77,19 @@
 - (void)keyboardWillShow:(NSNotification *)notif
 {
     CGRect rect = [[notif.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    [UIView animateWithDuration:0.3 animations:^{
-        _tableView.frame = CGRectMake(0, 0, _tableView.frame.size.width, self.view.frame.size.height - rect.size.height);
-    }];
-    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+
+    _tableView.frame = CGRectMake(0, 0, _tableView.frame.size.width, self.view.frame.size.height - rect.size.height + 64);
+
+    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 // 键盘将要隐藏
 - (void)keyboardWillHide:(NSNotification *)notif
 {
     [self.view endEditing:YES];
-    [UIView animateWithDuration:0.3 animations:^{
-        _tableView.frame =  self.view.frame;
-    }];
+
+    _tableView.frame =  CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+
+    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)initNavgation
@@ -154,6 +155,7 @@
 // 关闭键盘
 - (void)closeKeyBoard:(UIButton *)sender
 {
+    NSLog(@"111");
     [self.view endEditing:YES];
 }
 - (void)initSubviews
@@ -202,7 +204,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 30;
+    return self.view.frame.size.height - 90 - 44 - 100;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -210,10 +212,10 @@
     UITableViewHeaderFooterView *headerview = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"header"];
 
     UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [headerview addSubview:closeBtn];
-    closeBtn.frame = headerview.frame;
+    closeBtn.frame = CGRectMake(0, 0, self.view.frame.size.width, 90);
     [closeBtn addTarget:self action:@selector(closeKeyBoard:) forControlEvents:UIControlEventTouchUpInside];
-
+    [headerview addSubview:closeBtn];
+    
     UIButton *gpsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     gpsBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 90);
     gpsBtn.tag = 0;
@@ -284,11 +286,22 @@
     return headerview;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    return @"请详细描述您发现的问题(最多300字)";
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button addTarget:self action:@selector(closeKeyBoard:) forControlEvents:UIControlEventTouchUpInside];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, 320, 25)];
+    label.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
+    label.text = @"请详细描述您发现的问题(最多300字)";
+    label.textColor = [UIColor grayColor];
+    [button addSubview:label];
+    return button;
 }
 
+//- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+//{
+//    return @"请详细描述您发现的问题(最多300字)";
+//}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
@@ -327,5 +340,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.view endEditing:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 @end
