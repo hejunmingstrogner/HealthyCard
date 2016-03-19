@@ -38,6 +38,7 @@
 @interface MyCheckListViewController()<DJRefreshDelegate, PayMoneyDelegate>
 {
     DJRefresh  *_refresh;
+    RzAlertView *waitAlertView;
 }
 
 @property (nonatomic, assign, getter=isRefreshing) BOOL isRefreshing;
@@ -58,15 +59,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    static int flag = 1;
-    if (flag == 1) {
-        flag ++;
-        return;
-    }
-    if ([self isRefreshing]) {
-        return;
-    }
-    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
+//    static int flag = 1;
+//    if (flag == 1) {
+//        flag ++;
+//        return;
+//    }
+//    if ([self isRefreshing]) {
+//        return;
+//    }
+//    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
 }
 
 - (void)initNavgation
@@ -136,6 +137,30 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [refresh finishRefreshingDirection:direction animation:YES];
         });
+    }];
+}
+
+- (void)refreshNewDataWithIndexPath:(NSIndexPath *)indexpath{
+    if (!waitAlertView) {
+        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"刷新中..."];
+    }
+    [waitAlertView show];
+    [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
+        [waitAlertView close];
+        if (!error) {
+            if (_userType == 1) {
+                _checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
+            }
+            else if (_userType == 2) {
+                _checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
+                [self initCompanyDataArray];
+            }
+            NSIndexSet *indexset = [[NSIndexSet alloc]initWithIndex:indexpath.section];
+            [_tableView reloadSections:indexset withRowAnimation:UITableViewRowAnimationLeft];
+        }
+        else {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
+        }
     }];
 }
 - (void)initCompanyDataArray
@@ -286,11 +311,23 @@
     if (_userType == 1) {
         PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
         personalHealthyC.customerTestInfo = (CustomerTest *)_checkDataArray[indexPath.section];
+        personalHealthyC.indexPath = indexPath;
+        [personalHealthyC changedInformationWithResultBlock:^(BOOL ischanged, NSIndexPath *indexpath) {
+            if (ischanged) {
+                [self refreshNewDataWithIndexPath:indexpath];
+            }
+        }];
         [self.navigationController pushViewController:personalHealthyC animated:YES];
     }
     else if (_userType == 2){ // 单位预约点击
         CompanyAppointmentListViewController* companyAppointmentListViewController = [[CompanyAppointmentListViewController alloc] init];
         companyAppointmentListViewController.brContract = _checkDataArray[indexPath.section];
+        companyAppointmentListViewController.indexPath = indexPath;
+        [companyAppointmentListViewController changedInformationWithResultBlock:^(BOOL ischanged, NSIndexPath *indexpath) {
+            if (ischanged) {
+                [self refreshNewDataWithIndexPath:indexpath];
+            }
+        }];
         [self.navigationController pushViewController:companyAppointmentListViewController animated:YES];
     }
 }

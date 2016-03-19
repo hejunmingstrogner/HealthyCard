@@ -57,7 +57,7 @@ BOOL   _isLocationInfoHasBeenSent;
 
     NSInteger userTypeflag = GetUserType;
 
-    if (gPersonInfo.cUnitCode == nil || [gPersonInfo.cUnitCode isEqualToString:@""]) {
+    if (gCompanyInfo.cUnitCode == nil || [gCompanyInfo.cUnitCode isEqualToString:@""]) {
         if (userTypeflag != 1) {
             SetUserType(1);
             userTypeflag  = 1;

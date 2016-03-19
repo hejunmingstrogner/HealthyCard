@@ -61,6 +61,8 @@
     NSString    *_appointmentCount;
     //单位员工
     NSInteger   _staffCount;
+
+    BOOL        isChanged;
 }
 
 @property (nonatomic, copy) NSMutableArray* customerArr;
@@ -87,7 +89,9 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
 {
     [super viewDidLoad];
     [self initNavigation];
-    
+
+    isChanged = NO;
+
     self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
     _tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
@@ -208,6 +212,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
 #pragma mark - Action
 -(void)editBtnClicked:(UIButton*)sender
 {
+    [self.view endEditing:YES];
     //如果预约人数 小于 已选员工
     if ([_exminationCountField.text intValue] < _customerArr.count + _originArr.count){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约人数必须大于所选员工数" removeDelay:3];
@@ -232,7 +237,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     NSMutableArray* array = [[NSMutableArray alloc] init];
     [array addObjectsFromArray:_customerArr];
     [array addObjectsFromArray:_originArr];
-    __weak typeof (self) wself = self;
     [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract
                                                       employees:array
                                                     reslutBlock:^(NSDictionary *result, NSError *error) {
@@ -256,14 +260,25 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"已达到修改次数上限" removeDelay:2];
             return;
         }
-                                                        [wself.navigationController popViewControllerAnimated:YES];
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+        isChanged = YES;
     }];
 }
 
--(void)backToPre:(UIButton*)sender
+// 返回前一页
+- (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    if (_resultblock) {
+        _resultblock(isChanged, _indexPath);
+    }
 }
+
+- (void)changedInformationWithResultBlock:(resultBlock)blcok
+{
+    _resultblock = blcok;
+}
+
 
 - (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
 {

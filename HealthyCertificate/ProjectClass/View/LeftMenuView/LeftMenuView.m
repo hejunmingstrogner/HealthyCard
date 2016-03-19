@@ -181,7 +181,7 @@
 - (void)SettingBtnClicked:(UIButton *)sender
 {
     if(sender.tag == 0){
-        if ([gPersonInfo.cUnitCode isEqualToString:@""] || gPersonInfo.cUnitCode == nil) {
+        if ([gCompanyInfo.cUnitCode isEqualToString:@""] || gCompanyInfo.cUnitCode == nil) {
             return;
         }
 
