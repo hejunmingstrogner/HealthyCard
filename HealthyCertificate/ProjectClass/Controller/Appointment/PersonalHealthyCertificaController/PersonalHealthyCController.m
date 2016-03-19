@@ -30,6 +30,8 @@
 {
     BOOL        _isAvatarSet;
     RzAlertView *waitAlertView;
+
+    BOOL        isChanged;
 }
 
 @end
@@ -51,6 +53,8 @@
     wheelView.delegate = self;
     wheelView.hidden = YES;
     [self.view addSubview:wheelView];
+
+    isChanged = NO;
 }
 
 - (void)initNavgation
@@ -76,6 +80,14 @@
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    if (_resultblock) {
+        _resultblock(isChanged, _indexPath);
+    }
+}
+
+- (void)changedInformationWithResultBlock:(resultBlock)blcok
+{
+    _resultblock = blcok;
 }
 
 - (void)rightBtnClicked:(UIButton *)sender
@@ -106,6 +118,7 @@
             if (!error) {
                 [waitAlertView close];
                 _isAvatarSet = NO;
+                isChanged = YES;
                 [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
                     if (!error) {
                         [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
@@ -128,6 +141,7 @@
             sender.enabled = YES;
             if (!error) {
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                isChanged = YES;
             }
             else {
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改失败,请检查网络后重试" removeDelay:2];
