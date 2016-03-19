@@ -28,6 +28,9 @@
     NSArray             *_dataSource;
     UITableView         *_tableView;
     UILabel             *_tipLabel;
+    RzAlertView         *_loadingView;
+    
+    UIButton            *_updateBtn;
 }
 
 @end
@@ -57,6 +60,18 @@
         make.edges.mas_equalTo(self.view);
     }];
     
+    _updateBtn = [UIButton buttonWithTitle:@"点击刷新"
+                                               font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(26)]
+                                          textColor:[UIColor colorWithRGBHex:HC_Gray_Text]
+                                    backgroundColor:nil];
+    [_updateBtn addTarget:self action:@selector(updateBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_updateBtn];
+    [_updateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.mas_equalTo(self.view);
+    }];
+    _updateBtn.hidden = YES;
+    
+    _loadingView = [[RzAlertView alloc] initWithSuperView:self.view Title:@" "];
     [self initNavgation];
     
     [self loadData];
@@ -73,21 +88,39 @@
     self.title = @"员工状态";
 }
 
+#pragma mark - Action
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)updateBtnClicked:(UIButton*)sender
+{
+    _updateBtn.hidden = YES;
+    [self loadData];
+}
+
+
 #pragma mark - Private Methods
 -(void)loadData
 {
+    [_loadingView show];
     __typeof (self) __weak weakSelf = self;
     [[HttpNetworkManager getInstance] getCustomerTestListByContract:_contractCode resultBlock:^(NSArray *result, NSError *error) {
-        if (error == nil){
+        __typeof (self)  strongSelf = weakSelf; //防止循环引用
+        [strongSelf->_loadingView close];
+        if (error != nil){
             return;
         }
-        __typeof (self)  strongSelf = weakSelf; //防止循环引用
         strongSelf->_dataSource = result;
+        
+        if (strongSelf->_dataSource.count == 0){
+            strongSelf->_updateBtn.hidden = NO;
+            strongSelf->_tableView.hidden = YES;
+        }else{
+            strongSelf->_updateBtn.hidden = YES;
+            strongSelf->_tableView.hidden = NO;
+        }
         [strongSelf->_tableView reloadData];
     }];
 }
