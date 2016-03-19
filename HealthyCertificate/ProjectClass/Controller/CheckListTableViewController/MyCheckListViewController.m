@@ -311,10 +311,9 @@
     if (_userType == 1) {
         PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
         personalHealthyC.customerTestInfo = (CustomerTest *)_checkDataArray[indexPath.section];
-        personalHealthyC.indexPath = indexPath;
-        [personalHealthyC changedInformationWithResultBlock:^(BOOL ischanged, NSIndexPath *indexpath) {
+        [personalHealthyC changedInformationWithResultBlock:^(BOOL ischanged, NSInteger indexpathSection) {
             if (ischanged) {
-                [self refreshNewDataWithIndexPath:indexpath];
+                [self refreshNewDataWithIndexPath:indexPath];
             }
         }];
         [self.navigationController pushViewController:personalHealthyC animated:YES];
@@ -322,10 +321,10 @@
     else if (_userType == 2){ // 单位预约点击
         CompanyAppointmentListViewController* companyAppointmentListViewController = [[CompanyAppointmentListViewController alloc] init];
         companyAppointmentListViewController.brContract = _checkDataArray[indexPath.section];
-        companyAppointmentListViewController.indexPath = indexPath;
+        //companyAppointmentListViewController.indexPath = indexPath;
         [companyAppointmentListViewController changedInformationWithResultBlock:^(BOOL ischanged, NSIndexPath *indexpath) {
             if (ischanged) {
-                [self refreshNewDataWithIndexPath:indexpath];
+                [self refreshNewDataWithIndexPath:indexPath];
             }
         }];
         [self.navigationController pushViewController:companyAppointmentListViewController animated:YES];

@@ -81,11 +81,11 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
     if (_resultblock) {
-        _resultblock(isChanged, _indexPath);
+        _resultblock(isChanged, _indexpathSection);
     }
 }
 
-- (void)changedInformationWithResultBlock:(resultBlock)blcok
+- (void)changedInformationWithResultBlock:(ResultBlock)blcok
 {
     _resultblock = blcok;
 }
