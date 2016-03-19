@@ -168,27 +168,45 @@
     _companyDataArray = [[NSMutableArray alloc]init];
     for (BRContract *brContract in _checkDataArray) {
         BaseTBCellItem *cellitem0 = [[BaseTBCellItem alloc]initWithTitle:@"单位名称" detial:brContract.unitName cellStyle:0];
-        BaseTBCellItem *cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:brContract.regPosAddr cellStyle:0];
+        BaseTBCellItem *cellitem1;
+        BaseTBCellItem *cellitem2;
+    
+        //错误条件 checksideid 不为空 但 servicepoint为空
+        BOOL conditionFirst = (brContract.checkSiteID != nil && ![brContract.checkSiteID isEqualToString:@""]) && (brContract.servicePoint == nil);
+        if (conditionFirst)
+        {
+            //数据异常
+            cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:@"获取失败" cellStyle:0];
+            cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:@"获取失败" cellStyle:0];
 
-        NSString *timestatus;
-
-        if (brContract.servicePoint != nil) {
-            if (!brContract.servicePoint.startTime || !brContract.servicePoint.endTime) {
-                timestatus = @"获取时间出错";
+        }
+        else
+        {
+            cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:brContract.regPosAddr cellStyle:0];
+            NSString *timestatus;
+            
+            if (brContract.servicePoint != nil) {
+                if (!brContract.servicePoint.startTime || !brContract.servicePoint.endTime) {
+                    timestatus = @"获取时间出错";
+                }
+                else {
+                    NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime/1000];
+                    NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime/1000];
+                    NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime/1000];
+                    timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                }
             }
             else {
-                NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime/1000];
-                NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime/1000];
-                NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime/1000];
-                timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                NSString *year = [NSDate getYear_Month_DayByDate:brContract.regBeginDate/1000];
+                NSString *end = [NSDate getYear_Month_DayByDate:brContract.regEndDate/1000];
+                timestatus = [NSString stringWithFormat:@"%@~%@", year,end];
             }
+            cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:timestatus cellStyle:0];
+
         }
-        else {
-            NSString *year = [NSDate getYear_Month_DayByDate:brContract.regBeginDate/1000];
-            NSString *end = [NSDate getYear_Month_DayByDate:brContract.regEndDate/1000];
-            timestatus = [NSString stringWithFormat:@"%@~%@", year,end];
-        }
-        BaseTBCellItem *cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:timestatus cellStyle:0];
+        
+        
+       
         NSArray *array = @[cellitem0, cellitem1, cellitem2];
         [_companyDataArray addObject:array];
     }
