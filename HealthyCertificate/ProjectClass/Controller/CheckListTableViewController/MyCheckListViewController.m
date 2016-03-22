@@ -39,6 +39,7 @@
 {
     DJRefresh  *_refresh;
     RzAlertView *waitAlertView;
+    NSInteger  payIndexPathSection;
 }
 
 @property (nonatomic, assign, getter=isRefreshing) BOOL isRefreshing;
@@ -140,7 +141,7 @@
     }];
 }
 
-- (void)refreshNewDataWithIndexPath:(NSIndexPath *)indexpath{
+- (void)refreshNewDataWithIndexPathSection:(NSInteger )indexpathSection{
     if (!waitAlertView) {
         waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"刷新中..."];
     }
@@ -155,7 +156,7 @@
                 _checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
                 [self initCompanyDataArray];
             }
-            NSIndexSet *indexset = [[NSIndexSet alloc]initWithIndex:indexpath.section];
+            NSIndexSet *indexset = [[NSIndexSet alloc]initWithIndex:indexpathSection];
             [_tableView reloadSections:indexset withRowAnimation:UITableViewRowAnimationLeft];
         }
         else {
@@ -313,7 +314,7 @@
         personalHealthyC.customerTestInfo = (CustomerTest *)_checkDataArray[indexPath.section];
         [personalHealthyC changedInformationWithResultBlock:^(BOOL ischanged, NSInteger indexpathSection) {
             if (ischanged) {
-                [self refreshNewDataWithIndexPath:indexPath];
+                [self refreshNewDataWithIndexPathSection:indexPath.section];
             }
         }];
         [self.navigationController pushViewController:personalHealthyC animated:YES];
@@ -324,7 +325,7 @@
         //companyAppointmentListViewController.indexPath = indexPath;
         [companyAppointmentListViewController changedInformationWithResultBlock:^(BOOL ischanged, NSIndexPath *indexpath) {
             if (ischanged) {
-                [self refreshNewDataWithIndexPath:indexPath];
+                [self refreshNewDataWithIndexPathSection:indexPath.section];
             }
         }];
         [self.navigationController pushViewController:companyAppointmentListViewController animated:YES];
@@ -342,6 +343,7 @@
     pay.checkCode = ((CustomerTest *)_checkDataArray[sender.tag]).checkCode;
     pay.cityName = ((CustomerTest *)_checkDataArray[sender.tag]).cityName;
     pay.delegate = self;
+    payIndexPathSection = sender.tag;
     [self.navigationController pushViewController:pay animated:YES];
 }
 
@@ -352,7 +354,7 @@
 - (void)payMoneySuccessed{
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的预约支付已完成" removeDelay:2];
 
-    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
+    [self refreshNewDataWithIndexPathSection:payIndexPathSection];
 }
 /**
  *  支付取消
@@ -361,7 +363,7 @@
 
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"您取消了支付" removeDelay:2];
     
-    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
+    [self refreshNewDataWithIndexPathSection:payIndexPathSection];
 }
 /**
  *  支付失败

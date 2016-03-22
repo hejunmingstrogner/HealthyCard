@@ -85,6 +85,10 @@
     }
 }
 
+- (void)dealloc
+{
+    NSLog(@"personhealthy dealloc");
+}
 - (void)changedInformationWithResultBlock:(ResultBlock)blcok
 {
     _resultblock = blcok;
@@ -283,15 +287,7 @@
             return ;
         }
         // 点击地址搜索
-        SelectAddressViewController *addressselect = [[SelectAddressViewController alloc]init];
-        [addressselect getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
-            weakself.city = city;
-            weakself.address = [NSString stringWithFormat:@"%@%@%@", city, district, address];
-            weakself.posLa = coor.latitude;
-            weakself.posLo = coor.longitude;
-            [sender setTitle:address forState:UIControlStateNormal];
-        }];
-        [weakself.navigationController pushViewController:addressselect animated:YES];
+        [weakself selectAddress];
     }];
     [_orderinforView.timeBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         if (weakself.customerTestInfo.checkSiteID) {
@@ -392,6 +388,7 @@
     [wheelView.pickerView selectRow:index inComponent:0 animated:NO];
     wheelView.hidden = NO;
 }
+
 //点击行业
 -(void)industryBtnClicked:(NSString*)industry{
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
@@ -447,5 +444,18 @@
 
 -(void)cancelButtonClicked{
     wheelView.hidden = YES;
+}
+
+- (void)selectAddress
+{
+    SelectAddressViewController *addressselect = [[SelectAddressViewController alloc]init];
+    [addressselect getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
+        self.city = city;
+        self.address = [NSString stringWithFormat:@"%@%@%@", city, district, address];
+        self.posLa = coor.latitude;
+        self.posLo = coor.longitude;
+        [_orderinforView.addressBtn setTitle:address forState:UIControlStateNormal];
+    }];
+    [self.navigationController pushViewController:addressselect animated:YES];
 }
 @end

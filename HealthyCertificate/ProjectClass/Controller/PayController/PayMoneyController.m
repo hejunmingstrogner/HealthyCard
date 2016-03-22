@@ -38,6 +38,7 @@
     if (_cityName.length == 0) {
         _cityName = gCurrentCityName;
     }
+    self.money = @"";
     [self initNavgation];
 
     [self initSubView];
@@ -88,7 +89,7 @@
 
 - (void)getCityPrice
 {
-    if (waitAlertView) {
+    if (!waitAlertView) {
         waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@""];
     }
     waitAlertView.titleLabel.text = [NSString stringWithFormat:@"获取%@预约价格...",_cityName];
@@ -97,7 +98,9 @@
         [waitAlertView close];
         if (!error) {
             self.money = result;
-            [_tableView reloadData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
         }
         else {
             [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"获取支付金额失败，请重试" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"重试" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
@@ -234,15 +237,6 @@
 
     [self orderBtnClicked:nil];
 }
-//
-//- (CGFloat)cellheight:(NSString *)text
-//{
-//    UIFont *fnt = [UIFont systemFontOfSize:17];
-//
-//    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
-//    CGFloat he = tmpRect.size.height+10;
-//    return he;
-//}
 
 - (void)orderBtnClicked:(UIButton *)sender
 {
@@ -319,7 +313,6 @@
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:@"您取消了支付" ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
         [self deselectChannelPay];
     }];
-
 }
 
 // 去掉选择的付款渠道

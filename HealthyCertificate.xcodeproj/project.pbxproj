@@ -166,7 +166,6 @@
 		B27222A91C8EC747002494EA /* PayMoneyController.m in Sources */ = {isa = PBXBuildFile; fileRef = B27222A81C8EC747002494EA /* PayMoneyController.m */; };
 		B27222AD1C8ECFBA002494EA /* PayInfoViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B27222AC1C8ECFBA002494EA /* PayInfoViewCell.m */; };
 		B27222B01C8ECFD3002494EA /* PayTypeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B27222AF1C8ECFD3002494EA /* PayTypeViewCell.m */; };
-		B27222B31C8FB9BD002494EA /* UIScrollView+BottomRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B27222B21C8FB9BD002494EA /* UIScrollView+BottomRefreshControl.m */; };
 		B27222C01C8FBD37002494EA /* DJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B27222B51C8FBD37002494EA /* DJRefresh.bundle */; };
 		B27222C11C8FBD37002494EA /* DJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = B27222B71C8FBD37002494EA /* DJRefresh.m */; };
 		B27222C21C8FBD37002494EA /* DJRefreshBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = B27222BA1C8FBD37002494EA /* DJRefreshBottomView.m */; };
@@ -486,8 +485,6 @@
 		B27222AC1C8ECFBA002494EA /* PayInfoViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayInfoViewCell.m; sourceTree = "<group>"; };
 		B27222AE1C8ECFD3002494EA /* PayTypeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayTypeViewCell.h; sourceTree = "<group>"; };
 		B27222AF1C8ECFD3002494EA /* PayTypeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayTypeViewCell.m; sourceTree = "<group>"; };
-		B27222B11C8FB9BD002494EA /* UIScrollView+BottomRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+BottomRefreshControl.h"; sourceTree = "<group>"; };
-		B27222B21C8FB9BD002494EA /* UIScrollView+BottomRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+BottomRefreshControl.m"; sourceTree = "<group>"; };
 		B27222B51C8FBD37002494EA /* DJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DJRefresh.bundle; sourceTree = "<group>"; };
 		B27222B61C8FBD37002494EA /* DJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJRefresh.h; sourceTree = "<group>"; };
 		B27222B71C8FBD37002494EA /* DJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJRefresh.m; sourceTree = "<group>"; };
@@ -655,8 +652,6 @@
 				2512B3FB1C7056C900EE661B /* UIColor+Expanded.h */,
 				2512B3FC1C7056C900EE661B /* UIColor+Expanded.m */,
 				2512B3FD1C7056C900EE661B /* UIDevice+Video.h */,
-				B27222B11C8FB9BD002494EA /* UIScrollView+BottomRefreshControl.h */,
-				B27222B21C8FB9BD002494EA /* UIScrollView+BottomRefreshControl.m */,
 				2512B3FE1C7056C900EE661B /* UIDevice+Video.m */,
 				2512B3FF1C7056C900EE661B /* UIFont+Custom.h */,
 				2512B4001C7056C900EE661B /* UIFont+Custom.m */,
@@ -1629,7 +1624,6 @@
 				B23C76791C8D315B00E5C40A /* BaseTBCellItem.m in Sources */,
 				B27222AD1C8ECFBA002494EA /* PayInfoViewCell.m in Sources */,
 				254D95951C97F2A0003B64D4 /* CompanyItemStaffStateCell.m in Sources */,
-				B27222B31C8FB9BD002494EA /* UIScrollView+BottomRefreshControl.m in Sources */,
 				B27B00CB1C8432EE00FBF895 /* LeftMenuViewHeaderinfoCell.m in Sources */,
 				B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */,
 				B27222C21C8FBD37002494EA /* DJRefreshBottomView.m in Sources */,
