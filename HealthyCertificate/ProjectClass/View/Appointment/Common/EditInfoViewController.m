@@ -184,8 +184,13 @@
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(completeBtnClicked:)];
-    self.navigationItem.rightBarButtonItem = rightBtn;
+    UIButton* completeBtn = [UIButton buttonWithTitle:@"完成"
+                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
+                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
+                                   backgroundColor:[UIColor clearColor]];
+    [completeBtn addTarget:self action:@selector(completeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:completeBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 - (void)didReceiveMemoryWarning {

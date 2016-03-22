@@ -143,11 +143,7 @@
     
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
         [_imageView addGestureRecognizer:singleTap];
-        
-//        _imageBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"Avatar"] highlightImage:[UIImage imageNamed:@"Avatar"]];
-//        [_imageBtn addTarget:self action:@selector(imageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//        [imageContainerView addSubview:_imageBtn];
-        
+    
         //左边的文字部分取一个UIView
         UIView* leftView = [[UIView alloc] init];
         [self addSubview:leftView];

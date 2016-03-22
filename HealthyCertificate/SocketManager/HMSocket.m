@@ -11,6 +11,9 @@
 
 #import <GCDAsyncSocket.h>
 
+//#include <arpa/inet.h>
+#include <netdb.h>
+#include <sys/socket.h>
 #include <arpa/inet.h>
 
 @implementation HMSocket
@@ -38,6 +41,9 @@
         if (self.delegate && [self.delegate respondsToSelector:@selector(didDisconnectWithError:)]){
             [self.delegate didDisconnectWithError:error];
         }
+        
+        _connectTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(reconnectToServer) userInfo:nil repeats:NO];
+      //  [_connectTimer fire];
     }
 }
 
@@ -175,8 +181,8 @@
     }
     
     //断线后，开启重连服务器的定时器
-    _connectTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(reconnectToServer) userInfo:nil repeats:NO];
-    [_connectTimer fire];
+    _connectTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(reconnectToServer) userInfo:nil repeats:NO];
+   // [_connectTimer fire];
 }
 
 -(void)socket:(GCDAsyncReadPacket*)sock didWriteDataWithTag:(long)tag{
@@ -185,7 +191,6 @@
 
 //断线重连定时器
 -(void)reconnectToServer{
-    [NSThread sleepForTimeInterval:10.0f];
     [self connectToHost:SOCKET_HOST Port:SOCKET_PORT];
 }
 

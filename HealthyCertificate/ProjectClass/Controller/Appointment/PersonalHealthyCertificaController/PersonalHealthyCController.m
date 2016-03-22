@@ -66,15 +66,15 @@
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
-
-    UIButton *right = [UIButton buttonWithType:UIButtonTypeCustom];
-    [right setTitle:@"修改" forState:UIControlStateNormal];
-    right.frame = CGRectMake(0, 0, 40, 40);
-    [right setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    right.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
-    [right addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithCustomView:right];
-    self.navigationItem.rightBarButtonItem = rightBtn;
+    
+    
+    UIButton* editBtn = [UIButton buttonWithTitle:@"修改"
+                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
+                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
+                                   backgroundColor:[UIColor clearColor]];
+    [editBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:editBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 // 返回前一页
 - (void)backToPre:(id)sender
@@ -199,7 +199,8 @@
     // 按钮底部的分割线
     UILabel *fengexian = [[UILabel alloc]init];
     [_baseBgScrollView addSubview:fengexian];
-    fengexian.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+   // fengexian.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+    fengexian.backgroundColor = [UIColor colorWithRGBHex:HC_Gray_Egdes];
 
     _leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _leftBtn.layer.masksToBounds = YES;
@@ -254,7 +255,7 @@
         make.left.equalTo(_leftBtn.mas_right).offset(-5);
         make.right.equalTo(_rightBtn.mas_left).offset(5);
         make.center.equalTo(_centerBtn);
-        make.height.mas_equalTo(2);
+        make.height.mas_equalTo(1);
     }];
 }
 
