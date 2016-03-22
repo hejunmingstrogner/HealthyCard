@@ -592,19 +592,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
     NSString *url = [NSString stringWithFormat:@"%@charge/customerTestChargePrice?cityName=%@&checkType=%@",AFHTTPRequestOperationBaseURLString, cityName, checktype];
     url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
-//    NSError *error = nil;
-//    NSData *requestData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
-//    if (error) {
-//        if (block) {
-//            block(nil, error);
-//        }
-//    }
-//    else{
-//        NSString *strs = [[NSString alloc]initWithData:requestData encoding:NSUTF8StringEncoding];
-//        if (block) {
-//            block(strs, nil);
-//        }
-//    }
+
     NSURLSessionDataTask * task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             NSString *strs = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];

@@ -62,7 +62,7 @@
         make.right.equalTo(_timeLabel.mas_right);
     }];
     _addressLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
-    _addressLabel.textColor = [UIColor colorWithARGBHex:HC_Gray_Text];
+    _addressLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
 }
 
 
@@ -70,8 +70,12 @@
 {
     _brContract = brContract;
     _unitNamelabel.text = brContract.unitName;
-    _addressLabel.text = brContract.servicePoint.address;
+    _addressLabel.text = brContract.regPosAddr;
 
+    if (brContract.regBeginDate==0 || brContract.regEndDate == 0) {
+        _timeLabel.text = @"";
+        return;
+    }
     _timeLabel.text = [NSString stringWithFormat:@"%@~%@", [NSDate getHour_MinuteByDate:brContract.regBeginDate/1000], [NSDate getHour_MinuteByDate:brContract.regEndDate/1000]];
 }
 @end

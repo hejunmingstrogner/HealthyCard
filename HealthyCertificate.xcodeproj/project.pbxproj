@@ -123,6 +123,7 @@
 		30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E1C17F5EF743EC155F709C /* libPods.a */; };
 		B201CCC31C72046D00B8F624 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC21C72046D00B8F624 /* Info.plist */; };
 		B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC41C7205B100B8F624 /* Main.storyboard */; };
+		B221F6211CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B221F6201CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m */; };
 		B23163C61C9BEF5300377B27 /* ConsumerAgreement.m in Sources */ = {isa = PBXBuildFile; fileRef = B23163C51C9BEF5300377B27 /* ConsumerAgreement.m */; };
 		B23506031C91A6DD00B35E1E /* ChargeBusinessObj.m in Sources */ = {isa = PBXBuildFile; fileRef = B23506021C91A6DD00B35E1E /* ChargeBusinessObj.m */; };
 		B23506061C91A6FA00B35E1E /* ChargeType.m in Sources */ = {isa = PBXBuildFile; fileRef = B23506051C91A6FA00B35E1E /* ChargeType.m */; };
@@ -395,6 +396,8 @@
 		6D2243EB114EF1077978D1EA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B201CCC21C72046D00B8F624 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B201CCC41C7205B100B8F624 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B221F61F1CA0EF1A005D1CBF /* CompanyHistoryDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyHistoryDetailVC.h; sourceTree = "<group>"; };
+		B221F6201CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyHistoryDetailVC.m; sourceTree = "<group>"; };
 		B23163C41C9BEF5300377B27 /* ConsumerAgreement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsumerAgreement.h; sourceTree = "<group>"; };
 		B23163C51C9BEF5300377B27 /* ConsumerAgreement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsumerAgreement.m; sourceTree = "<group>"; };
 		B23506011C91A6DD00B35E1E /* ChargeBusinessObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeBusinessObj.h; sourceTree = "<group>"; };
@@ -978,6 +981,8 @@
 				25F592231C93A8340036F881 /* CompanyAppointmentListViewController.m */,
 				254D95961C980AF5003B64D4 /* StaffStateViewController.h */,
 				254D95971C980AF5003B64D4 /* StaffStateViewController.m */,
+				B221F61F1CA0EF1A005D1CBF /* CompanyHistoryDetailVC.h */,
+				B221F6201CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m */,
 			);
 			path = CompanyAppointment;
 			sourceTree = "<group>";
@@ -1645,6 +1650,7 @@
 				2512B42B1C70631600EE661B /* HMSocket.m in Sources */,
 				25BFEB181C7310CA0062F9B8 /* BasePacket.m in Sources */,
 				B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */,
+				B221F6211CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m in Sources */,
 				B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */,
 				25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */,
 				B2866A611C910ADA00F4B3B9 /* OrdersAlertView.m in Sources */,

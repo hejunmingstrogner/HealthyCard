@@ -42,6 +42,7 @@
 
     _checkCountLabel = [[UILabel alloc]init];
     [self.contentView addSubview:_checkCountLabel];
+    _checkCountLabel.textAlignment = NSTextAlignmentRight;
     [_checkCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(self.contentView);
         make.right.equalTo(self.contentView).offset(-10);
@@ -53,10 +54,13 @@
 {
     UIFont *font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
     NSString *status = [BRContract getTestStatus:brContract.testStatus];    //  得到检查状态
-    UIColor *color = [UIColor colorWithARGBHex:HC_Gray_Text];
+    UIColor *color = [UIColor colorWithRGBHex:HC_Gray_Text];
 
     [_statusLabel setText:@"状态:" Font:font WithEndText:status endTextColor:color];
 
-    [_checkCountLabel setText:@"已检查" Font:font count:brContract.factCheckNum endColor:color];
+    if (brContract.factCheckNum < 0) {
+        brContract.factCheckNum = 0;
+    }
+    [_checkCountLabel setText:@"已检查" Font:font count:brContract.factCheckNum endColor:[UIColor redColor]];
 }
 @end

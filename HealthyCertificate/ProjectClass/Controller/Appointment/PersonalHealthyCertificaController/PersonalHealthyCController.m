@@ -449,6 +449,7 @@
 - (void)selectAddress
 {
     SelectAddressViewController *addressselect = [[SelectAddressViewController alloc]init];
+    addressselect.addressStr = _orderinforView.addressBtn.titleLabel.text;
     [addressselect getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
         self.city = city;
         self.address = [NSString stringWithFormat:@"%@%@%@", city, district, address];
