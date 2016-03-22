@@ -230,9 +230,6 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
 -(void)loginBtnCliked:(id)sender
 {
     _loginButton.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
-    [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
-    _isVertified = YES;
-    return;
     //判断验证码是否正确
     [[HttpNetworkManager getInstance] vertifyPhoneNumber:_phoneNumTextField.text
                                              VertifyCode:_vertifyTextField.text
