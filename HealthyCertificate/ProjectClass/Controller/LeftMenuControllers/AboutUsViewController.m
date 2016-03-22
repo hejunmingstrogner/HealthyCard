@@ -95,7 +95,6 @@
 - (CGFloat)cellhieght
 {
     UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:17];
-
     NSString *text = @"        健康证在线是一款体检、就诊以及办理健康证为一体的操作APP。由知康科技有限公司和智行电子科技有限公司共同开发。";
 
     CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];

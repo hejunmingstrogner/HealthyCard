@@ -175,7 +175,7 @@
     }
     UserinformationCellItem* usefInformationCellItem = (UserinformationCellItem *)_dataArray[indexPath.row];
     cell.textLabel.text = usefInformationCellItem.titleLabelText;
-    if (usefInformationCellItem.itemType == PERSON_AGE){
+    if (usefInformationCellItem.itemType == PERSON_AGE || usefInformationCellItem.itemType == PERSON_TELPHONE || usefInformationCellItem.itemType == COMPANY_LINKPHONE){
         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
     }else{
         cell.detailTextLabel.textColor = [UIColor blackColor];
