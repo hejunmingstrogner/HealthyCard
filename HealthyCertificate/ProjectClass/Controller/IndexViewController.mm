@@ -313,11 +313,7 @@ BOOL   _isLocationInfoHasBeenSent;
         make.left.right.height.equalTo(removeToCurrentLocateBtn);
     }];
     [refresBtn setImage:[UIImage imageNamed:@"shuaxindata"] forState:UIControlStateNormal];
-    [refresBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新数据中..." removeDelay:2];
-        [self getCheckListData];    // 刷新待处理项
-        [self getAdress];           // 刷新体检地址
-    }];
+    [refresBtn addTarget:self action:@selector(reloadDatachack) forControlEvents:UIControlEventTouchUpInside];
 
     // 遮罩层
     coverBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
@@ -329,6 +325,14 @@ BOOL   _isLocationInfoHasBeenSent;
     coverBtn.userInteractionEnabled = NO;
     [coverBtn addTarget:self action:@selector(closeLeftView) forControlEvents:UIControlEventTouchUpInside];
     [coverBtn setBackgroundColor:[UIColor colorWithRed:15/255.0 green:15/255.0 blue:15/255.0 alpha:0]];
+}
+
+// 刷新数据
+- (void)reloadDatachack
+{
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新数据中..." removeDelay:2];
+    [self getCheckListData];    // 刷新待处理项
+    [self getAdress];           // 刷新体检地址
 }
 
 - (void)initLeftViews

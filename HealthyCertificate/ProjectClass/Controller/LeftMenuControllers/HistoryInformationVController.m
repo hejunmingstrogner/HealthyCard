@@ -178,6 +178,7 @@
             BRContractHistoryTBHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellheader"];
             if (!cell) {
                 cell = [[BRContractHistoryTBHeaderCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellheader"];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             [cell setBrContract:(BRContract *)_historyArray[indexPath.section]];
             return cell;
@@ -186,6 +187,7 @@
             BRContractHistoryTBFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
             if (!cell ) {
                 cell = [[BRContractHistoryTBFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             [cell setBrContract:(BRContract *)_historyArray[indexPath.section]];
             return cell;

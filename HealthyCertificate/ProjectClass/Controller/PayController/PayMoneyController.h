@@ -28,7 +28,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIButton    *comfirmBtn;
 @property (nonatomic, strong) NSString    *money;
-#warning 下面类型在初始化时必须填写
+#warning -下面类型在初始化时必须填写
 @property (nonatomic, strong) NSString *checkCode;      // 体检编号
 @property (nonatomic, assign) chargetype chargetype;    // 用户类型
 @property (nonatomic, strong) NSString *cityName;       // 城市编号，用于获取体检费用
