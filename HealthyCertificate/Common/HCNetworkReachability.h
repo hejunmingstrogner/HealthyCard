@@ -15,6 +15,10 @@
 
 +(instancetype)getInstance;
 
+typedef void(^NetworkReachStateBlock)(BOOL isReachAble);
+
 - (ReachabilityStatus)getCurrentReachabilityState;
+
+-(void)getCurrentReachabilitYStateWithBlock:(NetworkReachStateBlock)block;
 
 @end

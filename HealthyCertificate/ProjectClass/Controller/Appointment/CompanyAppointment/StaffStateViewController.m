@@ -150,7 +150,7 @@
         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Orange_Text];
     }
     
-    if (status <= -1){
+    if (status <= 0){
         //未检
         cell.detailTextLabel.text = @"未检";
          cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Orange_Text];

@@ -24,6 +24,9 @@
 #import "NSString+Count.h"
 #import "UIButton+HitTest.h"
 #import "UIView+borderWidth.h"
+#import "UIImage+Color.h"
+#import "UIButton+TCHelper.h"
+#import "UIButton+touch.h"
 
 #import "BaseInfoTableViewCell.h"
 #import "CloudAppointmentDateVC.h"
@@ -44,6 +47,8 @@
 #import "TakePhoto.h"
 #import "RzAlertView.h"
 #import "HCRule.h"
+#import "WZFlashButton.h"
+
 
 #import "MethodResult.h"
 #import "OrdersAlertView.h"
@@ -95,14 +100,6 @@
 }
 
 #pragma mark - Setter & Getter
--(void)setCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate{
-    _centerCoordinate = centerCoordinate;
-}
-
--(void)setLocation:(NSString *)location{
-    _location = location;
-}
-
 -(void)setAppointmentDateStr:(NSString *)appointmentDateStr
 {
     BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
@@ -136,7 +133,6 @@
 #pragma mark - Life Circle
 - (void)initNavgation
 {
-    // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
@@ -151,7 +147,6 @@
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:QRScanButton];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
-// 返回前一页
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -160,6 +155,7 @@
 -(void)viewDidLoad{
     [super viewDidLoad];
     [self initNavgation];
+    [self loadData];
 
     UIScrollView* scrollView = [[UIScrollView alloc] init];
     scrollView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
@@ -192,7 +188,6 @@
         make.height.mas_equalTo(PXFIT_HEIGHT(100)*3);
     }];
     
-
     _healthyCertificateView = [[HealthyCertificateView alloc] init];
     _healthyCertificateView.layer.cornerRadius = 10;
     _healthyCertificateView.layer.borderColor = MO_RGBCOLOR(0, 168, 234).CGColor;
@@ -230,12 +225,17 @@
         make.height.mas_equalTo(PXFIT_HEIGHT(136));
     }];
     
-    UIButton* appointmentBtn = [UIButton buttonWithTitle:@"预   约"
-                                                    font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)]
-                                               textColor:[UIColor whiteColor]
-                                         backgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+    WZFlashButton* appointmentBtn = [[WZFlashButton alloc] init];
+    appointmentBtn.buttonType = WZFlashButtonTypeInner;
+    appointmentBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
+    appointmentBtn.flashColor = [UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
+    [appointmentBtn setText:@"预   约"];
     appointmentBtn.layer.cornerRadius = 5;
-    [appointmentBtn addTarget:self action:@selector(appointmentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    appointmentBtn.timeInterval = 3;
+    __weak typeof (self) wself = self;
+    appointmentBtn.clickBlock = ^(){
+        [wself appointmentBtnClicked];
+    };
     [bottomView addSubview:appointmentBtn];
     [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(bottomView);
@@ -271,7 +271,6 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self registerKeyboardNotification];
-    [self loadData];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -378,11 +377,9 @@
 }
 
 #pragma mark - Action
--(void)appointmentBtnClicked:(UIButton *)sender
+-(void)appointmentBtnClicked
 {
-    sender.enabled = NO;
     if([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
-        sender.enabled = YES;
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
         return;
     }
@@ -473,9 +470,7 @@
     }
     _customerTestInfo.cityName = gCurrentCityName; //预约城市
     
-    __weak typeof (self) wself = self;
     [[HttpNetworkManager getInstance] createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
-        sender.enabled = YES;
         if (error != nil){
             //预约失败，主要是http的失败
             [RzAlertView showAlertLabelWithTarget:self.view Message:MakeAppointmentFailed removeDelay:2];
@@ -492,7 +487,7 @@
         //预约成功 获取编号
         if (_isAvatarSet == YES) //如果修改了图片,预约成功后要上传图片
         {
-            [[HttpNetworkManager getInstance] customerUploadHealthyCertifyPhoto:wself.healthyCertificateView.imageView.image CusCheckCode:methodResult.object resultBlock:^(NSDictionary *result, NSError *error) {
+            [[HttpNetworkManager getInstance] customerUploadHealthyCertifyPhoto:self.healthyCertificateView.imageView.image CusCheckCode:methodResult.object resultBlock:^(NSDictionary *result, NSError *error) {
                 if (error != nil){
                     //失败 to do
                     [RzAlertView showAlertLabelWithTarget:self.view Message:UploadHealthyPicFailed removeDelay:2];
@@ -677,7 +672,6 @@
         wself.healthyCertificateView.idCard = resultStr;
     }];
     [self.navigationController pushViewController:editInfoViewController animated:YES];
-
 }
 
 -(void)healthyImageClicked{
@@ -742,21 +736,17 @@
 }
 
 -(void)loadData{
+    //如果是待处理项点进去
+    
     
     //健康证照片相关
     if (_customerTestInfo != nil){
-        //服务点预约
-        
         //根据预约编号去请求图片
         NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], _customerTestInfo.checkCode]];
         //这里要添加图片
         [_healthyCertificateView.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Avatar                                                                                                                                                                                                                                                                                                                                                                                                "] options:SDWebImageRefreshCached|SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (error!=nil){}
         }];
-        
-    }else{
-        //云预约
-        //_isAvatarSet = NO;
     }
 }
 
@@ -798,9 +788,6 @@
 
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
 {
-    //    UIAlertView *a=[[UIAlertView alloc]initWithTitle:@"提示" message:error.domain delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
-    //    [a show];
-    //    NSLog(@"%@", error.domain);
     [_waitAlertView close];
 }
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array

@@ -84,7 +84,10 @@
 - (void)initSubViews
 {
     self.view.backgroundColor = [UIColor whiteColor];
-    _orderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _orderBtn = [[WZFlashButton alloc] init];
+    _orderBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
+    _orderBtn.flashColor = [UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
+    [_orderBtn setText:@"预约" withTextColor:[UIColor whiteColor]];
     [self.view addSubview:_orderBtn];
     [_orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).offset(-10);
@@ -94,11 +97,10 @@
     }];
     _orderBtn.layer.masksToBounds = YES;
     _orderBtn.layer.cornerRadius = 5;
-    [_orderBtn setTitle:@"预约" forState:UIControlStateNormal];
-    [_orderBtn setTitleColor:[UIColor colorWithWhite:0.99 alpha:1] forState:UIControlStateNormal];
-    [_orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
-    [_orderBtn addTarget:self action:@selector(orderBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-
+    __weak typeof (self) wself = self;
+    _orderBtn.clickBlock = ^(){
+        [wself orderBtnClicked];
+    };
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -188,7 +190,7 @@
     return he;
 }
 
-- (void)orderBtnClicked:(UIButton *)sender
+- (void)orderBtnClicked
 {
     if (GetUserType == 1){
         //个人

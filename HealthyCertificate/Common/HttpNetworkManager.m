@@ -96,7 +96,7 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
     NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
     //CFBundleShortVersionString 代表发布版本号
     //CFBundleVersion 内部版本号
-    NSString *currentVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
+    NSString *currentVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];//444934666 1093442955
     NSString *urlStr = [NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@", @"1093442955"];
     
     [self.manager POST:urlStr parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {

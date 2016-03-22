@@ -28,6 +28,39 @@
     return sharedHCNetworkReachability;
 }
 
+-(void)getCurrentReachabilitYStateWithBlock:(NetworkReachStateBlock)block
+{
+    __block  NetworkReachStateBlock resultBlock = block;
+    [GLobalRealReachability reachabilityWithBlock:^(ReachabilityStatus status) {
+        switch (status)
+        {
+            case RealStatusNotReachable:
+            {
+                //  case NotReachable handler
+                resultBlock(NO);
+                break;
+            }
+                
+            case RealStatusViaWiFi:
+            {
+                //  case WiFi handler
+                 resultBlock(YES);
+                break;
+            }
+                
+            case RealStatusViaWWAN:
+            {
+                //  case WWAN handler
+                 resultBlock(YES);
+                break;
+            }
+                
+            default:
+                break;
+        }
+    }];
+}
+
 #pragma mark - Life Circle
 -(id)init{
     if (self = [super init]){
