@@ -37,6 +37,7 @@
 #import "PositionUtil.h"
 #import "HttpNetworkManager.h"
 #import "HCNetworkReachability.h"
+#import "WZFlashButton.h"
 
 #import "MethodResult.h"
 
@@ -138,6 +139,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 -(void)viewDidLoad{
     [super viewDidLoad];
     [self initNavgation];
+    
+    self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
     _dateString = [NSString stringWithFormat:@"%@~%@",
                    [[NSDate date] getDateStringWithInternel:1],
@@ -316,12 +319,17 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         make.height.mas_equalTo(PXFIT_HEIGHT(136));
     }];
     
-    UIButton* appointmentBtn = [UIButton buttonWithTitle:@"预 约"
-                                                    font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)]
-                                               textColor:[UIColor whiteColor]
-                                         backgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+    WZFlashButton* appointmentBtn = [[WZFlashButton alloc] init];
+    appointmentBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
+    appointmentBtn.flashColor = [UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
+    appointmentBtn.timeInterval = 3;
+    [appointmentBtn setText:@"预 约" withTextColor:[UIColor whiteColor]];
+    appointmentBtn.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)];
     appointmentBtn.layer.cornerRadius = 5;
-    [appointmentBtn addTarget:self action:@selector(appointmentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof (self) wself = self;
+    appointmentBtn.clickBlock = ^(){
+        [wself appointmentBtnClicked];
+    };
     [bottomView addSubview:appointmentBtn];
     [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(bottomView);
@@ -378,7 +386,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
 
 #pragma mark - Action
--(void)appointmentBtnClicked:(id)sender
+-(void)appointmentBtnClicked
 {
     if([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];

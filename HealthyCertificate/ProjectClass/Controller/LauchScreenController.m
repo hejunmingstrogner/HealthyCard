@@ -46,8 +46,9 @@
         make.edges.mas_equalTo(self.view);
     }];
 
-    [[HMNetworkEngine getInstance] startControl];
     [HMNetworkEngine getInstance].delegate = self;
+    [[HMNetworkEngine getInstance] startControl];
+    
 }
 
 
@@ -65,7 +66,6 @@
 -(void)setUpControlSucceed{
     [[HMNetworkEngine getInstance] queryServerList];
 }
-
 
 -(void)setUpControlFailed{
     //to do连接socket服务器即代理服务器失败

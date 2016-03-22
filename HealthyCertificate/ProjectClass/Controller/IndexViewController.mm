@@ -18,6 +18,7 @@
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
+#import "UIButton+TCHelper.h"
 
 #import "UserInformationController.h"
 #import "AppointmentViewController.h"
@@ -89,12 +90,12 @@ BOOL   _isLocationInfoHasBeenSent;
 {
     [[HttpNetworkManager getInstance] checkVersionWithResultBlock:^(BOOL result, NSError *error) {
         
-        if (result == NO){
+        if (result == YES){
             //提示用户更新
             [RzAlertView showAlertViewControllerWithTarget:self Title:@"提醒" Message:@"发现新版本，更新将带来更好的用户体检" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"更新" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
                 //回调  flag ＝ 1 执行action，flag ＝ 0 执行取消
                 if (flag == 1){
-                    //更新
+                    //更新 444934666 1093442955
                     NSString *appStoreLink = [NSString stringWithFormat:@"http://itunes.apple.com/cn/app/id%@",@"1093442955"];
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appStoreLink]];
                 }
@@ -217,19 +218,21 @@ BOOL   _isLocationInfoHasBeenSent;
     }];
     orderView.backgroundColor = [UIColor whiteColor];
     // 预约按钮
-    orderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    orderBtn = [[WZFlashButton alloc] init];
+    orderBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
+    orderBtn.flashColor = [UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
+    [orderBtn setText:@"一键预约" withTextColor:[UIColor whiteColor]];
+    orderBtn.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:18];
     [orderView addSubview:orderBtn];
     [orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(orderView).insets(UIEdgeInsetsMake(5, 10, 5, 10));
     }];
     orderBtn.layer.masksToBounds = YES;
     orderBtn.layer.cornerRadius = 5;
-    [orderBtn setTitle:@"一键预约" forState:UIControlStateNormal];
-    orderBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:18];
-    [orderBtn setTitleColor:[UIColor colorWithWhite:0.99 alpha:1] forState:UIControlStateNormal];
-    [orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
-    orderBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [orderBtn addTarget:self action:@selector(orderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(self) wself = self;
+    orderBtn.clickBlock = ^(){
+        [wself orderBtnClicked];
+    };
     // 显示地址的view
     UIView *addressView = [UIView new];
     [self.view addSubview:addressView];
