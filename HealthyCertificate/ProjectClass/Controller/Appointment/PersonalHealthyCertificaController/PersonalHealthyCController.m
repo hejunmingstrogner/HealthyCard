@@ -31,8 +31,17 @@
     BOOL        _isAvatarSet;
     RzAlertView *waitAlertView;
 
+    UIView      *containView;
+    UILabel     *warmingLabel;
+
     BOOL        isChanged;
+
+    UIImageView *tipIamgeView;
 }
+
+@property (nonatomic, strong) UIButton                       *leftBtn;          // 左侧按钮
+@property (nonatomic, strong) UIButton                       *centerBtn;   // 中间按钮
+@property (nonatomic, strong) UIButton                       *rightBtn;      // 右侧按钮
 
 @end
 
@@ -173,39 +182,97 @@
     _baseBgScrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
     [self.view addSubview:_baseBgScrollView];
     _baseBgScrollView.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:0.9];
+    [_baseBgScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    containView = [[UIView alloc]init];
+    containView.backgroundColor = [UIColor clearColor];
+    [_baseBgScrollView addSubview:containView];
+    [containView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(_baseBgScrollView);
+        make.width.equalTo(_baseBgScrollView);
+    }];
 
-    // 详情介绍
-    AppointmentInfoView *introduceView = [[AppointmentInfoView alloc]initWithFrame:CGRectMake(0, 10+ PXFIT_HEIGHT(460) + 10 + 210 , self.view.frame.size.width, 100)];
-
-    CGFloat heights = introduceView.frame.size.height + 10;
-    _baseBgScrollView.contentSize = CGSizeMake(self.view.frame.size.width, PXFIT_HEIGHT(460) + 200 + heights + 90);  // 80待修改 [self labelHeight:介绍]
-
-    _healthCertificateView = [[HealthyCertificateView alloc]initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, PXFIT_HEIGHT(460))];
-    [_baseBgScrollView addSubview:_healthCertificateView];
+    // 健康证信息
+    _healthCertificateView = [[HealthyCertificateView alloc]init];
+    [containView addSubview:_healthCertificateView];
+    [_healthCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(containView).offset(10);
+        make.width.equalTo(containView).offset(-20);
+        make.height.mas_equalTo(PXFIT_HEIGHT(460));
+    }];
     _healthCertificateView.layer.masksToBounds = YES;
     _healthCertificateView.delegate = self;
     _healthCertificateView.layer.cornerRadius = 10;
 
+    // 预约信息
     _orderinforView = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(460) + 10, self.view.frame.size.width - 20, 200)];
-    [_baseBgScrollView addSubview:_orderinforView];
-
-
-    [_baseBgScrollView addSubview:introduceView];
+    [containView addSubview:_orderinforView];
+    [_orderinforView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(_healthCertificateView);
+        make.top.equalTo(_healthCertificateView.mas_bottom).offset(10);
+        make.height.mas_equalTo(200);
+    }];
 
     // 按钮的背景色
     UIView *btnBgView = [[UIView alloc]init];
-    [_baseBgScrollView addSubview:btnBgView];
+    [containView addSubview:btnBgView];
     btnBgView.backgroundColor = [UIColor whiteColor];
+    [btnBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_orderinforView.mas_bottom).offset(10);
+        make.left.right.equalTo(containView);
+        make.height.mas_equalTo(80);
+    }];
     // 按钮底部的分割线
     UILabel *fengexian = [[UILabel alloc]init];
-    [_baseBgScrollView addSubview:fengexian];
-   // fengexian.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+    [btnBgView addSubview:fengexian];
     fengexian.backgroundColor = [UIColor colorWithRGBHex:HC_Gray_Egdes];
+    [fengexian mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(btnBgView).offset(20);
+        make.right.equalTo(btnBgView).offset(-20);
+        make.center.equalTo(btnBgView);
+        make.height.mas_equalTo(1);
+    }];
+
+    UIView *warmBg = [[UIView alloc]init];
+    [containView addSubview:warmBg];
+    warmBg.layer.masksToBounds = YES;
+    warmBg.backgroundColor = [UIColor whiteColor];
+    warmBg.layer.cornerRadius = 4;
+    warmBg.layer.borderWidth = 1;
+    warmBg.layer.borderColor = [UIColor colorWithRed:243/255.0 green:183/255.0 blue:140/255.0 alpha:1].CGColor;
+
+    // 提示信息label
+    warmingLabel = [[UILabel  alloc]init];
+    [containView addSubview:warmingLabel];
+    warmingLabel.numberOfLines = 0;
+    warmingLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
+    [warmingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(btnBgView.mas_bottom);
+        make.left.equalTo(btnBgView).offset(10);
+        make.right.equalTo(btnBgView).offset(-10);
+        make.height.mas_equalTo(70);
+    }];
+
+    [warmBg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(warmingLabel);
+        make.left.right.equalTo(containView);
+    }];
+
+    // 详情介绍
+    AppointmentInfoView *introduceView = [[AppointmentInfoView alloc]initWithFrame:CGRectMake(0, 10+ PXFIT_HEIGHT(460) + 10 + 210 , self.view.frame.size.width, 100)];
+    [containView addSubview:introduceView];
+    [introduceView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(warmingLabel.mas_bottom).offset(10);
+        make.left.right.equalTo(containView);
+//        make.height.mas_equalTo(100);
+        make.bottom.equalTo(containView).offset(-10);
+    }];
 
     _leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _leftBtn.layer.masksToBounds = YES;
     _leftBtn.layer.cornerRadius = 4;
-    [_baseBgScrollView addSubview:_leftBtn];
+    [btnBgView addSubview:_leftBtn];
     [_leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_orderinforView);
         make.height.mas_equalTo(35);
@@ -216,22 +283,32 @@
     [_leftBtn setTitle:@"已签到" forState:UIControlStateNormal];
     [_leftBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
 
+    tipIamgeView = [[UIImageView alloc]init];
+    [containView addSubview:tipIamgeView];
+    tipIamgeView.image = [UIImage imageNamed:@"tip"];
+    [tipIamgeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(21);
+        make.height.mas_equalTo(10);
+        make.centerX.equalTo(_leftBtn);
+        make.bottom.equalTo(warmingLabel.mas_top).offset(1);
+    }];
+
     _centerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _centerBtn.layer.masksToBounds = YES;
     _centerBtn.layer.cornerRadius = 4;
-    [_baseBgScrollView addSubview:_centerBtn];
+    [btnBgView addSubview:_centerBtn];
     [_centerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_leftBtn);
-        make.centerX.equalTo(_baseBgScrollView);
+        make.centerX.equalTo(btnBgView);
         make.width.equalTo(_leftBtn);
-        make.height.mas_equalTo(45);
+        make.height.mas_equalTo(35);
     }];
     _centerBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
     [_centerBtn setTitle:@"待检查" forState:UIControlStateNormal];
     [_centerBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
 
     _rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_baseBgScrollView addSubview:_rightBtn];
+    [btnBgView addSubview:_rightBtn];
     _rightBtn.layer.masksToBounds = YES;
     _rightBtn.layer.cornerRadius = 4;
     [_rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -242,21 +319,6 @@
     [_rightBtn setTitle:@"检查中" forState:UIControlStateNormal];
     _rightBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
     [_rightBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
-
-
-    [btnBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(_centerBtn);
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(introduceView.mas_bottom);
-//        make.bottom.equalTo(_centerBtn).offset(10);
-        make.height.mas_equalTo(80);
-    }];
-    [fengexian mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_leftBtn.mas_right).offset(-5);
-        make.right.equalTo(_rightBtn.mas_left).offset(5);
-        make.center.equalTo(_centerBtn);
-        make.height.mas_equalTo(1);
-    }];
 }
 
 - (CGFloat)labelheigh:(NSString *)text
@@ -348,14 +410,39 @@
     }];
 
     // 设置体检状态
-    NSArray *status = [_customerTestInfo getTestStatusArrayWithTestStatus:_customerTestInfo.testStatus];
+    CustomerTestStatusItem *status = [_customerTestInfo getTestStatusWithTestStatus:_customerTestInfo.testStatus];
 
-    [_leftBtn setTitle:status[0] forState:UIControlStateNormal];
-    [_centerBtn setTitle:status[1] forState:UIControlStateNormal];
-    [_rightBtn setTitle:status[2] forState:UIControlStateNormal];
+    [_leftBtn setTitle:status.leftText forState:UIControlStateNormal];
+    [_centerBtn setTitle:status.centerText forState:UIControlStateNormal];
+    [_rightBtn setTitle:status.rigthText forState:UIControlStateNormal];
+    warmingLabel.text = status.warmingText;
+    // 设置按钮颜色，以及提示信息
+    switch (status.status) {
+        case LEFT_STATUS:{
+            [_leftBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+            [_leftBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            break;
+        }
+        case CENTER_STATUS:{
+            [_centerBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+            [_centerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [tipIamgeView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(_centerBtn);
+            }];
+            break;
+        }
+        case RIGHT_STATUS:{
+            [_rightBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+            [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [tipIamgeView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(_rightBtn);
+            }];
+            break;
+        }
+        default:
+            break;
+    }
 
-    [_centerBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
-    [_centerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
 #pragma mark - HealthyCertificateViewDelegate
