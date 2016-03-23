@@ -262,9 +262,11 @@
             if (!cell) {
                 cell = [[CheckListPayMoneyCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"paycell"];
                 [cell.payMoneyBtn addTarget:self action:@selector(payMoneyBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+                [cell.cancelAppointBtn addTarget:self action:@selector(cancelAppointBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             cell.payMoneyBtn.tag = indexPath.section;
+            cell.cancelAppointBtn.tag = indexPath.section;
             cell.payMoney =((CustomerTest *)_checkDataArray[indexPath.section]).payMoney;
             return cell;
         }
@@ -321,7 +323,11 @@
         [self.navigationController pushViewController:companyViewController animated:YES];
     }
 }
-
+#pragma mark -取消预约，在线支付，付款
+- (void)cancelAppointBtnClicked:(UIButton *)sender
+{
+    NSLog(@"取消预约  %ld", (long)sender.tag);
+}
 // 点击支付按钮
 - (void)payMoneyBtnClicked:(UIButton *)sender
 {

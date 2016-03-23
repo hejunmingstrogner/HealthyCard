@@ -15,8 +15,18 @@
     if (self = [super init]) {
         _titleText = title;
         _detialText = detial;
+        _flag = 0;
     }
     return self;
 }
 
+- (instancetype)initWithTitle:(NSString *)title detialText:(NSString *)detial flag:(NSInteger)flag
+{
+    if (self = [super init]) {
+        _titleText = title;
+        _detialText = detial;
+        _flag = flag;
+    }
+    return self;
+}
 @end

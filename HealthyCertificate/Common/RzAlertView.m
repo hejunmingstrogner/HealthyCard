@@ -399,13 +399,13 @@
     }];
 
     addressLabel.numberOfLines = 0;
-    if (servicePositionItem.type == 1) {
-        [addressLabel setText:servicePositionItem.address textFont:[UIFont systemFontOfSize:14] WithEndText:@"临" endTextColor:[UIColor redColor]];
-    }
-    else {
-        addressLabel.text = servicePositionItem.address;
-    }
-
+//    if (servicePositionItem.type == 1) {
+//        [addressLabel setText:servicePositionItem.address textFont:[UIFont systemFontOfSize:14] WithEndText:@"临" endTextColor:[UIColor redColor]];
+//    }
+//    else {
+//        addressLabel.text = servicePositionItem.address;
+//    }
+    addressLabel.text = servicePositionItem.address;
     //服务时间
     UILabel *servicetimelabel = [[UILabel alloc]init];
     [actionSheetView addSubview:servicetimelabel];
