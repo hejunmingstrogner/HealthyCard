@@ -21,6 +21,12 @@
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
+@interface ServicePointDetailViewController()
+{
+    BMKMapView  *_mapView;
+}
+@end
+
 @implementation ServicePointDetailViewController
 
 - (void)viewDidLoad
@@ -36,7 +42,8 @@
 
 - (void)initNavgation
 {
-    self.title = _serverPositionItem.name;  // 车辆牌照
+    self.title = @"服务点信息";
+    
     // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
@@ -58,15 +65,13 @@
     if(_serverPositionItem.introduce.length == 0){
         _serverPositionItem.introduce = str;
     }
-    ServicePositionDetialCellItem *item10 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"详情介绍" detialText:@""];
-    ServicePositionDetialCellItem *item11 = [[ServicePositionDetialCellItem alloc]initWithTitle:_serverPositionItem.introduce detialText:@""];
-    NSArray *arry1 = [NSArray arrayWithObjects:item10, item11, nil];
+    ServicePositionDetialCellItem *item10 = [[ServicePositionDetialCellItem alloc]initWithTitle:_serverPositionItem.introduce detialText:@"" flag:1];
+    NSArray *arry1 = [NSArray arrayWithObjects:item10, nil];
 
-    ServicePositionDetialCellItem *item20 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"地址路线" detialText:@""];
-    ServicePositionDetialCellItem *item21 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"中心地址" detialText:_serverPositionItem.address];
-    ServicePositionDetialCellItem *item22 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"咨询电话" detialText:_serverPositionItem.leaderPhone];
-    //ServicePositionDetialCellItem *item23 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"公交路线" detialText:_serverPositionItem.busWay.length == 0? @"306、304" : _serverPositionItem.busWay];
-    NSArray *arry2 = [NSArray arrayWithObjects:item20, item21, item22, nil];
+    ServicePositionDetialCellItem *item21 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"地址:" detialText:_serverPositionItem.address];
+    ServicePositionDetialCellItem *item22 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"电话:" detialText:_serverPositionItem.leaderPhone];
+
+    NSArray *arry2 = [NSArray arrayWithObjects:item21, item22, nil];
 
     _inforArray = [[NSMutableArray alloc]initWithObjects:arry0, arry1, arry2, nil];
 }
@@ -94,18 +99,42 @@
     };
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+
+    _mapView = [[BMKMapView alloc]init];
+    _mapView.zoomLevel = 14;
+    _mapView.compassPosition = CGPointMake([UIScreen mainScreen].bounds.size.width - 50, 10);
+
+    [self.view addSubview:_mapView];
+    [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(170);
+        make.bottom.equalTo(_orderBtn.mas_top).offset(-10);
+    }];
+
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(64);
         make.left.right.equalTo(self.view);
-        make.bottom.equalTo(_orderBtn.mas_top).offset(-10);
+        make.bottom.equalTo(_mapView.mas_top);
     }];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
+    // 设置显示服务点信息
+    [self addServiersPositionAnno];
+}
+- (void)addServiersPositionAnno
+{
+    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(_serverPositionItem.positionLa, _serverPositionItem.positionLo);
+    [_mapView setCenterCoordinate:coor animated:YES];
+
+    BMKPointAnnotation *anno = [[BMKPointAnnotation alloc]init];
+    anno.coordinate = coor;
+    anno.title = _serverPositionItem.address;
+    [_mapView addAnnotation:anno];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return _inforArray.count;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -118,6 +147,9 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (section == _inforArray.count - 1) {
+        return 10;
+    }
     return 0.1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -125,11 +157,8 @@
     if (indexPath.section == 0) {
         return 120;
     }
-    else if (indexPath.row == 1){
-        if (indexPath.section == 1) {
-            return fmaxf(44, [self cellheight:_serverPositionItem.introduce]);
-        }
-        return fmaxf(44, [self cellheight:_serverPositionItem.busWay]);
+    else if (indexPath.section == 1){
+        return fmaxf(44, [self cellheight:_serverPositionItem.introduce]);
     }
     return 44;
 }
@@ -146,23 +175,34 @@
         return cell;
     }
     else {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-            cell.textLabel.numberOfLines = 0;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.font = [UIFont fontWithType:0 size:15];
-            cell.detailTextLabel.font = [UIFont fontWithType:0 size:15];
+        if (((ServicePositionDetialCellItem *)_inforArray[indexPath.section][indexPath.row]).flag == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+            if (!cell) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"cell"];
+                cell.textLabel.numberOfLines = 0;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.textLabel.textAlignment = NSTextAlignmentLeft;
+                cell.textLabel.textColor = [UIColor grayColor];
+                cell.textLabel.font = [UIFont fontWithType:0 size:15];
+                cell.detailTextLabel.font = [UIFont fontWithType:0 size:15];
+            }
+            cell.textLabel.text = ((ServicePositionDetialCellItem *)_inforArray[indexPath.section][indexPath.row]).titleText;
+            cell.detailTextLabel.text = ((ServicePositionDetialCellItem *)_inforArray[indexPath.section][indexPath.row]).detialText;
+
+            return cell;
         }
-        cell.textLabel.text = ((ServicePositionDetialCellItem *)_inforArray[indexPath.section][indexPath.row]).titleText;
-        cell.detailTextLabel.text = ((ServicePositionDetialCellItem *)_inforArray[indexPath.section][indexPath.row]).detialText;
-        if (indexPath.row == 0) {
-            cell.textLabel.textColor = [UIColor blackColor];
+        else {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
+            if (!cell) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+                cell.textLabel.textColor = [UIColor grayColor];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.textLabel.font = [UIFont fontWithType:0 size:15];
+                cell.textLabel.numberOfLines = 0;
+            }
+            cell.textLabel.text = ((ServicePositionDetialCellItem *)_inforArray[indexPath.section][indexPath.row]).titleText;
+            return cell;
         }
-        else{
-            cell.textLabel.textColor = [UIColor grayColor];
-        }
-        return cell;
     }
 }
 

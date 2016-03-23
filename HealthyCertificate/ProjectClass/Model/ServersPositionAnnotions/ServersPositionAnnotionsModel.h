@@ -36,6 +36,10 @@
 @property (nonatomic, strong) NSString * vheicleCode;           // 车辆编号         //
 @property (nonatomic, strong) NSString * vehicleInfo;           // 车辆信息         //
 @property (nonatomic, assign) int        scount;                //
+/**
+ * 组长Name
+ */
+@property (nonatomic, strong)NSString *captainName;
 
 @end
 

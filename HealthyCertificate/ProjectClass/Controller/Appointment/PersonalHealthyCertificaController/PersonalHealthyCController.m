@@ -240,7 +240,7 @@
     warmBg.backgroundColor = [UIColor whiteColor];
     warmBg.layer.cornerRadius = 4;
     warmBg.layer.borderWidth = 1;
-    warmBg.layer.borderColor = [UIColor colorWithRed:243/255.0 green:183/255.0 blue:140/255.0 alpha:1].CGColor;
+    warmBg.layer.borderColor = [UIColor colorWithRGBHex:0xff9d12].CGColor;
 
     // 提示信息label
     warmingLabel = [[UILabel  alloc]init];

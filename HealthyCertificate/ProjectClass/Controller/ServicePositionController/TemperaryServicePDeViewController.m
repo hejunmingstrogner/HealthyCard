@@ -23,7 +23,9 @@
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface TemperaryServicePDeViewController()<UITableViewDelegate, UITableViewDataSource>
-
+{
+    BMKMapView  *_mapView;
+}
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *detialeInfoArray;
@@ -43,9 +45,26 @@
     [self initSubViews];
 }
 
+#pragma mark -地图相关
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    [_mapView viewWillAppear];
+    //_mapView.delegate = self;
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    [_mapView viewWillDisappear];
+    //_mapView.delegate = nil;
+}
+
+#pragma mark -初始化相关
 - (void)initNavgation
 {
-    self.title = _servicePositionItem.brOutCheckArrange.plateNo;  // 车辆牌照
+    self.title = @"服务点信息";
     // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
@@ -63,22 +82,19 @@
 {
     NSMutableArray *arry = [NSMutableArray arrayWithObjects:@"1", nil];
 
-    ServicePositionDetialCellItem *personInfo = [[ServicePositionDetialCellItem alloc]initWithTitle:@"人员详情" detialText:@""];
-    ServicePositionDetialCellItem *leader = [[ServicePositionDetialCellItem alloc]initWithTitle:@"负责人" detialText:_servicePositionItem.brOutCheckArrange.leaderName];
-    ServicePositionDetialCellItem *driver = [[ServicePositionDetialCellItem alloc]initWithTitle:@"司  机" detialText:_servicePositionItem.brOutCheckArrange.driverName];
+    ServicePositionDetialCellItem *leader = [[ServicePositionDetialCellItem alloc]initWithTitle:@"体检顾问:" detialText:_servicePositionItem.brOutCheckArrange.leaderName];
+    ServicePositionDetialCellItem *leadercaptain = [[ServicePositionDetialCellItem alloc]initWithTitle:@"体检组长:" detialText:_servicePositionItem.brOutCheckArrange.captainName];
 
-    NSMutableArray *arry1 = [NSMutableArray arrayWithObjects:personInfo, leader, driver, nil];
+     ServicePositionDetialCellItem *memberList = [[ServicePositionDetialCellItem alloc]initWithTitle:@"医护人员:" detialText:_servicePositionItem.brOutCheckArrange.memberList];
 
-     ServicePositionDetialCellItem *memberList = [[ServicePositionDetialCellItem alloc]initWithTitle:@"服务车辆" detialText:nil];
-    ServicePositionDetialCellItem *menberListdata = [[ServicePositionDetialCellItem alloc]initWithTitle:_servicePositionItem.brOutCheckArrange.plateNo detialText:_servicePositionItem.brOutCheckArrange.vehicleInfo];
+    NSMutableArray *arry1 = [NSMutableArray arrayWithObjects:leader, leadercaptain, memberList, nil];
 
-    NSMutableArray *arry2 = [NSMutableArray arrayWithObjects:memberList, menberListdata, nil];
+    NSString *str = [NSString stringWithFormat:@"(%@)", _servicePositionItem.brOutCheckArrange.vehicleInfo];
+    ServicePositionDetialCellItem *caeNo = [[ServicePositionDetialCellItem alloc]initWithTitle: _servicePositionItem.brOutCheckArrange.plateNo detialText:str];
+    ServicePositionDetialCellItem *phone = [[ServicePositionDetialCellItem alloc]initWithTitle:_servicePositionItem.brOutCheckArrange.leaderPhone detialText:@"" flag:1];
+    NSMutableArray *arry2 = [NSMutableArray arrayWithObjects:caeNo, phone, nil];
 
-    ServicePositionDetialCellItem *detials = [[ServicePositionDetialCellItem alloc]initWithTitle:@"详情介绍" detialText:@""];
-    ServicePositionDetialCellItem *detialsText = [[ServicePositionDetialCellItem alloc]initWithTitle:@"暂无介绍" detialText:@""];
-    NSMutableArray *arry3 = [NSMutableArray arrayWithObjects:detials, detialsText, nil];
-
-    _detialeInfoArray = [NSMutableArray arrayWithObjects:arry, arry1, arry2, arry3, nil];
+    _detialeInfoArray = [NSMutableArray arrayWithObjects:arry, arry1, arry2, nil];
 }
 
 - (void)initSubViews
@@ -101,15 +117,30 @@
     _orderBtn.clickBlock = ^(){
         [wself orderBtnClicked];
     };
+
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+
+    _mapView = [[BMKMapView alloc]init];
+    _mapView.zoomLevel = 14;
+    _mapView.compassPosition = CGPointMake([UIScreen mainScreen].bounds.size.width - 50, 10);
+
+    [self.view addSubview:_mapView];
+    [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(170);
+        make.bottom.equalTo(_orderBtn.mas_top).offset(-10);
+    }];
+
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(64);
         make.left.right.equalTo(self.view);
-        make.bottom.equalTo(_orderBtn.mas_top).offset(-10);
+        make.bottom.equalTo(_mapView.mas_top);
     }];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
+    // 设置显示服务点信息
+    [self addServiersPositionAnno];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -128,6 +159,9 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (section == _detialeInfoArray.count - 1) {
+        return 10;
+    }
     return 0.1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -155,27 +189,47 @@
         return cell;
     }
     else{
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-            cell.textLabel.numberOfLines = 0;
-            cell.detailTextLabel.numberOfLines = 0;
-            cell.detailTextLabel.textColor = [UIColor blackColor];
-            cell.textLabel.font = [UIFont fontWithType:0 size:15];
-            cell.detailTextLabel.font = [UIFont fontWithType:0 size:15];
+        if (((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).flag == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+            if (!cell) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"cell"];
+                cell.textLabel.numberOfLines = 0;
+                cell.detailTextLabel.numberOfLines = 0;
+                cell.textLabel.textAlignment = NSTextAlignmentLeft;
+                cell.detailTextLabel.textColor = [UIColor blackColor];
+                cell.textLabel.textColor = [UIColor grayColor];
+                cell.textLabel.font = [UIFont fontWithType:0 size:15];
+                cell.detailTextLabel.font = [UIFont fontWithType:0 size:15];
+            }
+            cell.textLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).titleText;
+            cell.detailTextLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).detialText;
+            
+            return cell;
         }
-        cell.textLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).titleText;
-        cell.detailTextLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).detialText;
-
-        if (indexPath.row == 0) {
-            cell.textLabel.textColor = [UIColor blackColor];
+        else{ //因为电话号码一排不能显示完全，所以使用flag
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
+            if (!cell) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+                cell.textLabel.textColor = [UIColor grayColor];
+                cell.textLabel.font = [UIFont fontWithType:0 size:15];
+            }
+            cell.textLabel.text = ((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).titleText;
+            return cell;
         }
-        else{
-            cell.textLabel.textColor = [UIColor grayColor];
-        }
-        return cell;
     }
 }
+
+- (void)addServiersPositionAnno
+{
+    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(_servicePositionItem.positionLa, _servicePositionItem.positionLo);
+    [_mapView setCenterCoordinate:coor animated:YES];
+
+    BMKPointAnnotation *anno = [[BMKPointAnnotation alloc]init];
+    anno.coordinate = coor;
+    anno.title = _servicePositionItem.address;
+    [_mapView addAnnotation:anno];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

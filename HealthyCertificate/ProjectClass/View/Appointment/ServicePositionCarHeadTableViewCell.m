@@ -122,14 +122,14 @@
     [_carNo mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(carHeight);
     }];
-
-    if (serviceInfo.type == 1) {
-        [_address setText:serviceInfo.address textFont:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)] WithEndText:@"临" endTextColor:[UIColor redColor]];
-    }
-    else {
-        _address.text = serviceInfo.address;
-    }
-
+//
+//    if (serviceInfo.type == 1) {
+//        [_address setText:serviceInfo.address textFont:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)] WithEndText:@"临" endTextColor:[UIColor redColor]];
+//    }
+//    else {
+//        _address.text = serviceInfo.address;
+//    }
+    _address.text = serviceInfo.address;
     int addrHeight = [self Textheight:_address.text fontSize:FIT_FONTSIZE(23)];
     [_address mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(addrHeight);

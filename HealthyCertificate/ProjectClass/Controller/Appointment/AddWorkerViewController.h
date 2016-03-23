@@ -17,10 +17,11 @@ typedef void(^AddWorkerComfirmClicked)(NSArray *workerArray);
  */
 @interface AddWorkerViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, assign) NSString *cUnitCode;      // 合同号
 
 @property (nonatomic, strong) NSMutableArray *selectedWorkerArray;  // 已经选择过的员工
 
-@property (nonatomic, copy) NSArray     *needcanlceWorkersArray;  // 需要过滤掉的员工
+//@property (nonatomic, copy) NSArray     *needcanlceWorkersArray;  // 需要过滤掉的员工
 
 
 @property (nonatomic, strong) AddWorkerComfirmClicked block;
