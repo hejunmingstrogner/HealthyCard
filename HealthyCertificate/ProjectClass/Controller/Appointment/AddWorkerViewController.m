@@ -209,16 +209,16 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if(_workerArray.count == 0 && _needcanlceWorkersArray.count == 0)
-    {
-        return 0;
-    }
-    if ((_workerArray.count == 0 && _needcanlceWorkersArray.count != 0) || (_workerArray.count != 0 && _needcanlceWorkersArray.count == 0)) {
-        return 1;
-    }
-    if (_workerArray.count != 0 && _needcanlceWorkersArray.count != 0) {
-        return 2;
-    }
+//    if(_workerArray.count == 0 && _needcanlceWorkersArray.count == 0)
+//    {
+//        return 0;
+//    }
+//    if ((_workerArray.count == 0 && _needcanlceWorkersArray.count != 0) || (_workerArray.count != 0 && _needcanlceWorkersArray.count == 0)) {
+//        return 1;
+//    }
+//    if (_workerArray.count != 0 && _needcanlceWorkersArray.count != 0) {
+//        return 2;
+//    }
     return 0;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -272,27 +272,27 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if ((_needcanlceWorkersArray.count != 0 && section == 1) || _workerArray.count == 0) {
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 300, 30)];
-        label.text = @"以上已经预约过的员工不能被取消";
-        label.textColor = [UIColor grayColor];
-        label.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-        [view addSubview:label];
-        return view;
-    }
+//    if ((_needcanlceWorkersArray.count != 0 && section == 1) || _workerArray.count == 0) {
+//        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
+//        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 300, 30)];
+//        label.text = @"以上已经预约过的员工不能被取消";
+//        label.textColor = [UIColor grayColor];
+//        label.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+//        [view addSubview:label];
+//        return view;
+//    }
     return nil;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ((_needcanlceWorkersArray.count != 0 && indexPath.section == 1) || _workerArray.count == 0) {
-        AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-        if (!cell) {
-            cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-        }
-        [cell setSelectedCellItem:(AddWorkerCellItem *)_needCanleWorkerDateArray[indexPath.row]];
-        return cell;
-    }
+//    if ((_needcanlceWorkersArray.count != 0 && indexPath.section == 1) || _workerArray.count == 0) {
+//        AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+//        if (!cell) {
+//            cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+//        }
+//        [cell setSelectedCellItem:(AddWorkerCellItem *)_needCanleWorkerDateArray[indexPath.row]];
+//        return cell;
+//    }
 
     AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
@@ -305,9 +305,9 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ((_needcanlceWorkersArray.count != 0 && indexPath.section == 1 ) || _workerArray.count == 0) {
-        return;
-    }
+//    if ((_needcanlceWorkersArray.count != 0 && indexPath.section == 1 ) || _workerArray.count == 0) {
+//        return;
+//    }
     AddWorkerTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell changeSelectStatus:(AddWorkerCellItem *)_workerArray[indexPath.row]];
 
@@ -317,6 +317,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
             [_selectWorkerArray addObject:_workerData[i]];
         }
     }
-    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count + _needcanlceWorkersArray.count endColor:[UIColor blueColor]];
+   // [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count + _needcanlceWorkersArray.count endColor:[UIColor blueColor]];
 }
 @end

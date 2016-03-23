@@ -480,9 +480,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
-    self.title = @"我的合同";
+    self.title = @"单位合同";
     
-    UIButton* editBtn = [UIButton buttonWithTitle:@"修改"
+    UIButton* editBtn = [UIButton buttonWithTitle:@"保存"
                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
                                   backgroundColor:[UIColor clearColor]];
@@ -865,6 +865,10 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 [_exminationCountField becomeFirstResponder];
             }else{
                 AddWorkerViewController* addworkerViewController = [[AddWorkerViewController alloc] init];
+                if (_brContract)
+                    addworkerViewController.cUnitCode = _brContract.unitCode;
+                else
+                    addworkerViewController.cUnitCode = gCompanyInfo.cUnitCode;
                 addworkerViewController.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];
                 __weak CloudAppointmentCompanyViewController * weakSelf = self;
                 [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {
