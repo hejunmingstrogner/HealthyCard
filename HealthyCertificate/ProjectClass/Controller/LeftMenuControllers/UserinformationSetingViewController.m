@@ -10,9 +10,12 @@
 #import <Masonry.h>
 #import <MJExtension.h>
 
+#import "Constants.h"
+
 #import "UIColor+Expanded.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "UIFont+Custom.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -84,8 +87,13 @@
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
-    UIBarButtonItem *rightBtn = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(doneToChangeOperation)];
-    self.navigationItem.rightBarButtonItem = rightBtn;
+    UIButton* completeBtn = [UIButton buttonWithTitle:@"完成"
+                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
+                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
+                                   backgroundColor:[UIColor clearColor]];
+    [completeBtn addTarget:self action:@selector(doneToChangeOperation) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:completeBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 // 返回前一页
 - (void)backToPre:(id)sender

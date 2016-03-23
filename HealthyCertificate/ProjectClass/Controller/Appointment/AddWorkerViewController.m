@@ -18,6 +18,9 @@
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
+
+#import "WZFlashButton.h"
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface AddWorkerViewController()
@@ -32,7 +35,7 @@
 
     UITableView    *_tableView;
 
-    UIButton       *_comfirmBtn; // 确定
+    WZFlashButton       *_comfirmBtn; // 确定
 }
 @end
 
@@ -143,7 +146,11 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 - (void)initSubViews
 {
     self.view.backgroundColor = [UIColor whiteColor];
-    _comfirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    _comfirmBtn = [[WZFlashButton alloc] init];
+    _comfirmBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
+    _comfirmBtn.flashColor =[UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
+    [_comfirmBtn setText:@"确   定" withTextColor:[UIColor whiteColor]];
     [self.view addSubview:_comfirmBtn];
     [_comfirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(10);
@@ -153,11 +160,10 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     }];
     _comfirmBtn.layer.masksToBounds = YES;
     _comfirmBtn.layer.cornerRadius = 5;
-    [_comfirmBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
-    [_comfirmBtn setTitle:@"确   定" forState:UIControlStateNormal];
-    [_comfirmBtn setTitleColor:[UIColor colorWithWhite:0.99 alpha:1] forState:UIControlStateNormal];
-    [_comfirmBtn addTarget:self action:@selector(comfirmBtnCliked:) forControlEvents:UIControlEventTouchUpInside];
-
+    __weak typeof (self) wself = self;
+    _comfirmBtn.clickBlock = ^(){
+        [wself comfirmBtnCliked];
+    };
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -179,7 +185,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     fenge.layer.borderWidth = 1;
 }
 
-- (void)comfirmBtnCliked:(UIButton *)sender
+- (void)comfirmBtnCliked
 {
     if (_block) {
         _block(_selectWorkerArray);
