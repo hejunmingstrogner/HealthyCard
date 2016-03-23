@@ -34,12 +34,12 @@
     {
         UILabel* titleLabel = [[UILabel alloc] init];
         titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
-        titleLabel.text = @"单位员工";
+        titleLabel.text = @"体检员工";
         [self addSubview:titleLabel];
         
         _countLabel = [[UILabel alloc] init];
         _countLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
-        _countLabel.text = [NSString stringWithFormat:@"已添加%ld", _staffCount];
+        _countLabel.text = [NSString stringWithFormat:@"已选%ld", _staffCount];
         [self addSubview:_countLabel];
         
         UIImageView* arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow"]];
@@ -73,7 +73,7 @@
 -(void)setStaffCount:(NSInteger)staffCount{
     _staffCount = staffCount;
 
-    [_countLabel setText:@"已添加"
+    [_countLabel setText:@"已选"
                     Font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]
                    count:_staffCount
                 endColor:MO_RGBCOLOR(0, 168, 234)];

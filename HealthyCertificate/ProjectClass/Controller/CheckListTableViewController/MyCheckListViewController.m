@@ -311,15 +311,14 @@
         [self.navigationController pushViewController:personalHealthyC animated:YES];
     }
     else if (_userType == 2){ // 单位预约点击
-        CompanyAppointmentListViewController* companyAppointmentListViewController = [[CompanyAppointmentListViewController alloc] init];
-        companyAppointmentListViewController.brContract = _checkDataArray[indexPath.section];
-        //companyAppointmentListViewController.indexPath = indexPath;
-        [companyAppointmentListViewController changedInformationWithResultBlock:^(BOOL ischanged, NSIndexPath *indexpath) {
+        CloudAppointmentCompanyViewController* companyViewController = [[CloudAppointmentCompanyViewController alloc] init];
+        companyViewController.brContract = _checkDataArray[indexPath.section];
+        [companyViewController changedInformationWithResultBlock:^(BOOL ischanged, NSIndexPath *indexpath) {
             if (ischanged) {
                 [self refreshNewDataWithIndexPathSection:indexPath.section];
             }
         }];
-        [self.navigationController pushViewController:companyAppointmentListViewController animated:YES];
+        [self.navigationController pushViewController:companyViewController animated:YES];
     }
 }
 

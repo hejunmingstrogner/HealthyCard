@@ -120,7 +120,7 @@
     self.navigationItem.leftBarButtonItem = backitem;
     
     
-    NSArray* segArr = [[NSArray alloc] initWithObjects:@"云预约", @"服务点", nil];
+    NSArray* segArr = [[NSArray alloc] initWithObjects:@"快速预约", @"服务点预约", nil];
     UISegmentedControl* segment = [[UISegmentedControl alloc] initWithItems:segArr];
     segment.frame = CGRectMake(0, 0, SCREEN_WIDTH/2, 30);
     segment.selectedSegmentIndex = 0;//默认索引
