@@ -19,7 +19,7 @@
 @implementation AppointmentInfoView
 
 -(id)initWithFrame:(CGRect)frame{
-    CGFloat heigh = [self viewHeight];
+    CGFloat heigh = [self viewHeight] + 10;
     if (self = [super initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, heigh)]){
         
         self.backgroundColor = [UIColor whiteColor];
@@ -56,7 +56,7 @@
             make.left.mas_equalTo(self).with.offset(PXFIT_WIDTH(10));
             make.right.mas_equalTo(self).with.offset(-PXFIT_WIDTH(10));
             make.top.mas_equalTo(firstItemLabel.mas_bottom).with.offset(PXFIT_HEIGHT(10));
-            make.bottom.mas_equalTo(self);
+            make.bottom.mas_equalTo(self).offset(-10);
         }];
     }
     return self;

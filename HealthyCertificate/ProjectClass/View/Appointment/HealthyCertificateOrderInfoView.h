@@ -29,6 +29,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame WithTitles:(NSArray *)titleArray;
 
+- (instancetype)init;
 
 - (void)setCutomerTest:(CustomerTest *)cutomerTest;
 

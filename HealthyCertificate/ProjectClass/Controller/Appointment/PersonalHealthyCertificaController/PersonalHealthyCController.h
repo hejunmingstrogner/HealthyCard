@@ -25,10 +25,6 @@
 
 @property (nonatomic, strong) CustomerTest                   *customerTestInfo;
 
-@property (nonatomic, strong) UIButton                       *leftBtn;          // 左侧按钮
-@property (nonatomic, strong) UIButton                       *centerBtn;   // 中间按钮
-@property (nonatomic, strong) UIButton                       *rightBtn;      // 右侧按钮
-
 
 @property (nonatomic, strong) NSString *city;
 @property (nonatomic, strong) NSString *address;
