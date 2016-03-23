@@ -60,15 +60,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    static int flag = 1;
-//    if (flag == 1) {
-//        flag ++;
-//        return;
-//    }
-//    if ([self isRefreshing]) {
-//        return;
-//    }
-//    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
 }
 
 - (void)initNavgation

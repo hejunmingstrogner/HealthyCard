@@ -67,7 +67,7 @@
 
     _addressBtn = [[CustomButton alloc]init];
     [self addSubview:_addressBtn];
-    [_addressBtn setImage:[UIImage imageNamed:@"sousuo"] forState:UIControlStateNormal];
+    [_addressBtn setImage:[UIImage imageNamed:@"dizhis"] forState:UIControlStateNormal];
 
     [_addressBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_addressBtn setBackgroundColor:[UIColor whiteColor]];

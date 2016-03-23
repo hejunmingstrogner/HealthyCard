@@ -381,7 +381,7 @@ BOOL   _isLocationInfoHasBeenSent;
                 [self closeLeftView];
             }
         }
-        else if(moveStatus == NO)
+        else
         {
             if (leftMenuView.center.x > leftMenuView.frame.size.width/2 - leftMenuView.frame.size.width/5) {
                 // 显示界面

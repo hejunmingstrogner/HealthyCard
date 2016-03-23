@@ -15,9 +15,9 @@
 
 @interface BRContractHistoryTBHeaderCell()
 
-@property (nonatomic, strong) UILabel *unitNamelabel;
-@property (nonatomic, strong) UILabel *timeLabel;
-@property (nonatomic, strong) UILabel *addressLabel;
+@property (nonatomic, strong) UILabel *unitNamelabel;   // 单位名称
+@property (nonatomic, strong) UILabel *timeLabel;       // 时间
+@property (nonatomic, strong) UILabel *addressLabel;    // 地址
 
 @end
 
@@ -38,7 +38,7 @@
     [_unitNamelabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView).offset(10);
-        make.right.equalTo(self.contentView).offset(-[UIScreen mainScreen].bounds.size.width*2/3);
+        make.right.equalTo(self.contentView).offset(-[UIScreen mainScreen].bounds.size.width*2/5);
         make.bottom.equalTo(self.contentView.mas_centerY);
     }];
     _unitNamelabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
@@ -76,6 +76,7 @@
         _timeLabel.text = @"";
         return;
     }
-    _timeLabel.text = [NSString stringWithFormat:@"%@~%@", [NSDate getHour_MinuteByDate:brContract.regBeginDate/1000], [NSDate getHour_MinuteByDate:brContract.regEndDate/1000]];
+//    _timeLabel.text = [NSString stringWithFormat:@"%@~%@", [NSDate getHour_MinuteByDate:brContract.regBeginDate/1000], [NSDate getHour_MinuteByDate:brContract.regEndDate/1000]];
+    _timeLabel.text = [NSDate getYear_Month_DayByDate:brContract.regBeginDate/1000];
 }
 @end
