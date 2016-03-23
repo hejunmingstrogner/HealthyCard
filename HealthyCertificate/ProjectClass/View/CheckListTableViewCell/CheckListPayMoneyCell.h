@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CheckListPayMoneyCell : UITableViewCell
-
-@property (nonatomic, strong) UIButton *payMoneyBtn;
+@property (nonatomic, strong) UIButton *cancelAppointBtn;   //  取消预约按钮
+@property (nonatomic, strong) UIButton *payMoneyBtn;        // 在线支付按钮
 @property (nonatomic, assign) float    payMoney;
 
 @end

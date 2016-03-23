@@ -73,7 +73,8 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     _seletingCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, 44)];
     _seletingCountLabel.textAlignment = NSTextAlignmentRight;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:_seletingCountLabel];
-    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:(_selectWorkerArray.count + _needcanlceWorkersArray.count) endColor:[UIColor blueColor]];
+//    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:(_selectWorkerArray.count + _needcanlceWorkersArray.count) endColor:[UIColor blueColor]];
+    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:(_selectWorkerArray.count + _selectedWorkerArray.count) endColor:[UIColor blueColor]];
 }
 // 返回前一页
 - (void)backToPre:(id)sender
@@ -98,28 +99,30 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         [array addObject:custom.custCode];
     }
 
-    [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
+    [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:_cUnitCode == nil? gCompanyInfo.cUnitCode : _cUnitCode resultBlock:^(NSArray *result, NSError *error) {
         if(result.count == 0)
         {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有员工数据..." removeDelay:3];
         }
         if (!error) {
+            // 对员工进行排序
+
             _workerData = [NSMutableArray arrayWithArray:result];
-            // 过滤掉已经选择过的员工
-            if (_needcanlceWorkersArray.count != 0) {
-                _needCanleWorkerDateArray = [[NSMutableArray alloc]init];
-                for (int i = 0; i< _needcanlceWorkersArray.count; i++) {
-                    Customer *customer = _needcanlceWorkersArray[i];
-                    AddWorkerCellItem *cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:1];
-                    [_needCanleWorkerDateArray addObject:cellItem];
-                    for (int j = 0; j < _workerData.count; j++) {
-                        if ([((Customer *)_workerData[j]).custCode isEqualToString:((Customer *)_needcanlceWorkersArray[i]).custCode]) {
-                            [_workerData removeObjectAtIndex:j];
-                            break;
-                        }
-                    }
-                }
-            }
+//            // 过滤掉已经选择过的员工
+//            if (_needcanlceWorkersArray.count != 0) {
+//                _needCanleWorkerDateArray = [[NSMutableArray alloc]init];
+//                for (int i = 0; i< _needcanlceWorkersArray.count; i++) {
+//                    Customer *customer = _needcanlceWorkersArray[i];
+//                    AddWorkerCellItem *cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:1];
+//                    [_needCanleWorkerDateArray addObject:cellItem];
+//                    for (int j = 0; j < _workerData.count; j++) {
+//                        if ([((Customer *)_workerData[j]).custCode isEqualToString:((Customer *)_needcanlceWorkersArray[i]).custCode]) {
+//                            [_workerData removeObjectAtIndex:j];
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
             [_workerArray removeAllObjects];
             for (Customer *customer in _workerData) {
                 AddWorkerCellItem *cellItem;
@@ -139,7 +142,17 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         [_waitAlertView close];
     }];
 }
+- (NSArray *)sortWorkList:(NSArray *)works
+{
+    NSMutableArray *worksArray = [NSMutableArray arrayWithArray:works];
+//    [worksArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+//        Customer *customer1 = (Customer *)obj1;
+//        Customer *customer2 = (Customer *)obj2;
+//        return customer1
+//    }];
 
+    return [NSArray arrayWithArray:worksArray];
+}
 - (void)initSubViews
 {
     self.view.backgroundColor = [UIColor whiteColor];
@@ -246,17 +259,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     cell.phoneLabel.text = @"电话";
     cell.endDateLabel.text = @"到期时间";
     cell.selectImageView.hidden = YES;
-    UILabel *label = [[UILabel alloc]init];
-    label.text = @"选择";
-    label.font = [UIFont systemFontOfSize:14];
-    [cell.contentView addSubview:label];
-    label.textAlignment = NSTextAlignmentCenter;
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(cell.selectImageView);
-        make.left.equalTo(cell.selectImageView).offset(-10);
-        make.right.equalTo(cell.selectImageView).offset(10);
-        make.top.bottom.equalTo(cell.contentView);
-    }];
     cell.backgroundColor = [UIColor whiteColor];
     [uiview addSubview:cell];
     return uiview;

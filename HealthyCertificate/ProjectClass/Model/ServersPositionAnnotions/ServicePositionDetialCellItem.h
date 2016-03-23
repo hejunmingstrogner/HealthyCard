@@ -12,7 +12,9 @@
 
 @property (nonatomic, strong) NSString *titleText;
 @property (nonatomic, strong) NSString *detialText;
+@property (nonatomic, assign) NSInteger flag;
 
 - (instancetype)initWithTitle:(NSString *)title detialText:(NSString *)detial;
 
+- (instancetype)initWithTitle:(NSString *)title detialText:(NSString *)detial flag:(NSInteger)flag;
 @end
