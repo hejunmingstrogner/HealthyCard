@@ -47,7 +47,7 @@
     self.layer.cornerRadius = 10;
     self.layer.borderColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.3].CGColor;
     self.layer.borderWidth = 0.5;
-    _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"预约信息", @"服务点信息"]];
+    _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"预约信息", @"体检服务点"]];
     [self addSubview:_segmentControl];
     [_segmentControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
