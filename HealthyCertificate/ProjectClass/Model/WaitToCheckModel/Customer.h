@@ -96,6 +96,6 @@
 /**
  * 上一次体检时间。
  */
-@property (nonatomic, strong) NSString * lastCheckTime;
+@property (nonatomic, assign) long long lastCheckTime;
 
 @end
