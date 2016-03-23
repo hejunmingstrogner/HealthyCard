@@ -272,9 +272,11 @@
 
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
 {
-//    UIAlertView *a=[[UIAlertView alloc]initWithTitle:@"提示" message:error.domain delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
-//    [a show];
-//    NSLog(@"%@", error.domain);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [waitAlertView close];
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"身份信息解析失败，请重试" removeDelay:3];
+    });
+    NSLog(@"身份证解析失败：%@", error.domain);
 }
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
 {
@@ -306,7 +308,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    
 }
 
 - (UIImage *)reSizeImage:(UIImage *)image toSize:(CGSize)reSize

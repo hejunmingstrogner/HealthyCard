@@ -19,14 +19,17 @@
 #import "BRContractHistoryTBHeaderCell.h"
 #import "BRContractHistoryTBFootCell.h"
 #import "PersonalHealthyCHistoryVC.h"
-
-
+#import "UIFont+Custom.h"
+#import "UIColor+Expanded.h"
+#import "BaseTBCellItem.h"
+#import "BRContractTableFootCell.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface HistoryInformationVController ()<UITableViewDataSource, UITableViewDelegate,HMNetworkEngineDelegate>
 {
     RzAlertView *waitAlertView;
+    NSMutableArray *_companyDataArray;
 }
 
 
@@ -75,6 +78,7 @@
             if (!error) {
                 if (result.count != 0) {
                     _historyArray = [[NSMutableArray alloc]initWithArray:result];
+                    [self initCompanyDataArray];
                     [_tableView reloadData];
                 }
                 else {
@@ -87,6 +91,56 @@
         }];
     }
 }
+
+- (void)initCompanyDataArray
+{
+    _companyDataArray = [[NSMutableArray alloc]init];
+    for (BRContract *brContract in _historyArray) {
+        BaseTBCellItem *cellitem0 = [[BaseTBCellItem alloc]initWithTitle:@"单位名称" detial:brContract.unitName cellStyle:0];
+        BaseTBCellItem *cellitem1;
+        BaseTBCellItem *cellitem2;
+
+        //错误条件 checksideid 不为空 但 servicepoint为空
+        BOOL conditionFirst = (brContract.checkSiteID != nil && ![brContract.checkSiteID isEqualToString:@""]) && (brContract.servicePoint == nil);
+        if (conditionFirst)
+        {
+            //数据异常
+            cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:@"获取失败" cellStyle:0];
+            cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:@"获取失败" cellStyle:0];
+
+        }
+        else
+        {
+            cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:brContract.regPosAddr cellStyle:0];
+            NSString *timestatus;
+
+            if (brContract.servicePoint != nil) {
+                if (!brContract.servicePoint.startTime || !brContract.servicePoint.endTime) {
+                    timestatus = @"获取时间出错";
+                }
+                else {
+                    NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime/1000];
+                    NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime/1000];
+                    NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime/1000];
+                    timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                }
+            }
+            else {
+                NSString *year = [NSDate getYear_Month_DayByDate:brContract.regBeginDate/1000];
+                NSString *end = [NSDate getYear_Month_DayByDate:brContract.regEndDate/1000];
+                timestatus = [NSString stringWithFormat:@"%@~%@", year,end];
+            }
+            cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:timestatus cellStyle:0];
+
+        }
+
+
+
+        NSArray *array = @[cellitem0, cellitem1, cellitem2];
+        [_companyDataArray addObject:array];
+    }
+}
+
 
 - (void)initNavgation
 {
@@ -114,6 +168,7 @@
 
     _tableView.dataSource = self;
     _tableView.delegate = self;
+    _tableView.separatorStyle = NO;
 }
 
 
@@ -127,7 +182,7 @@
 {
     if(_userType == 2)
     {
-        return 2;
+        return 4;
     }
     return 1;
 }
@@ -146,13 +201,7 @@
         return 110;
     }
     else {
-        if (indexPath.row == 0) {
-            return 80;
-        }
-        else
-        {
-            return 40;
-        }
+        return 35;
     }
 }
 
@@ -172,22 +221,45 @@
     }
     // 单位
     else{
-        if (indexPath.row == 0) {
-            BRContractHistoryTBHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellheader"];
+//        if (indexPath.row == 0) {
+//            BRContractHistoryTBHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellheader"];
+//            if (!cell) {
+//                cell = [[BRContractHistoryTBHeaderCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cellheader"];
+//                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            }
+//            [cell setBrContract:(BRContract *)_historyArray[indexPath.section]];
+//            return cell;
+//        }
+//        else {
+//            BRContractHistoryTBFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
+//            if (!cell ) {
+//                cell = [[BRContractHistoryTBFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
+//                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            }
+//            [cell setBrContract:(BRContract *)_historyArray[indexPath.section]];
+//            return cell;
+//        }
+        if (indexPath.row != 3) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"brcell"];
             if (!cell) {
-                cell = [[BRContractHistoryTBHeaderCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellheader"];
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"brcell"];
+                cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+                cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
+                cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
-            [cell setBrContract:(BRContract *)_historyArray[indexPath.section]];
+            cell.textLabel.text = ((BaseTBCellItem *)_companyDataArray[indexPath.section][indexPath.row]).titleText;
+            cell.detailTextLabel.text = ((BaseTBCellItem *)_companyDataArray[indexPath.section][indexPath.row]).detialText;
             return cell;
         }
         else {
-            BRContractHistoryTBFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
+            BRContractTableFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
             if (!cell ) {
-                cell = [[BRContractHistoryTBFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
+                cell = [[BRContractTableFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
+                cell.orderedLabel.hidden = YES;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
-            [cell setBrContract:(BRContract *)_historyArray[indexPath.section]];
+            [cell setCellItem:(BRContract *)_historyArray[indexPath.section]];
             return cell;
         }
     }
