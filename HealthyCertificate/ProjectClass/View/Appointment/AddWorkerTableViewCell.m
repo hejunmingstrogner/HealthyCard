@@ -71,11 +71,11 @@
     else {
         _phoneLabel.text = cellItem.phone;
     }
-    if (cellItem.endDate.length == 0) {
+    if (cellItem.endDate == 0) {
         _endDateLabel.text = @"无体检记录";
     }
     else {
-        _endDateLabel.text = [NSDate getYear_Month_DayByDate:[cellItem.endDate longLongValue]];
+        _endDateLabel.text = [NSDate getYear_Month_DayByDate:cellItem.endDate / 1000];
     }
 
     if (cellItem.isSelectFlag == 0) {
@@ -95,11 +95,11 @@
     else {
         _phoneLabel.text = cellitem.phone;
     }
-    if (cellitem.endDate.length == 0) {
+    if (cellitem.endDate == 0) {
         _endDateLabel.text = @"无体检记录";
     }
     else {
-        _endDateLabel.text = [NSDate getYear_Month_DayByDate:[cellitem.endDate longLongValue]];
+        _endDateLabel.text = [NSDate getYear_Month_DayByDate:cellitem.endDate / 1000];
     }
 
     _selectImageView.image = [UIImage imageNamed:@"tuoyuanhui"];
