@@ -472,7 +472,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
             }
             
             AddWorkerViewController* addWorkerVC = [[AddWorkerViewController alloc] init];
-            addWorkerVC.needcanlceWorkersArray = self.originArr;
             addWorkerVC.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;
             __typeof (self) __weak weakSelf = self;
             [addWorkerVC getWorkerArrayWithBlock:^(NSArray *workerArray) {
