@@ -120,21 +120,25 @@
 
 -(void)shareBtnClicked:(UIButton*)sender
 {
-    [UMSocialData defaultData].extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
     [UMSocialData defaultData].extConfig.qqData.shareImage = _qrImageView.image;
-  //  [UMSocialData defaultData].extConfig.qqData.title = @"qq消息";
+    [UMSocialData defaultData].extConfig.qqData.url = self.qrContent;
+    [UMSocialData defaultData].extConfig.qqData.title = @"知康科技";
     
     [UMSocialData defaultData].extConfig.qzoneData.shareImage = _qrImageView.image;
+    [UMSocialData defaultData].extConfig.qzoneData.url = self.qrContent;
+    [UMSocialData defaultData].extConfig.qzoneData.title = @"知康科技";
     
-    [UMSocialData defaultData].extConfig.wechatSessionData.wxMessageType = UMSocialWXMessageTypeImage;
     [UMSocialData defaultData].extConfig.wechatSessionData.shareImage = _qrImageView.image;
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = self.qrContent;
+    [UMSocialData defaultData].extConfig.wechatSessionData.title = @"知康科技";
     
-    [UMSocialData defaultData].extConfig.wechatTimelineData.wxMessageType = UMSocialWXMessageTypeImage;
     [UMSocialData defaultData].extConfig.wechatTimelineData.shareImage = _qrImageView.image;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = self.qrContent;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.title = self.infoStr;
 
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:@"56e22bbd67e58e71f9000e8b"
-                                      shareText:@"知康科技"
+                                      shareText:self.infoStr
                                      shareImage:nil
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline,nil]
                                        delegate:self];
@@ -156,6 +160,8 @@
     }
 }
 
+-(void)didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData
+{}
 
 
 @end

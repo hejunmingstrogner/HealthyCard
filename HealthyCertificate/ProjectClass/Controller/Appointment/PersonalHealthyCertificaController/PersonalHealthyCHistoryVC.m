@@ -63,6 +63,7 @@
 -(void)shareBtnClicked:(UIButton*)sender
 {
     QRController* qrController = [[QRController alloc] init];
+    qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/person_checkreport.jsp?checkCode=%@", _customerTestInfo.checkCode];
     qrController.infoStr = @"健康证防伪信息查看，有您的体检数据详情。分享请慎重！";
     [self.navigationController pushViewController:qrController animated:YES];
 }

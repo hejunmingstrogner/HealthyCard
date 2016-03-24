@@ -10,4 +10,11 @@
 
 @interface ConsumerAgreement : UIViewController
 
+typedef NS_ENUM (NSInteger, ConsumerPopStyle){
+    ConsumerPopStyle_Pop,
+    ConsumerPopStyle_DisMiss
+};
+
+@property (nonatomic, assign) ConsumerPopStyle consumerPopStyle;
+
 @end

@@ -473,8 +473,8 @@ BOOL   _isLocationInfoHasBeenSent;
         {
             [RzAlertView showAlertViewControllerWithController:self title:@"提示" message:@"您确定要退出当前账号吗？" confirmTitle:@"确定" cancleTitle:@"点错了" handle:^(NSInteger flag) {
                 if (flag == 1) {
-                    SetUuid(@"");
                     SetPhoneNumber(@"");
+                    SetLoginSucceedInfo(@"");
                     RemoveUserType;
                     LoginController* loginViewController = [[LoginController alloc] init];
                     [self presentViewController:loginViewController animated:NO completion:nil] ;
@@ -745,6 +745,7 @@ BOOL   _isLocationInfoHasBeenSent;
     MyPointeAnnotation *anno = view.annotation;
     if (nearbyServicePositionsArray.count != 0) {
         // 回调 0 取消，1预约，2显示基本信息，3拨打电话
+        __weak typeof(self) wself = self;
         [RzAlertView showActionSheetWithTarget:self.view servicePosition:nearbyServicePositionsArray[anno.tag] handle:^(NSInteger flag) {
             if (flag == 1)
             {
@@ -753,7 +754,7 @@ BOOL   _isLocationInfoHasBeenSent;
                     cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[anno.tag];
                     cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
                     cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
-                    [self.navigationController pushViewController:cloudAppoint animated:YES];
+                    [wself.navigationController pushViewController:cloudAppoint animated:YES];
                 }
                 else if (GetUserType == 2)
                 {
@@ -763,7 +764,7 @@ BOOL   _isLocationInfoHasBeenSent;
                     cloudAppointCompany.cityName = currentCityName;
                     cloudAppointCompany.isCustomerServerPoint = NO;
                     cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[anno.tag]).name;
-                    [self.navigationController pushViewController:cloudAppointCompany animated:YES];
+                    [wself.navigationController pushViewController:cloudAppointCompany animated:YES];
                 }
             }
             else if(flag == 2){
@@ -772,17 +773,19 @@ BOOL   _isLocationInfoHasBeenSent;
                     TemperaryServicePDeViewController *serviceDetailcon = [[TemperaryServicePDeViewController alloc]init];
                     serviceDetailcon.servicePositionItem = nearbyServicePositionsArray[anno.tag];
                     serviceDetailcon.appointCoordinate = _mapView.centerCoordinate;
-                    [self.navigationController pushViewController:serviceDetailcon animated:YES];
+                    [wself.navigationController pushViewController:serviceDetailcon animated:YES];
                 }
                 else { // 固定服务点
                     ServicePointDetailViewController *servicedetial = [[ServicePointDetailViewController alloc]init];
                     servicedetial.serverPositionItem = nearbyServicePositionsArray[anno.tag];
                     servicedetial.appointCoordinate = _mapView.centerCoordinate;
-                    [self.navigationController pushViewController:servicedetial animated:YES];
+                    [wself.navigationController pushViewController:servicedetial animated:YES];
                 }
             }
             else if(flag == 3){
-                NSLog(@"拨打电话");
+                ServersPositionAnnotionsModel* serverPositionInfo = nearbyServicePositionsArray[anno.tag];
+                NSString* urlNumberStr = [NSString stringWithFormat:@"tel://%@", serverPositionInfo.leaderPhone];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlNumberStr]];
             }
         }];
     }

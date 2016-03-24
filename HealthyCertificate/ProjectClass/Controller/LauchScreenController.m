@@ -88,37 +88,8 @@
         [HMNetworkEngine getInstance].serverID = info.serverID;
         //这里才代表连接上了中心控制服务器
         dispatch_async(dispatch_get_main_queue(), ^{
-
-            if ( GetUuid != nil && ![GetUuid isEqualToString:@""]){
-                //如果保存有Uuid 判断是否过期
-                
-                if ([GetLastLoginTime longLongValue] + [GetUuidTimeOut longLongValue] < [[NSDate date] convertToLongLong]){
-                    //uuid过期
-                    [self loadLoginViewController];
-                    return;
-                }else{
-                    [[HttpNetworkManager getInstance] loginWithUuid:GetUuid UuidTimeOut:GetUuidTimeOut resultBlock:^(NSDictionary *result, NSError *error) {
-                        if (error != nil){
-                            //to do
-                            [self loadLoginViewController];
-                            return;
-                        }
-                        
-                        if ([[result objectForKey:@"code"] integerValue] != 0){
-                            //to do uuid登录失败
-                            [self loadLoginViewController];
-                            return;
-                        }
-                      
-                        NSDictionary* dataDic = [result objectForKey:@"data"];
-                        if (dataDic[@"code"] != 0){
-                            //to do
-                        }else{
-                            //暂时先将socket的连接操作放在这里
-                            [[HMNetworkEngine getInstance] askLoginInfo:GetPhoneNumber];
-                        }
-                    }];
-                }
+            if (![GetLoginSucceedInfo isEqualToString:@""] && ![GetPhoneNumber isEqualToString:@""] && [GetLoginSucceedInfo isEqualToString:GetPhoneNumber]){
+                [[HMNetworkEngine getInstance] askLoginInfo:GetPhoneNumber];
             }else{
                 [self loadLoginViewController];
             }

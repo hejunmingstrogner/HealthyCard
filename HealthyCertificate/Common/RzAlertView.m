@@ -15,6 +15,8 @@
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 
+#import "WZFlashButton.h"
+
 
 @implementation CustomButton
 
@@ -431,10 +433,12 @@
         make.centerY.equalTo(servicetimelabel);
         make.left.right.height.width.equalTo(green);
     }];
-
-    CustomButton *orderBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
+    
+    WZFlashButton* orderBtn = [[WZFlashButton alloc] init];
     [actionSheetView addSubview:orderBtn];
-    [orderBtn setTitle:@"预  约" forState:UIControlStateNormal];
+    orderBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Green];
+    orderBtn.flashColor = [UIColor colorWithRGBHex:HC_BASE_Green_Pressed];
+    [orderBtn setText:@"预  约" withTextColor:[UIColor whiteColor]];
     [orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(green);
         make.right.equalTo(bohao);
@@ -444,9 +448,7 @@
     orderBtn.layer.masksToBounds = YES;
     orderBtn.layer.cornerRadius = 5;
     [orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Green]];
-    //[orderBtn setBackgroundColor:[UIColor colorWithRed:50/255.0 green:240/255.0 blue:50/255.0 alpha:1]];
-    [orderBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        // 预约
+    orderBtn.clickBlock = ^(){
         [zhezhao removeFromSuperview];
         [UIView animateWithDuration:0.5 animations:^{
             actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
@@ -457,7 +459,7 @@
         if (block) {
             block(1);
         }
-    }];
+    };
 
     [UIView animateWithDuration:1 animations:^{
         actionSheetView.frame = CGRectMake(0, superView.frame.size.height - actionSheetView.frame.size.height, actionSheetView.frame.size.width, actionSheetView.frame.size.height);

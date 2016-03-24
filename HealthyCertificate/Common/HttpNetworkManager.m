@@ -124,31 +124,21 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
 
 -(void)verifyPhoneNumber:(NSString*)phoneNum resultBlock:(HCDictionaryResultBlock)resultBlock;
 {
-    NSString *url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?phone_num=%@&type=auth_code&debug=ture",phoneNum];//false
-    [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        resultBlock(responseObject,nil);
-    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-        resultBlock(nil,error);
+    NSString* url = [NSString stringWithFormat:@"login/askVerificationCode?linkPhone=%@",phoneNum];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        resultBlock(responseObject, nil);
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        resultBlock(nil, error);
     }];
 }
 
 -(void)vertifyPhoneNumber:(NSString*)phoneNum VertifyCode:(NSString*)code resultBlock:(HCDictionaryResultBlock)resultBlock
 {
-    NSString* url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?phone_num=%@&type=phoneNumValidate&auth_code=%@&gen_uuid=true&uuid_timeout=%lld", phoneNum,code,(long long)7*24*3600*3600];
+    NSString* url = [NSString stringWithFormat:@"login/weChatLogin?linkPhone=%@&verificationCode=%@", phoneNum, code];
     url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         resultBlock(responseObject, nil);
-    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-        resultBlock(nil, error);
-    }];
-}
-
--(void)loginWithUuid:(NSString*)uuid UuidTimeOut:(NSString*)uuidTimeout resultBlock:(HCDictionaryResultBlock)resultBlock{
-    NSString* url = [NSString stringWithFormat:@"http://lt.witaction.com:8080/uuc/servlet/login?type=uuid_validate&uuid_timeout=%@&uuid=%@", uuidTimeout,uuid];
-    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        resultBlock(responseObject, nil);
-    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         resultBlock(nil, error);
     }];
 }

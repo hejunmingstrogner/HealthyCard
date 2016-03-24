@@ -80,9 +80,6 @@
 		254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DBE1C7D401A00F2EC94 /* arrow@1x.png */; };
 		254A8DC21C7D401A00F2EC94 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DBF1C7D401A00F2EC94 /* arrow@2x.png */; };
 		254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DC01C7D401A00F2EC94 /* arrow@3x.png */; };
-		254A8DCA1C7D574100F2EC94 /* LoginBackGround@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DC71C7D574100F2EC94 /* LoginBackGround@1x.png */; };
-		254A8DCB1C7D574100F2EC94 /* LoginBackGround@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DC81C7D574100F2EC94 /* LoginBackGround@2x.png */; };
-		254A8DCC1C7D574100F2EC94 /* LoginBackGround@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DC91C7D574100F2EC94 /* LoginBackGround@3x.png */; };
 		254A8DD01C7D619C00F2EC94 /* Login_Logo@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCD1C7D619C00F2EC94 /* Login_Logo@1x.png */; };
 		254A8DD11C7D619C00F2EC94 /* Login_Logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCE1C7D619C00F2EC94 /* Login_Logo@2x.png */; };
 		254A8DD21C7D619C00F2EC94 /* Login_Logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */; };
@@ -327,9 +324,6 @@
 		254A8DBE1C7D401A00F2EC94 /* arrow@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@1x.png"; sourceTree = "<group>"; };
 		254A8DBF1C7D401A00F2EC94 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		254A8DC01C7D401A00F2EC94 /* arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@3x.png"; sourceTree = "<group>"; };
-		254A8DC71C7D574100F2EC94 /* LoginBackGround@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LoginBackGround@1x.png"; path = "Appointment/LoginBackGround@1x.png"; sourceTree = "<group>"; };
-		254A8DC81C7D574100F2EC94 /* LoginBackGround@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LoginBackGround@2x.png"; path = "Appointment/LoginBackGround@2x.png"; sourceTree = "<group>"; };
-		254A8DC91C7D574100F2EC94 /* LoginBackGround@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LoginBackGround@3x.png"; path = "Appointment/LoginBackGround@3x.png"; sourceTree = "<group>"; };
 		254A8DCD1C7D619C00F2EC94 /* Login_Logo@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Logo@1x.png"; sourceTree = "<group>"; };
 		254A8DCE1C7D619C00F2EC94 /* Login_Logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Logo@2x.png"; sourceTree = "<group>"; };
 		254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Login_Logo@3x.png"; sourceTree = "<group>"; };
@@ -721,9 +715,6 @@
 				254A8DCD1C7D619C00F2EC94 /* Login_Logo@1x.png */,
 				254A8DCE1C7D619C00F2EC94 /* Login_Logo@2x.png */,
 				254A8DCF1C7D619C00F2EC94 /* Login_Logo@3x.png */,
-				254A8DC71C7D574100F2EC94 /* LoginBackGround@1x.png */,
-				254A8DC81C7D574100F2EC94 /* LoginBackGround@2x.png */,
-				254A8DC91C7D574100F2EC94 /* LoginBackGround@3x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1452,7 +1443,6 @@
 				254D95B11C995DA6003B64D4 /* QRScan@3x.png in Resources */,
 				252AB88B1C76E3880085CC14 /* search_icon@2x.png in Resources */,
 				254A8DD11C7D619C00F2EC94 /* Login_Logo@2x.png in Resources */,
-				254A8DCA1C7D574100F2EC94 /* LoginBackGround@1x.png in Resources */,
 				254A8DAD1C7C380400F2EC94 /* nameIcon@3x.png in Resources */,
 				B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */,
 				254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */,
@@ -1478,13 +1468,11 @@
 				254D95B91C9ACB1B003B64D4 /* QRDefault.png in Resources */,
 				254A8D9C1C7C2CAC00F2EC94 /* detail@1x.png in Resources */,
 				254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */,
-				254A8DCB1C7D574100F2EC94 /* LoginBackGround@2x.png in Resources */,
 				254A8DA11C7C2CAC00F2EC94 /* message@3x.png in Resources */,
 				254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */,
 				254A8D9D1C7C2CAC00F2EC94 /* detail@2x.png in Resources */,
 				254A8D941C7C2C8B00F2EC94 /* phonecall@2x.png in Resources */,
 				B27222C01C8FBD37002494EA /* DJRefresh.bundle in Resources */,
-				254A8DCC1C7D574100F2EC94 /* LoginBackGround@3x.png in Resources */,
 				25BFEB481C75BF1F0062F9B8 /* back@2x.png in Resources */,
 				254A8DA71C7C32B800F2EC94 /* servicePoint@3x.png in Resources */,
 				2512B3B71C70557C00EE661B /* Assets.xcassets in Resources */,
