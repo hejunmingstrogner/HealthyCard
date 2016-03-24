@@ -26,7 +26,6 @@
 #import "UIView+borderWidth.h"
 #import "UIImage+Color.h"
 #import "UIButton+TCHelper.h"
-#import "UIButton+touch.h"
 #import "UILabel+Easy.h"
 
 #import "BaseInfoTableViewCell.h"
