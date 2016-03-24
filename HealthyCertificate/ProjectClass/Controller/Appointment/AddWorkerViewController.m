@@ -73,8 +73,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     _seletingCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, 44)];
     _seletingCountLabel.textAlignment = NSTextAlignmentRight;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:_seletingCountLabel];
-    //    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:(_selectWorkerArray.count + _needcanlceWorkersArray.count) endColor:[UIColor blueColor]];
-    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count endColor:[UIColor blueColor]];
+    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectedWorkerArray.count endColor:[UIColor blueColor]];
 }
 // 返回前一页
 - (void)backToPre:(id)sender
