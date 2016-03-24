@@ -232,10 +232,9 @@
             }
         }
         [_tableView reloadData];
+        [self orderBtnClicked:nil];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    [self orderBtnClicked:nil];
 }
 
 - (void)orderBtnClicked:(UIButton *)sender
@@ -287,7 +286,7 @@
                     }
                 }
             }];
-            break;
+            return;
         }
     }
 }

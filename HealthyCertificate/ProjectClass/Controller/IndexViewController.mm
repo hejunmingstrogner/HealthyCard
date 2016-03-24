@@ -212,6 +212,7 @@ BOOL   _isLocationInfoHasBeenSent;
     }];
     serverImage.image = [UIImage imageNamed:@"serverPosition"];
     minDistanceLabel = [[UILabel alloc]init];
+    minDistanceLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
     [minDistanceBtn addSubview:minDistanceLabel];
     [minDistanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.right.equalTo(minDistanceBtn);
@@ -492,8 +493,32 @@ BOOL   _isLocationInfoHasBeenSent;
                     [self presentViewController:loginViewController animated:NO completion:nil] ;
                 }
             }];
-        }
             break;
+        }
+        // 我的预约
+        case LEFTMENUCELL_UNIT_APPOINT:
+        case LEFTMENUCELL_PERSON_APPOINT:
+        {
+            HistoryInformationVController *history = [[HistoryInformationVController alloc]init];
+            [self.navigationController pushViewController:history animated:YES];
+            break;
+        }
+        case LEFTMENUCELL_PERSON_ERWEIMA: // 我的二维码
+        {
+            break;
+        }
+        case LEFTMENUCELL_UNIT_ERWEIMA: // 单位二维码
+        {
+            break;
+        }
+        case LEFTMENUCELL_PERSON_UNITLOGIN: // 单位注册
+        {
+            break;
+        }
+        case LEFTMENUCELL_UNIT_WORKERMANAGE: // 单位员工管理
+        {
+            break;
+        }
         default:
             break;
     }

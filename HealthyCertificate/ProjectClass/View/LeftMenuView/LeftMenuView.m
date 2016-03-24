@@ -59,26 +59,29 @@
 {
     // 个人
     LeftMenuCellItem *userinformation;
+    LeftMenuCellItem *appoint;  // 预约
+    LeftMenuCellItem *erweima;  // 二维码
+    LeftMenuCellItem *manage;   // 单位注册或者员工管理
     if (GetUserType == 1) {
         userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gPersonInfo.mCustName detialLabelText:gPersonInfo.StrTel itemtype:LEFTMENUCELL_USERINFOR];
+        appoint = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"我的预约" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_APPOINT];
+        erweima = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"我的二维码" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_ERWEIMA];
+        manage = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"单位注册" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_UNITLOGIN];
     }
     else if(GetUserType == 2)
     {
          userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gCompanyInfo.cUnitName detialLabelText:gPersonInfo.StrTel itemtype:LEFTMENUCELL_USERINFOR];
+        appoint = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"单位预约" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_APPOINT];
+        erweima = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"单位二维码" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_ERWEIMA];
+        manage = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"员工管理" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_WORKERMANAGE];
     }
-    LeftMenuCellItem *historyRecord = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"历史记录" detialLabelText:nil itemtype:LEFTMENUCELL_HISTORYRECORD];
-    LeftMenuCellItem *erweima = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"二维码" detialLabelText:nil itemtype:LEFTMENUCELL_ERWEIMA];
     LeftMenuCellItem *userType = [[LeftMenuCellItem alloc]initWithiconName:@"leixing" titleLabelText:@"用户类型" detialLabelText:nil itemtype:LEFTMENUCELL_USERTYPE];
-
-    //LeftMenuCellItem *setting = [[LeftMenuCellItem alloc]initWithiconName:@"setting" titleLabelText:@"设置" detialLabelText:nil itemtype:LEFTMENUCELL_SETTING];
-    LeftMenuCellItem *notice = [[LeftMenuCellItem alloc]initWithiconName:@"notice" titleLabelText:@"体检注意事项" detialLabelText:nil itemtype:LEFTMENUCELL_NOTICE];
-    //LeftMenuCellItem *share = [[LeftMenuCellItem alloc]initWithiconName:@"share" titleLabelText:@"分享" detialLabelText:nil itemtype:LEFTMENUCELL_SHARE];
-    //LeftMenuCellItem *uintlogin = [[LeftMenuCellItem alloc]initWithiconName:@"danweilogin" titleLabelText:@"单位注册" detialLabelText:nil itemtype:LEFTMENUCELL_LOGIN];
+    LeftMenuCellItem *notice = [[LeftMenuCellItem alloc]initWithiconName:@"notice" titleLabelText:@"注意事项" detialLabelText:nil itemtype:LEFTMENUCELL_NOTICE];
     LeftMenuCellItem *aboutUs = [[LeftMenuCellItem alloc]initWithiconName:@"aboutUs" titleLabelText:@"关于我们" detialLabelText:nil itemtype:LEFTMENUCELL_ABOUTUS];
-//    LeftMenuCellItem *advice = [[LeftMenuCellItem alloc]initWithiconName:@"advice" titleLabelText:@"意见或建议" detialLabelText:nil itemtype:LEFTMENUCELL_ADVICE];
+    LeftMenuCellItem *advice = [[LeftMenuCellItem alloc]initWithiconName:@"advice" titleLabelText:@"意见或建议" detialLabelText:nil itemtype:LEFTMENUCELL_ADVICE];
     LeftMenuCellItem *exit = [[LeftMenuCellItem alloc]initWithiconName:@"exit" titleLabelText:@"退出当前账号" detialLabelText:nil itemtype:LEFTMENUCELL_EXIT];
 
-    _menuItemArray = [NSMutableArray arrayWithObjects:userinformation, historyRecord, erweima, userType, notice, aboutUs, exit, nil];
+    _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, manage, userType, notice, aboutUs, advice, exit, nil];
 }
 //#pragma mark - delegate and datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
