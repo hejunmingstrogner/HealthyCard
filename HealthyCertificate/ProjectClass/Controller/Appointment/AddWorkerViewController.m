@@ -99,13 +99,14 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     }
     
     [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:_cUnitCode == nil? gCompanyInfo.cUnitCode : _cUnitCode resultBlock:^(NSArray *result, NSError *error) {
-        if(result.count == 0)
-        {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有员工数据..." removeDelay:3];
-        }
+        [_waitAlertView close];
         if (!error) {
+            if(result.count == 0)
+            {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有员工数据..." removeDelay:3];
+                return ;
+            }
             // 对员工进行排序
-            
             _workerData = [NSMutableArray arrayWithArray:[self sortWorkList:result]];
             //            // 过滤掉已经选择过的员工
             //            if (_needcanlceWorkersArray.count != 0) {
@@ -138,7 +139,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         else {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"数据获取失败，请检查网络后重试" removeDelay:3];
         }
-        [_waitAlertView close];
     }];
 }
 #pragma mark -对得到的员工进行排序
