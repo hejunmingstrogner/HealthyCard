@@ -50,4 +50,17 @@
  */
 - (void) setText:(NSString *)text  textFont:(UIFont *)textfont WithEndText:(NSString *)endText   endtextFont:(UIFont *)endtextfont textcolor:(UIColor *)textcolor;
 
+/**
+ *  设置3部分文本颜色
+ *
+ *  @param text1  文本1
+ *  @param color1 文本1颜色
+ *  @param text2  文本2
+ *  @param color2 文本2颜色
+ *  @param text3  文本3
+ *  @param color3 文本3颜色
+ *  @fontsize  文本字号大小
+ */
+- (void)setText1:(NSString *)text1 text1Color:(UIColor *)color1 text2:(NSString *)text2 text2Color:(UIColor *)color2 text3:(NSString *)text3 text3Color:(UIColor *)color3 size:(NSInteger)fontsize;
+
 @end

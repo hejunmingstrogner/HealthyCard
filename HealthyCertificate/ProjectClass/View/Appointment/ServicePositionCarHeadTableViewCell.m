@@ -109,6 +109,10 @@
         make.left.right.equalTo(_address);
         make.height.mas_equalTo(30);
     }];
+
+    [_container mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_serviceTime.mas_bottom).offset(20);
+    }];
 }
 
 - (void)setCellItem:(ServersPositionAnnotionsModel *)serviceInfo

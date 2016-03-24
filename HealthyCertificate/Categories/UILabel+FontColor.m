@@ -7,7 +7,7 @@
 //
 
 #import "UILabel+FontColor.h"
-
+#import "UIFont+Custom.h"
 @implementation UILabel (FontColor)
 
 -(void)setText:(NSString *)text textFont:(UIFont *)font WithEndText:(NSString *)endText endTextColor:(UIColor *)color
@@ -65,6 +65,24 @@
     [str addAttribute:NSFontAttributeName value:endtextfont range:NSMakeRange(Textlength, endTextLength)];
     // 设置字体
     [str addAttribute:NSForegroundColorAttributeName value:textcolor range:NSMakeRange(0, str.length)];
+    self.attributedText = str;
+}
+
+- (void)setText1:(NSString *)text1 text1Color:(UIColor *)color1 text2:(NSString *)text2 text2Color:(UIColor *)color2 text3:(NSString *)text3 text3Color:(UIColor *)color3 size:(NSInteger)fontsize
+{
+    NSInteger text1length = text1.length;
+    NSInteger text2length = text2.length;
+    NSInteger text3length = text3.length;
+
+    UIFont *font = [UIFont fontWithType:UIFontOpenSansRegular size:fontsize];
+
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@%@", text1, text2, text3]];
+    [str addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, str.length)];
+
+    // 设置文本颜色
+    [str addAttribute:NSForegroundColorAttributeName value:color1 range:NSMakeRange(0, text1length)];
+    [str addAttribute:NSForegroundColorAttributeName value:color2 range:NSMakeRange(text1length, text2length)];
+    [str addAttribute:NSForegroundColorAttributeName value:color3 range:NSMakeRange(text1length + text2length, text3length)];
     self.attributedText = str;
 }
 @end
