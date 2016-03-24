@@ -94,7 +94,6 @@
 		254D95BF1C9F9336003B64D4 /* HCBackgroundColorButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D95BE1C9F9336003B64D4 /* HCBackgroundColorButton.m */; };
 		254D95C51C9FCABC003B64D4 /* UIButton+TCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D95C41C9FCABC003B64D4 /* UIButton+TCHelper.m */; };
 		254D960D1C9FDD9A003B64D4 /* WZFlashButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D960C1C9FDD9A003B64D4 /* WZFlashButton.m */; };
-		254D96101C9FEB67003B64D4 /* UIButton+touch.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D960F1C9FEB67003B64D4 /* UIButton+touch.m */; };
 		255C71F11C8714420074A41B /* SelectCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255C71F01C8714420074A41B /* SelectCompanyViewController.m */; };
 		2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
@@ -354,8 +353,6 @@
 		254D95C41C9FCABC003B64D4 /* UIButton+TCHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+TCHelper.m"; sourceTree = "<group>"; };
 		254D960B1C9FDD9A003B64D4 /* WZFlashButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WZFlashButton.h; sourceTree = "<group>"; };
 		254D960C1C9FDD9A003B64D4 /* WZFlashButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZFlashButton.m; sourceTree = "<group>"; };
-		254D960E1C9FEB67003B64D4 /* UIButton+touch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+touch.h"; sourceTree = "<group>"; };
-		254D960F1C9FEB67003B64D4 /* UIButton+touch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+touch.m"; sourceTree = "<group>"; };
 		255C71EF1C8714420074A41B /* SelectCompanyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCompanyViewController.h; sourceTree = "<group>"; };
 		255C71F01C8714420074A41B /* SelectCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCompanyViewController.m; sourceTree = "<group>"; };
 		2567AC3B1C89680800E51DFA /* HCNavigationBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCNavigationBackButton.h; sourceTree = "<group>"; };
@@ -656,8 +653,6 @@
 		2512B3DD1C70567F00EE661B /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				254D960E1C9FEB67003B64D4 /* UIButton+touch.h */,
-				254D960F1C9FEB67003B64D4 /* UIButton+touch.m */,
 				254D95C31C9FCABC003B64D4 /* UIButton+TCHelper.h */,
 				254D95C41C9FCABC003B64D4 /* UIButton+TCHelper.m */,
 				254D95B21C9A7FF8003B64D4 /* NSString+QRCode.h */,
@@ -1709,7 +1704,6 @@
 				B23506091C91A7B500B35E1E /* ChargeBusinessForCustomerTest.m in Sources */,
 				254D95BC1C9C1BEF003B64D4 /* InsetsLabel.m in Sources */,
 				B2436C911C7AD1D000F543E1 /* Customer.m in Sources */,
-				254D96101C9FEB67003B64D4 /* UIButton+touch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
