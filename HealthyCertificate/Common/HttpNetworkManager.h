@@ -176,6 +176,15 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 -(void)customerUploadHealthyCertifyPhoto:(UIImage*)photo CusCheckCode:(NSString*)checkCode resultBlock:(HCDictionaryResultBlock)resultBlock;
 
+#pragma mark - 取消个人预约
+/**
+ *  用于取消个人预约
+ *
+ *  @param checkCode 个人体检编号
+ *  @param block     回调
+ */
+- (void)cancleCheckedCustomerTestWithCheckCode:(NSString *)checkCode resultBlock:(HCBoolResultBlock)block;
+
 
 #pragma mark - 单位预约
 /**
