@@ -442,6 +442,29 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
         }
     }];
 }
+#pragma mark - 取消个人预约
+- (void)cancleCheckedCustomerTestWithCheckCode:(NSString *)checkCode resultBlock:(HCBoolResultBlock)block
+{
+    NSString *url = [NSString stringWithFormat:@"customerTest/cancelChecked?checkCode=%@", checkCode];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        MethodResult *result = [MethodResult mj_objectWithKeyValues:responseObject];
+        if (result.succeed) {
+            if (block) {
+                block(YES, nil);
+            }
+        }
+        else{
+            if (block) {
+                block(NO, [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:result.errorMsg forKey:@"error"]]);
+            }
+        }
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        if (block) {
+            block(NO, error);
+        }
+    }];
+}
+
 
 #pragma mark - 单位预约
 // 单位预约

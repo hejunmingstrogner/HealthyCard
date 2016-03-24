@@ -326,7 +326,28 @@
 #pragma mark -取消预约，在线支付，付款
 - (void)cancelAppointBtnClicked:(UIButton *)sender
 {
-    NSLog(@"取消预约  %ld", (long)sender.tag);
+    __weak MyCheckListViewController *_self = self;
+    NSLog(@"tag:%ld", (long)sender.tag);
+    [RzAlertView showAlertViewControllerWithController:self title:@"提示" message:[NSString stringWithFormat:@"您确定要取消 %@ 的体检预约吗？", ((CustomerTest *)_checkDataArray[sender.tag]).custName] confirmTitle:@"确定" cancleTitle:@"点错了" handle:^(NSInteger flag) {
+        if (flag != 0) {
+            [_self cancelChecked:sender.tag];
+        }
+    }];
+}
+// 取消预约
+- (void)cancelChecked:(NSInteger )index
+{
+    [[HttpNetworkManager getInstance]cancleCheckedCustomerTestWithCheckCode:((CustomerTest *)_checkDataArray[index]).checkCode resultBlock:^(BOOL result, NSError *error) {
+        if (!error) {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"取消预约成功" removeDelay:2];
+            [_checkDataArray removeObjectAtIndex:index];
+            NSIndexSet *indexset = [NSIndexSet indexSetWithIndex:index];
+            [_tableView deleteSections:indexset withRowAnimation:UITableViewRowAnimationLeft];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_tableView reloadData];
+            });
+        }
+    }];
 }
 // 点击支付按钮
 - (void)payMoneyBtnClicked:(UIButton *)sender
