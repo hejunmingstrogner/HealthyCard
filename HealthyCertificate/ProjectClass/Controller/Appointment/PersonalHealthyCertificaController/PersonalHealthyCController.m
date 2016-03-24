@@ -199,14 +199,14 @@
     [_healthCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.equalTo(containView).offset(10);
         make.width.equalTo(containView).offset(-20);
-        make.height.mas_equalTo(PXFIT_HEIGHT(460));
+        make.height.mas_equalTo(PXFIT_HEIGHT(536));
     }];
     _healthCertificateView.layer.masksToBounds = YES;
     _healthCertificateView.delegate = self;
     _healthCertificateView.layer.cornerRadius = 10;
 
     // 预约信息
-    _orderinforView = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(460) + 10, self.view.frame.size.width - 20, 200)];
+    _orderinforView = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(536) + 10, self.view.frame.size.width - 20, 200)];
     [containView addSubview:_orderinforView];
     [_orderinforView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(_healthCertificateView);
@@ -260,7 +260,7 @@
     }];
 
     // 详情介绍
-    AppointmentInfoView *introduceView = [[AppointmentInfoView alloc]initWithFrame:CGRectMake(0, 10+ PXFIT_HEIGHT(460) + 10 + 210 , self.view.frame.size.width, 100)];
+    AppointmentInfoView *introduceView = [[AppointmentInfoView alloc]initWithFrame:CGRectMake(0, 10+ PXFIT_HEIGHT(536) + 10 + 210 , self.view.frame.size.width, 100)];
     [containView addSubview:introduceView];
     [introduceView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(warmingLabel.mas_bottom).offset(10);

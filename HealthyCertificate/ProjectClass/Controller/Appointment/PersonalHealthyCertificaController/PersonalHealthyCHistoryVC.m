@@ -86,14 +86,14 @@
     _baseBgScrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
     [self.view addSubview:_baseBgScrollView];
     _baseBgScrollView.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:0.9];
-    _baseBgScrollView.contentSize = CGSizeMake(self.view.frame.size.width, PXFIT_HEIGHT(460) + 200 + 30);
+    _baseBgScrollView.contentSize = CGSizeMake(self.view.frame.size.width, PXFIT_HEIGHT(536) + 200 + 30);
 
-    _healthCertificateView = [[HealthyCertificateView alloc]initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, PXFIT_HEIGHT(460))];
+    _healthCertificateView = [[HealthyCertificateView alloc]initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, PXFIT_HEIGHT(536))];
     [_baseBgScrollView addSubview:_healthCertificateView];
     _healthCertificateView.layer.masksToBounds = YES;
     _healthCertificateView.layer.cornerRadius = 10;
 
-    _orderinforView = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(460) + 10, self.view.frame.size.width - 20, 200)];
+    _orderinforView = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(536) + 10, self.view.frame.size.width - 20, 200)];
     [_baseBgScrollView addSubview:_orderinforView];
 }
 
