@@ -20,6 +20,7 @@
 #import "HttpNetworkManager.h"
 
 
+#define ItemHeight PXFIT_HEIGHT(65)
 
 #define Title_Size 24
 #define Text_Size 23
@@ -172,7 +173,9 @@
         }
         
         [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.mas_equalTo(imageContainerView);
+            //make.center.mas_equalTo(imageContainerView);
+            make.centerX.mas_equalTo(imageContainerView);
+            make.top.mas_equalTo(imageContainerView).with.offset(10);
             make.height.mas_equalTo(imageHeight);
             make.width.mas_equalTo(imageBtnWidth);
         }];
@@ -182,21 +185,20 @@
         [leftView addSubview:firstLineView];
         [firstLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(leftView);
-            make.height.mas_equalTo(PXFIT_HEIGHT(76));
+            make.height.mas_equalTo(ItemHeight);
             make.top.mas_equalTo(leftView.mas_top);
         }];
         
         UILabel* nameLabelTitle = [[UILabel alloc] init];
         nameLabelTitle.text = @"姓名 : ";
         nameLabelTitle.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
-        [nameLabelTitle sizeToFit];
         [firstLineView addSubview:nameLabelTitle];
         
         _nameBtn = [UIButton buttonWithTitle:_name
                                         font:nil
                                    textColor:[UIColor blackColor]
                              backgroundColor:[UIColor clearColor]];
-         _nameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        _nameBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         _nameBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         [_nameBtn addTarget:self action:@selector(nameBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [firstLineView addSubview:_nameBtn];
@@ -206,13 +208,12 @@
             make.centerY.mas_equalTo(firstLineView);
             make.left.mas_equalTo(firstLineView);
         }];
-        [nameLabelTitle setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
+       // [nameLabelTitle setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
         
         [_nameBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             //make.right.lessThanOrEqualTo(firstLineView.mas_right).with.offset(0);
             make.left.mas_equalTo(nameLabelTitle.mas_right);
             make.centerY.mas_equalTo(firstLineView);
-            make.height.mas_equalTo(nameLabelTitle);
         }];
 
         
@@ -221,14 +222,13 @@
         [self addSubview:secondeLineView];
         [secondeLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(leftView);
-            make.height.mas_equalTo(PXFIT_HEIGHT(76));
+            make.height.mas_equalTo(ItemHeight);
             make.top.mas_equalTo(firstLineView.mas_bottom);
         }];
         
         UILabel* sexLabelTitle = [[UILabel alloc] init];
         sexLabelTitle.text = @"性别 : ";
         sexLabelTitle.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
-        [sexLabelTitle sizeToFit];
         [secondeLineView addSubview:sexLabelTitle];
         
         _sexBtn = [UIButton buttonWithTitle:_gender
@@ -243,7 +243,6 @@
         UILabel* ageLabelTitle = [[UILabel alloc] init];
         ageLabelTitle.text = @"年龄 : ";
         ageLabelTitle.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
-        [ageLabelTitle sizeToFit];
         [secondeLineView addSubview:ageLabelTitle];
         
         _ageLabel = [[UILabel alloc] init];
@@ -263,29 +262,62 @@
             make.centerY.mas_equalTo(sexLabelTitle);
             make.right.mas_equalTo(ageLabelTitle.mas_left).with.offset(-5);
             make.left.mas_equalTo(sexLabelTitle.mas_right).with.offset(0);
-            make.height.mas_equalTo(nameLabelTitle);
         }];
         
         [ageLabelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(sexLabelTitle);
             make.left.mas_equalTo(self.mas_left).with.offset(SCREEN_WIDTH*1/3);
             make.right.mas_equalTo(_ageLabel.mas_left).with.offset(0);
-            make.height.mas_equalTo(nameLabelTitle);
         }];
         [ageLabelTitle setContentCompressionResistancePriority:752 forAxis:UILayoutConstraintAxisHorizontal];
         
         [_ageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(sexLabelTitle);
             make.right.lessThanOrEqualTo(secondeLineView.mas_right).with.offset(0);
-            make.height.mas_equalTo(nameLabelTitle);
         }];
+
+        //
+        //身份证号
+        UIView* thirdLineView = [[UIView alloc] init];
+        [self addSubview:thirdLineView];
+        [thirdLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.mas_equalTo(leftView);
+            make.height.mas_equalTo(ItemHeight);
+            make.top.mas_equalTo(secondeLineView.mas_bottom);
+        }];
+        
+        UILabel* idCardLabel = [[UILabel alloc] init];
+        idCardLabel.text = @"身份证 : ";
+        idCardLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
+        [thirdLineView addSubview:idCardLabel];
+        
+        _idCardBtn = [UIButton buttonWithTitle:_idCard
+                                          font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)]
+                                     textColor:[UIColor blackColor]
+                               backgroundColor:[UIColor clearColor]];
+        [_idCardBtn addTarget:self action:@selector(idCardBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [thirdLineView addSubview:_idCardBtn];
+        
+        [idCardLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(thirdLineView);
+            make.centerY.mas_equalTo(thirdLineView);
+            make.right.mas_equalTo(_idCardBtn.mas_left);
+        }];
+        [idCardLabel setContentCompressionResistancePriority:752 forAxis:UILayoutConstraintAxisHorizontal];
+        
+        [_idCardBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.lessThanOrEqualTo(thirdLineView.mas_right).with.offset(0);
+            make.centerY.mas_equalTo(idCardLabel);
+        }];
+
+        
         
         UIView* workTypeLineView = [[UIView alloc] init];
         [self addSubview:workTypeLineView];
         [workTypeLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(leftView);
-            make.height.mas_equalTo(PXFIT_HEIGHT(76));
-            make.top.mas_equalTo(secondeLineView.mas_bottom);
+            make.height.mas_equalTo(ItemHeight);
+            make.top.mas_equalTo(thirdLineView.mas_bottom);
         }];
         
         
@@ -308,58 +340,22 @@
             make.centerY.mas_equalTo(workTypeLineView);
             make.left.mas_equalTo(workTypeLineView);
             make.right.mas_equalTo(_workTypeBtn.mas_left);
-            make.height.mas_equalTo(nameLabelTitle);
         }];
         [workTypeLabelTitle setContentCompressionResistancePriority:752 forAxis:UILayoutConstraintAxisHorizontal];
         
         [_workTypeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.lessThanOrEqualTo(workTypeLineView.mas_right).with.offset(0);
             make.centerY.mas_equalTo(workTypeLineView);
-            make.height.mas_equalTo(nameLabelTitle);
         }];
-        
-        //身份证号
-        UIView* thirdLineView = [[UIView alloc] init];
-        [self addSubview:thirdLineView];
-        [thirdLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(leftView);
-            make.height.mas_equalTo(PXFIT_HEIGHT(76));
-            make.top.mas_equalTo(workTypeLineView.mas_bottom);
-        }];
-        
-        UILabel* idCardLabel = [[UILabel alloc] init];
-        idCardLabel.text = @"身份证 : ";
-        idCardLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
-        [thirdLineView addSubview:idCardLabel];
-        
-        _idCardBtn = [UIButton buttonWithTitle:_idCard
-                                          font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)]
-                                     textColor:[UIColor blackColor]
-                               backgroundColor:[UIColor clearColor]];
-        [_idCardBtn addTarget:self action:@selector(idCardBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [thirdLineView addSubview:_idCardBtn];
-        
-        [idCardLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(thirdLineView);
-            make.centerY.mas_equalTo(thirdLineView);
-            make.height.mas_equalTo(nameLabelTitle);
-            make.right.mas_equalTo(_idCardBtn.mas_left);
-        }];
-        [idCardLabel setContentCompressionResistancePriority:752 forAxis:UILayoutConstraintAxisHorizontal];
-        
-        [_idCardBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.lessThanOrEqualTo(thirdLineView.mas_right).with.offset(0);
-            make.centerY.mas_equalTo(idCardLabel);
-            make.height.mas_equalTo(nameLabelTitle);
-        }];
+
         
         //发证机关
         UIView* fourthLineView = [[UIView alloc] init];
         [self addSubview:fourthLineView];
         [fourthLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(leftView);
-            make.height.mas_equalTo(PXFIT_HEIGHT(76));
-            make.top.mas_equalTo(thirdLineView.mas_bottom);
+            make.height.mas_equalTo(ItemHeight);
+            make.top.mas_equalTo(workTypeLineView.mas_bottom);
         }];
         
         UILabel* orgLabel = [[UILabel alloc] init];
@@ -374,7 +370,6 @@
         [orgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(fourthLineView);
             make.centerY.mas_equalTo(fourthLineView);
-            make.height.mas_equalTo(PXFIT_HEIGHT(76));
             make.right.mas_equalTo(_orgLabel.mas_left);
         }];
         [orgLabel setContentCompressionResistancePriority:752 forAxis:UILayoutConstraintAxisHorizontal];
@@ -382,15 +377,14 @@
         [_orgLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.lessThanOrEqualTo(fourthLineView.mas_right).with.offset(0);
             make.centerY.mas_equalTo(orgLabel);
-            make.height.mas_equalTo(PXFIT_HEIGHT(76));
         }];
-        
+
         //证件编号
         UIView* fifthLineView = [[UIView alloc] init];
         [self addSubview:fifthLineView];
         [fifthLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(leftView);
-            make.height.mas_equalTo(PXFIT_HEIGHT(76));
+            make.height.mas_equalTo(ItemHeight);
             make.top.mas_equalTo(fourthLineView.mas_bottom);
         }];
         
@@ -407,7 +401,6 @@
         [numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(fifthLineView);
             make.centerY.mas_equalTo(fifthLineView);
-            make.height.mas_equalTo(PXFIT_HEIGHT(76));
             make.right.mas_equalTo(_numLabel.mas_left);
         }];
         [numLabel setContentCompressionResistancePriority:752 forAxis:UILayoutConstraintAxisHorizontal];
@@ -417,7 +410,6 @@
            make.right.lessThanOrEqualTo(fifthLineView.mas_right).with.offset(0);
             make.centerY.mas_equalTo(numLabel);
             make.bottom.mas_equalTo(leftView).with.offset(-PXFIT_HEIGHT(20));
-            make.height.mas_equalTo(PXFIT_HEIGHT(76));
         }];
     }
     return self;

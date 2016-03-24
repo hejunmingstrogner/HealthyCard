@@ -68,7 +68,7 @@
 
 - (void)initNavgation
 {
-    self.title = @"我的健康证";
+    self.title = @"办证详情";
     // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
@@ -199,14 +199,14 @@
     [_healthCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.equalTo(containView).offset(10);
         make.width.equalTo(containView).offset(-20);
-        make.height.mas_equalTo(PXFIT_HEIGHT(536));
+        make.height.mas_equalTo(PXFIT_HEIGHT(470));
     }];
     _healthCertificateView.layer.masksToBounds = YES;
     _healthCertificateView.delegate = self;
     _healthCertificateView.layer.cornerRadius = 10;
 
     // 预约信息
-    _orderinforView = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(536) + 10, self.view.frame.size.width - 20, 200)];
+    _orderinforView = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(470) + 10, self.view.frame.size.width - 20, 200)];
     [containView addSubview:_orderinforView];
     [_orderinforView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(_healthCertificateView);
@@ -258,7 +258,6 @@
         make.top.bottom.equalTo(warmingLabel);
         make.left.right.equalTo(containView);
     }];
-
     [containView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(warmBg.mas_bottom).offset(10);
     }];
