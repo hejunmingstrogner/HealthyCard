@@ -299,7 +299,7 @@
     
     if (indexPath.row == 0)
     {
-        cell.iconName = @"search_icon";
+        cell.iconName = @"dizhis";
         [cell setTextViewText:_location];
         cell.textView.userInteractionEnabled = NO;
         cell.textView.textColor = _isCustomerServerPoint?[UIColor blackColor]:[UIColor colorWithRGBHex:HC_Gray_Text];

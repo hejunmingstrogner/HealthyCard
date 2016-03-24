@@ -77,7 +77,7 @@
     self.navigationItem.leftBarButtonItem = backitem;
     
     
-    UIButton* editBtn = [UIButton buttonWithTitle:@"修改"
+    UIButton* editBtn = [UIButton buttonWithTitle:@"保存"
                                               font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
                                          textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
                                    backgroundColor:[UIColor clearColor]];
