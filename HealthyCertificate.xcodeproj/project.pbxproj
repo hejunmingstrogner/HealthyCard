@@ -60,9 +60,6 @@
 		254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */; };
 		254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D881C7AE02300F2EC94 /* Avatar@2x.png */; };
 		254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D891C7AE02300F2EC94 /* Avatar@3x.png */; };
-		254A8D931C7C2C8B00F2EC94 /* phonecall@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D901C7C2C8B00F2EC94 /* phonecall@1x.png */; };
-		254A8D941C7C2C8B00F2EC94 /* phonecall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D911C7C2C8B00F2EC94 /* phonecall@2x.png */; };
-		254A8D951C7C2C8B00F2EC94 /* phonecall@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D921C7C2C8B00F2EC94 /* phonecall@3x.png */; };
 		254A8D9C1C7C2CAC00F2EC94 /* detail@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D961C7C2CAC00F2EC94 /* detail@1x.png */; };
 		254A8D9D1C7C2CAC00F2EC94 /* detail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D971C7C2CAC00F2EC94 /* detail@2x.png */; };
 		254A8D9E1C7C2CAC00F2EC94 /* detail@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8D981C7C2CAC00F2EC94 /* detail@3x.png */; };
@@ -118,6 +115,15 @@
 		25BFEB471C75BF1F0062F9B8 /* back@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25BFEB441C75BF1F0062F9B8 /* back@1x.png */; };
 		25BFEB481C75BF1F0062F9B8 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25BFEB451C75BF1F0062F9B8 /* back@2x.png */; };
 		25BFEB491C75BF1F0062F9B8 /* back@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25BFEB461C75BF1F0062F9B8 /* back@3x.png */; };
+		25C070741CA37DE50098A3FB /* phoneIcon@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C070711CA37DE50098A3FB /* phoneIcon@1x.png */; };
+		25C070751CA37DE50098A3FB /* phoneIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C070721CA37DE50098A3FB /* phoneIcon@2x.png */; };
+		25C070761CA37DE50098A3FB /* phoneIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C070731CA37DE50098A3FB /* phoneIcon@3x.png */; };
+		25C0707D1CA38C1D0098A3FB /* serverPointLogo@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C070771CA38C1D0098A3FB /* serverPointLogo@1x.png */; };
+		25C0707E1CA38C1D0098A3FB /* serverPointLogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C070781CA38C1D0098A3FB /* serverPointLogo@2x.png */; };
+		25C0707F1CA38C1D0098A3FB /* serverPointLogo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C070791CA38C1D0098A3FB /* serverPointLogo@3x.png */; };
+		25C070801CA38C1D0098A3FB /* unitLog@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C0707A1CA38C1D0098A3FB /* unitLog@1x.png */; };
+		25C070811CA38C1D0098A3FB /* unitLog@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C0707B1CA38C1D0098A3FB /* unitLog@2x.png */; };
+		25C070821CA38C1D0098A3FB /* unitLog@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C0707C1CA38C1D0098A3FB /* unitLog@3x.png */; };
 		25E983831C8535BE00CB027E /* WorkTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E983821C8535BE00CB027E /* WorkTypeViewController.m */; };
 		25F592241C93A8340036F881 /* CompanyAppointmentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F592231C93A8340036F881 /* CompanyAppointmentListViewController.m */; };
 		25F592271C93A8870036F881 /* CompanyItemListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F592261C93A8870036F881 /* CompanyItemListCell.m */; };
@@ -302,9 +308,6 @@
 		254A8D821C7A027E00F2EC94 /* HealthyCertificateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HealthyCertificateView.m; path = ../HealthyCertificateView.m; sourceTree = "<group>"; };
 		254A8D881C7AE02300F2EC94 /* Avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@2x.png"; sourceTree = "<group>"; };
 		254A8D891C7AE02300F2EC94 /* Avatar@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Avatar@3x.png"; sourceTree = "<group>"; };
-		254A8D901C7C2C8B00F2EC94 /* phonecall@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phonecall@1x.png"; sourceTree = "<group>"; };
-		254A8D911C7C2C8B00F2EC94 /* phonecall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phonecall@2x.png"; sourceTree = "<group>"; };
-		254A8D921C7C2C8B00F2EC94 /* phonecall@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phonecall@3x.png"; sourceTree = "<group>"; };
 		254A8D961C7C2CAC00F2EC94 /* detail@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail@1x.png"; sourceTree = "<group>"; };
 		254A8D971C7C2CAC00F2EC94 /* detail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail@2x.png"; sourceTree = "<group>"; };
 		254A8D981C7C2CAC00F2EC94 /* detail@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail@3x.png"; sourceTree = "<group>"; };
@@ -391,6 +394,15 @@
 		25BFEB441C75BF1F0062F9B8 /* back@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@1x.png"; sourceTree = "<group>"; };
 		25BFEB451C75BF1F0062F9B8 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		25BFEB461C75BF1F0062F9B8 /* back@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@3x.png"; sourceTree = "<group>"; };
+		25C070711CA37DE50098A3FB /* phoneIcon@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phoneIcon@1x.png"; sourceTree = "<group>"; };
+		25C070721CA37DE50098A3FB /* phoneIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phoneIcon@2x.png"; sourceTree = "<group>"; };
+		25C070731CA37DE50098A3FB /* phoneIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phoneIcon@3x.png"; sourceTree = "<group>"; };
+		25C070771CA38C1D0098A3FB /* serverPointLogo@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "serverPointLogo@1x.png"; sourceTree = "<group>"; };
+		25C070781CA38C1D0098A3FB /* serverPointLogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "serverPointLogo@2x.png"; sourceTree = "<group>"; };
+		25C070791CA38C1D0098A3FB /* serverPointLogo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "serverPointLogo@3x.png"; sourceTree = "<group>"; };
+		25C0707A1CA38C1D0098A3FB /* unitLog@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unitLog@1x.png"; sourceTree = "<group>"; };
+		25C0707B1CA38C1D0098A3FB /* unitLog@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unitLog@2x.png"; sourceTree = "<group>"; };
+		25C0707C1CA38C1D0098A3FB /* unitLog@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unitLog@3x.png"; sourceTree = "<group>"; };
 		25E983811C8535BE00CB027E /* WorkTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkTypeViewController.h; sourceTree = "<group>"; };
 		25E983821C8535BE00CB027E /* WorkTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkTypeViewController.m; sourceTree = "<group>"; };
 		25F592221C93A8340036F881 /* CompanyAppointmentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyAppointmentListViewController.h; sourceTree = "<group>"; };
@@ -780,6 +792,15 @@
 		252AB87A1C76E3880085CC14 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				25C070771CA38C1D0098A3FB /* serverPointLogo@1x.png */,
+				25C070781CA38C1D0098A3FB /* serverPointLogo@2x.png */,
+				25C070791CA38C1D0098A3FB /* serverPointLogo@3x.png */,
+				25C0707A1CA38C1D0098A3FB /* unitLog@1x.png */,
+				25C0707B1CA38C1D0098A3FB /* unitLog@2x.png */,
+				25C0707C1CA38C1D0098A3FB /* unitLog@3x.png */,
+				25C070711CA37DE50098A3FB /* phoneIcon@1x.png */,
+				25C070721CA37DE50098A3FB /* phoneIcon@2x.png */,
+				25C070731CA37DE50098A3FB /* phoneIcon@3x.png */,
 				254D95B81C9ACB1B003B64D4 /* QRDefault.png */,
 				254D95AC1C995DA6003B64D4 /* QRScan@1x.png */,
 				254D95AD1C995DA6003B64D4 /* QRScan@2x.png */,
@@ -796,9 +817,6 @@
 				254A8D991C7C2CAC00F2EC94 /* message@1x.png */,
 				254A8D9A1C7C2CAC00F2EC94 /* message@2x.png */,
 				254A8D9B1C7C2CAC00F2EC94 /* message@3x.png */,
-				254A8D901C7C2C8B00F2EC94 /* phonecall@1x.png */,
-				254A8D911C7C2C8B00F2EC94 /* phonecall@2x.png */,
-				254A8D921C7C2C8B00F2EC94 /* phonecall@3x.png */,
 				254A8DA21C7C32B800F2EC94 /* servicePoint@1x.png */,
 				254A8DA31C7C32B800F2EC94 /* servicePoint@2x.png */,
 				254A8DA41C7C32B800F2EC94 /* servicePoint@3x.png */,
@@ -1434,12 +1452,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				25BFEB491C75BF1F0062F9B8 /* back@3x.png in Resources */,
+				25C070741CA37DE50098A3FB /* phoneIcon@1x.png in Resources */,
 				254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */,
+				25C070821CA38C1D0098A3FB /* unitLog@3x.png in Resources */,
 				254A8DD21C7D619C00F2EC94 /* Login_Logo@3x.png in Resources */,
 				25BFEB471C75BF1F0062F9B8 /* back@1x.png in Resources */,
 				254A8DA61C7C32B800F2EC94 /* servicePoint@2x.png in Resources */,
 				254A8DAC1C7C380400F2EC94 /* nameIcon@2x.png in Resources */,
 				254502FE1C8FB77000F47F46 /* hclaunchscreen@1x.png in Resources */,
+				25C070801CA38C1D0098A3FB /* unitLog@1x.png in Resources */,
 				254D95B11C995DA6003B64D4 /* QRScan@3x.png in Resources */,
 				252AB88B1C76E3880085CC14 /* search_icon@2x.png in Resources */,
 				254A8DD11C7D619C00F2EC94 /* Login_Logo@2x.png in Resources */,
@@ -1447,7 +1468,6 @@
 				B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */,
 				254A8D8C1C7AE02300F2EC94 /* Avatar@3x.png in Resources */,
 				252AB8861C76E3880085CC14 /* date_icon@3x.png in Resources */,
-				254A8D951C7C2C8B00F2EC94 /* phonecall@3x.png in Resources */,
 				2512B4261C7056D200EE661B /* OpenSans-Semibold.ttf in Resources */,
 				252AB8881C76E3880085CC14 /* phone_icon@2x.png in Resources */,
 				254D95B01C995DA6003B64D4 /* QRScan@2x.png in Resources */,
@@ -1460,9 +1480,10 @@
 				252AB8891C76E3880085CC14 /* phone_icon@3x.png in Resources */,
 				254A8DA51C7C32B800F2EC94 /* servicePoint@1x.png in Resources */,
 				252AB8841C76E3880085CC14 /* date_icon@1x.png in Resources */,
-				254A8D931C7C2C8B00F2EC94 /* phonecall@1x.png in Resources */,
+				25C0707E1CA38C1D0098A3FB /* serverPointLogo@2x.png in Resources */,
 				254503001C8FB77000F47F46 /* hclaunchscreen@3x.png in Resources */,
 				254502FF1C8FB77000F47F46 /* hclaunchscreen@2x.png in Resources */,
+				25C0707F1CA38C1D0098A3FB /* serverPointLogo@3x.png in Resources */,
 				254A8DAB1C7C380400F2EC94 /* nameIcon@1x.png in Resources */,
 				254A8DA01C7C2CAC00F2EC94 /* message@2x.png in Resources */,
 				254D95B91C9ACB1B003B64D4 /* QRDefault.png in Resources */,
@@ -1471,15 +1492,18 @@
 				254A8DA11C7C2CAC00F2EC94 /* message@3x.png in Resources */,
 				254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */,
 				254A8D9D1C7C2CAC00F2EC94 /* detail@2x.png in Resources */,
-				254A8D941C7C2C8B00F2EC94 /* phonecall@2x.png in Resources */,
 				B27222C01C8FBD37002494EA /* DJRefresh.bundle in Resources */,
+				25C0707D1CA38C1D0098A3FB /* serverPointLogo@1x.png in Resources */,
 				25BFEB481C75BF1F0062F9B8 /* back@2x.png in Resources */,
+				25C070751CA37DE50098A3FB /* phoneIcon@2x.png in Resources */,
 				254A8DA71C7C32B800F2EC94 /* servicePoint@3x.png in Resources */,
 				2512B3B71C70557C00EE661B /* Assets.xcassets in Resources */,
 				2512B4241C7056D200EE661B /* OpenSans-Bold.ttf in Resources */,
+				25C070811CA38C1D0098A3FB /* unitLog@2x.png in Resources */,
 				254A8DC21C7D401A00F2EC94 /* arrow@2x.png in Resources */,
 				252AB88C1C76E3880085CC14 /* search_icon@3x.png in Resources */,
 				B201CCC31C72046D00B8F624 /* Info.plist in Resources */,
+				25C070761CA37DE50098A3FB /* phoneIcon@3x.png in Resources */,
 				254A8DD01C7D619C00F2EC94 /* Login_Logo@1x.png in Resources */,
 				254A8D9E1C7C2CAC00F2EC94 /* detail@3x.png in Resources */,
 			);

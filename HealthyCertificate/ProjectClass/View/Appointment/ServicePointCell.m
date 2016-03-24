@@ -11,6 +11,7 @@
 #import "Constants.h"
 
 #import <Masonry.h>
+#import <UIImageView+WebCache.h>
 
 #import "UIButton+Easy.h"
 #import "UIColor+Expanded.h"
@@ -19,6 +20,11 @@
 #import "NSDate+Custom.h"
 #import "UIButton+HitTest.h"
 
+
+
+#import "HttpNetworkManager.h"
+
+static CGRect oldframe;
 
 #define Cell_Font FIT_FONTSIZE(24)
 #define Cell_Detail_Font FIT_FONTSIZE(23)
@@ -33,19 +39,10 @@
     UILabel                 *_locationLabel;
     UILabel                 *_timeLabel;
 }
-//ff4200
 @end
 
 
 @implementation ServicePointCell
-
-
-/*
- test.name = @"江安门诊部";
- test.address = @"成都市武侯区江安门诊部";
- test.startTime = [NSDate date];
- test.distance = 16.0;
- */
 
 #pragma mark - Setter & Getter
 -(void)setServicePoint:(ServersPositionAnnotionsModel *)servicePoint{
@@ -54,29 +51,6 @@
     _distanceLabel.text = [NSString stringWithFormat:@"%.1lfkm", servicePoint.distance];
     _distanceLabel.textColor = MO_RGBCOLOR(0, 169, 234);
     
-    /*
-     _locationLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Cell_Detail_Font];
-     _locationLabel.textColor = [UIColor colorWithRGBHex:0x6e6e6e];
-     */
-    
-    //如果是临时服务点
-//    if (servicePoint.type == 1){
-//        [_locationLabel setText:servicePoint.address
-//                       textFont:[UIFont fontWithType:UIFontOpenSansRegular size:Cell_Detail_Font]
-//                    WithEndText:@"临"
-//                   endTextColor:[UIColor redColor]];
-//        _timeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)",
-//                           [NSDate getYear_Month_DayByDate:servicePoint.startTime/1000],
-//                           [NSDate getHour_MinuteByDate:servicePoint.startTime/1000],
-//                           [NSDate getHour_MinuteByDate:servicePoint.endTime/1000]];
-//    }
-//    else{
-//        _locationLabel.text = servicePoint.address;
-//        _timeLabel.text = [NSString stringWithFormat:@"工作日(%@~%@)",
-//                               [NSDate getHour_MinuteByDate:servicePoint.startTime/1000],
-//                               [NSDate getHour_MinuteByDate:servicePoint.endTime/1000]];
-//        
-//    }
     if (servicePoint.type == 1){
         _locationLabel.text = servicePoint.address;
         _timeLabel.text = [NSString stringWithFormat:@"%@(%@~%@)",
@@ -90,6 +64,28 @@
                            [NSDate getHour_MinuteByDate:servicePoint.startTime/1000],
                            [NSDate getHour_MinuteByDate:servicePoint.endTime/1000]];
 
+    }
+    /*
+     //根据预约编号去请求图片
+     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], _customerTestInfo.checkCode]];
+     //这里要添加图片
+     [_healthyCertificateView.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Avatar                                                                                                                                                                                                                                                                                                                                                                                                "] options:SDWebImageRefreshCached|SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+     if (error!=nil){}
+     }];
+     */
+    
+    
+    //判断是固定机构还是移动服务点
+    if (servicePoint.type == 0){
+        //固定服务点
+        //根据机构编号去获取图片
+        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@hosInfo/getIntroPhoto?hosCode=%@", [HttpNetworkManager baseURL], servicePoint.cHostCode]];
+        [_picImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"unitLog"] options:SDWebImageRefreshCached];
+    }else{
+        //移动服务点
+        //brVehicle/getPhoto
+        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@brVehicle/getPhoto?uid=%@", [HttpNetworkManager baseURL], servicePoint.brOutCheckArrange.vehicleID]];
+        [_picImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"serverPointLogo"] options:SDWebImageRefreshCached];
     }
 }
 
@@ -115,11 +111,19 @@
             make.width.mas_equalTo(PXFIT_WIDTH(168)); // 24 120 24
         }];
         
-        _picImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"servicePoint"]];
+        UIImage* placeHolderIamge = [UIImage imageNamed:@"serverPointLogo"];
+        _picImageView = [[UIImageView alloc] init];
         [imageContainerView addSubview:_picImageView];
         [_picImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(imageContainerView);
+            make.width.mas_equalTo(placeHolderIamge.size.width);
+            make.height.mas_equalTo(placeHolderIamge.size.height);
         }];
+        _picImageView.layer.masksToBounds = YES;
+        _picImageView.layer.cornerRadius = placeHolderIamge.size.width/2;
+        _picImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
+        [_picImageView addGestureRecognizer:singleTap];
         
         UIView* topRightView = [[UIView alloc] init];
         [topView addSubview:topRightView];
@@ -204,39 +208,36 @@
             make.top.mas_equalTo(lineView.mas_bottom);
         }];
         
-//        UIButton* messageBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"message"]
-//                                                highlightImage:[UIImage imageNamed:@"message"]];
-//        messageBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
-//        [messageBtn addTarget:self action:@selector(messageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//        [bottomView addSubview:messageBtn];
-//        [messageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerY.mas_equalTo(bottomView);
-//            make.right.mas_equalTo(bottomView).with.offset(-PXFIT_WIDTH(24));
-//        }];
+        UIButton* appointmenBtn = [UIButton buttonWithTitle:@"预约"
+                                                       font:[UIFont fontWithType:UIFontOpenSansRegular size:Cell_Font]
+                                                  textColor:[UIColor whiteColor]
+                                            backgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+        [bottomView addSubview:appointmenBtn];
+        [appointmenBtn addTarget:self action:@selector(detailBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        appointmenBtn.layer.cornerRadius = 5;
+        [appointmenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(bottomView);
+            make.top.mas_equalTo(bottomView).with.offset(PXFIT_HEIGHT(15));
+            make.bottom.mas_equalTo(bottomView).with.offset(-PXFIT_HEIGHT(15));
+            make.right.mas_equalTo(bottomView).with.offset(-PXFIT_WIDTH(26));
+            make.width.mas_equalTo(PXFIT_WIDTH(120));
+        }];
         
-        UIButton* phoneCallBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"phonecall"]
-                                                  highlightImage:[UIImage imageNamed:@"phonecall"]];
-        phoneCallBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
-        [phoneCallBtn addTarget:self action:@selector(phoneCallBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        UIButton* phoneCallBtn = [[UIButton alloc] init];
+        [phoneCallBtn setImage:[UIImage imageNamed:@"phoneIcon"] forState:UIControlStateNormal];
+        phoneCallBtn.layer.cornerRadius = 5;
+        phoneCallBtn.imageView.contentMode = UIViewContentModeCenter;
+        phoneCallBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Green];
         [bottomView addSubview:phoneCallBtn];
+        [phoneCallBtn addTarget:self action:@selector(phoneCallBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [phoneCallBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(bottomView);
-           // make.right.mas_equalTo(messageBtn.mas_left).with.offset(-PXFIT_WIDTH(76));
-            make.right.mas_equalTo(bottomView).with.offset(-PXFIT_WIDTH(24));
-        }];
-        
-        UIButton* detailBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"detail"]
-                                                  highlightImage:[UIImage imageNamed:@"detail"]];
-        detailBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
-        [detailBtn addTarget:self action:@selector(detailBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [bottomView addSubview:detailBtn];
-        [detailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(bottomView);
-            make.right.mas_equalTo(phoneCallBtn.mas_left).with.offset(-PXFIT_WIDTH(76));
+            make.centerY.mas_equalTo(appointmenBtn);
+            make.width.mas_equalTo(appointmenBtn);
+            make.height.mas_equalTo(appointmenBtn);
+            make.right.mas_equalTo(appointmenBtn.mas_left).with.offset(-PXFIT_WIDTH(60));
         }];
         
         
-        //MO_RGBCOLOR(70, 180, 240)
         _nameLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Cell_Font];
         _distanceLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Cell_Detail_Font];
         _distanceLabel.textColor = MO_RGBCOLOR(70, 180, 240);
@@ -249,10 +250,6 @@
 }
 
 #pragma mark - Action
-//-(void)messageBtnClicked:(id)sender
-//{
-//}
-
 -(void)phoneCallBtnClicked:(id)sender
 {
     (_servicePointCellPhoneNumBtnBlock)(_servicePoint.leaderPhone);
@@ -262,5 +259,40 @@
 {
     (_serviceAppointmentBtnClickedBlock)();
 }
+
+- (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
+{
+    UIImage *image =_picImageView.image;
+    // 获得根窗口
+    UIWindow *window =[UIApplication sharedApplication].keyWindow;
+    UIView *backgroundView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    oldframe =[_picImageView convertRect:_picImageView.bounds toView:window];
+    backgroundView.backgroundColor =[UIColor blackColor];
+    backgroundView.alpha =0.5;
+    UIImageView *imageView =[[UIImageView alloc]initWithFrame:oldframe];
+    imageView.image =image;
+    imageView.tag =1;
+    [backgroundView addSubview:imageView];
+    [window addSubview:backgroundView];
+    //点击图片缩小的手势
+    UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
+    [backgroundView addGestureRecognizer:tap];
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame =CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
+        backgroundView.alpha =1;
+    }];
+}
+
+-(void)hideImage:(UITapGestureRecognizer *)tap{
+    UIView *backgroundView =tap.view;
+    UIImageView *imageView =(UIImageView *)[tap.view viewWithTag:1];
+    [UIView animateWithDuration:0.3 animations:^{
+        imageView.frame =oldframe;
+        backgroundView.alpha =0;
+    } completion:^(BOOL finished) {
+        [backgroundView removeFromSuperview];
+    }];
+}
+
 
 @end

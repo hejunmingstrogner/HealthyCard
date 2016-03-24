@@ -186,6 +186,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }];
     
     UIView* containerView = [[UIView alloc] init];
+    containerView.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     [scrollView addSubview:containerView];
     [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(scrollView);
@@ -195,6 +196,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     UILabel* titleLabel = [UILabel labelWithText:gCompanyInfo.cUnitName
                                             font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]
                                        textColor:[UIColor colorWithRGBHex:HC_Gray_Text]];
+    titleLabel.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     [containerView addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(containerView).with.offset(10);
@@ -206,6 +208,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     UIView* examinationContainerView = [[UIView alloc] init];
     examinationContainerView.layer.borderWidth = 1;
     examinationContainerView.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
+    examinationContainerView.backgroundColor = [UIColor whiteColor];
     [containerView addSubview:examinationContainerView];
     
     UILabel* examinationAddressLabel = [UILabel labelWithText:@"体检地址"
@@ -768,6 +771,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         case TABLEVIEW_BASEINFO:
         {
             UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
             cell.textLabel.textColor = [UIColor blackColor];
             if (indexPath.section == 0){
