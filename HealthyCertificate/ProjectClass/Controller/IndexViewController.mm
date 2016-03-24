@@ -29,6 +29,7 @@
 #import "HistoryInformationVController.h"
 #import "LoginController.h"
 #import "QRController.h"
+#import "UILabel+FontColor.h"
 
 #import "OrdersAlertView.h"
 
@@ -120,11 +121,11 @@ BOOL   _isLocationInfoHasBeenSent;
             {
                 checkListData = [NSMutableArray arrayWithArray:brContractArray];
             }
-            pendingLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)checkListData.count];
+            [pendingLabel setText1:@"未完成" text1Color:[UIColor blackColor] text2:[NSString stringWithFormat:@" %lu ",(unsigned long)checkListData.count] text2Color:[UIColor redColor] text3:@"单" text3Color:[UIColor blackColor] size:15];
         }
         else {
-            //[RzAlertView showAlertLabelWithTarget:self.view Message:@"获取预约数据失败" removeDelay:2];
-            pendingLabel.text = @"0";
+            [checkListData removeAllObjects];
+            [pendingLabel setText1:@"未完成" text1Color:[UIColor blackColor] text2:@" 0 " text2Color:[UIColor redColor] text3:@"单" text3Color:[UIColor blackColor] size:15];
         }
         _isRefreshData = NO;
     }];
@@ -174,22 +175,21 @@ BOOL   _isLocationInfoHasBeenSent;
         make.left.equalTo(headerBackGroundView).offset(10);
         make.bottom.equalTo(headerBackGroundView);
         make.height.mas_equalTo(30);
-        make.width.mas_equalTo(112);
+        make.width.mas_equalTo(100);
     }];
-    [pendingBtn setTitle:@"待处理项" forState:UIControlStateNormal];
+//    [pendingBtn setTitle:@"待处理项" forState:UIControlStateNormal];
     pendingBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     pendingBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [pendingBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [pendingBtn addTarget:self action:@selector(pendingWorkClicked) forControlEvents:UIControlEventTouchUpInside];
 
     pendingLabel = [[UILabel alloc]init];
-    pendingLabel.textColor = [UIColor redColor];
-    pendingLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     pendingLabel.textAlignment = NSTextAlignmentLeft;
     [headerBackGroundView addSubview:pendingLabel];
     [pendingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.right.equalTo(pendingBtn);
-        make.width.equalTo(pendingLabel.mas_height).offset(10);
+//        make.top.bottom.right.equalTo(pendingBtn);
+//        make.width.equalTo(pendingLabel.mas_height).offset(10);
+        make.edges.equalTo(pendingBtn);
     }];
 
     // 最近服务点的位置按钮
@@ -198,16 +198,25 @@ BOOL   _isLocationInfoHasBeenSent;
     [minDistanceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(headerBackGroundView).offset(-10);
         make.bottom.equalTo(headerBackGroundView);
-        make.width.mas_equalTo(70);
+        make.width.mas_equalTo(150);
         make.height.equalTo(pendingBtn);
     }];
-    [minDistanceBtn setImage:[UIImage imageNamed:@"serverPosition"] forState:UIControlStateNormal];
-    minDistanceBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 55);
-    minDistanceBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [minDistanceBtn setTitle:@"0km" forState:UIControlStateNormal];
-    minDistanceBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [minDistanceBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [minDistanceBtn addTarget:self action:@selector(minDistanceBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    // 按钮服务点的图片
+    UIImageView *serverImage = [[UIImageView alloc]init];
+    [minDistanceBtn addSubview:serverImage];
+    [serverImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.centerY.equalTo(minDistanceBtn);
+        make.width.mas_equalTo(16);
+        make.height.mas_equalTo(22.67);
+    }];
+    serverImage.image = [UIImage imageNamed:@"serverPosition"];
+    minDistanceLabel = [[UILabel alloc]init];
+    [minDistanceBtn addSubview:minDistanceLabel];
+    [minDistanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.right.equalTo(minDistanceBtn);
+        make.left.equalTo(serverImage.mas_right);
+    }];
 
     //   一键预约背景
     UIView *orderView = [UIView new];
@@ -237,10 +246,12 @@ BOOL   _isLocationInfoHasBeenSent;
     UIView *addressView = [UIView new];
     [self.view addSubview:addressView];
     [addressView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(orderView.mas_top).offset(-10);
+//        make.bottom.equalTo(orderView.mas_top).offset(-10);
         make.left.equalTo(self.view).offset(10);
         make.right.equalTo(self.view).offset(-10);
         make.height.mas_equalTo(50);
+        make.top.equalTo(headerBackGroundView.mas_bottom).offset(10);
+
     }];
     addressView.backgroundColor = [UIColor whiteColor];
 
@@ -299,7 +310,8 @@ BOOL   _isLocationInfoHasBeenSent;
     [removeToCurrentLocateBtn setImage:[UIImage imageNamed:@"dingwei"] forState:UIControlStateNormal];
     [self.view addSubview:removeToCurrentLocateBtn];
     [removeToCurrentLocateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(addressView.mas_top).offset(-10);
+//        make.bottom.equalTo(addressView.mas_top).offset(-10);
+        make.bottom.equalTo(_mapView).offset(-20);
         make.width.height.mas_equalTo(35);
         make.right.equalTo(self.view).offset(-10);
     }];
@@ -650,8 +662,8 @@ BOOL   _isLocationInfoHasBeenSent;
 {
     _mapView.showMapScaleBar = YES;
     _mapView.zoomLevel = 14;
-    [_mapView setMapScaleBarPosition:CGPointMake(10, 10)];
-    _mapView.compassPosition = CGPointMake([UIScreen mainScreen].bounds.size.width - 50, 10);
+    [_mapView setMapScaleBarPosition:CGPointMake(10, 80)];
+    _mapView.compassPosition = CGPointMake([UIScreen mainScreen].bounds.size.width - 50, 80);
 }
 
 // 拖拽地图设置用户服务位置
@@ -692,6 +704,7 @@ BOOL   _isLocationInfoHasBeenSent;
             _centerCoordinate = _mapView.centerCoordinate;
             [[HttpNetworkManager getInstance] getNearbyServicePointsWithCLLocation:_mapView.centerCoordinate resultBlock:^(NSArray *result, NSError *error) {
                 // 将附近的服务点显示出来
+                [nearbyServicePositionsArray removeAllObjects];
                 if (!error) {
                     [_mapView removeAnnotations:_mapView.annotations];
 
@@ -707,11 +720,16 @@ BOOL   _isLocationInfoHasBeenSent;
                 }
                 else {
                     //[RzAlertView showAlertLabelWithTarget:self.view Message:@"获取附近服务点信息失败" removeDelay:2];
+                    // 计算最近的服务点距离并将数据排序
+                    [self calculateMinDistance];
                 }
             }];
         }
         else {
             addressLabel.text = @"";
+            nearbyServicePositionsArray = [NSMutableArray array];
+            // 计算最近的服务点距离并将数据排序
+            [self calculateMinDistance];
             //[RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:2];
         }
         [changeStatusTimer invalidate];
@@ -821,10 +839,16 @@ BOOL   _isLocationInfoHasBeenSent;
         float mindistance = [((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]) distance];
 
         // 显示最近距离
-        [minDistanceBtn setTitle:[NSString stringWithFormat:@"%0.2fkm", mindistance] forState:UIControlStateNormal];
+        [minDistanceBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(150);
+        }];
+        [minDistanceLabel setText1:@"最近服务点" text1Color:[UIColor blackColor] text2:[NSString stringWithFormat:@"%0.2f", mindistance] text2Color:[UIColor redColor] text3:@"km" text3Color:[UIColor blackColor] size:15];
     }
     else{
-        [minDistanceBtn setTitle:@"暂无" forState:UIControlStateNormal];
+        minDistanceLabel.text = @"暂无";
+        [minDistanceBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(55);
+        }];
     }
 }
 @end

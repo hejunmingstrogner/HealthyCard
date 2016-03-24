@@ -30,7 +30,7 @@
     UILabel     *titleLabel;                // 标题
 
     UIButton    *minDistanceBtn;            // 最近服务点距离按钮
-
+    UILabel     *minDistanceLabel;          // 文本
     BMKMapView  *_mapView;
     UIImageView *locateimageview;           // 显示要定位地点的标注图钉
     NSMutableArray *nearbyServicePositionsArray;    // 附近的服务点数组
