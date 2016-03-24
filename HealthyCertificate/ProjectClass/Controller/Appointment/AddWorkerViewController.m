@@ -18,9 +18,6 @@
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
-
-#import "WZFlashButton.h"
-
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface AddWorkerViewController()
@@ -29,13 +26,13 @@
     NSMutableArray *_needCanleWorkerDateArray;  // 封装的需要过滤的员工数据
     NSMutableArray *_workerArray;      // 封装的员工数据
     NSMutableArray *_selectWorkerArray;    // 选择的员工   返回的选择的数据
-
+    
     UILabel        *_seletingCountLabel;
     RzAlertView    *_waitAlertView;
-
+    
     UITableView    *_tableView;
-
-    WZFlashButton       *_comfirmBtn; // 确定
+    
+    UIButton       *_comfirmBtn; // 确定
 }
 @end
 
@@ -51,15 +48,15 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     _workerData = [NSMutableArray array];
     _workerArray = [NSMutableArray array];
     _selectWorkerArray = [NSMutableArray arrayWithArray:_selectedWorkerArray];
-
+    
     [self initNavgation];
-
+    
     [self initSubViews];
-
+    
     [self getData];
 }
 
@@ -72,12 +69,12 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
-
+    
     _seletingCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, 44)];
     _seletingCountLabel.textAlignment = NSTextAlignmentRight;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:_seletingCountLabel];
-//    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:(_selectWorkerArray.count + _needcanlceWorkersArray.count) endColor:[UIColor blueColor]];
-    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:(_selectWorkerArray.count + _selectedWorkerArray.count) endColor:[UIColor blueColor]];
+    //    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:(_selectWorkerArray.count + _needcanlceWorkersArray.count) endColor:[UIColor blueColor]];
+    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count endColor:[UIColor blueColor]];
 }
 // 返回前一页
 - (void)backToPre:(id)sender
@@ -96,12 +93,12 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据获取中..."];
     }
     [_waitAlertView show];
-
+    // 对选择过的员工进行筛选
     NSMutableArray *array = [[NSMutableArray alloc]init];
     for (Customer *custom in _selectWorkerArray) {
         [array addObject:custom.custCode];
     }
-
+    
     [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:_cUnitCode == nil? gCompanyInfo.cUnitCode : _cUnitCode resultBlock:^(NSArray *result, NSError *error) {
         if(result.count == 0)
         {
@@ -109,23 +106,23 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         }
         if (!error) {
             // 对员工进行排序
-
-            _workerData = [NSMutableArray arrayWithArray:result];
-//            // 过滤掉已经选择过的员工
-//            if (_needcanlceWorkersArray.count != 0) {
-//                _needCanleWorkerDateArray = [[NSMutableArray alloc]init];
-//                for (int i = 0; i< _needcanlceWorkersArray.count; i++) {
-//                    Customer *customer = _needcanlceWorkersArray[i];
-//                    AddWorkerCellItem *cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:1];
-//                    [_needCanleWorkerDateArray addObject:cellItem];
-//                    for (int j = 0; j < _workerData.count; j++) {
-//                        if ([((Customer *)_workerData[j]).custCode isEqualToString:((Customer *)_needcanlceWorkersArray[i]).custCode]) {
-//                            [_workerData removeObjectAtIndex:j];
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
+            
+            _workerData = [NSMutableArray arrayWithArray:[self sortWorkList:result]];
+            //            // 过滤掉已经选择过的员工
+            //            if (_needcanlceWorkersArray.count != 0) {
+            //                _needCanleWorkerDateArray = [[NSMutableArray alloc]init];
+            //                for (int i = 0; i< _needcanlceWorkersArray.count; i++) {
+            //                    Customer *customer = _needcanlceWorkersArray[i];
+            //                    AddWorkerCellItem *cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:1];
+            //                    [_needCanleWorkerDateArray addObject:cellItem];
+            //                    for (int j = 0; j < _workerData.count; j++) {
+            //                        if ([((Customer *)_workerData[j]).custCode isEqualToString:((Customer *)_needcanlceWorkersArray[i]).custCode]) {
+            //                            [_workerData removeObjectAtIndex:j];
+            //                            break;
+            //                        }
+            //                    }
+            //                }
+            //            }
             [_workerArray removeAllObjects];
             for (Customer *customer in _workerData) {
                 AddWorkerCellItem *cellItem;
@@ -145,25 +142,24 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         [_waitAlertView close];
     }];
 }
+#pragma mark -对得到的员工进行排序
+// 对得到的员工进行排序
 - (NSArray *)sortWorkList:(NSArray *)works
 {
     NSMutableArray *worksArray = [NSMutableArray arrayWithArray:works];
-//    [worksArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-//        Customer *customer1 = (Customer *)obj1;
-//        Customer *customer2 = (Customer *)obj2;
-//        return customer1
-//    }];
-
+    [worksArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        Customer *customer1 = (Customer *)obj1;
+        Customer *customer2 = (Customer *)obj2;
+        return customer1.lastCheckTime > customer2.lastCheckTime;
+    }];
+    
     return [NSArray arrayWithArray:worksArray];
 }
+
 - (void)initSubViews
 {
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    _comfirmBtn = [[WZFlashButton alloc] init];
-    _comfirmBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
-    _comfirmBtn.flashColor =[UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
-    [_comfirmBtn setText:@"确   定" withTextColor:[UIColor whiteColor]];
+    _comfirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:_comfirmBtn];
     [_comfirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(10);
@@ -173,10 +169,11 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     }];
     _comfirmBtn.layer.masksToBounds = YES;
     _comfirmBtn.layer.cornerRadius = 5;
-    __weak typeof (self) wself = self;
-    _comfirmBtn.clickBlock = ^(){
-        [wself comfirmBtnCliked];
-    };
+    [_comfirmBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+    [_comfirmBtn setTitle:@"确   定" forState:UIControlStateNormal];
+    [_comfirmBtn setTitleColor:[UIColor colorWithWhite:0.99 alpha:1] forState:UIControlStateNormal];
+    [_comfirmBtn addTarget:self action:@selector(comfirmBtnCliked:) forControlEvents:UIControlEventTouchUpInside];
+    
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -186,7 +183,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     }];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-
+    
     UILabel *fenge = [[UILabel alloc]init];
     [self.view addSubview:fenge];
     [fenge mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -198,44 +195,22 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     fenge.layer.borderWidth = 1;
 }
 
-- (void)comfirmBtnCliked
+- (void)comfirmBtnCliked:(UIButton *)sender
 {
     if (_block) {
         _block(_selectWorkerArray);
     }
-
+    
     [self backToPre:nil];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-//    if(_workerArray.count == 0 && _needcanlceWorkersArray.count == 0)
-//    {
-//        return 0;
-//    }
-//    if ((_workerArray.count == 0 && _needcanlceWorkersArray.count != 0) || (_workerArray.count != 0 && _needcanlceWorkersArray.count == 0)) {
-//        return 1;
-//    }
-//    if (_workerArray.count != 0 && _needcanlceWorkersArray.count != 0) {
-//        return 2;
-//    }
-    return 0;
+    return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (_workerArray.count == 0) {
-        return _needCanleWorkerDateArray.count;
-    }
-    if (_needCanleWorkerDateArray.count == 0) {
-        return _workerArray.count;
-    }
-    if (section == 0) {
-        return _workerArray.count;
-    }
-    if (section == 1) {
-        return _needCanleWorkerDateArray.count;
-    }
-    return 0;
+    return _workerArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -270,53 +245,28 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     return uiview;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-//    if ((_needcanlceWorkersArray.count != 0 && section == 1) || _workerArray.count == 0) {
-//        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
-//        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 300, 30)];
-//        label.text = @"以上已经预约过的员工不能被取消";
-//        label.textColor = [UIColor grayColor];
-//        label.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-//        [view addSubview:label];
-//        return view;
-//    }
-    return nil;
-}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if ((_needcanlceWorkersArray.count != 0 && indexPath.section == 1) || _workerArray.count == 0) {
-//        AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-//        if (!cell) {
-//            cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-//        }
-//        [cell setSelectedCellItem:(AddWorkerCellItem *)_needCanleWorkerDateArray[indexPath.row]];
-//        return cell;
-//    }
-
     AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
         cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     [cell setCellItem:(AddWorkerCellItem *)_workerArray[indexPath.row]];
-
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if ((_needcanlceWorkersArray.count != 0 && indexPath.section == 1 ) || _workerArray.count == 0) {
-//        return;
-//    }
     AddWorkerTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell changeSelectStatus:(AddWorkerCellItem *)_workerArray[indexPath.row]];
-
+    
     [_selectWorkerArray removeAllObjects];
     for (int i = 0; i < _workerArray.count; i++) {
         if (((AddWorkerCellItem *)_workerArray[i]).isSelectFlag == 1) {
             [_selectWorkerArray addObject:_workerData[i]];
         }
     }
-   // [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count + _needcanlceWorkersArray.count endColor:[UIColor blueColor]];
+    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count endColor:[UIColor blueColor]];
 }
 @end

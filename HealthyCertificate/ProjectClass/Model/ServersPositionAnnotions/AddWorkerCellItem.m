@@ -10,7 +10,7 @@
 
 @implementation AddWorkerCellItem
 
-- (instancetype)initWithName:(NSString *)name phone:(NSString *)phone endDate:(NSString *)endDate selectFlag:(SelectFlag)isSelectFlag
+- (instancetype)initWithName:(NSString *)name phone:(NSString *)phone endDate:(long long)endDate selectFlag:(SelectFlag)isSelectFlag
 {
     if (self = [super init]) {
         _name = name;

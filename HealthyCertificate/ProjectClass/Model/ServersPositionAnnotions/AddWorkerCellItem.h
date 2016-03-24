@@ -17,9 +17,9 @@ typedef enum{
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *phone;
-@property (nonatomic, strong) NSString *endDate;
+@property (nonatomic, assign) long long endDate;
 @property (nonatomic, assign) SelectFlag isSelectFlag;
 
-- (instancetype)initWithName:(NSString *)name phone:(NSString *)phone endDate:(NSString *)endDate selectFlag:(SelectFlag)isSelectFlag;
+- (instancetype)initWithName:(NSString *)name phone:(NSString *)phone endDate:(long long)endDate selectFlag:(SelectFlag)isSelectFlag;
 
 @end
