@@ -204,7 +204,7 @@
         make.left.mas_equalTo(containerView).with.offset(10);
         make.right.mas_equalTo(containerView).with.offset(-10);
         make.top.mas_equalTo(_baseInfoTableView.mas_bottom).with.offset(10);
-        make.height.mas_equalTo(PXFIT_HEIGHT(536));
+        make.height.mas_equalTo(PXFIT_HEIGHT(470));
     }];
     
 //    _appointmentInfoView = [[AppointmentInfoView alloc] init];
