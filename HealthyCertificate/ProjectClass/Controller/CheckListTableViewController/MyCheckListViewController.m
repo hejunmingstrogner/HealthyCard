@@ -126,7 +126,7 @@
         else {
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             [refresh finishRefreshingDirection:direction animation:YES];
         });
     }];
