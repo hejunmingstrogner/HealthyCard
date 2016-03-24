@@ -10,20 +10,22 @@
 
 
 typedef enum {
-    PERSON_HEADERIMAGE = 0, //
-    PERSON_NAME, //
-    PERSON_GENDER,//
-    PERSON_AGE,//
-    PERSON_TELPHONE,//
-    PERSON_IDCARD,//
-    PERSON_CALLING,//
-    PERSON_COMPANY_NAME,//
+    PERSON_HEADERIMAGE = 0,     // 头像
+    PERSON_NAME,                // 个人姓名
+    PERSON_GENDER,              // 性别
+    PERSON_AGE,                 //年龄
+    PERSON_TELPHONE,            // 电话
+    PERSON_IDCARD,              // 身份证
+    PERSON_CALLING,             // 行业
+    PERSON_COMPANY_NAME,        // 单位名称
 
-    COMPANY_NAME,
-    COMPANY_ADDRESS,
-    COMPANY_CONTACT,
-    COMPANY_LINKPHONE,
-    COMPANY_CALLING
+    COMPANY_NAME,               // 公司名字
+    COMPANY_ADDRESS,            // 公司地址
+    COMPANY_CONTACT,            // 联系人
+    COMPANY_LINKPHONE,          // 联系电话
+    COMPANY_CALLING,            // 公司行业
+    COMPANY_INDUSTRY_CODE,      // 工商编号
+    COMPANY_BELONG_CITY,        // 注册城市
 } UserinformCellItemType;
 
 @interface UserinformationCellItem : NSObject
