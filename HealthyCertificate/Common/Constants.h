@@ -23,9 +23,9 @@
 //http://lt.witaction.com:8080
 //#define SOCKET_HOST @"cert.witaction.com"
 //开发环境
-#define SOCKET_HOST @"yiscert.witaction.com"
+//#define SOCKET_HOST @"yiscert.witaction.com"
 //运营环境
-//#define SOCKET_HOST @"182.140.132.214"
+#define SOCKET_HOST @"182.140.132.214"
 
 //#define SOCKET_HOST @"10.254.244.59"
 #define SOCKET_PORT 6413 //服务器端口号
@@ -101,17 +101,11 @@ extern BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送
 #define GetUserType [[[NSUserDefaults standardUserDefaults] objectForKey:@"userType"] integerValue] // 获得用户类型
 #define SetUserType(type) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", type] forKey:@"userType"]          // 设置用户类型，1:个人  2:单位
 
-#define SetUuidTimeOut(timeout) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", timeout] forKey:@"hc_uuid_timeout"]
-#define GetUuidTimeOut [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_uuid_timeout"]
-
-#define SetUuid(uuid) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", uuid] forKey:@"hc_uuid"]
-#define GetUuid [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_uuid"]
-
-#define SetLastLoginTime(lastLoginTime) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%lld", lastLoginTime] forKey:@"hc_lastloign_time"]
-#define GetLastLoginTime [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_lastloign_time"]
-
 #define SetPhoneNumber(phoneNumber) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", phoneNumber] forKey:@"hc_phoneNumber"]
 #define GetPhoneNumber [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_phoneNumber"]
+
+#define SetLoginSucceedInfo(succeedInfo) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", succeedInfo] forKey:@"hc_succeedInfo"]
+#define GetLoginSucceedInfo [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_succeedInfo"]
 
 //灰色不可用
 #define HC_Gray_unable 0xcacaca

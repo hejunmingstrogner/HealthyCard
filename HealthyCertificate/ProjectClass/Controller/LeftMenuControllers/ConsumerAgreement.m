@@ -7,9 +7,16 @@
 //
 
 #import "ConsumerAgreement.h"
+
+#import "Constants.h"
+
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+
 #import "RzAlertView.h"
+
+#import <Masonry.h>
+
 @interface ConsumerAgreement()<UIWebViewDelegate>
 {
     UIWebView *webView;
@@ -45,15 +52,21 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if(_consumerPopStyle == ConsumerPopStyle_DisMiss){
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)initSubviews
-{
+{    
     webView = [[UIWebView alloc]initWithFrame:self.view.frame];
+    [self.view addSubview:webView];
     webView.dataDetectorTypes = UIDataDetectorTypeAll;
     webView.delegate = self;
-    [self.view addSubview:webView];
+    
 
     reloadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     reloadBtn.frame = self.view.frame;

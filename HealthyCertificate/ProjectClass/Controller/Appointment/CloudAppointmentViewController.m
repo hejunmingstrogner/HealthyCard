@@ -368,7 +368,6 @@
         }];
         [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
     }else{
-        
     }
 }
 
@@ -639,6 +638,7 @@
         wself.healthyCertificateView.name = resultStr;
     }];
     [self.navigationController pushViewController:editInfoViewController animated:YES];
+    [wself hideTheKeyBoard];
 }
 
 -(void)sexBtnClicked:(NSString *)gender
@@ -661,6 +661,7 @@
         wself.healthyCertificateView.workType = resultStr;
     };
     [self.navigationController pushViewController:workTypeViewController animated:YES];
+    [wself hideTheKeyBoard];
 }
 
 -(void)idCardBtnClicked:(NSString *)idCard
@@ -672,6 +673,7 @@
         wself.healthyCertificateView.idCard = resultStr;
     }];
     [self.navigationController pushViewController:editInfoViewController animated:YES];
+    [wself hideTheKeyBoard];
 }
 
 -(void)healthyImageClicked{
@@ -680,8 +682,10 @@
         photoimage = [TakePhoto scaleImage:photoimage withSize:CGSizeMake(wself.healthyCertificateView.imageView.frame.size.width,
                                                                           wself.healthyCertificateView.imageView.frame.size.height)];
         [wself.healthyCertificateView.imageView setImage:photoimage];
-        _isAvatarSet = YES; //代表修改了健康证图片
+        __strong typeof(self) strongSelf = wself;
+        strongSelf->_isAvatarSet = YES; //代表修改了健康证图片
     }];
+    [wself hideTheKeyBoard];
 }
 
 #pragma mark - Private Methods
@@ -709,8 +713,7 @@
     [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
     _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        if(_isCustomerServerPoint)
-        {
+        if(_isCustomerServerPoint){
             self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight);
         }
         else {
@@ -736,9 +739,6 @@
 }
 
 -(void)loadData{
-    //如果是待处理项点进去
-    
-    
     //健康证照片相关
     if (_customerTestInfo != nil){
         //根据预约编号去请求图片

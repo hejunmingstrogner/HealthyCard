@@ -26,12 +26,12 @@
     NSMutableArray *_needCanleWorkerDateArray;  // 封装的需要过滤的员工数据
     NSMutableArray *_workerArray;      // 封装的员工数据
     NSMutableArray *_selectWorkerArray;    // 选择的员工   返回的选择的数据
-
+    
     UILabel        *_seletingCountLabel;
     RzAlertView    *_waitAlertView;
-
+    
     UITableView    *_tableView;
-
+    
     UIButton       *_comfirmBtn; // 确定
 }
 @end
@@ -48,15 +48,15 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     _workerData = [NSMutableArray array];
     _workerArray = [NSMutableArray array];
     _selectWorkerArray = [NSMutableArray arrayWithArray:_selectedWorkerArray];
-
+    
     [self initNavgation];
-
+    
     [self initSubViews];
-
+    
     [self getData];
 }
 
@@ -69,11 +69,10 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
-
+    
     _seletingCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, 44)];
     _seletingCountLabel.textAlignment = NSTextAlignmentRight;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:_seletingCountLabel];
-//    [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:(_selectWorkerArray.count + _needcanlceWorkersArray.count) endColor:[UIColor blueColor]];
     [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectedWorkerArray.count endColor:[UIColor blueColor]];
 }
 // 返回前一页
@@ -98,7 +97,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     for (Customer *custom in _selectWorkerArray) {
         [array addObject:custom.custCode];
     }
-
+    
     [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:_cUnitCode == nil? gCompanyInfo.cUnitCode : _cUnitCode resultBlock:^(NSArray *result, NSError *error) {
         if(result.count == 0)
         {
@@ -106,23 +105,23 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         }
         if (!error) {
             // 对员工进行排序
-
+            
             _workerData = [NSMutableArray arrayWithArray:[self sortWorkList:result]];
-//            // 过滤掉已经选择过的员工
-//            if (_needcanlceWorkersArray.count != 0) {
-//                _needCanleWorkerDateArray = [[NSMutableArray alloc]init];
-//                for (int i = 0; i< _needcanlceWorkersArray.count; i++) {
-//                    Customer *customer = _needcanlceWorkersArray[i];
-//                    AddWorkerCellItem *cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:1];
-//                    [_needCanleWorkerDateArray addObject:cellItem];
-//                    for (int j = 0; j < _workerData.count; j++) {
-//                        if ([((Customer *)_workerData[j]).custCode isEqualToString:((Customer *)_needcanlceWorkersArray[i]).custCode]) {
-//                            [_workerData removeObjectAtIndex:j];
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
+            //            // 过滤掉已经选择过的员工
+            //            if (_needcanlceWorkersArray.count != 0) {
+            //                _needCanleWorkerDateArray = [[NSMutableArray alloc]init];
+            //                for (int i = 0; i< _needcanlceWorkersArray.count; i++) {
+            //                    Customer *customer = _needcanlceWorkersArray[i];
+            //                    AddWorkerCellItem *cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:1];
+            //                    [_needCanleWorkerDateArray addObject:cellItem];
+            //                    for (int j = 0; j < _workerData.count; j++) {
+            //                        if ([((Customer *)_workerData[j]).custCode isEqualToString:((Customer *)_needcanlceWorkersArray[i]).custCode]) {
+            //                            [_workerData removeObjectAtIndex:j];
+            //                            break;
+            //                        }
+            //                    }
+            //                }
+            //            }
             [_workerArray removeAllObjects];
             for (Customer *customer in _workerData) {
                 AddWorkerCellItem *cellItem;
@@ -152,7 +151,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         Customer *customer2 = (Customer *)obj2;
         return customer1.lastCheckTime > customer2.lastCheckTime;
     }];
-
+    
     return [NSArray arrayWithArray:worksArray];
 }
 
@@ -173,7 +172,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     [_comfirmBtn setTitle:@"确   定" forState:UIControlStateNormal];
     [_comfirmBtn setTitleColor:[UIColor colorWithWhite:0.99 alpha:1] forState:UIControlStateNormal];
     [_comfirmBtn addTarget:self action:@selector(comfirmBtnCliked:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -183,7 +182,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     }];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-
+    
     UILabel *fenge = [[UILabel alloc]init];
     [self.view addSubview:fenge];
     [fenge mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -200,7 +199,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     if (_block) {
         _block(_selectWorkerArray);
     }
-
+    
     [self backToPre:nil];
 }
 
@@ -252,7 +251,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     [cell setCellItem:(AddWorkerCellItem *)_workerArray[indexPath.row]];
-
+    
     return cell;
 }
 
@@ -260,7 +259,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 {
     AddWorkerTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell changeSelectStatus:(AddWorkerCellItem *)_workerArray[indexPath.row]];
-
+    
     [_selectWorkerArray removeAllObjects];
     for (int i = 0; i < _workerArray.count; i++) {
         if (((AddWorkerCellItem *)_workerArray[i]).isSelectFlag == 1) {
