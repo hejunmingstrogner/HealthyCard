@@ -27,6 +27,7 @@
 #import "UIImage+Color.h"
 #import "UIButton+TCHelper.h"
 #import "UIButton+touch.h"
+#import "UILabel+Easy.h"
 
 #import "BaseInfoTableViewCell.h"
 #import "CloudAppointmentDateVC.h"
@@ -204,15 +205,41 @@
         make.left.mas_equalTo(containerView).with.offset(10);
         make.right.mas_equalTo(containerView).with.offset(-10);
         make.top.mas_equalTo(_baseInfoTableView.mas_bottom).with.offset(10);
-        make.height.mas_equalTo(PXFIT_HEIGHT(460));
+        make.height.mas_equalTo(PXFIT_HEIGHT(536));
     }];
     
-    _appointmentInfoView = [[AppointmentInfoView alloc] init];
-    [_appointmentInfoView addBordersToEdge:UIRectEdgeTop withColor:[UIColor colorWithRGBHex:0Xe8e8e8] andWidth:1];
-    [containerView addSubview:_appointmentInfoView];
-    [_appointmentInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(containerView);
+//    _appointmentInfoView = [[AppointmentInfoView alloc] init];
+//    [_appointmentInfoView addBordersToEdge:UIRectEdgeTop withColor:[UIColor colorWithRGBHex:0Xe8e8e8] andWidth:1];
+//    [containerView addSubview:_appointmentInfoView];
+//    [_appointmentInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.mas_equalTo(containerView);
+//        make.top.mas_equalTo(_healthyCertificateView.mas_bottom).with.offset(10);
+//    }];
+    
+    UILabel* noticeLabel = [UILabel labelWithText:@"温馨提示"
+                                             font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)]
+                                        textColor:[UIColor blackColor]];
+    [containerView addSubview:noticeLabel];
+    [noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+       make.left.mas_equalTo(containerView).with.offset(10);
         make.top.mas_equalTo(_healthyCertificateView.mas_bottom).with.offset(10);
+    }];
+    
+    NSString* tipInfo;
+    if (_isCustomerServerPoint == YES){
+        tipInfo = @"您附近如果没有合适的体检服务点,请通过快速预约告之您的体检位置和体检时间,我们会及时安排体检车上门为您体检办证!";
+    }else{
+        tipInfo = @"请确认在体检车离开前按时到达服务点,以免给您带来不便!";
+    }
+    UILabel* itemLabel = [UILabel labelWithText:tipInfo
+                                           font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)]
+                                      textColor:[UIColor colorWithRGBHex:HC_Gray_Text]];
+    itemLabel.numberOfLines = 0;
+    [containerView addSubview:itemLabel];
+    [itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(containerView).with.offset(10);
+        make.right.mas_equalTo(containerView).with.offset(-10);
+        make.top.mas_equalTo(noticeLabel.mas_bottom).with.offset(10);
     }];
     
     
@@ -221,7 +248,7 @@
     [containerView addSubview:bottomView];
     [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(containerView);
-        make.top.mas_equalTo(_appointmentInfoView.mas_bottom);
+        make.top.mas_equalTo(itemLabel.mas_bottom);
         make.height.mas_equalTo(PXFIT_HEIGHT(136));
     }];
     
@@ -297,7 +324,7 @@
     if ( [cell respondsToSelector:@selector(setLayoutMargins:)] )
         [cell setLayoutMargins:UIEdgeInsetsZero];
     
-    if (indexPath.row == 0)
+    if (indexPath.row == 1)
     {
         cell.iconName = @"dizhis";
         [cell setTextViewText:_location];
@@ -305,7 +332,7 @@
         cell.textView.textColor = _isCustomerServerPoint?[UIColor blackColor]:[UIColor colorWithRGBHex:HC_Gray_Text];
         _locationTextView = cell.textView;
     }
-    else if (indexPath.row == 1)
+    else if (indexPath.row == 0)
     {
         cell.iconName = @"date_icon";
         [cell setTextViewText:_isCustomerServerPoint?[NSString combineString:[[NSDate date] getDateStringWithInternel:1]
@@ -340,7 +367,7 @@
         return;
     }
     
-    if (indexPath.row == 0){
+    if (indexPath.row == 1){
         SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
         selectAddressViewController.addressStr = _locationTextView.text;
         __weak typeof (self) wself = self;
@@ -350,7 +377,7 @@
             wself.centerCoordinate = coor;
         }];
         [self.navigationController pushViewController:selectAddressViewController animated:YES];
-    }else if (indexPath.row == 1){
+    }else if (indexPath.row == 0){
         CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
         if (self.appointmentDateStr == nil){
             cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
