@@ -97,7 +97,10 @@
 {
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], customerTest.checkCode]];
     [headerimageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"headimage"] options:SDWebImageRefreshCached | SDWebImageRetryFailed];
-    [nameLabel setText:@"姓名: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.custName endTextColor:[UIColor grayColor]];
+    [nameLabel setText:@"姓名: "
+                  Font:[UIFont fontWithType:UIFontOpenSansRegular size:15]
+           WithEndText:customerTest.custName==nil?@"":customerTest.custName
+          endTextColor:[UIColor grayColor]];
     [sexLabel setText:@"性别: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.sex == 0 ? @"男" : @"女" endTextColor:[UIColor grayColor]];
     [oldLabel setText:@"年龄: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:[NSString getOldYears:customerTest.custIdCard] endTextColor:[UIColor grayColor]];
 //    nameLabel.text = customerTest.custName;

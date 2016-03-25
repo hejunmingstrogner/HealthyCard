@@ -563,6 +563,25 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
     }];
 }
 
+- (void)findCustomerTestByContract:(NSString*)contractId resultBlock:(HCArrayResultBlock)block
+{
+    NSString *url = [NSString stringWithFormat:@"customerTest/findByContract?contractCode=%@", contractId];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *dataArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            CustomerTest *customertest = [CustomerTest mj_objectWithKeyValues:dict];
+            [dataArray addObject:customertest];
+        }
+        if (block) {
+            block(dataArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (block) {
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark -付款
 - (void)payMoneyWithChargeParameter:(ChargeParameter *)chargeParame viewController:(UIViewController *)_self resultBlock:(void (^)(NSString *, NSError *))block
 {

@@ -25,6 +25,9 @@
 
 @property (nonatomic, strong) CustomerTest                   *customerTestInfo;
 
+//当由历史记录进去的时候，界面没有响应，且没有保存按钮
+@property (nonatomic, assign) BOOL isHistorySave;
+
 
 @property (nonatomic, strong) NSString *city;
 @property (nonatomic, strong) NSString *address;

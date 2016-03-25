@@ -69,8 +69,18 @@
     
     
     UIImageView* shareImageView = [[UIImageView alloc] init];
-    NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode];
-    [shareImageView sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"QRDefault"] options:SDWebImageRefreshCached|SDWebImageRetryFailed];
+    if (GetUserType == 1){
+        //个人
+        NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode];
+        [shareImageView sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"QRDefault"] options:SDWebImageRefreshCached|SDWebImageRetryFailed];
+        
+    }else{
+        //单位
+        NSString *str = [NSString stringWithFormat:@"%@brServiceUnit/getPhoto?cUnitCode=%@", [HttpNetworkManager baseURL], gCompanyInfo.cUnitCode];
+        [shareImageView sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"QRDefault"] options:SDWebImageRefreshCached|SDWebImageRetryFailed];
+    }
+    
+    
 //    shareImageView.layer.masksToBounds = YES;
 //    shareImageView.layer.cornerRadius = 25;
     [self.view addSubview:shareImageView];
@@ -120,25 +130,25 @@
 
 -(void)shareBtnClicked:(UIButton*)sender
 {
-    [UMSocialData defaultData].extConfig.qqData.shareImage = _qrImageView.image;
+    [UMSocialData defaultData].extConfig.qqData.shareImage = [UIImage imageNamed:@"QRDefault"];
     [UMSocialData defaultData].extConfig.qqData.url = self.qrContent;
     [UMSocialData defaultData].extConfig.qqData.title = @"知康科技";
     
-    [UMSocialData defaultData].extConfig.qzoneData.shareImage = _qrImageView.image;
+    [UMSocialData defaultData].extConfig.qzoneData.shareImage = [UIImage imageNamed:@"QRDefault"];
     [UMSocialData defaultData].extConfig.qzoneData.url = self.qrContent;
     [UMSocialData defaultData].extConfig.qzoneData.title = @"知康科技";
     
-    [UMSocialData defaultData].extConfig.wechatSessionData.shareImage = _qrImageView.image;
+    [UMSocialData defaultData].extConfig.wechatSessionData.shareImage = [UIImage imageNamed:@"QRDefault"];
     [UMSocialData defaultData].extConfig.wechatSessionData.url = self.qrContent;
     [UMSocialData defaultData].extConfig.wechatSessionData.title = @"知康科技";
     
-    [UMSocialData defaultData].extConfig.wechatTimelineData.shareImage = _qrImageView.image;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.shareImage = [UIImage imageNamed:@"QRDefault"];
     [UMSocialData defaultData].extConfig.wechatTimelineData.url = self.qrContent;
-    [UMSocialData defaultData].extConfig.wechatTimelineData.title = self.infoStr;
+    [UMSocialData defaultData].extConfig.wechatTimelineData.title = self.shareText;
 
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:@"56e22bbd67e58e71f9000e8b"
-                                      shareText:self.infoStr
+                                      shareText:self.shareText
                                      shareImage:nil
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatTimeline,nil]
                                        delegate:self];

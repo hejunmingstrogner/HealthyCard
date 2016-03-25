@@ -35,36 +35,44 @@
         UILabel* titleLabel = [[UILabel alloc] init];
         titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
         titleLabel.text = @"体检员工";
+        [titleLabel sizeToFit];
         [self addSubview:titleLabel];
         
         _countLabel = [[UILabel alloc] init];
         _countLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
-        _countLabel.text = [NSString stringWithFormat:@"已选%ld", _staffCount];
+        _countLabel.text = [NSString stringWithFormat:@"(已选%ld)", _staffCount];
         [self addSubview:_countLabel];
-        
-        UIImageView* arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow"]];
-        [self addSubview:arrowImageView];
         
         
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self);
-            make.left.mas_equalTo(10);
+            make.left.mas_equalTo(self).with.offset(10);
         }];
-        [titleLabel setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
         
-
         [_countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self);
-            make.left.greaterThanOrEqualTo(titleLabel.mas_right);
+            //make.left.mas_equalTo(titleLabel.mas_right).with.offset(10);
+            make.left.greaterThanOrEqualTo(titleLabel.mas_right).with.offset(10);
         }];
+        [_countLabel setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
         
-       
-        [arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self).with.offset(-10);
+        UILabel* bracketsLabel = [[UILabel alloc] init];
+        bracketsLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
+        bracketsLabel.text = [NSString stringWithFormat:@")"];
+        [self addSubview:bracketsLabel];
+        [bracketsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self);
-            make.left.greaterThanOrEqualTo(_countLabel.mas_right).with.offset(10);
+            make.left.mas_equalTo(_countLabel.mas_right);
+           // make.right.mas_equalTo(self);
         }];
-        [arrowImageView setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
+        [bracketsLabel setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
+
+//        [arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.mas_equalTo(self).with.offset(-10);
+//            make.centerY.mas_equalTo(self);
+//            make.left.greaterThanOrEqualTo(_countLabel.mas_right).with.offset(10);
+//        }];
+//        [arrowImageView setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
     }
     return self;
 }
@@ -73,7 +81,7 @@
 -(void)setStaffCount:(NSInteger)staffCount{
     _staffCount = staffCount;
 
-    [_countLabel setText:@"已选"
+    [_countLabel setText:@"(已选"
                     Font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]
                    count:_staffCount
                 endColor:MO_RGBCOLOR(0, 168, 234)];

@@ -71,7 +71,7 @@
     else if(GetUserType == 2)
     {
          userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gCompanyInfo.cUnitName detialLabelText:gPersonInfo.StrTel itemtype:LEFTMENUCELL_USERINFOR];
-        appoint = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"单位预约" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_APPOINT];
+        appoint = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"历史记录" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_APPOINT];
         erweima = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"单位二维码" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_ERWEIMA];
         manage = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"员工管理" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_WORKERMANAGE];
     }

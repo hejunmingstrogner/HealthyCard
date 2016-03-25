@@ -438,22 +438,8 @@ BOOL   _isLocationInfoHasBeenSent;
             [self.navigationController pushViewController:history animated:YES];
             break;
         }
-        case LEFTMENUCELL_ERWEIMA:{
-//            NSLog(@"二维码");
-            QRController* qrController = [[QRController alloc] init];
-            if (GetUserType == 1){
-                //个人
-                qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp?_recommenderType=customer&_recommender=%@",gPersonInfo.mCustCode];
-                qrController.infoStr = @"您有朋友没办理健康证？二维码分享给他可以快速预约办理。";
-                
-            }else{
-                //单位
-                qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp?_recommenderType=serviceUnit&_recommender=%@", gCompanyInfo.cUnitCode];
-                qrController.infoStr = @" 让员工扫二维码注册到您的单位，也可以直接分享给他。";
-            }
-            [self.navigationController pushViewController:qrController animated:YES];
+        case LEFTMENUCELL_ERWEIMA:
             break;
-        }
         case LEFTMENUCELL_SETTING:
 //            NSLog(@"设置");
             break;
@@ -501,10 +487,21 @@ BOOL   _isLocationInfoHasBeenSent;
         }
         case LEFTMENUCELL_PERSON_ERWEIMA: // 我的二维码
         {
+            QRController* qrController = [[QRController alloc] init];
+            qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp?_recommenderType=customer&_recommender=%@",gPersonInfo.mCustCode];
+            qrController.shareText = @"健康证在线实现一键预约、上门体检、送证上门的健康证办理一站式服务。";
+            qrController.infoStr = @"将您的二维码分项给朋友、同事、员工、辖区从业人员，让他们通过健康证在线实现一键预约、上门体检、送证上门的健康证办理一站式服务。";
+            [self.navigationController pushViewController:qrController animated:YES];
+
             break;
         }
         case LEFTMENUCELL_UNIT_ERWEIMA: // 单位二维码
         {
+            QRController* qrController = [[QRController alloc] init];
+            qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp?_recommenderType=serviceUnit&_recommender=%@", gCompanyInfo.cUnitCode];
+            qrController.shareText = @"健康证在线实现一键预约、上门体检、送证上门的健康证办理一站式服务。";
+            qrController.infoStr = @"将您的二维码分项给朋友、同事、员工、辖区从业人员，让他们通过健康证在线实现一键预约、上门体检、送证上门的健康证办理一站式服务。";
+            [self.navigationController pushViewController:qrController animated:YES];
             break;
         }
         case LEFTMENUCELL_PERSON_UNITLOGIN: // 单位注册

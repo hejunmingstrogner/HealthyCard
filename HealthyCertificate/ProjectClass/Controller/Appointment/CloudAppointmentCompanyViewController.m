@@ -398,6 +398,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
     if (_brContract){
         UITableView* todoContract = [[UITableView alloc] init];
+        todoContract.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
+        todoContract.layer.borderWidth = 1;
         todoContract.tag = TABLEVIEW_BASEINFO;
         todoContract.dataSource = self;
         todoContract.delegate = self;
@@ -523,6 +525,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 {
     // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
+    backBtn.tag = 4001;
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
@@ -553,9 +556,14 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 }
 
 // 返回前一页
-- (void)backToPre:(id)sender
+- (void)backToPre:(UIButton*)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+    if (sender.tag == 4001){
+        if (_resultblock) {
+            _resultblock(_isChanged, _indexPath);
+        }
+    }
 }
 
 
@@ -825,6 +833,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         case TABLEVIEW_BASEINFO:
         {
             UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+            cell.layer.borderWidth = 1;
+            cell.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
             cell.textLabel.textColor = [UIColor blackColor];
@@ -843,10 +853,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 CloudCompanyAppointmentStaffCell* cell = [[CloudCompanyAppointmentStaffCell alloc] init];
                 cell.staffCount = _customerArr.count;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 return cell;
             }
             
             CloudCompanyAppointmentCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CloudCompanyAppointmentCell class])];
+            cell.accessoryType = UITableViewCellAccessoryNone;
             if (indexPath.row == 0){
                 cell.textFieldType = CDA_CONTACTPERSON;
                 if (_brContract)
@@ -906,7 +918,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             }else{
                 QRController* qrController = [[QRController alloc] init];
                 qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/staffRegister.jsp?brContractCode=%@", _brContract.code];
-                qrController.infoStr = @"您还有员工没有在合同里面？分享二维码给他直接加入。";
+                qrController.infoStr = @"将二维码分享给员工,参与单位体检";
+                qrController.shareText = @"点击参与员工体验";
                 [self.navigationController pushViewController:qrController animated:YES];
                 [self inputWidgetResign];
             }

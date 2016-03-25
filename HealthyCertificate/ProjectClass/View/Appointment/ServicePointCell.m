@@ -36,6 +36,8 @@
     UILabel                 *_distanceLabel;
     UILabel                 *_locationLabel;
     UILabel                 *_timeLabel;
+    
+    UIImage                 *_cellIamge;
 }
 @end
 
@@ -63,22 +65,20 @@
                            [NSDate getHour_MinuteByDate:servicePoint.endTime/1000]];
 
     }
-    /*
-     //根据预约编号去请求图片
-     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], _customerTestInfo.checkCode]];
-     //这里要添加图片
-     [_healthyCertificateView.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Avatar                                                                                                                                                                                                                                                                                                                                                                                                "] options:SDWebImageRefreshCached|SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-     if (error!=nil){}
-     }];
-     */
-    
     
     //判断是固定机构还是移动服务点
     if (servicePoint.type == 0){
         //固定服务点
         //根据机构编号去获取图片
         NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@hosInfo/getIntroPhoto?hosCode=%@", [HttpNetworkManager baseURL], servicePoint.cHostCode]];
-        [_picImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"unitLog"] options:SDWebImageRefreshCached];
+        __weak typeof (self) wself = self;
+        [_picImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"unitLog"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            __strong typeof (self) sself = wself;
+            (sself->_picImageView).image = [wself reSizeImage:image toSize:(sself->_picImageView).image.size];
+            (sself->_cellIamge) = image;
+            
+        }];
+        
     }else{
         //移动服务点
         //brVehicle/getPhoto
@@ -270,7 +270,12 @@
 
 - (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
 {
-    UIImage *image =_picImageView.image;
+    UIImage *image;
+    if (_cellIamge){
+        image = _cellIamge;
+    }else{
+        image = _picImageView.image;
+    }
     // 获得根窗口
     UIWindow *window =[UIApplication sharedApplication].keyWindow;
     
@@ -309,6 +314,16 @@
 //    }];
     [backgroundView removeFromSuperview];
     
+}
+
+#pragma mark - Private Methods
+- (UIImage *)reSizeImage:(UIImage *)image toSize:(CGSize)reSize
+{
+    UIGraphicsBeginImageContext(CGSizeMake(reSize.width, reSize.height));
+    [image drawInRect:CGRectMake(0, 0, reSize.width, reSize.height)];
+    UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return reSizeImage;
 }
 
 

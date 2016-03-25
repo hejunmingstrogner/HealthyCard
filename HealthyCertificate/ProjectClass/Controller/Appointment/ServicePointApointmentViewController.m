@@ -25,8 +25,6 @@
 #import "CloudAppointmentCompanyViewController.h"
 
 
-
-
 @interface ServicePointApointmentViewController()<UITableViewDataSource,UITableViewDelegate>
 {
 }

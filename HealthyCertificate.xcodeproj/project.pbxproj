@@ -125,6 +125,7 @@
 		25C070821CA38C1D0098A3FB /* unitLog@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C0707C1CA38C1D0098A3FB /* unitLog@3x.png */; };
 		25E983831C8535BE00CB027E /* WorkTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E983821C8535BE00CB027E /* WorkTypeViewController.m */; };
 		25F276F11CA3F1AF00BF5DFE /* DetailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F276F01CA3F1AF00BF5DFE /* DetailImageView.m */; };
+		25F276F41CA552C200BF5DFE /* ContractPersonInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F276F31CA552C200BF5DFE /* ContractPersonInfoViewController.m */; };
 		25F592241C93A8340036F881 /* CompanyAppointmentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F592231C93A8340036F881 /* CompanyAppointmentListViewController.m */; };
 		25F592271C93A8870036F881 /* CompanyItemListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F592261C93A8870036F881 /* CompanyItemListCell.m */; };
 		30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E1C17F5EF743EC155F709C /* libPods.a */; };
@@ -405,6 +406,8 @@
 		25E983821C8535BE00CB027E /* WorkTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkTypeViewController.m; sourceTree = "<group>"; };
 		25F276EF1CA3F1AF00BF5DFE /* DetailImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailImageView.h; sourceTree = "<group>"; };
 		25F276F01CA3F1AF00BF5DFE /* DetailImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailImageView.m; sourceTree = "<group>"; };
+		25F276F21CA552C200BF5DFE /* ContractPersonInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContractPersonInfoViewController.h; sourceTree = "<group>"; };
+		25F276F31CA552C200BF5DFE /* ContractPersonInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContractPersonInfoViewController.m; sourceTree = "<group>"; };
 		25F592221C93A8340036F881 /* CompanyAppointmentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyAppointmentListViewController.h; sourceTree = "<group>"; };
 		25F592231C93A8340036F881 /* CompanyAppointmentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyAppointmentListViewController.m; sourceTree = "<group>"; };
 		25F592251C93A8870036F881 /* CompanyItemListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyItemListCell.h; sourceTree = "<group>"; };
@@ -1012,6 +1015,8 @@
 				254D95971C980AF5003B64D4 /* StaffStateViewController.m */,
 				B221F61F1CA0EF1A005D1CBF /* CompanyHistoryDetailVC.h */,
 				B221F6201CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m */,
+				25F276F21CA552C200BF5DFE /* ContractPersonInfoViewController.h */,
+				25F276F31CA552C200BF5DFE /* ContractPersonInfoViewController.m */,
 			);
 			path = CompanyAppointment;
 			sourceTree = "<group>";
@@ -1634,6 +1639,7 @@
 				25F276F11CA3F1AF00BF5DFE /* DetailImageView.m in Sources */,
 				2512B42E1C70632C00EE661B /* HMDataOperate.m in Sources */,
 				B23A98041C76BB6400E3E054 /* UserInformationController.m in Sources */,
+				25F276F41CA552C200BF5DFE /* ContractPersonInfoViewController.m in Sources */,
 				254A8DB01C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m in Sources */,
 				25BFEB361C74096E0062F9B8 /* PersonInfoOfPhonePacket.m in Sources */,
 				254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */,
