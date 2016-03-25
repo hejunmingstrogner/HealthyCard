@@ -71,6 +71,25 @@
         make.top.equalTo(self).offset(self.frame.size.height/4-1);
         make.height.mas_equalTo(self.frame.size.height/2+ 10);
     }];
+    
+    _timeBtn = [[CustomButton alloc]init];
+    [self addSubview:_timeBtn];
+    [_timeBtn setImage:[UIImage imageNamed:@"shijian"] forState:UIControlStateNormal];
+    
+    [_timeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [_timeBtn setBackgroundColor:[UIColor whiteColor]];
+    _timeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    _timeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);
+    _timeBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 5);
+    _timeBtn.titleLabel.font = [UIFont fontWithType:1 size:14];
+    
+    [_timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(self.frame.size.height/4);
+        make.left.mas_equalTo(10);
+        make.right.mas_equalTo(-10);
+        make.height.mas_equalTo(self.frame.size.height/4-1);
+    }];
+    
 
     _addressBtn = [[CustomButton alloc]init];
     [self addSubview:_addressBtn];
@@ -84,26 +103,10 @@
     _addressBtn.titleLabel.font = [UIFont fontWithType:1 size:14];
 
     [_addressBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(self.frame.size.height/4);
-        make.left.mas_equalTo(10);
-        make.right.mas_equalTo(-10);
-        make.height.mas_equalTo(self.frame.size.height/4-1);
-    }];
-
-    _timeBtn = [[CustomButton alloc]init];
-    [self addSubview:_timeBtn];
-    [_timeBtn setImage:[UIImage imageNamed:@"shijian"] forState:UIControlStateNormal];
-
-    [_timeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_timeBtn setBackgroundColor:[UIColor whiteColor]];
-    _timeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    _timeBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, self.frame.size.height/4-5);
-    _timeBtn.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 5);
-    _timeBtn.titleLabel.font = [UIFont fontWithType:1 size:14];
-
-    [_timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_addressBtn.mas_bottom).offset(1);
-        make.left.right.height.equalTo(_addressBtn);
+        
+        make.top.equalTo(_timeBtn.mas_bottom).offset(1);
+        make.left.right.height.equalTo(_timeBtn);
+        
     }];
 
     _phoneBtn = [[CustomButton alloc]init];
@@ -118,7 +121,7 @@
     _phoneBtn.titleLabel.font = [UIFont fontWithType:1 size:14];
 
     [_phoneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_timeBtn.mas_bottom).offset(1);
+        make.top.equalTo(_addressBtn.mas_bottom).offset(1);
         make.left.right.height.equalTo(_timeBtn);
     }];
 }

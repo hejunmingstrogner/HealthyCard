@@ -20,6 +20,8 @@
 #import "NSDate+Custom.h"
 #import "RzAlertView.h"
 
+#import "WZFlashButton.h"
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface ServicePointDetailViewController()
@@ -80,12 +82,16 @@
 - (void)initSubViews
 {
     self.view.backgroundColor = [UIColor whiteColor];
-    _orderBtn = [[WZFlashButton alloc] init];
-    _orderBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
-    _orderBtn.flashColor = [UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
-    [_orderBtn setText:@"预约" withTextColor:[UIColor whiteColor]];
-    [self.view addSubview:_orderBtn];
+    
 
+    
+    _orderBtn = [[HCBackgroundColorButton alloc] init];
+    [_orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue] forState:UIControlStateNormal];
+    [_orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue_Pressed] forState:UIControlStateHighlighted];
+    [_orderBtn setTitle:@"预约" forState:UIControlStateNormal];
+    [self.view addSubview:_orderBtn];
+    [_orderBtn addTarget:self action:@selector(orderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    
     [_orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).offset(-10);
         make.left.equalTo(self.view).offset(10);
@@ -94,10 +100,6 @@
     }];
     _orderBtn.layer.masksToBounds = YES;
     _orderBtn.layer.cornerRadius = 5;
-    __weak typeof(self) wself = self;
-    _orderBtn.clickBlock = ^(){
-        [wself orderBtnClicked];
-    };
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
     _tableView.delegate = self;

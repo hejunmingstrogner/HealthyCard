@@ -14,15 +14,17 @@
 #import "HttpNetworkManager.h"
 #import "HMNetworkEngine.h"
 
+#import "UIFont+Custom.h"
+#import "UIColor+Expanded.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+
 #import "BRContractHistoryTBHeaderCell.h"
 #import "BRContractHistoryTBFootCell.h"
 #import "PersonalHealthyCHistoryVC.h"
-#import "UIFont+Custom.h"
-#import "UIColor+Expanded.h"
 #import "BaseTBCellItem.h"
 #import "BRContractTableFootCell.h"
+#import "ContractPersonInfoViewController.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -277,7 +279,11 @@
     else {
         // 单位预约点击
         if (_userType == 2) {
-
+            //customerTest/findByContract
+            BRContract* brContract = _historyArray[indexPath.section];
+            ContractPersonInfoViewController* contractVc = [[ContractPersonInfoViewController alloc] init];
+            contractVc.brContract = brContract;
+            [self.navigationController pushViewController:contractVc animated:YES];
         }
     }
 }

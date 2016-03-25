@@ -86,18 +86,6 @@
         make.height.width.mas_equalTo(15);
     }];
 
-    // 地址
-    _address = [[UILabel alloc]init];
-    [_container addSubview:_address];
-    _address.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
-    _address.numberOfLines = 0;
-    _address.textColor = [UIColor grayColor];
-    [_address mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_carNo.mas_bottom).offset(10);
-        make.left.right.equalTo(_container);
-        make.height.mas_equalTo(40);
-    }];
-
     // 服务时间
     _serviceTime = [[UILabel alloc]init];
     [_container addSubview:_serviceTime];
@@ -105,8 +93,20 @@
     _serviceTime.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
     _serviceTime.textColor = [UIColor grayColor];
     [_serviceTime mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_address.mas_bottom).offset(10);
-        make.left.right.equalTo(_address);
+        make.top.equalTo(_carNo.mas_bottom).offset(10);
+        make.left.right.equalTo(_container);
+        make.height.mas_equalTo(40);
+    }];
+    
+    // 地址
+    _address = [[UILabel alloc]init];
+    [_container addSubview:_address];
+    _address.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
+    _address.numberOfLines = 0;
+    _address.textColor = [UIColor grayColor];
+    [_address mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_serviceTime.mas_bottom).offset(10);
+        make.left.right.equalTo(_serviceTime);
         make.height.mas_equalTo(30);
     }];
 
@@ -117,7 +117,21 @@
 
 - (void)setCellItem:(ServersPositionAnnotionsModel *)serviceInfo
 {
-    [_carImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@brVehicle/getPhoto?uid=%@", [HttpNetworkManager baseURL], serviceInfo.brOutCheckArrange.vehicleID]] placeholderImage:[UIImage imageNamed:@"carimage"]];
+    //头像信息
+    if (serviceInfo.type == 0){
+        //固定服务点
+        //根据机构编号去获取图片
+        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@hosInfo/getIntroPhoto?hosCode=%@", [HttpNetworkManager baseURL], serviceInfo.cHostCode]];
+        [_carImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"unitLog"] options:SDWebImageRefreshCached];
+    }else{
+        //移动服务点
+        //brVehicle/getPhoto
+        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@brVehicle/getPhoto?uid=%@", [HttpNetworkManager baseURL], serviceInfo.brOutCheckArrange.vehicleID]];
+        [_carImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"serverPointLogo"] options:SDWebImageRefreshCached];
+    }
+    
+    
+//    [_carImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@brVehicle/getPhoto?uid=%@", [HttpNetworkManager baseURL], serviceInfo.brOutCheckArrange.vehicleID]] placeholderImage:[UIImage imageNamed:@"carimage"]];
 
     _carNo.text = serviceInfo.name;
 
@@ -142,7 +156,15 @@
         return ;
     }
 
-    NSString *sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.endTime/1000]];
+    NSString* sdate;
+    if(serviceInfo.type == 0){
+        //固定服务点
+        sdate = [NSString stringWithFormat:@"工作日(%@-%@)", [NSDate getHour_MinuteByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.endTime/1000]];
+    }else{
+        sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.endTime/1000]];
+    }
+    
+ 
     _serviceTime.text = sdate;
 
     int serHeight = [self Textheight:sdate fontSize:FIT_FONTSIZE(23)];

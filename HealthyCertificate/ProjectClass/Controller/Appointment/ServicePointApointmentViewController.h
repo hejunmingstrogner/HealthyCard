@@ -10,7 +10,7 @@
 
 @interface ServicePointApointmentViewController : UIViewController
 
-@property (nonatomic, strong) NSMutableArray* serverPointList;
+@property (nonatomic, copy) NSArray* serverPointList;
 
 /**
  *  隐藏界面的键盘

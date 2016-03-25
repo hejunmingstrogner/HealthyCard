@@ -25,8 +25,6 @@
 #import "CloudAppointmentCompanyViewController.h"
 
 
-
-
 @interface ServicePointApointmentViewController()<UITableViewDataSource,UITableViewDelegate>
 {
 }
@@ -47,10 +45,15 @@
     self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
     if (_serverPointList.count == 0){
-        UILabel* label = [UILabel labelWithText:@"暂无服务点" font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(25)] textColor:[UIColor blackColor]];
+        UILabel* label = [UILabel labelWithText:@"    您附近没有合适的上门体检服务点,请通过快速预约告之您的体检位置和体检时间,我们会及时安排体检车上门为您体检办证!"
+                                           font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(26)]
+                                      textColor:[UIColor colorWithRGBHex:HC_Gray_Text]];
+        label.numberOfLines = 0;
         [self.view addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.mas_equalTo(self.view);
+            make.left.mas_equalTo(self.view).with.offset(10);
+            make.right.mas_equalTo(self.view).with.offset(-10);
         }];
         
     }else{
@@ -70,12 +73,6 @@
     }
 }
 
-#pragma mark - Setter & Getter
--(void)setServerPointList:(NSMutableArray *)serverPointList{
-    _serverPointList = serverPointList;
-}
-
-
 #pragma mark - UITableViewDataSource & UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return _serverPointList.count;
@@ -93,7 +90,8 @@
     cell.layer.borderColor = [UIColor colorWithRGBHex:0xe0e0e0].CGColor;
     __weak typeof (self) wself = self;
     cell.serviceAppointmentBtnClickedBlock = ^(){
-        ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
+        __strong typeof (self) sself = wself;
+        ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)sself->_serverPointList[indexPath.section];
         
         if (GetUserType == 1){
             //个人
@@ -156,10 +154,13 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (_serverPointList == nil || _serverPointList.count == 0){
+        return;
+    }
     
     //服务点详情
     ServersPositionAnnotionsModel* servicePositionAnnotionsModel = [[ServersPositionAnnotionsModel alloc] init];
-    servicePositionAnnotionsModel = _serverPointList[indexPath.section];
+    servicePositionAnnotionsModel = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
     if (servicePositionAnnotionsModel.type == 0){
         //固定服务点
         ServicePointDetailViewController* fixedServicePointVC = [[ServicePointDetailViewController alloc] init];

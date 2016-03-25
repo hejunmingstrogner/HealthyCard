@@ -22,7 +22,7 @@
 #import "AdviceViewController.h"
 #import "TemperaryServicePDeViewController.h"
 
-#import "WZFlashButton.h"
+#import "HCBackgroundColorButton.h"
 
 @interface IndexViewController : UIViewController<BMKMapViewDelegate, BMKLocationServiceDelegate, LeftMenuViewDelegate>
 {
@@ -39,7 +39,7 @@
 
     UILabel     *addressLabel;              // 体检地址 label
     NSString    *currentCityName;           // 当前预约城市名字
-    WZFlashButton    *orderBtn;                  // 预约按钮
+    HCBackgroundColorButton    *orderBtn;                  // 预约按钮
 
     BMKLocationService *_locationServer;    // 位置服务
     CLLocationManager  *_locationmanager;   // 位置管理
