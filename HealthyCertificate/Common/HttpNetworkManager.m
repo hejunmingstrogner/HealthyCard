@@ -179,13 +179,14 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
 {
     NSString *url = [NSString stringWithFormat:@"customer/createOrUpdate"];
     [self.sharedClient POST:url parameters:personinfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        if (block) {
+        MethodResult *result = [MethodResult mj_objectWithKeyValues:responseObject];
+        if (result.succeed){
             block(YES, nil);
+        }else{
+            block(NO, nil);
         }
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-        if (block) {
-            block(NO, error);
-        }
+        block(NO, error);
     }];
 }
 

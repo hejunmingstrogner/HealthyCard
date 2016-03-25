@@ -39,7 +39,7 @@
 #import "PositionUtil.h"
 #import "HttpNetworkManager.h"
 #import "HCNetworkReachability.h"
-#import "WZFlashButton.h"
+#import "HCBackgroundColorButton.h"
 
 #import "MethodResult.h"
 
@@ -67,7 +67,6 @@
 
     UITextView         *_dateStrTextView;
     
-    
     //体检信息相关
     UITextView          *_examinationAddressTextView; //体检地址
     UITextField         *_examinationTimeTextField;   //体检时间
@@ -81,6 +80,8 @@
     
     
     BOOL                _isChanged;
+    
+    BOOL                _isAppointmentBtnResponse;
 }
 
 typedef NS_ENUM(NSInteger, TABLIEVIEWTAG)
@@ -211,7 +212,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     examinationContainerView.backgroundColor = [UIColor whiteColor];
     [containerView addSubview:examinationContainerView];
     
-    UILabel* examinationAddressLabel = [UILabel labelWithText:@"体检地址"
+    UILabel* examinationAddressLabel = [UILabel labelWithText:@"体检位置"
                                                   font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]
                                              textColor:[UIColor blackColor]];
     NSDictionary* attribute = @{NSFontAttributeName:examinationAddressLabel.font};
@@ -230,7 +231,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _examinationAddressTextView.scrollEnabled = NO;
     _examinationAddressTextView.userInteractionEnabled = NO;
     _examinationAddressTextView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
-    _examinationAddressTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
     _examinationAddressTextView.delegate = self;
     _examinationAddressTextView.returnKeyType = UIReturnKeyDone;
     
@@ -249,41 +249,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }];
     
    
-    [examinationAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(examinationContainerView).with.offset(PXFIT_WIDTH(20));
-        make.top.mas_equalTo(examinationContainerView);
-        make.height.mas_equalTo(nameTextViewHeight < PXFIT_HEIGHT(96)?PXFIT_HEIGHT(96):nameTextViewHeight);
-        make.width.mas_equalTo(labelTextWidth);
-    }];
-    [examinationAddressLabel setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
-    [_examinationAddressTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(examinationAddressLabel.mas_right).with.offset(PXFIT_WIDTH(20));
-        make.right.mas_equalTo(examinationContainerView).with.offset(-PXFIT_WIDTH(20));
-        make.centerY.mas_equalTo(examinationAddressLabel);
-        make.height.mas_equalTo( nameTextViewHeight);
-    }];
-    
-    _lineView = [[UIView alloc] init];
-    _lineView.backgroundColor = [UIColor colorWithRGBHex:0xe8e8e8];
-    [examinationContainerView addSubview:_lineView];
-    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(examinationContainerView).with.offset(PXFIT_WIDTH(25));
-        make.right.mas_equalTo(examinationContainerView).with.offset(-PXFIT_WIDTH(25));
-        make.height.mas_equalTo(0.5);
-        make.top.mas_equalTo(examinationAddressLabel.mas_bottom);
-    }];
-    
     //体检时间
     UILabel* examinationTimeLabel = [UILabel labelWithText:@"体检时间"
                                                          font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]
                                                     textColor:[UIColor blackColor]];
     [examinationContainerView addSubview:examinationTimeLabel];
-    [examinationTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_lineView.mas_bottom);
-        make.left.mas_equalTo(examinationContainerView).with.offset(PXFIT_WIDTH(20));
-        make.width.mas_equalTo(labelTextWidth);
-        make.height.mas_equalTo(PXFIT_HEIGHT(96));
-    }];
     
     _examinationTimeTextField = [[UITextField alloc] init];
     _examinationTimeTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
@@ -315,19 +285,43 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             _examinationTimeTextField.text = _dateString;
     }
     
+    [examinationTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(PXFIT_HEIGHT(96));
+        make.left.mas_equalTo(examinationContainerView).with.offset(PXFIT_WIDTH(20));
+        make.top.mas_equalTo(examinationContainerView);
+        make.width.mas_equalTo(labelTextWidth);
+    }];
+    
+    
     [_examinationTimeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(examinationTimeLabel.mas_right).with.offset(PXFIT_WIDTH(20));
         make.right.mas_equalTo(examinationContainerView).with.offset(-PXFIT_WIDTH(20));
         make.centerY.mas_equalTo(examinationTimeLabel);
     }];
     
-    UIButton* addressBtn = [[UIButton alloc] init];
-    addressBtn.backgroundColor = [UIColor clearColor];
-    [examinationContainerView addSubview:addressBtn];
-    [addressBtn addTarget:self action:@selector(addressBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [addressBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.mas_equalTo(examinationContainerView);
-        make.bottom.mas_equalTo(_lineView.mas_top);
+    _lineView = [[UIView alloc] init];
+    _lineView.backgroundColor = [UIColor colorWithRGBHex:0xe8e8e8];
+    [examinationContainerView addSubview:_lineView];
+    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(examinationContainerView).with.offset(PXFIT_WIDTH(25));
+        make.right.mas_equalTo(examinationContainerView).with.offset(-PXFIT_WIDTH(25));
+        make.height.mas_equalTo(0.5);
+        make.top.mas_equalTo(examinationTimeLabel.mas_bottom);
+    }];
+    
+    
+    [examinationAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(examinationContainerView).with.offset(PXFIT_WIDTH(20));
+        make.top.mas_equalTo(_lineView.mas_bottom);
+        make.height.mas_equalTo(nameTextViewHeight < PXFIT_HEIGHT(96)?PXFIT_HEIGHT(96):nameTextViewHeight);
+        make.width.mas_equalTo(labelTextWidth);
+    }];
+    [examinationAddressLabel setContentCompressionResistancePriority:751 forAxis:UILayoutConstraintAxisHorizontal];
+    [_examinationAddressTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(examinationAddressLabel.mas_right).with.offset(PXFIT_WIDTH(20));
+        make.right.mas_equalTo(examinationContainerView).with.offset(-PXFIT_WIDTH(20));
+        make.centerY.mas_equalTo(examinationAddressLabel);
+        make.height.mas_equalTo( nameTextViewHeight);
     }];
     
     UIButton* timeBtn = [[UIButton alloc] init];
@@ -335,8 +329,19 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     [examinationContainerView addSubview:timeBtn];
     [timeBtn addTarget:self action:@selector(timeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.mas_equalTo(examinationContainerView);
+        make.left.right.top.mas_equalTo(examinationContainerView);
+        make.height.mas_equalTo(PXFIT_HEIGHT(96));
+    }];
+    
+    UIButton* addressBtn = [[UIButton alloc] init];
+    addressBtn.backgroundColor = [UIColor clearColor];
+    [examinationContainerView addSubview:addressBtn];
+    [addressBtn addTarget:self action:@selector(addressBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [addressBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_lineView.mas_bottom);
+        make.left.right.mas_equalTo(examinationContainerView);
+        make.height.mas_equalTo(examinationAddressLabel);
+       // make.bottom.mas_equalTo(_lineView.mas_top);
     }];
     
     //横线
@@ -347,11 +352,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         make.left.mas_equalTo(examinationContainerView).with.offset(PXFIT_WIDTH(25));
         make.right.mas_equalTo(examinationContainerView).with.offset(-PXFIT_WIDTH(25));
         make.height.mas_equalTo(0.5);
-        make.top.mas_equalTo(examinationTimeLabel.mas_bottom);
+        make.top.mas_equalTo(examinationAddressLabel.mas_bottom);
     }];
     
     //体检人数
-    UILabel* examinationCountLabel = [UILabel labelWithText:@"体检人数"
+    UILabel* examinationCountLabel = [UILabel labelWithText:@"预约人数"
                                                       font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]
                                                  textColor:[UIColor blackColor]];
     [examinationContainerView addSubview:examinationCountLabel];
@@ -426,17 +431,15 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             make.height.mas_equalTo(PXFIT_HEIGHT(136));
         }];
         
-        WZFlashButton* appointmentBtn = [[WZFlashButton alloc] init];
-        appointmentBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
-        appointmentBtn.flashColor = [UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
-        appointmentBtn.timeInterval = 3;
-        [appointmentBtn setText:@"预 约" withTextColor:[UIColor whiteColor]];
-        appointmentBtn.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)];
+        HCBackgroundColorButton* appointmentBtn = [[HCBackgroundColorButton alloc] init];
+        [appointmentBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue] forState:UIControlStateNormal];
+        [appointmentBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue_Pressed] forState:UIControlStateHighlighted];
+        [appointmentBtn setTitle:@"预 约" forState:UIControlStateNormal];
+        appointmentBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)];
         appointmentBtn.layer.cornerRadius = 5;
-        __weak typeof (self) wself = self;
-        appointmentBtn.clickBlock = ^(){
-            [wself appointmentBtnClicked];
-        };
+        [appointmentBtn addTarget:self action:@selector(appointmentBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+        _isAppointmentBtnResponse = YES;
+    
         [bottomView addSubview:appointmentBtn];
         [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(bottomView);
@@ -457,6 +460,48 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     singleRecognizer.numberOfTapsRequired = 1; // 单击
     singleRecognizer.delegate = self;
     [self.view addGestureRecognizer:singleRecognizer];
+    
+    //导航栏点击事件
+    UITapGestureRecognizer* tapRecon = [[UITapGestureRecognizer alloc]
+                                        initWithTarget:self action:@selector(toggleMenu)];
+    tapRecon.delegate = self;
+    tapRecon.numberOfTapsRequired = 1;
+    [self.navigationController.navigationBar addGestureRecognizer:tapRecon];
+    
+    _examinationAddressTextView.userInteractionEnabled = NO;
+    _examinationTimeTextField.userInteractionEnabled = NO;
+ 
+    if (_brContract != nil){
+        //待处理项目 & 历史记录
+        if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
+            //代表预约，可以修改
+            _examinationAddressTextView.textColor = [UIColor blackColor];
+            _examinationTimeTextField.textColor = [UIColor blackColor];
+            addressBtn.enabled = YES;
+            timeBtn.enabled = YES;
+
+        }else{
+            //代表体检，不可修改
+            _examinationAddressTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+            _examinationTimeTextField.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+            addressBtn.enabled = NO;
+            timeBtn.enabled = NO;
+        }
+    }else{
+        //云预约 & 服务点预约
+        if (_isCustomerServerPoint){
+            _examinationAddressTextView.textColor = [UIColor blackColor];
+            _examinationTimeTextField.textColor = [UIColor blackColor];
+            addressBtn.enabled = YES;
+            timeBtn.enabled = YES;
+        }else{
+            _examinationAddressTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+            _examinationTimeTextField.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+            addressBtn.enabled = NO;
+            timeBtn.enabled = NO;
+
+        }
+    }
 }
 
 
@@ -483,7 +528,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
-    self.title = @"单位合同";
+    
+    self.title = _brContract.name;
     
     UIButton* editBtn = [UIButton buttonWithTitle:@"保存"
                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
@@ -514,8 +560,20 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
 
 #pragma mark - Action
+-(void)unLockBtn
+{
+    _isAppointmentBtnResponse = YES;
+}
+
 -(void)appointmentBtnClicked
 {
+    //处理频繁点击按钮
+    if (_isAppointmentBtnResponse == NO)
+        return;
+    
+    _isAppointmentBtnResponse = NO;
+    [self performSelector:@selector(unLockBtn) withObject:nil afterDelay:3];
+    
     if([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
         return;
@@ -644,8 +702,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     //不可修改的情况
     
     //如果基于固定服务点
-    if (self.isCustomerServerPoint == NO)
-        return;
     SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
     selectAddressViewController.addressStr = _location;
     [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
@@ -661,8 +717,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 -(void)timeBtnClicked:(UIButton*)sender
 {
     //只有云预约才可以修改
-    if (_isCustomerServerPoint == NO)
-        return;
     CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
     if (self.appointmentDateStr == nil){
         cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
@@ -993,6 +1047,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             self.parentViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
         }
     } completion:NULL];
+}
+
+-(void)toggleMenu
+{
+    [self inputWidgetResign];
 }
 
 -(void)inputWidgetResign

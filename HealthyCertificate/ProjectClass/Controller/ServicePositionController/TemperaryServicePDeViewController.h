@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "ServersPositionAnnotionsModel.h"
 
-#import "WZFlashButton.h"
+#import "HCBackgroundColorButton.h"
 
 // 移动服务点
 @interface TemperaryServicePDeViewController : UIViewController
 
-@property (nonatomic, strong) WZFlashButton    *orderBtn; // 预约
+@property (nonatomic, strong) HCBackgroundColorButton    *orderBtn; // 预约
 
 @property (nonatomic, strong) ServersPositionAnnotionsModel *servicePositionItem;   // 预约点信息
 

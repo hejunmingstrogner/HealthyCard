@@ -331,6 +331,7 @@
                                             font:nil
                                        textColor:[UIColor blackColor]
                                  backgroundColor:[UIColor clearColor]];
+        _workTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         _workTypeBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Text_Size)];
         _workTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [_workTypeBtn addTarget:self action:@selector(industryBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -339,12 +340,12 @@
         [workTypeLabelTitle mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(workTypeLineView);
             make.left.mas_equalTo(workTypeLineView);
-            make.right.mas_equalTo(_workTypeBtn.mas_left);
+            make.width.mas_equalTo(nameLabelTitle);
         }];
-        [workTypeLabelTitle setContentCompressionResistancePriority:752 forAxis:UILayoutConstraintAxisHorizontal];
         
         [_workTypeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.lessThanOrEqualTo(workTypeLineView.mas_right).with.offset(0);
+            make.right.mas_equalTo(workTypeLineView);
+            make.left.mas_equalTo(workTypeLabelTitle.mas_right);
             make.centerY.mas_equalTo(workTypeLineView);
         }];
 

@@ -197,6 +197,12 @@
             break;
         }
         case PERSON_GENDER:{
+            if ([item.detialLabelText isEqualToString:@"女"]){
+                [wheelView.pickerView selectRow:1 inComponent:0 animated:NO];
+            }else{
+                [wheelView.pickerView selectRow:0 inComponent:0 animated:NO];
+            }
+            
             [UIView animateWithDuration:0.5 animations:^{
                 wheelView.frame = CGRectMake(0, self.view.frame.size.height - self.view.frame.size.height/3, self.view.frame.size.width, self.view.frame.size.height/3);
             }];

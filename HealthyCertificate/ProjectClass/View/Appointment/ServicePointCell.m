@@ -20,11 +20,9 @@
 #import "NSDate+Custom.h"
 #import "UIButton+HitTest.h"
 
-
+#import "DetailImageView.h"
 
 #import "HttpNetworkManager.h"
-
-static CGRect oldframe;
 
 #define Cell_Font FIT_FONTSIZE(24)
 #define Cell_Detail_Font FIT_FONTSIZE(23)
@@ -174,21 +172,24 @@ static CGRect oldframe;
             make.top.mas_equalTo(topRightUpView.mas_bottom);
         }];
         
-        _locationLabel = [[UILabel alloc] init];
-        _locationLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
-        [topRightDownView addSubview:_locationLabel];
-        [_locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        _timeLabel = [[UILabel alloc] init];
+        [topRightDownView addSubview:_timeLabel];
+        [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.right.mas_equalTo(topRightDownView);
             make.height.mas_equalTo(PXFIT_HEIGHT(49));
         }];
         
-        _timeLabel = [[UILabel alloc] init];
-        [topRightDownView addSubview:_timeLabel];
-        [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        _locationLabel = [[UILabel alloc] init];
+        _locationLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+        [topRightDownView addSubview:_locationLabel];
+        [_locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(topRightDownView);
             make.height.mas_equalTo(PXFIT_HEIGHT(49));
-            make.top.mas_equalTo(_locationLabel.mas_bottom);
+            make.top.mas_equalTo(_timeLabel.mas_bottom);
         }];
+        
+       
         
 
         UIView* lineView = [[UIView alloc] init];
@@ -237,6 +238,13 @@ static CGRect oldframe;
             make.right.mas_equalTo(appointmenBtn.mas_left).with.offset(-PXFIT_WIDTH(60));
         }];
         
+        UIButton* maskBtn = [[UIButton alloc] init];
+        [bottomView addSubview:maskBtn];
+        [maskBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(bottomView);
+            make.top.bottom.mas_equalTo(bottomView);
+            make.right.mas_equalTo(phoneCallBtn.mas_left);
+        }];
         
         _nameLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Cell_Font];
         _distanceLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Cell_Detail_Font];
@@ -265,33 +273,42 @@ static CGRect oldframe;
     UIImage *image =_picImageView.image;
     // 获得根窗口
     UIWindow *window =[UIApplication sharedApplication].keyWindow;
-    UIView *backgroundView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    oldframe =[_picImageView convertRect:_picImageView.bounds toView:window];
-    backgroundView.backgroundColor =[UIColor blackColor];
-    backgroundView.alpha =0.5;
-    UIImageView *imageView =[[UIImageView alloc]initWithFrame:oldframe];
-    imageView.image =image;
-    imageView.tag =1;
-    [backgroundView addSubview:imageView];
-    [window addSubview:backgroundView];
+    
+    //UIView *backgroundView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    
+    //数据为测试数据
+    DetailImageView* detailImageView = [[DetailImageView alloc] initWithImage:image TotalCount:@"10" MonthCount:@"10" Frame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    
+    //oldframe =[_picImageView convertRect:_picImageView.bounds toView:window];
+    //backgroundView.backgroundColor =[UIColor blackColor];
+    //backgroundView.alpha =0.5;
+   //backgroundView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
+   // UIImageView *imageView =[[UIImageView alloc]initWithFrame:oldframe];
+    //imageView.image =image;
+    //imageView.tag =1;
+    //[backgroundView addSubview:imageView];
+    [window addSubview:detailImageView];
+
     //点击图片缩小的手势
     UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideImage:)];
-    [backgroundView addGestureRecognizer:tap];
-    [UIView animateWithDuration:0.3 animations:^{
-        imageView.frame =CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
-        backgroundView.alpha =1;
-    }];
+    [detailImageView addGestureRecognizer:tap];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        imageView.frame =CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
+//        backgroundView.alpha =1;
+//    }];
 }
 
 -(void)hideImage:(UITapGestureRecognizer *)tap{
     UIView *backgroundView =tap.view;
-    UIImageView *imageView =(UIImageView *)[tap.view viewWithTag:1];
-    [UIView animateWithDuration:0.3 animations:^{
-        imageView.frame =oldframe;
-        backgroundView.alpha =0;
-    } completion:^(BOOL finished) {
-        [backgroundView removeFromSuperview];
-    }];
+//    UIImageView *imageView =(UIImageView *)[tap.view viewWithTag:1];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        imageView.frame =oldframe;
+//        backgroundView.alpha =0;
+//    } completion:^(BOOL finished) {
+//        [backgroundView removeFromSuperview];
+//    }];
+    [backgroundView removeFromSuperview];
+    
 }
 
 

@@ -84,16 +84,6 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
 
 -(void)viewWillAppear:(BOOL)animated{
     [HMNetworkEngine getInstance].delegate = self;
-    
-    _phoneNumTextField.text = @"";
-    _vertifyTextField.text = @"";
-    [_vertifyButton setTitle:@"验证" forState:UIControlStateNormal];
-    
-    _vertifyButton.enabled = NO;
-    _loginButton.enabled = NO;
-    
-    [_vertifyButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
-    [_loginButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_unable]];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

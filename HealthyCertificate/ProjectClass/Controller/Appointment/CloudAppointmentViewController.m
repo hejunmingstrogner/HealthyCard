@@ -47,7 +47,7 @@
 #import "TakePhoto.h"
 #import "RzAlertView.h"
 #import "HCRule.h"
-#import "WZFlashButton.h"
+#import "HCBackgroundColorButton.h"
 
 
 #import "MethodResult.h"
@@ -64,6 +64,9 @@
     UITextView             *_phoneNumTextView;
     UITextView             *_appointmentDateTextView;
     UITableView             *_baseInfoTableView;
+    
+    HCBackgroundColorButton* _appointmentBtn;
+    BOOL                    _isAppointmentBtnResponse;
     
     //键盘相关
     BOOL                    _isFirstShown;
@@ -251,19 +254,14 @@
         make.height.mas_equalTo(PXFIT_HEIGHT(136));
     }];
     
-    WZFlashButton* appointmentBtn = [[WZFlashButton alloc] init];
-    appointmentBtn.buttonType = WZFlashButtonTypeInner;
-    appointmentBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
-    appointmentBtn.flashColor = [UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
-    [appointmentBtn setText:@"预   约"];
-    appointmentBtn.layer.cornerRadius = 5;
-    appointmentBtn.timeInterval = 3;
-    __weak typeof (self) wself = self;
-    appointmentBtn.clickBlock = ^(){
-        [wself appointmentBtnClicked];
-    };
-    [bottomView addSubview:appointmentBtn];
-    [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    _appointmentBtn = [[HCBackgroundColorButton alloc] init];
+    [_appointmentBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue] forState:UIControlStateNormal];
+    [_appointmentBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue_Pressed] forState:UIControlStateHighlighted];
+    [_appointmentBtn setTitle:@"预   约" forState:UIControlStateNormal];
+    [_appointmentBtn addTarget:self action:@selector(appointmentBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    _appointmentBtn.layer.cornerRadius = 5;
+    [bottomView addSubview:_appointmentBtn];
+    [_appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(bottomView);
         make.left.mas_equalTo(bottomView).with.offset(PXFIT_WIDTH(24));
         make.right.mas_equalTo(bottomView).with.offset(-PXFIT_WIDTH(24));
@@ -292,6 +290,8 @@
         make.height.mas_equalTo(SCREEN_HEIGHT * 1/3 );
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
+    
+    _isAppointmentBtnResponse = YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -402,8 +402,20 @@
 }
 
 #pragma mark - Action
+-(void)unLockBtn
+{
+    _isAppointmentBtnResponse = YES;
+}
+
 -(void)appointmentBtnClicked
 {
+    //处理频繁点击按钮
+    if (_isAppointmentBtnResponse == NO)
+        return;
+    
+    _isAppointmentBtnResponse = NO;
+    [self performSelector:@selector(unLockBtn) withObject:nil afterDelay:3];
+    
     if([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
         return;

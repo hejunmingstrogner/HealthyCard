@@ -227,26 +227,22 @@ BOOL   _isLocationInfoHasBeenSent;
     }];
     orderView.backgroundColor = [UIColor whiteColor];
     // 预约按钮
-    orderBtn = [[WZFlashButton alloc] init];
-    orderBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
-    orderBtn.flashColor = [UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
-    [orderBtn setText:@"一键预约" withTextColor:[UIColor whiteColor]];
-    orderBtn.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:18];
+    orderBtn = [[HCBackgroundColorButton alloc] init];
+    [orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue] forState:UIControlStateNormal];
+    [orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue_Pressed] forState:UIControlStateHighlighted];
+    [orderBtn setTitle:@"一键预约" forState:UIControlStateNormal];
+    orderBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:18];
     [orderView addSubview:orderBtn];
+    [orderBtn addTarget:self action:@selector(orderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(orderView).insets(UIEdgeInsetsMake(5, 10, 5, 10));
     }];
     orderBtn.layer.masksToBounds = YES;
     orderBtn.layer.cornerRadius = 5;
-    __weak typeof(self) wself = self;
-    orderBtn.clickBlock = ^(){
-        [wself orderBtnClicked];
-    };
     // 显示地址的view
     UIView *addressView = [UIView new];
     [self.view addSubview:addressView];
     [addressView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(orderView.mas_top).offset(-10);
         make.left.equalTo(self.view).offset(10);
         make.right.equalTo(self.view).offset(-10);
         make.height.mas_equalTo(50);
