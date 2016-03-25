@@ -553,8 +553,23 @@
 // 订单成功提示框
 - (void)orderSuccessed:(NSString *)checkcode
 {
-    [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
-        if (flag == 1) {
+//    [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
+//        if (flag == 1) {
+//            PayMoneyController *pay = [[PayMoneyController alloc]init];
+//            pay.chargetype = CUSTOMERTEST;
+//            pay.checkCode = checkcode;
+//            pay.cityName = _cityName;
+//            pay.delegate = self;
+//            [self.navigationController pushViewController:pay animated:YES];
+//        }
+//        else {
+//            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
+//            mycheckListViewController.popStyle = POPTO_ROOT;
+//            [self.navigationController pushViewController:mycheckListViewController animated:YES];
+//        }
+//    }];
+    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"预约成功，是否在线支付" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"去支付" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
+        if (flag != 0) {
             PayMoneyController *pay = [[PayMoneyController alloc]init];
             pay.chargetype = CUSTOMERTEST;
             pay.checkCode = checkcode;

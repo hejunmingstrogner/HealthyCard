@@ -16,7 +16,7 @@
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
 #import <UIImageView+AFNetworking.h>
-
+#import "UILabel+FontColor.h"
 @interface CustomerTestTableViewCell()
 {
     UIImageView *headerimageView;
@@ -43,162 +43,102 @@
     [self.contentView addSubview:headerimageView];
     [headerimageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView).offset(10);
-        make.centerY.equalTo(self.contentView);
+        make.top.equalTo(self.contentView).offset(10);
         make.width.height.mas_equalTo(60);
     }];
     headerimageView.layer.masksToBounds = YES;
     headerimageView.layer.cornerRadius = 30;
 
-
-    UIView *bgview = [[UIView alloc]init];
-    [self.contentView addSubview:bgview];
-    [bgview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.right.equalTo(self.contentView);
-        make.left.equalTo(headerimageView.mas_right).offset(5);
+    // 姓名
+    nameLabel = [[UILabel alloc]init];
+    [self.contentView addSubview:nameLabel];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(headerimageView);
+        make.left.equalTo(headerimageView.mas_right).offset(10);
+        make.bottom.equalTo(headerimageView.mas_centerY);
+        make.right.equalTo(self.contentView).offset(-10);
     }];
 
-    UILabel *sex = [[UILabel alloc]init];
-    [bgview addSubview:sex];
-    sex.text = @"性别:";
-    sex.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-    [sex mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(bgview);
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(21);
-        make.top.equalTo(bgview).offset(5);
-    }];
     sexLabel = [[UILabel alloc]init];
-    [bgview addSubview:sexLabel];
-    sexLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
-    sexLabel.textColor = [UIColor grayColor];
+    [self.contentView addSubview:sexLabel];
     [sexLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(sex);
-        make.width.mas_equalTo(21);
-        make.height.equalTo(sex);
-        make.left.equalTo(sex.mas_right);
+        make.top.equalTo(nameLabel.mas_bottom);
+        make.bottom.equalTo(headerimageView);
+        make.left.equalTo(nameLabel);
+        make.right.equalTo(self.contentView.mas_centerX);
     }];
 
     oldLabel = [[UILabel alloc]init];
-    [bgview addSubview:oldLabel];
-    oldLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];;
-    oldLabel.textColor = [UIColor grayColor];
+    [self.contentView addSubview:oldLabel];
     [oldLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(sex);
-        make.right.equalTo(bgview).offset(-5);
-        make.width.mas_equalTo(25);
-        make.height.equalTo(sex);
+        make.left.equalTo(sexLabel.mas_right);
+        make.top.bottom.equalTo(sexLabel);
+        make.right.equalTo(nameLabel);
     }];
 
-    UILabel *old = [[UILabel alloc]init];
-    old.text = @"年龄:";
-    old.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-    [bgview addSubview:old];
-    [old mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(sex);
-        make.width.height.equalTo(sex);
-        make.right.equalTo(oldLabel.mas_left);
-    }];
-
-    UILabel *name = [[UILabel alloc]init];
-    name.text = @"姓名:";
-    [bgview addSubview:name];
-    name.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-    [name mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(sex);
-        make.width.height.equalTo(sex);
-        make.left.equalTo(bgview);
-    }];
-
-    nameLabel = [[UILabel alloc]init];
-    [bgview addSubview:nameLabel];
-    nameLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];;
-    nameLabel.textColor = [UIColor grayColor];
-    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(sex);
-        make.left.equalTo(name.mas_right);
-        make.right.equalTo(sex.mas_left);
-        make.height.equalTo(sex);
-    }];
-
-
-    UILabel *serviceDate = [[UILabel alloc]init];
-    serviceDate.text = @"体检时间:";
-    serviceDate.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-    [bgview addSubview:serviceDate];
-    [serviceDate mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(bgview).offset(-5);
-        make.height.left.equalTo(name);
-        make.width.mas_equalTo(70);
-    }];
     serviceTimeLabel = [[UILabel alloc]init];
-    serviceTimeLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];;
-    serviceTimeLabel.textColor = [UIColor grayColor];
-    [bgview addSubview:serviceTimeLabel];
+    [self.contentView addSubview:serviceTimeLabel];
     [serviceTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(serviceDate);
-        make.left.equalTo(serviceDate.mas_right).offset(5);
-        make.right.equalTo(oldLabel);
-    }];
-
-
-    UILabel *serviceAddress = [[UILabel alloc]init];
-    serviceAddress.text = @"体检地址:";
-    serviceAddress.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-    [bgview addSubview:serviceAddress];
-    [serviceAddress mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(name.mas_bottom).offset(5);
-        make.bottom.equalTo(serviceDate.mas_top).offset(-5);
-        make.width.mas_equalTo(serviceDate);
-        make.left.equalTo(serviceDate);
+        make.top.equalTo(headerimageView.mas_bottom).offset(10);
+        make.left.equalTo(headerimageView);
+        make.right.equalTo(self.contentView).offset(-10);
+        make.height.mas_equalTo(20);
     }];
 
     serviceAddressLabel = [[UILabel alloc]init];
-    [bgview addSubview:serviceAddressLabel];
-    serviceAddressLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];;
-    serviceAddressLabel.textColor = [UIColor grayColor];
+    [self.contentView addSubview:serviceAddressLabel];
     [serviceAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(serviceAddress);
-        make.left.right.equalTo(serviceTimeLabel);
+        make.top.equalTo(serviceTimeLabel.mas_bottom).offset(5);
+        make.left.right.height.equalTo(serviceTimeLabel);
     }];
-    serviceTimeLabel.numberOfLines = 0;
-    serviceAddressLabel.numberOfLines = 0;
 }
 
 - (void)setCellItemWithTest:(CustomerTest *)customerTest
 {
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], customerTest.checkCode]];
     [headerimageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"headimage"] options:SDWebImageRefreshCached | SDWebImageRetryFailed];
-    nameLabel.text = customerTest.custName;
-    sexLabel.text = customerTest.sex == 0 ? @"男" : @"女";
-    oldLabel.text = [NSString getOldYears:customerTest.custIdCard];
+    [nameLabel setText:@"姓名: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.custName endTextColor:[UIColor grayColor]];
+    [sexLabel setText:@"性别: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.sex == 0 ? @"男" : @"女" endTextColor:[UIColor grayColor]];
+    [oldLabel setText:@"年龄: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:[NSString getOldYears:customerTest.custIdCard] endTextColor:[UIColor grayColor]];
+//    nameLabel.text = customerTest.custName;
+//    sexLabel.text = customerTest.sex == 0 ? @"男" : @"女";
+//    oldLabel.text = [NSString getOldYears:customerTest.custIdCard];
 
     if(customerTest.checkSiteID) // 服务点预约
     {
-        serviceAddressLabel.text = customerTest.servicePoint.address;
+//        serviceAddressLabel.text = customerTest.servicePoint.address;
+        [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.servicePoint.address endTextColor:[UIColor grayColor]];
         if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
-            serviceTimeLabel.text = @"";
-            serviceAddressLabel.text =@"获取失败";
+//            serviceTimeLabel.text = @"";
+//            serviceAddressLabel.text =@"获取失败";
+            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
+            [serviceAddressLabel setText:@"获取失败" Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
         }
         else {
             NSString *year = [NSDate getYearMonthDayByDate:customerTest.servicePoint.startTime/1000];
             NSString *hour1 = [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000];
             NSString *end = [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000];
             NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
-            serviceTimeLabel.text = time;
+//            serviceTimeLabel.text = time;
+            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:time endTextColor:[UIColor grayColor]];
         }
 
     }
     else {  // 云预约
-        serviceAddressLabel.text = customerTest.regPosAddr;
+//        serviceAddressLabel.text = customerTest.regPosAddr;
+         [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.regPosAddr endTextColor:[UIColor grayColor]];
         if (!customerTest.regBeginDate || !customerTest.regEndDate) {
-            serviceTimeLabel.text = @"";
-            serviceAddressLabel.text = @"获取失败";
+//            serviceTimeLabel.text = @"";
+//            serviceAddressLabel.text = @"获取失败";
+            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
+            [serviceAddressLabel setText:@"获取失败" Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
         }
         else {
             NSString *startyear = [NSDate getYearMonthDayByDate:customerTest.regBeginDate/1000];
             NSString *endyear = [NSDate getYearMonthDayByDate:customerTest.regEndDate/1000];
             NSString *time = [NSString stringWithFormat:@"%@~%@",startyear, endyear];
-            serviceTimeLabel.text = time;
+//            serviceTimeLabel.text = time;
+            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:time endTextColor:[UIColor grayColor]];
         }
     }
 }

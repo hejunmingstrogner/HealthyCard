@@ -127,7 +127,7 @@
     _cancleBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
     _cancleBtn.tag = 0;
     [_cancleBtn setBackgroundColor:[UIColor colorWithRed:255/255.0 green:158/255.0 blue:15/255.0 alpha:1]];
-    [_cancleBtn setTitle:@"否" forState:UIControlStateNormal];
+    [_cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
     _cancleBtn.layer.masksToBounds = YES;
     _cancleBtn.layer.cornerRadius = 4;
     [messageView addSubview:_cancleBtn];
@@ -141,7 +141,7 @@
 
     _comfirmBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
     [_comfirmBtn setBackgroundColor:[UIColor colorWithRed:255/255.0 green:158/255.0 blue:15/255.0 alpha:1]];
-    [_comfirmBtn setTitle:@"是" forState:UIControlStateNormal];
+    [_comfirmBtn setTitle:@"支付" forState:UIControlStateNormal];
     _comfirmBtn.layer.masksToBounds = YES;
     _comfirmBtn.layer.cornerRadius = 4;
     [messageView addSubview:_comfirmBtn];

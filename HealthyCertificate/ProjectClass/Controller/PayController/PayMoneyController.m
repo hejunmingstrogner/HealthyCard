@@ -78,7 +78,7 @@
 {
 
     BaseTBCellItem *item0 = [[BaseTBCellItem alloc]initWithImage:[UIImage imageNamed:@"payhead"] title:nil detial:nil cellStyle:STYLE_HEADERIMAGE];
-    BaseTBCellItem *item1 = [[BaseTBCellItem alloc]initWithImage:nil title:@"健康证套餐" detial:@"张三" detial2:@"知康科技健康证在线" cellStyle:STYLE_HEATHYCINFO];
+    BaseTBCellItem *item1 = [[BaseTBCellItem alloc]initWithImage:nil title:@"" detial:@"" detial2:@"" cellStyle:STYLE_HEATHYCINFO];
     BaseTBCellItem *item2 = [[BaseTBCellItem alloc]initWithImage:[UIImage imageNamed:@"wx"] title:@"微信支付" detial:@"推荐安装微信5.0及以上版本" cellStyle:STYLE_WXPAY flag:0];
     BaseTBCellItem *item3 = [[BaseTBCellItem alloc]initWithImage:[UIImage imageNamed:@"alipay"] title:@"支付宝支付" detial:@"推荐有支付宝账号的使用" cellStyle:STYLE_ALIPAY flag:0];
 
