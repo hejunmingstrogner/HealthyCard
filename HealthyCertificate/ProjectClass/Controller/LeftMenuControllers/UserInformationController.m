@@ -118,10 +118,13 @@
         // 单位
         UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gCompanyInfo.cUnitName isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitName itemtype:COMPANY_NAME];
         UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gCompanyInfo.cUnitAddr isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitAddr itemtype:COMPANY_ADDRESS];
-        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位联系人" detialLabelText:[gCompanyInfo.cLinkPeople isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPeople itemtype:COMPANY_CONTACT];
-        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gCompanyInfo.cLinkPhone isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPhone itemtype:COMPANY_LINKPHONE];
-        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gCompanyInfo.cUnitType isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitType itemtype:COMPANY_CALLING];
-        _dataArray = [NSMutableArray arrayWithObjects:workUnitName, workUnitAdress, workUnitContacts, workUnitTelPhone, workUnitcalling, nil];
+        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"联  系  人" detialLabelText:[gCompanyInfo.cLinkPeople isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPeople itemtype:COMPANY_CONTACT];
+        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"联系电话" detialLabelText:[gCompanyInfo.cLinkPhone isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPhone itemtype:COMPANY_LINKPHONE];
+        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行        业" detialLabelText:[gCompanyInfo.cUnitType isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitType itemtype:COMPANY_CALLING];
+
+        UserinformationCellItem *industry = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"工商编号" detialLabelText:@"暂无" itemtype:COMPANY_INDUSTRY_CODE];
+        UserinformationCellItem *city = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"注册城市" detialLabelText:@"阿拉伯" itemtype:COMPANY_BELONG_CITY];
+        _dataArray = [NSMutableArray arrayWithObjects:workUnitName, workUnitAdress, workUnitContacts, workUnitTelPhone, workUnitcalling, industry, city, nil];
     }
 }
 
@@ -137,12 +140,12 @@
     if (((UserinformationCellItem *)_dataArray[indexPath.row]).itemType == PERSON_HEADERIMAGE) {
         return 70;
     }
-    return 44;
+    return 50;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.1;
+    return 10;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -168,10 +171,16 @@
     }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-        cell.detailTextLabel.textColor = [UIColor blackColor];
-        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:CELL_FONT];
+        if (GetUserType == 1) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+        }
+        else {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"cell"];
+        }
         cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:CELL_FONT];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:CELL_FONT];
+        cell.textLabel.textAlignment = NSTextAlignmentLeft;
+        cell.textLabel.textColor = [UIColor blackColor];
     }
     UserinformationCellItem* usefInformationCellItem = (UserinformationCellItem *)_dataArray[indexPath.row];
     cell.textLabel.text = usefInformationCellItem.titleLabelText;
@@ -188,6 +197,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UserinformationCellItem* item = (UserinformationCellItem *)_dataArray[indexPath.row];
     switch (item.itemType) {
         case PERSON_HEADERIMAGE:{

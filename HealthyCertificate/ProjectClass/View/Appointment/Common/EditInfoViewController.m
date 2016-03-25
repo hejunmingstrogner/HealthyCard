@@ -68,6 +68,7 @@
     _textField.font = [UIFont fontWithType:UIFontOpenSansRegular size:LineEditFont];
     _textField.text = _editInfoStr;
     _textField.delegate = self;
+    _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _textField.returnKeyType = UIReturnKeyDone;
     [textFieldBackView addSubview:_textField];
     [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
