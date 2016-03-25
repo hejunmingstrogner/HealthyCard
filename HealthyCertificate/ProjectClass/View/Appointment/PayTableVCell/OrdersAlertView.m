@@ -39,6 +39,7 @@
 
 - (void)openWithSuperView:(UIView *)superView Title:(NSString *)title warming:(NSString *)warmtitle Message:(NSString *)message withHandle:(clickedBlock)block
 {
+    [superView endEditing:YES];
     [superView addSubview:self];
     _titleLabel.text = title.length == 0? @"提示信息" :title;
     _warmingLabel.text = warmtitle.length == 0? @"您已经预约成功" : warmtitle;
@@ -47,10 +48,20 @@
     [self show];
 }
 
+- (void)openWithSuperView:(UIView *)superView Message:(NSString *)message withHandle:(clickedBlock)block
+{
+    [superView endEditing:YES];
+    [superView addSubview:self];
+    _detialeLabel.text = message.length == 0? @"您已经预约成功,是否立即支付?" : message;
+    _resultBlock = block;
+    [self show];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        [self initSubView];
+//        [self initSubView];
+        [self newinitView];
     }
     return self;
 }
@@ -155,6 +166,75 @@
 
     [self hideView];
 }
+
+- (void)newinitView{
+#define _ALERT_HEIGHT 130
+    self.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.5];
+    _alerView = [[UIView alloc]init];
+    [self addSubview:_alerView];
+    _alerView.backgroundColor = [UIColor whiteColor];
+    _alerView.layer.masksToBounds = YES;
+    _alerView.layer.cornerRadius = 5;
+    [_alerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(280);
+        make.center.equalTo(self);
+        make.height.mas_equalTo(_ALERT_HEIGHT);
+    }];
+
+    _detialeLabel = [[UILabel alloc]init];
+    [_alerView addSubview:_detialeLabel];
+    _detialeLabel.textAlignment = NSTextAlignmentCenter;
+    _detialeLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
+    _detialeLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+    [_detialeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(_alerView);
+        make.height.mas_equalTo(_ALERT_HEIGHT/2);
+    }];
+
+    _cancleBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
+    _cancleBtn.tag = 0;
+    [_cancleBtn setBackgroundColor:[UIColor colorWithRed:215/255.0 green:215/255.0 blue:215/255.0 alpha:1]];
+
+    [_cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [_cancleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _cancleBtn.layer.masksToBounds = YES;
+    _cancleBtn.layer.cornerRadius = 4;
+    [_alerView addSubview:_cancleBtn];
+    [_cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_alerView).offset(-10);
+        make.left.equalTo(_alerView).offset(20);
+        make.height.mas_equalTo(_ALERT_HEIGHT/2 - 20);
+        make.width.mas_equalTo(100);
+    }];
+    [_cancleBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+
+    _comfirmBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
+    [_comfirmBtn setBackgroundColor:[UIColor colorWithRed:43/255.0 green:148/255.0 blue:235/255.0 alpha:1]];
+    [_comfirmBtn setTitle:@"支付" forState:UIControlStateNormal];
+    _comfirmBtn.layer.masksToBounds = YES;
+    _comfirmBtn.layer.cornerRadius = 4;
+    [_alerView addSubview:_comfirmBtn];
+    _comfirmBtn.tag = 1;
+    [_comfirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_cancleBtn);
+        make.right.equalTo(_alerView).offset(-20);
+        make.width.height.equalTo(_cancleBtn);
+    }];
+    [_comfirmBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+
+    UILabel *fengelabel = [[UILabel alloc]init];
+    [_alerView addSubview:fengelabel];
+    [fengelabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_detialeLabel.mas_bottom);
+        make.left.equalTo(_cancleBtn);
+        make.right.equalTo(_comfirmBtn);
+        make.height.mas_equalTo(0.5);
+    }];
+    fengelabel.backgroundColor = [UIColor grayColor];
+
+    [self hideView];
+}
+
 
 - (void)btnClicked:(CustomButton *)sender
 {
