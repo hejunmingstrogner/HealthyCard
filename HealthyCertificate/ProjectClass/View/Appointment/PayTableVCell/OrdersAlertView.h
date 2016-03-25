@@ -31,4 +31,12 @@ typedef void(^clickedBlock)(NSInteger flag);
  */
 - (void)openWithSuperView:(UIView *)superView Title:(NSString *)title  warming:(NSString *)warmtitle Message:(NSString *)message withHandle:(clickedBlock)block;
 
+/**
+ *  只有信息的提示框
+ *
+ *  @param superView <#superView description#>
+ *  @param message   信息
+ *  @param block     回调，flag = 0 否，1是
+ */
+- (void)openWithSuperView:(UIView *)superView Message:(NSString *)message withHandle:(clickedBlock)block;
 @end

@@ -30,7 +30,7 @@
 #import "LoginController.h"
 #import "QRController.h"
 #import "UILabel+FontColor.h"
-
+#import "WorkerManagerVC.h"
 #import "OrdersAlertView.h"
 
 NSString *gCurrentCityName;
@@ -517,6 +517,8 @@ BOOL   _isLocationInfoHasBeenSent;
         }
         case LEFTMENUCELL_UNIT_WORKERMANAGE: // 单位员工管理
         {
+            WorkerManagerVC *manage = [[WorkerManagerVC alloc]init];
+            [self.navigationController pushViewController:manage animated:YES];
             break;
         }
         default:
@@ -547,8 +549,8 @@ BOOL   _isLocationInfoHasBeenSent;
     static int flag = 0;
     if (flag != 0) {
         [self getCheckListData];
-        flag++;
     }
+    flag++;
 }
 - (void)viewWillDisappear:(BOOL)animated
 {

@@ -44,6 +44,7 @@
  * 性别。
  */
 @property (nonatomic, assign) Byte  sex;
+@property (nonatomic, copy) NSString *sexflag;
 /**
  * 民族
  */
