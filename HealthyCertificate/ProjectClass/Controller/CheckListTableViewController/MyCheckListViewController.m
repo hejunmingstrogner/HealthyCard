@@ -64,7 +64,7 @@
 
 - (void)initNavgation
 {
-    self.title = @"我的预约";
+    self.title = @"我的体检";
     // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
@@ -235,7 +235,7 @@
 {
     if(_userType == 1){
         if (indexPath.row == 0) {
-            return 110;
+            return 130;
         }
         return 35;
     }
