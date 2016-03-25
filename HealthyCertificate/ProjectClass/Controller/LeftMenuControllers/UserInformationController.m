@@ -54,7 +54,7 @@
 
 - (void)initNavgation
 {
-    self.title = @"基本信息";
+    self.title = GetUserType == 1? @"个人信息" : @"单位信息";
     // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
