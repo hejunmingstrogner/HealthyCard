@@ -19,6 +19,7 @@
 #import "Customer.h"
 #import "HCRule.h"
 #import "NSString+Count.h"
+#import "NSString+Custom.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -154,12 +155,13 @@
     cell.textLabel.text = ((AddworkerTBCItem *)_customArray[indexPath.row]).title;
     cell.textField.text = ((AddworkerTBCItem *)_customArray[indexPath.row]).message;
     cell.textField.tag = indexPath.row;
-
+    cell.textField.placeholder = @"";
     switch (((AddworkerTBCItem *)_customArray[indexPath.row]).type) {
+        case ADDWORKER_AGE:
+            cell.textField.placeholder = @"输入身份证号后自动计算";
         case ADDWORKER_CALLING:
         case ADDWORKER_UNIT:
         case ADDWORKER_SEX:
-        case ADDWORKER_AGE:
             cell.textField.enabled = NO;
             break;
         default:
@@ -270,10 +272,18 @@
             }
             case ADDWORKER_IDCARD:{
                 // 身份证号码
+                if(![HCRule validateIDCardNumber:item.message]){
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的身份证信息输入错误" removeDelay:2];
+                    return;
+                }
                 _customer.idCard = item.message;
                 break;
             }
             case ADDWORKER_TELPHONE:{
+                if (item.message.length != 11) {
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的手机号码输入错误" removeDelay:2];
+                    return;
+                }
                 // 电话号码
                 _customer.linkPhone = item.message;
                 break;
@@ -324,6 +334,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    textField.text = [textField.text deleteSpaceWithHeadAndFootWithString:textField.text];
     if (textField.text.length == 0) {
         return;
     }
