@@ -84,9 +84,9 @@
 
 // 新的获取方法
 // 待检（状态值-1、0、5、6）、在检（状态值1、2）、待出征（状态值3、4）、已出证（状态值9）、已完成（状态值10）
-- (CustomerTestStatusItem *)getTestStatusWithTestStatus:(NSString *)testatus
+- (CustomerTestStatusItem *)getTestStatus
 {
-    NSInteger flag = [testatus integerValue];
+    NSInteger flag = [self.testStatus integerValue];
     CustomerTestStatusItem *item = [[CustomerTestStatusItem alloc]init];
     switch (flag) {
         case -1:
@@ -97,7 +97,15 @@
             item.centerText = @"在检";
             item.rigthText = @"待出证";
             item.status = LEFT_STATUS;
-            item.warmingText = @"请于XXX年月日到XXX地址进行体检。离拿到健康证还有XX天。如有疑问，请联系027-82867046";
+            
+            if (self.servicePoint == nil){
+                //如果绑定了服务点
+            }else{
+                //如果没有绑定服务点 （预约时间-当前时间）
+                NSCalendar* chineseClendar = [ [ NSCalendar alloc ] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+                
+            }
+          //  item.warmingText = @"请于XXX年月日到XXX地址进行体检。离拿到健康证还有XX天。如有疑问，请联系027-82867046";
             break;
         }
         case 1:
@@ -106,7 +114,7 @@
             item.centerText = @"在检";
             item.rigthText = @"待出证";
             item.status = CENTER_STATUS;
-            item.warmingText = @"您的健康证体检约XX小时之后完成。离拿到健康证还有XX天。请联系027-82867046。";
+         //   item.warmingText = @"您的健康证体检约XX小时之后完成。离拿到健康证还有XX天。请联系027-82867046。";
             break;
         }
         case 3:
@@ -115,7 +123,7 @@
             item.centerText = @"待出证";
             item.rigthText = @"已出证";
             item.status = CENTER_STATUS;
-            item.warmingText = @"您的健康证体检结果分析约XX天后完成。离拿到健康证还有XX天。请联系027-82867046。";
+        //    item.warmingText = @"您的健康证体检结果分析约XX天后完成。离拿到健康证还有XX天。请联系027-82867046。";
             break;
         }
         case 9:{
@@ -123,7 +131,7 @@
             item.centerText = @"已出证";
             item.rigthText = @"已完成";
             item.status = CENTER_STATUS;
-            item.warmingText = @"您的健康证正在向您飞来。离拿到健康证还有XX天。请联系027-82867046。";
+       //     item.warmingText = @"您的健康证正在向您飞来。离拿到健康证还有XX天。请联系027-82867046。";
             break;
         }
         case 10:{
