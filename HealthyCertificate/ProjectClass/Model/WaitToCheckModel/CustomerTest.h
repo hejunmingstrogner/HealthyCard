@@ -42,25 +42,25 @@ typedef enum{
 /**
  * 体检编号
  */
-@property (nonatomic, strong) NSString * checkCode;
+@property (nonatomic, copy) NSString * checkCode;
 /**
  * 客户编号
  */
-@property (nonatomic, strong) NSString * custCode;
+@property (nonatomic, copy) NSString * custCode;
 /**
  * 单位编号
  */
-@property (nonatomic, strong) NSString * unitCode;
+@property (nonatomic, copy) NSString * unitCode;
 /**
  * 单位名称
  */
-@property (nonatomic, strong) NSString * unitName;
+@property (nonatomic, copy) NSString * unitName;
 
-@property (nonatomic, strong) NSString * cardNo;
+@property (nonatomic, copy) NSString * cardNo;
 /**
  * 姓名
  */
-@property (nonatomic, strong) NSString * custName;
+@property (nonatomic, copy) NSString * custName;
 /**
  * 性别   
  */
@@ -68,7 +68,7 @@ typedef enum{
 /**
  * 民族
  */
-@property (nonatomic, strong) NSString * nation;
+@property (nonatomic, copy) NSString * nation;
 /**
  * 出生日期
  */
@@ -76,19 +76,19 @@ typedef enum{
 /**
  * VIP标志
  */
-@property (nonatomic, strong) NSString * custVIPFlag;
+@property (nonatomic, copy) NSString * custVIPFlag;
 /**
  * 身份证号
  */
-@property (nonatomic, strong) NSString * custIdCard;
+@property (nonatomic, copy) NSString * custIdCard;
 /**
  * 联系电话
  */
-@property (nonatomic, strong) NSString * linkPhone;
+@property (nonatomic, copy) NSString * linkPhone;
 /**
  * 岗位类型
  */
-@property (nonatomic, strong) NSString * jobDuty;
+@property (nonatomic, copy) NSString * jobDuty;
 /**
  * 体检类型
  */
@@ -100,11 +100,11 @@ typedef enum{
 /**
  * 所属体检合同
  */
-@property (nonatomic, strong) NSString * contractCode;
+@property (nonatomic, copy) NSString * contractCode;
 /**
  * 体检服务点  为空是云预约，存在是服务点预约
  */
-@property (nonatomic, strong) NSString * checkSiteID;
+@property (nonatomic, copy) NSString * checkSiteID;
 /**
  * 预约经度
  */
@@ -116,7 +116,7 @@ typedef enum{
 /**
  * 预约地址
  */
-@property (nonatomic, strong) NSString * regPosAddr;
+@property (nonatomic, copy) NSString * regPosAddr;
 /**
  * 开始日期
  */
@@ -133,18 +133,18 @@ typedef enum{
 @property (nonatomic, assign) long long reservdate;
 
 
-@property (nonatomic, strong) NSString * priority;
-@property (nonatomic, strong) NSString * hosCode;
+@property (nonatomic, copy) NSString * priority;
+@property (nonatomic, copy) NSString * hosCode;
 @property (nonatomic, assign) int totalLineTime;
 @property (nonatomic, assign) int totalWaitTime;
 @property (nonatomic, assign) int totalCheckTime;
-@property (nonatomic, strong) NSString * checkTime;
-@property (nonatomic, strong) NSString * checkINTime;
-@property (nonatomic, strong) NSString * endTime;
+@property (nonatomic, copy) NSString * checkTime;
+@property (nonatomic, copy) NSString * checkINTime;
+@property (nonatomic, copy) NSString * endTime;
 /**
  *
  */
-@property (nonatomic, strong) NSString * testStatus;        // -1未检，0签到，1在检，2延期，3完成，4已通过总检确认，5已打印体检卡，6已打印条码，9已出报告和健康证
+@property (nonatomic, copy) NSString * testStatus;        // -1未检，0签到，1在检，2延期，3完成，4已通过总检确认，5已打印体检卡，6已打印条码，9已出报告和健康证
 
 /**
  *  获得当前状态以及两边的状态的数组
@@ -162,33 +162,33 @@ typedef enum{
  *
  *  @return 数组 012:要显示的文本  3：高亮显示的位置  4：提示信息
  */
-- (CustomerTestStatusItem *)getTestStatusWithTestStatus:(NSString *)testatus;
+- (CustomerTestStatusItem *)getTestStatus;
 
 
 @property (nonatomic, assign) int mainItemNum;
-@property (nonatomic, strong) NSString * rfidNo;
+@property (nonatomic, copy) NSString * rfidNo;
 @property (nonatomic, strong) NSDate * synTime;
 @property (nonatomic, assign) float ages;
-@property (nonatomic, strong) NSString * marryFlag;
-@property (nonatomic, strong) NSString * affirmdate;
-@property (nonatomic, strong) NSString * operdate;
+@property (nonatomic, copy) NSString * marryFlag;
+@property (nonatomic, assign) long long affirmdate;
+@property (nonatomic, copy) NSString * operdate;
 @property (nonatomic, assign) float payMoney;
-@property (nonatomic, strong) NSString * packNo;
-@property (nonatomic, strong) NSString * password;
-@property (nonatomic, strong) NSString * zoneCode;
+@property (nonatomic, copy) NSString * packNo;
+@property (nonatomic, copy) NSString * password;
+@property (nonatomic, copy) NSString * zoneCode;
 /**
  * 所属城市
  */
-@property (nonatomic, strong) NSString * cityName;
+@property (nonatomic, copy) NSString * cityName;
 /**
  * 所属套餐编号。
  */
-@property (nonatomic, strong) NSString * suitCode;
+@property (nonatomic, copy) NSString * suitCode;
 
 /**
  * 绑定合同套餐编号
  */
-@property (nonatomic, strong) NSString * unitSuitCode;
+@property (nonatomic, copy) NSString * unitSuitCode;
 /**
  * 地址
  */
@@ -223,7 +223,7 @@ typedef enum{
 /**
  * 单位地址 【非数据库字段】
  */
-@property (nonatomic, strong) NSString * unitAddr;
+@property (nonatomic, copy) NSString * unitAddr;
 /**
  * 年龄 【非数据库字段】
  */

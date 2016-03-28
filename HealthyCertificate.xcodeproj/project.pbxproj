@@ -126,6 +126,9 @@
 		25E983831C8535BE00CB027E /* WorkTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E983821C8535BE00CB027E /* WorkTypeViewController.m */; };
 		25F276F11CA3F1AF00BF5DFE /* DetailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F276F01CA3F1AF00BF5DFE /* DetailImageView.m */; };
 		25F276F41CA552C200BF5DFE /* ContractPersonInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F276F31CA552C200BF5DFE /* ContractPersonInfoViewController.m */; };
+		25F276F81CA56AFE00BF5DFE /* AboutUs@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25F276F51CA56AFE00BF5DFE /* AboutUs@1x.png */; };
+		25F276F91CA56AFE00BF5DFE /* AboutUs@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25F276F61CA56AFE00BF5DFE /* AboutUs@3x.png */; };
+		25F276FA1CA56AFE00BF5DFE /* AboutUs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25F276F71CA56AFE00BF5DFE /* AboutUs@2x.png */; };
 		25F592241C93A8340036F881 /* CompanyAppointmentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F592231C93A8340036F881 /* CompanyAppointmentListViewController.m */; };
 		25F592271C93A8870036F881 /* CompanyItemListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F592261C93A8870036F881 /* CompanyItemListCell.m */; };
 		30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E1C17F5EF743EC155F709C /* libPods.a */; };
@@ -412,6 +415,9 @@
 		25F276F01CA3F1AF00BF5DFE /* DetailImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailImageView.m; sourceTree = "<group>"; };
 		25F276F21CA552C200BF5DFE /* ContractPersonInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContractPersonInfoViewController.h; sourceTree = "<group>"; };
 		25F276F31CA552C200BF5DFE /* ContractPersonInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContractPersonInfoViewController.m; sourceTree = "<group>"; };
+		25F276F51CA56AFE00BF5DFE /* AboutUs@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AboutUs@1x.png"; sourceTree = "<group>"; };
+		25F276F61CA56AFE00BF5DFE /* AboutUs@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AboutUs@3x.png"; sourceTree = "<group>"; };
+		25F276F71CA56AFE00BF5DFE /* AboutUs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AboutUs@2x.png"; sourceTree = "<group>"; };
 		25F592221C93A8340036F881 /* CompanyAppointmentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyAppointmentListViewController.h; sourceTree = "<group>"; };
 		25F592231C93A8340036F881 /* CompanyAppointmentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyAppointmentListViewController.m; sourceTree = "<group>"; };
 		25F592251C93A8870036F881 /* CompanyItemListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyItemListCell.h; sourceTree = "<group>"; };
@@ -864,6 +870,9 @@
 		254502FA1C8FB76400F47F46 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				25F276F51CA56AFE00BF5DFE /* AboutUs@1x.png */,
+				25F276F61CA56AFE00BF5DFE /* AboutUs@3x.png */,
+				25F276F71CA56AFE00BF5DFE /* AboutUs@2x.png */,
 				254502FB1C8FB77000F47F46 /* hclaunchscreen@1x.png */,
 				254502FC1C8FB77000F47F46 /* hclaunchscreen@2x.png */,
 				254502FD1C8FB77000F47F46 /* hclaunchscreen@3x.png */,
@@ -1527,6 +1536,7 @@
 				25C0707F1CA38C1D0098A3FB /* serverPointLogo@3x.png in Resources */,
 				254A8DAB1C7C380400F2EC94 /* nameIcon@1x.png in Resources */,
 				254A8DA01C7C2CAC00F2EC94 /* message@2x.png in Resources */,
+				25F276F91CA56AFE00BF5DFE /* AboutUs@3x.png in Resources */,
 				254D95B91C9ACB1B003B64D4 /* QRDefault.png in Resources */,
 				254A8D9C1C7C2CAC00F2EC94 /* detail@1x.png in Resources */,
 				254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */,
@@ -1537,6 +1547,8 @@
 				25C0707D1CA38C1D0098A3FB /* serverPointLogo@1x.png in Resources */,
 				25BFEB481C75BF1F0062F9B8 /* back@2x.png in Resources */,
 				25C070751CA37DE50098A3FB /* phoneIcon@2x.png in Resources */,
+				25F276FA1CA56AFE00BF5DFE /* AboutUs@2x.png in Resources */,
+				25F276F81CA56AFE00BF5DFE /* AboutUs@1x.png in Resources */,
 				254A8DA71C7C32B800F2EC94 /* servicePoint@3x.png in Resources */,
 				2512B3B71C70557C00EE661B /* Assets.xcassets in Resources */,
 				2512B4241C7056D200EE661B /* OpenSans-Bold.ttf in Resources */,
