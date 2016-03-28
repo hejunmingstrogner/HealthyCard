@@ -180,7 +180,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                    [[NSDate date] getDateStringWithInternel:2]];
    
     UIScrollView* scrollView = [[UIScrollView alloc] init];
-    scrollView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
+    scrollView.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     [self.view addSubview:scrollView];
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
@@ -416,20 +416,40 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             make.bottom.equalTo(todoContract.mas_bottom);
         }];
     }else{
-        AppointmentInfoView* infoView = [[AppointmentInfoView alloc] init];
-        [infoView addBordersToEdge:UIRectEdgeTop withColor:[UIColor colorWithRGBHex:0Xe8e8e8] andWidth:1];
-        [containerView addSubview:infoView];
-        [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(containerView);
-            make.top.mas_equalTo(_companyInfoTableView.mas_bottom).with.offset(PXFIT_HEIGHT(20));
+        UILabel* noticeLabel = [UILabel labelWithText:@"温馨提示"
+                                                 font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)]
+                                            textColor:[UIColor blackColor]];
+        [containerView addSubview:noticeLabel];
+        [noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(containerView).with.offset(10);
+            make.top.mas_equalTo(_companyInfoTableView.mas_bottom).with.offset(10);
         }];
         
+        NSString* tipInfo;
+        if (_isCustomerServerPoint == YES){
+            tipInfo = @"您附近如果没有合适的体检服务点,请通过快速预约告之您的体检位置和体检时间,我们会及时安排体检车上门为您体检办证!";
+        }else{
+            tipInfo = @"请确认在体检车离开前按时到达服务点,以免给您带来不便!";
+        }
+        UILabel* itemLabel = [UILabel labelWithText:tipInfo
+                                               font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)]
+                                          textColor:[UIColor colorWithRGBHex:HC_Gray_Text]];
+        itemLabel.numberOfLines = 0;
+        [containerView addSubview:itemLabel];
+        [itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(containerView).with.offset(10);
+            make.right.mas_equalTo(containerView).with.offset(-10);
+            make.top.mas_equalTo(noticeLabel.mas_bottom).with.offset(10);
+        }];
+
+        
+        
         UIView* bottomView = [[UIView alloc] init];
-        bottomView.backgroundColor = [UIColor whiteColor];
+        bottomView.backgroundColor = [UIColor clearColor];
         [containerView addSubview:bottomView];
         [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(containerView);
-            make.top.mas_equalTo(infoView.mas_bottom);
+            make.top.mas_equalTo(itemLabel.mas_bottom);
             make.height.mas_equalTo(PXFIT_HEIGHT(136));
         }];
         
