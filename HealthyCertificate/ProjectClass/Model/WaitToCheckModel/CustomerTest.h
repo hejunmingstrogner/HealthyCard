@@ -34,10 +34,6 @@ typedef enum{
  */
 @interface CustomerTest : NSObject
 
-#pragma mark -新的数据
-
-
-
 #pragma mark - 老的数据
 /**
  * 体检编号
@@ -162,7 +158,7 @@ typedef enum{
  *
  *  @return 数组 012:要显示的文本  3：高亮显示的位置  4：提示信息
  */
-- (CustomerTestStatusItem *)getTestStatus;
+- (CustomerTestStatusItem *)getTestStatusItem;
 
 
 @property (nonatomic, assign) int mainItemNum;
