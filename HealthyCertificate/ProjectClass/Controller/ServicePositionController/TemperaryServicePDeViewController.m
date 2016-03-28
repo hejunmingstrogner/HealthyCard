@@ -20,12 +20,13 @@
 #import "CloudAppointmentCompanyViewController.h"
 #import "NSDate+Custom.h"
 #import "RzAlertView.h"
-
+#import <BaiduMapKit/BaiduMapAPI_Location/BMKLocationService.h>
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface TemperaryServicePDeViewController()<UITableViewDelegate, UITableViewDataSource>
+@interface TemperaryServicePDeViewController()<UITableViewDelegate, UITableViewDataSource, BMKLocationServiceDelegate, BMKMapViewDelegate>
 {
     BMKMapView  *_mapView;
+    BMKLocationService *_locationServer;
 }
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -306,6 +307,14 @@
 #pragma mark -地图相关
 - (void)addServiersPositionAnno
 {
+    _locationServer = [[BMKLocationService alloc]init];
+    _locationServer.delegate = self;
+    [_locationServer startUserLocationService];
+
+    _mapView.showsUserLocation = YES;
+    _mapView.delegate = self;
+    _mapView.userTrackingMode = BMKUserTrackingModeFollow;
+
     CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(_servicePositionItem.positionLa, _servicePositionItem.positionLo);
     [_mapView setCenterCoordinate:coor animated:YES];
 
@@ -314,6 +323,60 @@
     anno.title = _servicePositionItem.address;
     [_mapView addAnnotation:anno];
 }
+#pragma mark -地图相关的delegate、
+/**
+ *在地图View将要启动定位时，会调用此函数
+ *@param mapView 地图View
+ */
+- (void)willStartLocatingUser
+{
+    NSLog(@"start locate");
+    NSLog(@"location:%f  %f", _locationServer.userLocation.location.coordinate.latitude, _locationServer.userLocation.location.coordinate.longitude);
+}
 
+/**
+ *用户方向更新后，会调用此函数
+ *@param userLocation 新的用户位置
+ */
+- (void)didUpdateUserHeading:(BMKUserLocation *)userLocation
+{
+    [_mapView updateLocationData:userLocation];
+    NSLog(@"heading is %@",userLocation.heading);
+}
+
+/**
+ *用户位置更新后，会调用此函数
+ *@param userLocation 新的用户位置
+ */
+- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+{
+    //    NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+    [_mapView updateLocationData:userLocation];
+    NSLog(@"location");
+}
+
+/**
+ *在地图View停止定位后，会调用此函数
+ *@param mapView 地图View
+ */
+- (void)didStopLocatingUser
+{
+    NSLog(@"stop locate");
+}
+
+/**
+ *定位失败后，会调用此函数
+ *@param mapView 地图View
+ *@param error 错误号，参考CLError.h中定义的错误号
+ */
+- (void)didFailToLocateUserWithError:(NSError *)error
+{
+    NSLog(@"location error");
+}
+
+- (void)mapViewDidFinishLoading:(BMKMapView *)mapView
+{
+    NSLog(@"finish");
+}
 
 @end
