@@ -101,14 +101,13 @@
             item.status = LEFT_STATUS;
             
             if (self.checkSiteID == nil){
-                //云预约 转到年月日
-                NSString* test = [NSDate converLongLongToChineseStringDate:self.regBeginDate/1000];
-                NSDateComponents* cp = [NSDate getInternalDateFrom:[[NSDate alloc] initWithTimeIntervalSince1970:self.regBeginDate/1000] To:[NSDate date]];
+                
+                NSDateComponents* cp = [NSDate getInternalDateFrom:[NSDate formatDateFromChineseString:[[NSDate date] formatDateToChineseString]] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regBeginDate/1000]];
                 item.warmingText = [NSString stringWithFormat:@"    离您预约的时间还有%ld天,我们将尽快安排体检车上门服务。", cp.day];
             }else{
                 //服务点预约
-                NSDateComponents* cp = [NSDate getInternalDateFrom:[[NSDate alloc] initWithTimeIntervalSince1970:self.servicePoint.startTime/1000]
-                                                                To:[NSDate date]];
+                NSDateComponents* cp = [NSDate getInternalDateFrom:[NSDate date]
+                                                                To:[[NSDate alloc] initWithTimeIntervalSince1970:self.servicePoint.startTime/1000]];
                 item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.servicePoint.startTime/1000], self.servicePoint.address];
             }
             break;
@@ -128,7 +127,7 @@
             item.centerText = @"待出证";
             item.rigthText = @"已出证";
             item.status = CENTER_STATUS; //7-（当日-体检确认日
-            NSInteger dateNum = [NSDate getInternalDateFrom:[NSDate date] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.affirmdate]].day;
+            NSInteger dateNum = [NSDate getInternalDateFrom:[NSDate formatDateFromChineseString:[[NSDate date] formatDateToChineseString]] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.affirmdate/1000]].day;
             item.warmingText = [NSString stringWithFormat:@"您已完成体检，离拿到健康证还有约%ld天。", 7 - dateNum];
             break;
         }
@@ -137,7 +136,7 @@
             item.centerText = @"已出证";
             item.rigthText = @"已完成";
             item.status = CENTER_STATUS;
-            NSInteger dateNum = [NSDate getInternalDateFrom:[NSDate date] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.affirmdate]].day;
+            NSInteger dateNum = [NSDate getInternalDateFrom:[NSDate formatDateFromChineseString:[[NSDate date] formatDateToChineseString]] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.affirmdate/1000]].day;
             item.warmingText = [NSString stringWithFormat:@"您的健康证正在向您飞来的途中，离拿到健康证还有约%ld天。", 7 - dateNum];
             break;
         }
