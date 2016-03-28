@@ -76,14 +76,15 @@
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
-    
-    UIButton* editBtn = [UIButton buttonWithTitle:@"保存"
-                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
-                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
-                                   backgroundColor:[UIColor clearColor]];
-    [editBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:editBtn];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    if (!_isHistorySave){
+        UIButton* editBtn = [UIButton buttonWithTitle:@"保存"
+                                                 font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
+                                            textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
+                                      backgroundColor:[UIColor clearColor]];
+        [editBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:editBtn];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
 }
 // 返回前一页
 - (void)backToPre:(id)sender
@@ -321,6 +322,13 @@
     [_rightBtn setTitle:@"检查中" forState:UIControlStateNormal];
     _rightBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
     [_rightBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
+    
+    if (_isHistorySave){
+        _healthCertificateView.userInteractionEnabled = NO;
+        _orderinforView.addressBtn.enabled = NO;
+        _orderinforView.timeBtn.enabled = NO;
+        _orderinforView.phoneBtn.enabled = NO;
+    }
 }
 
 - (CGFloat)labelheigh:(NSString *)text

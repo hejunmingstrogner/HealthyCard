@@ -177,10 +177,10 @@ const CGFloat WZFlashInnerCircleInitialRaius = 20;
     if (layer) {
         [layer removeFromSuperlayer];
         
-        if (self.timeInterval > 0 && _isIgnoreEvent == YES){
-            //如果在点击的间隔时间内，就忽略点击事件
-            return;
-        }
+//        if (self.timeInterval > 0 && _isIgnoreEvent == YES){
+//            //如果在点击的间隔时间内，就忽略点击事件
+//            return;
+//        }
         
         if (self.clickBlock) {
             _isIgnoreEvent = YES;

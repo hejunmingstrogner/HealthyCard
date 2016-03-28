@@ -10,8 +10,8 @@
 
 @interface QRController : UIViewController
 
-@property (nonatomic, copy) NSString* qrContent;
-
-@property (nonatomic, copy) NSString* infoStr;
+@property (nonatomic, copy) NSString* qrContent; //跳转的网页地址
+@property (nonatomic, copy) NSString* shareText; //分享的内容
+@property (nonatomic, copy) NSString* infoStr;   //二维码下面显示的文字
 
 @end

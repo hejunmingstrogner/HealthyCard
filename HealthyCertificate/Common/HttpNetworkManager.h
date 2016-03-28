@@ -223,6 +223,14 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 - (void)findBRContractHistoryRegByCustomId:(NSString *)customId resuleBlock:(HCArrayResultBlock)block;
 
+/**
+ *  获取合同关联的个人预约
+ *
+ *  @param contractId 合同编号
+ *  @param block      回调
+ */
+- (void)findCustomerTestByContract:(NSString*)contractId resultBlock:(HCArrayResultBlock)block;
+
 
 #pragma mark - 支付相关
 /**

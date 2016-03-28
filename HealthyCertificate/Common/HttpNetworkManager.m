@@ -179,13 +179,14 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
 {
     NSString *url = [NSString stringWithFormat:@"customer/createOrUpdate"];
     [self.sharedClient POST:url parameters:personinfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        if (block) {
+        MethodResult *result = [MethodResult mj_objectWithKeyValues:responseObject];
+        if (result.succeed){
             block(YES, nil);
+        }else{
+            block(NO, nil);
         }
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-        if (block) {
-            block(NO, error);
-        }
+        block(NO, error);
     }];
 }
 
@@ -551,6 +552,25 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver
         for (NSDictionary *dict in responseObject) {
             BRContract *brcontract = [BRContract mj_objectWithKeyValues:dict];
             [dataArray addObject:brcontract];
+        }
+        if (block) {
+            block(dataArray, nil);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (block) {
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)findCustomerTestByContract:(NSString*)contractId resultBlock:(HCArrayResultBlock)block
+{
+    NSString *url = [NSString stringWithFormat:@"customerTest/findByContract?contractCode=%@", contractId];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *dataArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            CustomerTest *customertest = [CustomerTest mj_objectWithKeyValues:dict];
+            [dataArray addObject:customertest];
         }
         if (block) {
             block(dataArray, nil);
