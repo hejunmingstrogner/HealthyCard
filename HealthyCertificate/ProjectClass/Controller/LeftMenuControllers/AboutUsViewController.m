@@ -7,10 +7,14 @@
 //
 
 #import "AboutUsViewController.h"
-#import "UIFont+Custom.h"
 
+#import <Masonry.h>
+
+#import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "UILabel+Easy.h"
+
 #import "Constants.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -55,9 +59,31 @@
     NSString *theUrl = @"www.zeekstar.com";
 
     _detialArray = [NSMutableArray arrayWithObjects:currentVision, newVision, theUrl, @"健康证在线", nil];
-
+    
+    UIImageView* titleImageView = [[UIImageView alloc] init];
+    titleImageView.image = [UIImage imageNamed:@"AboutUs"];
+    [self.view addSubview:titleImageView];
+    [titleImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.view).with.offset(10 + kNavigationBarHeight + kStatusBarHeight);
+        make.centerX.mas_equalTo(self.view);
+    }];
+    
+    UILabel* titleLabel = [UILabel labelWithText:@"健康证在线"
+                                       font:[UIFont fontWithType:UIFontOpenSansBold size:FIT_FONTSIZE(32)]
+                                  textColor:[UIColor grayColor]];
+    [self.view addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(titleImageView.mas_bottom).with.offset(10);
+        make.centerX.mas_equalTo(self.view);
+    }];
+    
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(titleLabel.mas_bottom).with.offset(10);
+        make.left.right.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(self.view);
+    }];
     _tableView.delegate = self;
     _tableView.dataSource = self;
 }
@@ -94,7 +120,7 @@
 
 - (CGFloat)cellhieght
 {
-    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:17];
+    UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
     NSString *text = @"        健康证在线是一款体检、就诊以及办理健康证为一体的操作APP。由知康科技有限公司和智行电子科技有限公司共同开发。";
 
     CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
@@ -107,8 +133,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
         cell.textLabel.numberOfLines = 0;
-        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
-        cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+        cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
         cell.detailTextLabel.textColor = [UIColor blackColor];
     }
 

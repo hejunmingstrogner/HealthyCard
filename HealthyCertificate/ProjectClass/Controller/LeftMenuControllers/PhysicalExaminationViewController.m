@@ -32,7 +32,7 @@
 - (void)initNavgation
 {
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"体检注意事项";
+    self.title = @"注意事项";
     // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
@@ -54,9 +54,9 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
 
-    _titleArray = [NSMutableArray arrayWithObjects:@"体检事项", @"操作注意事项", @"用户协议", nil];
-    NSString *test1 = @"    1.体检前几天请注意休息，饮食清淡，不喝酒，不熬夜，体检当天需空腹验血，不要吃早餐也不能喝水。\n    2.体检之前一定要控制情绪，保持好心情也能让体检顺利进行，如果情绪低落或者激动会导致一些检查不准确的。\n    3.体检最好在上午7：00-9：00做，因为抽血项目需要在上午十点之前做完，这样体检效果会比较好。另外，女性体检最好选择非月经期，最好在月经结束一周后检查比较好。\n    4.请携带身份证原件。有些医院的体检表需要贴一张近期彩照。";
-    NSString *test2 = @"    1.请您填写信息时填写真实信息，方便您在检查时减少填写时间。\n    2.请您使用扫一扫功能时，用身份证进行扫描，获取你的真实信息。\n    3.请携带身份证原件。";
+    _titleArray = [NSMutableArray arrayWithObjects:@"检查事项", @"操作注意事项", @"用户协议", nil];
+    NSString *test1 = @"    1.体检前一天，切勿饮酒、吸烟，不要饮用高蛋白、油腻腥辣性食物，切勿饮用药物，注意休息，以免影响肝功能化验结果。\n\n    2.体检时，女性在生理期期间，可以不用做肛检。\n\n    3.孕妇/准备怀孕者，切忌不要做胸透。\n";
+    NSString *test2 = @"    1.请您填写信息时填写真实信息，方便您在检查时减少填写时间。\n\n    2.请您使用扫一扫功能时，用身份证进行扫描，获取你的真实信息。\n\n    3.请携带身份证原件。";
     NSString *test3 = @"";
     _detailArray = [NSMutableArray arrayWithObjects:test1, test2, test3, nil];
 }
