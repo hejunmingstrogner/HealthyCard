@@ -420,7 +420,7 @@
     }];
 
     // 设置体检状态
-    CustomerTestStatusItem *status = [_customerTestInfo getTestStatus];
+    CustomerTestStatusItem *status = [_customerTestInfo getTestStatusItem];
 
     [_leftBtn setTitle:status.leftText forState:UIControlStateNormal];
     [_centerBtn setTitle:status.centerText forState:UIControlStateNormal];

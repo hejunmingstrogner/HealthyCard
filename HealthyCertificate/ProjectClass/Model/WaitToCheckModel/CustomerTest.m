@@ -84,7 +84,7 @@
 
 // 新的获取方法
 // 待检（状态值-1、0、5、6）、在检（状态值1、2）、待出征（状态值3、4）、已出证（状态值9）、已完成（状态值10）
-- (CustomerTestStatusItem *)getTestStatus
+- (CustomerTestStatusItem *)getTestStatusItem
 {
     NSInteger flag = [self.testStatus integerValue];
     CustomerTestStatusItem *item = [[CustomerTestStatusItem alloc]init];
