@@ -102,7 +102,7 @@
                 //如果绑定了服务点
             }else{
                 //如果没有绑定服务点 （预约时间-当前时间）
-                
+                NSCalendar* chineseClendar = [ [ NSCalendar alloc ] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
                 
             }
           //  item.warmingText = @"请于XXX年月日到XXX地址进行体检。离拿到健康证还有XX天。如有疑问，请联系027-82867046";
