@@ -108,4 +108,13 @@
     NSString *dateString = [formatter stringFromDate:date];
     return dateString;
 }
+
++(NSDateComponents*)getInternalDateFrom:(NSDate *)beginDate To:(NSDate *)endDate
+{
+    NSCalendar* chineseCalender = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    
+    NSInteger unitFlags = NSCalendarUnitHour | NSCalendarUnitDay;
+    NSDateComponents *cps = [chineseCalender components:unitFlags fromDate:beginDate  toDate:endDate  options:0];
+    return cps;
+}
 @end

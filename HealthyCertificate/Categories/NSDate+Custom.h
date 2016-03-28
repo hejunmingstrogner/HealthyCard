@@ -87,4 +87,14 @@
  */
 + (NSString *)getYearMonthDayByDate:(long long)itDate;
 
+/**
+ *  计算起始日期与结束日期的间隔
+ *
+ *  @param beginDate 起始日期
+ *  @param endDate   中止日期
+ *
+ *  @return 时间间隔
+ */
++(NSDateComponents*)getInternalDateFrom:(NSDate*)beginDate To:(NSDate*)endDate;
+
 @end

@@ -8,6 +8,8 @@
 
 #import "CustomerTest.h"
 
+#import "NSDate+Custom.h"
+
 @implementation CustomerTestStatusItem
 
 @end
@@ -98,14 +100,16 @@
             item.rigthText = @"待出证";
             item.status = LEFT_STATUS;
             
-            if (self.servicePoint == nil){
-                //如果绑定了服务点
-            }else{
-                //如果没有绑定服务点 （预约时间-当前时间）
-                NSCalendar* chineseClendar = [ [ NSCalendar alloc ] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+            if (self.checkSiteID == nil){
                 
+                NSDateComponents* cp = [NSDate getInternalDateFrom:[NSDate formatDateFromChineseString:[[NSDate date] formatDateToChineseString]] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regBeginDate/1000]];
+                item.warmingText = [NSString stringWithFormat:@"    离您预约的时间还有%ld天,我们将尽快安排体检车上门服务。", cp.day];
+            }else{
+                //服务点预约
+                NSDateComponents* cp = [NSDate getInternalDateFrom:[NSDate date]
+                                                                To:[[NSDate alloc] initWithTimeIntervalSince1970:self.servicePoint.startTime/1000]];
+                item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.servicePoint.startTime/1000], self.servicePoint.address];
             }
-          //  item.warmingText = @"请于XXX年月日到XXX地址进行体检。离拿到健康证还有XX天。如有疑问，请联系027-82867046";
             break;
         }
         case 1:
@@ -114,7 +118,7 @@
             item.centerText = @"在检";
             item.rigthText = @"待出证";
             item.status = CENTER_STATUS;
-         //   item.warmingText = @"您的健康证体检约XX小时之后完成。离拿到健康证还有XX天。请联系027-82867046。";
+            item.warmingText = [NSString stringWithFormat:@"请在%@完成抽血等各项检查，并到体检车（车牌号：%@，%@）进行胸透。离拿到健康证还有7天。", self.servicePoint.address,self.servicePoint.brOutCheckArrange.plateNo, self.servicePoint.brOutCheckArrange.vehicleInfo];
             break;
         }
         case 3:
@@ -122,8 +126,9 @@
             item.leftText = @"在检";
             item.centerText = @"待出证";
             item.rigthText = @"已出证";
-            item.status = CENTER_STATUS;
-        //    item.warmingText = @"您的健康证体检结果分析约XX天后完成。离拿到健康证还有XX天。请联系027-82867046。";
+            item.status = CENTER_STATUS; //7-（当日-体检确认日
+            NSInteger dateNum = [NSDate getInternalDateFrom:[NSDate formatDateFromChineseString:[[NSDate date] formatDateToChineseString]] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.affirmdate/1000]].day;
+            item.warmingText = [NSString stringWithFormat:@"您已完成体检，离拿到健康证还有约%ld天。", 7 - dateNum];
             break;
         }
         case 9:{
@@ -131,7 +136,8 @@
             item.centerText = @"已出证";
             item.rigthText = @"已完成";
             item.status = CENTER_STATUS;
-       //     item.warmingText = @"您的健康证正在向您飞来。离拿到健康证还有XX天。请联系027-82867046。";
+            NSInteger dateNum = [NSDate getInternalDateFrom:[NSDate formatDateFromChineseString:[[NSDate date] formatDateToChineseString]] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.affirmdate/1000]].day;
+            item.warmingText = [NSString stringWithFormat:@"您的健康证正在向您飞来的途中，离拿到健康证还有约%ld天。", 7 - dateNum];
             break;
         }
         case 10:{
@@ -139,7 +145,7 @@
             item.centerText = @"已出证";
             item.rigthText = @"已完成";
             item.status = RIGHT_STATUS;
-            item.warmingText = @"谢谢您的信任。如果服务不好，吐槽一百次。如果服务好，点赞一次。请联系027-82867046。";
+            item.warmingText = @"有什么想吐槽的？";
             break;
         }
         default:

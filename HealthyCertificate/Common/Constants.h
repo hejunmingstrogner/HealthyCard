@@ -23,9 +23,9 @@
 //http://lt.witaction.com:8080
 //#define SOCKET_HOST @"cert.witaction.com"
 //开发环境
-//#define SOCKET_HOST @"yiscert.witaction.com"
+#define SOCKET_HOST @"yiscert.witaction.com"
 //运营环境
-#define SOCKET_HOST @"182.140.132.214"
+//#define SOCKET_HOST @"182.140.132.214"
 
 //#define SOCKET_HOST @"10.254.244.59"
 #define SOCKET_PORT 6413 //服务器端口号
