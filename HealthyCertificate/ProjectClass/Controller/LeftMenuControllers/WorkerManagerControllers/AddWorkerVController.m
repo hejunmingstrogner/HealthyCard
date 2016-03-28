@@ -17,10 +17,12 @@
 #import "AddWorkerTBC.h"
 #import "RzAlertView.h"
 #import "Customer.h"
+#import "HCRule.h"
+#import "NSString+Count.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface AddWorkerVController()<UITableViewDelegate, UITableViewDataSource>
+@interface AddWorkerVController()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 {
     UIBarButtonItem *_rightBarItem;
 
@@ -98,7 +100,8 @@
     AddworkerTBCItem *age = [[AddworkerTBCItem alloc]initWithTitle:@"年        龄" Message:nil type:ADDWORKER_AGE];
     AddworkerTBCItem *idcard = [[AddworkerTBCItem alloc]initWithTitle:@"身份证号" Message:nil type:ADDWORKER_IDCARD];
     AddworkerTBCItem *tel = [[AddworkerTBCItem alloc]initWithTitle:@"联系电话" Message:nil type:ADDWORKER_TELPHONE];
-    AddworkerTBCItem *calling = [[AddworkerTBCItem alloc]initWithTitle:@"行        业" Message:gCompanyInfo.cUnitType type:ADDWORKER_CALLING];
+    NSString *call = gCompanyInfo.cUnitType.length == 0 ? @"暂无" : gCompanyInfo.cUnitType;
+    AddworkerTBCItem *calling = [[AddworkerTBCItem alloc]initWithTitle:@"行        业" Message:call type:ADDWORKER_CALLING];
     AddworkerTBCItem *unit = [[AddworkerTBCItem alloc]initWithTitle:@"工作单位" Message:gCompanyInfo.cUnitName type:ADDWORKER_UNIT];
 
     _customArray = [NSMutableArray arrayWithObjects:name, sex, age, idcard, tel, calling, unit, nil];
@@ -146,6 +149,7 @@
         cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
         cell.textField.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textField.delegate = self;
     }
     cell.textLabel.text = ((AddworkerTBCItem *)_customArray[indexPath.row]).title;
     cell.textField.text = ((AddworkerTBCItem *)_customArray[indexPath.row]).message;
@@ -209,6 +213,7 @@
             break;
         }
         default:
+            _textLength = 20;
             break;
     }
 
@@ -243,10 +248,10 @@
 
 - (void)confrimBtnClicked:(UIButton *)sender
 {
-    NSLog(@"queren");
     for (AddworkerTBCItem *item in _customArray) {
         if ([item.message isEqualToString:@""] || item.message == nil) {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"您还有信息未填完整" removeDelay:3];
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"您还有信息未填完整" removeDelay:2];
+            return;
         }
         switch (item.type) {
             case ADDWORKER_NAME:{
@@ -275,6 +280,10 @@
             }
             case ADDWORKER_CALLING:{
                 // 行业
+                if ([item.message isEqualToString:@"暂无"]) {
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的行业未知，暂不能添加" removeDelay:2];
+                    return;
+                }
                 _customer.custType = item.message;
                 break;
             }
@@ -295,17 +304,41 @@
     if (((AddworkerTBCItem *)_customArray[indexPath.row]).type == ADDWORKER_SEX) {
         [RzAlertView showAlertViewControllerWithTarget:self Title:@"请选择性别" Message:nil preferredStyle:UIAlertControllerStyleActionSheet ActionTitlesArray:@[@"男", @"女"] handle:^(NSInteger flag) {
             NSString *sex;
-            if (flag != 2) {
+            if (flag == 1) {
                 sex = @"男";
             }
-            else {
+            else if(flag == 2){
                 sex = @"女";
             }
-            ((AddworkerTBCItem *)_customArray[indexPath.row]).message = sex;
+            else{
+                return ;
+            }
+
             AddWorkerTBC *cell = [tableView cellForRowAtIndexPath:indexPath];
             cell.textField.text = sex;
+
+            ((AddworkerTBCItem *)_customArray[indexPath.row]).message = sex;
         }];
     }
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField.text.length == 0) {
+        return;
+    }
+    if (((AddworkerTBCItem *)_customArray[textField.tag]).type == ADDWORKER_IDCARD) {
+        // 身份证验证不合法
+        if(![HCRule validateIDCardNumber:textField.text]){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的身份证信息输入错误" removeDelay:2];
+            [textField becomeFirstResponder];
+            return;
+        }
+        // 计算年龄
+        NSString * age = [NSString getOldYears:textField.text];
+        AddWorkerTBC *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:textField.tag-1 inSection:0]];
+        cell.textField.text = age;
+        ((AddworkerTBCItem *)_customArray[textField.tag - 1]).message = age;
+    }
+}
 @end

@@ -234,7 +234,7 @@
     UILabel *alertlabel = [[UILabel alloc]init];
     [superview addSubview:alertlabel];
     [alertlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(superview).offset(-60);
+        make.top.equalTo(superview).offset(80);
         make.centerX.equalTo(superview);
         make.width.mas_equalTo(width);
         make.height.mas_equalTo(30);
