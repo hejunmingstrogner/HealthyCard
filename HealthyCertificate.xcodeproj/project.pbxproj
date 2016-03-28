@@ -73,7 +73,7 @@
 		254A8DAC1C7C380400F2EC94 /* nameIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DA91C7C380400F2EC94 /* nameIcon@2x.png */; };
 		254A8DAD1C7C380400F2EC94 /* nameIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DAA1C7C380400F2EC94 /* nameIcon@3x.png */; };
 		254A8DB01C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */; };
-		254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */; };
+		254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.mm */; };
 		254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DBE1C7D401A00F2EC94 /* arrow@1x.png */; };
 		254A8DC21C7D401A00F2EC94 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DBF1C7D401A00F2EC94 /* arrow@2x.png */; };
 		254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 254A8DC01C7D401A00F2EC94 /* arrow@3x.png */; };
@@ -199,7 +199,9 @@
 		B2D721291CA515FB007B1671 /* WorkManagerTBC.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D721281CA515FB007B1671 /* WorkManagerTBC.m */; };
 		B2D7212C1CA527DF007B1671 /* AddWorkerVController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D7212B1CA527DF007B1671 /* AddWorkerVController.m */; };
 		B2D7212F1CA5404C007B1671 /* AddWorkerTBC.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D7212E1CA5404C007B1671 /* AddWorkerTBC.m */; };
-		B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */; };
+		B2D721321CA8E061007B1671 /* UIImage+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D721311CA8E061007B1671 /* UIImage+Rotate.m */; };
+		B2D721351CA90232007B1671 /* RouteAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D721341CA90232007B1671 /* RouteAnnotation.m */; };
+		B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.mm */; };
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
 		B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826291C73143200993F47 /* LeftMenuView.m */; };
@@ -331,7 +333,7 @@
 		254A8DAE1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudAppointmentCompanyViewController.h; sourceTree = "<group>"; };
 		254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudAppointmentCompanyViewController.m; sourceTree = "<group>"; };
 		254A8DB21C7C575F00F2EC94 /* ServicePointDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServicePointDetailViewController.h; sourceTree = "<group>"; };
-		254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServicePointDetailViewController.m; sourceTree = "<group>"; };
+		254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ServicePointDetailViewController.mm; sourceTree = "<group>"; };
 		254A8DBE1C7D401A00F2EC94 /* arrow@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@1x.png"; sourceTree = "<group>"; };
 		254A8DBF1C7D401A00F2EC94 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		254A8DC01C7D401A00F2EC94 /* arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@3x.png"; sourceTree = "<group>"; };
@@ -561,8 +563,12 @@
 		B2D7212B1CA527DF007B1671 /* AddWorkerVController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerVController.m; sourceTree = "<group>"; };
 		B2D7212D1CA5404C007B1671 /* AddWorkerTBC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddWorkerTBC.h; sourceTree = "<group>"; };
 		B2D7212E1CA5404C007B1671 /* AddWorkerTBC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddWorkerTBC.m; sourceTree = "<group>"; };
+		B2D721301CA8E061007B1671 /* UIImage+Rotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Rotate.h"; sourceTree = "<group>"; };
+		B2D721311CA8E061007B1671 /* UIImage+Rotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Rotate.m"; sourceTree = "<group>"; };
+		B2D721331CA90232007B1671 /* RouteAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteAnnotation.h; sourceTree = "<group>"; };
+		B2D721341CA90232007B1671 /* RouteAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteAnnotation.m; sourceTree = "<group>"; };
 		B2F81B4B1C7EAE680089F51C /* TemperaryServicePDeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemperaryServicePDeViewController.h; sourceTree = "<group>"; };
-		B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemperaryServicePDeViewController.m; sourceTree = "<group>"; };
+		B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TemperaryServicePDeViewController.mm; sourceTree = "<group>"; };
 		B2F826201C730D6000993F47 /* LocationSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationSearchModel.h; sourceTree = "<group>"; };
 		B2F826211C730D6000993F47 /* LocationSearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationSearchModel.m; sourceTree = "<group>"; };
 		B2F826241C730DA500993F47 /* LeftMenuCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuCellItem.h; sourceTree = "<group>"; };
@@ -721,6 +727,8 @@
 				2512B3EB1C8D6133006E8608 /* UIView+borderWidth.m */,
 				254502AE1C8ED1FF00F47F46 /* UIView+RoundingCornor.h */,
 				254502AF1C8ED1FF00F47F46 /* UIView+RoundingCornor.m */,
+				B2D721301CA8E061007B1671 /* UIImage+Rotate.h */,
+				B2D721311CA8E061007B1671 /* UIImage+Rotate.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -893,7 +901,7 @@
 			isa = PBXGroup;
 			children = (
 				254A8DB21C7C575F00F2EC94 /* ServicePointDetailViewController.h */,
-				254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.m */,
+				254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.mm */,
 			);
 			path = ServicePointAppointment;
 			sourceTree = "<group>";
@@ -1068,6 +1076,8 @@
 				B2640CCC1C7C361A00721CB5 /* ServicePositionDetialCellItem.m */,
 				B2640CE51C7D613600721CB5 /* AddWorkerCellItem.h */,
 				B2640CE61C7D613600721CB5 /* AddWorkerCellItem.m */,
+				B2D721331CA90232007B1671 /* RouteAnnotation.h */,
+				B2D721341CA90232007B1671 /* RouteAnnotation.m */,
 			);
 			path = ServersPositionAnnotions;
 			sourceTree = "<group>";
@@ -1239,7 +1249,7 @@
 			isa = PBXGroup;
 			children = (
 				B2F81B4B1C7EAE680089F51C /* TemperaryServicePDeViewController.h */,
-				B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.m */,
+				B2F81B4C1C7EAE680089F51C /* TemperaryServicePDeViewController.mm */,
 			);
 			path = ServicePositionController;
 			sourceTree = "<group>";
@@ -1635,7 +1645,7 @@
 				25BFEB401C74A5370062F9B8 /* ServicePointApointmentViewController.m in Sources */,
 				B2D7212F1CA5404C007B1671 /* AddWorkerTBC.m in Sources */,
 				25BFEB1E1C731A630062F9B8 /* StringPacket.m in Sources */,
-				B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.m in Sources */,
+				B2F81B4D1C7EAE680089F51C /* TemperaryServicePDeViewController.mm in Sources */,
 				254D95C51C9FCABC003B64D4 /* UIButton+TCHelper.m in Sources */,
 				2512B41A1C7056C900EE661B /* UIFont+Custom.m in Sources */,
 				254D95B41C9A7FF8003B64D4 /* NSString+QRCode.m in Sources */,
@@ -1645,6 +1655,7 @@
 				B23506061C91A6FA00B35E1E /* ChargeType.m in Sources */,
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
 				B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */,
+				B2D721321CA8E061007B1671 /* UIImage+Rotate.m in Sources */,
 				2512B3B21C70557C00EE661B /* ViewController.m in Sources */,
 				B23A980D1C76E12700E3E054 /* UserinformationSetingViewController.m in Sources */,
 				B2436CA31C7AF91800F543E1 /* BRContractTableHeaerCell.m in Sources */,
@@ -1696,6 +1707,7 @@
 				254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */,
 				254503091C9119EC00F47F46 /* CustomerPositionLogPacket.m in Sources */,
 				2512B3AC1C70557C00EE661B /* main.m in Sources */,
+				B2D721351CA90232007B1671 /* RouteAnnotation.m in Sources */,
 				25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */,
 				252AB8971C7732C50085CC14 /* NavView.m in Sources */,
 				2512B4181C7056C900EE661B /* UIColor+Expanded.m in Sources */,
@@ -1755,7 +1767,7 @@
 				B2640CE71C7D613600721CB5 /* AddWorkerCellItem.m in Sources */,
 				B2640CF61C7D9D2100721CB5 /* SelectAddressViewController.m in Sources */,
 				2512B3F21C8D8496006E8608 /* ReportResultReturnURLPacket.m in Sources */,
-				254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.m in Sources */,
+				254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.mm in Sources */,
 				B27222B01C8ECFD3002494EA /* PayTypeViewCell.m in Sources */,
 				2512B4171C7056C900EE661B /* UIButton+VerticalLayout.m in Sources */,
 				B23C76741C8D30FF00E5C40A /* MethodResult.m in Sources */,
