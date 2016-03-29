@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol AddworkVControllerDelegate <NSObject>
+// 添加员工成功
+- (void)creatWorkerSucceed;
+
+@end
+
 @interface AddWorkerVController : UIViewController
+
+@property(nonatomic, strong) id<AddworkVControllerDelegate> delegate;
 
 @end

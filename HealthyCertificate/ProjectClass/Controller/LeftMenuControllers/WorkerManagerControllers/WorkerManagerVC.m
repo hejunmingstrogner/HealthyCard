@@ -15,10 +15,13 @@
 #import <Masonry.h>
 #import "WorkManagerTBC.h"
 #import "AddWorkerVController.h"
-
+#import "HttpNetworkManager.h"
+#import "Constants.h"
+#import "Customer.h"
+#import "RzAlertView.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface WorkerManagerVC ()<UITableViewDelegate, UITableViewDataSource>
+@interface WorkerManagerVC ()<UITableViewDelegate, UITableViewDataSource, AddworkVControllerDelegate>
 {
     UITableView *_tableView;
     UIBarButtonItem *_rightBarItem;    // 显示员工数量
@@ -66,7 +69,7 @@
 
 - (void)initSubviews
 {
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 60) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 60) style:UITableViewStylePlain];
     [self.view addSubview:_tableView];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -88,18 +91,43 @@
 
 - (void)getdata
 {
-    WorkManagerTBCItem *item = [[WorkManagerTBCItem alloc]initWithName:@"张山" sex:@"男" tel:@"18380447477" Type:0];
-    _worksArray = [NSMutableArray arrayWithObjects:item, item, item, item, nil];
-    [_tableView reloadData];
+    [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
+        if (!error) {
+            _worksData = [NSMutableArray arrayWithArray:result];
+            _worksArray = [[NSMutableArray alloc]init];
+            for (Customer *custom in _worksData) {
+                NSString *sex = custom.sex == 0 ? @"男" : @"女";
+                WorkManagerTBCItem *item = [[WorkManagerTBCItem alloc]initWithName:custom.custName sex:sex tel:custom.linkPhone Type:0];
+                [_worksArray addObject:item];
+            }
+            [self setworkCount];
+            [_tableView reloadData];
+        }
+        else{
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络出现问题，请重试" removeDelay:2];
+        }
+    }];
 }
-
+// 设置员工人数
+- (void)setworkCount
+{
+    [_rightBarItem setTitle:[NSString stringWithFormat:@"员工人数 %lu", (unsigned long)_worksArray.count]];
+}
 // 新增员工按钮点击事件
 - (void)addWorkBtnClicked:(UIButton *)sender
 {
     AddWorkerVController *add = [[AddWorkerVController alloc]init];
+    add.delegate = self;
     [self.navigationController pushViewController:add animated:YES];
 }
+#pragma mark - 添加员工成功的delegate
+- (void)creatWorkerSucceed
+{
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"添加成功" removeDelay:2];
+    [self getdata];
+}
 
+#pragma mark - tableview delegate datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -115,40 +143,49 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10+44+10+44+10;
+    return 10+44+10+44+1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 44;
 }
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    return @"向左滑动可删除员工";
+    if(section != 0){
+        return nil;
+    }
+    UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"footview"];
+    if (!view) {
+        view = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"footview"];
+        view.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
+        view.textLabel.textColor = [UIColor grayColor];
+    }
+    view.textLabel.text = @"向左滑动可删除员工";
+    return view;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if(section != 0){
         return nil;
     }
-    UIView *_uiview = [[UIView alloc]init];
+    UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerview"];
+    if (!view) {
+        view = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"headerview"];
+        UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(-2, 10, self.view.frame.size.width + 4, 44)];
+        [view addSubview:nameLabel];
+        nameLabel.backgroundColor = [UIColor whiteColor];
+        nameLabel.textAlignment = NSTextAlignmentCenter;
+        nameLabel.text = @"知康科技有限公司";
 
-    UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(-2, 10, self.view.frame.size.width + 4, 44)];
-    [_uiview addSubview:nameLabel];
-    nameLabel.backgroundColor = [UIColor whiteColor];
-    nameLabel.textAlignment = NSTextAlignmentCenter;
-    nameLabel.text = @"知康科技有限公司";
-
-    WorkManagerTBC *cell = [[WorkManagerTBC alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"head"];
-    [_uiview addSubview:cell];
-    cell.backgroundColor = [UIColor whiteColor];
-    [cell setCellItem:[[WorkManagerTBCItem alloc]initWithName:@"姓名" sex:@"性别" tel:@"电话" Type:0]];
-    cell.sexLabel.textColor = [UIColor blackColor];
-    [cell mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(nameLabel.mas_bottom).offset(10);
-        make.left.right.equalTo(nameLabel);
-        make.height.mas_equalTo(44);
-    }];
-    return _uiview;
+        WorkManagerTBC *cell = [[WorkManagerTBC alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"head"];
+        [view addSubview:cell];
+        cell.backgroundColor = [UIColor whiteColor];
+        [cell setCellItem:[[WorkManagerTBCItem alloc]initWithName:@"姓名" sex:@"性别" tel:@"电话" Type:0]];
+        cell.sexLabel.textColor = [UIColor blackColor];
+        cell.frame = CGRectMake(0, 64, self.view.frame.size.width, 44);
+    }
+    return view;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -174,7 +211,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     [_worksArray removeObjectAtIndex:indexPath.row];
     [_worksData removeObjectAtIndex:indexPath.row];
-
+    [self setworkCount];
     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [_tableView reloadData];

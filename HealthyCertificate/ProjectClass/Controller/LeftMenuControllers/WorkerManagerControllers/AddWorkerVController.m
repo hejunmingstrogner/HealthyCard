@@ -20,7 +20,8 @@
 #import "HCRule.h"
 #import "NSString+Count.h"
 #import "NSString+Custom.h"
-
+#import <MJExtension.h>
+#import "HttpNetworkManager.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface AddWorkerVController()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
@@ -306,6 +307,29 @@
                 break;
         }
     }
+    _customer.unitCode = gCompanyInfo.cUnitCode;
+    NSDictionary *customerDict = _customer.mj_keyValues;
+    
+    [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:customerDict resultBlock:^(BOOL successed, NSError *error) {
+        if (successed) {
+            [self creatSuccess];
+        }
+        else{
+            [self creatFail];
+        }
+    }];
+}
+- (void)creatSuccess
+{
+    if ([_delegate respondsToSelector:@selector(creatWorkerSucceed)] && _delegate) {
+        [_delegate creatWorkerSucceed];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)creatFail
+{
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"添加失败，请检查网络后重试" removeDelay:2];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

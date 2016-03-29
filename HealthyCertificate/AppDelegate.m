@@ -48,8 +48,6 @@
     if (!ret) {
         NSLog(@"百度地图使用错误");
     }
-    // ping ++ debug log
-    [Pingpp setDebugMode:YES];
     
     [UMSocialData setAppKey:@"56e22bbd67e58e71f9000e8b"];
     [UMSocialQQHandler setQQWithAppId:@"1105172405" appKey:@"Fe18WR9AciIlUZBP" url:@"http://www.zeekkeji.com/"];
