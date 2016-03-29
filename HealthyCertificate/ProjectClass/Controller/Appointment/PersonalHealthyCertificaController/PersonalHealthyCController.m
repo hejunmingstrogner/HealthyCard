@@ -262,15 +262,6 @@
     [containView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(warmBg.mas_bottom).offset(10);
     }];
-//    // 详情介绍
-//    AppointmentInfoView *introduceView = [[AppointmentInfoView alloc]initWithFrame:CGRectMake(0, 10+ PXFIT_HEIGHT(460) + 10 + 210 , self.view.frame.size.width, 100)];
-//    [containView addSubview:introduceView];
-//    [introduceView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(warmingLabel.mas_bottom).offset(10);
-//        make.left.right.equalTo(containView);
-//        make.height.mas_equalTo(100);
-//        make.bottom.equalTo(containView).offset(-10);
-//    }];
 
     _leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _leftBtn.layer.masksToBounds = YES;

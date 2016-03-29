@@ -198,7 +198,7 @@ BOOL   _isLocationInfoHasBeenSent;
     [minDistanceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(headerBackGroundView).offset(-10);
         make.bottom.equalTo(headerBackGroundView);
-        make.width.mas_equalTo(150);
+        make.width.mas_equalTo(50);
         make.height.equalTo(pendingBtn);
     }];
     [minDistanceBtn addTarget:self action:@selector(minDistanceBtnClicked) forControlEvents:UIControlEventTouchUpInside];

@@ -333,7 +333,6 @@
 - (void)didUpdateUserHeading:(BMKUserLocation *)userLocation
 {
     [_mapView updateLocationData:userLocation];
-    NSLog(@"heading is %@",userLocation.heading);
 }
 
 /**
@@ -366,7 +365,6 @@
 
 - (void)mapViewDidFinishLoading:(BMKMapView *)mapView
 {
-    NSLog(@"finish");
     BMKPlanNode *start = [[BMKPlanNode alloc]init];
     start.pt = _locationServer.userLocation.location.coordinate;
 

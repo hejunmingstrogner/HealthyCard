@@ -37,8 +37,8 @@
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebservice.witaction.com:808/zkwebservice/webservice/";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://lyx.witaction.com/zkwebservice";
 //http://zkwebserver.witaction.com:8080/
-// 开发环境
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080";
+//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://lyx.witaction.com/zkwebservice/";
 static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/webservice/";
 
 // 运营环境
@@ -182,12 +182,18 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     [self.sharedClient POST:url parameters:personinfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         MethodResult *result = [MethodResult mj_objectWithKeyValues:responseObject];
         if (result.succeed){
-            block(YES, nil);
+            if (block) {
+                block(YES, nil);
+            }
         }else{
-            block(NO, nil);
+            if (block) {
+                block(NO, [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:result.errorMsg forKey:@"error"]]);
+            }
         }
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
-        block(NO, error);
+        if (block) {
+            block(NO, error);
+        }
     }];
 }
 

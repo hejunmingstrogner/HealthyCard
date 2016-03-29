@@ -21,7 +21,7 @@
  */
 @property (nonatomic, strong) NSString * custCode;
 /**
- * 客户单位编码。
+ * 客户单位编号。
  */
 @property (nonatomic, strong) NSString * unitCode;
 /**

@@ -109,20 +109,16 @@
 
     if(customerTest.checkSiteID) // 服务点预约
     {
-//        serviceAddressLabel.text = customerTest.servicePoint.address;
         [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.servicePoint.address endTextColor:[UIColor grayColor]];
         if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
-//            serviceTimeLabel.text = @"";
-//            serviceAddressLabel.text =@"获取失败";
             [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
-            [serviceAddressLabel setText:@"获取失败" Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
+            [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"获取失败" endTextColor:[UIColor grayColor]];
         }
         else {
             NSString *year = [NSDate getYearMonthDayByDate:customerTest.servicePoint.startTime/1000];
             NSString *hour1 = [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000];
             NSString *end = [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000];
             NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
-//            serviceTimeLabel.text = time;
             [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:time endTextColor:[UIColor grayColor]];
         }
 
@@ -134,7 +130,7 @@
 //            serviceTimeLabel.text = @"";
 //            serviceAddressLabel.text = @"获取失败";
             [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
-            [serviceAddressLabel setText:@"获取失败" Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
+            [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"获取失败" endTextColor:[UIColor grayColor]];
         }
         else {
             NSString *startyear = [NSDate getYearMonthDayByDate:customerTest.regBeginDate/1000];
