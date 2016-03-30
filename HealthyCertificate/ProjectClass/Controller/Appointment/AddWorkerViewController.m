@@ -173,7 +173,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     [_comfirmBtn setTitleColor:[UIColor colorWithWhite:0.99 alpha:1] forState:UIControlStateNormal];
     [_comfirmBtn addTarget:self action:@selector(comfirmBtnCliked:) forControlEvents:UIControlEventTouchUpInside];
     
-    _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(64);
@@ -214,7 +214,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 54;
+    return 44;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -222,25 +222,22 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (_workerArray.count != 0) {
-        if (section == 0) {
-            return 10;
-        }
-    }
-    return 40;
+    return 0.1;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *uiview = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 54)];
-    AddWorkerTableViewCell *cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"haed"];
-    cell.frame = CGRectMake(0, 10, self.view.frame.size.width, 44);
-    cell.nameLabel.text = @"姓名";
-    cell.phoneLabel.text = @"电话";
-    cell.endDateLabel.text = @"到期时间";
-    cell.selectImageView.hidden = YES;
-    cell.backgroundColor = [UIColor whiteColor];
-    [uiview addSubview:cell];
+    UITableViewHeaderFooterView *uiview = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headerview"];
+    if (!uiview) {
+        uiview = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"headerview"];
+        AddWorkerTableViewCell *cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"haed"];
+        cell.frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
+        cell.nameLabel.text = @"姓名";
+        cell.phoneLabel.text = @"电话";
+        cell.endDateLabel.text = @"到期时间";
+        cell.selectImageView.hidden = YES;
+        [uiview addSubview:cell];
+    }
     return uiview;
 }
 

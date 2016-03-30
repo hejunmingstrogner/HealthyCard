@@ -111,7 +111,7 @@
     }];
 
     [_container mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_serviceTime.mas_bottom).offset(20);
+        make.bottom.equalTo(_address.mas_bottom).offset(20);
     }];
 }
 
@@ -171,8 +171,8 @@
     [_serviceTime mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(serHeight);
     }];
-    [_container mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(_serviceTime.mas_bottom).offset(20);
+    [_container mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_address.mas_bottom).offset(20);
     }];
 }
 
