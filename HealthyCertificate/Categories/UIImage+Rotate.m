@@ -11,7 +11,6 @@
 @implementation UIImage (Rotate)
 - (UIImage*)imageRotatedByDegrees:(CGFloat)degrees
 {
-
     CGFloat width = CGImageGetWidth(self.CGImage);
     CGFloat height = CGImageGetHeight(self.CGImage);
 

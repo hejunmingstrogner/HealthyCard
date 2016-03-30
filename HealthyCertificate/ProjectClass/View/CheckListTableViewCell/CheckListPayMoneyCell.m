@@ -56,13 +56,10 @@
         [_payMoneyBtn setTitle:@"已支付" forState:UIControlStateNormal];
         [_payMoneyBtn setBackgroundColor:[UIColor colorWithRed:95/255.0 green:177/255.0 blue:58/255.0 alpha:1]];
         _payMoneyBtn.tag = -1;
-        _cancelAppointBtn.hidden = YES;
-        _cancelAppointBtn.tag = -1;
     }
     else {
         [_payMoneyBtn setTitle:@"在线支付" forState:UIControlStateNormal];
         [_payMoneyBtn setBackgroundColor:[UIColor colorWithRed:1 green:155/255.0 blue:18/255.0 alpha:1]];
-        _cancelAppointBtn.hidden = NO;
     }
 }
 @end
