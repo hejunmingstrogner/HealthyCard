@@ -66,14 +66,14 @@
         userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gPersonInfo.mCustName detialLabelText:gPersonInfo.StrTel itemtype:LEFTMENUCELL_USERINFOR];
         appoint = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"我的预约" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_APPOINT];
         erweima = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"我的二维码" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_ERWEIMA];
-        manage = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"单位注册" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_UNITLOGIN];
+        manage = [[LeftMenuCellItem alloc]initWithiconName:@"danweizhuce" titleLabelText:@"单位注册" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_UNITLOGIN];
     }
     else if(GetUserType == 2)
     {
          userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gCompanyInfo.cUnitName detialLabelText:gPersonInfo.StrTel itemtype:LEFTMENUCELL_USERINFOR];
         appoint = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"历史记录" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_APPOINT];
         erweima = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"单位二维码" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_ERWEIMA];
-        manage = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"员工管理" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_WORKERMANAGE];
+        manage = [[LeftMenuCellItem alloc]initWithiconName:@"danweiguanli" titleLabelText:@"员工管理" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_WORKERMANAGE];
     }
     LeftMenuCellItem *userType = [[LeftMenuCellItem alloc]initWithiconName:@"leixing" titleLabelText:@"用户类型" detialLabelText:nil itemtype:LEFTMENUCELL_USERTYPE];
     LeftMenuCellItem *notice = [[LeftMenuCellItem alloc]initWithiconName:@"notice" titleLabelText:@"注意事项" detialLabelText:nil itemtype:LEFTMENUCELL_NOTICE];
