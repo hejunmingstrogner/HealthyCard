@@ -196,9 +196,7 @@
             cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:timestatus cellStyle:0];
 
         }
-        
-        
-       
+               
         NSArray *array = @[cellitem0, cellitem1, cellitem2];
         [_companyDataArray addObject:array];
     }
@@ -248,13 +246,14 @@
 {
     // 个人
     if (_userType == 1) {
+        CustomerTest *customertest = (CustomerTest *)_checkDataArray[indexPath.section];
         if (indexPath.row == 0) {
             CustomerTestTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
             if (!cell) {
                 cell = [[CustomerTestTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
-            [cell setCellItemWithTest:(CustomerTest *)_checkDataArray[indexPath.section]];
+            [cell setCellItemWithTest:customertest];
             return cell;
         }
         else {
@@ -267,7 +266,14 @@
             }
             cell.payMoneyBtn.tag = indexPath.section;
             cell.cancelAppointBtn.tag = indexPath.section;
-            cell.payMoney =((CustomerTest *)_checkDataArray[indexPath.section]).payMoney;
+            cell.payMoney = customertest.payMoney;
+            // 是否可以取消订单
+            if (![customertest canCancelTheOrder]) {
+                cell.cancelAppointBtn.hidden = YES; // 不可取消
+            }
+            else{
+                cell.cancelAppointBtn.hidden = NO;  // 可以取消
+            }
             return cell;
         }
     }
@@ -327,7 +333,6 @@
 - (void)cancelAppointBtnClicked:(UIButton *)sender
 {
     __weak MyCheckListViewController *_self = self;
-    NSLog(@"tag:%ld", (long)sender.tag);
     [RzAlertView showAlertViewControllerWithController:self title:@"提示" message:[NSString stringWithFormat:@"您确定要取消 %@ 的体检预约吗？", ((CustomerTest *)_checkDataArray[sender.tag]).custName] confirmTitle:@"确定" cancleTitle:@"点错了" handle:^(NSInteger flag) {
         if (flag != 0) {
             [_self cancelChecked:sender.tag];
