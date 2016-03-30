@@ -20,6 +20,7 @@
 
 #import "HttpNetworkManager.h"
 #import "YMIDCardRecognition.h"
+#import "HCNavigationBackButton.h"
 #import "RzAlertView.h"
 #import "HCRule.h"
 #import "Constants.h"
@@ -97,11 +98,8 @@
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
-
-    UIButton* idCardScanBtn = [UIButton buttonWithTitle:@"身份证号码识别"
-                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
-                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
-                                   backgroundColor:[UIColor clearColor]];
+    
+    HCNavigationBackButton* idCardScanBtn = [[HCNavigationBackButton alloc] initWithText:@"识别"];
     [idCardScanBtn addTarget:self action:@selector(idCardScanBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:idCardScanBtn];
     self.navigationItem.rightBarButtonItem = rightItem;

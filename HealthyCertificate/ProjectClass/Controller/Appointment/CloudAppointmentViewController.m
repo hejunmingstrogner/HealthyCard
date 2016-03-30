@@ -48,6 +48,7 @@
 #import "RzAlertView.h"
 #import "HCRule.h"
 #import "HCBackgroundColorButton.h"
+#import "HCNavigationBackButton.h"
 
 
 #import "MethodResult.h"
@@ -144,7 +145,8 @@
     
     self.title = _sercersPositionInfo.name;
     
-    UIButton* QRScanButton = [UIButton buttonWithNormalImageName:@"QRScan" highlightImageName:@"QRScan"];
+    HCNavigationBackButton* QRScanButton = [[HCNavigationBackButton alloc] initWithText:@"识别"];
+  //  UIButton* QRScanButton = [UIButton buttonWithNormalImageName:@"QRScan" highlightImageName:@"QRScan"];
     QRScanButton.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [QRScanButton addTarget:self action:@selector(QRScanButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:QRScanButton];

@@ -20,8 +20,10 @@
 #import "UIButton+HitTest.h"
 #import "UIFont+Custom.h"
 #import "NSDate+Custom.h"
+
 #import "RzAlertView.h"
 #import "YMIDCardRecognition.h"
+#import "HCNavigationBackButton.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 #define CloudController (GetUserType == 1 ? _cloudAppointmentViewController : _cloudAppointmentCompanyViewController)
@@ -37,7 +39,7 @@
     ServicePointApointmentViewController        *_servicePointAppointmentViewController;
     RzAlertView                                 *waitAlertView;
     
-    UIButton                                    *_QRScanButton;
+    HCNavigationBackButton                      *_QRScanButton;
 }
 
 @property (nonatomic, strong) UIViewController  *currentVC;
@@ -134,7 +136,9 @@
     self.navigationItem.titleView = segment;
 
 
-    _QRScanButton = [UIButton buttonWithNormalImageName:@"QRScan" highlightImageName:@"QRScan"];
+    _QRScanButton = [[HCNavigationBackButton alloc] initWithText:@"识别"];
+    
+   // _QRScanButton = [UIButton buttonWithNormalImageName:@"QRScan" highlightImageName:@"QRScan"];
     _QRScanButton.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [_QRScanButton addTarget:self action:@selector(QRScanButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:_QRScanButton];
