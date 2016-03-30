@@ -7,24 +7,33 @@
 //
 
 #import "AddWorkerVController.h"
+
+#import <Masonry.h>
+#import <MJExtension.h>
+
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
 #import "UIColor+Expanded.h"
-#import <Masonry.h>
-#import "WorkManagerTBC.h"
-#import "Constants.h"
-#import "AddWorkerTBC.h"
-#import "RzAlertView.h"
-#import "Customer.h"
-#import "HCRule.h"
 #import "NSString+Count.h"
 #import "NSString+Custom.h"
-#import <MJExtension.h>
+
 #import "HttpNetworkManager.h"
+#import "YMIDCardRecognition.h"
+#import "RzAlertView.h"
+#import "HCRule.h"
+#import "Constants.h"
+
+#import "WorkManagerTBC.h"
+#import "AddWorkerTBC.h"
+#import "Customer.h"
+
+
+
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface AddWorkerVController()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface AddWorkerVController()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate, YMIDCardRecognitionDelegate>
 {
     UIBarButtonItem *_rightBarItem;
 
@@ -40,6 +49,8 @@
 
     NSMutableArray *_customArray;
     Customer *_customer;
+    
+    RzAlertView  *_waitAlertView;
 }
 @end
 
@@ -85,16 +96,26 @@
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
+    
 
-    _rightBarItem = [[UIBarButtonItem alloc]initWithTitle:@"身份证号码识别" style:UIBarButtonItemStyleDone target:nil action:nil];
-    self.navigationItem.rightBarButtonItem = _rightBarItem;
+    UIButton* idCardScanBtn = [UIButton buttonWithTitle:@"身份证号码识别"
+                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
+                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
+                                   backgroundColor:[UIColor clearColor]];
+    [idCardScanBtn addTarget:self action:@selector(idCardScanBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:idCardScanBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
+
+#pragma mark - Action
 // 返回前一页
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
+#pragma mark - view initializations
 - (void)initData
 {
     AddworkerTBCItem *name = [[AddworkerTBCItem alloc]initWithTitle:@"姓        名" Message:nil type:ADDWORKER_NAME];
@@ -120,6 +141,7 @@
     }];
 }
 
+#pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -188,6 +210,33 @@
     return view;
 }
 
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.view endEditing:YES];
+    if (((AddworkerTBCItem *)_customArray[indexPath.row]).type == ADDWORKER_SEX) {
+        [RzAlertView showAlertViewControllerWithTarget:self Title:@"请选择性别" Message:nil preferredStyle:UIAlertControllerStyleActionSheet ActionTitlesArray:@[@"男", @"女"] handle:^(NSInteger flag) {
+            NSString *sex;
+            if (flag == 1) {
+                sex = @"男";
+            }
+            else if(flag == 2){
+                sex = @"女";
+            }
+            else{
+                return ;
+            }
+            
+            AddWorkerTBC *cell = [tableView cellForRowAtIndexPath:indexPath];
+            cell.textField.text = sex;
+            
+            ((AddworkerTBCItem *)_customArray[indexPath.row]).message = sex;
+        }];
+    }
+}
+
+
+#pragma mark - UITextFieldDelegate
 - (void)textFieldValueChanged:(UITextField *)textField
 {
     NSInteger _textLength;
@@ -249,6 +298,28 @@
     ((AddworkerTBCItem *)_customArray[textField.tag]).message = textField.text;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    textField.text = [textField.text deleteSpaceWithHeadAndFootWithString:textField.text];
+    if (textField.text.length == 0) {
+        return;
+    }
+    if (((AddworkerTBCItem *)_customArray[textField.tag]).type == ADDWORKER_IDCARD) {
+        // 身份证验证不合法
+        if(![HCRule validateIDCardNumber:textField.text]){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的身份证信息输入错误" removeDelay:2];
+            [textField becomeFirstResponder];
+            return;
+        }
+        // 计算年龄
+        NSString * age = [NSString getOldYears:textField.text];
+        AddWorkerTBC *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:textField.tag-1 inSection:0]];
+        cell.textField.text = age;
+        ((AddworkerTBCItem *)_customArray[textField.tag - 1]).message = age;
+    }
+}
+
+#pragma mark - Button Action
 - (void)confrimBtnClicked:(UIButton *)sender
 {
     for (AddworkerTBCItem *item in _customArray) {
@@ -319,6 +390,91 @@
         }
     }];
 }
+
+-(void)idCardScanBtnClicked:(UIButton*)sender
+{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.videoQuality=UIImagePickerControllerQualityTypeLow;
+        imagePicker.delegate = self;
+        imagePicker.showsCameraControls = YES;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+    else
+    {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"开启摄像头权限后，才能使用该功能" removeDelay:2];
+    }
+}
+
+
+#pragma mark - UIImagePickerControllerDelegate & YMIDCardRecognitionDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    __weak typeof (self) wself = self;
+    UIImage *originImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *image = [wself reSizeImage:originImage toSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT)];
+        CGImageRef imRef = [image CGImage];
+        UIImageOrientation orientation = [image imageOrientation];
+        NSInteger texWidth = CGImageGetWidth(imRef);
+        NSInteger texHeight = CGImageGetHeight(imRef);
+        float imageScale = 1;
+        if(orientation == UIImageOrientationUp && texWidth < texHeight)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationLeft];
+        else if((orientation == UIImageOrientationUp && texWidth > texHeight) || orientation == UIImageOrientationRight)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
+        else if(orientation == UIImageOrientationDown)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationDown];
+        else if(orientation == UIImageOrientationLeft)
+            image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [picker dismissViewControllerAnimated:YES completion:nil];
+            if (!_waitAlertView) {
+                _waitAlertView = [[RzAlertView alloc]initWithSuperView:wself.view Title:@"身份证信息解析中"];
+            }
+            [_waitAlertView show];
+            [YMIDCardRecognition recongnitionWithCard:image delegate:wself];
+        });
+    });
+}
+
+- (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_waitAlertView close];
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"身份信息解析失败，请重试" removeDelay:3];
+    });
+    NSLog(@"身份证解析失败：%@", error.domain);
+}
+- (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_waitAlertView close];
+        
+        if (array[1] == NO){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"扫描身份证信息失败，请注意聚焦" removeDelay:3];
+            return;
+        }
+        
+        _nameTextField.text = array[0];
+        _idCardTextField.text = array[1];
+        [_sexBtn setTitle:array[2] forState:UIControlStateNormal];
+    });
+}
+
+- (BOOL)getCancelProcess
+{
+    return NO;
+}
+
+- (void)setCancelProcess:(BOOL)isCance
+{
+    //self.isProgressCanceled = isCance;
+}
+
+
+
+#pragma mark - Http Response
 - (void)creatSuccess
 {
     if ([_delegate respondsToSelector:@selector(creatWorkerSucceed)] && _delegate) {
@@ -332,48 +488,18 @@
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"添加失败，请检查网络后重试" removeDelay:2];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - Private Methods
+- (UIImage *)reSizeImage:(UIImage *)image toSize:(CGSize)reSize
+
 {
-    [self.view endEditing:YES];
-    if (((AddworkerTBCItem *)_customArray[indexPath.row]).type == ADDWORKER_SEX) {
-        [RzAlertView showAlertViewControllerWithTarget:self Title:@"请选择性别" Message:nil preferredStyle:UIAlertControllerStyleActionSheet ActionTitlesArray:@[@"男", @"女"] handle:^(NSInteger flag) {
-            NSString *sex;
-            if (flag == 1) {
-                sex = @"男";
-            }
-            else if(flag == 2){
-                sex = @"女";
-            }
-            else{
-                return ;
-            }
-
-            AddWorkerTBC *cell = [tableView cellForRowAtIndexPath:indexPath];
-            cell.textField.text = sex;
-
-            ((AddworkerTBCItem *)_customArray[indexPath.row]).message = sex;
-        }];
-    }
+    UIGraphicsBeginImageContext(CGSizeMake(reSize.width, reSize.height));
+    [image drawInRect:CGRectMake(0, 0, reSize.width, reSize.height)];
+    UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return reSizeImage;
+    
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    textField.text = [textField.text deleteSpaceWithHeadAndFootWithString:textField.text];
-    if (textField.text.length == 0) {
-        return;
-    }
-    if (((AddworkerTBCItem *)_customArray[textField.tag]).type == ADDWORKER_IDCARD) {
-        // 身份证验证不合法
-        if(![HCRule validateIDCardNumber:textField.text]){
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的身份证信息输入错误" removeDelay:2];
-            [textField becomeFirstResponder];
-            return;
-        }
-        // 计算年龄
-        NSString * age = [NSString getOldYears:textField.text];
-        AddWorkerTBC *cell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:textField.tag-1 inSection:0]];
-        cell.textField.text = age;
-        ((AddworkerTBCItem *)_customArray[textField.tag - 1]).message = age;
-    }
-}
+
 @end

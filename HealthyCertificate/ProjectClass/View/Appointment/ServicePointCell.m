@@ -73,6 +73,8 @@
         NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@hosInfo/getIntroPhoto?hosCode=%@", [HttpNetworkManager baseURL], servicePoint.cHostCode]];
         __weak typeof (self) wself = self;
         [_picImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"unitLog"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (image == nil)
+                return;
             __strong typeof (self) sself = wself;
             (sself->_picImageView).image = [wself reSizeImage:image toSize:(sself->_picImageView).image.size];
             (sself->_cellIamge) = image;
@@ -83,7 +85,14 @@
         //移动服务点
         //brVehicle/getPhoto
         NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@brVehicle/getPhoto?uid=%@", [HttpNetworkManager baseURL], servicePoint.brOutCheckArrange.vehicleID]];
-        [_picImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"serverPointLogo"] options:SDWebImageRefreshCached];
+        __weak typeof (self) wself = self;
+        [_picImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"serverPointLogo"] options:SDWebImageRefreshCached | SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (image == nil)
+                return;
+            __strong typeof (self) sself = wself;
+            (sself->_picImageView).image = [wself reSizeImage:image toSize:(sself->_picImageView).image.size];
+            (sself->_cellIamge) = image;
+        }];
     }
 }
 
