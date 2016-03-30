@@ -159,4 +159,20 @@
     return item;
 }
 
+// 是否可以取消订单
+- (BOOL)canCancelTheOrder
+{
+    if (self.payMoney > 0) {
+        return NO;
+    }
+    switch ([self.testStatus integerValue]) {
+        case -1:
+        case 0:
+        case 5:
+        case 6:
+            return YES;
+        default:
+            return NO;
+    }
+}
 @end

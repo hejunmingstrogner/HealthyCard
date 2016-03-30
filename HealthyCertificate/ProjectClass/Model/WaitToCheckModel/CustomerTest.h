@@ -160,6 +160,12 @@ typedef enum{
  */
 - (CustomerTestStatusItem *)getTestStatusItem;
 
+/**
+ *  是否可以取消订单
+ *
+ *  @return
+ */
+- (BOOL)canCancelTheOrder;
 
 @property (nonatomic, assign) int mainItemNum;
 @property (nonatomic, copy) NSString * rfidNo;

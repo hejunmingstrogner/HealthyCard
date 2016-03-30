@@ -857,6 +857,7 @@
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
 {
     [_waitAlertView close];
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"身份证信息解析失败" removeDelay:2];
 }
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
 {
