@@ -123,6 +123,11 @@
 		25C070801CA38C1D0098A3FB /* unitLog@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C0707A1CA38C1D0098A3FB /* unitLog@1x.png */; };
 		25C070811CA38C1D0098A3FB /* unitLog@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C0707B1CA38C1D0098A3FB /* unitLog@2x.png */; };
 		25C070821CA38C1D0098A3FB /* unitLog@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C0707C1CA38C1D0098A3FB /* unitLog@3x.png */; };
+		25DB63FF1CABA0530072C8EF /* QRcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB63FE1CABA0530072C8EF /* QRcodeViewController.m */; };
+		25DB64021CABA85D0072C8EF /* ScanImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64011CABA85D0072C8EF /* ScanImageViewController.m */; };
+		25DB64051CACB0A50072C8EF /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64041CACB0A50072C8EF /* RegisterViewController.m */; };
+		25DB64091CACB2000072C8EF /* UnitRegisterTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64081CACB2000072C8EF /* UnitRegisterTitleView.m */; };
+		25DB640C1CACB6210072C8EF /* UnitRegisterItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB640B1CACB6210072C8EF /* UnitRegisterItemCell.m */; };
 		25E983831C8535BE00CB027E /* WorkTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E983821C8535BE00CB027E /* WorkTypeViewController.m */; };
 		25F276F11CA3F1AF00BF5DFE /* DetailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F276F01CA3F1AF00BF5DFE /* DetailImageView.m */; };
 		25F276F41CA552C200BF5DFE /* ContractPersonInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F276F31CA552C200BF5DFE /* ContractPersonInfoViewController.m */; };
@@ -411,6 +416,16 @@
 		25C0707A1CA38C1D0098A3FB /* unitLog@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unitLog@1x.png"; sourceTree = "<group>"; };
 		25C0707B1CA38C1D0098A3FB /* unitLog@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unitLog@2x.png"; sourceTree = "<group>"; };
 		25C0707C1CA38C1D0098A3FB /* unitLog@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unitLog@3x.png"; sourceTree = "<group>"; };
+		25DB63FD1CABA0530072C8EF /* QRcodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRcodeViewController.h; sourceTree = "<group>"; };
+		25DB63FE1CABA0530072C8EF /* QRcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRcodeViewController.m; sourceTree = "<group>"; };
+		25DB64001CABA85D0072C8EF /* ScanImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanImageViewController.h; sourceTree = "<group>"; };
+		25DB64011CABA85D0072C8EF /* ScanImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanImageViewController.m; sourceTree = "<group>"; };
+		25DB64031CACB0A50072C8EF /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		25DB64041CACB0A50072C8EF /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		25DB64071CACB2000072C8EF /* UnitRegisterTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitRegisterTitleView.h; sourceTree = "<group>"; };
+		25DB64081CACB2000072C8EF /* UnitRegisterTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitRegisterTitleView.m; sourceTree = "<group>"; };
+		25DB640A1CACB6210072C8EF /* UnitRegisterItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitRegisterItemCell.h; sourceTree = "<group>"; };
+		25DB640B1CACB6210072C8EF /* UnitRegisterItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitRegisterItemCell.m; sourceTree = "<group>"; };
 		25E983811C8535BE00CB027E /* WorkTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkTypeViewController.h; sourceTree = "<group>"; };
 		25E983821C8535BE00CB027E /* WorkTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkTypeViewController.m; sourceTree = "<group>"; };
 		25F276EF1CA3F1AF00BF5DFE /* DetailImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailImageView.h; sourceTree = "<group>"; };
@@ -893,6 +908,10 @@
 			children = (
 				254503041C90043800F47F46 /* QRController.h */,
 				254503051C90043800F47F46 /* QRController.m */,
+				25DB63FD1CABA0530072C8EF /* QRcodeViewController.h */,
+				25DB63FE1CABA0530072C8EF /* QRcodeViewController.m */,
+				25DB64001CABA85D0072C8EF /* ScanImageViewController.h */,
+				25DB64011CABA85D0072C8EF /* ScanImageViewController.m */,
 			);
 			name = QRController;
 			sourceTree = "<group>";
@@ -1033,6 +1052,17 @@
 				254A8DAF1C7C549F00F2EC94 /* CloudAppointmentCompanyViewController.m */,
 			);
 			path = Appointment;
+			sourceTree = "<group>";
+		};
+		25DB64061CACB1E40072C8EF /* UnitRegister */ = {
+			isa = PBXGroup;
+			children = (
+				25DB64071CACB2000072C8EF /* UnitRegisterTitleView.h */,
+				25DB64081CACB2000072C8EF /* UnitRegisterTitleView.m */,
+				25DB640A1CACB6210072C8EF /* UnitRegisterItemCell.h */,
+				25DB640B1CACB6210072C8EF /* UnitRegisterItemCell.m */,
+			);
+			path = UnitRegister;
 			sourceTree = "<group>";
 		};
 		25F592211C93A8340036F881 /* CompanyAppointment */ = {
@@ -1342,6 +1372,8 @@
 				B2D721241CA50EB7007B1671 /* WorkerManagerVC.m */,
 				B2D7212A1CA527DF007B1671 /* AddWorkerVController.h */,
 				B2D7212B1CA527DF007B1671 /* AddWorkerVController.m */,
+				25DB64031CACB0A50072C8EF /* RegisterViewController.h */,
+				25DB64041CACB0A50072C8EF /* RegisterViewController.m */,
 			);
 			path = WorkerManagerControllers;
 			sourceTree = "<group>";
@@ -1380,6 +1412,7 @@
 		B2F826271C73141100993F47 /* LeftMenuView */ = {
 			isa = PBXGroup;
 			children = (
+				25DB64061CACB1E40072C8EF /* UnitRegister */,
 				B2D721261CA515DC007B1671 /* WorkManagerVIew */,
 				B259C9441C8ACE1F00A6A767 /* HistoryRegView */,
 				B2F826281C73143200993F47 /* LeftMenuView.h */,
@@ -1707,6 +1740,7 @@
 				254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */,
 				254503091C9119EC00F47F46 /* CustomerPositionLogPacket.m in Sources */,
 				2512B3AC1C70557C00EE661B /* main.m in Sources */,
+				25DB63FF1CABA0530072C8EF /* QRcodeViewController.m in Sources */,
 				B2D721351CA90232007B1671 /* RouteAnnotation.m in Sources */,
 				25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */,
 				252AB8971C7732C50085CC14 /* NavView.m in Sources */,
@@ -1714,6 +1748,7 @@
 				B2436C8E1C7ACF8F00F543E1 /* CustomerTest.m in Sources */,
 				25BFEB151C73103A0062F9B8 /* ProxyHeartBeatPacket.m in Sources */,
 				2512B4161C7056C900EE661B /* UIButton+HitTest.m in Sources */,
+				25DB64091CACB2000072C8EF /* UnitRegisterTitleView.m in Sources */,
 				2512B4191C7056C900EE661B /* UIDevice+Video.m in Sources */,
 				2512B4131C7056C900EE661B /* NSString+Count.m in Sources */,
 				B259C93B1C88608800A6A767 /* CustomerHistoryTBVCell.m in Sources */,
@@ -1757,9 +1792,11 @@
 				B221F6211CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m in Sources */,
 				B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */,
 				254D95BF1C9F9336003B64D4 /* HCBackgroundColorButton.m in Sources */,
+				25DB64051CACB0A50072C8EF /* RegisterViewController.m in Sources */,
 				25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */,
 				B2866A611C910ADA00F4B3B9 /* OrdersAlertView.m in Sources */,
 				25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */,
+				25DB64021CABA85D0072C8EF /* ScanImageViewController.m in Sources */,
 				252AB88F1C7703690085CC14 /* HCWheelView.m in Sources */,
 				2512B41D1C7056C900EE661B /* UIImageView+Easy.m in Sources */,
 				B2D721251CA50EB7007B1671 /* WorkerManagerVC.m in Sources */,
@@ -1770,6 +1807,7 @@
 				254A8DB41C7C575F00F2EC94 /* ServicePointDetailViewController.mm in Sources */,
 				B27222B01C8ECFD3002494EA /* PayTypeViewCell.m in Sources */,
 				2512B4171C7056C900EE661B /* UIButton+VerticalLayout.m in Sources */,
+				25DB640C1CACB6210072C8EF /* UnitRegisterItemCell.m in Sources */,
 				B23C76741C8D30FF00E5C40A /* MethodResult.m in Sources */,
 				B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */,
 				B23A98001C7420DE00E3E054 /* ServersPositionAnnotionsModel.m in Sources */,
