@@ -8,13 +8,14 @@
 
 #import "HCNavigationBackButton.h"
 
+#import "Constants.h"
 
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 
 @implementation HCNavigationBackButton
 
-#define kNaviBarBackButtonTextFontSize 17
+#define kNaviBarBackButtonTextFontSize FIT_FONTSIZE(23)
 #define kNaviBarBackButtonTextColor 0x000000
 
 #define kNaviBarBackButtonTextLeftMargin 5
@@ -31,10 +32,10 @@
 {
     self = [super init];
     if (self) {
-        [self setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-        [self setImage:[UIImage imageNamed:@"back"] forState:UIControlStateDisabled];
-        self.titleLabel.font = [UIFont fontWithType:UIFontOpenSansSemibold size:kNaviBarBackButtonTextFontSize];
-        [self setTitleColor:[UIColor colorWithRGBHex:kNaviBarBackButtonTextColor] forState:UIControlStateNormal];
+        [self setImage:[UIImage imageNamed:@"QRScan"] forState:UIControlStateNormal];
+        [self setImage:[UIImage imageNamed:@"QRScan"] forState:UIControlStateDisabled];
+        self.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:kNaviBarBackButtonTextFontSize];
+        [self setTitleColor:[UIColor colorWithRGBHex:HC_Blue_Text] forState:UIControlStateNormal];
         [self setTitle:text forState:UIControlStateNormal];
         self.titleEdgeInsets = UIEdgeInsetsMake(0, kNaviBarBackButtonTextLeftMargin, 0, -kNaviBarBackButtonTextLeftMargin);
         
