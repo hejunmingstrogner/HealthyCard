@@ -12,6 +12,8 @@
 #import "ServicePointApointmentViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
 #import "CloudAppointmentDateVC.h"
+#import "QRcodeViewController.h"
+#import "ScanImageViewController.h"
 
 #import <Masonry.h>
 #import "Constants.h"
@@ -122,7 +124,7 @@
     self.navigationItem.leftBarButtonItem = backitem;
     
     
-    NSArray* segArr = [[NSArray alloc] initWithObjects:@"快速预约", @"服务点预约", nil];
+    NSArray* segArr = [[NSArray alloc] initWithObjects:@"上门体检", @"到院体检", nil];
     UISegmentedControl* segment = [[UISegmentedControl alloc] initWithItems:segArr];
     segment.frame = CGRectMake(0, 0, SCREEN_WIDTH/2, 30);
     segment.selectedSegmentIndex = 0;//默认索引

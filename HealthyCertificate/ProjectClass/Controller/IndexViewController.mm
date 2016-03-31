@@ -19,6 +19,7 @@
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 #import "UIButton+TCHelper.h"
+#import "UILabel+FontColor.h"
 
 #import "UserInformationController.h"
 #import "AppointmentViewController.h"
@@ -29,9 +30,9 @@
 #import "HistoryInformationVController.h"
 #import "LoginController.h"
 #import "QRController.h"
-#import "UILabel+FontColor.h"
 #import "WorkerManagerVC.h"
 #import "OrdersAlertView.h"
+#import "RegisterViewController.h"
 
 NSString *gCurrentCityName;
 
@@ -506,6 +507,8 @@ BOOL   _isLocationInfoHasBeenSent;
         }
         case LEFTMENUCELL_PERSON_UNITLOGIN: // 单位注册
         {
+            RegisterViewController* unitRegisterVC = [[RegisterViewController alloc] init];
+            [self.navigationController pushViewController:unitRegisterVC animated:YES];
             break;
         }
         case LEFTMENUCELL_UNIT_WORKERMANAGE: // 单位员工管理
