@@ -93,7 +93,6 @@
     [_baseBgScrollView addSubview:_healthCertificateView];
     _healthCertificateView.layer.masksToBounds = YES;
     _healthCertificateView.layer.cornerRadius = 10;
-
     _orderinforView = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(470) + 10, self.view.frame.size.width - 20, 200)];
     [_baseBgScrollView addSubview:_orderinforView];
 }
