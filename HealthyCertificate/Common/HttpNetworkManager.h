@@ -14,7 +14,8 @@
 #import "BRContract.h"
 #import "Constants.h"
 #import "ChargeParameter.h"
-
+#import "Customer.h"
+#import "MethodResult.h"
 /**
  *  支付渠道
  */
@@ -85,7 +86,7 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
 
 #pragma mark - 个人 单位信息相关
 /**
- *  更新或修改个人信息
+ *  更新或创建或修改个人信息
  *
  *  @param personinfo 创建或更新用户信息
  *  @param block      返回的回调
@@ -114,6 +115,14 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  *  @param block 回调
  */
 - (void)customerUploadPhoto:(UIImage *)photo resultBlock:(HCBoolResultBlock)block;
+
+/**
+ *  移除单位员工
+ *
+ *  @param customer 员工信息
+ *  @param block    回调
+ */
+- (void)removeCustomerWithCustomer:(Customer *)customer resultBlock:(void(^)(MethodResult *result, NSError *error))block;
 
 #pragma mark - 查询信息员工
 /**

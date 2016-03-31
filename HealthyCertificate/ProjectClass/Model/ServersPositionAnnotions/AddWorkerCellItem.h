@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum{
+typedef NS_ENUM(NSInteger, SelectFlag){
     NOTSELECT = 0,          // 没有选中
     SELECT                  // 选中
-}SelectFlag;
+};
 
 @interface AddWorkerCellItem : NSObject
 
