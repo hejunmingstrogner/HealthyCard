@@ -413,6 +413,7 @@
 
 
 - (void)dealloc {
+    NSLog(@"temperary dealloc");
     if (_routesearch != nil) {
         _routesearch = nil;
     }

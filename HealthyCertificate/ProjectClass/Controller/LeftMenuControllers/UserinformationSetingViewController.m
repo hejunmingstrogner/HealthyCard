@@ -191,6 +191,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
     [_nameTextField resignFirstResponder];
+    __weak typeof(self) weakself = self;
     switch (_itemtype) {
             // 修改姓名
         case PERSON_NAME:{
@@ -202,13 +203,13 @@
             [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
                     gPersonInfo.mCustName = _nameTextField.text;
-                    if (_updateBlcok) {
-                        _updateBlcok(YES, _nameTextField.text);
+                    if (weakself.updateBlcok) {
+                        weakself.updateBlcok(YES, weakself.nameTextField.text);
                     }
                     [self backToPre:nil];
                 }
                 else{
-                    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                    [RzAlertView showAlertViewControllerWithTarget:weakself Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
                 }
             }];
             break;
@@ -227,14 +228,14 @@
 
             [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
-                    gPersonInfo.CustId = _nameTextField.text;
-                    if (_updateBlcok) {
-                        _updateBlcok(YES, _nameTextField.text);
+                    gPersonInfo.CustId = weakself.nameTextField.text;
+                    if (weakself.updateBlcok) {
+                        weakself.updateBlcok(YES, weakself.nameTextField.text);
                     }
-                    [self backToPre:nil];
+                    [weakself backToPre:nil];
                 }
                 else{
-                    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                    [RzAlertView showAlertViewControllerWithTarget:weakself Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
                 }
             }];
             break;
@@ -251,14 +252,14 @@
 
                 [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
                     if (successed) {
-                        gCompanyInfo.cUnitName = _nameTextField.text;
-                        if (_updateBlcok) {
-                            _updateBlcok(YES, _nameTextField.text);
+                        gCompanyInfo.cUnitName = weakself.nameTextField.text;
+                        if (weakself.updateBlcok) {
+                            weakself.updateBlcok(YES, weakself.nameTextField.text);
                         }
-                        [self backToPre:nil];
+                        [weakself backToPre:nil];
                     }
                     else{
-                        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                        [RzAlertView showAlertViewControllerWithTarget:weakself Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
                     }
                 }];
             
@@ -273,14 +274,14 @@
 
             [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
-                    gCompanyInfo.cUnitAddr = _nameTextField.text;
-                    if (_updateBlcok) {
-                        _updateBlcok(YES, _nameTextField.text);
+                    gCompanyInfo.cUnitAddr = weakself.nameTextField.text;
+                    if (weakself.updateBlcok) {
+                        weakself.updateBlcok(YES, weakself.nameTextField.text);
                     }
-                    [self backToPre:nil];
+                    [weakself backToPre:nil];
                 }
                 else{
-                    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                    [RzAlertView showAlertViewControllerWithTarget:weakself Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
                 }
             }];
             break;
@@ -293,14 +294,14 @@
 
             [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
-                    gCompanyInfo.cLinkPeople = _nameTextField.text;
-                    if (_updateBlcok) {
-                        _updateBlcok(YES, _nameTextField.text);
+                    gCompanyInfo.cLinkPeople = weakself.nameTextField.text;
+                    if (weakself.updateBlcok) {
+                        weakself.updateBlcok(YES, weakself.nameTextField.text);
                     }
-                    [self backToPre:nil];
+                    [weakself backToPre:nil];
                 }
                 else{
-                    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                    [RzAlertView showAlertViewControllerWithTarget:weakself Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
                 }
             }];
             break;

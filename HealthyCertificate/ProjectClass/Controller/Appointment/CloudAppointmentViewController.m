@@ -388,10 +388,11 @@
             cloudAppointmentDateVC.beginDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][0];
             cloudAppointmentDateVC.endDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][1];
         }
-        
+        __weak typeof(self) weakself = self;
         [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
-            _appointmentDateStr = dateStr;
-            BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+            weakself.appointmentDateStr = dateStr;
+            typeof(self) strongself = weakself;
+            BaseInfoTableViewCell* cell = [strongself->_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
             cell.textView.text = dateStr;
         }];
         [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
@@ -582,19 +583,20 @@
 //            [self.navigationController pushViewController:mycheckListViewController animated:YES];
 //        }
 //    }];
+    __weak typeof(self) weakself = self;
     [[OrdersAlertView getinstance]openWithSuperView:self.view Message:nil withHandle:^(NSInteger flag) {
         if (flag == 1) {
             PayMoneyController *pay = [[PayMoneyController alloc]init];
             pay.chargetype = CUSTOMERTEST;
             pay.checkCode = checkcode;
-            pay.cityName = _cityName;
-            pay.delegate = self;
-            [self.navigationController pushViewController:pay animated:YES];
+            pay.cityName = weakself.cityName;
+            pay.delegate = weakself;
+            [weakself.navigationController pushViewController:pay animated:YES];
         }
         else {
             MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
             mycheckListViewController.popStyle = POPTO_ROOT;
-            [self.navigationController pushViewController:mycheckListViewController animated:YES];
+            [weakself.navigationController pushViewController:mycheckListViewController animated:YES];
         }
     }];
 //    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"预约成功，是否在线支付" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"去支付" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
@@ -842,10 +844,11 @@
             image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
         dispatch_async(dispatch_get_main_queue(), ^{
             [picker dismissViewControllerAnimated:YES completion:nil];
-            if (!_waitAlertView) {
-                _waitAlertView = [[RzAlertView alloc]initWithSuperView:wself.view Title:@"身份证信息解析中"];
+            typeof(self) strongself = wself;
+            if (!strongself->_waitAlertView) {
+                strongself->_waitAlertView = [[RzAlertView alloc]initWithSuperView:wself.view Title:@"身份证信息解析中"];
             }
-            [_waitAlertView show];
+            [strongself->_waitAlertView show];
             [YMIDCardRecognition recongnitionWithCard:image delegate:wself];
         });
     });

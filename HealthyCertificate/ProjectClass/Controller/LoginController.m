@@ -398,7 +398,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
 }
 
 -(void)vertifyTimerTrigger{
-    [_vertifyButton setTitle:[NSString stringWithFormat:@"%ld秒", _vertifyCount--] forState:UIControlStateNormal];
+    [_vertifyButton setTitle:[NSString stringWithFormat:@"%ld秒", (long)_vertifyCount--] forState:UIControlStateNormal];
     
     if (_vertifyCount == 0){
         [_vertifyButton setTitle:@"验证" forState:UIControlStateNormal];

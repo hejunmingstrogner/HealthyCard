@@ -192,7 +192,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     
     _linkPerson = _brContract.linkUser;
     _linkPhone = _brContract.linkPhone;
-    _appointmentCount = [NSString stringWithFormat:@"%ld", _brContract.regCheckNum];
+    _appointmentCount = [NSString stringWithFormat:@"%ld", (long)_brContract.regCheckNum];
     _staffCount = 0;
     
     __typeof (self) __weak weakSelf = self;
@@ -237,30 +237,31 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
     NSMutableArray* array = [[NSMutableArray alloc] init];
     [array addObjectsFromArray:_customerArr];
     [array addObjectsFromArray:_originArr];
+    __weak typeof(self) weakself = self;
     [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract
                                                       employees:array
                                                     reslutBlock:^(NSDictionary *result, NSError *error) {
         if (error != nil){
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"预约异常失败，请重试" removeDelay:2];
             return;
         }
         
         MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
         if (methodResult.succeed == NO){
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"预约异常失败，请重试" removeDelay:2];
             return;
         }
         
         if ([methodResult.object isEqualToString:@"0"]){
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"预约异常失败，请重试" removeDelay:2];
             return;
         }
         
         if ([methodResult.object isEqualToString:@"1"]){
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"已达到修改次数上限" removeDelay:2];
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"已达到修改次数上限" removeDelay:2];
             return;
         }
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+        [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改成功" removeDelay:2];
         isChanged = YES;
     }];
 }
@@ -481,8 +482,8 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
                 NSIndexPath *path = [NSIndexPath indexPathForItem:2 inSection:1];
                 [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
                 if([_exminationCountField.text integerValue] < workerArray.count + _originArr.count){
-                    _exminationCountField.text = [NSString stringWithFormat:@"%ld", workerArray.count + _originArr.count];
-                    strongSelf->_appointmentCount = [NSString stringWithFormat:@"%ld", workerArray.count + _originArr.count];
+                    _exminationCountField.text = [NSString stringWithFormat:@"%u", workerArray.count + _originArr.count];
+                    strongSelf->_appointmentCount = [NSString stringWithFormat:@"%u", workerArray.count + _originArr.count];
                     NSIndexPath *path = [NSIndexPath indexPathForItem:3 inSection:1];
                     [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
                 }
