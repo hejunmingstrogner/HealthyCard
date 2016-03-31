@@ -181,13 +181,32 @@
     cell.textField.placeholder = @"";
     switch (((AddworkerTBCItem *)_customArray[indexPath.row]).type) {
         case ADDWORKER_AGE:
-            cell.textField.placeholder = @"输入身份证号后自动计算";
-        case ADDWORKER_CALLING:
-        case ADDWORKER_UNIT:
-        case ADDWORKER_SEX:
+            cell.textField.placeholder = @"当输入身份证号后自动计算";
             cell.textField.enabled = NO;
             break;
+        case ADDWORKER_CALLING:
+        case ADDWORKER_UNIT:
+            cell.textField.placeholder = @"";
+            cell.textField.enabled = NO;
+            break;
+        case ADDWORKER_SEX:
+            cell.textField.placeholder = @"请点击选择性别";
+            cell.textField.enabled = NO;
+            break;
+        case ADDWORKER_NAME:
+            cell.textField.placeholder = @"请点击输入姓名";
+            cell.textField.enabled = YES;
+            break;
+        case ADDWORKER_IDCARD:
+            cell.textField.placeholder = @"请点击输入身份证号码";
+            cell.textField.enabled = YES;
+            break;
+        case ADDWORKER_TELPHONE:
+            cell.textField.placeholder = @"请点击输入手机号码";
+            cell.textField.enabled = YES;
+            break;
         default:
+            cell.textField.placeholder = @"";
             cell.textField.enabled = YES;
             break;
     }
@@ -335,7 +354,7 @@
             }
             case ADDWORKER_SEX:{
                 // 性别
-                _customer.sex = [item.message isEqualToString:@"男"]? '0' : '1';
+                _customer.sex = [item.message isEqualToString:@"男"]? 0 : 1;
                 break;
             }
             case ADDWORKER_AGE:{
@@ -498,7 +517,6 @@
     UIGraphicsEndImageContext();
     
     return reSizeImage;
-    
 }
 
 

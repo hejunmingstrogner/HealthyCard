@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-typedef enum{
+typedef NS_ENUM(NSInteger, CELL_STYLE){
     STYLE_NONE = 0,
     STYLE_HEADERIMAGE,
     STYLE_HEATHYCINFO,
     STYLE_WXPAY,            // 微信支付
     STYLE_ALIPAY,           // 支付宝支付
     STYLE_UPACP             // 银联支付
-}CELL_STYLE;
+};
 
 @interface BaseTBCellItem : NSObject
 @property (nonatomic, strong) UIImage  *image;

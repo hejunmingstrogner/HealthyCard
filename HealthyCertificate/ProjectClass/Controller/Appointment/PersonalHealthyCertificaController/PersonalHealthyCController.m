@@ -23,7 +23,8 @@
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
 #import "AppointmentInfoView.h"
-
+#import "MethodResult.h"
+#import <MJExtension.h>
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface PersonalHealthyCController()
@@ -135,7 +136,18 @@
                 isChanged = YES;
                 [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
                     if (!error) {
-                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                        MethodResult *resultdict = [MethodResult mj_objectWithKeyValues:result];
+                        if (resultdict.succeed){
+                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                        }else{
+                            if ([resultdict.object isEqualToString:@"0"]) {
+                                [RzAlertView showAlertLabelWithTarget:self.view Message:@"异常失败，请重试" removeDelay:2];
+                            }
+                            else if([resultdict.object isEqualToString:@"1"]){
+                                [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改次数已达上限" removeDelay:2];
+                            }
+                        }
+
                     }
                     else {
                         [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改失败,请检查网络后重试" removeDelay:2];
@@ -154,8 +166,17 @@
         [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
             sender.enabled = YES;
             if (!error) {
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
-                isChanged = YES;
+                MethodResult *resultdict = [MethodResult mj_objectWithKeyValues:result];
+                if (resultdict.succeed){
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                }else{
+                    if ([resultdict.object isEqualToString:@"0"]) {
+                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"异常失败，请重试" removeDelay:2];
+                    }
+                    else if([resultdict.object isEqualToString:@"1"]){
+                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改次数已达上限" removeDelay:2];
+                    }
+                }
             }
             else {
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改失败,请检查网络后重试" removeDelay:2];

@@ -10,12 +10,12 @@
 #import "ServersPositionAnnotionsModel.h"
 #import "Customer.h"
 
-typedef enum{
+typedef NS_ENUM(NSInteger, testStatus){
     NONE_STATUS = 0,
     LEFT_STATUS,
     CENTER_STATUS,
     RIGHT_STATUS
-}testStatus;
+};
 
 @interface CustomerTestStatusItem : NSObject
 
