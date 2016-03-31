@@ -30,6 +30,8 @@
     NSMutableArray *_worksData;     // 原始数据
 
     NSMutableArray *_worksArray;    // 模型数组
+
+    RzAlertView *_waitAlertView;
 }
 
 @end
@@ -209,13 +211,30 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [_worksArray removeObjectAtIndex:indexPath.row];
-    [_worksData removeObjectAtIndex:indexPath.row];
-    [self setworkCount];
-    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [_tableView reloadData];
-    });
+    if (!_waitAlertView) {
+        _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"请稍侯..."];
+    }
+    [_waitAlertView show];
+
+    [[HttpNetworkManager getInstance] removeCustomerWithCustomer:_worksData[indexPath.row] resultBlock:^(MethodResult *result, NSError *error) {
+        [_waitAlertView close];
+        if (!error) {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"删除成功" removeDelay:2];
+            [_worksArray removeObjectAtIndex:indexPath.row];
+            [_worksData removeObjectAtIndex:indexPath.row];
+            [self setworkCount];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        }
+        else{
+            if (result) {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:result.errorMsg removeDelay:2];
+            }
+            else{
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"删除失败，请检查网络后重试" removeDelay:2];
+            }
+        }
+    }];
+
 }
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {

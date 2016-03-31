@@ -41,7 +41,7 @@
  */
 @property (nonatomic, strong) NSString * custName;
 /**
- * 性别。
+ * 性别。 0 男 1女
  */
 @property (nonatomic, assign) Byte  sex;
 @property (nonatomic, copy) NSString *sexflag;

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef NS_ENUM(NSInteger, LeftMenuCellItemType) {
     LEFTMENUCELL_USERINFOR = 0, // 用户信息
     LEFTMENUCELL_HISTORYRECORD, // 历史记录
     LEFTMENUCELL_ERWEIMA,       // 二维码
@@ -28,7 +28,7 @@ typedef enum {
     LEFTMENUCELL_UNIT_APPOINT,  // 单位预约
     LEFTMENUCELL_UNIT_ERWEIMA,  // 单位二维码
     LEFTMENUCELL_UNIT_WORKERMANAGE,// 单位员工管理
-} LeftMenuCellItemType;
+};
 
 @interface LeftMenuCellItem : NSObject
 

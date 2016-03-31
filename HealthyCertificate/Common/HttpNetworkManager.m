@@ -17,7 +17,7 @@
 
 #import "ServersPositionAnnotionsModel.h"
 #import "PositionUtil.h"
-#import "MethodResult.h"
+
 #import "WorkTypeInfoModel.h"
 #import "BRServiceUnit.h"
 
@@ -196,15 +196,43 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         }
     }];
 }
-
+#pragma mark - 移除员工信息
+- (void)removeCustomerWithCustomer:(Customer *)customer resultBlock:(void (^)(MethodResult *, NSError *))block
+{
+    NSString *url = [NSString stringWithFormat:@"brServiceUnit/removeCustomer?custCode=%@&unitCode=%@", customer.custCode, customer.unitCode];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        MethodResult *result = [MethodResult mj_objectWithKeyValues:responseObject];
+        if (result.succeed) {
+            if (block) {
+                block(result, nil);
+            }
+        }
+        else{
+            if (block) {
+                block(result, [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:result.errorMsg forKey:@"error"]]);
+            }
+        }
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        if (block) {
+            block(nil, [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:@"网络出现错误了" forKey:@"error"]]);
+        }
+    }];
+}
 #pragma mark －创建或更新单位信息
 // 创建或更新单位信息
 - (void)createOrUpdateBRServiceInformationwithInfor:(NSDictionary *)BRServiceInfo resultBlock:(void (^)(BOOL, NSError *))block
 {
     NSString *url = [NSString stringWithFormat:@"brServiceUnit/createOrUpdate"];
     [self.sharedClient POST:url parameters:BRServiceInfo success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        if (block) {
-            block(YES, nil);
+        MethodResult *result = [MethodResult mj_objectWithKeyValues:responseObject];
+        if (result.succeed){
+            if (block) {
+                block(YES, nil);
+            }
+        }else{
+            if (block) {
+                block(NO, [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:result.errorMsg forKey:@"error"]]);
+            }
         }
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
         if (block) {
@@ -260,7 +288,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         }
     }
 }
-
 
 #pragma mark 查询单位员工列表
 // 查询单位员工列表
@@ -386,8 +413,15 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         [formmettrt setDateFormat:@"yyyyMMddHHmmss"];
         [formData appendPartWithFileData:imageData name:@"file" fileName:[NSString stringWithFormat:@"%@.%@", [formmettrt stringFromDate:[NSDate date]], imagetype] mimeType:[NSString stringWithFormat:@"image/%@", imagetype]];
     } success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        if (block) {
-            block(YES, nil);
+        MethodResult *result = [MethodResult mj_objectWithKeyValues:responseObject];
+        if (result.succeed){
+            if (block) {
+                block(YES, nil);
+            }
+        }else{
+            if (block) {
+                block(NO, [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:result.errorMsg forKey:@"error"]]);
+            }
         }
     } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
         if (block) {
@@ -395,8 +429,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         }
     }];
 }
-
-
 
 #pragma mark - 个人预约相关
 // 个人预约相关

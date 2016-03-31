@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, UserinformCellItemType) {
     PERSON_HEADERIMAGE = 0,     // 头像
     PERSON_NAME,                // 个人姓名
     PERSON_GENDER,              // 性别
@@ -26,7 +26,7 @@ typedef enum {
     COMPANY_CALLING,            // 公司行业
     COMPANY_INDUSTRY_CODE,      // 工商编号
     COMPANY_BELONG_CITY,        // 注册城市
-} UserinformCellItemType;
+};
 
 @interface UserinformationCellItem : NSObject
 
