@@ -397,13 +397,13 @@
     }
     _customer.unitCode = gCompanyInfo.cUnitCode;
     NSDictionary *customerDict = _customer.mj_keyValues;
-    
+    __weak typeof (self) weakself = self;
     [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:customerDict resultBlock:^(BOOL successed, NSError *error) {
         if (successed) {
-            [self creatSuccess];
+            [weakself creatSuccess];
         }
         else{
-            [self creatFail];
+            [weakself creatFail];
         }
     }];
 }

@@ -56,39 +56,41 @@
     if (!waitAlertView) {
         waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据加载中..."];
     }
-    [waitAlertView show];
+    __weak typeof(waitAlertView) weakAlertview = waitAlertView;
+    [weakAlertview show];
+    __weak typeof(self) weakself = self;
     if (_userType == 1) {
         [[HttpNetworkManager getInstance]findCustomerTestHistoryRegByCustomId:gPersonInfo.mCustCode resuluBlock:^(NSArray *result, NSError *error) {
-            [waitAlertView close];
+            [weakAlertview close];
             if (!error) {
                 if (result.count != 0) {
-                    _historyArray = [[NSMutableArray alloc]initWithArray:result];
-                    [_tableView reloadData];
+                    weakself.historyArray = [[NSMutableArray alloc]initWithArray:result];
+                    [weakself.tableView reloadData];
                 }
                 else {
-                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有个人历史记录" removeDelay:3];
+                    [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"没有个人历史记录" removeDelay:3];
                 }
             }
             else {
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
+                [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
             }
         }];
     }
     else if(_userType == 2) {
         [[HttpNetworkManager getInstance]findBRContractHistoryRegByCustomId:gCompanyInfo.cUnitCode resuleBlock:^(NSArray *result, NSError *error) {
-            [waitAlertView close];
+            [weakAlertview close];
             if (!error) {
                 if (result.count != 0) {
-                    _historyArray = [[NSMutableArray alloc]initWithArray:result];
-                    [self initCompanyDataArray];
-                    [_tableView reloadData];
+                    weakself.historyArray = [[NSMutableArray alloc]initWithArray:result];
+                    [weakself initCompanyDataArray];
+                    [weakself.tableView reloadData];
                 }
                 else {
-                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有历史记录" removeDelay:3];
+                    [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"没有历史记录" removeDelay:3];
                 }
             }
             else {
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
+                [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
             }
         }];
     }
@@ -223,24 +225,6 @@
     }
     // 单位
     else{
-//        if (indexPath.row == 0) {
-//            BRContractHistoryTBHeaderCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellheader"];
-//            if (!cell) {
-//                cell = [[BRContractHistoryTBHeaderCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cellheader"];
-//                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//            }
-//            [cell setBrContract:(BRContract *)_historyArray[indexPath.section]];
-//            return cell;
-//        }
-//        else {
-//            BRContractHistoryTBFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
-//            if (!cell ) {
-//                cell = [[BRContractHistoryTBFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
-//                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//            }
-//            [cell setBrContract:(BRContract *)_historyArray[indexPath.section]];
-//            return cell;
-//        }
         if (indexPath.row != 3) {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"brcell"];
             if (!cell) {
@@ -295,7 +279,6 @@
     CustomerTest* selectCustomerTest = (CustomerTest *)_historyArray[sender.tag];
     [HMNetworkEngine getInstance].delegate = self;
     [[HMNetworkEngine getInstance] getReportQueryUrl:selectCustomerTest.checkCode];
-    //NSLog(@"报告：%d", sender.tag);
 }
 
 

@@ -31,8 +31,8 @@
 @interface UserInformationController()<UITableViewDataSource, UITableViewDelegate, HCWheelViewDelegate>
 {
     HCWheelView *wheelView;
-    RzAlertView *waitAlertView;
 }
+@property (nonatomic, strong) RzAlertView *waitAlertView;
 @end
 
 @implementation UserInformationController
@@ -86,7 +86,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
 
-    waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"图片上传中..."];
+    _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"图片上传中..."];
 }
 
 - (void)getdata
@@ -198,6 +198,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    __weak typeof(self) weakself = self;
     UserinformationCellItem* item = (UserinformationCellItem *)_dataArray[indexPath.row];
     switch (item.itemType) {
         case PERSON_HEADERIMAGE:{
@@ -238,13 +239,13 @@
                     [personinfo setObject:resultStr forKey:@"custType"];
                     [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
                         if (!error) {
-                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业成功" removeDelay:2];
+                            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改行业成功" removeDelay:2];
                             gPersonInfo.cIndustry = resultStr;
-                            [self getdata];
-                            [_tableView reloadData];
+                            [weakself getdata];
+                            [weakself.tableView reloadData];
                         }
                         else {
-                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业失败，请重试" removeDelay:3];
+                            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改行业失败，请重试" removeDelay:3];
                         }
                     }];
                 };
@@ -258,8 +259,8 @@
                 SelectCompanyViewController *select = [[SelectCompanyViewController alloc]init];
                 select.companyName = ((UserinformationCellItem *)_dataArray[indexPath.row]).detialLabelText;
                 [select isupdataCompany:^(NSString *text) {
-                    [self getdata];
-                    [_tableView reloadData];
+                    [weakself getdata];
+                    [weakself.tableView reloadData];
                 }];
                 [self.navigationController pushViewController:select animated:YES];
                 return;
@@ -280,13 +281,13 @@
                     [company setObject:resultStr forKey:@"unitType"];
                     [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:company resultBlock:^(BOOL successed, NSError *error) {
                         if (!error) {
-                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业成功" removeDelay:2];
+                            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改行业成功" removeDelay:2];
                             gCompanyInfo.cUnitType = resultStr;
-                            [self getdata];
-                            [_tableView reloadData];
+                            [weakself getdata];
+                            [weakself.tableView reloadData];
                         }
                         else {
-                            [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改行业失败，请重试" removeDelay:3];
+                            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改行业失败，请重试" removeDelay:3];
                         }
                     }];
                 };
@@ -310,7 +311,7 @@
 
     // 如果修改了信息，并且修改成功，则刷新列表
     [setingController isUpdateInfoSucceed:^(BOOL successed, NSString *updataText) {
-        [self updataSuccessThenChangeUserinformation:indexPath.row Text:updataText];
+        [weakself updataSuccessThenChangeUserinformation:indexPath.row Text:updataText];
     }];
     
     [self.navigationController pushViewController:setingController animated:YES];
@@ -376,21 +377,22 @@
 #pragma mark -点击头像 设置头像
 - (void)headerimageBtnClicked:(UIButton *)sender
 {
+    __weak typeof(self) weakself = self;
     [[TakePhoto getInstancetype]takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
         if(photoimage){
-            [waitAlertView show];
+            [weakself.waitAlertView show];
             [[HttpNetworkManager getInstance]customerUploadPhoto:photoimage resultBlock:^(BOOL result, NSError *error) {
-                [waitAlertView close];
+                [weakself.waitAlertView close];
                 if (result) {
                     //[sender setImage:photoimage forState:UIControlStateNormal];
-                    [_tableView reloadData];
+                    [weakself.tableView reloadData];
                     // 刷新左侧菜单的头像
-                    if ([_delegate respondsToSelector:@selector(reloadLeftMenuViewByChangedUserinfor)] && _delegate) {
-                        [_delegate reloadLeftMenuViewByChangedUserinfor];
+                    if ([weakself.delegate respondsToSelector:@selector(reloadLeftMenuViewByChangedUserinfor)] && weakself.delegate) {
+                        [weakself.delegate reloadLeftMenuViewByChangedUserinfor];
                     }
                 }
                 else {
-                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"上传失败,请稍候重试" removeDelay:2];
+                    [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"上传失败,请稍候重试" removeDelay:2];
                 }
             }];
         }
@@ -404,9 +406,10 @@
     if([wheelText isEqualToString:@"男"]){
         flag = 0;
     }
-    else
+    else {
         flag = 1;
-
+    }
+    __weak typeof(self) weakself = self;
     if (flag != gPersonInfo.bGender) {
         NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
         [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
@@ -414,12 +417,12 @@
         [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
             if (successed) {
                 gPersonInfo.bGender = flag;
-                [self getdata];
-                [_tableView reloadData];
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                [weakself getdata];
+                [weakself.tableView reloadData];
+                [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改成功" removeDelay:2];
             }
             else {
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改失败，请检查网络后重试" removeDelay:2];
+                [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改失败，请检查网络后重试" removeDelay:2];
             }
         }];
     }

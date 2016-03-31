@@ -103,16 +103,17 @@
     if (_textField.text.length == 0) {
         return;
     }
+    __weak typeof(self) weakself = self;
     [[LocationSearchModel getInstance]getLocationsWithKeyText:_textField.text withBlock:^(NSArray *cityArray, NSArray *districtArray, NSArray *addressArray, NSArray *coordinateArray, NSError *error) {
         if (!error) {
             if (addressArray.count == 0) {
                 return ;
             }
-            _cityArray = [NSMutableArray arrayWithArray:cityArray];
-            _districtArray = [NSMutableArray arrayWithArray:districtArray];;
-            _addressArray = [NSMutableArray arrayWithArray:addressArray];
-            _coordinateArray = [NSMutableArray arrayWithArray:coordinateArray];
-            [_tableView reloadData];
+            weakself.cityArray = [NSMutableArray arrayWithArray:cityArray];
+            weakself.districtArray = [NSMutableArray arrayWithArray:districtArray];;
+            weakself.addressArray = [NSMutableArray arrayWithArray:addressArray];
+            weakself.coordinateArray = [NSMutableArray arrayWithArray:coordinateArray];
+            [weakself.tableView reloadData];
         }
 //        else {
 //            [RzAlertView showAlertLabelWithTarget:self.view Message:@"出现未知错误" removeDelay:2];
@@ -223,4 +224,8 @@
     return he;
 }
 
+- (void)dealloc
+{
+    NSLog(@"%@", [[self class] description]);
+}
 @end
