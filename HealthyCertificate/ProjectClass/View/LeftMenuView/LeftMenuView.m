@@ -67,6 +67,7 @@
         appoint = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"我的预约" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_APPOINT];
         erweima = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"我的二维码" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_ERWEIMA];
         manage = [[LeftMenuCellItem alloc]initWithiconName:@"danweizhuce" titleLabelText:@"单位注册" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_UNITLOGIN];
+
     }
     else if(GetUserType == 2)
     {
@@ -80,8 +81,13 @@
     LeftMenuCellItem *aboutUs = [[LeftMenuCellItem alloc]initWithiconName:@"aboutUs" titleLabelText:@"关于我们" detialLabelText:nil itemtype:LEFTMENUCELL_ABOUTUS];
     LeftMenuCellItem *advice = [[LeftMenuCellItem alloc]initWithiconName:@"advice" titleLabelText:@"意见或建议" detialLabelText:nil itemtype:LEFTMENUCELL_ADVICE];
     LeftMenuCellItem *exit = [[LeftMenuCellItem alloc]initWithiconName:@"exit" titleLabelText:@"退出当前账号" detialLabelText:nil itemtype:LEFTMENUCELL_EXIT];
+    if((gCompanyInfo.cUnitCode.length == 0 && GetUserType == 1) || GetUserType == 2){
+        _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, manage, userType, notice, aboutUs, advice, exit, nil];
+    }
+    else {
+        _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, userType, notice, aboutUs, advice, exit, nil];
+    }
 
-    _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, manage, userType, notice, aboutUs, advice, exit, nil];
 }
 //#pragma mark - delegate and datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

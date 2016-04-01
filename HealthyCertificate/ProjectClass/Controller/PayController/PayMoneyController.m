@@ -94,21 +94,22 @@
     }
     waitAlertView.titleLabel.text = [NSString stringWithFormat:@"获取%@预约价格...",_cityName];
     [waitAlertView show];
+    __weak typeof(self) weakself = self;
     [[HttpNetworkManager getInstance]getCustomerTestChargePriceWithCityName:_cityName checkType:nil resultBlcok:^(NSString *result, NSError *error) {
         [waitAlertView close];
         if (!error) {
-            self.money = result;
+            weakself.money = result;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
+                [weakself.tableView reloadData];
             });
         }
         else {
             [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"获取支付金额失败，请重试" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"重试" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
                 if (flag != 0) {
-                    [self getCityPrice];
+                    [weakself getCityPrice];
                 }
                 else {
-                    [self backToPre:nil];
+                    [weakself backToPre:nil];
                 }
             }];
         }
@@ -271,18 +272,19 @@
             param.body = @"健康证在线是专注于为从业人员提供在线一键办证服务的平台，实现医疗机构和从业人员的无缝对接";
             param.businessObj.enumType = _chargetype;
             param.businessObj.checkCode = _checkCode;
+            __weak typeof (self) weakself = self;
             [[HttpNetworkManager getInstance]payMoneyWithChargeParameter:param viewController:self resultBlock:^(NSString *result, NSError *error) {
                 if (!error) {
                     if ([result isEqualToString:@"success"]) {
-                        [self paySuccessed];
+                        [weakself paySuccessed];
                     }
                 }
                 else{
                     if([result isEqualToString:@"cancel"]){
-                        [self payCancel];
+                        [weakself payCancel];
                     }
                     else{
-                        [self payFail:error result:result];
+                        [weakself payFail:error result:result];
                     }
                 }
             }];

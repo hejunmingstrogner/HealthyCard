@@ -111,20 +111,21 @@
 - (void)refresh:(DJRefresh *)refresh didEngageRefreshDirection:(DJRefreshDirection)direction
 {
     _isRefreshing = YES;
+    __weak typeof(self) weakself = self;
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
-        _isRefreshing = NO;
+        weakself.isRefreshing = NO;
         if (!error) {
             if (_userType == 1) {
-                _checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
+                weakself.checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
             }
             else if (_userType == 2) {
-                _checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
-                [self initCompanyDataArray];
+                weakself.checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
+                [weakself initCompanyDataArray];
             }
-            [_tableView reloadData];
+            [weakself.tableView reloadData];
         }
         else {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [refresh finishRefreshingDirection:direction animation:YES];
@@ -137,21 +138,22 @@
         waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"刷新中..."];
     }
     [waitAlertView show];
+    __weak typeof(self) weakself = self;
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
         [waitAlertView close];
         if (!error) {
             if (_userType == 1) {
-                _checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
+                weakself.checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
             }
             else if (_userType == 2) {
-                _checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
-                [self initCompanyDataArray];
+                weakself.checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
+                [weakself initCompanyDataArray];
             }
             NSIndexSet *indexset = [[NSIndexSet alloc]initWithIndex:indexpathSection];
-            [_tableView reloadSections:indexset withRowAnimation:UITableViewRowAnimationLeft];
+            [weakself.tableView reloadSections:indexset withRowAnimation:UITableViewRowAnimationLeft];
         }
         else {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
+            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
         }
     }];
 }
@@ -307,13 +309,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    __weak typeof(self) weakSelf = self;
     // 个人
     if (_userType == 1) {
         PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
         personalHealthyC.customerTestInfo = (CustomerTest *)_checkDataArray[indexPath.section];
         [personalHealthyC changedInformationWithResultBlock:^(BOOL ischanged, NSInteger indexpathSection) {
             if (ischanged) {
-                [self refreshNewDataWithIndexPathSection:indexPath.section];
+                [weakSelf refreshNewDataWithIndexPathSection:indexPath.section];
             }
         }];
         [self.navigationController pushViewController:personalHealthyC animated:YES];
@@ -323,7 +326,7 @@
         companyViewController.brContract = _checkDataArray[indexPath.section];
         [companyViewController changedInformationWithResultBlock:^(BOOL ischanged, NSIndexPath *indexpath) {
             if (ischanged) {
-                [self refreshNewDataWithIndexPathSection:indexPath.section];
+                [weakSelf refreshNewDataWithIndexPathSection:indexPath.section];
             }
         }];
         [self.navigationController pushViewController:companyViewController animated:YES];
@@ -342,14 +345,15 @@
 // 取消预约
 - (void)cancelChecked:(NSInteger )index
 {
+    __weak MyCheckListViewController *_self = self;
     [[HttpNetworkManager getInstance]cancleCheckedCustomerTestWithCheckCode:((CustomerTest *)_checkDataArray[index]).checkCode resultBlock:^(BOOL result, NSError *error) {
         if (!error) {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"取消预约成功" removeDelay:2];
-            [_checkDataArray removeObjectAtIndex:index];
+            [RzAlertView showAlertLabelWithTarget:_self.view Message:@"取消预约成功" removeDelay:2];
+            [_self.checkDataArray removeObjectAtIndex:index];
             NSIndexSet *indexset = [NSIndexSet indexSetWithIndex:index];
-            [_tableView deleteSections:indexset withRowAnimation:UITableViewRowAnimationLeft];
+            [_self.tableView deleteSections:indexset withRowAnimation:UITableViewRowAnimationLeft];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [_tableView reloadData];
+                [_self.tableView reloadData];
             });
         }
     }];

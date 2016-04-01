@@ -93,23 +93,29 @@
 
 - (void)getdata
 {
+    __weak typeof(self) weakself = self;
     [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
-        if (!error) {
-            _worksData = [NSMutableArray arrayWithArray:result];
-            _worksArray = [[NSMutableArray alloc]init];
-            for (Customer *custom in _worksData) {
-                NSString *sex = custom.sex == 0 ? @"男" : @"女";
-                WorkManagerTBCItem *item = [[WorkManagerTBCItem alloc]initWithName:custom.custName sex:sex tel:custom.linkPhone Type:0];
-                [_worksArray addObject:item];
-            }
-            [self setworkCount];
-            [_tableView reloadData];
-        }
-        else{
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络出现问题，请重试" removeDelay:2];
-        }
+        [weakself setresult:result error:error];
     }];
 }
+- (void)setresult:(NSArray *)result error:(NSError *)error
+{
+    if (!error) {
+        _worksData = [NSMutableArray arrayWithArray:result];
+        _worksArray = [[NSMutableArray alloc]init];
+        for (Customer *custom in _worksData) {
+            NSString *sex = custom.sex == 0 ? @"男" : @"女";
+            WorkManagerTBCItem *item = [[WorkManagerTBCItem alloc]initWithName:custom.custName sex:sex tel:custom.linkPhone Type:0];
+            [_worksArray addObject:item];
+        }
+        [self setworkCount];
+        [_tableView reloadData];
+    }
+    else{
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络出现问题，请重试" removeDelay:2];
+    }
+}
+
 // 设置员工人数
 - (void)setworkCount
 {
@@ -214,28 +220,34 @@
     if (!_waitAlertView) {
         _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"请稍侯..."];
     }
-    [_waitAlertView show];
-
+    __weak typeof(self) weakself = self;
+    __weak typeof(_waitAlertView) weakWaitAlertView = _waitAlertView;
+    [weakWaitAlertView show];
     [[HttpNetworkManager getInstance] removeCustomerWithCustomer:_worksData[indexPath.row] resultBlock:^(MethodResult *result, NSError *error) {
-        [_waitAlertView close];
-        if (!error) {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"删除成功" removeDelay:2];
-            [_worksArray removeObjectAtIndex:indexPath.row];
-            [_worksData removeObjectAtIndex:indexPath.row];
-            [self setworkCount];
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        [weakWaitAlertView close];
+        [weakself setresult:result nserror:error tableview:tableView indexpath:indexPath];
+    }];
+}
+- (void)setresult:(MethodResult *)result nserror:(NSError *)error tableview:(UITableView *)tableView indexpath:(NSIndexPath *)indexPath
+{
+    if (!error) {
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"删除成功" removeDelay:2];
+        [_worksArray removeObjectAtIndex:indexPath.row];
+        [_worksData removeObjectAtIndex:indexPath.row];
+        [self setworkCount];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    }
+    else{
+        if (result) {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:result.errorMsg removeDelay:2];
         }
         else{
-            if (result) {
-                [RzAlertView showAlertLabelWithTarget:self.view Message:result.errorMsg removeDelay:2];
-            }
-            else{
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"删除失败，请检查网络后重试" removeDelay:2];
-            }
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"删除失败，请检查网络后重试" removeDelay:2];
         }
-    }];
-
+    }
 }
+
+
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return UITableViewCellEditingStyleDelete;

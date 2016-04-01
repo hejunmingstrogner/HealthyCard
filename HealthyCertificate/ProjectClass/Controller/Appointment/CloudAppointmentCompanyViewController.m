@@ -374,7 +374,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         make.centerY.mas_equalTo(examinationCountLabel);
     }];
     if (_brContract){
-        _exminationCountField.text = [NSString stringWithFormat:@"%ld",_brContract.regCheckNum];
+        _exminationCountField.text = [NSString stringWithFormat:@"%ld",(long)_brContract.regCheckNum];
     }else{
         _exminationCountField.text = @"0";
     }
@@ -732,11 +732,13 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     //如果基于固定服务点
     SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
     selectAddressViewController.addressStr = _location;
+    __weak typeof(self) weakself = self;
     [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
-        _cityName = city;
-        _location = address;
-        _centerCoordinate = coor;
-        _examinationAddressTextView.text = _location;
+        weakself.cityName = city;
+        weakself.location = address;
+        weakself.centerCoordinate = coor;
+        typeof(self)strongself = weakself;
+        strongself->_examinationAddressTextView.text = weakself.location;
     }];
     [self.navigationController pushViewController:selectAddressViewController animated:YES];
     [self inputWidgetResign];
@@ -754,10 +756,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         cloudAppointmentDateVC.beginDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][0];
         cloudAppointmentDateVC.endDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][1];
     }
+    __weak typeof(self) weakself = self;
     [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
-        _appointmentDateStr = dateStr;
-        _examinationTimeTextField.text = dateStr;
-        _dateString = dateStr;
+        weakself.appointmentDateStr = dateStr;
+        typeof(self)strongself = weakself;
+        strongself->_examinationTimeTextField.text = dateStr;
+        strongself->_dateString = dateStr;
     }];
     [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
     [self inputWidgetResign];
@@ -968,7 +972,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                     [_companyInfoTableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
                  
                     if([_exminationCountField.text integerValue] < workerArray.count){
-                        _exminationCountField.text = [NSString stringWithFormat:@"%ld", workerArray.count];
+                        _exminationCountField.text = [NSString stringWithFormat:@"%ld", (unsigned long)workerArray.count];
                     }
                  
                 }];

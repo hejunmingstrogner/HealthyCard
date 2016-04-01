@@ -704,6 +704,7 @@ BOOL   _isLocationInfoHasBeenSent;
 // 得到体检地址
 - (void)getAdress
 {
+    __weak typeof(self) weakself = self;
     [[LocationSearchModel getInstance] getExaminationAdressByLocation:_mapView.centerCoordinate WithBlock:^(NSString *city,NSString *adress, NSError *error) {
         if(!error)
         {
@@ -723,38 +724,40 @@ BOOL   _isLocationInfoHasBeenSent;
                                                        CityName:city];
                 _isLocationInfoHasBeenSent = YES;
             }
-            currentCityName = city;
+            typeof(self) strongself = weakself;
+            strongself->currentCityName = city;
             gCurrentCityName = city;
-            addressLabel.text = adress;
-            _centerCoordinate = _mapView.centerCoordinate;
-            [[HttpNetworkManager getInstance] getNearbyServicePointsWithCLLocation:_mapView.centerCoordinate resultBlock:^(NSArray *result, NSError *error) {
+            strongself->addressLabel.text = adress;
+            strongself->_centerCoordinate = strongself->_mapView.centerCoordinate;
+            [[HttpNetworkManager getInstance] getNearbyServicePointsWithCLLocation:strongself->_mapView.centerCoordinate resultBlock:^(NSArray *result, NSError *error) {
                 // 将附近的服务点显示出来
                 [nearbyServicePositionsArray removeAllObjects];
                 if (!error) {
-                    [_mapView removeAnnotations:_mapView.annotations];
+                    [strongself->_mapView removeAnnotations:strongself->_mapView.annotations];
 
-                    nearbyServicePositionsArray = [NSMutableArray arrayWithArray:result];
+                    strongself->nearbyServicePositionsArray = [NSMutableArray arrayWithArray:result];
 
                     // 计算最近的服务点距离并将数据排序
-                    [self calculateMinDistance];
+                    [weakself calculateMinDistance];
 
                     if (nearbyServicePositionsArray.count != 0) {
 
-                        [self addServersPositionAnnotionsWithList:nearbyServicePositionsArray];
+                        [weakself addServersPositionAnnotionsWithList:nearbyServicePositionsArray];
                     }
                 }
                 else {
                     //[RzAlertView showAlertLabelWithTarget:self.view Message:@"获取附近服务点信息失败" removeDelay:2];
                     // 计算最近的服务点距离并将数据排序
-                    [self calculateMinDistance];
+                    [weakself calculateMinDistance];
                 }
             }];
         }
         else {
-            addressLabel.text = @"";
-            nearbyServicePositionsArray = [NSMutableArray array];
+            typeof(self) strongself = weakself;
+            strongself->addressLabel.text = @"";
+            strongself->nearbyServicePositionsArray = [NSMutableArray array];
             // 计算最近的服务点距离并将数据排序
-            [self calculateMinDistance];
+            [weakself calculateMinDistance];
             //[RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接出现错误" removeDelay:2];
         }
         [changeStatusTimer invalidate];

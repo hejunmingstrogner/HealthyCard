@@ -94,20 +94,20 @@
         [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
         [personinfo setObject:_textField.text forKey:@"unitName"];
         [personinfo setObject:((BRServiceUnit *)_companysArray[_selectIndex]).unitCode forKey:@"unitCode"];
-
+        __weak typeof(self) weakself = self;
         [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
             if (successed) {
-                gPersonInfo.cUnitName = _textField.text;
-                if (_updata) {
-                    _updata(_textField.text);
+                gPersonInfo.cUnitName = weakself.textField.text;
+                if (weakself.updata) {
+                    weakself.updata(weakself.textField.text);
                 }
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改成功" removeDelay:2];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self backToPre:nil];
+                    [weakself backToPre:nil];
                 });
             }
             else{
-                [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
+                [RzAlertView showAlertViewControllerWithTarget:weakself Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];
             }
         }];
     }
@@ -123,11 +123,12 @@
     if (_textField.text.length == 0) {
         return;
     }
+    __weak typeof(self) weakself = self;
     [[HttpNetworkManager getInstance]fuzzQueryBRServiceUnitsByName:_textField.text resultBlock:^(NSArray *result, NSError *error) {
         if (!error) {
             if (result.count != 0) {
-                _companysArray = [NSMutableArray arrayWithArray:result];
-                [_tableView reloadData];
+                weakself.companysArray = [NSMutableArray arrayWithArray:result];
+                [weakself.tableView reloadData];
             }
         }
     }];

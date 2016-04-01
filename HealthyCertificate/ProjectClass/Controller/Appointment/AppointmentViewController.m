@@ -267,10 +267,11 @@
             image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
         dispatch_async(dispatch_get_main_queue(), ^{
             [picker dismissViewControllerAnimated:YES completion:nil];
-            if (!waitAlertView) {
-                waitAlertView = [[RzAlertView alloc]initWithSuperView:wself.view Title:@"身份证信息解析中"];
+            typeof (self) strongself = wself;
+            if (!strongself->waitAlertView) {
+                strongself->waitAlertView = [[RzAlertView alloc]initWithSuperView:wself.view Title:@"身份证信息解析中"];
             }
-            [waitAlertView show];
+            [strongself->waitAlertView show];
             [YMIDCardRecognition recongnitionWithCard:image delegate:wself];
         });
     });
