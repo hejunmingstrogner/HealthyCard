@@ -35,9 +35,7 @@
 #import "RegisterViewController.h"
 
 NSString *gCurrentCityName;
-
 BOOL   _isLocationInfoHasBeenSent;
-
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -507,6 +505,10 @@ BOOL   _isLocationInfoHasBeenSent;
         }
         case LEFTMENUCELL_PERSON_UNITLOGIN: // 单位注册
         {
+            if(_isRegisterUnited){
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"您有未完成的审核" removeDelay:2];
+                return;
+            }
             RegisterViewController* unitRegisterVC = [[RegisterViewController alloc] init];
             [self.navigationController pushViewController:unitRegisterVC animated:YES];
             break;

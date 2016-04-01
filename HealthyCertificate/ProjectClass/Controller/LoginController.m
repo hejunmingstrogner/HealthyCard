@@ -216,12 +216,6 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
 #pragma mark - Button Action
 -(void)loginBtnCliked:(id)sender
 {
-    _loginButton.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
-    _isVertified = YES;
-    [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
-    SetPhoneNumber(_phoneNumTextField.text);
-    SetLoginSucceedInfo(_phoneNumTextField.text);
-    return;
     //判断验证码是否正确
     [[HttpNetworkManager getInstance] vertifyPhoneNumber:_phoneNumTextField.text
                                              VertifyCode:_vertifyTextField.text
@@ -278,6 +272,11 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
         
         //验证频繁报错 获取验证码失败报错
         MethodResult* methodResult = [MethodResult mj_objectWithKeyValues:result];
+        //为了测试
+        _vertifyTextField.text = methodResult.object;
+        _loginButton.enabled = YES;
+        _loginButton.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
+        
         if (methodResult.succeed == NO){
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取验证码失败" removeDelay:2];
             return;

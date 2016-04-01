@@ -30,4 +30,5 @@
     UIGraphicsEndImageContext();
     return newImage;
 }
+
 @end

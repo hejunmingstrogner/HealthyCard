@@ -135,7 +135,7 @@
 
 - (void)confirmClicked:(id)sender
 {
-    NSString *text = [_adviceTextView.text deleteSpaceWithHeadAndFootWithString:_adviceTextView.text];
+    NSString *text = [_adviceTextView.text deleteSpaceWithHeadAndFootWithString];
     if (text.length == 0) {
         _adviceTextView.text = text;
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的填写无效" removeDelay:2];

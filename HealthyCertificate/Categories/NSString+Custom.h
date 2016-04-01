@@ -43,5 +43,5 @@
  *
  *  @return 返回没有空格的文本
  */
-- (NSString *)deleteSpaceWithHeadAndFootWithString:(NSString *)text;
+- (NSString *)deleteSpaceWithHeadAndFootWithString;
 @end
