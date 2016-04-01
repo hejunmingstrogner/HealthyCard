@@ -48,9 +48,9 @@
 }
 
 
-- (NSString *)deleteSpaceWithHeadAndFootWithString:(NSString *)text
+- (NSString *)deleteSpaceWithHeadAndFootWithString
 {
-    return [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 @end
 

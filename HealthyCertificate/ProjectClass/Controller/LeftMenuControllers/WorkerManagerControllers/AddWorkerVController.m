@@ -303,7 +303,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    textField.text = [textField.text deleteSpaceWithHeadAndFootWithString:textField.text];
+    textField.text = [textField.text deleteSpaceWithHeadAndFootWithString];
     if (textField.text.length == 0) {
         return;
     }

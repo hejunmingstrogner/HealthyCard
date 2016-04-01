@@ -128,6 +128,8 @@
 		25DB64051CACB0A50072C8EF /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64041CACB0A50072C8EF /* RegisterViewController.m */; };
 		25DB64091CACB2000072C8EF /* UnitRegisterTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64081CACB2000072C8EF /* UnitRegisterTitleView.m */; };
 		25DB640C1CACB6210072C8EF /* UnitRegisterItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB640B1CACB6210072C8EF /* UnitRegisterItemCell.m */; };
+		25DB64131CAD077D0072C8EF /* PostVeitifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64121CAD077D0072C8EF /* PostVeitifyViewController.m */; };
+		25DB64161CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64151CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m */; };
 		25E983831C8535BE00CB027E /* WorkTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E983821C8535BE00CB027E /* WorkTypeViewController.m */; };
 		25F276F11CA3F1AF00BF5DFE /* DetailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F276F01CA3F1AF00BF5DFE /* DetailImageView.m */; };
 		25F276F41CA552C200BF5DFE /* ContractPersonInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F276F31CA552C200BF5DFE /* ContractPersonInfoViewController.m */; };
@@ -426,6 +428,10 @@
 		25DB64081CACB2000072C8EF /* UnitRegisterTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitRegisterTitleView.m; sourceTree = "<group>"; };
 		25DB640A1CACB6210072C8EF /* UnitRegisterItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitRegisterItemCell.h; sourceTree = "<group>"; };
 		25DB640B1CACB6210072C8EF /* UnitRegisterItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitRegisterItemCell.m; sourceTree = "<group>"; };
+		25DB64111CAD077D0072C8EF /* PostVeitifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostVeitifyViewController.h; sourceTree = "<group>"; };
+		25DB64121CAD077D0072C8EF /* PostVeitifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostVeitifyViewController.m; sourceTree = "<group>"; };
+		25DB64141CAD0EEC0072C8EF /* PostVeitifyPicInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostVeitifyPicInfoView.h; sourceTree = "<group>"; };
+		25DB64151CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostVeitifyPicInfoView.m; sourceTree = "<group>"; };
 		25E983811C8535BE00CB027E /* WorkTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkTypeViewController.h; sourceTree = "<group>"; };
 		25E983821C8535BE00CB027E /* WorkTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkTypeViewController.m; sourceTree = "<group>"; };
 		25F276EF1CA3F1AF00BF5DFE /* DetailImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailImageView.h; sourceTree = "<group>"; };
@@ -1061,6 +1067,8 @@
 				25DB64081CACB2000072C8EF /* UnitRegisterTitleView.m */,
 				25DB640A1CACB6210072C8EF /* UnitRegisterItemCell.h */,
 				25DB640B1CACB6210072C8EF /* UnitRegisterItemCell.m */,
+				25DB64141CAD0EEC0072C8EF /* PostVeitifyPicInfoView.h */,
+				25DB64151CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m */,
 			);
 			path = UnitRegister;
 			sourceTree = "<group>";
@@ -1374,6 +1382,8 @@
 				B2D7212B1CA527DF007B1671 /* AddWorkerVController.m */,
 				25DB64031CACB0A50072C8EF /* RegisterViewController.h */,
 				25DB64041CACB0A50072C8EF /* RegisterViewController.m */,
+				25DB64111CAD077D0072C8EF /* PostVeitifyViewController.h */,
+				25DB64121CAD077D0072C8EF /* PostVeitifyViewController.m */,
 			);
 			path = WorkerManagerControllers;
 			sourceTree = "<group>";
@@ -1704,6 +1714,7 @@
 				B2640CDB1C7C7FC000721CB5 /* WaitDocResultSelectItem.m in Sources */,
 				254503061C90043800F47F46 /* QRController.m in Sources */,
 				B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */,
+				25DB64161CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m in Sources */,
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
 				B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */,
 				B2640CD81C7C7D7500721CB5 /* WaitDocResultTableViewCell.m in Sources */,
@@ -1797,6 +1808,7 @@
 				B2866A611C910ADA00F4B3B9 /* OrdersAlertView.m in Sources */,
 				25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */,
 				25DB64021CABA85D0072C8EF /* ScanImageViewController.m in Sources */,
+				25DB64131CAD077D0072C8EF /* PostVeitifyViewController.m in Sources */,
 				252AB88F1C7703690085CC14 /* HCWheelView.m in Sources */,
 				2512B41D1C7056C900EE661B /* UIImageView+Easy.m in Sources */,
 				B2D721251CA50EB7007B1671 /* WorkerManagerVC.m in Sources */,

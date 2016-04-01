@@ -70,7 +70,7 @@
 
 - (void)confirmBtnClicked:(UIBarButtonItem *)sender
 {
-    _textField.text = [_textField.text deleteSpaceWithHeadAndFootWithString:_textField.text];
+    _textField.text = [_textField.text deleteSpaceWithHeadAndFootWithString];
     if (_textField.text.length == 0) {
         [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您未填写信息" ActionTitle:@"明白了" ActionStyle:0];
         return ;
