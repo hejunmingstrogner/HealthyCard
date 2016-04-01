@@ -29,24 +29,11 @@
 #import "AddWorkerTBC.h"
 #import "Customer.h"
 
-
-
-
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 @interface AddWorkerVController()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate, YMIDCardRecognitionDelegate>
 {
-    UIBarButtonItem *_rightBarItem;
-
     UITableView *_tableView;
-
-    UITextField  *_nameTextField;
-    UIButton     *_sexBtn;
-    UILabel      *_ageLabel;
-    UITextField  *_idCardTextField;
-    UITextField  *_phoneNoTextField;
-    UILabel      *_callingLabel;
-    UILabel      *_unitLabel;
 
     NSMutableArray *_customArray;
     Customer *_customer;
@@ -208,7 +195,6 @@
             cell.textField.enabled = YES;
             break;
     }
-
     return cell;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
@@ -468,14 +454,36 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [_waitAlertView close];
         
-        if (array[1] == NO){
+        if (array[1] == nil){
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"扫描身份证信息失败，请注意聚焦" removeDelay:3];
             return;
         }
-        
-        _nameTextField.text = array[0];
-        _idCardTextField.text = array[1];
-        [_sexBtn setTitle:array[2] forState:UIControlStateNormal];
+        // 计算年龄
+        NSString * age = [NSString getOldYears:array[1]];
+        // 将信息填充到数据中。
+        for (int i = 0; i<_customArray.count; i++) {
+            switch (((AddworkerTBCItem *)_customArray[i]).type) {
+                case ADDWORKER_NAME:{   // 姓名
+                    ((AddworkerTBCItem *)_customArray[i]).message = array[0];
+                    continue;
+                }
+                case ADDWORKER_SEX:{    // 性别
+                    ((AddworkerTBCItem *)_customArray[i]).message = array[2];
+                    continue;
+                }
+                case ADDWORKER_IDCARD:{ // 身份证号码
+                    ((AddworkerTBCItem *)_customArray[i]).message = array[1];
+                    continue;
+                }
+                case ADDWORKER_AGE:{    // 年龄
+                    ((AddworkerTBCItem *)_customArray[i]).message = age;
+                    continue;
+                }
+                default:
+                    continue;
+            }
+        }
+        [_tableView reloadData];
     });
 }
 
@@ -507,7 +515,6 @@
 
 #pragma mark - Private Methods
 - (UIImage *)reSizeImage:(UIImage *)image toSize:(CGSize)reSize
-
 {
     UIGraphicsBeginImageContext(CGSizeMake(reSize.width, reSize.height));
     [image drawInRect:CGRectMake(0, 0, reSize.width, reSize.height)];
