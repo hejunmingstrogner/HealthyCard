@@ -228,7 +228,7 @@
         }
     }
 
-    NSString *_text = [_textField.text deleteSpaceWithHeadAndFootWithString:_textField.text];
+    NSString *_text = [_textField.text deleteSpaceWithHeadAndFootWithString];
     if (_text.length == 0) {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"您还没有输入" removeDelay:3];
         _textField.text = _text;

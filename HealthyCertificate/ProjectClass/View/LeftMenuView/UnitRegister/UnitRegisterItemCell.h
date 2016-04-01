@@ -11,7 +11,9 @@
 @interface UnitRegisterItemCell : UITableViewCell
 
 @property (nonatomic, strong) UITextView* textView;
-@property (nonatomic, copy) NSString*  titleText;
 
+
+@property (nonatomic, copy) NSString *titleText;
+@property (nonatomic, copy) NSString *content;
 
 @end

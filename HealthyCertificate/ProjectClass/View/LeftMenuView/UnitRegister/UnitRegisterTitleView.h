@@ -10,4 +10,6 @@
 
 @interface UnitRegisterTitleView : UIView
 
+@property (nonatomic, copy) NSString* title;
+
 @end

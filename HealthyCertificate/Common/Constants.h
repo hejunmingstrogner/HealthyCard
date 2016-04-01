@@ -65,6 +65,8 @@ extern NSString *gCurrentCityName;  // 当前城市名字
 
 extern BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送过定位信息
 
+extern BOOL   _isRegisterUnited; //个人用户是否注册单位
+
 // 设置各种长度最大的限制
 #define NAME_LENGTH 20 // 名字长度
 #define IDCARD_LENGTH 18 // 身份证长度
