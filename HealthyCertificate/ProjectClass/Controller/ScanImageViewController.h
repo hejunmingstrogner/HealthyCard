@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol ScanImageView<NSObject>
+@protocol ScanImageViewDelegate<NSObject>
 
 - (void)reportScanResult:(NSString *)result;
 
@@ -16,7 +16,7 @@
 
 @interface ScanImageViewController : UIViewController
 
-@property (nonatomic,weak)id <ScanImageView>delegate;//代理方法传递数据
+@property (nonatomic,weak)id <ScanImageViewDelegate>delegate;//代理方法传递数据
 
 
 @end
