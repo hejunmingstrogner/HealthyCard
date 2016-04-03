@@ -465,22 +465,22 @@
             switch (((AddworkerTBCItem *)_customArray[i]).type) {
                 case ADDWORKER_NAME:{   // 姓名
                     ((AddworkerTBCItem *)_customArray[i]).message = array[0];
-                    continue;
+                    break;
                 }
                 case ADDWORKER_SEX:{    // 性别
                     ((AddworkerTBCItem *)_customArray[i]).message = array[2];
-                    continue;
+                    break;
                 }
                 case ADDWORKER_IDCARD:{ // 身份证号码
                     ((AddworkerTBCItem *)_customArray[i]).message = array[1];
-                    continue;
+                    break;
                 }
                 case ADDWORKER_AGE:{    // 年龄
                     ((AddworkerTBCItem *)_customArray[i]).message = age;
-                    continue;
+                    break;
                 }
                 default:
-                    continue;
+                    break;
             }
         }
         [_tableView reloadData];

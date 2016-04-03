@@ -107,7 +107,7 @@
     _refresh.topEnabled = YES;
     [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
 }
-
+// 刷新
 - (void)refresh:(DJRefresh *)refresh didEngageRefreshDirection:(DJRefreshDirection)direction
 {
     _isRefreshing = YES;
@@ -132,7 +132,7 @@
         });
     }];
 }
-
+// 刷新某一行
 - (void)refreshNewDataWithIndexPathSection:(NSInteger )indexpathSection{
     if (!waitAlertView) {
         waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"刷新中..."];
