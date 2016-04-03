@@ -650,8 +650,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }else{
         //新建的预约
         if(_brContract == nil)
-        {
-            _brContract = [[BRContract alloc]init];
+        {            _brContract = [[BRContract alloc]init];
             _brContract.unitCode = gCompanyInfo.cUnitCode;
             _brContract.unitName = gCompanyInfo.cUnitName;
         }
