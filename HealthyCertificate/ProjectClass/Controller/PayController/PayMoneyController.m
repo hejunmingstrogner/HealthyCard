@@ -81,8 +81,8 @@
     BaseTBCellItem *item1 = [[BaseTBCellItem alloc]initWithImage:nil title:@"" detial:@"" detial2:@"" cellStyle:STYLE_HEATHYCINFO];
     BaseTBCellItem *item2 = [[BaseTBCellItem alloc]initWithImage:[UIImage imageNamed:@"wx"] title:@"微信支付" detial:@"推荐安装微信5.0及以上版本" cellStyle:STYLE_WXPAY flag:0];
     BaseTBCellItem *item3 = [[BaseTBCellItem alloc]initWithImage:[UIImage imageNamed:@"alipay"] title:@"支付宝支付" detial:@"推荐有支付宝账号的使用" cellStyle:STYLE_ALIPAY flag:0];
-
-    _dataArray = [[NSMutableArray alloc]initWithObjects:item0, item1, item2, item3, nil];
+    BaseTBCellItem *item4 = [[BaseTBCellItem alloc]initWithImage:[UIImage imageNamed:@"daifukuan"] title:@"找人代付" detial:@"请您先通知代付人之后在选择此项" cellStyle:STYLE_DAIFUKUAN flag:0];
+    _dataArray = [[NSMutableArray alloc]initWithObjects:item0, item1, item2, item3, item4, nil];
 
     [self getCityPrice];
 }
@@ -257,6 +257,11 @@
                 case STYLE_UPACP:
                     channel = @"upacp";
                     break;
+                case STYLE_DAIFUKUAN:{
+                    // 他人代付
+                    [self letOthersPay];
+                    return;
+                }
                 default:
                     channel = nil;
                     break;
@@ -292,7 +297,25 @@
         }
     }
 }
+#pragma mark - 找他人代付
+// 他人支付
+- (void)letOthersPay
+{
+    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您选择他人帮你付款，所以您可以让好友扫一扫支付，也可以截图发给好友让其付款" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"代付" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
+        // 去掉勾选
+        [self deselectChannelPay];
 
+        if (flag != 0) {
+            // 他人代付
+        }
+        else {
+            // 不代付
+        }
+    }];
+}
+
+#pragma mark - 支付之后的回调，
+// 支付成功
 - (void)paySuccessed
 {
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:@"支付成功" ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
@@ -302,13 +325,14 @@
         }
     }];
 }
-
+// 支付失败
 - (void)payFail:(NSError *)error result:(NSString *)result
 {
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:result ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
         [self deselectChannelPay];
     }];
 }
+// 支付取消
 - (void)payCancel
 {
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:@"您取消了支付" ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
