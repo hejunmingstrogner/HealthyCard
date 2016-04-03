@@ -39,7 +39,7 @@
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView).offset(15);
         make.height.mas_equalTo(105*78/178);
-        make.width.mas_equalTo(250);
+        make.width.mas_equalTo(200);
     }];
     _titlelabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:18];
 
