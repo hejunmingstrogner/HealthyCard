@@ -231,7 +231,7 @@
     cell.userInteractionEnabled = NO;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
-    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
+    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
     cell.textLabel.text = @"条形码绑定";
     cell.detailTextLabel.text = @"体检时可出示此条形码";
     cell.imageView.image = [UIImage imageNamed:@"tiaoxingma"];

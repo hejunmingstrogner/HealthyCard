@@ -307,7 +307,7 @@
 // 他人支付
 - (void)letOthersPay
 {
-    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"您选择他人帮你付款，所以您可以让好友扫一扫支付，也可以截图发给好友让其付款" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"代付" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
+    [RzAlertView showAlertViewControllerWithTarget:self Title:@"代付提示" Message:@"您选择他人帮你付款，\n您可以让好友扫一扫支付，\n也可以截图发给好友让其付款。\n请在完成之后向好友确认付款情况。" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"找人代付" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
         // 去掉勾选
         [self deselectChannelPay];
 
