@@ -21,18 +21,23 @@
 #import "RzAlertView.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface WorkerManagerVC ()<UITableViewDelegate, UITableViewDataSource, AddworkVControllerDelegate>
+@interface WorkerManagerVC ()<UITableViewDelegate, UITableViewDataSource, AddworkVControllerDelegate, UISearchBarDelegate>
 {
     UITableView *_tableView;
     UIBarButtonItem *_rightBarItem;    // 显示员工数量
     UIButton    *_addNewWorkBtn;     // 增加员工按钮
 
-    NSMutableArray *_worksData;     // 原始数据
+//    NSMutableArray *_worksData;     // 原始数据
 
     NSMutableArray *_worksArray;    // 模型数组
 
     RzAlertView *_waitAlertView;
+
+    UISearchBar *_searchBar;
+    NSMutableArray *_searchWorksArray;
 }
+
+@property (nonatomic, getter=isSearchStatus) BOOL isSearchStatus;
 
 @end
 
@@ -71,11 +76,27 @@
 
 - (void)initSubviews
 {
+    _searchBar  = [[UISearchBar alloc]init];
+    [self.view addSubview:_searchBar];
+    _searchBar.delegate = self;
+    _searchBar.placeholder = @"搜索姓名";
+    [_searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(70);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(40);
+    }];
+    _isSearchStatus = NO;
+
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 60) style:UITableViewStylePlain];
     [self.view addSubview:_tableView];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [_tableView setEditing:NO animated:YES];
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_searchBar.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(self.view.frame.size.height - 60 - 110);
+    }];
 
     _addNewWorkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:_addNewWorkBtn];
@@ -93,19 +114,23 @@
 
 - (void)getdata
 {
+    if (!_waitAlertView) {
+        _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"加载中..."];
+    }
+    [_waitAlertView show];
     __weak typeof(self) weakself = self;
     [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
         [weakself setresult:result error:error];
+        [_waitAlertView close];
     }];
 }
 - (void)setresult:(NSArray *)result error:(NSError *)error
 {
     if (!error) {
-        _worksData = [NSMutableArray arrayWithArray:result];
         _worksArray = [[NSMutableArray alloc]init];
-        for (Customer *custom in _worksData) {
+        for (Customer *custom in result) {
             NSString *sex = custom.sex == 0 ? @"男" : @"女";
-            WorkManagerTBCItem *item = [[WorkManagerTBCItem alloc]initWithName:custom.custName sex:sex tel:custom.linkPhone Type:0];
+            WorkManagerTBCItem *item = [[WorkManagerTBCItem alloc]initWithName:custom.custName sex:sex tel:custom.linkPhone Type:0 Customer:custom];
             [_worksArray addObject:item];
         }
         [self setworkCount];
@@ -143,6 +168,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if([self isSearchStatus])
+    {
+        return _searchWorksArray.count;
+    }
     return _worksArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -189,7 +218,7 @@
         WorkManagerTBC *cell = [[WorkManagerTBC alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"head"];
         [view addSubview:cell];
         cell.backgroundColor = [UIColor whiteColor];
-        [cell setCellItem:[[WorkManagerTBCItem alloc]initWithName:@"姓名" sex:@"性别" tel:@"电话" Type:0]];
+        [cell setCellItem:[[WorkManagerTBCItem alloc]initWithName:@"姓名" sex:@"性别" tel:@"电话" Type:0 Customer:nil]];
         cell.sexLabel.textColor = [UIColor blackColor];
         cell.frame = CGRectMake(0, 64, self.view.frame.size.width, 44);
     }
@@ -202,13 +231,20 @@
     if(!cell){
         cell = [[WorkManagerTBC alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    [cell setCellItem:(WorkManagerTBCItem*)_worksArray[indexPath.row]];
+    if ([self isSearchStatus]) {
+        [cell setCellItem:(WorkManagerTBCItem*)_searchWorksArray[indexPath.row]];
+    }
+    else {
+        [cell setCellItem:(WorkManagerTBCItem*)_worksArray[indexPath.row]];
+    }
+
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.view endEditing:YES];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -223,7 +259,14 @@
     __weak typeof(self) weakself = self;
     __weak typeof(_waitAlertView) weakWaitAlertView = _waitAlertView;
     [weakWaitAlertView show];
-    [[HttpNetworkManager getInstance] removeCustomerWithCustomer:_worksData[indexPath.row] resultBlock:^(MethodResult *result, NSError *error) {
+    Customer *customer;
+    if ([self isSearchStatus]) {
+        customer = ((WorkManagerTBCItem *)_searchWorksArray[indexPath.row]).customer;
+    }
+    else {
+        customer = ((WorkManagerTBCItem *)_worksArray[indexPath.row]).customer;
+    }
+    [[HttpNetworkManager getInstance] removeCustomerWithCustomer:customer resultBlock:^(MethodResult *result, NSError *error) {
         [weakWaitAlertView close];
         [weakself setresult:result nserror:error tableview:tableView indexpath:indexPath];
     }];
@@ -232,10 +275,18 @@
 {
     if (!error) {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"删除成功" removeDelay:2];
-        [_worksArray removeObjectAtIndex:indexPath.row];
-        [_worksData removeObjectAtIndex:indexPath.row];
-        [self setworkCount];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        if ([self isSearchStatus]) {
+            [_searchWorksArray removeObjectAtIndex:indexPath.row];
+        }
+        else {
+            [_worksArray removeObjectAtIndex:indexPath.row];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+            _searchBar.text = @"";
+            _isSearchStatus = NO;
+            [self getdata];
+        });
     }
     else{
         if (result) {
@@ -247,9 +298,28 @@
     }
 }
 
-
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return UITableViewCellEditingStyleDelete;
+}
+
+#pragma mark - 搜索框delegate
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    NSLog(@"text: %@", searchText);
+    if (searchText.length == 0) {
+        _isSearchStatus = NO;
+        [_tableView reloadData];
+    }
+    else {
+        _isSearchStatus = YES;
+        _searchWorksArray = [[NSMutableArray alloc]init];
+        for (WorkManagerTBCItem *item in _worksArray) {
+            if ([item.name rangeOfString:searchText].location != NSNotFound) {
+                [_searchWorksArray addObject:item];
+            }
+        }
+        [_tableView reloadData];
+    }
 }
 @end
