@@ -7,19 +7,25 @@
 //
 
 #import "PayMoneyController.h"
+
+#import "Constants.h"
+#import <Masonry.h>
+
 #import "UIColor+Expanded.h"
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
+#import "UILabel+FontColor.h"
 #import "UIButton+HitTest.h"
-#import "Constants.h"
-#import <Masonry.h>
+
+#import "HttpNetworkManager.h"
+#import "RzAlertView.h"
+
 #import "BaseTBCellItem.h"
 #import "PayInfoViewCell.h"
 #import "PayTypeViewCell.h"
-#import "HttpNetworkManager.h"
-#import "RzAlertView.h"
 #import "ChargeType.h"
-#import "UILabel+FontColor.h"
+#import "QRController.h"
+
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 @interface PayMoneyController ()<UITableViewDataSource, UITableViewDelegate>
@@ -307,6 +313,11 @@
 
         if (flag != 0) {
             // 他人代付
+            QRController* qrController = [[QRController alloc] init];
+            qrController.qrControllerType = QRController_Pay;
+            qrController.qrContent = [NSString stringWithFormat:@"%@weixin/reservation_person/charge.jsp?checkCode=%@",[HttpNetworkManager baseURL],_checkCode];
+            qrController.shareText = @"";
+            [self.navigationController pushViewController:qrController animated:YES];
         }
         else {
             // 不代付
