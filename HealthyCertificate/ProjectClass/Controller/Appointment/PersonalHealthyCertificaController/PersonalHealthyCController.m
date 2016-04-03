@@ -390,15 +390,15 @@
         }
         // 点击时间
         CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
-        // 时间
+        // 时间 待修改
         NSArray *timearray = [sender.titleLabel.text componentsSeparatedByString:@"~"];
         if (timearray.count == 2) {
-            cloudData.beginDateString = timearray[0];
-            cloudData.endDateString = timearray[1];
+//            cloudData.beginDateString = timearray[0];
+//            cloudData.endDateString = timearray[1];
         }
         else {
-            cloudData.beginDateString =[[NSDate date] getDateStringWithInternel:1];
-            cloudData.endDateString = [[NSDate date]getDateStringWithInternel:2];
+//            cloudData.beginDateString =[[NSDate date] getDateStringWithInternel:1];
+//            cloudData.endDateString = [[NSDate date]getDateStringWithInternel:2];
         }
         [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
 

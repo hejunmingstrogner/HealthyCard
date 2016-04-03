@@ -47,6 +47,13 @@
     return (long long)[resultDate timeIntervalSince1970];
 }
 
+-(long long)convertDateStrWithHourToLongLong{
+    NSDateFormatter *datefammert = [[NSDateFormatter alloc]init];
+    [datefammert setDateFormat:@"yyyy年MM月dd日HH点"];
+    NSDate* resultDate = [datefammert dateFromString:self];
+    return (long long)[resultDate timeIntervalSince1970];
+}
+
 
 - (NSString *)deleteSpaceWithHeadAndFootWithString
 {

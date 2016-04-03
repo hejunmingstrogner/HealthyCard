@@ -428,70 +428,70 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0){
-        if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
-            if (indexPath.row == 0){
-                SelectAddressViewController* selectAddressVC = [[SelectAddressViewController alloc] init];
-                selectAddressVC.addressStr = _addressTextView.text;
-                [selectAddressVC getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
-                    _addressTextView.text = address;
-                    _centerCoordinate = coor;
-                }];
-                [self.navigationController pushViewController:selectAddressVC animated:YES];
-            }else{
-                CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
-                cloudAppointmentDateVC.beginDateString = [_dateTextView.text componentsSeparatedByString:@"~"][0];
-                cloudAppointmentDateVC.endDateString = [_dateTextView.text componentsSeparatedByString:@"~"][1];
-                [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
-                    _dateTextView.text = dateStr;
-                }];
-                [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
-            }
-        }
-        [self inputWidgetResign];
-    }else if (indexPath.section == 2){
-        StaffStateViewController* staffStateVC = [[StaffStateViewController alloc] init];
-        staffStateVC.contractCode = _brContract.code;
-        [self.navigationController pushViewController:staffStateVC animated:YES];
-         [self inputWidgetResign];
-    }else if (indexPath.section == 3){
-        QRController* qrController = [[QRController alloc] init];
-        qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/staffRegister.jsp?brContractCode=%@", _brContract.code];
-        qrController.infoStr = @"您还有员工没有在合同里面？分享二维码给他直接加入。";
-        [self.navigationController pushViewController:qrController animated:YES];
-        [self inputWidgetResign];
-    }else{
-        if (indexPath.row == 0){
-            [_contactPersonField becomeFirstResponder];
-        }else if (indexPath.row == 1){
-            [_phoneNumField becomeFirstResponder];
-        }else if (indexPath.row == 3){
-            [_exminationCountField becomeFirstResponder];
-        }else{
-            if (![_brContract.testStatus isEqualToString:@"-1"]){
-                return;
-            }
-            
-            AddWorkerViewController* addWorkerVC = [[AddWorkerViewController alloc] init];
-            addWorkerVC.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;
-            __typeof (self) __weak weakSelf = self;
-            [addWorkerVC getWorkerArrayWithBlock:^(NSArray *workerArray) {
-                __typeof (self)  strongSelf = weakSelf; //防止循环引用
-                weakSelf.customerArr = [NSMutableArray arrayWithArray:workerArray];
-                strongSelf->_staffCount = workerArray.count + _originArr.count;
-                NSIndexPath *path = [NSIndexPath indexPathForItem:2 inSection:1];
-                [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
-                if([_exminationCountField.text integerValue] < workerArray.count + _originArr.count){
-                    _exminationCountField.text = [NSString stringWithFormat:@"%u", workerArray.count + _originArr.count];
-                    strongSelf->_appointmentCount = [NSString stringWithFormat:@"%u", workerArray.count + _originArr.count];
-                    NSIndexPath *path = [NSIndexPath indexPathForItem:3 inSection:1];
-                    [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
-                }
-            }];
-            [self.navigationController pushViewController:addWorkerVC animated:YES];
-            [self inputWidgetResign];
-        }
-    }
+//    if (indexPath.section == 0){
+//        if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
+//            if (indexPath.row == 0){
+//                SelectAddressViewController* selectAddressVC = [[SelectAddressViewController alloc] init];
+//                selectAddressVC.addressStr = _addressTextView.text;
+//                [selectAddressVC getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
+//                    _addressTextView.text = address;
+//                    _centerCoordinate = coor;
+//                }];
+//                [self.navigationController pushViewController:selectAddressVC animated:YES];
+//            }else{
+//                CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
+//                cloudAppointmentDateVC.beginDateString = [_dateTextView.text componentsSeparatedByString:@"~"][0];
+//                cloudAppointmentDateVC.endDateString = [_dateTextView.text componentsSeparatedByString:@"~"][1];
+//                [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
+//                    _dateTextView.text = dateStr;
+//                }];
+//                [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
+//            }
+//        }
+//        [self inputWidgetResign];
+//    }else if (indexPath.section == 2){
+//        StaffStateViewController* staffStateVC = [[StaffStateViewController alloc] init];
+//        staffStateVC.contractCode = _brContract.code;
+//        [self.navigationController pushViewController:staffStateVC animated:YES];
+//         [self inputWidgetResign];
+//    }else if (indexPath.section == 3){
+//        QRController* qrController = [[QRController alloc] init];
+//        qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/staffRegister.jsp?brContractCode=%@", _brContract.code];
+//        qrController.infoStr = @"您还有员工没有在合同里面？分享二维码给他直接加入。";
+//        [self.navigationController pushViewController:qrController animated:YES];
+//        [self inputWidgetResign];
+//    }else{
+//        if (indexPath.row == 0){
+//            [_contactPersonField becomeFirstResponder];
+//        }else if (indexPath.row == 1){
+//            [_phoneNumField becomeFirstResponder];
+//        }else if (indexPath.row == 3){
+//            [_exminationCountField becomeFirstResponder];
+//        }else{
+//            if (![_brContract.testStatus isEqualToString:@"-1"]){
+//                return;
+//            }
+//            
+//            AddWorkerViewController* addWorkerVC = [[AddWorkerViewController alloc] init];
+//            addWorkerVC.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];;
+//            __typeof (self) __weak weakSelf = self;
+//            [addWorkerVC getWorkerArrayWithBlock:^(NSArray *workerArray) {
+//                __typeof (self)  strongSelf = weakSelf; //防止循环引用
+//                weakSelf.customerArr = [NSMutableArray arrayWithArray:workerArray];
+//                strongSelf->_staffCount = workerArray.count + _originArr.count;
+//                NSIndexPath *path = [NSIndexPath indexPathForItem:2 inSection:1];
+//                [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+//                if([_exminationCountField.text integerValue] < workerArray.count + _originArr.count){
+//                    _exminationCountField.text = [NSString stringWithFormat:@"%u", workerArray.count + _originArr.count];
+//                    strongSelf->_appointmentCount = [NSString stringWithFormat:@"%u", workerArray.count + _originArr.count];
+//                    NSIndexPath *path = [NSIndexPath indexPathForItem:3 inSection:1];
+//                    [_tableView reloadRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationAutomatic];
+//                }
+//            }];
+//            [self.navigationController pushViewController:addWorkerVC animated:YES];
+//            [self inputWidgetResign];
+//        }
+//    }
 }
 
 #pragma mark - KeyBorad
