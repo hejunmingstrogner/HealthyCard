@@ -12,7 +12,9 @@
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
+#import "UIButton+Easy.h"
 #import "UILabel+Easy.h"
+#import "UIButton+HitTest.h"
 
 #import <Masonry.h>
 
@@ -32,6 +34,8 @@
 
 
 @implementation ServicePointApointmentViewController
+
+#define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 #pragma mark - Public Methods
 -(void)hideTheKeyBoard{
@@ -68,9 +72,30 @@
             make.left.mas_equalTo(self.view);
             make.width.mas_equalTo(SCREEN_WIDTH);
             make.bottom.mas_equalTo(self.view);
-            make.top.mas_equalTo(self.view).with.offset(kNavigationBarHeight+kStatusBarHeight);
+            make.top.mas_equalTo(self.view).with.offset(GetUserType==1?0:kNavigationBarHeight+kStatusBarHeight);
         }];
     }
+    
+    if (GetUserType == 1)
+        [self initNavgation];
+}
+
+- (void)initNavgation
+{
+    // 返回按钮
+    UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
+    backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
+    [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = backitem;
+    
+    self.title = @"服务点列表";
+}
+
+// 返回前一页
+- (void)backToPre:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate

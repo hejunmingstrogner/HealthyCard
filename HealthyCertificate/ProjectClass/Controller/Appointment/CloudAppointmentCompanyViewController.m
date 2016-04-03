@@ -82,6 +82,10 @@
     BOOL                _isChanged;
     
     BOOL                _isAppointmentBtnResponse;
+    
+    
+    //是待处理项(YES) 新建的预约(No)
+    BOOL                    _isTodoTask;
 }
 
 typedef NS_ENUM(NSInteger, TABLIEVIEWTAG)
@@ -112,6 +116,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 -(void)setBrContract:(BRContract *)brContract
 {
     _brContract = brContract;
+    _isTodoTask =YES;
     
     [[HttpNetworkManager getInstance] getCustomerListByBRContract:_brContract.code resultBlock:^(NSArray *result, NSError *error) {
         if (error != nil){
@@ -175,9 +180,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     
     self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
-    _dateString = [NSString stringWithFormat:@"%@~%@",
-                   [[NSDate date] getDateStringWithInternel:1],
-                   [[NSDate date] getDateStringWithInternel:2]];
+    //默认为明天8点
+    _dateString = [NSString stringWithFormat:@"%@8点", [[NSDate date] getDateStringWithInternel:1]];
    
     UIScrollView* scrollView = [[UIScrollView alloc] init];
     scrollView.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
@@ -262,9 +266,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     //合同时间
     if (_brContract){
         if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
-            
-            _examinationTimeTextField.text = [NSString stringWithFormat:@"%@~%@", [NSDate converLongLongToChineseStringDate:_brContract.regBeginDate/1000],
-                     [NSDate converLongLongToChineseStringDate:_brContract.regEndDate/1000]];
+            _examinationTimeTextField.text = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]];
         }else{
             //基于服务点(移动+固定)
             if ([_brContract.hosCode isEqualToString:_brContract.checkSiteID]){
@@ -366,6 +368,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         make.height.mas_equalTo(PXFIT_HEIGHT(96));
     }];
     _exminationCountField = [[UITextField alloc] init];
+    _exminationCountField.keyboardType = UIKeyboardTypeNumberPad;
     _exminationCountField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     [examinationContainerView addSubview:_exminationCountField];
     [_exminationCountField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -642,42 +645,44 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         return ;
     }
     
-    if(_brContract == nil)
-    {
-        _brContract = [[BRContract alloc]init];
-        _brContract.unitCode = gCompanyInfo.cUnitCode;
-        _brContract.unitName = gCompanyInfo.cUnitName;
-    }
-    
-    if (_sercersPositionInfo == nil)
-    {
-        //云预约
-        NSArray *dateArray = [_examinationTimeTextField.text componentsSeparatedByString:@"~"];
-        if (dateArray.count == 0) {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"你还未填写预约时间" removeDelay:3];
-            return ;
+    if (_isTodoTask){
+        //如果是待处理项
+    }else{
+        //新建的预约
+        if(_brContract == nil)
+        {
+            _brContract = [[BRContract alloc]init];
+            _brContract.unitCode = gCompanyInfo.cUnitCode;
+            _brContract.unitName = gCompanyInfo.cUnitName;
         }
-        _brContract.regBeginDate = [dateArray[0] convertDateStrToLongLong]*1000;
-        _brContract.regEndDate = [dateArray[1] convertDateStrToLongLong]*1000;
-        _brContract.regPosLA = _centerCoordinate.latitude;
-        _brContract.regPosLO = _centerCoordinate.longitude;
-        _brContract.regPosAddr = _location;
+        
+        if (_sercersPositionInfo == nil)
+        {
+            //云预约
+            if ([_examinationTimeTextField.text isEqualToString:@""] || _examinationTimeTextField.text == nil){
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"你还未填写预约时间" removeDelay:3];
+                return ;
+            }
+            _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong]*1000;
+            _brContract.regPosLA = _centerCoordinate.latitude;
+            _brContract.regPosLO = _centerCoordinate.longitude;
+            _brContract.regPosAddr = _location;
+        }
+        else
+        {
+            //基于服务点预约
+            _brContract.servicePoint = _sercersPositionInfo;
+            _brContract.regTime = _sercersPositionInfo.startTime;
+            _brContract.regBeginDate = _sercersPositionInfo.startTime;
+            _brContract.regEndDate = _sercersPositionInfo.endTime;
+            _brContract.regPosAddr = _sercersPositionInfo.address;
+            _brContract.regPosLA = _sercersPositionInfo.positionLa;
+            _brContract.regPosLO = _sercersPositionInfo.positionLo;
+            _brContract.hosCode = _sercersPositionInfo.cHostCode;
+            //移动服务点 id 固定 cHostCode
+            _brContract.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
+        }
     }
-    else
-    {
-        //基于服务点预约
-        _brContract.servicePoint = _sercersPositionInfo;
-        _brContract.regTime = _sercersPositionInfo.startTime;
-        _brContract.regBeginDate = _sercersPositionInfo.startTime;
-        _brContract.regEndDate = _sercersPositionInfo.endTime;
-        _brContract.regPosAddr = _sercersPositionInfo.address;
-        _brContract.regPosLA = _sercersPositionInfo.positionLa;
-        _brContract.regPosLO = _sercersPositionInfo.positionLo;
-        _brContract.hosCode = _sercersPositionInfo.cHostCode;
-        //移动服务点 id 固定 cHostCode
-         _brContract.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
-    }
-
     
     _brContract.linkUser = _contactPersonField.text;
     _brContract.linkPhone = _phoneNumField.text;
@@ -748,17 +753,10 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 {
     //只有云预约才可以修改
     CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
-    if (self.appointmentDateStr == nil){
-        cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
-        cloudAppointmentDateVC.endDateString = [[NSDate date] getDateStringWithInternel:2];
-    }
-    else{
-        cloudAppointmentDateVC.beginDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][0];
-        cloudAppointmentDateVC.endDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][1];
-    }
+    cloudAppointmentDateVC.choosetDateStr = _dateString;
     __weak typeof(self) weakself = self;
     [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
-        weakself.appointmentDateStr = dateStr;
+       // weakself.appointmentDateStr = dateStr;
         typeof(self)strongself = weakself;
         strongself->_examinationTimeTextField.text = dateStr;
         strongself->_dateString = dateStr;
@@ -780,9 +778,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     //非服务点预约才能修改地址和时间
     if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""])
     {
-        NSArray* array = [_examinationTimeTextField.text  componentsSeparatedByString:@"~"];
-        _brContract.regBeginDate = [array[0] convertDateStrToLongLong]*1000;
-        _brContract.regEndDate = [array[1] convertDateStrToLongLong]*1000;
+        _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong];
         _brContract.regPosAddr = _examinationAddressTextView.text;
         _brContract.regPosLA = _centerCoordinate.latitude;
         _brContract.regPosLO = _centerCoordinate.longitude;
@@ -796,7 +792,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                                                       employees:_customerArr
                                                     reslutBlock:^(NSDictionary *result, NSError *error) {
                                                         if (error != nil){
-                                                            _brContract = nil;
                                                             [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];
                                                             return;
                                                         }

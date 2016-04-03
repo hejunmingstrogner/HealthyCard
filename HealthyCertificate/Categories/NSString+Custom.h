@@ -37,6 +37,13 @@
 -(long long)convertDateStrToLongLong;
 
 /**
+ *  传入 xxxx年xx月xx日xx点,将其转化为long long
+ *
+ *  @return long long 格式的日期
+ */
+-(long long)convertDateStrWithHourToLongLong;
+
+/**
  *  删除文字头尾的空格
  *
  *  @param text 要删除的原文本

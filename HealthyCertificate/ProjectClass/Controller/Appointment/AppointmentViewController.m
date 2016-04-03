@@ -139,8 +139,6 @@
 
 
     _QRScanButton = [[HCNavigationBackButton alloc] initWithText:@"识别"];
-    
-   // _QRScanButton = [UIButton buttonWithNormalImageName:@"QRScan" highlightImageName:@"QRScan"];
     _QRScanButton.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [_QRScanButton addTarget:self action:@selector(QRScanButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:_QRScanButton];
@@ -204,45 +202,6 @@
     else
     {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"开启摄像头权限后，才能使用该功能" removeDelay:2];
-    }
-}
-
-#pragma mark - Storyboard Segue
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"ChooseDateIdentifier"]){
-        UIViewController* destinationViewController = segue.destinationViewController;
-        if ([destinationViewController isKindOfClass:[CloudAppointmentDateVC class]])
-        {
-            CloudAppointmentDateVC* cloudAppointmentDateVC = (CloudAppointmentDateVC*)destinationViewController;
-            if (GetUserType == 1){
-                if (_cloudAppointmentViewController.appointmentDateStr == nil){
-                    cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
-                    cloudAppointmentDateVC.endDateString = [[NSDate date] getDateStringWithInternel:2];
-                }
-                else{
-                    cloudAppointmentDateVC.beginDateString = [_cloudAppointmentViewController.appointmentDateStr componentsSeparatedByString:@"~"][0];
-                    cloudAppointmentDateVC.endDateString = [_cloudAppointmentViewController.appointmentDateStr componentsSeparatedByString:@"~"][1];
-                }
-            }else{
-                if (_cloudAppointmentCompanyViewController.appointmentDateStr == nil){
-                    cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
-                    cloudAppointmentDateVC.endDateString = [[NSDate date] getDateStringWithInternel:2];
-                }
-                else{
-                    cloudAppointmentDateVC.beginDateString = [_cloudAppointmentCompanyViewController.appointmentDateStr componentsSeparatedByString:@"~"][0];
-                    cloudAppointmentDateVC.endDateString = [_cloudAppointmentCompanyViewController.appointmentDateStr componentsSeparatedByString:@"~"][1];
-                }
-            }
-            
-            [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
-                if (GetUserType == 1){
-                    [_cloudAppointmentViewController setAppointmentDateStr:dateStr];
-                }else{
-                    [_cloudAppointmentCompanyViewController setAppointmentDateStr:dateStr];
-                }
-                
-            }];
-        }
     }
 }
 

@@ -109,6 +109,14 @@
     return dateString;
 }
 
++(NSString*)converLongLongToChineseStringDateWithHour:(long long)dateLong{
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:dateLong];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy年MM月dd日HH点"];
+    NSString *dateString = [formatter stringFromDate:date];
+    return dateString;
+}
+
 +(NSDateComponents*)getInternalDateFrom:(NSDate *)beginDate To:(NSDate *)endDate
 {
     NSCalendar* chineseCalender = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];

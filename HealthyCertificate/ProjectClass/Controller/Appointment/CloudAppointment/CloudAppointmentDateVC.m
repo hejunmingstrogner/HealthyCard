@@ -10,7 +10,6 @@
 
 #import "Constants.h"
 #import "HCWheelView.h"
-#import "HealthyCertificateView.h"
 
 #import <Masonry.h>
 
@@ -21,58 +20,29 @@
 #import "UIButton+HitTest.h"
 #import "UIColor+Expanded.h"
 
+#import "HCDateWheelView.h"
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 #define Text_Font FIT_FONTSIZE(24)
 #define Btn_Font FIT_FONTSIZE(23)
 
-@interface CloudAppointmentDateVC()<UITableViewDataSource,UITableViewDelegate,HCWheelViewDelegate>
+@interface CloudAppointmentDateVC()<UITableViewDataSource,UITableViewDelegate,HCDateWheelViewDelegate>
 {
-    HCWheelView             *_beginDateWheelView;
-    HCWheelView             *_endDateWheelView;
     UITableView             *_tableView;
-
-    bool                     _isBeginDate;
     
-    NSMutableArray          *_beginWheelArr;
-    NSMutableArray          *_endWheelArr;
+    HCDateWheelView         *_dateWheelView;
 }
 @end
 
 
 @implementation CloudAppointmentDateVC
 #pragma mark - Setter & Getter
--(void)setBeginDateString:(NSString *)beginDateString{
-    _beginDateString = beginDateString;
-    NSDate* nextDay = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:([[NSDate date] timeIntervalSinceReferenceDate] + 24*3600)];
-    _beginWheelArr = [nextDay nextServerDays:7];
-}
-
--(void)setEndDateString:(NSString *)endDateString{
-    _endDateString = endDateString;
-    NSDate* nextDay = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:
-                       ([[NSDate formatDateFromChineseString:_beginDateString] timeIntervalSinceReferenceDate])];
-    _endWheelArr = [nextDay nextServerDays:7];
-}
-
 -(void)initData
 {
-    _beginDateWheelView.pickerViewContentArr = _beginWheelArr;
-    _endDateWheelView.pickerViewContentArr = _endWheelArr;
-    
-    for (NSInteger index = 0; index < _beginDateWheelView.pickerViewContentArr.count; ++index){
-        if ([_beginDateWheelView.pickerViewContentArr[index] isEqualToString:_beginDateString]){
-            [_beginDateWheelView.pickerView selectRow:index inComponent:0 animated:NO];
-            break;
-        }
-    }
-    
-    for (NSInteger index = 0; index < _endDateWheelView.pickerViewContentArr.count; ++index){
-        if ([_endDateWheelView.pickerViewContentArr[index] isEqualToString:_endDateString]){
-            [_endDateWheelView.pickerView selectRow:index inComponent:0 animated:NO];
-            break;
-        }
-    }
+    _dateWheelView.hContentArr = @[@"8点",@"9点", @"10点",@"11点",@"12点",@"13点",@"14点",@"15点",@"16点",@"17点"];
+    NSDate* nextDay = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:([[NSDate date] timeIntervalSinceReferenceDate] + 24*3600)];
+    _dateWheelView.ymdContentArr = [nextDay nextServerDays:7];
 }
 
 
@@ -96,31 +66,20 @@
     _tableView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.left.right.bottom.mas_equalTo(self.view);
-//        make.height.mas_equalTo(SCREEN_HEIGHT - kNavigationBarHeight - kStatusBarHeight);
         make.top.mas_equalTo(self.view).with.offset(FIT_HEIGHT(20));
         make.left.right.bottom.mas_equalTo(self.view);
     }];
     
-    _beginDateWheelView = [[HCWheelView alloc] init];
-    [self.view addSubview:_beginDateWheelView];
-    _beginDateWheelView.hidden = YES;
-    _beginDateWheelView.delegate = self;
-    [_beginDateWheelView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _dateWheelView = [[HCDateWheelView alloc] init];
+    [self.view addSubview:_dateWheelView];
+    _dateWheelView.hidden = YES;
+    _dateWheelView.delegate = self;
+    [_dateWheelView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.view);
         make.height.mas_equalTo(SCREEN_HEIGHT*1/3);
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
     
-    _endDateWheelView = [[HCWheelView alloc] init];
-    [self.view addSubview:_endDateWheelView];
-    _endDateWheelView.hidden = YES;
-    _endDateWheelView.delegate = self;
-    [_endDateWheelView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(self.view);
-        make.height.mas_equalTo(SCREEN_HEIGHT*1/3);
-        make.bottom.mas_equalTo(self.view.mas_bottom);
-    }];
     [self initData];
 }
 
@@ -145,49 +104,11 @@
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
-#pragma mark - HCWheelViewDelegate
--(void)sureBtnClicked:(NSString*)wheelText
-{
-    if (_isBeginDate){
-        //更改enddate的值
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
-        [formatter setDateFormat:@"yyyy年MM月dd日"];
-        NSDate *beginDate=[formatter dateFromString:wheelText];
-        //起始日期一改变，则将终止日期的wheel内容改变
-        _endDateWheelView.pickerViewContentArr = [beginDate nextServerDays:7];
-        
-        _beginDateWheelView.hidden = YES;
-        _beginDateString = wheelText;
-        
-        NSDate* endDate = [formatter dateFromString:_endDateString];
-        NSDate* maxDate = [formatter dateFromString:_endDateWheelView.pickerViewContentArr[6]];
-        //如果设置起始日期大于终止日期 将显示的内容改变
-        if ([beginDate compare:endDate] == NSOrderedDescending || [endDate compare:maxDate] == NSOrderedDescending){
-            _endDateString = _endDateWheelView.pickerViewContentArr[1];
-            [_tableView reloadData];
-        }
-        
-    }else{
-        _endDateWheelView.hidden = YES;
-        
-        _endDateString = wheelText;
-    }
-    
-    [_tableView reloadData];
-}
 
--(void)cancelButtonClicked
-{
-    if (_isBeginDate){
-        _beginDateWheelView.hidden = YES;
-    }else{
-        _endDateWheelView.hidden = YES;
-    }
-}
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return 1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -207,15 +128,24 @@
     cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:Text_Font];
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = MO_RGBCOLOR(240, 240, 240).CGColor;
-    if (indexPath.section == 0){
-        cell.textLabel.text = @"预约起始日期";
-        cell.detailTextLabel.text = _beginDateString;
-    }else{
-        cell.textLabel.text = @"预约截止日期";
-        cell.detailTextLabel.text = _endDateString;
-    }
+    cell.textLabel.text = @"预约日期";
+    cell.detailTextLabel.text = _choosetDateStr;
     return cell;
 }
+
+#pragma mark - HCDateWheelViewDelegate
+-(void)choosetDateStr:(NSString *)ymdStr HourStr:(NSString *)hourStr
+{
+    _choosetDateStr = [NSString stringWithFormat:@"%@%@", ymdStr, hourStr];
+    [_tableView reloadData];
+    _dateWheelView.hidden = YES;
+}
+
+-(void)cancelChoose
+{
+    _dateWheelView.hidden = YES;
+}
+
 
 #pragma mark - NavViewDelegate
 -(void)dateBackBtnClicked:(id)sender{
@@ -223,7 +153,7 @@
 }
 
 -(void)dateSureBtnClicked:(id)sender{
-    _appointmentBlock([NSString combineString:_beginDateString And:_endDateString With:@"~"]);
+    _appointmentBlock(_choosetDateStr);
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -234,34 +164,11 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0){
-        _isBeginDate = YES;
-        NSInteger index = 0;
-        for (; index < _beginDateWheelView.pickerViewContentArr.count; ++index){
-            if ([_beginDateWheelView.pickerViewContentArr[index] isEqualToString:_beginDateString])
-                break;
-        }
-        [_beginDateWheelView.pickerView selectRow:index inComponent:0 animated:NO];
-        
-        _beginDateWheelView.hidden = NO;
-        _endDateWheelView.hidden = YES;
-    }else{
-        _isBeginDate = NO;
-        NSInteger index = 0;
-        for (; index < _endDateWheelView.pickerViewContentArr.count; ++index){
-            if ([_endDateWheelView.pickerViewContentArr[index] isEqualToString:_endDateString])
-                break;
-        }
-        [_endDateWheelView.pickerView selectRow:index inComponent:0 animated:NO];
-        _endDateWheelView.hidden = NO;
-        _beginDateWheelView.hidden = YES;
-    }
+    NSRange range = [_choosetDateStr rangeOfString:@"日"];
+    _dateWheelView.currentYMD = [_choosetDateStr substringToIndex:range.location+1];
+    _dateWheelView.currentHour = [_choosetDateStr substringWithRange:NSMakeRange(range.location+1,_choosetDateStr.length-range.location-1)];
+    _dateWheelView.hidden = NO;
+    
 }
-
-#pragma mark - Private Methods
-
-
-
-
 
 @end

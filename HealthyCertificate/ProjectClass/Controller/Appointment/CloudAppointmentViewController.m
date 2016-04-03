@@ -78,6 +78,9 @@
     
     RzAlertView             *_waitAlertView;
     
+    //是待处理项(YES) 新建的预约(No)
+    BOOL                    _isTodoTask;
+    
     /*
      1. 如果是云预约 
      CustomerTest 为空 这时图片肯定是未设置的 将该变量置为false
@@ -132,6 +135,14 @@
     else {
         _appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",  [NSDate getYear_Month_DayByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.endTime/1000]];
     }
+}
+
+-(void)setCustomerTestInfo:(CustomerTest *)customerTestInfo
+{
+    _customerTestInfo = customerTestInfo;
+    
+    //赋值代表是待处理项目
+    _isTodoTask = YES;
 }
 
 #pragma mark - Life Circle
@@ -362,42 +373,42 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //如果是自主服务点,那么就不可以修改日期和地址
-    if (self.isCustomerServerPoint == NO)
-    {
-        [_phoneNumTextView resignFirstResponder];
-        return;
-    }
-    
-    if (indexPath.row == 1){
-        SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
-        selectAddressViewController.addressStr = _locationTextView.text;
-        __weak typeof (self) wself = self;
-        [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
-            wself.cityName = city;
-            wself.locationTextView.text = address;
-            wself.centerCoordinate = coor;
-        }];
-        [self.navigationController pushViewController:selectAddressViewController animated:YES];
-    }else if (indexPath.row == 0){
-        CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
-        if (self.appointmentDateStr == nil){
-            cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
-            cloudAppointmentDateVC.endDateString = [[NSDate date] getDateStringWithInternel:2];
-        }
-        else{
-            cloudAppointmentDateVC.beginDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][0];
-            cloudAppointmentDateVC.endDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][1];
-        }
-        __weak typeof(self) weakself = self;
-        [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
-            weakself.appointmentDateStr = dateStr;
-            typeof(self) strongself = weakself;
-            BaseInfoTableViewCell* cell = [strongself->_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-            cell.textView.text = dateStr;
-        }];
-        [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
-    }else{
-    }
+//    if (self.isCustomerServerPoint == NO)
+//    {
+//        [_phoneNumTextView resignFirstResponder];
+//        return;
+//    }
+//    
+//    if (indexPath.row == 1){
+//        SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
+//        selectAddressViewController.addressStr = _locationTextView.text;
+//        __weak typeof (self) wself = self;
+//        [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
+//            wself.cityName = city;
+//            wself.locationTextView.text = address;
+//            wself.centerCoordinate = coor;
+//        }];
+//        [self.navigationController pushViewController:selectAddressViewController animated:YES];
+//    }else if (indexPath.row == 0){
+//        CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
+//        if (self.appointmentDateStr == nil){
+//            cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
+//            cloudAppointmentDateVC.endDateString = [[NSDate date] getDateStringWithInternel:2];
+//        }
+//        else{
+//            cloudAppointmentDateVC.beginDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][0];
+//            cloudAppointmentDateVC.endDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][1];
+//        }
+//        __weak typeof(self) weakself = self;
+//        [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
+//            weakself.appointmentDateStr = dateStr;
+//            typeof(self) strongself = weakself;
+//            BaseInfoTableViewCell* cell = [strongself->_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+//            cell.textView.text = dateStr;
+//        }];
+//        [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
+//    }else{
+//    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -460,54 +471,49 @@
         return;
     }
     
-    if (_customerTestInfo == nil){
-        _customerTestInfo = [[CustomerTest alloc] init];
-        _customerTestInfo.checkCode = nil;
-        _customerTestInfo.unitCode = gPersonInfo.cUnitCode;
-        _customerTestInfo.unitName = gPersonInfo.cUnitName;
-        _customerTestInfo.custCode = gPersonInfo.mCustCode;
-        _customerTestInfo.nation = nil;
-        _customerTestInfo.checkType = 1; // 1 为 健康证
-        _customerTestInfo.testStatus = @"-1";// 客户体检登记状态：-1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
-								// 单位合同状态：-1所有员工未开始检查，3所有员工完成体检，4所有员工已出健康证
-        _customerTestInfo.printPhoto = nil;
-        _customerTestInfo.contractCode = nil;
+    if (_isTodoTask){
+        //如果是待处理项
+    }else{
+        //新建的预约
+        if (_customerTestInfo == nil){
+            _customerTestInfo = [[CustomerTest alloc] init];
+            _customerTestInfo.checkCode = nil;
+            _customerTestInfo.unitCode = gPersonInfo.cUnitCode;
+            _customerTestInfo.unitName = gPersonInfo.cUnitName;
+            _customerTestInfo.custCode = gPersonInfo.mCustCode;
+            _customerTestInfo.nation = nil;
+            _customerTestInfo.checkType = 1; // 1 为 健康证
+            _customerTestInfo.testStatus = @"-1";// 客户体检登记状态：-1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
+            // 单位合同状态：-1所有员工未开始检查，3所有员工完成体检，4所有员工已出健康证
+            _customerTestInfo.printPhoto = nil;
+            _customerTestInfo.contractCode = nil;
+        }
         
+        if (_isCustomerServerPoint){
+            //云预约
+            _customerTestInfo.regTime = [_appointmentDateTextView.text convertDateStrWithHourToLongLong];
+            _customerTestInfo.regPosAddr = _locationTextView.text; //预约地点
+            _customerTestInfo.regPosLA = self.centerCoordinate.latitude;
+            _customerTestInfo.regPosLO = self.centerCoordinate.longitude;
+        }else{
+            //基于服务点的预约
+            if (_sercersPositionInfo != nil){
+                _customerTestInfo.regPosLA = _sercersPositionInfo.positionLa;
+                _customerTestInfo.regPosLO = _sercersPositionInfo.positionLo;
+                _customerTestInfo.regTime = _sercersPositionInfo.startTime;
+                _customerTestInfo.hosCode = _sercersPositionInfo.cHostCode;
+                //移动服务点 id 固定 cHostCode
+                _customerTestInfo.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
+            }
+        }
     }
-    
-    //如果是待处理项
     _customerTestInfo.custName = _healthyCertificateView.name;
     _customerTestInfo.sex = [_healthyCertificateView.gender isEqualToString:@"男"]?0:1;
     _customerTestInfo.custIdCard = _healthyCertificateView.idCard;
     _customerTestInfo.bornDate = [_healthyCertificateView.idCard getLongLongBornDate];
     _customerTestInfo.jobDuty = _healthyCertificateView.workType;
-    
     _customerTestInfo.linkPhone = _phoneNumTextView.text;
     _customerTestInfo.regPosAddr = _locationTextView.text;
-
-    if (_isCustomerServerPoint){
-        //如果是新建的预约 云预约
-        
-        NSArray* array = [_appointmentDateTextView.text  componentsSeparatedByString:@"~"];
-        _customerTestInfo.regBeginDate = [array[0] convertDateStrToLongLong]*1000;
-        _customerTestInfo.regEndDate = [array[1] convertDateStrToLongLong]*1000;
-        _customerTestInfo.regPosAddr = _locationTextView.text; //预约地点
-        
-        _customerTestInfo.regPosLA = self.centerCoordinate.latitude;
-        _customerTestInfo.regPosLO = self.centerCoordinate.longitude;
-    }else{
-        //如果是基于已有服务点的预约
-        if (_sercersPositionInfo != nil){
-            
-            _customerTestInfo.regPosLA = _sercersPositionInfo.positionLa;
-            _customerTestInfo.regPosLO = _sercersPositionInfo.positionLo;
-            
-            _customerTestInfo.regTime = _sercersPositionInfo.startTime;
-            _customerTestInfo.hosCode = _sercersPositionInfo.cHostCode;
-            //移动服务点 id 固定 cHostCode
-            _customerTestInfo.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
-        }
-    }
     _customerTestInfo.cityName = gCurrentCityName; //预约城市
     
     [[HttpNetworkManager getInstance] createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
