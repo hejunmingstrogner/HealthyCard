@@ -12,8 +12,9 @@
 
 typedef void(^AppointmentDateStringBlock)(NSString *dateStr);
 
-@property (nonatomic, copy) NSString* beginDateString;
-@property (nonatomic, copy) NSString* endDateString;
+//已经选择的日期
+@property (nonatomic, copy) NSString* choosetDateStr;
+
 @property (nonatomic, copy) AppointmentDateStringBlock appointmentBlock;
 
 /**

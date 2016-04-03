@@ -130,6 +130,8 @@
 		25DB640C1CACB6210072C8EF /* UnitRegisterItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB640B1CACB6210072C8EF /* UnitRegisterItemCell.m */; };
 		25DB64131CAD077D0072C8EF /* PostVeitifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64121CAD077D0072C8EF /* PostVeitifyViewController.m */; };
 		25DB64161CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64151CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m */; };
+		25DB64581CAE53590072C8EF /* HCDateWheelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64571CAE53590072C8EF /* HCDateWheelView.m */; };
+		25DB645B1CAE5EB20072C8EF /* ChooseDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB645A1CAE5EB20072C8EF /* ChooseDateViewController.m */; };
 		25E983831C8535BE00CB027E /* WorkTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E983821C8535BE00CB027E /* WorkTypeViewController.m */; };
 		25F276F11CA3F1AF00BF5DFE /* DetailImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F276F01CA3F1AF00BF5DFE /* DetailImageView.m */; };
 		25F276F41CA552C200BF5DFE /* ContractPersonInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F276F31CA552C200BF5DFE /* ContractPersonInfoViewController.m */; };
@@ -432,6 +434,10 @@
 		25DB64121CAD077D0072C8EF /* PostVeitifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostVeitifyViewController.m; sourceTree = "<group>"; };
 		25DB64141CAD0EEC0072C8EF /* PostVeitifyPicInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostVeitifyPicInfoView.h; sourceTree = "<group>"; };
 		25DB64151CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostVeitifyPicInfoView.m; sourceTree = "<group>"; };
+		25DB64561CAE53590072C8EF /* HCDateWheelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCDateWheelView.h; sourceTree = "<group>"; };
+		25DB64571CAE53590072C8EF /* HCDateWheelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCDateWheelView.m; sourceTree = "<group>"; };
+		25DB64591CAE5EB20072C8EF /* ChooseDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseDateViewController.h; sourceTree = "<group>"; };
+		25DB645A1CAE5EB20072C8EF /* ChooseDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseDateViewController.m; sourceTree = "<group>"; };
 		25E983811C8535BE00CB027E /* WorkTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkTypeViewController.h; sourceTree = "<group>"; };
 		25E983821C8535BE00CB027E /* WorkTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkTypeViewController.m; sourceTree = "<group>"; };
 		25F276EF1CA3F1AF00BF5DFE /* DetailImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailImageView.h; sourceTree = "<group>"; };
@@ -807,6 +813,8 @@
 				254D95BB1C9C1BEF003B64D4 /* InsetsLabel.m */,
 				254D95BD1C9F9336003B64D4 /* HCBackgroundColorButton.h */,
 				254D95BE1C9F9336003B64D4 /* HCBackgroundColorButton.m */,
+				25DB64561CAE53590072C8EF /* HCDateWheelView.h */,
+				25DB64571CAE53590072C8EF /* HCDateWheelView.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -892,6 +900,8 @@
 				252AB8931C770F890085CC14 /* CloudAppointmentDateVC.m */,
 				B2640CF41C7D9D2100721CB5 /* SelectAddressViewController.h */,
 				B2640CF51C7D9D2100721CB5 /* SelectAddressViewController.m */,
+				25DB64591CAE5EB20072C8EF /* ChooseDateViewController.h */,
+				25DB645A1CAE5EB20072C8EF /* ChooseDateViewController.m */,
 			);
 			path = CloudAppointment;
 			sourceTree = "<group>";
@@ -1699,6 +1709,7 @@
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
 				B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */,
 				B2D721321CA8E061007B1671 /* UIImage+Rotate.m in Sources */,
+				25DB645B1CAE5EB20072C8EF /* ChooseDateViewController.m in Sources */,
 				2512B3B21C70557C00EE661B /* ViewController.m in Sources */,
 				B23A980D1C76E12700E3E054 /* UserinformationSetingViewController.m in Sources */,
 				B2436CA31C7AF91800F543E1 /* BRContractTableHeaerCell.m in Sources */,
@@ -1732,6 +1743,7 @@
 				B2FED7051C97BD43003D8E41 /* MyCheckListViewController.m in Sources */,
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
 				B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */,
+				25DB64581CAE53590072C8EF /* HCDateWheelView.m in Sources */,
 				B259C9501C8ACEC400A6A767 /* BRContractHistoryTBFootCell.m in Sources */,
 				25BFEB431C74A55B0062F9B8 /* AppointmentViewController.m in Sources */,
 				2512B3AF1C70557C00EE661B /* AppDelegate.m in Sources */,
