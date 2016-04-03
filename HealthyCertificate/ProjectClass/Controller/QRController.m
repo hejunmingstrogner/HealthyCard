@@ -24,6 +24,8 @@
 #import "UMSocial.h"
 #import "InsetsLabel.h"
 
+#import "MyCheckListViewController.h"
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 #define TOP_MARGIN FIT_FONTSIZE(40)
@@ -116,15 +118,19 @@
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
-    self.title = @"二维码";
-    
-    UIButton* shareBtn = [UIButton buttonWithTitle:@"分享"
-                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
-                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
-                                   backgroundColor:[UIColor clearColor]];
-    [shareBtn addTarget:self action:@selector(shareBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:shareBtn];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    if (_qrControllerType == QRController_Default){
+        self.title = @"二维码";
+        
+        UIButton* shareBtn = [UIButton buttonWithTitle:@"分享"
+                                                  font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
+                                             textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
+                                       backgroundColor:[UIColor clearColor]];
+        [shareBtn addTarget:self action:@selector(shareBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:shareBtn];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }else{
+        self.title = @"代付二维码";
+    }
 }
 
 
@@ -157,7 +163,20 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (_qrControllerType == QRController_Default){
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+       // self.navigationController
+        NSArray *viewControllers = self.navigationController.viewControllers;
+        for ( UIViewController *controller in viewControllers )
+        {
+            if ( [controller isKindOfClass:[MyCheckListViewController class]] )
+            {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+    }
+    
 }
 
 -(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response

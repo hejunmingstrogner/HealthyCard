@@ -16,6 +16,7 @@
 #import "UIButton+HitTest.h"
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
+#import "NSDate+Custom.h"
 
 #import "BaseTBCellItem.h"
 #import "BRContract.h"
@@ -191,9 +192,11 @@
                 }
             }
             else {
-                NSString *year = [NSDate getYear_Month_DayByDate:brContract.regBeginDate/1000];
-                NSString *end = [NSDate getYear_Month_DayByDate:brContract.regEndDate/1000];
-                timestatus = [NSString stringWithFormat:@"%@~%@", year,end];
+                //代表单位云预约
+                timestatus = [NSDate converLongLongToChineseStringDateWithHour:brContract.regTime/1000];
+//                NSString *year = [NSDate getYear_Month_DayByDate:brContract.regBeginDate/1000];
+//                NSString *end = [NSDate getYear_Month_DayByDate:brContract.regEndDate/1000];
+//                timestatus = [NSString stringWithFormat:@"%@~%@", year,end];
             }
             cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:timestatus cellStyle:0];
 
