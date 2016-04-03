@@ -13,21 +13,25 @@
 #import "CloudAppointmentDateVC.h"
 #import "EditInfoViewController.h"
 #import "WorkTypeViewController.h"
+#import "AppointmentInfoView.h"
+#import "ScanImageViewController.h"
 
-#import "TakePhoto.h"
-#import "HttpNetworkManager.h"
-#import "PositionUtil.h"
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
-#import "AppointmentInfoView.h"
+
+#import "HttpNetworkManager.h"
+#import "PositionUtil.h"
+#import "TakePhoto.h"
 #import "MethodResult.h"
+
 #import <MJExtension.h>
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface PersonalHealthyCController()
+@interface PersonalHealthyCController()<ScanImageViewDelegate>
 {
     BOOL        _isAvatarSet;
     RzAlertView *waitAlertView;
@@ -600,7 +604,17 @@
 - (void)codeButtonClicked:(UIButton *)sender
 {
     NSLog(@"条形码绑定");
-//    UITableViewCell *cell = [sender viewWithTag:100];
-//    cell.detailTextLabel.text = @"";
+    
+    ScanImageViewController* scanImageVC = [[ScanImageViewController alloc] init];
+    scanImageVC.delegate = self;
+    [self presentViewController:scanImageVC animated:YES completion:nil];
 }
+
+#pragma mark - ScanImageViewDelegate
+-(void)reportScanResult:(NSString *)result
+{
+    UITableViewCell *cell = [codeButton viewWithTag:100];
+    cell.detailTextLabel.text = result;
+}
+
 @end
