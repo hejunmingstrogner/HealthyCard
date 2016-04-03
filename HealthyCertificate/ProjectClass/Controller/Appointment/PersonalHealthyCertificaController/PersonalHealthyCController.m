@@ -230,8 +230,10 @@
     cell.tag = 100;
     cell.userInteractionEnabled = NO;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
     cell.textLabel.text = @"条形码绑定";
-    cell.textLabel.textColor = [UIColor blackColor];
+    cell.detailTextLabel.text = @"体检时可出示此条形码";
     cell.imageView.image = [UIImage imageNamed:@"tiaoxingma"];
     [codeButton addSubview:cell];
     [cell mas_makeConstraints:^(MASConstraintMaker *make) {
