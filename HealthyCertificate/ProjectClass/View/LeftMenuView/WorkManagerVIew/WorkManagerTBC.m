@@ -13,13 +13,14 @@
 #pragma mark -员工管理的模型
 @implementation WorkManagerTBCItem
 
-- (instancetype)initWithName:(NSString *)name sex:(NSString *)sex tel:(NSString *)telPhoneNo Type:(WorkManagerCellType)type
+- (instancetype)initWithName:(NSString *)name sex:(NSString *)sex tel:(NSString *)telPhoneNo Type:(WorkManagerCellType)type Customer:(Customer *)customer
 {
     if (self = [super init]) {
-        _name = name;
+        _name = [NSString stringWithFormat:@"%@", name];
         _sex = sex;
         _telPhoneNo = telPhoneNo;
         _type = type;
+        _customer = customer;
     }
     return self;
 }

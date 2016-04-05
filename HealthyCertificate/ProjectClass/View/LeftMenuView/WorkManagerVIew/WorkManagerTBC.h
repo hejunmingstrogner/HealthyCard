@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Customer.h"
 /**
  *  员工管理界面cell的model
  */
@@ -21,7 +22,8 @@ typedef NS_ENUM(NSInteger, WorkManagerCellType) {
 @property (nonatomic, copy) NSString *sex;
 @property (nonatomic, copy) NSString *telPhoneNo;
 @property (nonatomic, assign) WorkManagerCellType type;
-- (instancetype)initWithName:(NSString *)name sex:(NSString *)sex tel:(NSString *)telPhoneNo Type:(WorkManagerCellType)type;
+@property (nonatomic, strong) Customer *customer;
+- (instancetype)initWithName:(NSString *)name sex:(NSString *)sex tel:(NSString *)telPhoneNo Type:(WorkManagerCellType)type Customer:(Customer *)customer;
 
 @end
 
