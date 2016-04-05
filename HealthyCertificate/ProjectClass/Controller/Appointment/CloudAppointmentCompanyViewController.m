@@ -145,7 +145,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _sercersPositionInfo = sercersPositionInfo;
     _location = sercersPositionInfo.address;
     if (sercersPositionInfo.type == 0) {
-        _appointmentDateStr = [NSString stringWithFormat:@"%@8点", [[NSDate date] getDateStringWithInternel:1]];
+        _appointmentDateStr = [NSString stringWithFormat:@"%@,8:00", [[NSDate date] getDateStringWithInternel:1]];
         _isTemperaryPoint = NO;
     }
     else {
@@ -257,27 +257,24 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _examinationTimeTextField = [[UITextField alloc] init];
     _examinationTimeTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     [examinationContainerView addSubview:_examinationTimeTextField];
-     _appointmentDateStr = (_appointmentDateStr == nil) ? [NSString stringWithFormat:@"%@8点", [[NSDate date] getDateStringWithInternel:1]] : _appointmentDateStr;
+     _appointmentDateStr = (_appointmentDateStr == nil) ? [NSString stringWithFormat:@"%@,8:00", [[NSDate date] getDateStringWithInternel:1]] : _appointmentDateStr;
     //合同时间
     if (_brContract){
         if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
-           
-            _examinationTimeTextField.text = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]];
+            _appointmentDateStr = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]];
         }else{
             //基于服务点(移动+固定)
             if ([_brContract.hosCode isEqualToString:_brContract.checkSiteID]){
-                _examinationTimeTextField.text = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]]; //固定
+                _appointmentDateStr = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]]; //固定
             }else{
                 NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime/1000];
                 NSString *start = [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime/1000];
                 NSString *end = [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime/1000];
-                _examinationTimeTextField.text = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                _appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
             }
         }
-    }else{
-        _examinationTimeTextField.text = _appointmentDateStr;
     }
-    
+    _examinationTimeTextField.text = _appointmentDateStr;
     [examinationTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(PXFIT_HEIGHT(96));
         make.left.mas_equalTo(examinationContainerView).with.offset(PXFIT_WIDTH(20));

@@ -21,6 +21,7 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "NSString+Custom.h"
 
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
@@ -119,8 +120,8 @@
     _customerTestInfo.jobDuty = _healthCertificateView.workType;
     _customerTestInfo.regPosLO = _posLo;
     _customerTestInfo.regPosLA = _posLa;
-    _customerTestInfo.regBeginDate = _regbegindate;
-    _customerTestInfo.regEndDate = _regenddate;
+    if (_customerTestInfo.servicePoint.type == 0)
+        _customerTestInfo.regTime = [_orderinforView.timeBtn.titleLabel.text convertDateStrWithHourToLongLong];
     _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
 
     if(_isAvatarSet == YES){
@@ -146,6 +147,8 @@
                             }
                             else if([resultdict.object isEqualToString:@"1"]){
                                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改次数已达上限" removeDelay:2];
+                            }else{
+                                [RzAlertView showAlertLabelWithTarget:self.view Message:@"更新体检信息失败" removeDelay:2];
                             }
                         }
 
@@ -176,6 +179,8 @@
                     }
                     else if([resultdict.object isEqualToString:@"1"]){
                         [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改次数已达上限" removeDelay:2];
+                    }else{
+                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"更新体检信息失败" removeDelay:2];
                     }
                 }
             }
@@ -536,9 +541,7 @@
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
         return ;
     }
-
     __weak typeof (self) wself = self;
-
     [[TakePhoto getInstancetype] takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
         wself.healthCertificateView.imageView.image = photoimage;
         _isAvatarSet = YES; //代表修改了健康证图片
