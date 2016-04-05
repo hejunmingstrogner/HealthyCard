@@ -34,6 +34,9 @@
 #import "IndexViewController.h"
 #import "ConsumerAgreement.h"
 
+#import <SDWebImageDownloader.h>
+#import <SDWebImageManager.h>
+
 #define LoginButtonColor 0x0097ed
 #define LoginButtonPlaceHolderColor 186
 
@@ -220,24 +223,34 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     [[HttpNetworkManager getInstance] vertifyPhoneNumber:_phoneNumTextField.text
                                              VertifyCode:_vertifyTextField.text
                                              resultBlock:^(NSDictionary *result, NSError *error) {
-                                                 
-                                                 
+                                                
                                                  if (error != nil){
                                                      [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接错误,请检查网络设置" removeDelay:2];
                                                      return;
                                                  }
                                                  
-                                                 MethodResult* methodResult = [MethodResult mj_objectWithKeyValues:result];
-                                                 if (methodResult.succeed == NO){
-                                                     [RzAlertView showAlertLabelWithTarget:self.view Message:@"验证码错误" removeDelay:2];
-                                                     return;
+                                                 if([[result objectForKey:@"ProResult"] isEqualToString:@"0"]){
+                                                     NSDictionary* resultDic = [result objectForKey:@"Msg"];
+                                                     SetUserName([resultDic objectForKey:@"userName"]);
+                                                     SetUserRole([resultDic objectForKey:@"userRole"]);
+                                                     SetToken([resultDic objectForKey:@"token"]);
+                                                     
+                                                     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
+                                                     [manager setValue:GetUserName forHTTPHeaderField:@"DBKE-UserName"];
+                                                     [manager setValue:@"zeekcustomerapp" forHTTPHeaderField:@"DBKE-ClientType"];
+                                                     [manager setValue:GetToken forHTTPHeaderField:@"DBKE-Token"];
+                                                     
+                                                     [[HttpNetworkManager getInstance].sharedClient.requestSerializer setValue:GetUserName forHTTPHeaderField:@"DBKE-UserName"];
+                                                     [[HttpNetworkManager getInstance].sharedClient.requestSerializer setValue:@"zeekcustomerapp" forHTTPHeaderField:@"DBKE-ClientType"];
+                                                     [[HttpNetworkManager getInstance].sharedClient.requestSerializer setValue:GetToken forHTTPHeaderField:@"DBKE-Token"];
+                                                     
+                                                     [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
+                                                     _isVertified = YES;
                                                  }
-                                                 
-                                                 SetPhoneNumber(_phoneNumTextField.text);
-                                                 SetLoginSucceedInfo(_phoneNumTextField.text);
-                                                 [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
-                                                 _isVertified = YES;
-                                                 }];
+                                                 else{
+                                                     [RzAlertView showAlertLabelWithTarget:self.view Message:[result objectForKey:@"Msg"] removeDelay:2];
+                                                 }
+                                             }];
 }
 
 -(void)linkBtnClicked:(UIButton*)sender
@@ -264,24 +277,17 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     _vertifyTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(vertifyTimerTrigger) userInfo:nil repeats:YES];
     
     [[HttpNetworkManager getInstance] verifyPhoneNumber:_phoneNumTextField.text resultBlock:^(NSDictionary *result, NSError *error) {
-        
-        if (error){
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取验证码失败" removeDelay:2];
-            return;
-        }
-        
-        //验证频繁报错 获取验证码失败报错
-        MethodResult* methodResult = [MethodResult mj_objectWithKeyValues:result];
-        //为了测试
-        _vertifyTextField.text = methodResult.object;
         _loginButton.enabled = YES;
         _loginButton.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
         
-        if (methodResult.succeed == NO){
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取验证码失败" removeDelay:2];
+        if (error)
             return;
+        NSString* proResult = [result objectForKey:@"ProResult"];
+        if (![proResult isEqualToString:@"0"]){
+            [RzAlertView showAlertLabelWithTarget:self.view Message:[result objectForKey:@"Msg"] removeDelay:3];
+        }else{
+            _vertifyTextField.text = [result objectForKey:@"Msg"];
         }
-        
     }];
 }
 
@@ -310,7 +316,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
         [HMNetworkEngine getInstance].serverID = info.serverID;
         
         if (_phoneNumTextField.text == nil){
-            [[HMNetworkEngine getInstance] askLoginInfo:GetPhoneNumber];
+            [[HMNetworkEngine getInstance] askLoginInfo:GetUserName];
         }else{
             [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
         }

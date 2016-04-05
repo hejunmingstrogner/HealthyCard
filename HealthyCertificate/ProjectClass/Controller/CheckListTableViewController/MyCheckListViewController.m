@@ -58,11 +58,6 @@
     [self initSubViews];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 - (void)initNavgation
 {
     self.title = @"我的体检";

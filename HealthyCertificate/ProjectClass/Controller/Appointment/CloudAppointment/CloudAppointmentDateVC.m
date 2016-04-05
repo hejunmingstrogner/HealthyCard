@@ -168,7 +168,6 @@
     _dateWheelView.currentYMD = [_choosetDateStr substringToIndex:range.location+1];
     _dateWheelView.currentHour = [_choosetDateStr substringWithRange:NSMakeRange(range.location+1,_choosetDateStr.length-range.location-1)];
     _dateWheelView.hidden = NO;
-    
 }
 
 @end

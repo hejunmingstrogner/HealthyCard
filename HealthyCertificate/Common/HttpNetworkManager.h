@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <AFNetworking.h>
+
 #import "PersonInfoOfPhonePacket.h"
 #import "CompanyInfoOfPhonePacket.h"
 #import "CustomerTest.h"
@@ -35,6 +37,8 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
 @interface HttpNetworkManager : NSObject
 
 +(instancetype)getInstance;
+
+@property (nonatomic, strong) AFHTTPRequestOperationManager *sharedClient;
 
 + (NSString *)baseURL;
 //执行的http请求
@@ -66,14 +70,13 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
 
 
 /**
- *  uuid登录
+ *  根据token自动登录
  *
- *  @param uuid        uuid
- *  @param uuidTimeout uuid 过期时间
+ *  @param token    token
+ *  @param userName 用户名
  *  @param resultBlock 回调
  */
--(void)loginWithUuid:(NSString*)uuid UuidTimeOut:(NSString*)uuidTimeout resultBlock:(HCDictionaryResultBlock)resultBlock;
-
+-(void)loginWithToken:(NSString*)token userName:(NSString*)userName resultBlock:(HCDictionaryResultBlock)resultBlock;
 
 /**
  *  根据当前位置查询服务点信息
