@@ -21,6 +21,7 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "NSString+Custom.h"
 
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
@@ -76,7 +77,6 @@
 - (void)initNavgation
 {
     self.title = @"办证详情";
-    // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
@@ -93,7 +93,7 @@
         self.navigationItem.rightBarButtonItem = rightItem;
     }
 }
-// 返回前一页
+
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -102,10 +102,6 @@
     }
 }
 
-- (void)dealloc
-{
-    NSLog(@"personhealthy dealloc");
-}
 - (void)changedInformationWithResultBlock:(ResultBlock)blcok
 {
     _resultblock = blcok;
@@ -124,8 +120,8 @@
     _customerTestInfo.jobDuty = _healthCertificateView.workType;
     _customerTestInfo.regPosLO = _posLo;
     _customerTestInfo.regPosLA = _posLa;
-    _customerTestInfo.regBeginDate = _regbegindate;
-    _customerTestInfo.regEndDate = _regenddate;
+    if (_customerTestInfo.servicePoint.type == 0)
+        _customerTestInfo.regTime = [_orderinforView.timeBtn.titleLabel.text convertDateStrWithHourToLongLong];
     _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
 
     if(_isAvatarSet == YES){
@@ -151,6 +147,8 @@
                             }
                             else if([resultdict.object isEqualToString:@"1"]){
                                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改次数已达上限" removeDelay:2];
+                            }else{
+                                [RzAlertView showAlertLabelWithTarget:self.view Message:@"更新体检信息失败" removeDelay:2];
                             }
                         }
 
@@ -181,6 +179,8 @@
                     }
                     else if([resultdict.object isEqualToString:@"1"]){
                         [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改次数已达上限" removeDelay:2];
+                    }else{
+                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"更新体检信息失败" removeDelay:2];
                     }
                 }
             }
@@ -366,13 +366,6 @@
     [_rightBtn setTitle:@"检查中" forState:UIControlStateNormal];
     _rightBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
     [_rightBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
-    
-    if (_isHistorySave){
-        _healthCertificateView.userInteractionEnabled = NO;
-        _orderinforView.addressBtn.enabled = NO;
-        _orderinforView.timeBtn.enabled = NO;
-        _orderinforView.phoneBtn.enabled = NO;
-    }
 }
 
 - (CGFloat)labelheigh:(NSString *)text
@@ -388,84 +381,11 @@
     __weak PersonalHealthyCController *weakself = self;
     _healthCertificateView.customerTest = _customerTestInfo;
     _orderinforView.cutomerTest = _customerTestInfo;
-
-    [_orderinforView.addressBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        if (weakself.customerTestInfo.checkSiteID) {
-            return ;
-        }
-        // 待检状态下可以修改信息，否则不可修改
-        if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
-            return ;
-        }
-        // 服务点信息不可修改
-        if (_orderinforView.segmentControl.selectedSegmentIndex != 0) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"不能修改服务点信息" removeDelay:3];
-            return ;
-        }
-        // 点击地址搜索
-        [weakself selectAddress];
-    }];
-    [_orderinforView.timeBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        if (weakself.customerTestInfo.checkSiteID) {
-            return ;
-        }
-        // 待检状态下可以修改信息，否则不可修改
-        if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
-            return ;
-        }
-        // 服务点信息不可修改
-        if (_orderinforView.segmentControl.selectedSegmentIndex != 0) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"不能修改服务点信息" removeDelay:3];
-            return ;
-        }
-        // 点击时间
-        CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
-        // 时间 待修改
-        NSArray *timearray = [sender.titleLabel.text componentsSeparatedByString:@"~"];
-        if (timearray.count == 2) {
-//            cloudData.beginDateString = timearray[0];
-//            cloudData.endDateString = timearray[1];
-        }
-        else {
-//            cloudData.beginDateString =[[NSDate date] getDateStringWithInternel:1];
-//            cloudData.endDateString = [[NSDate date]getDateStringWithInternel:2];
-        }
-        [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
-
-            NSArray *timeslist = [dateStr componentsSeparatedByString:@"~"];
-            weakself.regbegindate = [[NSDate formatDateFromChineseString:timeslist[0]] convertToLongLong]*1000;
-            weakself.regenddate = [[NSDate formatDateFromChineseString:timeslist[1]] convertToLongLong]*1000;
-            [sender setTitle:dateStr forState:UIControlStateNormal];
-        }];
-        [weakself.navigationController pushViewController:cloudData animated:YES];
-    }];
-    [_orderinforView.phoneBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        // 点击电话
-        NSLog(@"点击电话");
-        // 待检状态下可以修改信息，否则不可修改
-        if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
-            return ;
-        }
-        // 服务点信息不可修改
-        if (_orderinforView.segmentControl.selectedSegmentIndex != 0) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"不能修改服务点信息" removeDelay:3];
-            return ;
-        }
-        EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
-        editInfoViewController.editInfoType = EDITINFO_LINKPHONE;
-        [editInfoViewController setEditInfoText:weakself.linkerPhone WithBlock:^(NSString *resultStr) {
-            weakself.linkerPhone = resultStr;
-            [sender setTitle:resultStr forState:UIControlStateNormal];
-        }];
-        [weakself.navigationController pushViewController:editInfoViewController animated:YES];
-    }];
-
+    
+    
     // 设置体检状态
     CustomerTestStatusItem *status = [_customerTestInfo getTestStatusItem];
-
+    
     [_leftBtn setTitle:status.leftText forState:UIControlStateNormal];
     [_centerBtn setTitle:status.centerText forState:UIControlStateNormal];
     [_rightBtn setTitle:status.rigthText forState:UIControlStateNormal];
@@ -497,10 +417,64 @@
             break;
     }
 
+    
+    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]){
+        //只要不是待检状态，都不能修改信息
+        _orderinforView.addressBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        _orderinforView.timeBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        _orderinforView.phoneBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        
+        _orderinforView.addressBtn.enabled = NO;
+        _orderinforView.timeBtn.enabled = NO;
+        _orderinforView.phoneBtn.enabled = NO;
+        
+        _healthCertificateView.userInteractionEnabled = NO;
+        return;
+    }
+    
+    _orderinforView.phoneBtnTxtColor = [UIColor blackColor];
+    _orderinforView.phoneBtn.enabled = YES;
+    //地址可修改的情况 个人(都是基于已有服务点所以都不可修改)
+    _orderinforView.addressBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+    _orderinforView.addressBtn.enabled = NO;
+    //时间可修改的情况
+    if (_customerTestInfo.servicePoint.type == 0){
+        _orderinforView.timeBtnTxtColor = [UIColor blackColor];
+        _orderinforView.timeBtn.enabled = YES;
+    }else{
+        _orderinforView.timeBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        _orderinforView.timeBtn.enabled = NO;
+    }
+    
+    [_orderinforView.addressBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        if (_orderinforView.segmentControl.selectedSegmentIndex != 0)
+            return ;
+        [weakself selectAddress];
+    }];
+    [_orderinforView.timeBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        if (_orderinforView.segmentControl.selectedSegmentIndex != 0)
+            return ;
+        CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
+        cloudData.choosetDateStr = sender.titleLabel.text;
+        [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
+            [sender setTitle:dateStr forState:UIControlStateNormal];
+        }];
+        [weakself.navigationController pushViewController:cloudData animated:YES];
+    }];
+    [_orderinforView.phoneBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        if (_orderinforView.segmentControl.selectedSegmentIndex != 0)
+            return ;
+        EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
+        editInfoViewController.editInfoType = EDITINFO_LINKPHONE;
+        [editInfoViewController setEditInfoText:weakself.linkerPhone WithBlock:^(NSString *resultStr) {
+            weakself.linkerPhone = resultStr;
+            [sender setTitle:resultStr forState:UIControlStateNormal];
+        }];
+        [weakself.navigationController pushViewController:editInfoViewController animated:YES];
+    }];
 }
 
 #pragma mark - HealthyCertificateViewDelegate
-//点击姓名
 -(void)nameBtnClicked:(NSString*)name
 {
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
@@ -515,7 +489,7 @@
     }];
     [self.navigationController pushViewController:editInfoViewController animated:YES];
 }
-//点击性别
+
 -(void)sexBtnClicked:(NSString*)gender{
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
@@ -531,7 +505,6 @@
     wheelView.hidden = NO;
 }
 
-//点击行业
 -(void)industryBtnClicked:(NSString*)industry{
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
@@ -545,7 +518,7 @@
     };
     [self.navigationController pushViewController:workTypeViewController animated:YES];
 }
-//点击身份证
+
 -(void)idCardBtnClicked:(NSString*)idCard
 {
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
@@ -562,16 +535,13 @@
     [self.navigationController pushViewController:editInfoViewController animated:YES];
 }
 
-//点击健康证图片
 -(void)healthyImageClicked;
 {
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
         return ;
     }
-
     __weak typeof (self) wself = self;
-
     [[TakePhoto getInstancetype] takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
         wself.healthCertificateView.imageView.image = photoimage;
         _isAvatarSet = YES; //代表修改了健康证图片
@@ -605,8 +575,6 @@
 #pragma mark - 绑定条形码
 - (void)codeButtonClicked:(UIButton *)sender
 {
-    NSLog(@"条形码绑定");
-    
     ScanImageViewController* scanImageVC = [[ScanImageViewController alloc] init];
     scanImageVC.delegate = self;
     [self presentViewController:scanImageVC animated:YES completion:nil];

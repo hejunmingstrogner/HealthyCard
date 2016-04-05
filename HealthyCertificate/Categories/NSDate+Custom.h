@@ -38,6 +38,16 @@
  */
 + (NSDate*)formatDateFromChineseString:(NSString*)dateStr;
 
+
+/**
+ *  将 xxxx年xx月xx日 转化为 Date
+ *
+ *  @param dateStr xxxx年xx月xx日,xx:00点
+ *
+ *  @return Date
+ */
++ (NSDate*)formatDateFromChineseStringWithHour:(NSString *)dateStr;
+
 /**
  *  得到接下来第几天的NSDate
  *

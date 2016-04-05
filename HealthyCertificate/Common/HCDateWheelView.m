@@ -98,7 +98,7 @@
 {
     _currentHour = currentHour;
     NSInteger index;
-    for (index = 0; index < _hContentArr.count; ++ index){
+    for (index = 0; index < _hContentArr.count - 1; ++ index){
         if ([_currentHour isEqualToString:_hContentArr[index]])
             break;
     }
@@ -109,7 +109,7 @@
 {
     _currentYMD = currentYMD;
     NSInteger index;
-    for (index = 0; index < _hContentArr.count; ++ index){
+    for (index = 0; index < _ymdContentArr.count - 1; ++ index){
         if ([_currentYMD isEqualToString:_ymdContentArr[index]])
             break;
     }

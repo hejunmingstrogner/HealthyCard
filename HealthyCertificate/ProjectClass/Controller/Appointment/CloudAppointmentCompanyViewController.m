@@ -56,8 +56,6 @@
     UITableView         *_baseInfoTableView;
     UITableView         *_companyInfoTableView;
     
-    NSString            *_dateString;
-    
     UITextField         *_contactPersonField;
     UITextField         *_phoneNumField;
     
@@ -82,6 +80,9 @@
     BOOL                _isChanged;
     
     BOOL                _isAppointmentBtnResponse;
+    
+    //移动服务点(YES) 固定服务点(NO)
+    BOOL                _isTemperaryPoint;
     
     
     //是待处理项(YES) 新建的预约(No)
@@ -127,11 +128,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }];
 }
 
-
--(void)setLocation:(NSString *)location{
-    _location = location;
-}
-
 -(void)setAppointmentDateStr:(NSString *)appointmentDateStr{
     BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
     cell.textView.text = appointmentDateStr;
@@ -149,10 +145,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _sercersPositionInfo = sercersPositionInfo;
     _location = sercersPositionInfo.address;
     if (sercersPositionInfo.type == 0) {
-        _appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)", [NSDate getHour_MinuteByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.endTime/1000]];
+        _appointmentDateStr = [NSString stringWithFormat:@"%@,8:00", [[NSDate date] getDateStringWithInternel:1]];
+        _isTemperaryPoint = NO;
     }
     else {
         _appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",  [NSDate getYear_Month_DayByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.endTime/1000]];
+        _isTemperaryPoint = YES;
     }
 }
 
@@ -180,9 +178,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     
     self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
-    //默认为明天8点
-    _dateString = [NSString stringWithFormat:@"%@8点", [[NSDate date] getDateStringWithInternel:1]];
-   
     UIScrollView* scrollView = [[UIScrollView alloc] init];
     scrollView.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     [self.view addSubview:scrollView];
@@ -262,31 +257,24 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _examinationTimeTextField = [[UITextField alloc] init];
     _examinationTimeTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     [examinationContainerView addSubview:_examinationTimeTextField];
-    
+     _appointmentDateStr = (_appointmentDateStr == nil) ? [NSString stringWithFormat:@"%@,8:00", [[NSDate date] getDateStringWithInternel:1]] : _appointmentDateStr;
     //合同时间
     if (_brContract){
         if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
-            _examinationTimeTextField.text = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]];
+            _appointmentDateStr = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]];
         }else{
             //基于服务点(移动+固定)
             if ([_brContract.hosCode isEqualToString:_brContract.checkSiteID]){
-                //固定
-                _examinationTimeTextField.text = [NSString stringWithFormat:@"工作日(%@~%@)", [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime/1000],
-                         [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime/1000]];
+                _appointmentDateStr = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]]; //固定
             }else{
                 NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime/1000];
                 NSString *start = [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime/1000];
                 NSString *end = [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime/1000];
-                _examinationTimeTextField.text = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                _appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
             }
         }
-    }else{
-        if (_isCustomerServerPoint == NO)
-            _examinationTimeTextField.text = _appointmentDateStr;
-        else
-            _examinationTimeTextField.text = _dateString;
     }
-    
+    _examinationTimeTextField.text = _appointmentDateStr;
     [examinationTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(PXFIT_HEIGHT(96));
         make.left.mas_equalTo(examinationContainerView).with.offset(PXFIT_WIDTH(20));
@@ -343,7 +331,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         make.top.mas_equalTo(_lineView.mas_bottom);
         make.left.right.mas_equalTo(examinationContainerView);
         make.height.mas_equalTo(examinationAddressLabel);
-       // make.bottom.mas_equalTo(_lineView.mas_top);
     }];
     
     //横线
@@ -506,11 +493,21 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             timeBtn.enabled = YES;
 
         }else{
-            //代表体检，不可修改
+            //代表体检，不可修改--固定服务点是可以修改的
+            UIColor *color = _brContract.servicePoint.type == 1 ? [UIColor colorWithRGBHex:HC_Gray_Text]:[UIColor blackColor];
+            bool enable = _brContract.servicePoint.type == 1 ? NO : YES;
+            _examinationTimeTextField.textColor = color;
+            timeBtn.enabled = enable;
+            
+            _examinationAddressTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+            addressBtn.enabled = NO;
+        }
+        
+        if (![_brContract.testStatus isEqualToString:@"-1"]){
             _examinationAddressTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
             _examinationTimeTextField.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-            addressBtn.enabled = NO;
             timeBtn.enabled = NO;
+            addressBtn.enabled = NO;
         }
     }else{
         //云预约 & 服务点预约
@@ -521,10 +518,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             timeBtn.enabled = YES;
         }else{
             _examinationAddressTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-            _examinationTimeTextField.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
             addressBtn.enabled = NO;
-            timeBtn.enabled = NO;
-
+            _examinationTimeTextField.textColor =  _isTemperaryPoint==YES?[UIColor colorWithRGBHex:HC_Gray_Text]:[UIColor blackColor];
+            timeBtn.enabled = !_isTemperaryPoint;
         }
     }
 }
@@ -546,7 +542,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
 -(void)initNavigationContact
 {
-    // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.tag = 4001;
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
@@ -568,7 +563,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
 - (void)initNavgation
 {
-    // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
@@ -578,7 +572,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     self.title = _sercersPositionInfo.name;
 }
 
-// 返回前一页
 - (void)backToPre:(UIButton*)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -670,8 +663,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         else
         {
             //基于服务点预约
+            if(_brContract.servicePoint.type == 0){
+                _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong]*1000;
+            }else{
+                _brContract.regTime = _sercersPositionInfo.startTime;
+            }
             _brContract.servicePoint = _sercersPositionInfo;
-            _brContract.regTime = _sercersPositionInfo.startTime;
             _brContract.regBeginDate = _sercersPositionInfo.startTime;
             _brContract.regEndDate = _sercersPositionInfo.endTime;
             _brContract.regPosAddr = _sercersPositionInfo.address;
@@ -682,7 +679,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             _brContract.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
         }
     }
-    
     _brContract.linkUser = _contactPersonField.text;
     _brContract.linkPhone = _phoneNumField.text;
     _brContract.checkType = @"1";// 1为健康证
@@ -731,8 +727,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
 -(void)addressBtnClicked:(UIButton*)sender
 {
-    //不可修改的情况
-    
     //如果基于固定服务点
     SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
     selectAddressViewController.addressStr = _location;
@@ -752,13 +746,13 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 {
     //只有云预约才可以修改
     CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
-    cloudAppointmentDateVC.choosetDateStr = _dateString;
+    cloudAppointmentDateVC.choosetDateStr = _appointmentDateStr;
     __weak typeof(self) weakself = self;
     [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
        // weakself.appointmentDateStr = dateStr;
         typeof(self)strongself = weakself;
         strongself->_examinationTimeTextField.text = dateStr;
-        strongself->_dateString = dateStr;
+        strongself->_appointmentDateStr = dateStr;
     }];
     [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
     [self inputWidgetResign];
@@ -766,7 +760,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
 -(void)editBtnClicked:(UIButton*)sender
 {
-    //修改
     [self.view endEditing:YES];
     //如果预约人数 小于 已选员工
     if ([_exminationCountField.text intValue] < _customerArr.count){
@@ -781,6 +774,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         _brContract.regPosAddr = _examinationAddressTextView.text;
         _brContract.regPosLA = _centerCoordinate.latitude;
         _brContract.regPosLO = _centerCoordinate.longitude;
+    }else{
+        if (_brContract.servicePoint.type == 0)
+            _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong];
     }
     
     _brContract.linkUser = _contactPersonField.text;
@@ -841,8 +837,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     return tableView.tag == TABLEVIEW_BASEINFO?PXFIT_HEIGHT(20):0;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return tableView.tag == TABLEVIEW_BASEINFO?1:0;
 }
 
@@ -922,7 +917,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return PXFIT_HEIGHT(100);
 }
-
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (tableView.tag) {
@@ -1009,8 +1003,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             return YES;
         }
     }
-    
-    
     return YES;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -1051,7 +1043,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 
 -(void)keyboardWillShow:(NSNotification *)notification
 {
-    CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
+    CGRect keyboardBounds;
     [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
     _viewHeight = SCREEN_HEIGHT - keyboardBounds.size.height;
 
