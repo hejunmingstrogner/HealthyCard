@@ -252,17 +252,6 @@
         //个人
         CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
         cloudAppoint.sercersPositionInfo = _serverPositionItem;
-        if (_serverPositionItem.type == 1){
-            //临时服务点
-            cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",
-                                               [NSDate getYear_Month_DayByDate:_serverPositionItem.startTime/1000],
-                                               [NSDate getHour_MinuteByDate:_serverPositionItem.startTime/1000],
-                                               [NSDate getHour_MinuteByDate:_serverPositionItem.endTime/1000]];
-        }else{
-            cloudAppoint.appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)",
-                                               [NSDate getHour_MinuteByDate:_serverPositionItem.startTime/1000],
-                                               [NSDate getHour_MinuteByDate:_serverPositionItem.endTime/1000]];
-        }
         cloudAppoint.isCustomerServerPoint = NO; //如果是基于现有的服务点预约
         [self.navigationController pushViewController:cloudAppoint animated:YES];
     }else{

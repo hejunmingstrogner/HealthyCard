@@ -61,7 +61,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     return _manager;
 }
 
-#pragma mark - setter &getter
 -(AFHTTPRequestOperationManager *)sharedClient
 {
     if (_sharedClient == nil) {
@@ -71,6 +70,13 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/json", @"text/html", nil];
     }
     return _sharedClient;
+}
+
+-(id)init{
+    if (self = [super init]){
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HTTPOperationDidFinish:) name:AFNetworkingOperationDidFinishNotification object:nil];
+    }
+    return self;
 }
 
 #pragma mark - baseURL
@@ -88,9 +94,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     }); 
     return sharedNetworkHttpManager;
 }
-
-
-#pragma mark - Public Methods
 
 -(void)checkVersionWithResultBlock:(HCBoolResultBlock)resultBlock
 {
@@ -685,4 +688,25 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 -(void)getQRImageByGet:(NSString*)content Type:(NSString*) type EdgeLength:(NSInteger)edgeLength resultBlock:(HCImageResultBlock)resultBlock
 {
 }
+
+- (void)HTTPOperationDidFinish:(NSNotification *)notification {
+    AFHTTPRequestOperation *operation = (AFHTTPRequestOperation *)[notification object];
+    
+    if (![operation isKindOfClass:[AFHTTPRequestOperation class]]) {
+        return;
+    }
+    
+    if ([operation.response statusCode] == 401) {
+        // enqueue a new request operation here
+    }
+}
+
+//-(void)networkRequestDidFinish: (NSNotification *) notification
+//{
+//    NSError *error = [notification.userInfo objectForKey:AFNetworkingTaskDidCompleteErrorKey];
+//    NSHTTPURLResponse *httpResponse = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
+//    if (httpResponse.statusCode == 401){
+//        NSLog(@"Error was 401");
+//    }
+//}
 @end
