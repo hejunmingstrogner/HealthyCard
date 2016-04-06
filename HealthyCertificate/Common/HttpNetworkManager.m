@@ -10,7 +10,6 @@
 
 #import <Pingpp.h>
 #import <MJExtension.h>
-#import <AFNetworking.h>
 #import <AVFoundation/AVFoundation.h>
 
 #import "RzAlertView.h"
@@ -28,7 +27,7 @@
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager* manager;
 
-@property (nonatomic, strong) AFHTTPRequestOperationManager *sharedClient;
+@property (nonatomic, strong) AFHTTPRequestOperationManager *ssosHttpManager;
 
 @end
 
@@ -40,6 +39,7 @@
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://lyx.witaction.com/zkwebservice/";
 static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/webservice/";
+static NSString * const AFHTTPRequestOperationSSOSBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/ssos/";
 
 // 运营环境
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver.zeekstar.com/webserver/webservice/";
@@ -61,7 +61,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     return _manager;
 }
 
-#pragma mark - setter &getter
 -(AFHTTPRequestOperationManager *)sharedClient
 {
     if (_sharedClient == nil) {
@@ -71,6 +70,17 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/json", @"text/html", nil];
     }
     return _sharedClient;
+}
+
+-(AFHTTPRequestOperationManager *)ssosHttpManager
+{
+    if (_ssosHttpManager == nil) {
+        _ssosHttpManager = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:AFHTTPRequestOperationSSOSBaseURLString]];
+        _ssosHttpManager.requestSerializer = [AFJSONRequestSerializer serializer];
+        _ssosHttpManager.responseSerializer = [AFJSONResponseSerializer serializer];
+        _ssosHttpManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/json", @"text/html", nil];
+    }
+    return _ssosHttpManager;
 }
 
 #pragma mark - baseURL
@@ -88,9 +98,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     }); 
     return sharedNetworkHttpManager;
 }
-
-
-#pragma mark - Public Methods
 
 -(void)checkVersionWithResultBlock:(HCBoolResultBlock)resultBlock
 {
@@ -115,9 +122,6 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
                 resultBlock(NO, nil);
             }
         }
-        
-        //resultBlock(NO, nil);
-        
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         NSLog(@"%@",error.description);
     }];
@@ -125,8 +129,8 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 
 -(void)verifyPhoneNumber:(NSString*)phoneNum resultBlock:(HCDictionaryResultBlock)resultBlock;
 {
-    NSString* url = [NSString stringWithFormat:@"login/askVerificationCode?linkPhone=%@",phoneNum];
-    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    NSString* url = [NSString stringWithFormat:@"clientlogin/requestVerifyCode?userTel=%@&clientType=zeekcustomerapp",phoneNum];
+    [self.ssosHttpManager GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         resultBlock(responseObject, nil);
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         resultBlock(nil, error);
@@ -135,9 +139,20 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
 
 -(void)vertifyPhoneNumber:(NSString*)phoneNum VertifyCode:(NSString*)code resultBlock:(HCDictionaryResultBlock)resultBlock
 {
-    NSString* url = [NSString stringWithFormat:@"login/weChatLogin?linkPhone=%@&verificationCode=%@", phoneNum, code];
+    NSString* url = [NSString stringWithFormat:@"clientlogin/loginByVerifyCode?userTel=%@&clientType=zeekcustomerapp&checkCode=%@", phoneNum, code];
     url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+    [self.ssosHttpManager GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        resultBlock(responseObject, nil);
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        resultBlock(nil, error);
+    }];
+}
+
+-(void)loginWithToken:(NSString *)token userName:(NSString *)userName resultBlock:(HCDictionaryResultBlock)resultBlock
+{
+    NSString* url = [NSString stringWithFormat:@"clientlogin/loginByToken?userName=%@&clientType=zeekcustomerapp&token=%@", userName, token];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    [self.ssosHttpManager GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         resultBlock(responseObject, nil);
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         resultBlock(nil, error);
@@ -482,6 +497,23 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
         }
     }];
 }
+
+-(void)customerAffirmByCardNo:(NSString*)checkNo CardNo:(NSString*)CardNo resultBlock:(HCDictionaryResultBlock)block{
+    NSString* url = [NSString stringWithFormat:@"customerTest/affirmByCardNO?checkCode=%@&cardNO=%@", checkNo, CardNo];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        MethodResult *result = [MethodResult mj_objectWithKeyValues:responseObject];
+        if (result.succeed){
+//            CustomerTest* customerTest = [CustomerTest mj_objectWithKeyValues:result.object];
+            block((NSDictionary*)result.object, nil);
+        }else{
+            block(nil, [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:result.errorMsg forKey:@"error"]]);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        block(nil, error);
+    }];
+}
+
+
 #pragma mark - 取消个人预约
 - (void)cancleCheckedCustomerTestWithCheckCode:(NSString *)checkCode resultBlock:(HCBoolResultBlock)block
 {
@@ -681,8 +713,4 @@ static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserv
     [task resume];
 }
 
-
--(void)getQRImageByGet:(NSString*)content Type:(NSString*) type EdgeLength:(NSInteger)edgeLength resultBlock:(HCImageResultBlock)resultBlock
-{
-}
 @end

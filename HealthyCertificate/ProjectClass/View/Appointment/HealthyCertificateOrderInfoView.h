@@ -16,10 +16,14 @@
 
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 
-@property (nonatomic, strong) NSArray *titleArray;  // 标题数组
+@property (nonatomic, copy) NSArray *titleArray;  // 标题数组
 @property (nonatomic, strong) CustomButton *addressBtn;
 @property (nonatomic, strong) CustomButton *timeBtn;
 @property (nonatomic, strong) CustomButton *phoneBtn;
+
+@property (nonatomic, strong) UIColor* addressBtnTxtColor;
+@property (nonatomic, strong) UIColor* timeBtnTxtColor;
+@property (nonatomic, strong) UIColor* phoneBtnTxtColor;
 
 @property (nonatomic, strong) BRContract   *brContract;
 

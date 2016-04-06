@@ -103,11 +103,15 @@ extern BOOL   _isRegisterUnited; //个人用户是否注册单位
 #define GetUserType [[[NSUserDefaults standardUserDefaults] objectForKey:@"userType"] integerValue] // 获得用户类型
 #define SetUserType(type) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d", type] forKey:@"userType"]          // 设置用户类型，1:个人  2:单位
 
-#define SetPhoneNumber(phoneNumber) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", phoneNumber] forKey:@"hc_phoneNumber"]
-#define GetPhoneNumber [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_phoneNumber"]
+//登录相关
+#define SetUserName(userName) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", userName] forKey:@"hc_username"]
+#define GetUserName [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_username"]
 
-#define SetLoginSucceedInfo(succeedInfo) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", succeedInfo] forKey:@"hc_succeedInfo"]
-#define GetLoginSucceedInfo [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_succeedInfo"]
+#define SetUserRole(userRole) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", userRole] forKey:@"hc_userrole"]
+#define GetUserRole [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_userrole"]
+
+#define SetToken(token) [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@", token] forKey:@"hc_token"]
+#define GetToken [[NSUserDefaults standardUserDefaults] objectForKey:@"hc_token"]
 
 //灰色不可用
 #define HC_Gray_unable 0xcacaca

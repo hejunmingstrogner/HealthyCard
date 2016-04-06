@@ -15,6 +15,6 @@
 
 @property (nonatomic, copy) NSString* errorMsg;
 
-@property (nonatomic, copy) NSString* object;
+@property (nonatomic, strong) id object;
 
 @end

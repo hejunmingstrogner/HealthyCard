@@ -115,11 +115,17 @@
             [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"获取失败" endTextColor:[UIColor grayColor]];
         }
         else {
-            NSString *year = [NSDate getYearMonthDayByDate:customerTest.servicePoint.startTime/1000];
-            NSString *hour1 = [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000];
-            NSString *end = [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000];
-            NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
-            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:time endTextColor:[UIColor grayColor]];
+            if (customerTest.servicePoint.type == 0){
+                [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15]
+                              WithEndText:[NSDate converLongLongToChineseStringDateWithHour:customerTest.regTime/1000]
+                             endTextColor:[UIColor grayColor]];
+            }else{
+                NSString *year = [NSDate getYearMonthDayByDate:customerTest.servicePoint.startTime/1000];
+                NSString *hour1 = [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000];
+                NSString *end = [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000];
+                NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
+                [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:time endTextColor:[UIColor grayColor]];
+            }
         }
 
     }

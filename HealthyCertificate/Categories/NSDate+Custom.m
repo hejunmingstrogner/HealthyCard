@@ -95,6 +95,13 @@
     return [format dateFromString:dateStr];
 }
 
++(NSDate*)formatDateFromChineseStringWithHour:(NSString*)dateStr
+{
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy年MM月dd日,HH:00"];
+    return [format dateFromString:dateStr];
+}
+
 -(long long)convertToLongLong
 {
     return (long long)[self timeIntervalSince1970];
@@ -112,7 +119,7 @@
 +(NSString*)converLongLongToChineseStringDateWithHour:(long long)dateLong{
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:dateLong];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy年MM月dd日HH点"];
+    [formatter setDateFormat:@"yyyy年MM月dd日,HH:00"];
     NSString *dateString = [formatter stringFromDate:date];
     return dateString;
 }

@@ -58,11 +58,6 @@
     [self initSubViews];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 - (void)initNavgation
 {
     self.title = @"我的体检";
@@ -168,8 +163,7 @@
     
         //错误条件 checksideid 不为空 但 servicepoint为空
         BOOL conditionFirst = (brContract.checkSiteID != nil && ![brContract.checkSiteID isEqualToString:@""]) && (brContract.servicePoint == nil);
-        if (conditionFirst)
-        {
+        if (conditionFirst){
             //数据异常
             cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:@"获取失败" cellStyle:0];
             cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:@"获取失败" cellStyle:0];
@@ -185,21 +179,21 @@
                     timestatus = @"获取时间出错";
                 }
                 else {
-                    NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime/1000];
-                    NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime/1000];
-                    NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime/1000];
-                    timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                    if (brContract.servicePoint.type == 0){
+                        timestatus = [NSDate converLongLongToChineseStringDateWithHour:brContract.regTime/1000];
+                    }else{
+                        NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime/1000];
+                        NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime/1000];
+                        NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime/1000];
+                        timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                    }
                 }
             }
             else {
                 //代表单位云预约
                 timestatus = [NSDate converLongLongToChineseStringDateWithHour:brContract.regTime/1000];
-//                NSString *year = [NSDate getYear_Month_DayByDate:brContract.regBeginDate/1000];
-//                NSString *end = [NSDate getYear_Month_DayByDate:brContract.regEndDate/1000];
-//                timestatus = [NSString stringWithFormat:@"%@~%@", year,end];
             }
             cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:timestatus cellStyle:0];
-
         }
                
         NSArray *array = @[cellitem0, cellitem1, cellitem2];

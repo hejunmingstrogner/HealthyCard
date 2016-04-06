@@ -10,7 +10,7 @@
 
 @protocol ScanImageViewDelegate<NSObject>
 
-- (void)reportScanResult:(NSString *)result;
+- (void)reportScanResult:(NSString *)resultStr;
 
 @end
 

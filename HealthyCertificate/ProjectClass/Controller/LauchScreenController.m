@@ -21,6 +21,9 @@
 
 #import "NSDate+Custom.h"
 
+#import <SDWebImageDownloader.h>
+#import <SDWebImageManager.h>
+
 
 
 @interface LauchScreenController()<HMNetworkEngineDelegate>
@@ -45,22 +48,14 @@
     [bckImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
+}
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [HMNetworkEngine getInstance].delegate = self;
     [[HMNetworkEngine getInstance] startControl];
-    
 }
-
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-}
-
 
 #pragma mark - HMNetworkEngine Delegate
 -(void)setUpControlSucceed{
@@ -81,15 +76,46 @@
     
     //返回的数据按理应该是一个，所以如果不为空，只取第一条数据
     if (array.count != 0){
-        if ([array[0] isEqualToString:@""])
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"远端服务器关闭" removeDelay:2];
-        
+        if ([array[0] isEqualToString:@""]){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"远端服务器关闭" removeDelay:2];
+            });
+            return;
+        }
+
         QueueServerInfo* info = [[QueueServerInfo alloc] initWithString:array[0]];
         [HMNetworkEngine getInstance].serverID = info.serverID;
         //这里才代表连接上了中心控制服务器
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (![GetLoginSucceedInfo isEqualToString:@""] && ![GetPhoneNumber isEqualToString:@""] && [GetLoginSucceedInfo isEqualToString:GetPhoneNumber]){
-                [[HMNetworkEngine getInstance] askLoginInfo:GetPhoneNumber];
+            
+            if (GetUserName != nil && ![GetUserName isEqualToString:@""]){
+                [[HttpNetworkManager getInstance] loginWithToken:GetToken userName:GetUserName resultBlock:^(NSDictionary *result, NSError *error) {
+                    if (error != nil)
+                    {
+                        [self loadLoginViewController];
+                        //[RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接错误，请检查网络设置" removeDelay:3];
+                        return;
+                    }
+                    
+                    if ([[result objectForKey:@"ProResult"] isEqualToString:@"0"]){
+                        SetUserRole([[result objectForKey:@"Msg"] objectForKey:@"userRole"]);
+                        SetToken([[result objectForKey:@"Msg"] objectForKey:@"newToken"]);
+                        [[HMNetworkEngine getInstance] askLoginInfo:GetUserName];
+                        
+                        [[HttpNetworkManager getInstance].sharedClient.requestSerializer setValue:GetUserName forHTTPHeaderField:@"DBKE-UserName"];
+                        [[HttpNetworkManager getInstance].sharedClient.requestSerializer setValue:@"zeekcustomerapp" forHTTPHeaderField:@"DBKE-ClientType"];
+                        [[HttpNetworkManager getInstance].sharedClient.requestSerializer setValue:GetToken forHTTPHeaderField:@"DBKE-Token"];
+                        
+                        SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
+                        [manager setValue:GetUserName forHTTPHeaderField:@"DBKE-UserName"];
+                        [manager setValue:@"zeekcustomerapp" forHTTPHeaderField:@"DBKE-ClientType"];
+                        [manager setValue:GetToken forHTTPHeaderField:@"DBKE-Token"];
+                        
+                    }else{
+                        [self loadLoginViewController];
+                        //[RzAlertView showAlertLabelWithTarget:self.view Message:[result objectForKey:@"Msg"] removeDelay:3];
+                    }
+                }];
             }else{
                 [self loadLoginViewController];
             }

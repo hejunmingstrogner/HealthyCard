@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <AFNetworking.h>
+
 #import "PersonInfoOfPhonePacket.h"
 #import "CompanyInfoOfPhonePacket.h"
 #import "CustomerTest.h"
@@ -35,6 +37,8 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
 @interface HttpNetworkManager : NSObject
 
 +(instancetype)getInstance;
+
+@property (nonatomic, strong) AFHTTPRequestOperationManager *sharedClient;
 
 + (NSString *)baseURL;
 //执行的http请求
@@ -66,14 +70,13 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
 
 
 /**
- *  uuid登录
+ *  根据token自动登录
  *
- *  @param uuid        uuid
- *  @param uuidTimeout uuid 过期时间
+ *  @param token    token
+ *  @param userName 用户名
  *  @param resultBlock 回调
  */
--(void)loginWithUuid:(NSString*)uuid UuidTimeOut:(NSString*)uuidTimeout resultBlock:(HCDictionaryResultBlock)resultBlock;
-
+-(void)loginWithToken:(NSString*)token userName:(NSString*)userName resultBlock:(HCDictionaryResultBlock)resultBlock;
 
 /**
  *  根据当前位置查询服务点信息
@@ -185,6 +188,15 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 -(void)customerUploadHealthyCertifyPhoto:(UIImage*)photo CusCheckCode:(NSString*)checkCode resultBlock:(HCDictionaryResultBlock)resultBlock;
 
+/**
+ *  根据条形码作体检确认
+ *
+ *  @param checkNo         体检编号
+ *  @param CardNo          条形码
+ *  @param resultBlock     回调
+ */
+-(void)customerAffirmByCardNo:(NSString*)checkNo CardNo:(NSString*)CardNo resultBlock:(HCDictionaryResultBlock)block;
+
 #pragma mark - 取消个人预约
 /**
  *  用于取消个人预约
@@ -259,16 +271,5 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  *  @param block     返回价格 或者错误信息
  */
 - (void)getCustomerTestChargePriceWithCityName:(NSString *)cityName checkType:(NSString *)checktype resultBlcok:(void(^)(NSString *result, NSError *error))block;
-
-#pragma mark - 二维码
-/**
- *  get二维码图片
- *
- *  @param content   二维码内容
- *  @param type      二维码类型
- *  @param edgeLength 二维码图片的边长度
- *  @param resultBlock 得到图片后的回调
- */
--(void)getQRImageByGet:(NSString*)content Type:(NSString*) type EdgeLength:(NSInteger)edgeLength resultBlock:(HCImageResultBlock)resultBlock;
 
 @end

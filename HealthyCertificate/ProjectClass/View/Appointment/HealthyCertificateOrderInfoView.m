@@ -10,12 +10,11 @@
 #import "UIFont+Custom.h"
 #import "Constants.h"
 #import "UIColor+Expanded.h"
-@interface HealthyCertificateOrderInfoView()
-
-@end
 
 @implementation HealthyCertificateOrderInfoView
 
+
+#pragma mark view initializations
 - (instancetype)init{
     if (self = [super init]) {
         [self initSubviews];
@@ -126,11 +125,14 @@
     }];
 }
 
+
+#pragma mark - Action
 - (void)segmentControlClicked:(UISegmentedControl *)sender
 {
     [self setItem];
 }
 
+#pragma mark - Setter & Getter
 - (void)setBrContract:(BRContract *)brContract{
     _brContract = brContract;
     [self setItem];
@@ -141,12 +143,30 @@
     _cutomerTest = cutomerTest;
     [self setItem];
 }
+
+-(void)setTimeBtnTxtColor:(UIColor *)timeBtnTxtColor{
+    _timeBtnTxtColor = timeBtnTxtColor;
+    [_timeBtn setTitleColor:_timeBtnTxtColor forState:UIControlStateNormal];
+}
+
+-(void)setAddressBtnTxtColor:(UIColor *)addressBtnTxtColor{
+    _addressBtnTxtColor = addressBtnTxtColor;
+    [_addressBtn setTitleColor:_addressBtnTxtColor forState:UIControlStateNormal];
+}
+
+-(void)setPhoneBtnTxtColor:(UIColor *)phoneBtnTxtColor{
+    _phoneBtnTxtColor = phoneBtnTxtColor;
+    [_phoneBtn setTitleColor:_phoneBtnTxtColor forState:UIControlStateNormal];
+}
+
+#pragma mark - Private Methods
 - (void)setItem
 {
     NSInteger index = _segmentControl.selectedSegmentIndex;
     if (index == 0) {
         if (_brContract) {
             [_addressBtn setTitle:_brContract.regPosAddr forState:UIControlStateNormal];
+                        
             if (!_brContract.regBeginDate || !_brContract.regEndDate) {
                 [_timeBtn setTitle:@"" forState:UIControlStateNormal];
             }
@@ -160,30 +180,27 @@
             [_phoneBtn setTitle:_brContract.linkPhone forState:UIControlStateNormal];
         }
         else {
+            [_addressBtn setTitleColor:_addressBtnTxtColor forState:UIControlStateNormal];
+            [_timeBtn setTitleColor:_timeBtnTxtColor forState:UIControlStateNormal];
+            [_phoneBtn setTitleColor:_phoneBtnTxtColor forState:UIControlStateNormal];
+            
+            
             [_addressBtn setTitle:_cutomerTest.regPosAddr forState:UIControlStateNormal];
-            if(_cutomerTest.checkSiteID) // 服务点预约
-            {
-                if (!_cutomerTest.regTime) {
-                    [_timeBtn setTitle:@"" forState:UIControlStateNormal];
-                }
-                else {
-                    NSString *startyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regTime/1000];
-                    [_timeBtn setTitle:startyear forState:UIControlStateNormal];
-                }
-            }
-            else {  // 云预约
-
-                if (!_cutomerTest.regBeginDate || !_cutomerTest.regEndDate) {
-                    [_timeBtn setTitle:@"" forState:UIControlStateNormal];
-                }
-                else {
-                    NSString *startyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regBeginDate/1000];
-                    NSString *endyear = [NSDate getYear_Month_DayByDate:_cutomerTest.regEndDate/1000];
-                    NSString *time = [NSString stringWithFormat:@"%@~%@",startyear, endyear];
-                    [_timeBtn setTitle:time forState:UIControlStateNormal];
+            if (_cutomerTest.checkSiteID == nil || [_cutomerTest.checkSiteID isEqualToString:@""]){
+                //个人云预约 现在没有
+            }else{
+                if (_cutomerTest.servicePoint.type == 0){
+                    //固定
+                    [_timeBtn setTitle:[NSDate converLongLongToChineseStringDateWithHour:_cutomerTest.regTime/1000] forState:UIControlStateNormal];
+                }else{
+                    //移动
+                    NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
+                    NSString *start = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime/1000];
+                    NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime/1000];
+                    NSString *timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                    [_timeBtn setTitle:timestatus forState:UIControlStateNormal];
                 }
             }
-
             [_phoneBtn setTitle:_cutomerTest.linkPhone forState:UIControlStateNormal];
         }
     }
@@ -202,26 +219,25 @@
             [_phoneBtn setTitle:_brContract.servicePoint.leaderPhone forState:UIControlStateNormal];
         }
         else {
+            [_addressBtn setTitleColor:[UIColor colorWithRGBHex:HC_Gray_Text] forState:UIControlStateNormal];
+            [_timeBtn setTitleColor:[UIColor colorWithRGBHex:HC_Gray_Text] forState:UIControlStateNormal];
+            [_phoneBtn setTitleColor:[UIColor colorWithRGBHex:HC_Gray_Text] forState:UIControlStateNormal];
+            
             [_addressBtn setTitle:_cutomerTest.servicePoint.address forState:UIControlStateNormal];
-            if (!_cutomerTest.servicePoint.startTime || !_cutomerTest.servicePoint.endTime) {
-                [_timeBtn setTitle:@"" forState:UIControlStateNormal];
-                [_addressBtn setTitle:@"现场体检" forState:UIControlStateNormal];
+            
+            if (_cutomerTest.servicePoint.type == 1){
+                //移动服务点
+                NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
+                NSString *hour1 = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime/1000];
+                NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime/1000];
+                NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
+                [_timeBtn setTitle:time forState:UIControlStateNormal];
             }
-            else {
-                if(_cutomerTest.servicePoint.type == 1) // 移动服务点
-                {
-                    NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
-                    NSString *hour1 = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime/1000];
-                    NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime/1000];
-                    NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
-                    [_timeBtn setTitle:time forState:UIControlStateNormal];
-                }
-                else {
-                    NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
-                    NSString *end = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.endTime/1000];
-                    NSString *time = [NSString stringWithFormat:@"%@~%@",year, end];
-                    [_timeBtn setTitle:time forState:UIControlStateNormal];
-                }
+            else{
+                //固定服务点
+                NSString* timeStatus = [NSString stringWithFormat:@"工作日(%@~%@)", [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime/1000],
+                 [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime/1000]];
+                [_timeBtn setTitle:timeStatus forState:UIControlStateNormal];
             }
             [_phoneBtn setTitle:_cutomerTest.servicePoint.leaderPhone forState:UIControlStateNormal];
         }

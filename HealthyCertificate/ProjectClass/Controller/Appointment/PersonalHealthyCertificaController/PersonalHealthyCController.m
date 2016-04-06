@@ -21,6 +21,7 @@
 #import "UIFont+Custom.h"
 #import "UIButton+Easy.h"
 #import "UIButton+HitTest.h"
+#import "NSString+Custom.h"
 
 #import "HttpNetworkManager.h"
 #import "PositionUtil.h"
@@ -76,14 +77,13 @@
 - (void)initNavgation
 {
     self.title = @"办证详情";
-    // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
     
-    if (!_isHistorySave){
+    if ([_customerTestInfo.testStatus isEqualToString:@"-1"]){
         UIButton* editBtn = [UIButton buttonWithTitle:@"保存"
                                                  font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
                                             textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
@@ -93,7 +93,7 @@
         self.navigationItem.rightBarButtonItem = rightItem;
     }
 }
-// 返回前一页
+
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -102,10 +102,6 @@
     }
 }
 
-- (void)dealloc
-{
-    NSLog(@"personhealthy dealloc");
-}
 - (void)changedInformationWithResultBlock:(ResultBlock)blcok
 {
     _resultblock = blcok;
@@ -124,8 +120,8 @@
     _customerTestInfo.jobDuty = _healthCertificateView.workType;
     _customerTestInfo.regPosLO = _posLo;
     _customerTestInfo.regPosLA = _posLa;
-    _customerTestInfo.regBeginDate = _regbegindate;
-    _customerTestInfo.regEndDate = _regenddate;
+    if (_customerTestInfo.servicePoint.type == 0)
+        _customerTestInfo.regTime = [_orderinforView.timeBtn.titleLabel.text convertDateStrWithHourToLongLong];
     _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
 
     if(_isAvatarSet == YES){
@@ -138,7 +134,6 @@
             sender.enabled = YES;
             if (!error) {
                 [waitAlertView close];
-                _isAvatarSet = NO;
                 isChanged = YES;
                 [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
                     if (!error) {
@@ -151,6 +146,8 @@
                             }
                             else if([resultdict.object isEqualToString:@"1"]){
                                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改次数已达上限" removeDelay:2];
+                            }else{
+                                [RzAlertView showAlertLabelWithTarget:self.view Message:@"更新体检信息失败" removeDelay:2];
                             }
                         }
 
@@ -162,6 +159,7 @@
             }
             else {
                 waitAlertView.titleLabel.text = @"图片上传失败，请检查网络后重试";
+                _isAvatarSet = NO;
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [waitAlertView close];
                 });
@@ -181,6 +179,8 @@
                     }
                     else if([resultdict.object isEqualToString:@"1"]){
                         [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改次数已达上限" removeDelay:2];
+                    }else{
+                        [RzAlertView showAlertLabelWithTarget:self.view Message:@"更新体检信息失败" removeDelay:2];
                     }
                 }
             }
@@ -240,6 +240,7 @@
    // cell.detailTextLabel.text = @"体检时可出示此条形码";
     cell.imageView.image = [UIImage imageNamed:@"tiaoxingma"];
     [codeButton addSubview:cell];
+    cell.detailTextLabel.text = _customerTestInfo.cardNo;
     [cell mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(codeButton);
     }];
@@ -267,8 +268,7 @@
         make.top.equalTo(_healthCertificateView.mas_bottom).offset(10);
         make.height.mas_equalTo(200);
     }];
-
-    // 按钮的背景色
+    
     UIView *btnBgView = [[UIView alloc]init];
     [containView addSubview:btnBgView];
     btnBgView.backgroundColor = [UIColor whiteColor];
@@ -277,17 +277,55 @@
         make.left.right.equalTo(containView);
         make.height.mas_equalTo(80);
     }];
-    // 按钮底部的分割线
-    UILabel *fengexian = [[UILabel alloc]init];
-    [btnBgView addSubview:fengexian];
-    fengexian.backgroundColor = [UIColor colorWithRGBHex:HC_Gray_Egdes];
-    [fengexian mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(btnBgView).offset(20);
-        make.right.equalTo(btnBgView).offset(-20);
+    
+    UILabel *lineLab = [[UILabel alloc]init];
+    [btnBgView addSubview:lineLab];
+    lineLab.backgroundColor = [UIColor colorWithRGBHex:HC_Gray_Egdes];
+    [lineLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(btnBgView).with.offset(10);
+        make.right.mas_equalTo(btnBgView).with.offset(-10);
         make.center.equalTo(btnBgView);
         make.height.mas_equalTo(1);
     }];
-
+    
+    _leftBtn = [[UIButton alloc] init];
+    _leftBtn.layer.masksToBounds = YES;
+    _leftBtn.layer.cornerRadius = 4;
+    [btnBgView addSubview:_leftBtn];
+    [_leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(btnBgView).with.offset(10);
+        make.height.mas_equalTo(35);
+        make.width.mas_equalTo(80);
+        make.centerY.equalTo(btnBgView);
+    }];
+    
+    _centerBtn = [[UIButton alloc] init];
+    _centerBtn.layer.masksToBounds = YES;
+    _centerBtn.layer.cornerRadius = 4;
+    [btnBgView addSubview:_centerBtn];
+    [_centerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(btnBgView);
+        make.width.height.equalTo(_leftBtn);
+    }];
+    
+    _rightBtn = [[UIButton alloc] init];
+    [btnBgView addSubview:_rightBtn];
+    _rightBtn.layer.masksToBounds = YES;
+    _rightBtn.layer.cornerRadius = 4;
+    [_rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(btnBgView);
+        make.right.equalTo(btnBgView).with.offset(-10);
+        make.height.width.equalTo(_leftBtn);
+    }];
+    _leftBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+    [_leftBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
+    
+    _centerBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+    [_centerBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
+    
+    _rightBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+    [_rightBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
+    
     UIView *warmBg = [[UIView alloc]init];
     [containView addSubview:warmBg];
     warmBg.layer.masksToBounds = YES;
@@ -295,7 +333,7 @@
     warmBg.layer.cornerRadius = 4;
     warmBg.layer.borderWidth = 1;
     warmBg.layer.borderColor = [UIColor colorWithRGBHex:0xff9d12].CGColor;
-
+    
     // 提示信息label
     warmingLabel = [[UILabel  alloc]init];
     [containView addSubview:warmingLabel];
@@ -307,72 +345,22 @@
         make.right.equalTo(btnBgView).offset(-10);
         make.height.mas_equalTo(70);
     }];
-
+    
     [warmBg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(warmingLabel);
         make.left.right.equalTo(containView);
     }];
-    [containView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(warmBg.mas_bottom).offset(10);
-    }];
-
-    _leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _leftBtn.layer.masksToBounds = YES;
-    _leftBtn.layer.cornerRadius = 4;
-    [btnBgView addSubview:_leftBtn];
-    [_leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_orderinforView);
-        make.height.mas_equalTo(35);
-        make.width.mas_equalTo(80);
-        make.centerY.equalTo(btnBgView);
-    }];
-    _leftBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
-    [_leftBtn setTitle:@"已签到" forState:UIControlStateNormal];
-    [_leftBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
-
+    
     tipIamgeView = [[UIImageView alloc]init];
     [containView addSubview:tipIamgeView];
     tipIamgeView.image = [UIImage imageNamed:@"tip"];
     [tipIamgeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(21);
-        make.height.mas_equalTo(10);
         make.centerX.equalTo(_leftBtn);
         make.bottom.equalTo(warmingLabel.mas_top).offset(1);
     }];
-
-    _centerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _centerBtn.layer.masksToBounds = YES;
-    _centerBtn.layer.cornerRadius = 4;
-    [btnBgView addSubview:_centerBtn];
-    [_centerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_leftBtn);
-        make.centerX.equalTo(btnBgView);
-        make.width.equalTo(_leftBtn);
-        make.height.mas_equalTo(35);
+    [containView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(warmBg.mas_bottom).offset(10);
     }];
-    _centerBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
-    [_centerBtn setTitle:@"待检查" forState:UIControlStateNormal];
-    [_centerBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
-
-    _rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btnBgView addSubview:_rightBtn];
-    _rightBtn.layer.masksToBounds = YES;
-    _rightBtn.layer.cornerRadius = 4;
-    [_rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_leftBtn);
-        make.right.equalTo(_orderinforView);
-        make.height.width.equalTo(_leftBtn);
-    }];
-    [_rightBtn setTitle:@"检查中" forState:UIControlStateNormal];
-    _rightBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
-    [_rightBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
-    
-    if (_isHistorySave){
-        _healthCertificateView.userInteractionEnabled = NO;
-        _orderinforView.addressBtn.enabled = NO;
-        _orderinforView.timeBtn.enabled = NO;
-        _orderinforView.phoneBtn.enabled = NO;
-    }
 }
 
 - (CGFloat)labelheigh:(NSString *)text
@@ -388,84 +376,11 @@
     __weak PersonalHealthyCController *weakself = self;
     _healthCertificateView.customerTest = _customerTestInfo;
     _orderinforView.cutomerTest = _customerTestInfo;
-
-    [_orderinforView.addressBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        if (weakself.customerTestInfo.checkSiteID) {
-            return ;
-        }
-        // 待检状态下可以修改信息，否则不可修改
-        if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
-            return ;
-        }
-        // 服务点信息不可修改
-        if (_orderinforView.segmentControl.selectedSegmentIndex != 0) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"不能修改服务点信息" removeDelay:3];
-            return ;
-        }
-        // 点击地址搜索
-        [weakself selectAddress];
-    }];
-    [_orderinforView.timeBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        if (weakself.customerTestInfo.checkSiteID) {
-            return ;
-        }
-        // 待检状态下可以修改信息，否则不可修改
-        if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
-            return ;
-        }
-        // 服务点信息不可修改
-        if (_orderinforView.segmentControl.selectedSegmentIndex != 0) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"不能修改服务点信息" removeDelay:3];
-            return ;
-        }
-        // 点击时间
-        CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
-        // 时间 待修改
-        NSArray *timearray = [sender.titleLabel.text componentsSeparatedByString:@"~"];
-        if (timearray.count == 2) {
-//            cloudData.beginDateString = timearray[0];
-//            cloudData.endDateString = timearray[1];
-        }
-        else {
-//            cloudData.beginDateString =[[NSDate date] getDateStringWithInternel:1];
-//            cloudData.endDateString = [[NSDate date]getDateStringWithInternel:2];
-        }
-        [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
-
-            NSArray *timeslist = [dateStr componentsSeparatedByString:@"~"];
-            weakself.regbegindate = [[NSDate formatDateFromChineseString:timeslist[0]] convertToLongLong]*1000;
-            weakself.regenddate = [[NSDate formatDateFromChineseString:timeslist[1]] convertToLongLong]*1000;
-            [sender setTitle:dateStr forState:UIControlStateNormal];
-        }];
-        [weakself.navigationController pushViewController:cloudData animated:YES];
-    }];
-    [_orderinforView.phoneBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        // 点击电话
-        NSLog(@"点击电话");
-        // 待检状态下可以修改信息，否则不可修改
-        if (![weakself.customerTestInfo.testStatus isEqualToString:@"-1"]) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"当前状态不能修改信息" removeDelay:3];
-            return ;
-        }
-        // 服务点信息不可修改
-        if (_orderinforView.segmentControl.selectedSegmentIndex != 0) {
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"不能修改服务点信息" removeDelay:3];
-            return ;
-        }
-        EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
-        editInfoViewController.editInfoType = EDITINFO_LINKPHONE;
-        [editInfoViewController setEditInfoText:weakself.linkerPhone WithBlock:^(NSString *resultStr) {
-            weakself.linkerPhone = resultStr;
-            [sender setTitle:resultStr forState:UIControlStateNormal];
-        }];
-        [weakself.navigationController pushViewController:editInfoViewController animated:YES];
-    }];
-
+    
+    
     // 设置体检状态
     CustomerTestStatusItem *status = [_customerTestInfo getTestStatusItem];
-
+    
     [_leftBtn setTitle:status.leftText forState:UIControlStateNormal];
     [_centerBtn setTitle:status.centerText forState:UIControlStateNormal];
     [_rightBtn setTitle:status.rigthText forState:UIControlStateNormal];
@@ -475,32 +390,113 @@
         case LEFT_STATUS:{
             [_leftBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
             [_leftBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            
+            _rightBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+            [_rightBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
+            
+            _centerBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+            [_centerBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
+            
+            [tipIamgeView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(_leftBtn);
+                make.bottom.equalTo(warmingLabel.mas_top).offset(1);
+            }];
             break;
         }
         case CENTER_STATUS:{
             [_centerBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
             [_centerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [tipIamgeView mas_updateConstraints:^(MASConstraintMaker *make) {
+            
+            _rightBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+            [_rightBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
+            
+            _leftBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+            [_leftBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
+            
+            [tipIamgeView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.centerX.equalTo(_centerBtn);
+                make.bottom.equalTo(warmingLabel.mas_top).offset(1);
             }];
             break;
         }
         case RIGHT_STATUS:{
             [_rightBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
             [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [tipIamgeView mas_updateConstraints:^(MASConstraintMaker *make) {
+            
+            
+            _leftBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+            [_leftBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
+            
+            _centerBtn.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1];
+            [_centerBtn setTitleColor:[UIColor colorWithRed:163/255.0 green:163/255.0 blue:163/255.0 alpha:1] forState:UIControlStateNormal];
+            [tipIamgeView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.centerX.equalTo(_rightBtn);
+                make.bottom.equalTo(warmingLabel.mas_top).offset(1);
             }];
             break;
         }
         default:
             break;
     }
-
+    
+    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]){
+        //只要不是待检状态，都不能修改信息
+        _orderinforView.addressBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        _orderinforView.timeBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        _orderinforView.phoneBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        
+        _orderinforView.addressBtn.enabled = NO;
+        _orderinforView.timeBtn.enabled = NO;
+        _orderinforView.phoneBtn.enabled = NO;
+        
+        _healthCertificateView.userInteractionEnabled = NO;
+        _healthCertificateView.inputColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        return;
+    }
+    
+    _orderinforView.phoneBtnTxtColor = [UIColor blackColor];
+    _orderinforView.phoneBtn.enabled = YES;
+    //地址可修改的情况 个人(都是基于已有服务点所以都不可修改)
+    _orderinforView.addressBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+    _orderinforView.addressBtn.enabled = NO;
+    //时间可修改的情况
+    if (_customerTestInfo.servicePoint.type == 0){
+        _orderinforView.timeBtnTxtColor = [UIColor blackColor];
+        _orderinforView.timeBtn.enabled = YES;
+    }else{
+        _orderinforView.timeBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        _orderinforView.timeBtn.enabled = NO;
+    }
+    
+    [_orderinforView.addressBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        if (_orderinforView.segmentControl.selectedSegmentIndex != 0)
+            return ;
+        [weakself selectAddress];
+    }];
+    [_orderinforView.timeBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        if (_orderinforView.segmentControl.selectedSegmentIndex != 0)
+            return ;
+        CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
+        cloudData.choosetDateStr = sender.titleLabel.text;
+        [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
+            [sender setTitle:dateStr forState:UIControlStateNormal];
+        }];
+        [weakself.navigationController pushViewController:cloudData animated:YES];
+    }];
+    [_orderinforView.phoneBtn addClickedBlock:^(UIButton * _Nonnull sender) {
+        if (_orderinforView.segmentControl.selectedSegmentIndex != 0)
+            return ;
+        EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
+        editInfoViewController.editInfoType = EDITINFO_LINKPHONE;
+        [editInfoViewController setEditInfoText:weakself.linkerPhone WithBlock:^(NSString *resultStr) {
+            weakself.linkerPhone = resultStr;
+            [sender setTitle:resultStr forState:UIControlStateNormal];
+        }];
+        [weakself.navigationController pushViewController:editInfoViewController animated:YES];
+    }];
 }
 
 #pragma mark - HealthyCertificateViewDelegate
-//点击姓名
 -(void)nameBtnClicked:(NSString*)name
 {
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
@@ -515,7 +511,7 @@
     }];
     [self.navigationController pushViewController:editInfoViewController animated:YES];
 }
-//点击性别
+
 -(void)sexBtnClicked:(NSString*)gender{
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
@@ -531,7 +527,6 @@
     wheelView.hidden = NO;
 }
 
-//点击行业
 -(void)industryBtnClicked:(NSString*)industry{
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
@@ -545,7 +540,7 @@
     };
     [self.navigationController pushViewController:workTypeViewController animated:YES];
 }
-//点击身份证
+
 -(void)idCardBtnClicked:(NSString*)idCard
 {
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
@@ -562,20 +557,21 @@
     [self.navigationController pushViewController:editInfoViewController animated:YES];
 }
 
-//点击健康证图片
--(void)healthyImageClicked;
+-(void)healthyImageClicked
 {
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
         return ;
     }
-
     __weak typeof (self) wself = self;
-
     [[TakePhoto getInstancetype] takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
         wself.healthCertificateView.imageView.image = photoimage;
         _isAvatarSet = YES; //代表修改了健康证图片
     }];
+}
+
+-(void)avatarSetted{
+    _isAvatarSet = YES;
 }
 
 #pragma mark - HCWheelViewDelegate
@@ -605,7 +601,11 @@
 #pragma mark - 绑定条形码
 - (void)codeButtonClicked:(UIButton *)sender
 {
-    NSLog(@"条形码绑定");
+    //必须上传头像以后才能执行条码的扫描操作
+    if (_isAvatarSet == NO){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请先上传头像" removeDelay:2];
+        return;
+    }
     
     ScanImageViewController* scanImageVC = [[ScanImageViewController alloc] init];
     scanImageVC.delegate = self;
@@ -613,10 +613,34 @@
 }
 
 #pragma mark - ScanImageViewDelegate
--(void)reportScanResult:(NSString *)result
+-(void)reportScanResult:(NSString *)resultStr
 {
     UITableViewCell *cell = [codeButton viewWithTag:100];
-    cell.detailTextLabel.text = result;
+    cell.detailTextLabel.text = resultStr;
+    ////            CustomerTest* customerTest = [CustomerTest mj_objectWithKeyValues:result.object];
+   [[HttpNetworkManager getInstance] customerAffirmByCardNo:_customerTestInfo.checkCode CardNo:resultStr resultBlock:^(NSDictionary *result, NSError *error) {
+       if (error){
+          [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接错误，请检查设置" removeDelay:2];
+           return;
+       }
+       if (result != nil && error == nil){
+           CustomerTest* customerTest = [CustomerTest mj_objectWithKeyValues:result];
+           _customerTestInfo = customerTest;
+           [self initData];
+       }
+   }];
+    
+//    [[HttpNetworkManager getInstance] customerAffirmByCardNo:_customerTestInfo.checkCode CardNo:resultStr resultBlock:^(BOOL result, NSError *error) {
+//        if (error){
+//            [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接错误，请检查设置" removeDelay:2];
+//            return;
+//        }
+//        if (result == YES){
+//            
+//        }else{
+//            [RzAlertView showAlertLabelWithTarget:self.view Message:error.description removeDelay:2];
+//        }
+//    }];
 }
 
 @end

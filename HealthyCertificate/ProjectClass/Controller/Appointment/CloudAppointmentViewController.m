@@ -109,7 +109,7 @@
 #pragma mark - Setter & Getter
 -(void)setAppointmentDateStr:(NSString *)appointmentDateStr
 {
-    BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    BaseInfoTableViewCell* cell = [_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     cell.textView.text = appointmentDateStr;
     _appointmentDateStr = appointmentDateStr;
 }
@@ -130,17 +130,18 @@
     _location = sercersPositionInfo.address;
     
     if (sercersPositionInfo.type == 0) {
-        _appointmentDateStr = [NSString stringWithFormat:@"工作日(%@~%@)", [NSDate getHour_MinuteByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.endTime/1000]];
+        _appointmentDateStr = [NSString stringWithFormat:@"%@,08:00", [[NSDate date] getDateStringWithInternel:1]];
+        _isTemperaryPoint = NO;
     }
     else {
         _appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)",  [NSDate getYear_Month_DayByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.startTime/1000], [NSDate getHour_MinuteByDate:sercersPositionInfo.endTime/1000]];
+        _isTemperaryPoint = YES;
     }
 }
 
 -(void)setCustomerTestInfo:(CustomerTest *)customerTestInfo
 {
     _customerTestInfo = customerTestInfo;
-    
     //赋值代表是待处理项目
     _isTodoTask = YES;
 }
@@ -157,12 +158,12 @@
     self.title = _sercersPositionInfo.name;
     
     HCNavigationBackButton* QRScanButton = [[HCNavigationBackButton alloc] initWithText:@"识别"];
-  //  UIButton* QRScanButton = [UIButton buttonWithNormalImageName:@"QRScan" highlightImageName:@"QRScan"];
     QRScanButton.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [QRScanButton addTarget:self action:@selector(QRScanButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:QRScanButton];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
+
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -222,14 +223,6 @@
         make.top.mas_equalTo(_baseInfoTableView.mas_bottom).with.offset(10);
         make.height.mas_equalTo(PXFIT_HEIGHT(470));
     }];
-    
-//    _appointmentInfoView = [[AppointmentInfoView alloc] init];
-//    [_appointmentInfoView addBordersToEdge:UIRectEdgeTop withColor:[UIColor colorWithRGBHex:0Xe8e8e8] andWidth:1];
-//    [containerView addSubview:_appointmentInfoView];
-//    [_appointmentInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.mas_equalTo(containerView);
-//        make.top.mas_equalTo(_healthyCertificateView.mas_bottom).with.offset(10);
-//    }];
     
     UILabel* noticeLabel = [UILabel labelWithText:@"温馨提示"
                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)]
@@ -347,11 +340,9 @@
     else if (indexPath.row == 0)
     {
         cell.iconName = @"date_icon";
-        [cell setTextViewText:_isCustomerServerPoint?[NSString combineString:[[NSDate date] getDateStringWithInternel:1]
-                                                                        And:[[NSDate date] getDateStringWithInternel:2]
-                                                                        With:@"~"]:_appointmentDateStr];
+        [cell setTextViewText:_appointmentDateStr];
          cell.textView.userInteractionEnabled = NO;
-        cell.textView.textColor = _isCustomerServerPoint?[UIColor blackColor]:[UIColor colorWithRGBHex:HC_Gray_Text];
+        cell.textView.textColor = _isTemperaryPoint?[UIColor colorWithRGBHex:HC_Gray_Text]:[UIColor blackColor];
         _appointmentDateTextView = cell.textView;
     }
     else
@@ -372,43 +363,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //如果是自主服务点,那么就不可以修改日期和地址
-//    if (self.isCustomerServerPoint == NO)
-//    {
-//        [_phoneNumTextView resignFirstResponder];
-//        return;
-//    }
-//    
-//    if (indexPath.row == 1){
-//        SelectAddressViewController* selectAddressViewController = [[SelectAddressViewController alloc] init];
-//        selectAddressViewController.addressStr = _locationTextView.text;
-//        __weak typeof (self) wself = self;
-//        [selectAddressViewController getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
-//            wself.cityName = city;
-//            wself.locationTextView.text = address;
-//            wself.centerCoordinate = coor;
-//        }];
-//        [self.navigationController pushViewController:selectAddressViewController animated:YES];
-//    }else if (indexPath.row == 0){
-//        CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
-//        if (self.appointmentDateStr == nil){
-//            cloudAppointmentDateVC.beginDateString = [[NSDate date] getDateStringWithInternel:1];
-//            cloudAppointmentDateVC.endDateString = [[NSDate date] getDateStringWithInternel:2];
-//        }
-//        else{
-//            cloudAppointmentDateVC.beginDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][0];
-//            cloudAppointmentDateVC.endDateString = [self.appointmentDateStr componentsSeparatedByString:@"~"][1];
-//        }
-//        __weak typeof(self) weakself = self;
-//        [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
-//            weakself.appointmentDateStr = dateStr;
-//            typeof(self) strongself = weakself;
-//            BaseInfoTableViewCell* cell = [strongself->_baseInfoTableView  cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-//            cell.textView.text = dateStr;
-//        }];
-//        [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
-//    }else{
-//    }
+    //修改预约时间 (移动服务点不可修改)
+    if (!_isTemperaryPoint && indexPath.row == 0){
+        CloudAppointmentDateVC* cloudAppointmentDateVC = [[CloudAppointmentDateVC alloc] init];
+        cloudAppointmentDateVC.choosetDateStr = _appointmentDateStr;
+        __weak typeof (self) wself = self;
+        [cloudAppointmentDateVC getAppointDateStringWithBlock:^(NSString *dateStr) {
+            wself.appointmentDateStr = dateStr;
+        }];
+        [self.navigationController pushViewController:cloudAppointmentDateVC animated:YES];
+        [self hideTheKeyBoard];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -488,19 +453,19 @@
             _customerTestInfo.printPhoto = nil;
             _customerTestInfo.contractCode = nil;
         }
-        
         if (_isCustomerServerPoint){
             //云预约
-            _customerTestInfo.regTime = [_appointmentDateTextView.text convertDateStrWithHourToLongLong];
+            _customerTestInfo.regTime = [_appointmentDateTextView.text convertDateStrWithHourToLongLong]*1000;
             _customerTestInfo.regPosAddr = _locationTextView.text; //预约地点
             _customerTestInfo.regPosLA = self.centerCoordinate.latitude;
             _customerTestInfo.regPosLO = self.centerCoordinate.longitude;
         }else{
             //基于服务点的预约
             if (_sercersPositionInfo != nil){
+                if (_sercersPositionInfo.type == 0)
+                    _customerTestInfo.regTime = [_appointmentDateTextView.text convertDateStrWithHourToLongLong]*1000;
                 _customerTestInfo.regPosLA = _sercersPositionInfo.positionLa;
                 _customerTestInfo.regPosLO = _sercersPositionInfo.positionLo;
-                _customerTestInfo.regTime = _sercersPositionInfo.startTime;
                 _customerTestInfo.hosCode = _sercersPositionInfo.cHostCode;
                 //移动服务点 id 固定 cHostCode
                 _customerTestInfo.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
@@ -518,7 +483,6 @@
     
     [[HttpNetworkManager getInstance] createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
         if (error != nil){
-            //预约失败，主要是http的失败
             [RzAlertView showAlertLabelWithTarget:self.view Message:MakeAppointmentFailed removeDelay:2];
             return;
         }
@@ -527,7 +491,6 @@
         if (methodResult.succeed == NO || [methodResult.object isEqualToString:@"0"]){
             [RzAlertView showAlertLabelWithTarget:self.view Message:methodResult.errorMsg removeDelay:2];
             return;
-            //预约失败
         }
 
         //预约成功 获取编号
@@ -535,13 +498,11 @@
         {
             [[HttpNetworkManager getInstance] customerUploadHealthyCertifyPhoto:self.healthyCertificateView.imageView.image CusCheckCode:methodResult.object resultBlock:^(NSDictionary *result, NSError *error) {
                 if (error != nil){
-                    //失败 to do
                     [RzAlertView showAlertLabelWithTarget:self.view Message:UploadHealthyPicFailed removeDelay:2];
                     return;
                 }
                 MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
                 if (methodResult.succeed == NO || [methodResult.object isEqualToString:@"0"]){
-                    //预约失败 to do
                     [RzAlertView showAlertLabelWithTarget:self.view Message:UploadHealthyPicFailed removeDelay:2];
                     return;
                 }
@@ -574,21 +535,6 @@
 // 订单成功提示框
 - (void)orderSuccessed:(NSString *)checkcode
 {
-//    [[OrdersAlertView getinstance]openWithSuperView:self.view Title:nil warming:nil Message:nil withHandle:^(NSInteger flag) {
-//        if (flag == 1) {
-//            PayMoneyController *pay = [[PayMoneyController alloc]init];
-//            pay.chargetype = CUSTOMERTEST;
-//            pay.checkCode = checkcode;
-//            pay.cityName = _cityName;
-//            pay.delegate = self;
-//            [self.navigationController pushViewController:pay animated:YES];
-//        }
-//        else {
-//            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-//            mycheckListViewController.popStyle = POPTO_ROOT;
-//            [self.navigationController pushViewController:mycheckListViewController animated:YES];
-//        }
-//    }];
     __weak typeof(self) weakself = self;
     [[OrdersAlertView getinstance]openWithSuperView:self.view Message:nil withHandle:^(NSInteger flag) {
         if (flag == 1) {
@@ -605,21 +551,6 @@
             [weakself.navigationController pushViewController:mycheckListViewController animated:YES];
         }
     }];
-//    [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"预约成功，是否在线支付" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"去支付" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
-//        if (flag != 0) {
-//            PayMoneyController *pay = [[PayMoneyController alloc]init];
-//            pay.chargetype = CUSTOMERTEST;
-//            pay.checkCode = checkcode;
-//            pay.cityName = _cityName;
-//            pay.delegate = self;
-//            [self.navigationController pushViewController:pay animated:YES];
-//        }
-//        else {
-//            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-//            mycheckListViewController.popStyle = POPTO_ROOT;
-//            [self.navigationController pushViewController:mycheckListViewController animated:YES];
-//        }
-//    }];
 }
 
 #pragma mark -paymoney Delegate 支付款项之后的delegate

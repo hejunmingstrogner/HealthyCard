@@ -32,6 +32,8 @@
     UITableView             *_tableView;
     
     HCDateWheelView         *_dateWheelView;
+    
+    NSArray                 *_ymdArray;
 }
 @end
 
@@ -40,11 +42,24 @@
 #pragma mark - Setter & Getter
 -(void)initData
 {
-    _dateWheelView.hContentArr = @[@"8点",@"9点", @"10点",@"11点",@"12点",@"13点",@"14点",@"15点",@"16点",@"17点"];
-    NSDate* nextDay = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:([[NSDate date] timeIntervalSinceReferenceDate] + 24*3600)];
-    _dateWheelView.ymdContentArr = [nextDay nextServerDays:7];
+    _dateWheelView.hContentArr = @[@"08:00",@"09:00", @"10:00",@"11:00",@"12:00",@"13:00",@"14:00",@"15:00",@"16:00",@"17:00"];
+    _dateWheelView.ymdContentArr = _ymdArray;
 }
 
+
+-(void)setChoosetDateStr:(NSString *)choosetDateStr
+{
+    _choosetDateStr = choosetDateStr;
+    
+   // long long dateLong = [_choosetDateStr convertDateStrWithHourToLongLong]; //去掉小时
+    
+    if ([_choosetDateStr convertDateStrWithHourToLongLong] < [[NSDate date] convertToLongLong]){
+        _ymdArray = [[NSDate formatDateFromChineseStringWithHour:_choosetDateStr] nextServerDays:7];
+    }else{
+        NSDate* nextDay = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:([[NSDate date] timeIntervalSinceReferenceDate] + 24*3600)];
+        _ymdArray = [nextDay nextServerDays:7];
+    }
+}
 
 #pragma mark - Public Methods
 -(void)getAppointDateStringWithBlock:(AppointmentDateStringBlock)block;
@@ -136,7 +151,7 @@
 #pragma mark - HCDateWheelViewDelegate
 -(void)choosetDateStr:(NSString *)ymdStr HourStr:(NSString *)hourStr
 {
-    _choosetDateStr = [NSString stringWithFormat:@"%@%@", ymdStr, hourStr];
+    _choosetDateStr = [NSString stringWithFormat:@"%@,%@", ymdStr, hourStr];
     [_tableView reloadData];
     _dateWheelView.hidden = YES;
 }
@@ -164,11 +179,12 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSRange range = [_choosetDateStr rangeOfString:@"日"];
-    _dateWheelView.currentYMD = [_choosetDateStr substringToIndex:range.location+1];
-    _dateWheelView.currentHour = [_choosetDateStr substringWithRange:NSMakeRange(range.location+1,_choosetDateStr.length-range.location-1)];
+    NSRange rangeDay = [_choosetDateStr rangeOfString:@"日"];
+    NSRange rangeHour = [_choosetDateStr rangeOfString:@","];
+    _dateWheelView.currentYMD = [_choosetDateStr substringToIndex:rangeDay.location+1];
+    _dateWheelView.currentHour = [_choosetDateStr substringWithRange:NSMakeRange(rangeHour.location+1, _choosetDateStr.length - rangeHour.location - 1)];
+    //_dateWheelView.currentHour = [_choosetDateStr substringWithRange:NSMakeRange(range.location+1,_choosetDateStr.length-range.location-1)];
     _dateWheelView.hidden = NO;
-    
 }
 
 @end

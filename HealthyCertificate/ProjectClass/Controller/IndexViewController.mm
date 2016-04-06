@@ -468,8 +468,9 @@ BOOL   _isLocationInfoHasBeenSent;
         {
             [RzAlertView showAlertViewControllerWithController:self title:@"提示" message:@"您确定要退出当前账号吗？" confirmTitle:@"确定" cancleTitle:@"点错了" handle:^(NSInteger flag) {
                 if (flag == 1) {
-                    SetPhoneNumber(@"");
-                    SetLoginSucceedInfo(@"");
+                    SetToken(@"");
+                    SetUserRole(@"");
+                    SetUserName(@"");
                     RemoveUserType;
                     LoginController* loginViewController = [[LoginController alloc] init];
                     [self presentViewController:loginViewController animated:NO completion:nil] ;

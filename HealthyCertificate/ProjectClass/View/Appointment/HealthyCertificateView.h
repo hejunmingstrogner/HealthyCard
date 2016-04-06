@@ -24,6 +24,8 @@
 -(void)idCardBtnClicked:(NSString*)idCard;
 //点击修改头像
 -(void)healthyImageClicked;
+//初始头像存在
+-(void)avatarSetted;
 
 @end
 
@@ -43,6 +45,9 @@
 @property (nonatomic, copy) NSString* num;
 //头像
 @property (nonatomic, strong) UIImageView* imageView;
+
+//控制所有输出部件的颜色
+@property (nonatomic, strong) UIColor* inputColor;
 
 
 @property (nonatomic, weak) id<HealthyCertificateViewDelegate> delegate;
