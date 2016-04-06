@@ -272,15 +272,4 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 - (void)getCustomerTestChargePriceWithCityName:(NSString *)cityName checkType:(NSString *)checktype resultBlcok:(void(^)(NSString *result, NSError *error))block;
 
-#pragma mark - 二维码
-/**
- *  get二维码图片
- *
- *  @param content   二维码内容
- *  @param type      二维码类型
- *  @param edgeLength 二维码图片的边长度
- *  @param resultBlock 得到图片后的回调
- */
--(void)getQRImageByGet:(NSString*)content Type:(NSString*) type EdgeLength:(NSInteger)edgeLength resultBlock:(HCImageResultBlock)resultBlock;
-
 @end
