@@ -322,4 +322,14 @@
         [_tableView reloadData];
     }
 }
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar   // called when cancel button pressed
+{
+    NSLog(@"serach");
+    _isSearchStatus = NO;
+    [_tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [self.view endEditing:YES];
+}
 @end
