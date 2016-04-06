@@ -145,7 +145,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _sercersPositionInfo = sercersPositionInfo;
     _location = sercersPositionInfo.address;
     if (sercersPositionInfo.type == 0) {
-        _appointmentDateStr = [NSString stringWithFormat:@"%@,8:00", [[NSDate date] getDateStringWithInternel:1]];
+        _appointmentDateStr = [NSString stringWithFormat:@"%@,08:00", [[NSDate date] getDateStringWithInternel:1]];
         _isTemperaryPoint = NO;
     }
     else {
@@ -257,7 +257,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _examinationTimeTextField = [[UITextField alloc] init];
     _examinationTimeTextField.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
     [examinationContainerView addSubview:_examinationTimeTextField];
-     _appointmentDateStr = (_appointmentDateStr == nil) ? [NSString stringWithFormat:@"%@,8:00", [[NSDate date] getDateStringWithInternel:1]] : _appointmentDateStr;
+     _appointmentDateStr = (_appointmentDateStr == nil) ? [NSString stringWithFormat:@"%@,08:00", [[NSDate date] getDateStringWithInternel:1]] : _appointmentDateStr;
     //合同时间
     if (_brContract){
         if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){

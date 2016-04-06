@@ -29,8 +29,6 @@ static const char *kScanQRCodeQueueName = "ScanQRCodeQueue";
     UIButton *_lightButton;//灯光按钮
     AVCaptureSession *_captureSession;
     AVCaptureVideoPreviewLayer *_videoPreviewLayer;
-
-    
 }
 
 @end

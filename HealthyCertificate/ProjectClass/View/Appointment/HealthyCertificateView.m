@@ -62,7 +62,14 @@
     _numLabel.text = _num;
     
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@customerTest/getPrintPhoto?cCheckCode=%@", [HttpNetworkManager baseURL], customerTest.checkCode]];
-    [self.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Avatar"] options:SDWebImageRefreshCached|SDWebImageRetryFailed];
+    [self.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Avatar"] options:SDWebImageRefreshCached|SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        if (image != nil){
+            if (self.delegate && [self.delegate respondsToSelector:@selector(avatarSetted)]){
+                [self.delegate avatarSetted];
+            }
+        }
+    }];
+//    [self.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Avatar"] options:SDWebImageRefreshCached|SDWebImageRetryFailed];
 }
 
 -(void)setPersonInfoPacket:(PersonInfoOfPhonePacket *)personInfoPacket
@@ -105,6 +112,13 @@
 -(void)setWorkType:(NSString *)workType{
     _workType = workType;
     [_workTypeBtn setTitle:_workType forState:UIControlStateNormal];
+}
+
+-(void)setInputColor:(UIColor *)inputColor{
+    [_nameBtn setTitleColor:inputColor forState:UIControlStateNormal];
+    [_sexBtn setTitleColor:inputColor forState:UIControlStateNormal];
+    [_idCardBtn setTitleColor:inputColor forState:UIControlStateNormal];
+    [_workTypeBtn setTitleColor:inputColor forState:UIControlStateNormal];
 }
 
 //-(void)setPicImage:(UIImage *)picImage{

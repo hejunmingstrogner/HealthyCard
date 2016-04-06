@@ -130,7 +130,7 @@
     _location = sercersPositionInfo.address;
     
     if (sercersPositionInfo.type == 0) {
-        _appointmentDateStr = [NSString stringWithFormat:@"%@,8:00", [[NSDate date] getDateStringWithInternel:1]];
+        _appointmentDateStr = [NSString stringWithFormat:@"%@,08:00", [[NSDate date] getDateStringWithInternel:1]];
         _isTemperaryPoint = NO;
     }
     else {
