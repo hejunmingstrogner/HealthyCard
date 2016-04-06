@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 
 #import <Pingpp.h>
+#import <AFNetworking.h>
 
 #import "UIFont+Custom.h"
 #include "HMNetworkEngine.h"
@@ -16,6 +17,8 @@
 #import "RzAlertView.h"
 #import "QueueServerInfo.h"
 #import "LauchScreenController.h"
+
+#import "LoginController.h"
 
 #import "HCNetworkReachability.h"
 
@@ -56,6 +59,8 @@
     [UMSocialWechatHandler setWXAppId:@"wx8b40ee373b8d6864" appSecret:@"55325d44ba360016ca90d9a7c24b11b4" url:@"http://www.zeekkeji.com/"];
     [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ, UMShareToQzone, UMShareToWechatSession, UMShareToWechatTimeline]];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(HTTPOperationDidFinish:) name:AFNetworkingOperationDidFinishNotification object:nil];
+    
     return YES;
 }
 
@@ -91,6 +96,28 @@
          annotation:(id)annotation
 {
     return  [UMSocialSnsService handleOpenURL:url];
+}
+
+- (void)HTTPOperationDidFinish:(NSNotification *)notification {
+    AFHTTPRequestOperation *operation = (AFHTTPRequestOperation *)[notification object];
+    
+    if (![operation isKindOfClass:[AFHTTPRequestOperation class]]) {
+        return;
+    }
+    
+    if ([operation.response statusCode] == 401) {
+        // enqueue a new request operation here
+        //token过期或者异地登录
+        if ([[[UIApplication sharedApplication] keyWindow].rootViewController isKindOfClass:[LoginController class]]){
+            return;
+        }
+        UIWindow * window = [[UIApplication sharedApplication]keyWindow];
+        window.backgroundColor = [UIColor whiteColor];
+        LoginController* loginController = [[LoginController alloc] init];
+        [RzAlertView showAlertLabelWithTarget:loginController.view Message:@"认证失效，请重新登录" removeDelay:3];
+        window.rootViewController = loginController;
+        [window makeKeyAndVisible];
+    }
 }
 
 
