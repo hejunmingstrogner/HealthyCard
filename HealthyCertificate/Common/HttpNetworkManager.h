@@ -188,6 +188,15 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 -(void)customerUploadHealthyCertifyPhoto:(UIImage*)photo CusCheckCode:(NSString*)checkCode resultBlock:(HCDictionaryResultBlock)resultBlock;
 
+/**
+ *  根据条形码作体检确认
+ *
+ *  @param checkNo         体检编号
+ *  @param CardNo          条形码
+ *  @param resultBlock     回调
+ */
+-(void)customerAffirmByCardNo:(NSString*)checkNo CardNo:(NSString*)CardNo resultBlock:(HCDictionaryResultBlock)block;
+
 #pragma mark - 取消个人预约
 /**
  *  用于取消个人预约

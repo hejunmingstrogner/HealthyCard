@@ -508,6 +508,23 @@ static NSString * const AFHTTPRequestOperationSSOSBaseURLString = @"http://zkweb
         }
     }];
 }
+
+-(void)customerAffirmByCardNo:(NSString*)checkNo CardNo:(NSString*)CardNo resultBlock:(HCDictionaryResultBlock)block{
+    NSString* url = [NSString stringWithFormat:@"customerTest/affirmByCardNO?checkCode=%@&cardNO=%@", checkNo, CardNo];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        MethodResult *result = [MethodResult mj_objectWithKeyValues:responseObject];
+        if (result.succeed){
+//            CustomerTest* customerTest = [CustomerTest mj_objectWithKeyValues:result.object];
+            block((NSDictionary*)result.object, nil);
+        }else{
+            block(nil, [NSError errorWithDomain:@"error" code:101 userInfo:[NSDictionary dictionaryWithObject:result.errorMsg forKey:@"error"]]);
+        }
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        block(nil, error);
+    }];
+}
+
+
 #pragma mark - 取消个人预约
 - (void)cancleCheckedCustomerTestWithCheckCode:(NSString *)checkCode resultBlock:(HCBoolResultBlock)block
 {

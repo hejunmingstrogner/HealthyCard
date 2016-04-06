@@ -48,10 +48,13 @@
     [bckImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
+}
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [HMNetworkEngine getInstance].delegate = self;
     [[HMNetworkEngine getInstance] startControl];
-    
 }
 
 #pragma mark - HMNetworkEngine Delegate
@@ -73,9 +76,13 @@
     
     //返回的数据按理应该是一个，所以如果不为空，只取第一条数据
     if (array.count != 0){
-        if ([array[0] isEqualToString:@""])
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"远端服务器关闭" removeDelay:2];
-        
+        if ([array[0] isEqualToString:@""]){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"远端服务器关闭" removeDelay:2];
+            });
+            return;
+        }
+
         QueueServerInfo* info = [[QueueServerInfo alloc] initWithString:array[0]];
         [HMNetworkEngine getInstance].serverID = info.serverID;
         //这里才代表连接上了中心控制服务器
