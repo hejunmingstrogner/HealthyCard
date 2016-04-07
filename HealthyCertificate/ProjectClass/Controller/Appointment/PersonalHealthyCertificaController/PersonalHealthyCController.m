@@ -221,37 +221,11 @@
         make.width.equalTo(_baseBgScrollView);
     }];
 
-    // 条形码按钮
-    codeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [containView addSubview:codeButton];
-    [codeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(containView).offset(5);
-        make.left.right.equalTo(containView);
-        make.height.mas_equalTo(44);
-    }];
-    codeButton.backgroundColor = [UIColor whiteColor];
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-    cell.tag = 100;
-    cell.userInteractionEnabled = NO;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
-    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-    cell.textLabel.text = @"条形码绑定";
-   // cell.detailTextLabel.text = @"体检时可出示此条形码";
-    cell.imageView.image = [UIImage imageNamed:@"tiaoxingma"];
-    [codeButton addSubview:cell];
-    cell.detailTextLabel.text = _customerTestInfo.cardNo;
-    [cell mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(codeButton);
-    }];
-    [codeButton setBackgroundImage:[UIImage imageNamed:@"grayBackgroundImage"] forState:UIControlStateHighlighted];
-    [codeButton addTarget:self action:@selector(codeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-
     // 健康证信息
     _healthCertificateView = [[HealthyCertificateView alloc]init];
     [containView addSubview:_healthCertificateView];
     [_healthCertificateView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(codeButton.mas_bottom).offset(10);
+        make.top.equalTo(containView).offset(10);
         make.left.equalTo(containView).offset(10);
         make.width.equalTo(containView).offset(-20);
         make.height.mas_equalTo(PXFIT_HEIGHT(470));
@@ -268,12 +242,39 @@
         make.top.equalTo(_healthCertificateView.mas_bottom).offset(10);
         make.height.mas_equalTo(200);
     }];
-    
+
+    // 条形码按钮
+    codeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [containView addSubview:codeButton];
+    [codeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_orderinforView.mas_bottom).offset(10);
+        make.left.right.equalTo(containView);
+        make.height.mas_equalTo(44);
+    }];
+    codeButton.backgroundColor = [UIColor whiteColor];
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+    cell.tag = 100;
+    cell.userInteractionEnabled = NO;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+    cell.textLabel.text = @"条形码绑定";
+    // cell.detailTextLabel.text = @"体检时可出示此条形码";
+    cell.imageView.image = [UIImage imageNamed:@"tiaoxingma"];
+    [codeButton addSubview:cell];
+    cell.detailTextLabel.text = _customerTestInfo.cardNo;
+    [cell mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(codeButton);
+    }];
+    [codeButton setBackgroundImage:[UIImage imageNamed:@"grayBackgroundImage"] forState:UIControlStateHighlighted];
+    [codeButton addTarget:self action:@selector(codeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+
+
     UIView *btnBgView = [[UIView alloc]init];
     [containView addSubview:btnBgView];
     btnBgView.backgroundColor = [UIColor whiteColor];
     [btnBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_orderinforView.mas_bottom).offset(10);
+        make.top.equalTo(codeButton.mas_bottom).offset(10);
         make.left.right.equalTo(containView);
         make.height.mas_equalTo(80);
     }];
@@ -358,6 +359,7 @@
         make.centerX.equalTo(_leftBtn);
         make.bottom.equalTo(warmingLabel.mas_top).offset(1);
     }];
+
     [containView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(warmBg.mas_bottom).offset(10);
     }];
