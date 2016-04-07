@@ -170,7 +170,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((HistoryModel *)_historyArray[indexPath.section]).type == HISTORY_PERSONAL_FINISHED) {
-        return 110;
+        return 145;
     }
     else {
         if (indexPath.row == 0) {
