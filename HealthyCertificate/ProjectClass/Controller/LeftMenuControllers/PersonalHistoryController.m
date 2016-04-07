@@ -165,12 +165,15 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (section == _historyArray.count - 1) {
+        return 10;
+    }
     return 0.1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((HistoryModel *)_historyArray[indexPath.section]).type == HISTORY_PERSONAL_FINISHED) {
-        return 110;
+        return 165;
     }
     else {
         if (indexPath.row == 0) {
@@ -216,9 +219,9 @@
     }
     if(model.type == HISTORY_PERSONAL_FINISHED){
         // 已完成
-        CustomerHistoryTBVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+        CustomerHistoryTBVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"xxxcell"];
         if (!cell) {
-            cell = [[CustomerHistoryTBVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+            cell = [[CustomerHistoryTBVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"xxxcell"];
             [cell.reportBtn addTarget:self action:@selector(reportBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         }
         cell.customerTest = model.customer;
@@ -235,7 +238,7 @@
     // 已完成的
     if (((HistoryModel *)_historyArray[indexPath.section]).type == HISTORY_PERSONAL_FINISHED) {
         PersonalHealthyCHistoryVC *person = [[PersonalHealthyCHistoryVC alloc]init];
-        person.customerTestInfo = _historyArray[indexPath.section];
+        person.customerTestInfo = ((HistoryModel *)_historyArray[indexPath.section]).customer;
         [self.navigationController pushViewController:person animated:YES];
     }
     else {
@@ -256,7 +259,7 @@
 // 报告按钮点击
 - (void)reportBtnClicked:(CustomButton *)sender
 {
-    CustomerTest* selectCustomerTest = (CustomerTest *)_historyArray[sender.tag];
+    CustomerTest* selectCustomerTest = ((HistoryModel *)_historyArray[sender.tag]).customer;
     [HMNetworkEngine getInstance].delegate = self;
     [[HMNetworkEngine getInstance] getReportQueryUrl:selectCustomerTest.checkCode];
 }
