@@ -173,7 +173,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((HistoryModel *)_historyArray[indexPath.section]).type == HISTORY_PERSONAL_FINISHED) {
-        return 145;
+        return 165;
     }
     else {
         if (indexPath.row == 0) {
@@ -238,7 +238,7 @@
     // 已完成的
     if (((HistoryModel *)_historyArray[indexPath.section]).type == HISTORY_PERSONAL_FINISHED) {
         PersonalHealthyCHistoryVC *person = [[PersonalHealthyCHistoryVC alloc]init];
-        person.customerTestInfo = _historyArray[indexPath.section];
+        person.customerTestInfo = ((HistoryModel *)_historyArray[indexPath.section]).customer;
         [self.navigationController pushViewController:person animated:YES];
     }
     else {
