@@ -395,4 +395,8 @@
     NSLog(@"预约支付失败");
 }
 
+- (void)payMoneyByOthers
+{
+
+}
 @end

@@ -306,7 +306,6 @@
 #pragma mark - 搜索框delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSLog(@"text: %@", searchText);
     if (searchText.length == 0) {
         _isSearchStatus = NO;
         [_tableView reloadData];
@@ -324,7 +323,6 @@
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar   // called when cancel button pressed
 {
-    NSLog(@"serach");
     _isSearchStatus = NO;
     [_tableView reloadData];
 }

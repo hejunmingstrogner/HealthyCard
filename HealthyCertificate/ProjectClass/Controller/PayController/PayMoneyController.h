@@ -22,6 +22,11 @@
  */
 - (void)payMoneyFail;
 
+/**
+ *  找人代付
+ */
+- (void)payMoneyByOthers;
+
 @end
 
 @interface PayMoneyController : UIViewController
