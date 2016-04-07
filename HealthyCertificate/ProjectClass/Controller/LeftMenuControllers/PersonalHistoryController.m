@@ -165,6 +165,9 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (section == _historyArray.count - 1) {
+        return 10;
+    }
     return 0.1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -256,7 +259,7 @@
 // 报告按钮点击
 - (void)reportBtnClicked:(CustomButton *)sender
 {
-    CustomerTest* selectCustomerTest = (CustomerTest *)_historyArray[sender.tag];
+    CustomerTest* selectCustomerTest = ((HistoryModel *)_historyArray[sender.tag]).customer;
     [HMNetworkEngine getInstance].delegate = self;
     [[HMNetworkEngine getInstance] getReportQueryUrl:selectCustomerTest.checkCode];
 }
