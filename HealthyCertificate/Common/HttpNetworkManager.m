@@ -38,6 +38,8 @@
 //http://zkwebserver.witaction.com:8080/
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080";
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://lyx.witaction.com/zkwebservice/";
+
+//222.18.159.36：8080  zkwebserver.witaction.com:8080
 static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/webservice/";
 static NSString * const AFHTTPRequestOperationSSOSBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/ssos/";
 

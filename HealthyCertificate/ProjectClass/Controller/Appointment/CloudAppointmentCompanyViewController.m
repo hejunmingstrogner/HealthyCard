@@ -686,7 +686,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _brContract.regCheckNum = customercount;
     _brContract.cityName = gCurrentCityName;
  
-    
+
     [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(NSDictionary *result, NSError *error) {
         if (error != nil){
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约异常失败，请重试" removeDelay:2];

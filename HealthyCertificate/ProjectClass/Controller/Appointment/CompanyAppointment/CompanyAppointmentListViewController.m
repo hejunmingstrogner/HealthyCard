@@ -212,58 +212,58 @@ typedef NS_ENUM(NSInteger, CompanyListTextField)
 #pragma mark - Action
 -(void)editBtnClicked:(UIButton*)sender
 {
-    [self.view endEditing:YES];
-    //如果预约人数 小于 已选员工
-    if ([_exminationCountField.text intValue] < _customerArr.count + _originArr.count){
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约人数必须大于所选员工数" removeDelay:3];
-        return ;
-    }
-    
-    //非服务点预约才能修改地址和时间
-    if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""])
-    {
-        NSArray* array = [_dateTextView.text  componentsSeparatedByString:@"~"];
-        _brContract.regBeginDate = [array[0] convertDateStrToLongLong]*1000;
-        _brContract.regEndDate = [array[1] convertDateStrToLongLong]*1000;
-        _brContract.regPosAddr = _addressTextView.text;
-        _brContract.regPosLA = _centerCoordinate.latitude;
-        _brContract.regPosLO = _centerCoordinate.longitude;
-    }
-    
-    _brContract.linkUser = _contactPersonField.text;
-    _brContract.linkPhone = _phoneNumField.text;
-    _brContract.regCheckNum = [_exminationCountField.text intValue];
-    
-    NSMutableArray* array = [[NSMutableArray alloc] init];
-    [array addObjectsFromArray:_customerArr];
-    [array addObjectsFromArray:_originArr];
-    __weak typeof(self) weakself = self;
-    [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract
-                                                      employees:array
-                                                    reslutBlock:^(NSDictionary *result, NSError *error) {
-        if (error != nil){
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"预约异常失败，请重试" removeDelay:2];
-            return;
-        }
-        
-        MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
-        if (methodResult.succeed == NO){
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"预约异常失败，请重试" removeDelay:2];
-            return;
-        }
-        
-        if ([methodResult.object isEqualToString:@"0"]){
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"预约异常失败，请重试" removeDelay:2];
-            return;
-        }
-        
-        if ([methodResult.object isEqualToString:@"1"]){
-            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"已达到修改次数上限" removeDelay:2];
-            return;
-        }
-        [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改成功" removeDelay:2];
-        isChanged = YES;
-    }];
+//    [self.view endEditing:YES];
+//    //如果预约人数 小于 已选员工
+//    if ([_exminationCountField.text intValue] < _customerArr.count + _originArr.count){
+//        [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约人数必须大于所选员工数" removeDelay:3];
+//        return ;
+//    }
+//    
+//    //非服务点预约才能修改地址和时间
+//    if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""])
+//    {
+//        NSArray* array = [_dateTextView.text  componentsSeparatedByString:@"~"];
+//        _brContract.regBeginDate = [array[0] convertDateStrToLongLong]*1000;
+//        _brContract.regEndDate = [array[1] convertDateStrToLongLong]*1000;
+//        _brContract.regPosAddr = _addressTextView.text;
+//        _brContract.regPosLA = _centerCoordinate.latitude;
+//        _brContract.regPosLO = _centerCoordinate.longitude;
+//    }
+//    
+//    _brContract.linkUser = _contactPersonField.text;
+//    _brContract.linkPhone = _phoneNumField.text;
+//    _brContract.regCheckNum = [_exminationCountField.text intValue];
+//    
+//    NSMutableArray* array = [[NSMutableArray alloc] init];
+//    [array addObjectsFromArray:_customerArr];
+//    [array addObjectsFromArray:_originArr];
+//    __weak typeof(self) weakself = self;
+//    [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract
+//                                                      employees:array
+//                                                    reslutBlock:^(NSDictionary *result, NSError *error) {
+//        if (error != nil){
+//            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"预约异常失败，请重试" removeDelay:2];
+//            return;
+//        }
+//        
+//        MethodResult *methodResult = [MethodResult mj_objectWithKeyValues:result];
+//        if (methodResult.succeed == NO){
+//            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"预约异常失败，请重试" removeDelay:2];
+//            return;
+//        }
+//        
+//        if ([methodResult.object isEqualToString:@"0"]){
+//            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"预约异常失败，请重试" removeDelay:2];
+//            return;
+//        }
+//        
+//        if ([methodResult.object isEqualToString:@"1"]){
+//            [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"已达到修改次数上限" removeDelay:2];
+//            return;
+//        }
+//        [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改成功" removeDelay:2];
+//        isChanged = YES;
+//    }];
 }
 
 // 返回前一页
