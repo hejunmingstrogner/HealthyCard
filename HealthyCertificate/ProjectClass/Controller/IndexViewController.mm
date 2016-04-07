@@ -34,7 +34,7 @@
 #import "OrdersAlertView.h"
 #import "RegisterViewController.h"
 #import "ServicePointApointmentViewController.h"
-
+#import "PersonalHistoryController.h"
 NSString *gCurrentCityName;
 BOOL   _isLocationInfoHasBeenSent;
 
@@ -432,26 +432,26 @@ BOOL   _isLocationInfoHasBeenSent;
             [self.navigationController pushViewController:userinfor animated:YES];
             break;
         }
-        case LEFTMENUCELL_HISTORYRECORD:{
-//            NSLog(@"历史记录");
-            HistoryInformationVController *history = [[HistoryInformationVController alloc]init];
-            [self.navigationController pushViewController:history animated:YES];
-            break;
-        }
-        case LEFTMENUCELL_ERWEIMA:
-            break;
-        case LEFTMENUCELL_SETTING:
-//            NSLog(@"设置");
-            break;
+//        case LEFTMENUCELL_HISTORYRECORD:{
+////            NSLog(@"历史记录");
+//            HistoryInformationVController *history = [[HistoryInformationVController alloc]init];
+//            [self.navigationController pushViewController:history animated:YES];
+//            break;
+//        }
+//        case LEFTMENUCELL_ERWEIMA:
+//            break;
+//        case LEFTMENUCELL_SETTING:
+////            NSLog(@"设置");
+//            break;
         case LEFTMENUCELL_NOTICE:{
 //            NSLog(@"体检注意事项");
             PhysicalExaminationViewController *phy = [[PhysicalExaminationViewController alloc]init];
             [self.navigationController pushViewController:phy animated:YES];
             break;
         }
-        case LEFTMENUCELL_SHARE:
-//            NSLog(@"分享");
-            break;
+//        case LEFTMENUCELL_SHARE:
+////            NSLog(@"分享");
+//            break;
         case LEFTMENUCELL_ABOUTUS:{
 //            NSLog(@"关于我们");
             AboutUsViewController *aboutUs = [[AboutUsViewController alloc]init];
@@ -479,11 +479,16 @@ BOOL   _isLocationInfoHasBeenSent;
             break;
         }
         // 我的预约
-        case LEFTMENUCELL_UNIT_APPOINT:
+        case LEFTMENUCELL_UNIT_APPOINT:{
+            HistoryInformationVController *history = [[HistoryInformationVController alloc]init];
+            //            history.historyArray = checkListData;
+            [self.navigationController pushViewController:history animated:YES];
+            break;
+        }
         case LEFTMENUCELL_PERSON_APPOINT:
         {
-            HistoryInformationVController *history = [[HistoryInformationVController alloc]init];
-            [self.navigationController pushViewController:history animated:YES];
+            PersonalHistoryController *historry = [[PersonalHistoryController alloc]init];
+            [self.navigationController pushViewController:historry animated:YES];
             break;
         }
         case LEFTMENUCELL_PERSON_ERWEIMA: // 我的二维码

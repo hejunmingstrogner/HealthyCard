@@ -1,14 +1,14 @@
 //
-//  HistoryInformationVController.h
+//  PersonalHistoryController.h
 //  HealthyCertificate
 //
-//  Created by 乄若醉灬 on 16/3/3.
+//  Created by 乄若醉灬 on 16/4/7.
 //  Copyright © 2016年 JIANGXU. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface HistoryInformationVController : UIViewController
+@interface PersonalHistoryController : UIViewController
 
 @property (nonatomic, strong) UITableView *tableView;
 
