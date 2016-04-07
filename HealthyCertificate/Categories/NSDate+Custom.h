@@ -117,4 +117,11 @@
  */
 +(NSDateComponents*)getInternalDateFrom:(NSDate*)beginDate To:(NSDate*)endDate;
 
+/**
+ *  获得一年后的日期
+ *
+ *  @return 一年后的日期
+ */
+-(NSDate*)nextYear;
+
 @end

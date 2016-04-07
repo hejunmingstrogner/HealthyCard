@@ -172,6 +172,7 @@ typedef NS_ENUM(NSInteger, testStatus){
 @property (nonatomic, strong) NSDate * synTime;
 @property (nonatomic, assign) float ages;
 @property (nonatomic, copy) NSString * marryFlag;
+//体检确认时间
 @property (nonatomic, assign) long long affirmdate;
 @property (nonatomic, copy) NSString * operdate;
 @property (nonatomic, assign) float payMoney;
