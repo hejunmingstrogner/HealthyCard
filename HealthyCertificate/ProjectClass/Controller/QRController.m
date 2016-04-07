@@ -23,9 +23,9 @@
 #import "Constants.h"
 #import "UMSocial.h"
 #import "InsetsLabel.h"
-
+#import "PersonalHistoryController.h"
 #import "MyCheckListViewController.h"
-
+#import "PersonalHealthyCController.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 #define TOP_MARGIN FIT_FONTSIZE(40)
@@ -163,20 +163,23 @@
 // 返回前一页
 - (void)backToPre:(id)sender
 {
-    if (_qrControllerType == QRController_Default){
-        [self.navigationController popViewControllerAnimated:YES];
-    }else{
-       // self.navigationController
-        NSArray *viewControllers = self.navigationController.viewControllers;
-        for ( UIViewController *controller in viewControllers )
-        {
-            if ( [controller isKindOfClass:[MyCheckListViewController class]] )
-            {
-                [self.navigationController popToViewController:controller animated:YES];
-            }
-        }
-    }
-    
+//    if (_qrControllerType == QRController_Default){
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }else{
+//       // self.navigationController
+//        NSArray *viewControllers = self.navigationController.viewControllers;
+//        for ( UIViewController *controller in viewControllers )
+//        {
+//            if ( [controller isKindOfClass:[MyCheckListViewController class]] )
+//            {
+//                [self.navigationController popToViewController:controller animated:YES];
+//            }
+//            if([controller isKindOfClass:[PersonalHistoryController class]]){
+//                [self.navigationController popToViewController:controller animated:YES];
+//            }
+//        }
+//    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
