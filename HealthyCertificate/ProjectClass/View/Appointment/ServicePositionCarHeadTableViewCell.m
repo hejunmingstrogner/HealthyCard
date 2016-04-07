@@ -129,11 +129,8 @@
         NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@brVehicle/getPhoto?uid=%@", [HttpNetworkManager baseURL], serviceInfo.brOutCheckArrange.vehicleID]];
         [_carImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"serverPointLogo"] options:SDWebImageRefreshCached];
     }
-    
-    
-//    [_carImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@brVehicle/getPhoto?uid=%@", [HttpNetworkManager baseURL], serviceInfo.brOutCheckArrange.vehicleID]] placeholderImage:[UIImage imageNamed:@"carimage"]];
 
-    [_carNo setText:serviceInfo.name Font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)] WithEndText:[NSString stringWithFormat:@"(%d人办证)", serviceInfo.oppointmentNum] endTextColor:[UIColor redColor]];
+    [_carNo setText:serviceInfo.name Font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)] WithEndText:[NSString stringWithFormat:@"(%d人办证)", serviceInfo.oppointmentNum < 0? 0:serviceInfo.oppointmentNum] endTextColor:[UIColor redColor]];
     // 重新设置头高
     int carHeight = [self titleHeight:[NSString stringWithFormat:@"%@(%d人办证)", serviceInfo.name, serviceInfo.oppointmentNum] fontSize:FIT_FONTSIZE(24)];
     [_carNo mas_updateConstraints:^(MASConstraintMaker *make) {

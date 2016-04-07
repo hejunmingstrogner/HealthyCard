@@ -27,12 +27,13 @@
 #import "PositionUtil.h"
 #import "TakePhoto.h"
 #import "MethodResult.h"
+#import "PayMoneyController.h"
 
 #import <MJExtension.h>
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface PersonalHealthyCController()<ScanImageViewDelegate>
+@interface PersonalHealthyCController()<ScanImageViewDelegate, PayMoneyDelegate>
 {
     BOOL        _isAvatarSet;
     RzAlertView *waitAlertView;
@@ -45,6 +46,7 @@
     UIImageView *tipIamgeView;
 
     UIButton    *codeButton;
+    UIButton    *payMoneyButton;
 }
 
 @property (nonatomic, strong) UIButton                       *leftBtn;          // 左侧按钮
@@ -244,37 +246,68 @@
     }];
 
     // 条形码按钮
-    codeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [containView addSubview:codeButton];
-    [codeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+    cell.tag = 100;
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+    cell.textLabel.text = @"条形码绑定";
+    cell.imageView.image = [UIImage imageNamed:@"tiaoxingma"];
+    [containView addSubview:cell];
+    cell.detailTextLabel.text = _customerTestInfo.cardNo;
+    [cell mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_orderinforView.mas_bottom).offset(10);
         make.left.right.equalTo(containView);
         make.height.mas_equalTo(44);
     }];
-    codeButton.backgroundColor = [UIColor whiteColor];
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-    cell.tag = 100;
-    cell.userInteractionEnabled = NO;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
-    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-    cell.textLabel.text = @"条形码绑定";
-    // cell.detailTextLabel.text = @"体检时可出示此条形码";
-    cell.imageView.image = [UIImage imageNamed:@"tiaoxingma"];
-    [codeButton addSubview:cell];
-    cell.detailTextLabel.text = _customerTestInfo.cardNo;
-    [cell mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(codeButton);
+    codeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [codeButton setBackgroundColor:[UIColor clearColor]];
+    [cell addSubview:codeButton];
+    [codeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(cell);
     }];
     [codeButton setBackgroundImage:[UIImage imageNamed:@"grayBackgroundImage"] forState:UIControlStateHighlighted];
     [codeButton addTarget:self action:@selector(codeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
 
+    UITableViewCell *cell2 = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell2"];
+    [containView addSubview:cell2];
+    cell2.tag = 200;
+    cell2.backgroundColor = [UIColor whiteColor];
+    cell2.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+    cell2.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+    cell2.textLabel.text = @"支付情况";
+    cell2.detailTextLabel.textColor = [UIColor blackColor];
+    [cell2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(codeButton.mas_bottom).offset(10);
+        make.left.right.equalTo(containView);
+        make.height.mas_equalTo(44);
+    }];
+    if (_customerTestInfo.payMoney <= 0) {
+        cell2.detailTextLabel.text = @"在线支付";
+        cell2.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    else{
+        cell2.detailTextLabel.text = @"已支付";
+        cell2.accessoryType = UITableViewCellAccessoryNone;
+    }
+    cell2.imageView.image = [UIImage imageNamed:@"zhifuqingkuang"];
+    // 付款按钮
+    payMoneyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cell2 addSubview:payMoneyButton];
+    [payMoneyButton mas_makeConstraints:^(MASConstraintMaker *make) {
+       make.edges.equalTo(cell2);
+    }];
+    payMoneyButton.backgroundColor = [UIColor clearColor];
+    [payMoneyButton setBackgroundImage:[UIImage imageNamed:@"grayBackgroundImage"] forState:UIControlStateHighlighted];
+    [payMoneyButton addTarget:self action:@selector(paymoneyClicked:) forControlEvents:UIControlEventTouchUpInside];
 
+    // 三个状态按钮的view
     UIView *btnBgView = [[UIView alloc]init];
     [containView addSubview:btnBgView];
     btnBgView.backgroundColor = [UIColor whiteColor];
     [btnBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(codeButton.mas_bottom).offset(10);
+        make.top.equalTo(payMoneyButton.mas_bottom).offset(10);
         make.left.right.equalTo(containView);
         make.height.mas_equalTo(80);
     }];
@@ -613,6 +646,49 @@
     scanImageVC.delegate = self;
     [self presentViewController:scanImageVC animated:YES completion:nil];
 }
+#pragma mark - 支付情况
+- (void)paymoneyClicked:(UIButton *)sender
+{
+    if (_customerTestInfo.payMoney > 0) {
+        return;
+    }
+    PayMoneyController *pay = [[PayMoneyController alloc]init];
+    pay.chargetype = CUSTOMERTEST;
+    pay.checkCode = _customerTestInfo.checkCode;
+    pay.cityName = _customerTestInfo.cityName;
+    pay.delegate = self;
+    [self.navigationController pushViewController:pay animated:YES];
+}
+
+#pragma mark -支付的完成回调
+#pragma mark -paymoney Delegate 支付款项之后的delegate
+/**
+ *  支付成功
+ */
+- (void)payMoneySuccessed{
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的预约支付已完成" removeDelay:2];
+    UITableViewCell *cell = [payMoneyButton viewWithTag:200];
+    cell.detailTextLabel.text = @"已支付";
+    cell.accessoryType = UITableViewCellAccessoryNone;
+}
+/**
+ *  支付取消
+ */
+- (void)payMoneyCencel{
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"您取消了支付" removeDelay:2];
+}
+/**
+ *  支付失败
+ */
+- (void)payMoneyFail{
+    NSLog(@"预约支付失败");
+}
+
+- (void)payMoneyByOthers
+{
+    
+}
+
 
 #pragma mark - ScanImageViewDelegate
 -(void)reportScanResult:(NSString *)resultStr
