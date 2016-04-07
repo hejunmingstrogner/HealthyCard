@@ -132,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthyCertificate/ProjectClass/Controller/Appointment/PersonalHealthyCertificaController/PersonalHealthyCController.m"
-            timestampString = "481357095.375525"
+            timestampString = "481710981.028456"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "-rightBtnClicked:"
             landmarkType = "5">
          </BreakpointContent>
