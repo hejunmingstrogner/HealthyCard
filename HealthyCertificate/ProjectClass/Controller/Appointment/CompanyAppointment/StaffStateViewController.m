@@ -23,6 +23,8 @@
 
 #import "CustomerTest.h"
 
+#import "ExamItemStateCell.h"
+
 @interface StaffStateViewController()<UITableViewDataSource, UITableViewDelegate>
 {
     NSArray             *_dataSource;
@@ -59,6 +61,7 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
+   // [_tableView registerClass:[ExamItemStateCell class] forCellReuseIdentifier:NSStringFromClass([ExamItemStateCell class])];
     
     _updateBtn = [UIButton buttonWithTitle:@"点击刷新"
                                                font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(26)]
@@ -127,45 +130,66 @@
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _dataSource.count;
+    if (section == 0){
+        return 1;
+    }else{
+        return _dataSource.count;
+    }
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return PXFIT_HEIGHT(100);
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell* cell = [_tableView dequeueReusableCellWithIdentifier:NSStringFromClass([StaffStateViewController class])];
+    ExamItemStateCell* cell = [_tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ExamItemStateCell class])];
     if (cell == nil){
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:NSStringFromClass([StaffStateViewController class])];
-    }
-    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
-    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
-    
-    CustomerTest* customerTest = (CustomerTest*)_dataSource[indexPath.row];
-    int status = [customerTest.testStatus intValue];
-    if (status == 5 || status == 6){
-        //未检
-        cell.detailTextLabel.text = @"未检";
-        cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Orange_Text];
+        cell = [[ExamItemStateCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:NSStringFromClass([ExamItemStateCell class])];
     }
     
-    if (status <= 0){
-        //未检
-        cell.detailTextLabel.text = @"未检";
-         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Orange_Text];
-        
-    }else if (status < 3){
-        //在检
-        cell.detailTextLabel.text = @"在检";
-         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Green];
+    if (indexPath.section == 0){
+        cell.customerTest = nil;
     }else{
-        //已检
-        cell.detailTextLabel.text = @"已检";
-         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        cell.customerTest = (CustomerTest*)_dataSource[indexPath.row];
     }
+
     
-    cell.textLabel.text = customerTest.custName;
+//    UITableViewCell* cell = [_tableView dequeueReusableCellWithIdentifier:NSStringFromClass([StaffStateViewController class])];
+//    if (cell == nil){
+//        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:NSStringFromClass([StaffStateViewController class])];
+//    }
+//    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
+//    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
+//    
+//    CustomerTest* customerTest = (CustomerTest*)_dataSource[indexPath.row];
+//    int status = [customerTest.testStatus intValue];
+//    if (status == 5 || status == 6){
+//        //未检
+//        cell.detailTextLabel.text = @"未检";
+//        cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Orange_Text];
+//    }
+//    
+//    if (status <= 0){
+//        //未检
+//        cell.detailTextLabel.text = @"未检";
+//         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Orange_Text];
+//        
+//    }else if (status < 3){
+//        //在检
+//        cell.detailTextLabel.text = @"在检";
+//         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Green];
+//    }else{
+//        //已检
+//        cell.detailTextLabel.text = @"已检";
+//         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+//    }
+//    
+//    cell.textLabel.text = customerTest.custName;
     
     return cell;
 }

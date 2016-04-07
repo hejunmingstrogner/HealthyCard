@@ -123,6 +123,7 @@
 		25C070801CA38C1D0098A3FB /* unitLog@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C0707A1CA38C1D0098A3FB /* unitLog@1x.png */; };
 		25C070811CA38C1D0098A3FB /* unitLog@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C0707B1CA38C1D0098A3FB /* unitLog@2x.png */; };
 		25C070821CA38C1D0098A3FB /* unitLog@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C0707C1CA38C1D0098A3FB /* unitLog@3x.png */; };
+		25D01EE11CB6049A00E0DD5C /* ExamItemStateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D01EE01CB6049A00E0DD5C /* ExamItemStateCell.m */; };
 		25DB63FF1CABA0530072C8EF /* QRcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB63FE1CABA0530072C8EF /* QRcodeViewController.m */; };
 		25DB64021CABA85D0072C8EF /* ScanImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64011CABA85D0072C8EF /* ScanImageViewController.m */; };
 		25DB64051CACB0A50072C8EF /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DB64041CACB0A50072C8EF /* RegisterViewController.m */; };
@@ -420,6 +421,8 @@
 		25C0707A1CA38C1D0098A3FB /* unitLog@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unitLog@1x.png"; sourceTree = "<group>"; };
 		25C0707B1CA38C1D0098A3FB /* unitLog@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unitLog@2x.png"; sourceTree = "<group>"; };
 		25C0707C1CA38C1D0098A3FB /* unitLog@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unitLog@3x.png"; sourceTree = "<group>"; };
+		25D01EDF1CB6049A00E0DD5C /* ExamItemStateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamItemStateCell.h; sourceTree = "<group>"; };
+		25D01EE01CB6049A00E0DD5C /* ExamItemStateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamItemStateCell.m; sourceTree = "<group>"; };
 		25DB63FD1CABA0530072C8EF /* QRcodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRcodeViewController.h; sourceTree = "<group>"; };
 		25DB63FE1CABA0530072C8EF /* QRcodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRcodeViewController.m; sourceTree = "<group>"; };
 		25DB64001CABA85D0072C8EF /* ScanImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanImageViewController.h; sourceTree = "<group>"; };
@@ -960,6 +963,8 @@
 				B27B00DD1C84622D00FBF895 /* HealthyCertificateOrderInfoView.m */,
 				254D95931C97F2A0003B64D4 /* CompanyItemStaffStateCell.h */,
 				254D95941C97F2A0003B64D4 /* CompanyItemStaffStateCell.m */,
+				25D01EDF1CB6049A00E0DD5C /* ExamItemStateCell.h */,
+				25D01EE01CB6049A00E0DD5C /* ExamItemStateCell.m */,
 			);
 			path = CloudAppointment;
 			sourceTree = "<group>";
@@ -1780,6 +1785,7 @@
 				254A8DDE1C813BC200F2EC94 /* EditInfoViewController.m in Sources */,
 				252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */,
 				2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */,
+				25D01EE11CB6049A00E0DD5C /* ExamItemStateCell.m in Sources */,
 				25BFEB1B1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m in Sources */,
 				25BFEB301C74060B0062F9B8 /* QueueServerInfo.m in Sources */,
 				B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */,
