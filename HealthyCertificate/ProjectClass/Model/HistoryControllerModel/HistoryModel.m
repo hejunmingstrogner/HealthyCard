@@ -21,4 +21,20 @@
     return self;
 }
 
+
+- (instancetype)initWithBrContract:(BRContract *)brcontract names:(BaseTBCellItem *)name address:(BaseTBCellItem *)address time:(BaseTBCellItem *)times type:(HISTORY_TYPE)type rows:(NSInteger)rows
+{
+    if (self = [super init]) {
+        _brContract = brcontract;
+        _unitNames = name;
+        _checkAddress = address;
+        _checktimes = times;
+        _type = type;
+        _rows = rows;
+
+        _itemArray = @[name, address, times];
+    }
+    return self;
+}
+
 @end

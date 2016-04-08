@@ -143,6 +143,7 @@
 		30DBE88F3655C15417EB3268 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E1C17F5EF743EC155F709C /* libPods.a */; };
 		B201CCC31C72046D00B8F624 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC21C72046D00B8F624 /* Info.plist */; };
 		B201CCC51C7205B100B8F624 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B201CCC41C7205B100B8F624 /* Main.storyboard */; };
+		B21721531CB660770066F44E /* UnitHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21721521CB660770066F44E /* UnitHistoryController.m */; };
 		B221F6211CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B221F6201CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m */; };
 		B22F730E1CB608200073FB0E /* HistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B22F730D1CB608200073FB0E /* HistoryModel.m */; };
 		B22F73111CB60F220073FB0E /* PersonalHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22F73101CB60F220073FB0E /* PersonalHistoryController.m */; };
@@ -172,7 +173,6 @@
 		B2484DB91C71C20D00C0CCBB /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2484DB81C71C20D00C0CCBB /* LoginController.m */; };
 		B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2484DBB1C71C25900C0CCBB /* IndexViewController.mm */; };
 		B259C9351C8827B300A6A767 /* MLImageCrop.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C9341C8827B300A6A767 /* MLImageCrop.m */; };
-		B259C9381C885EA600A6A767 /* HistoryInformationVController.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C9371C885EA600A6A767 /* HistoryInformationVController.m */; };
 		B259C93B1C88608800A6A767 /* CustomerHistoryTBVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C93A1C88608800A6A767 /* CustomerHistoryTBVCell.m */; };
 		B259C9421C8A78A400A6A767 /* libIDCardLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B259C93D1C8A78A400A6A767 /* libIDCardLib.a */; };
 		B259C9431C8A78A400A6A767 /* YMIDCardRecognition.m in Sources */ = {isa = PBXBuildFile; fileRef = B259C9411C8A78A400A6A767 /* YMIDCardRecognition.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -458,6 +458,8 @@
 		6D2243EB114EF1077978D1EA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B201CCC21C72046D00B8F624 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B201CCC41C7205B100B8F624 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B21721511CB660770066F44E /* UnitHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitHistoryController.h; sourceTree = "<group>"; };
+		B21721521CB660770066F44E /* UnitHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitHistoryController.m; sourceTree = "<group>"; };
 		B221F61F1CA0EF1A005D1CBF /* CompanyHistoryDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyHistoryDetailVC.h; sourceTree = "<group>"; };
 		B221F6201CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyHistoryDetailVC.m; sourceTree = "<group>"; };
 		B22F730C1CB608200073FB0E /* HistoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryModel.h; sourceTree = "<group>"; };
@@ -518,8 +520,6 @@
 		B259C9311C86E28100A6A767 /* SelectCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCompanyViewController.m; sourceTree = "<group>"; };
 		B259C9331C8827B300A6A767 /* MLImageCrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLImageCrop.h; sourceTree = "<group>"; };
 		B259C9341C8827B300A6A767 /* MLImageCrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLImageCrop.m; sourceTree = "<group>"; };
-		B259C9361C885EA600A6A767 /* HistoryInformationVController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryInformationVController.h; sourceTree = "<group>"; };
-		B259C9371C885EA600A6A767 /* HistoryInformationVController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryInformationVController.m; sourceTree = "<group>"; };
 		B259C9391C88608800A6A767 /* CustomerHistoryTBVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerHistoryTBVCell.h; sourceTree = "<group>"; };
 		B259C93A1C88608800A6A767 /* CustomerHistoryTBVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerHistoryTBVCell.m; sourceTree = "<group>"; };
 		B259C93C1C8A78A400A6A767 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
@@ -1163,12 +1163,12 @@
 				B23A98151C76F5C700E3E054 /* AdviceViewController.m */,
 				B259C9301C86E28100A6A767 /* SelectCompanyViewController.h */,
 				B259C9311C86E28100A6A767 /* SelectCompanyViewController.m */,
-				B259C9361C885EA600A6A767 /* HistoryInformationVController.h */,
-				B259C9371C885EA600A6A767 /* HistoryInformationVController.m */,
 				B23163C41C9BEF5300377B27 /* ConsumerAgreement.h */,
 				B23163C51C9BEF5300377B27 /* ConsumerAgreement.m */,
 				B22F730F1CB60F220073FB0E /* PersonalHistoryController.h */,
 				B22F73101CB60F220073FB0E /* PersonalHistoryController.m */,
+				B21721511CB660770066F44E /* UnitHistoryController.h */,
+				B21721521CB660770066F44E /* UnitHistoryController.m */,
 			);
 			path = LeftMenuControllers;
 			sourceTree = "<group>";
@@ -1747,6 +1747,7 @@
 				B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */,
 				25DB64161CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m in Sources */,
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
+				B21721531CB660770066F44E /* UnitHistoryController.m in Sources */,
 				B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */,
 				B2640CD81C7C7D7500721CB5 /* WaitDocResultTableViewCell.m in Sources */,
 				B2D721291CA515FB007B1671 /* WorkManagerTBC.m in Sources */,
@@ -1856,7 +1857,6 @@
 				B2484DBC1C71C25900C0CCBB /* IndexViewController.mm in Sources */,
 				B23A98001C7420DE00E3E054 /* ServersPositionAnnotionsModel.m in Sources */,
 				B27222C11C8FBD37002494EA /* DJRefresh.m in Sources */,
-				B259C9381C885EA600A6A767 /* HistoryInformationVController.m in Sources */,
 				B23A98071C76BCDA00E3E054 /* UserinformationCellItem.m in Sources */,
 				B259C9431C8A78A400A6A767 /* YMIDCardRecognition.m in Sources */,
 				B23506091C91A7B500B35E1E /* ChargeBusinessForCustomerTest.m in Sources */,

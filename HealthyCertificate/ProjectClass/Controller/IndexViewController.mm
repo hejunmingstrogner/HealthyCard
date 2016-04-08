@@ -27,7 +27,6 @@
 #import "ServicePointDetailViewController.h"
 #import "CloudAppointmentViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
-#import "HistoryInformationVController.h"
 #import "LoginController.h"
 #import "QRController.h"
 #import "WorkerManagerVC.h"
@@ -35,6 +34,8 @@
 #import "RegisterViewController.h"
 #import "ServicePointApointmentViewController.h"
 #import "PersonalHistoryController.h"
+#import "UnitHistoryController.h"
+
 NSString *gCurrentCityName;
 BOOL   _isLocationInfoHasBeenSent;
 
@@ -434,9 +435,6 @@ BOOL   _isLocationInfoHasBeenSent;
         }
 //        case LEFTMENUCELL_HISTORYRECORD:{
 ////            NSLog(@"历史记录");
-//            HistoryInformationVController *history = [[HistoryInformationVController alloc]init];
-//            [self.navigationController pushViewController:history animated:YES];
-//            break;
 //        }
 //        case LEFTMENUCELL_ERWEIMA:
 //            break;
@@ -480,9 +478,8 @@ BOOL   _isLocationInfoHasBeenSent;
         }
         // 我的预约
         case LEFTMENUCELL_UNIT_APPOINT:{
-            HistoryInformationVController *history = [[HistoryInformationVController alloc]init];
-            //            history.historyArray = checkListData;
-            [self.navigationController pushViewController:history animated:YES];
+            UnitHistoryController *unit = [[UnitHistoryController alloc]init];
+            [self.navigationController pushViewController:unit animated:YES];
             break;
         }
         case LEFTMENUCELL_PERSON_APPOINT:
