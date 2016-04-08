@@ -307,22 +307,15 @@
 // 他人支付
 - (void)letOthersPay
 {
-    [RzAlertView showAlertViewControllerWithTarget:self Title:@"代付提示" Message:@"您选择他人帮你付款，\n您可以让好友扫一扫支付，\n也可以截图发给好友让其付款。\n请在完成之后向好友确认付款情况。" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"找人代付" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
-        // 去掉勾选
-        [self deselectChannelPay];
+    // 他人代付
+    QRController* qrController = [[QRController alloc] init];
+    qrController.qrControllerType = QRController_Pay;
+    qrController.qrContent = [NSString stringWithFormat:@"%@weixin/reservation_person/charge.jsp?checkCode=%@",[HttpNetworkManager baseURL],_checkCode];
+    qrController.shareText = @"";
+    [self.navigationController pushViewController:qrController animated:YES];
 
-        if (flag != 0) {
-            // 他人代付
-            QRController* qrController = [[QRController alloc] init];
-            qrController.qrControllerType = QRController_Pay;
-            qrController.qrContent = [NSString stringWithFormat:@"%@weixin/reservation_person/charge.jsp?checkCode=%@",[HttpNetworkManager baseURL],_checkCode];
-            qrController.shareText = @"";
-            [self.navigationController pushViewController:qrController animated:YES];
-        }
-        else {
-            // 不代付
-        }
-    }];
+    // 去掉勾选
+    [self deselectChannelPay];
 }
 
 #pragma mark - 支付之后的回调，
