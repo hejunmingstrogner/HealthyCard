@@ -116,15 +116,20 @@
         return ;
     }
     sender.enabled = NO;
-    _customerTestInfo.custName = _healthCertificateView.name;
-    _customerTestInfo.custIdCard = _healthCertificateView.idCard;
-    _customerTestInfo.linkPhone = _linkerPhone;
-    _customerTestInfo.jobDuty = _healthCertificateView.workType;
-    _customerTestInfo.regPosLO = _posLo;
-    _customerTestInfo.regPosLA = _posLa;
-    if (_customerTestInfo.servicePoint.type == 0)
-        _customerTestInfo.regTime = [_orderinforView.timeBtn.titleLabel.text convertDateStrWithHourToLongLong];
-    _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
+
+    //有判断本地是否已经修改，增加临时变量
+    CustomerTest* customerTest = [[CustomerTest alloc] init];
+    customerTest = _customerTestInfo;
+    
+    customerTest.custName = _healthCertificateView.name;
+    customerTest.custIdCard = _healthCertificateView.idCard;
+    customerTest.linkPhone = _linkerPhone;
+    customerTest.jobDuty = _healthCertificateView.workType;
+    customerTest.regPosLO = _posLo;
+    customerTest.regPosLA = _posLa;
+    if (customerTest.servicePoint.type == 0)
+        customerTest.regTime = [_orderinforView.timeBtn.titleLabel.text convertDateStrWithHourToLongLong];
+    customerTest.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
 
     if(_isAvatarSet == YES){
         if(!waitAlertView){
@@ -132,12 +137,12 @@
         }
         waitAlertView.titleLabel.text = @"图片上传中...";
         [waitAlertView show];
-        [[HttpNetworkManager getInstance]customerUploadHealthyCertifyPhoto:_healthCertificateView.imageView.image CusCheckCode:_customerTestInfo.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
+        [[HttpNetworkManager getInstance]customerUploadHealthyCertifyPhoto:_healthCertificateView.imageView.image CusCheckCode:customerTest.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
             sender.enabled = YES;
             if (!error) {
                 [waitAlertView close];
                 isChanged = YES;
-                [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
+                [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:customerTest resultBlock:^(NSDictionary *result, NSError *error) {
                     if (!error) {
                         MethodResult *resultdict = [MethodResult mj_objectWithKeyValues:result];
                         if (resultdict.succeed){
@@ -169,7 +174,7 @@
         }];
     }
     else {
-        [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
+        [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:customerTest resultBlock:^(NSDictionary *result, NSError *error) {
             sender.enabled = YES;
             if (!error) {
                 MethodResult *resultdict = [MethodResult mj_objectWithKeyValues:result];
@@ -191,18 +196,6 @@
             }
         }];
     }
-}
-
-- (void)setCustomerTestInfo:(CustomerTest *)customerTestInfo
-{
-    _customerTestInfo = customerTestInfo;
-    _city = customerTestInfo.cityName;
-    _address = customerTestInfo.regPosAddr;
-    _posLo = customerTestInfo.regPosLO;
-    _posLa = customerTestInfo.regPosLA;
-    _linkerPhone = customerTestInfo.linkPhone;
-    _regbegindate = customerTestInfo.regBeginDate;
-    _regenddate = customerTestInfo.regEndDate;
 }
 
 - (void)initSubViews
@@ -398,14 +391,6 @@
     }];
 }
 
-- (CGFloat)labelheigh:(NSString *)text
-{
-    UIFont *fnt = [UIFont systemFontOfSize:15];
-    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
-    CGFloat he = tmpRect.size.height+15;
-    return fmaxf(he, 20);
-}
-
 - (void)initData
 {
     __weak PersonalHealthyCController *weakself = self;
@@ -515,6 +500,7 @@
         cloudData.choosetDateStr = sender.titleLabel.text;
         [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
             [sender setTitle:dateStr forState:UIControlStateNormal];
+            _regTime = [[NSDate formatDateFromChineseStringWithHour:dateStr] convertToLongLong];
         }];
         [weakself.navigationController pushViewController:cloudData animated:YES];
     }];
@@ -531,13 +517,24 @@
     }];
 }
 
+#pragma mark - Setter & Getter
+- (void)setCustomerTestInfo:(CustomerTest *)customerTestInfo
+{
+    _customerTestInfo = customerTestInfo;
+    _city = customerTestInfo.cityName;
+    _address = customerTestInfo.regPosAddr;
+    _posLo = customerTestInfo.regPosLO;
+    _posLa = customerTestInfo.regPosLA;
+    _linkerPhone = customerTestInfo.linkPhone;
+    
+    if (customerTestInfo.servicePoint.type == 0)
+        _regTime = customerTestInfo.regTime;
+}
+
+
 #pragma mark - HealthyCertificateViewDelegate
 -(void)nameBtnClicked:(NSString*)name
 {
-    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
-        return ;
-    }
     EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
     editInfoViewController.editInfoType = EDITINFO_NAME;
     __weak typeof (self) wself = self;
@@ -548,11 +545,6 @@
 }
 
 -(void)sexBtnClicked:(NSString*)gender{
-    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
-        return ;
-    }
-
     NSInteger index = 0;
     for (; index < wheelView.pickerViewContentArr.count; ++index){
         if ([gender isEqualToString:wheelView.pickerViewContentArr[index]])
@@ -563,10 +555,6 @@
 }
 
 -(void)industryBtnClicked:(NSString*)industry{
-    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
-        return ;
-    }
 
     WorkTypeViewController* workTypeViewController = [[WorkTypeViewController alloc] init];
     __weak typeof (self) wself = self;
@@ -578,11 +566,6 @@
 
 -(void)idCardBtnClicked:(NSString*)idCard
 {
-    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
-        return ;
-    }
-
     EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
     editInfoViewController.editInfoType = EDITINFO_IDCARD;
     __weak typeof (self) wself = self;
@@ -594,14 +577,10 @@
 
 -(void)healthyImageClicked
 {
-    if (![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"当前状态不能修改信息" removeDelay:3];
-        return ;
-    }
     __weak typeof (self) wself = self;
     [[TakePhoto getInstancetype] takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
         wself.healthCertificateView.imageView.image = photoimage;
-        _isAvatarSet = YES; //代表修改了健康证图片
+        _isAvatarSet = YES;
     }];
 }
 
@@ -636,6 +615,11 @@
 #pragma mark - 绑定条形码
 - (void)codeButtonClicked:(UIButton *)sender
 {
+    //如果本地有修改，需要先执行保存操作
+    if ([self isEdit]){
+        
+    }
+    
     //必须上传头像以后才能执行条码的扫描操作
     if (_isAvatarSet == NO){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"请先上传头像" removeDelay:2];
@@ -662,32 +646,23 @@
 
 #pragma mark -支付的完成回调
 #pragma mark -paymoney Delegate 支付款项之后的delegate
-/**
- *  支付成功
- */
 - (void)payMoneySuccessed{
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的预约支付已完成" removeDelay:2];
     UITableViewCell *cell = [payMoneyButton viewWithTag:200];
     cell.detailTextLabel.text = @"已支付";
     cell.accessoryType = UITableViewCellAccessoryNone;
 }
-/**
- *  支付取消
- */
+
 - (void)payMoneyCencel{
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"您取消了支付" removeDelay:2];
 }
-/**
- *  支付失败
- */
+
 - (void)payMoneyFail{
     NSLog(@"预约支付失败");
 }
 
 - (void)payMoneyByOthers
-{
-    
-}
+{}
 
 
 #pragma mark - ScanImageViewDelegate
@@ -707,18 +682,39 @@
            [self initData];
        }
    }];
+}
+
+#pragma mark - Private Methods
+//判断信息是否修改
+-(BOOL)isEdit{
+    if (![_customerTestInfo.custName isEqualToString:_healthCertificateView.name]){
+        return YES;
+    }
+    //Byte 客户性别 0:男 1:女
+    Byte gender = [_healthCertificateView.gender isEqualToString:@"男"] ? 0 : 1 ;
+    if (_customerTestInfo.sex != gender){
+        return YES;
+    }
     
-//    [[HttpNetworkManager getInstance] customerAffirmByCardNo:_customerTestInfo.checkCode CardNo:resultStr resultBlock:^(BOOL result, NSError *error) {
-//        if (error){
-//            [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接错误，请检查设置" removeDelay:2];
-//            return;
-//        }
-//        if (result == YES){
-//            
-//        }else{
-//            [RzAlertView showAlertLabelWithTarget:self.view Message:error.description removeDelay:2];
-//        }
-//    }];
+    if (![_healthCertificateView.idCard isEqualToString:_customerTestInfo.custIdCard]){
+        return YES;
+    }
+    
+    if (![_healthCertificateView.workType isEqualToString:_customerTestInfo.jobDuty]){
+        return YES;
+    }
+    
+    if (_customerTestInfo.servicePoint.type == 0){
+        if (_regTime != _customerTestInfo.regTime){
+            return YES;
+        }
+    }
+    
+    if (![_linkerPhone isEqualToString:_customerTestInfo.linkPhone]){
+        return YES;
+    }
+    
+    return NO;
 }
 
 @end

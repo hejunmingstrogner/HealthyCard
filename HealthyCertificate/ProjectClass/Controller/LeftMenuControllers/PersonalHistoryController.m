@@ -218,9 +218,9 @@
     }
     if(model.type == HISTORY_PERSONAL_FINISHED){
         // 已完成
-        CustomerHistoryTBVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"xxxcell"];
+        CustomerHistoryTBVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"customerHistoryTBVCell"];
         if (!cell) {
-            cell = [[CustomerHistoryTBVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"xxxcell"];
+            cell = [[CustomerHistoryTBVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"customerHistoryTBVCell"];
             [cell.reportBtn addTarget:self action:@selector(reportBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         }
         cell.customerTest = model.customer;
