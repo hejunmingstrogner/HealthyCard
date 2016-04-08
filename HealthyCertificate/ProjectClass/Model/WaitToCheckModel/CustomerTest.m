@@ -19,16 +19,12 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        _payMoney = 0;
-        _checkType = 1;
     }
     return self;
 }
 
 -(ServersPositionAnnotionsModel*)servicePoint{
     if (_servicePoint == nil){
-        _payMoney = 0;
-        _checkType = 1;
         _servicePoint = [[ServersPositionAnnotionsModel alloc] init];
     }
     
