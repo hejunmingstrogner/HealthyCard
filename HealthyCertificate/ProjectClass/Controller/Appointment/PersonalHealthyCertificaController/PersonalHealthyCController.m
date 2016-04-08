@@ -47,6 +47,16 @@
 
     UIButton    *codeButton;
     UIButton    *payMoneyButton;
+    
+    
+    
+    BOOL        _nameChanged;
+    BOOL        _sexChanged;
+    BOOL        _idCardChanged;
+    BOOL        _workTypeChanged;
+    BOOL        _regTimeChanged;
+    BOOL        _linkPhoneChanged;
+    BOOL        _avarChanged;
 }
 
 @property (nonatomic, strong) UIButton                       *leftBtn;          // 左侧按钮
@@ -128,7 +138,7 @@
     customerTest.regPosLO = _posLo;
     customerTest.regPosLA = _posLa;
     if (customerTest.servicePoint.type == 0)
-        customerTest.regTime = [_orderinforView.timeBtn.titleLabel.text convertDateStrWithHourToLongLong];
+        customerTest.regTime = [_orderinforView.timeBtn.titleLabel.text convertDateStrWithHourToLongLong]*1000;
     customerTest.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
 
     if(_isAvatarSet == YES){
@@ -142,7 +152,9 @@
             if (!error) {
                 [waitAlertView close];
                 isChanged = YES;
+                _avarChanged = NO;
                 [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:customerTest resultBlock:^(NSDictionary *result, NSError *error) {
+                    [self resetStatus];
                     if (!error) {
                         MethodResult *resultdict = [MethodResult mj_objectWithKeyValues:result];
                         if (resultdict.succeed){
@@ -501,6 +513,11 @@
         [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
             [sender setTitle:dateStr forState:UIControlStateNormal];
             _regTime = [[NSDate formatDateFromChineseStringWithHour:dateStr] convertToLongLong];
+            if (_regTime != _customerTestInfo.regTime)
+                _regTimeChanged = YES;
+            else
+                _regTimeChanged = NO;
+            
         }];
         [weakself.navigationController pushViewController:cloudData animated:YES];
     }];
@@ -512,6 +529,11 @@
         [editInfoViewController setEditInfoText:weakself.linkerPhone WithBlock:^(NSString *resultStr) {
             weakself.linkerPhone = resultStr;
             [sender setTitle:resultStr forState:UIControlStateNormal];
+            if (![resultStr isEqualToString:weakself.customerTestInfo.linkPhone]){
+                _linkPhoneChanged = YES;
+            }else{
+                _linkPhoneChanged = NO;
+            }
         }];
         [weakself.navigationController pushViewController:editInfoViewController animated:YES];
     }];
@@ -533,12 +555,16 @@
 
 
 #pragma mark - HealthyCertificateViewDelegate
--(void)nameBtnClicked:(NSString*)name
-{
+-(void)nameBtnClicked:(NSString*)name{
     EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
     editInfoViewController.editInfoType = EDITINFO_NAME;
     __weak typeof (self) wself = self;
     [editInfoViewController setEditInfoText:name WithBlock:^(NSString *resultStr) {
+        if (![_customerTestInfo.custName isEqualToString:name]){
+            _nameChanged = YES;
+        }else{
+            _nameChanged = NO;
+        }
         wself.healthCertificateView.name = resultStr;
     }];
     [self.navigationController pushViewController:editInfoViewController animated:YES];
@@ -555,32 +581,40 @@
 }
 
 -(void)industryBtnClicked:(NSString*)industry{
-
     WorkTypeViewController* workTypeViewController = [[WorkTypeViewController alloc] init];
     __weak typeof (self) wself = self;
     workTypeViewController.block = ^(NSString* resultStr){
+        if (![_customerTestInfo.jobDuty isEqualToString:resultStr]){
+            _workTypeChanged = YES;
+        }else{
+            _workTypeChanged = NO;
+        }
         wself.healthCertificateView.workType = resultStr;
     };
     [self.navigationController pushViewController:workTypeViewController animated:YES];
 }
 
--(void)idCardBtnClicked:(NSString*)idCard
-{
+-(void)idCardBtnClicked:(NSString*)idCard{
     EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
     editInfoViewController.editInfoType = EDITINFO_IDCARD;
     __weak typeof (self) wself = self;
     [editInfoViewController setEditInfoText:idCard WithBlock:^(NSString *resultStr) {
+        if (![_customerTestInfo.custIdCard isEqualToString:resultStr]){
+            _idCardChanged = YES;
+        }else{
+            _idCardChanged = NO;
+        }
         wself.healthCertificateView.idCard = resultStr;
     }];
     [self.navigationController pushViewController:editInfoViewController animated:YES];
 }
 
--(void)healthyImageClicked
-{
+-(void)healthyImageClicked{
     __weak typeof (self) wself = self;
     [[TakePhoto getInstancetype] takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
         wself.healthCertificateView.imageView.image = photoimage;
         _isAvatarSet = YES;
+        _avarChanged = YES;
     }];
 }
 
@@ -590,6 +624,13 @@
 
 #pragma mark - HCWheelViewDelegate
 -(void)sureBtnClicked:(NSString *)wheelText{
+    //Byte 客户性别 0:男 1:女
+    Byte gender = [wheelText isEqualToString:@"男"] ? 0 : 1 ;
+    if (_customerTestInfo.sex != gender){
+        _sexChanged = YES;
+    }else{
+        _sexChanged = NO;
+    }
     self.healthCertificateView.gender = wheelText;
     wheelView.hidden = YES;
 }
@@ -616,8 +657,9 @@
 - (void)codeButtonClicked:(UIButton *)sender
 {
     //如果本地有修改，需要先执行保存操作
-    if ([self isEdit]){
-        
+    if (_nameChanged || _sexChanged || _idCardChanged || _workTypeChanged || _avarChanged || _regTimeChanged || _linkPhoneChanged){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请保存修改信息后绑定条形码" removeDelay:3];
+        return;
     }
     
     //必须上传头像以后才能执行条码的扫描操作
@@ -685,36 +727,15 @@
 }
 
 #pragma mark - Private Methods
-//判断信息是否修改
--(BOOL)isEdit{
-    if (![_customerTestInfo.custName isEqualToString:_healthCertificateView.name]){
-        return YES;
-    }
-    //Byte 客户性别 0:男 1:女
-    Byte gender = [_healthCertificateView.gender isEqualToString:@"男"] ? 0 : 1 ;
-    if (_customerTestInfo.sex != gender){
-        return YES;
-    }
-    
-    if (![_healthCertificateView.idCard isEqualToString:_customerTestInfo.custIdCard]){
-        return YES;
-    }
-    
-    if (![_healthCertificateView.workType isEqualToString:_customerTestInfo.jobDuty]){
-        return YES;
-    }
-    
-    if (_customerTestInfo.servicePoint.type == 0){
-        if (_regTime != _customerTestInfo.regTime){
-            return YES;
-        }
-    }
-    
-    if (![_linkerPhone isEqualToString:_customerTestInfo.linkPhone]){
-        return YES;
-    }
-    
-    return NO;
+-(void)resetStatus
+{
+    _nameChanged = NO;
+    _sexChanged = NO;
+    _idCardChanged = NO;
+    _workTypeChanged = NO;
+    _avarChanged = NO;
+    _regTimeChanged = NO;
+    _linkPhoneChanged = NO;
 }
 
 @end
