@@ -266,6 +266,11 @@
             cell.payMoneyBtn.tag = indexPath.section;
             cell.cancelAppointBtn.tag = indexPath.section;
             cell.payMoney = customertest.payMoney;
+            if (![customertest.testStatus isEqualToString:@"-1"] && customertest.payMoney <= 0){
+                //单位已经统一付钱
+                cell.payMoneyBtn.hidden = YES;
+            }
+            
             // 是否可以取消订单
             if (![customertest canCancelTheOrder]) {
                 cell.cancelAppointBtn.hidden = YES; // 不可取消
