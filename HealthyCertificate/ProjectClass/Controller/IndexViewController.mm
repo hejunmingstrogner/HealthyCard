@@ -32,9 +32,10 @@
 #import "WorkerManagerVC.h"
 #import "OrdersAlertView.h"
 #import "RegisterViewController.h"
-#import "ServicePointApointmentViewController.h"
 #import "PersonalHistoryController.h"
+#import "PersonalAppointmentVC.h"
 #import "UnitHistoryController.h"
+
 
 NSString *gCurrentCityName;
 BOOL   _isLocationInfoHasBeenSent;
@@ -617,9 +618,10 @@ BOOL   _isLocationInfoHasBeenSent;
 {
     if(GetUserType == 1){
         
-        ServicePointApointmentViewController* servicePointVC = [[ServicePointApointmentViewController alloc] init];
-        servicePointVC.serverPointList = nearbyServicePositionsArray;
-        [self.navigationController pushViewController:servicePointVC animated:YES];
+        PersonalAppointmentVC* personalAppointVc = [[PersonalAppointmentVC alloc] init];
+        personalAppointVc.outCheckServicePoint = nearbyServicePositionsArray;
+        personalAppointVc.fixedServicePoint = nearbyServicePositionsArray;
+        [self.navigationController pushViewController:personalAppointVc animated:YES];
     }else{
         AppointmentViewController* controller = [[AppointmentViewController alloc] init];
         controller.location = addressLabel.text;

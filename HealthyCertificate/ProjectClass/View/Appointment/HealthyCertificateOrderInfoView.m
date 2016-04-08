@@ -232,14 +232,20 @@
                 NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime/1000];
                 NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
                 [_timeBtn setTitle:time forState:UIControlStateNormal];
+                if (_cutomerTest.servicePoint.brOutCheckArrange.leaderPhone == nil || [_cutomerTest.servicePoint.brOutCheckArrange.leaderPhone isEqualToString:@""]){
+                    [_phoneBtn setTitle:_cutomerTest.servicePoint.brOutCheckArrange.driverPhone forState:UIControlStateNormal];
+                }else{
+                    [_phoneBtn setTitle:_cutomerTest.servicePoint.leaderPhone forState:UIControlStateNormal];
+                }
             }
             else{
                 //固定服务点
                 NSString* timeStatus = [NSString stringWithFormat:@"工作日(%@~%@)", [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime/1000],
                  [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime/1000]];
                 [_timeBtn setTitle:timeStatus forState:UIControlStateNormal];
+                [_phoneBtn setTitle:_cutomerTest.servicePoint.leaderPhone forState:UIControlStateNormal];
             }
-            [_phoneBtn setTitle:_cutomerTest.servicePoint.leaderPhone forState:UIControlStateNormal];
+            
         }
 
     }

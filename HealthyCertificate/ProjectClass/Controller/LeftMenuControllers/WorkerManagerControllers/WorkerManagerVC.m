@@ -213,7 +213,7 @@
         [view addSubview:nameLabel];
         nameLabel.backgroundColor = [UIColor whiteColor];
         nameLabel.textAlignment = NSTextAlignmentCenter;
-        nameLabel.text = @"知康科技有限公司";
+        nameLabel.text = gCompanyInfo.cUnitName;
 
         WorkManagerTBC *cell = [[WorkManagerTBC alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"head"];
         [view addSubview:cell];

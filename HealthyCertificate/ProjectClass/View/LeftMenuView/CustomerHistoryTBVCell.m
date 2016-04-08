@@ -7,13 +7,18 @@
 //
 
 #import "CustomerHistoryTBVCell.h"
+
 #import <Masonry.h>
-#import "UIFont+Custom.h"
-#import "Constants.h"
-#import "HttpNetworkManager.h"
 #import <UIImageView+WebCache.h>
+
+#import "UIFont+Custom.h"
 #import "NSString+Count.h"
 #import "UILabel+FontColor.h"
+#import "NSDate+Custom.h"
+
+#import "Constants.h"
+#import "HttpNetworkManager.h"
+
 @interface CustomerHistoryTBVCell()
 {
     UIImageView *headerimageView;
@@ -132,7 +137,10 @@
 
     [phoneLabel setText:@"联系电话: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.linkPhone endTextColor:[UIColor grayColor]];
 
-    [dueTimeLabel setText:@"有效期至: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"测试有效期至" endTextColor:[UIColor grayColor]];
+//    long long valDate = customerTest.affirmdat
+    //nextYear
+    NSDate *dateTime = [[NSDate alloc] initWithTimeIntervalSince1970:customerTest.affirmdate];
+    [dueTimeLabel setText:@"有效期至: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:[[dateTime nextYear] formatDateToChineseString] endTextColor:[UIColor grayColor]];
 }
 
 

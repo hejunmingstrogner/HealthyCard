@@ -132,4 +132,14 @@
     NSDateComponents *cps = [chineseCalender components:unitFlags fromDate:beginDate  toDate:endDate  options:0];
     return cps;
 }
+
+-(NSDate*)nextYear
+{
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
+    [offsetComponents setYear:1];
+    NSDate *nextYear = [gregorian dateByAddingComponents:offsetComponents toDate:self options:0];
+    return nextYear;
+}
+
 @end

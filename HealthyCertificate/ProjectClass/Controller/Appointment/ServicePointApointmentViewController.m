@@ -72,7 +72,8 @@
             make.left.mas_equalTo(self.view);
             make.width.mas_equalTo(SCREEN_WIDTH);
             make.bottom.mas_equalTo(self.view);
-            make.top.mas_equalTo(self.view).with.offset(GetUserType==1?0:kNavigationBarHeight+kStatusBarHeight);
+            make.top.equalTo(self.view).with.offset(kStatusBarHeight+kNavigationBarHeight);
+//            make.top.mas_equalTo(self.view).with.offset(GetUserType==1?0:kNavigationBarHeight+kStatusBarHeight);
         }];
     }
     

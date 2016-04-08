@@ -34,8 +34,7 @@
 @property (nonatomic, assign) double posLo;
 @property (nonatomic, assign) double posLa;
 @property (nonatomic, strong) NSString *linkerPhone;
-@property (nonatomic, assign) long long regbegindate;
-@property (nonatomic, assign) long long regenddate;
+@property (nonatomic, assign) long long regTime;
 - (void)setCustomerTestInfo:(CustomerTest *)customerTestInfo;
 
 typedef void(^ResultBlock)(BOOL isChanged, NSInteger indexpathSection); // 回调是否修改了数据
