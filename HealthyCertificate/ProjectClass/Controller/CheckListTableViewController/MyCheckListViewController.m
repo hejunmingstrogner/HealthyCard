@@ -32,7 +32,7 @@
 
 #import "CheckListPayMoneyCell.h"
 #import "PayMoneyController.h"
-
+#import "UnitCheckListTableviewCell.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -83,10 +83,6 @@
 {
     _userType = GetUserType;
 
-    if(_userType == 2){
-        [self initCompanyDataArray];
-    }
-
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
 
@@ -116,7 +112,6 @@
             }
             else if (_userType == 2) {
                 weakself.checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
-                [weakself initCompanyDataArray];
             }
             [weakself.tableView reloadData];
         }
@@ -143,7 +138,6 @@
             }
             else if (_userType == 2) {
                 weakself.checkDataArray = [[NSMutableArray alloc]initWithArray:brContractArray];
-                [weakself initCompanyDataArray];
             }
             NSIndexSet *indexset = [[NSIndexSet alloc]initWithIndex:indexpathSection];
             [weakself.tableView reloadSections:indexset withRowAnimation:UITableViewRowAnimationLeft];
@@ -152,53 +146,6 @@
             [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
         }
     }];
-}
-- (void)initCompanyDataArray
-{
-    _companyDataArray = [[NSMutableArray alloc]init];
-    for (BRContract *brContract in _checkDataArray) {
-        BaseTBCellItem *cellitem0 = [[BaseTBCellItem alloc]initWithTitle:@"单位名称" detial:brContract.unitName cellStyle:0];
-        BaseTBCellItem *cellitem1;
-        BaseTBCellItem *cellitem2;
-    
-        //错误条件 checksideid 不为空 但 servicepoint为空
-        BOOL conditionFirst = (brContract.checkSiteID != nil && ![brContract.checkSiteID isEqualToString:@""]) && (brContract.servicePoint == nil);
-        if (conditionFirst){
-            //数据异常
-            cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:@"获取失败" cellStyle:0];
-            cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:@"获取失败" cellStyle:0];
-
-        }
-        else
-        {
-            cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:brContract.regPosAddr cellStyle:0];
-            NSString *timestatus;
-            
-            if (brContract.servicePoint != nil) {
-                if (!brContract.servicePoint.startTime || !brContract.servicePoint.endTime) {
-                    timestatus = @"获取时间出错";
-                }
-                else {
-                    if (brContract.servicePoint.type == 0){
-                        timestatus = [NSDate converLongLongToChineseStringDateWithHour:brContract.regTime/1000];
-                    }else{
-                        NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime/1000];
-                        NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime/1000];
-                        NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime/1000];
-                        timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
-                    }
-                }
-            }
-            else {
-                //代表单位云预约
-                timestatus = [NSDate converLongLongToChineseStringDateWithHour:brContract.regTime/1000];
-            }
-            cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:timestatus cellStyle:0];
-        }
-               
-        NSArray *array = @[cellitem0, cellitem1, cellitem2];
-        [_companyDataArray addObject:array];
-    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -209,13 +156,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (_userType == 1) {
-//        if (((CustomerTest *)_checkDataArray[section]).payMoney <= 0) {
-//            return 2;
-//        }
         return 2;
     }
     else if (_userType == 2){
-        return 4;
+        return 1;
     }
     return 0;
 }
@@ -237,7 +181,10 @@
         return 35;
     }
     else {
-        return 35;
+        if ([((BRContract *)_checkDataArray[indexPath.section]).testStatus isEqualToString:@"-1"]) {
+            return 35*5;
+        }
+        return 35*4;
     }
 }
 
@@ -283,28 +230,14 @@
     }
     // 单位
     else{
-        if (indexPath.row != 3) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"brcell"];
-            if (!cell) {
-                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"brcell"];
-                cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-                cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
-                cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }
-            cell.textLabel.text = ((BaseTBCellItem *)_companyDataArray[indexPath.section][indexPath.row]).titleText;
-            cell.detailTextLabel.text = ((BaseTBCellItem *)_companyDataArray[indexPath.section][indexPath.row]).detialText;
-            return cell;
+        UnitCheckListTableviewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"unitCell"];
+        if (!cell) {
+            cell = [[UnitCheckListTableviewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"unitCell"];
+            [cell.cancelOrderBtn addTarget:self action:@selector(cancleUnitOrderBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         }
-        else {
-            BRContractTableFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
-            if (!cell ) {
-                cell = [[BRContractTableFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }
-            [cell setCellItem:(BRContract *)_checkDataArray[indexPath.section]];
-            return cell;
-        }
+        cell.brContract = _checkDataArray[indexPath.section];
+        cell.cancelOrderBtn.tag = indexPath.section;
+        return cell;
     }
 }
 
@@ -344,7 +277,7 @@
         }
     }];
 }
-// 取消预约
+// 取消个人预约预约
 - (void)cancelChecked:(NSInteger )index
 {
     __weak MyCheckListViewController *_self = self;
@@ -403,5 +336,19 @@
 - (void)payMoneyByOthers
 {
 
+}
+
+#pragma mark -取消单位预约
+- (void)cancleUnitOrderBtnClicked:(UIButton *)sender
+{
+    [RzAlertView showAlertViewControllerWithController:self title:@"提示" message:[NSString stringWithFormat:@"您确定要取消 %@ 的体检预约吗？", ((BRContract *)_checkDataArray[sender.tag]).unitName] confirmTitle:@"确定" cancleTitle:@"点错了" handle:^(NSInteger flag) {
+        if (flag != 0) {
+            [self cancleUnitOrder:sender.tag];
+        }
+    }];
+}
+- (void)cancleUnitOrder:(NSInteger)index
+{
+    NSLog(@"取消 %li", (long)index);
 }
 @end

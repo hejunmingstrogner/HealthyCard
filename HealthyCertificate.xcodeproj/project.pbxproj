@@ -218,6 +218,7 @@
 		B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826211C730D6000993F47 /* LocationSearchModel.m */; };
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
 		B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826291C73143200993F47 /* LeftMenuView.m */; };
+		B2FE0A9F1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FE0A9E1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m */; };
 		B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */; };
 		B2FEA8671C7EF2D500106EE8 /* TakePhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8661C7EF2D500106EE8 /* TakePhoto.m */; };
 		B2FED7051C97BD43003D8E41 /* MyCheckListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FED7041C97BD43003D8E41 /* MyCheckListViewController.m */; };
@@ -614,6 +615,8 @@
 		B2F826251C730DA500993F47 /* LeftMenuCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuCellItem.m; sourceTree = "<group>"; };
 		B2F826281C73143200993F47 /* LeftMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuView.h; sourceTree = "<group>"; };
 		B2F826291C73143200993F47 /* LeftMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuView.m; sourceTree = "<group>"; };
+		B2FE0A9D1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitCheckListTableviewCell.h; sourceTree = "<group>"; };
+		B2FE0A9E1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitCheckListTableviewCell.m; sourceTree = "<group>"; };
 		B2FEA8621C7ED5D700106EE8 /* PersonalHealthyCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalHealthyCController.h; sourceTree = "<group>"; };
 		B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalHealthyCController.m; sourceTree = "<group>"; };
 		B2FEA8651C7EF2D500106EE8 /* TakePhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakePhoto.h; sourceTree = "<group>"; };
@@ -1239,6 +1242,8 @@
 				B2436CA51C7B007E00F543E1 /* BRContractTableFootCell.m */,
 				B297EB261C93AA98001E1B71 /* CheckListPayMoneyCell.h */,
 				B297EB271C93AA98001E1B71 /* CheckListPayMoneyCell.m */,
+				B2FE0A9D1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.h */,
+				B2FE0A9E1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m */,
 			);
 			path = CheckListTableViewCell;
 			sourceTree = "<group>";
@@ -1799,6 +1804,7 @@
 				25BFEB331C7406AB0062F9B8 /* ProxyPDAVertificationPacket.m in Sources */,
 				252AB8971C7732C50085CC14 /* NavView.m in Sources */,
 				2512B4181C7056C900EE661B /* UIColor+Expanded.m in Sources */,
+				B2FE0A9F1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m in Sources */,
 				B2436C8E1C7ACF8F00F543E1 /* CustomerTest.m in Sources */,
 				25BFEB151C73103A0062F9B8 /* ProxyHeartBeatPacket.m in Sources */,
 				2512B4161C7056C900EE661B /* UIButton+HitTest.m in Sources */,
