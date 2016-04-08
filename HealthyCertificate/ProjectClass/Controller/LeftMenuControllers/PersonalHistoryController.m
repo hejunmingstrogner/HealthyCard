@@ -68,13 +68,12 @@
 // 获得个人数据
 - (void)getPersonalData:(DJRefresh *)refresh
 {
-    _historyArray = [[NSMutableArray alloc]init];
-
     if (!waitAlertView) {
         waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据加载中..."];
     }
     [waitAlertView show];
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
+        _historyArray = [[NSMutableArray alloc]init];
         if (!error) {
             for (CustomerTest *customer in customerArray) {
                 HistoryModel *model = [[HistoryModel alloc]initWithCustomer:customer BRContract:nil type:HISTORY_PERSONAL_UNFINISHED rows:2];
@@ -91,12 +90,12 @@
                     HistoryModel *model = [[HistoryModel alloc]initWithCustomer:customer BRContract:nil type:HISTORY_PERSONAL_FINISHED rows:1];
                     [_historyArray addObject:model];
                 }
-                if (_historyArray.count == 0) {
-                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有历史记录" removeDelay:2];
-                }
             }
             else {
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
+            }
+            if (_historyArray.count == 0) {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有历史记录" removeDelay:2];
             }
             [waitAlertView close];
             [_tableView reloadData];

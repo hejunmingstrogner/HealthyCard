@@ -1,12 +1,12 @@
 //
-//  HistoryInformationVController.m
+//  UnitHistoryController.m
 //  HealthyCertificate
 //
-//  Created by 乄若醉灬 on 16/3/3.
+//  Created by 乄若醉灬 on 16/4/7.
 //  Copyright © 2016年 JIANGXU. All rights reserved.
 //
 
-#import "HistoryInformationVController.h"
+#import "UnitHistoryController.h"
 #import <Masonry.h>
 #import "Constants.h"
 #import "CustomerHistoryTBVCell.h"
@@ -25,19 +25,21 @@
 #import "BaseTBCellItem.h"
 #import "BRContractTableFootCell.h"
 #import "ContractPersonInfoViewController.h"
-
+#import "HistoryModel.h"
+#import "CloudAppointmentCompanyViewController.h"
+#import "DJRefresh.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
-
-@interface HistoryInformationVController ()<UITableViewDataSource, UITableViewDelegate,HMNetworkEngineDelegate>
+@interface UnitHistoryController ()<UITableViewDataSource, UITableViewDelegate,HMNetworkEngineDelegate, DJRefreshDelegate>
 {
     RzAlertView *waitAlertView;
-    NSMutableArray *_companyDataArray;
+
+    DJRefresh  *_refresh;
 }
 
 
 @end
 
-@implementation HistoryInformationVController
+@implementation UnitHistoryController
 
 
 - (void)viewDidLoad
@@ -47,59 +49,53 @@
     [self initNavgation];
 
     [self initSubViews];
-
-    [self getData];
 }
 
-- (void)getData{
+- (void)getData:(DJRefresh *)refresh{
 
     if (!waitAlertView) {
         waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据加载中..."];
     }
-    __weak typeof(waitAlertView) weakAlertview = waitAlertView;
-    [weakAlertview show];
-    __weak typeof(self) weakself = self;
-    if (_userType == 1) {
-        [[HttpNetworkManager getInstance]findCustomerTestHistoryRegByCustomId:gPersonInfo.mCustCode resuluBlock:^(NSArray *result, NSError *error) {
-            [weakAlertview close];
-            if (!error) {
-                if (result.count != 0) {
-                    weakself.historyArray = [[NSMutableArray alloc]initWithArray:result];
-                    [weakself.tableView reloadData];
-                }
-                else {
-                    [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"没有个人历史记录" removeDelay:3];
-                }
+    [waitAlertView show];
+    [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
+        _historyArray = [[NSMutableArray alloc]init];
+        if (!error) {
+            if (brContractArray.count != 0) {
+                [self initCompanyDataArray:brContractArray type:HISTORY_UNIT_UNFINISHED];
             }
-            else {
-                [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
-            }
-        }];
-    }
-    else if(_userType == 2) {
+        }
+        else {
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取未完成项失败，请检查网络后重试" removeDelay:2];
+        }
+
         [[HttpNetworkManager getInstance]findBRContractHistoryRegByCustomId:gCompanyInfo.cUnitCode resuleBlock:^(NSArray *result, NSError *error) {
-            [weakAlertview close];
             if (!error) {
                 if (result.count != 0) {
-                    weakself.historyArray = [[NSMutableArray alloc]initWithArray:result];
-                    [weakself initCompanyDataArray];
-                    [weakself.tableView reloadData];
-                }
-                else {
-                    [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"没有历史记录" removeDelay:3];
+                    [self initCompanyDataArray:brContractArray type:HISTORY_UNIT_FINISHED];
                 }
             }
             else {
-                [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"数据加载出错，请稍候重试" removeDelay:3];
+            }
+            if (_historyArray.count == 0) {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有历史记录" removeDelay:2];
+            }
+            [waitAlertView close];
+
+            [_tableView reloadData];
+            if(refresh)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [refresh finishRefreshingDirection:DJRefreshDirectionTop animation:YES];
+                });
             }
         }];
-    }
+    }];
 }
 
-- (void)initCompanyDataArray
+- (void)initCompanyDataArray:(NSArray *)brcontractArray type:(HISTORY_TYPE)type
 {
-    _companyDataArray = [[NSMutableArray alloc]init];
-    for (BRContract *brContract in _historyArray) {
+    for (BRContract *brContract in brcontractArray) {
         BaseTBCellItem *cellitem0 = [[BaseTBCellItem alloc]initWithTitle:@"单位名称" detial:brContract.unitName cellStyle:0];
         BaseTBCellItem *cellitem1;
         BaseTBCellItem *cellitem2;
@@ -138,10 +134,8 @@
 
         }
 
-
-
-        NSArray *array = @[cellitem0, cellitem1, cellitem2];
-        [_companyDataArray addObject:array];
+        HistoryModel *model = [[HistoryModel alloc]initWithBrContract:brContract names:cellitem0 address:cellitem1 time:cellitem2 type:type rows:4];
+        [_historyArray addObject:model];
     }
 }
 
@@ -155,6 +149,7 @@
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
+    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
 }
 // 返回前一页
 - (void)backToPre:(id)sender
@@ -165,14 +160,24 @@
 
 - (void)initSubViews
 {
-    _userType = GetUserType;
-
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
-
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.left.right.equalTo(self.view);
+        make.top.equalTo(self.view).offset(64);
+    }];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.separatorStyle = NO;
+
+    _refresh = [[DJRefresh alloc]initWithScrollView:_tableView delegate:self];
+    _refresh.topEnabled = YES;
+    [_refresh startRefreshingDirection:DJRefreshDirectionTop animation:YES];
+}
+
+- (void)refresh:(DJRefresh *)refresh didEngageRefreshDirection:(DJRefreshDirection)direction
+{
+    [self getData:refresh];
 }
 
 
@@ -184,11 +189,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(_userType == 2)
-    {
-        return 4;
-    }
-    return 1;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -201,74 +202,60 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(_userType == 1){
-        return 110;
-    }
-    else {
-        return 35;
-    }
+    return 35;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // 个人
-    if (_userType == 1) {
-        CustomerHistoryTBVCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    HistoryModel *model = _historyArray[indexPath.section];
+    // 单位
+    if (indexPath.row != 3) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"brcell"];
         if (!cell) {
-            cell = [[CustomerHistoryTBVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-            [cell.reportBtn addTarget:self action:@selector(reportBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"brcell"];
+            cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+            cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
+            cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        cell.customerTest = (CustomerTest *)_historyArray[indexPath.section];
-        cell.reportBtn.tag = indexPath.section;
-
+        cell.textLabel.text = ((BaseTBCellItem *)model.itemArray[indexPath.row]).titleText;
+        cell.detailTextLabel.text = ((BaseTBCellItem *)model.itemArray[indexPath.row]).detialText;
         return cell;
     }
-    // 单位
-    else{
-        if (indexPath.row != 3) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"brcell"];
-            if (!cell) {
-                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"brcell"];
-                cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-                cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
-                cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }
-            cell.textLabel.text = ((BaseTBCellItem *)_companyDataArray[indexPath.section][indexPath.row]).titleText;
-            cell.detailTextLabel.text = ((BaseTBCellItem *)_companyDataArray[indexPath.section][indexPath.row]).detialText;
-            return cell;
+    else {
+        BRContractTableFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
+        if (!cell ) {
+            cell = [[BRContractTableFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
+            cell.orderedLabel.hidden = YES;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        else {
-            BRContractTableFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
-            if (!cell ) {
-                cell = [[BRContractTableFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
-                cell.orderedLabel.hidden = YES;
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }
-            [cell setCellItem:(BRContract *)_historyArray[indexPath.section]];
-            return cell;
-        }
+        [cell setCellItem:model.brContract];
+        return cell;
     }
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    // 个人
-    if (_userType == 1) {
-        PersonalHealthyCHistoryVC *person = [[PersonalHealthyCHistoryVC alloc]init];
-        person.customerTestInfo = _historyArray[indexPath.section];
-        [self.navigationController pushViewController:person animated:YES];
+    // 单位预约点击
+    HistoryModel *model = _historyArray[indexPath.section];
+    if (model.type == HISTORY_UNIT_UNFINISHED) {
+        // 未完成
+        __weak typeof(self) weakself = self;
+        CloudAppointmentCompanyViewController* companyViewController = [[CloudAppointmentCompanyViewController alloc] init];
+        companyViewController.brContract = model.brContract;
+        [companyViewController changedInformationWithResultBlock:^(BOOL ischanged, NSIndexPath *indexpath) {
+            if (ischanged) {
+                [weakself getData:nil];
+            }
+        }];
+        [self.navigationController pushViewController:companyViewController animated:YES];
     }
     else {
-        // 单位预约点击
-        if (_userType == 2) {
-            //customerTest/findByContract
-            BRContract* brContract = _historyArray[indexPath.section];
-            ContractPersonInfoViewController* contractVc = [[ContractPersonInfoViewController alloc] init];
-            contractVc.brContract = brContract;
-            [self.navigationController pushViewController:contractVc animated:YES];
-        }
+        ContractPersonInfoViewController* contractVc = [[ContractPersonInfoViewController alloc] init];
+        contractVc.brContract = model.brContract;
+        [self.navigationController pushViewController:contractVc animated:YES];
     }
 }
 
