@@ -619,8 +619,8 @@ BOOL   _isLocationInfoHasBeenSent;
     if(GetUserType == 1){
         
         PersonalAppointmentVC* personalAppointVc = [[PersonalAppointmentVC alloc] init];
-        personalAppointVc.outCheckServicePoint = nearbyServicePositionsArray;
-        personalAppointVc.fixedServicePoint = nearbyServicePositionsArray;
+        personalAppointVc.outCheckServicePoint = moveServicePositionsArray;
+        personalAppointVc.fixedServicePoint = fixedPoitnServicePositionsArray;
         [self.navigationController pushViewController:personalAppointVc animated:YES];
     }else{
         AppointmentViewController* controller = [[AppointmentViewController alloc] init];
@@ -884,12 +884,34 @@ BOOL   _isLocationInfoHasBeenSent;
             make.width.mas_equalTo(150);
         }];
         [minDistanceLabel setText1:@"最近服务点" text1Color:[UIColor blackColor] text2:[NSString stringWithFormat:@"%0.2f", mindistance] text2Color:[UIColor redColor] text3:@"km" text3Color:[UIColor blackColor] size:15];
+
+        // 将1公里以内的数据分类
+        [self getServicePositionInformation];
     }
     else{
         minDistanceLabel.text = @"暂无";
         [minDistanceBtn mas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(55);
         }];
+    }
+}
+#pragma mark -分别得到固定以及移动服务点  1km 之内的服务点信息
+- (void)getServicePositionInformation
+{
+    fixedPoitnServicePositionsArray = [[NSMutableArray alloc]init];
+    moveServicePositionsArray = [[NSMutableArray alloc]init];
+    for (ServersPositionAnnotionsModel *point in nearbyServicePositionsArray) {
+        // 固定服务点
+        if (point.type == 0) {
+//            if (point.distance <= 1) {
+                [fixedPoitnServicePositionsArray addObject:point];
+//            }
+        }
+        else if(point.type == 1){   // 移动服务点
+            if (point.distance <= 1) {
+                [moveServicePositionsArray addObject:point];
+            }
+        }
     }
 }
 @end
