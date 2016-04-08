@@ -28,6 +28,8 @@
 #import "HistoryModel.h"
 #import "CloudAppointmentCompanyViewController.h"
 #import "DJRefresh.h"
+#import "UnitCheckListTableviewCell.h"
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 @interface UnitHistoryController ()<UITableViewDataSource, UITableViewDelegate,HMNetworkEngineDelegate, DJRefreshDelegate>
 {
@@ -96,45 +98,14 @@
 - (void)initCompanyDataArray:(NSArray *)brcontractArray type:(HISTORY_TYPE)type
 {
     for (BRContract *brContract in brcontractArray) {
-        BaseTBCellItem *cellitem0 = [[BaseTBCellItem alloc]initWithTitle:@"单位名称" detial:brContract.unitName cellStyle:0];
-        BaseTBCellItem *cellitem1;
-        BaseTBCellItem *cellitem2;
-
-        //错误条件 checksideid 不为空 但 servicepoint为空
-        BOOL conditionFirst = (brContract.checkSiteID != nil && ![brContract.checkSiteID isEqualToString:@""]) && (brContract.servicePoint == nil);
-        if (conditionFirst)
-        {
-            //数据异常
-            cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:@"获取失败" cellStyle:0];
-            cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:@"获取失败" cellStyle:0];
-
+        NSInteger rows;
+        if ([brContract.testStatus isEqualToString:@"-1"] && type == HISTORY_UNIT_UNFINISHED) {
+            rows = 5;
         }
-        else
-        {
-            cellitem1 = [[BaseTBCellItem alloc]initWithTitle:@"体检地址" detial:brContract.regPosAddr cellStyle:0];
-            NSString *timestatus;
-
-            if (brContract.servicePoint != nil) {
-                if (!brContract.servicePoint.startTime || !brContract.servicePoint.endTime) {
-                    timestatus = @"获取时间出错";
-                }
-                else {
-                    NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime/1000];
-                    NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime/1000];
-                    NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime/1000];
-                    timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
-                }
-            }
-            else {
-                NSString *year = [NSDate getYear_Month_DayByDate:brContract.regBeginDate/1000];
-                NSString *end = [NSDate getYear_Month_DayByDate:brContract.regEndDate/1000];
-                timestatus = [NSString stringWithFormat:@"%@~%@", year,end];
-            }
-            cellitem2 = [[BaseTBCellItem alloc]initWithTitle:@"体检时间" detial:timestatus cellStyle:0];
-
+        else {
+            rows = 4;
         }
-
-        HistoryModel *model = [[HistoryModel alloc]initWithBrContract:brContract names:cellitem0 address:cellitem1 time:cellitem2 type:type rows:4];
+        HistoryModel *model = [[HistoryModel alloc]initWithCustomer:nil BRContract:brContract type:type rows:rows];
         [_historyArray addObject:model];
     }
 }
@@ -189,7 +160,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -202,37 +173,20 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 35;
+    return ((HistoryModel *)_historyArray[indexPath.section]).rows *35;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HistoryModel *model = _historyArray[indexPath.section];
-    // 单位
-    if (indexPath.row != 3) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"brcell"];
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"brcell"];
-            cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-            cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
-            cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        cell.textLabel.text = ((BaseTBCellItem *)model.itemArray[indexPath.row]).titleText;
-        cell.detailTextLabel.text = ((BaseTBCellItem *)model.itemArray[indexPath.row]).detialText;
-        return cell;
+    UnitCheckListTableviewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"unitCell"];
+    if (!cell) {
+        cell = [[UnitCheckListTableviewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"unitCell"];
+        [cell.cancelOrderBtn addTarget:self action:@selector(cancelOrderBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
-    else {
-        BRContractTableFootCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellfoot"];
-        if (!cell ) {
-            cell = [[BRContractTableFootCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellfoot"];
-            cell.orderedLabel.hidden = YES;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        [cell setCellItem:model.brContract];
-        return cell;
-    }
-
+    cell.brContract = model.brContract;
+    cell.cancelOrderBtn.tag = indexPath.section;
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -276,4 +230,19 @@
     //[[UIApplication sharedApplication] openURL:[NSURL urlWithString:urlStr];
 }
 
+
+#pragma mark -取消订单
+- (void)cancelOrderBtnClicked:(UIButton *)sender
+{
+    HistoryModel *model = _historyArray[sender.tag];
+    [RzAlertView showAlertViewControllerWithController:self title:@"提示" message:model.brContract.unitName confirmTitle:@"确定" cancleTitle:@"点错了" handle:^(NSInteger flag) {
+        if (flag != 0) {
+            [self cancleUnitOrder:sender.tag];
+        }
+    }];
+}
+- (void)cancleUnitOrder:(NSInteger)index
+{
+    NSLog(@"取消 %li", (long)index);
+}
 @end
