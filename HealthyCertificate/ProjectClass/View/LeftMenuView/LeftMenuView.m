@@ -63,7 +63,7 @@
     LeftMenuCellItem *erweima;  // 二维码
     LeftMenuCellItem *manage;   // 单位注册或者员工管理
     if (GetUserType == 1) {
-        userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gPersonInfo.mCustName detialLabelText:gPersonInfo.StrTel itemtype:LEFTMENUCELL_USERINFOR];
+        userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gCustomer.custName detialLabelText:gCustomer.linkPhone itemtype:LEFTMENUCELL_USERINFOR];
         appoint = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"我的预约" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_APPOINT];
         erweima = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"我的二维码" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_ERWEIMA];
         manage = [[LeftMenuCellItem alloc]initWithiconName:@"danweizhuce" titleLabelText:@"单位注册" detialLabelText:nil itemtype:LEFTMENUCELL_PERSON_UNITLOGIN];
@@ -71,7 +71,7 @@
     }
     else if(GetUserType == 2)
     {
-         userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gCompanyInfo.cUnitName detialLabelText:gPersonInfo.StrTel itemtype:LEFTMENUCELL_USERINFOR];
+         userinformation = [[LeftMenuCellItem alloc]initWithiconName:@"headimage" titleLabelText:gUnitInfo.unitName detialLabelText:gCustomer.linkPhone itemtype:LEFTMENUCELL_USERINFOR];
         appoint = [[LeftMenuCellItem alloc]initWithiconName:@"historyRecord" titleLabelText:@"历史记录" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_APPOINT];
         erweima = [[LeftMenuCellItem alloc]initWithiconName:@"erweima" titleLabelText:@"单位二维码" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_ERWEIMA];
         manage = [[LeftMenuCellItem alloc]initWithiconName:@"danweiguanli" titleLabelText:@"员工管理" detialLabelText:nil itemtype:LEFTMENUCELL_UNIT_WORKERMANAGE];
@@ -81,7 +81,7 @@
     LeftMenuCellItem *aboutUs = [[LeftMenuCellItem alloc]initWithiconName:@"aboutUs" titleLabelText:@"关于我们" detialLabelText:nil itemtype:LEFTMENUCELL_ABOUTUS];
     LeftMenuCellItem *advice = [[LeftMenuCellItem alloc]initWithiconName:@"advice" titleLabelText:@"意见或建议" detialLabelText:nil itemtype:LEFTMENUCELL_ADVICE];
     LeftMenuCellItem *exit = [[LeftMenuCellItem alloc]initWithiconName:@"exit" titleLabelText:@"退出当前账号" detialLabelText:nil itemtype:LEFTMENUCELL_EXIT];
-    if((gCompanyInfo.cUnitCode.length == 0 && GetUserType == 1) || GetUserType == 2){
+    if((gUnitInfo.unitCode.length == 0 && GetUserType == 1) || GetUserType == 2){
         _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, manage, userType, notice, aboutUs, advice, exit, nil];
     }
     else {
@@ -190,7 +190,7 @@
 - (void)SettingBtnClicked:(UIButton *)sender
 {
     if(sender.tag == 0){
-        if ([gCompanyInfo.cUnitCode isEqualToString:@""] || gCompanyInfo.cUnitCode == nil) {
+        if ([gUnitInfo.unitCode isEqualToString:@""] || gUnitInfo.unitCode == nil) {
             return;
         }
 

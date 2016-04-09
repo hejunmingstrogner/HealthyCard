@@ -211,7 +211,7 @@
     _healthyCertificateView.layer.borderWidth = 1;
     _healthyCertificateView.delegate = self;
     if (_customerTestInfo == nil){
-        _healthyCertificateView.personInfoPacket = gPersonInfo;
+        _healthyCertificateView.personInfoPacket = gCustomer;
     }else{
         _healthyCertificateView.customerTest = _customerTestInfo;
     }
@@ -351,7 +351,7 @@
         cell.textView.scrollEnabled = NO;
         cell.textView.keyboardType = UIKeyboardTypeNumberPad;
         if (_customerTestInfo == nil){
-            cell.textView.text = gPersonInfo.StrTel;
+            cell.textView.text = gCustomer.linkPhone;
         }else{
             cell.textView.text = _customerTestInfo.linkPhone;
         }
@@ -443,9 +443,9 @@
         if (_customerTestInfo == nil){
             _customerTestInfo = [[CustomerTest alloc] init];
             _customerTestInfo.checkCode = nil;
-            _customerTestInfo.unitCode = gPersonInfo.cUnitCode;
-            _customerTestInfo.unitName = gPersonInfo.cUnitName;
-            _customerTestInfo.custCode = gPersonInfo.mCustCode;
+            _customerTestInfo.unitCode = gCustomer.unitCode;
+            _customerTestInfo.unitName = gCustomer.unitName;
+            _customerTestInfo.custCode = gCustomer.custCode;
             _customerTestInfo.nation = nil;
             _customerTestInfo.checkType = 1; // 1 为 健康证
             _customerTestInfo.testStatus = @"-1";// 客户体检登记状态：-1未检，0签到，1在检，2延期，3完成，9已出报告和健康证

@@ -168,12 +168,92 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HealthyCertificate/ProjectClass/Controller/CheckListTableViewController/MyCheckListViewController.m"
-            timestampString = "481791319.634383"
+            filePath = "HealthyCertificate/ProjectClass/Controller/Appointment/AddWorkerViewController.m"
+            timestampString = "481866027.597782"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "-getData"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HealthyCertificate/ProjectClass/Controller/Appointment/AddWorkerViewController.m"
+            timestampString = "481866109.920466"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "-getData"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AddWorkerViewController getData]"
+                  moduleName = "HealthyCertificate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rztime/Desktop/HealthyCard/HealthyCertificate/ProjectClass/Controller/Appointment/AddWorkerViewController.m"
+                  timestampString = "481883692.031419"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "760">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__34-[AddWorkerViewController getData]_block_invoke"
+                  moduleName = "HealthyCertificate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rztime/Desktop/HealthyCard/HealthyCertificate/ProjectClass/Controller/Appointment/AddWorkerViewController.m"
+                  timestampString = "481883692.031535"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentCompanyViewController.m"
+            timestampString = "481866480.458557"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "-setBrContract:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentCompanyViewController.m"
+            timestampString = "481866510.86746"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "956"
+            endingLineNumber = "956"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>

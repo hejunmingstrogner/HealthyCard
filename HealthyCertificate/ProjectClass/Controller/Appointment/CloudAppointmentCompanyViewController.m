@@ -193,7 +193,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         make.width.equalTo(scrollView);
     }];
     
-    UILabel* titleLabel = [UILabel labelWithText:gCompanyInfo.cUnitName
+    UILabel* titleLabel = [UILabel labelWithText:gUnitInfo.unitName
                                             font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)]
                                        textColor:[UIColor colorWithRGBHex:HC_Gray_Text]];
     titleLabel.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
@@ -644,8 +644,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         //新建的预约
         if(_brContract == nil)
         {            _brContract = [[BRContract alloc]init];
-            _brContract.unitCode = gCompanyInfo.cUnitCode;
-            _brContract.unitName = gCompanyInfo.cUnitName;
+            _brContract.unitCode = gUnitInfo.unitCode;
+            _brContract.unitName = gUnitInfo.unitName;
         }
         
         if (_sercersPositionInfo == nil)
@@ -877,7 +877,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 if (_brContract)
                     cell.textField.text = _brContract.linkUser;
                 else
-                    cell.textField.text = gCompanyInfo.cLinkPeople;
+                    cell.textField.text = gUnitInfo.linkPeople;
                 cell.textField.enabled = YES;
                 cell.textField.tag = TEXTFIELD_CONTACT;
                 cell.textField.returnKeyType = UIReturnKeyDone;
@@ -888,7 +888,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 if (_brContract)
                     cell.textField.text = _brContract.linkPhone;
                 else
-                    cell.textField.text = gCompanyInfo.cLinkPhone;
+                    cell.textField.text = gUnitInfo.linkPhone;
                 cell.textField.keyboardType = UIKeyboardTypeNumberPad;
                 cell.textField.enabled = YES;
                 cell.textField.tag = TEXTFIELD_PHONE;
@@ -951,7 +951,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 if (_brContract)
                     addworkerViewController.cUnitCode = _brContract.unitCode;
                 else
-                    addworkerViewController.cUnitCode = gCompanyInfo.cUnitCode;
+                    addworkerViewController.cUnitCode = gUnitInfo.unitCode;
                 addworkerViewController.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];
                 __weak CloudAppointmentCompanyViewController * weakSelf = self;
                 [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {

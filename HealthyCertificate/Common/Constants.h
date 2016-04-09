@@ -65,8 +65,8 @@ typedef NS_ENUM(NSInteger, PACKAGEPART)
 extern Customer         *gCustomer;
 extern BRServiceUnit    *gUnitInfo;
 
-extern PersonInfoOfPhonePacket* gPersonInfo;
-extern CompanyInfoOfPhonePacket* gCompanyInfo;
+//extern PersonInfoOfPhonePacket* gPersonInfo;
+//extern CompanyInfoOfPhonePacket* gCompanyInfo;
 
 extern NSString *gCurrentCityName;  // 当前城市名字
 

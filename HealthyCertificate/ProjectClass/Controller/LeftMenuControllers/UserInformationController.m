@@ -94,33 +94,33 @@
         // 个人
     if (GetUserType == 1) {
         UserinformationCellItem *head = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"头像" detialLabelText:nil itemtype:PERSON_HEADERIMAGE];
-        UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:[gPersonInfo.mCustName isEqualToString:@""] ? @"暂无":gPersonInfo.mCustName itemtype:PERSON_NAME];
+        UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:[gCustomer.custName isEqualToString:@""] ? @"暂无":gCustomer.custName itemtype:PERSON_NAME];
         NSString *bGender;
-        if (gPersonInfo.bGender == 0) {
+        if (gCustomer.sex == 0) {
             bGender = @"男";
         }
-        else if(gPersonInfo.bGender == 1){
+        else if(gCustomer.sex == 1){
             bGender = @"女";
         }
         else{
             bGender = @"暂无";
         }
         UserinformationCellItem *sex = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"性别" detialLabelText:bGender itemtype:PERSON_GENDER];
-        UserinformationCellItem *old = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"年龄" detialLabelText:[NSString getOldYears:gPersonInfo.CustId] itemtype:PERSON_AGE];
-        UserinformationCellItem *telPhoneNo = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gPersonInfo.StrTel isEqualToString:@""] ? @"暂无" : gPersonInfo.StrTel itemtype:PERSON_TELPHONE];
-        UserinformationCellItem *idCard = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"身份证号" detialLabelText:[gPersonInfo.CustId isEqualToString:@""] ? @"暂无" : gPersonInfo.CustId itemtype:PERSON_IDCARD];
-        UserinformationCellItem *calling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gPersonInfo.cIndustry isEqualToString:@""] ? @"暂无" : gPersonInfo.cIndustry itemtype:PERSON_CALLING];
-        UserinformationCellItem *workUnit = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gPersonInfo.cUnitName isEqualToString:@""] ? @"暂无" : gPersonInfo.cUnitName itemtype:PERSON_COMPANY_NAME];
+        UserinformationCellItem *old = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"年龄" detialLabelText:[NSString getOldYears:gCustomer.idCard] itemtype:PERSON_AGE];
+        UserinformationCellItem *telPhoneNo = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gCustomer.linkPhone isEqualToString:@""] ? @"暂无" : gCustomer.linkPhone itemtype:PERSON_TELPHONE];
+        UserinformationCellItem *idCard = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"身份证号" detialLabelText:[gCustomer.idCard isEqualToString:@""] ? @"暂无" : gCustomer.idCard itemtype:PERSON_IDCARD];
+        UserinformationCellItem *calling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gCustomer.custType isEqualToString:@""] ? @"暂无" : gCustomer.custType itemtype:PERSON_CALLING];
+        UserinformationCellItem *workUnit = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gCustomer.unitName isEqualToString:@""] ? @"暂无" : gCustomer.unitName itemtype:PERSON_COMPANY_NAME];
 
         _dataArray = [NSMutableArray arrayWithObjects:head, name, sex, old, telPhoneNo, idCard, calling, workUnit, nil];
     }
     else{
         // 单位
-        UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gCompanyInfo.cUnitName isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitName itemtype:COMPANY_NAME];
-        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gCompanyInfo.cUnitAddr isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitAddr itemtype:COMPANY_ADDRESS];
-        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"联  系  人" detialLabelText:[gCompanyInfo.cLinkPeople isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPeople itemtype:COMPANY_CONTACT];
-        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"联系电话" detialLabelText:[gCompanyInfo.cLinkPhone isEqualToString:@""] ? @"暂无" : gCompanyInfo.cLinkPhone itemtype:COMPANY_LINKPHONE];
-        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行        业" detialLabelText:[gCompanyInfo.cUnitType isEqualToString:@""] ? @"暂无" : gCompanyInfo.cUnitType itemtype:COMPANY_CALLING];
+        UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gUnitInfo.unitName isEqualToString:@""] ? @"暂无" : gUnitInfo.unitName itemtype:COMPANY_NAME];
+        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gUnitInfo.addr isEqualToString:@""] ? @"暂无" : gUnitInfo.addr itemtype:COMPANY_ADDRESS];
+        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"联  系  人" detialLabelText:[gUnitInfo.linkPeople isEqualToString:@""] ? @"暂无" : gUnitInfo.linkPeople itemtype:COMPANY_CONTACT];
+        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"联系电话" detialLabelText:[gUnitInfo.linkPhone isEqualToString:@""] ? @"暂无" : gUnitInfo.linkPhone itemtype:COMPANY_LINKPHONE];
+        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行        业" detialLabelText:[gUnitInfo.unitType isEqualToString:@""] ? @"暂无" : gUnitInfo.unitType itemtype:COMPANY_CALLING];
 
         UserinformationCellItem *industry = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"工商编号" detialLabelText:@"暂无" itemtype:COMPANY_INDUSTRY_CODE];
         UserinformationCellItem *city = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"注册城市" detialLabelText:@"阿拉伯" itemtype:COMPANY_BELONG_CITY];
@@ -155,7 +155,7 @@
         headcell.textLabel.text = ((UserinformationCellItem *)_dataArray[indexPath.row]).titleLabelText;
         headcell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:CELL_FONT];
         UIButton *headeimageBtn = [[UIButton alloc]init];
-        NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode];
+        NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gCustomer.custCode];
         [headeimageBtn sd_setImageWithURL:[NSURL URLWithString:str] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"headimage"] options:SDWebImageRefreshCached | SDWebImageRetryFailed];
         [headcell.contentView addSubview:headeimageBtn];
         [headeimageBtn addTarget:self action:@selector(headerimageBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -235,12 +235,12 @@
                 workType.block = ^(NSString *resultStr){
                     // 修改行业
                     NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
-                    [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
+                    [personinfo setObject:gCustomer.custCode forKey:@"custCode"];
                     [personinfo setObject:resultStr forKey:@"custType"];
                     [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
                         if (!error) {
                             [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改行业成功" removeDelay:2];
-                            gPersonInfo.cIndustry = resultStr;
+                            gCustomer.custType = resultStr;
                             [weakself getdata];
                             [weakself.tableView reloadData];
                         }
@@ -277,12 +277,12 @@
                 workType.block = ^(NSString *resultStr){
                     // 修改行业
                     NSMutableDictionary *company = [[NSMutableDictionary alloc]init];
-                    [company setObject:gCompanyInfo.cUnitCode forKey:@"unitCode"];
+                    [company setObject:gUnitInfo.unitCode forKey:@"unitCode"];
                     [company setObject:resultStr forKey:@"unitType"];
                     [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:company resultBlock:^(BOOL successed, NSError *error) {
                         if (!error) {
                             [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改行业成功" removeDelay:2];
-                            gCompanyInfo.cUnitType = resultStr;
+                            gUnitInfo.unitType = resultStr;
                             [weakself getdata];
                             [weakself.tableView reloadData];
                         }
@@ -325,7 +325,7 @@
             break;
         }
         case PERSON_NAME:{
-            gPersonInfo.mCustName = text;
+            gCustomer.custName = text;
             break;
         }
         case PERSON_GENDER:{
@@ -338,7 +338,7 @@
             break;
         }
         case PERSON_IDCARD:{
-            gPersonInfo.CustId = text;
+            gCustomer.idCard = text;
             break;
         }
         case PERSON_CALLING:{
@@ -346,22 +346,22 @@
         }
         case PERSON_COMPANY_NAME:{
             if (GetUserType == 1) {
-                gPersonInfo.cUnitName = text;
+                gCustomer.unitName = text;
             }
             break;
         }
         case COMPANY_NAME:{
             if (GetUserType == 2) {
-                gCompanyInfo.cUnitName = text;
+                gUnitInfo.unitName = text;
             }
             break;
         }
         case COMPANY_ADDRESS:{
-            gCompanyInfo.cUnitAddr = text;
+            gUnitInfo.addr = text;
             break;
         }
         case COMPANY_CONTACT:{
-            gCompanyInfo.cLinkPeople = text;
+            gUnitInfo.linkPeople = text;
             break;
         }
         default:
@@ -410,13 +410,13 @@
         flag = 1;
     }
     __weak typeof(self) weakself = self;
-    if (flag != gPersonInfo.bGender) {
+    if (flag != gCustomer.sex) {
         NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
-        [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
+        [personinfo setObject:gCustomer.custCode forKey:@"custCode"];
         [personinfo setObject:[NSNumber numberWithInt:flag] forKey:@"sex"];
         [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
             if (successed) {
-                gPersonInfo.bGender = flag;
+                gCustomer.sex = flag;
                 [weakself getdata];
                 [weakself.tableView reloadData];
                 [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改成功" removeDelay:2];

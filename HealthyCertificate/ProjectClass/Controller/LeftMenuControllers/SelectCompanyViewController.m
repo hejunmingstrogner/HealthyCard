@@ -91,13 +91,13 @@
     }
     else {
         NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
-        [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
+        [personinfo setObject:gCustomer.custCode forKey:@"custCode"];
         [personinfo setObject:_textField.text forKey:@"unitName"];
         [personinfo setObject:((BRServiceUnit *)_companysArray[_selectIndex]).unitCode forKey:@"unitCode"];
         __weak typeof(self) weakself = self;
         [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
             if (successed) {
-                gPersonInfo.cUnitName = weakself.textField.text;
+                gCustomer.unitName = weakself.textField.text;
                 if (weakself.updata) {
                     weakself.updata(weakself.textField.text);
                 }

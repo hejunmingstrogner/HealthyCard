@@ -291,7 +291,7 @@ static NSString * const AFHTTPRequestOperationSSOSBaseURLString = @"http://zkweb
     NSInteger type = GetUserType;
     // 个人
     if (type == 1) {
-        NSString *url = [NSString stringWithFormat:@"customerTest/findMyCheckList?customId=%@&cCheckType=1&linkPhone=%@", gPersonInfo.mCustCode, gPersonInfo.StrTel];
+        NSString *url = [NSString stringWithFormat:@"customerTest/findMyCheckList?customId=%@&cCheckType=1&linkPhone=%@", gCustomer.custCode, gCustomer.linkPhone];
         [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
             NSMutableArray *customerTestArray = [[NSMutableArray alloc]init];
             for (NSDictionary *dict in responseObject) {
@@ -309,7 +309,7 @@ static NSString * const AFHTTPRequestOperationSSOSBaseURLString = @"http://zkweb
     }
     // 单位
     else if(type == 2){
-        NSString *url = [NSString stringWithFormat:@"brContract/findMyCheckList?customId=%@&checkType=1", gCompanyInfo.cUnitCode];
+        NSString *url = [NSString stringWithFormat:@"brContract/findMyCheckList?customId=%@&checkType=1", gUnitInfo.unitCode];
         [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
             NSMutableArray *brArray = [[NSMutableArray alloc]init];
             for (NSDictionary *dict in responseObject) {
@@ -450,7 +450,7 @@ static NSString * const AFHTTPRequestOperationSSOSBaseURLString = @"http://zkweb
 
     NSString *url = [NSString stringWithFormat:@"customer/uploadPhoto"];
     NSMutableDictionary *param = [[NSMutableDictionary alloc]init];
-    [param setObject:gPersonInfo.mCustCode forKey:@"cCustCode"];
+    [param setObject:gCustomer.custCode forKey:@"cCustCode"];
     [self.sharedClient POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         NSDateFormatter *formmettrt = [[NSDateFormatter alloc]init];
         [formmettrt setDateFormat:@"yyyyMMddHHmmss"];

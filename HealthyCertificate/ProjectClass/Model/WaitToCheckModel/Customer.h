@@ -66,9 +66,10 @@
  */
 @property (nonatomic, strong) NSString * idCard;
 /**
- * 电话
+ * 电话  不可使用
  */
-@property (nonatomic, strong) NSString * tel;
+@property (nonatomic, strong) NSString * tel  NS_UNAVAILABLE;
+
 /**
  * 联系人电话
  */
