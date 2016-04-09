@@ -27,7 +27,6 @@
 #import "WZFlashButton.h"
 
 
-#import "HMNetworkEngine.h"
 #import "QueueServerInfo.h"
 #import "MethodResult.h"
 
@@ -57,7 +56,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     LOGIN_VERTIFY_TEXTFIELD
 };
 
-@interface LoginController()  <UITextFieldDelegate, HMNetworkEngineDelegate>
+@interface LoginController()  <UITextFieldDelegate>
 {
     UITextField*    _phoneNumTextField;
     UITextField*    _vertifyTextField;
@@ -83,10 +82,6 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     [super viewDidLoad];
     
     [self loadLoginView];
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    [HMNetworkEngine getInstance].delegate = self;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -244,7 +239,8 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
                                                      [[HttpNetworkManager getInstance].sharedClient.requestSerializer setValue:@"zeekcustomerapp" forHTTPHeaderField:@"DBKE-ClientType"];
                                                      [[HttpNetworkManager getInstance].sharedClient.requestSerializer setValue:GetToken forHTTPHeaderField:@"DBKE-Token"];
                                                      
-                                                     [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
+                                                     [self getLoginInfo];
+                                                     
                                                      _isVertified = YES;
                                                  }
                                                  else{
@@ -297,45 +293,14 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
     sender.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue_Pressed];
 }
 
-#pragma mark - HMNetworkEngine Delegate
--(void)setUpControlSucceed{
-    [[HMNetworkEngine getInstance] queryServerList];
-}
-
--(void)setUpControlFailed{
-}
-
--(void)queueServerListResult:(NSData *)data Index:(NSInteger *)index{
-    NSString* listString =  [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(*index, data.length-*index)] encoding:NSUTF8StringEncoding];
-    //return format tijian-510100-ZXQueueServer1,武汉国药阳光体检中心,描述:知名体检中心;tijian-510100-ZXQueueServer1,武汉国药阳光体检中心,描述:知名体检中心
-    NSArray *array = [listString componentsSeparatedByString:@";"];
-    
-    //返回的数据按理应该是一个，所以如果不为空，只取第一条数据
-    if (array.count != 0){
-        QueueServerInfo* info = [[QueueServerInfo alloc] initWithString:array[0]];
-        [HMNetworkEngine getInstance].serverID = info.serverID;
-        
-        if (_phoneNumTextField.text == nil){
-            [[HMNetworkEngine getInstance] askLoginInfo:GetUserName];
-        }else{
-            [[HMNetworkEngine getInstance] askLoginInfo:_phoneNumTextField.text];
-        }
-        
-    }
-}
 
 -(void)getLoginInfoSucceed{
     if (!_isVertified)
         return;
     
-    //因为现在是异步队列，所以不能在该函数里面操作ui线程
-    dispatch_async(dispatch_get_main_queue(), ^{
-       // [self performSegueWithIdentifier:@"LoginIdentifier" sender:self];
-        IndexViewController* indexViewController = [[IndexViewController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:indexViewController];
-        [self presentViewController:nav animated:YES completion:nil];
-        
-    });
+    IndexViewController* indexViewController = [[IndexViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:indexViewController];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 #pragma mark - UITextField Delegate
@@ -409,6 +374,27 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
         [_vertifyButton setTitle:@"验证" forState:UIControlStateNormal];
         [_vertifyTimer invalidate];
     }
+}
+
+-(void)getLoginInfo{
+    //http://zkwebserver.witaction.com:8080/webserver/webservice/userInfo/findUserInfoByPhone?mobilePhone=18080961548
+    [[HttpNetworkManager getInstance] findUserInfoByPhone:GetUserName resultBlock:^(NSDictionary *result, NSError *error) {
+        if (error){
+            return;
+        }
+        
+        if (result == nil){
+            return;
+        }
+        
+        NSDictionary* unitInfo = [result objectForKey:@"unitInfo"];
+        gUnitInfo = [BRServiceUnit mj_objectWithKeyValues:unitInfo];
+        
+        NSDictionary* personalInfo = [result objectForKey:@"customer"];
+        gCustomer = [Customer mj_objectWithKeyValues:personalInfo];
+        
+        [self getLoginInfoSucceed];
+    }];
 }
 
 @end
