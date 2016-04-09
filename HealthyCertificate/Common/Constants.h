@@ -13,6 +13,9 @@
 #import "CompanyInfoOfPhonePacket.h"
 #import <RealReachability.h>
 
+#import "Customer.h"
+#import "BRServiceUnit.h"
+
 #define PACKAGE_LENGTH 4
 
 #define SHORT_TYPE_BYTE 2
@@ -57,6 +60,10 @@ typedef NS_ENUM(NSInteger, PACKAGEPART)
     PACKAGE_HEADER,
     PACKAGE_BODY
 };
+
+
+extern Customer         *gCustomer;
+extern BRServiceUnit    *gUnitInfo;
 
 extern PersonInfoOfPhonePacket* gPersonInfo;
 extern CompanyInfoOfPhonePacket* gCompanyInfo;

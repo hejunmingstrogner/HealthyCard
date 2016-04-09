@@ -20,8 +20,14 @@
 #import "WorkTypeInfoModel.h"
 #import "BRServiceUnit.h"
 
+#import "Customer.h"
+#import "BRServiceUnit.h"
+
 
 #define kUrlScheme  @"wx8b40ee373b8d6864"
+
+Customer        *gCustomer;
+BRServiceUnit   *gUnitInfo;
 
 @interface HttpNetworkManager()
 
@@ -160,6 +166,26 @@ static NSString * const AFHTTPRequestOperationSSOSBaseURLString = @"http://zkweb
         resultBlock(nil, error);
     }];
 }
+
+-(void)findUserInfoByPhone:(NSString*)mobilePhone resultBlock:(HCDictionaryResultBlock)resultBlock;
+{
+    NSString* url = [NSString stringWithFormat:@"userInfo/findUserInfoByPhone?mobilePhone=%@", mobilePhone];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        gUnitInfo = [[BRServiceUnit alloc] init];
+        gCustomer = [[Customer alloc] init];
+//        NSDictionary* unitInfo = [responseObject objectForKey:@"unitInfo"];
+//        gUnitInfo = [BRServiceUnit mj_objectWithKeyValues:unitInfo];
+//        
+//        NSDictionary* personalInfo = [responseObject objectForKey:@"customer"];
+//        gCustomer = [Customer mj_objectWithKeyValues:personalInfo];
+        
+        resultBlock(responseObject, nil);
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        resultBlock(nil, error);
+    }];
+}
+
 
 #pragma mark - 获得当前位置服务点信息
 // 获得当前位置服务点信息
