@@ -79,13 +79,20 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
 -(void)loginWithToken:(NSString*)token userName:(NSString*)userName resultBlock:(HCDictionaryResultBlock)resultBlock;
 
 /**
+ *  根据电话号码获取用户信息
+ *
+ *  @param mobilePhone 电话号码
+ *  @param resultBlock 回调
+ */
+-(void)findUserInfoByPhone:(NSString*)mobilePhone resultBlock:(HCDictionaryResultBlock)resultBlock;
+
+/**
  *  根据当前位置查询服务点信息
  *
  *  @param location 当前查询位置
  *  @param block    获得服务点信息之后的回调
  */
 - (void)getNearbyServicePointsWithCLLocation:(CLLocationCoordinate2D)location resultBlock:(HCArrayResultBlock)resultBlock;
-
 
 #pragma mark - 个人 单位信息相关
 /**
