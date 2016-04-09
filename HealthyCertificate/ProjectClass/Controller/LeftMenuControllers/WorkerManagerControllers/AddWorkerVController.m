@@ -108,9 +108,9 @@
     AddworkerTBCItem *age = [[AddworkerTBCItem alloc]initWithTitle:@"年        龄" Message:nil type:ADDWORKER_AGE];
     AddworkerTBCItem *idcard = [[AddworkerTBCItem alloc]initWithTitle:@"身份证号" Message:nil type:ADDWORKER_IDCARD];
     AddworkerTBCItem *tel = [[AddworkerTBCItem alloc]initWithTitle:@"联系电话" Message:nil type:ADDWORKER_TELPHONE];
-    NSString *call = gCompanyInfo.cUnitType.length == 0 ? @"暂无" : gCompanyInfo.cUnitType;
+    NSString *call = gUnitInfo.unitType.length == 0 ? @"暂无" : gUnitInfo.unitType;
     AddworkerTBCItem *calling = [[AddworkerTBCItem alloc]initWithTitle:@"行        业" Message:call type:ADDWORKER_CALLING];
-    AddworkerTBCItem *unit = [[AddworkerTBCItem alloc]initWithTitle:@"工作单位" Message:gCompanyInfo.cUnitName type:ADDWORKER_UNIT];
+    AddworkerTBCItem *unit = [[AddworkerTBCItem alloc]initWithTitle:@"工作单位" Message:gUnitInfo.unitName type:ADDWORKER_UNIT];
 
     _customArray = [NSMutableArray arrayWithObjects:name, sex, age, idcard, tel, calling, unit, nil];
     _customer = [[Customer alloc]init];
@@ -381,7 +381,7 @@
                 break;
         }
     }
-    _customer.unitCode = gCompanyInfo.cUnitCode;
+    _customer.unitCode = gUnitInfo.unitCode;
     NSDictionary *customerDict = _customer.mj_keyValues;
     __weak typeof (self) weakself = self;
     [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:customerDict resultBlock:^(BOOL successed, NSError *error) {

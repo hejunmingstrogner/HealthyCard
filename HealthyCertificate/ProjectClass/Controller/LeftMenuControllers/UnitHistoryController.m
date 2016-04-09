@@ -70,7 +70,7 @@
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取未完成项失败，请检查网络后重试" removeDelay:2];
         }
 
-        [[HttpNetworkManager getInstance]findBRContractHistoryRegByCustomId:gCompanyInfo.cUnitCode resuleBlock:^(NSArray *result, NSError *error) {
+        [[HttpNetworkManager getInstance]findBRContractHistoryRegByCustomId:gUnitInfo.unitCode resuleBlock:^(NSArray *result, NSError *error) {
             if (!error) {
                 if (result.count != 0) {
                     [self initCompanyDataArray:brContractArray type:HISTORY_UNIT_FINISHED];

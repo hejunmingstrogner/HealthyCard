@@ -73,12 +73,12 @@
     UIImageView* shareImageView = [[UIImageView alloc] init];
     if (GetUserType == 1){
         //个人
-        NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gPersonInfo.mCustCode];
+        NSString *str = [NSString stringWithFormat:@"%@customer/getPhoto?cCustCode=%@", [HttpNetworkManager baseURL], gCustomer.custCode];
         [shareImageView sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"QRDefault"] options:SDWebImageRefreshCached|SDWebImageRetryFailed];
         
     }else{
         //单位
-        NSString *str = [NSString stringWithFormat:@"%@brServiceUnit/getPhoto?cUnitCode=%@", [HttpNetworkManager baseURL], gCompanyInfo.cUnitCode];
+        NSString *str = [NSString stringWithFormat:@"%@brServiceUnit/getPhoto?cUnitCode=%@", [HttpNetworkManager baseURL], gUnitInfo.unitCode];
         [shareImageView sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"QRDefault"] options:SDWebImageRefreshCached|SDWebImageRetryFailed];
     }
     

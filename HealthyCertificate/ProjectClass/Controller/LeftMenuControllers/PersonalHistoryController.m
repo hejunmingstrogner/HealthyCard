@@ -84,7 +84,7 @@
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"获取未完成项失败，请检查网络后重试" removeDelay:2];
         }
 
-        [[HttpNetworkManager getInstance]findCustomerTestHistoryRegByCustomId:gPersonInfo.mCustCode resuluBlock:^(NSArray *result, NSError *error) {
+        [[HttpNetworkManager getInstance]findCustomerTestHistoryRegByCustomId:gCustomer.custCode resuluBlock:^(NSArray *result, NSError *error) {
             if (!error) {
                 for (CustomerTest *customer in result) {
                     HistoryModel *model = [[HistoryModel alloc]initWithCustomer:customer BRContract:nil type:HISTORY_PERSONAL_FINISHED rows:1];

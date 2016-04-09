@@ -197,12 +197,12 @@
         case PERSON_NAME:{
             // 封装需要修改的信息
             NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
-            [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
+            [personinfo setObject:gCustomer.custCode forKey:@"custCode"];
             [personinfo setObject:_nameTextField.text forKey:@"custName"];
 
             [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
-                    gPersonInfo.mCustName = _nameTextField.text;
+                    gCustomer.custName = _nameTextField.text;
                     if (weakself.updateBlcok) {
                         weakself.updateBlcok(YES, weakself.nameTextField.text);
                     }
@@ -223,12 +223,12 @@
                 return ;
             }
             NSMutableDictionary *personinfo = [[NSMutableDictionary alloc]init];
-            [personinfo setObject:gPersonInfo.mCustCode forKey:@"custCode"];
+            [personinfo setObject:gCustomer.custCode forKey:@"custCode"];
             [personinfo setObject:_nameTextField.text forKey:@"idCard"];
 
             [[HttpNetworkManager getInstance]createOrUpdateUserinformationwithInfor:personinfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
-                    gPersonInfo.CustId = weakself.nameTextField.text;
+                    gCustomer.idCard = weakself.nameTextField.text;
                     if (weakself.updateBlcok) {
                         weakself.updateBlcok(YES, weakself.nameTextField.text);
                     }
@@ -247,12 +247,12 @@
         case COMPANY_NAME:{
             // 公司单位修改
                 NSMutableDictionary *cUnitInfo = [[NSMutableDictionary alloc]init];
-                [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"unitCode"];
+                [cUnitInfo setObject:gUnitInfo.unitCode forKey:@"unitCode"];
                 [cUnitInfo setObject:_nameTextField.text forKey:@"unitName"];
 
                 [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
                     if (successed) {
-                        gCompanyInfo.cUnitName = weakself.nameTextField.text;
+                        gUnitInfo.unitName = weakself.nameTextField.text;
                         if (weakself.updateBlcok) {
                             weakself.updateBlcok(YES, weakself.nameTextField.text);
                         }
@@ -269,12 +269,12 @@
             // 修改单位地址
         case COMPANY_ADDRESS:{
             NSMutableDictionary *cUnitInfo = [[NSMutableDictionary alloc]init];
-            [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"unitCode"];
+            [cUnitInfo setObject:gUnitInfo.unitCode forKey:@"unitCode"];
             [cUnitInfo setObject:_nameTextField.text forKey:@"addr"];
 
             [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
-                    gCompanyInfo.cUnitAddr = weakself.nameTextField.text;
+                    gUnitInfo.addr = weakself.nameTextField.text;
                     if (weakself.updateBlcok) {
                         weakself.updateBlcok(YES, weakself.nameTextField.text);
                     }
@@ -289,12 +289,12 @@
             // 修改单位联系人
         case COMPANY_CONTACT:{
             NSMutableDictionary *cUnitInfo = [[NSMutableDictionary alloc]init];
-            [cUnitInfo setObject:gCompanyInfo.cUnitCode forKey:@"unitCode"];
+            [cUnitInfo setObject:gUnitInfo.unitCode forKey:@"unitCode"];
             [cUnitInfo setObject:_nameTextField.text forKey:@"linkPeople"];
 
             [[HttpNetworkManager getInstance]createOrUpdateBRServiceInformationwithInfor:cUnitInfo resultBlock:^(BOOL successed, NSError *error) {
                 if (successed) {
-                    gCompanyInfo.cLinkPeople = weakself.nameTextField.text;
+                    gUnitInfo.linkPeople = weakself.nameTextField.text;
                     if (weakself.updateBlcok) {
                         weakself.updateBlcok(YES, weakself.nameTextField.text);
                     }
