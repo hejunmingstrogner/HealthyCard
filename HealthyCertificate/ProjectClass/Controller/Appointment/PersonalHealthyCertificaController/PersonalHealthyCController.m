@@ -127,19 +127,15 @@
     }
     sender.enabled = NO;
 
-    //有判断本地是否已经修改，增加临时变量
-    CustomerTest* customerTest = [[CustomerTest alloc] init];
-    customerTest = _customerTestInfo;
-    
-    customerTest.custName = _healthCertificateView.name;
-    customerTest.custIdCard = _healthCertificateView.idCard;
-    customerTest.linkPhone = _linkerPhone;
-    customerTest.jobDuty = _healthCertificateView.workType;
-    customerTest.regPosLO = _posLo;
-    customerTest.regPosLA = _posLa;
-    if (customerTest.servicePoint.type == 0)
-        customerTest.regTime = [_orderinforView.timeBtn.titleLabel.text convertDateStrWithHourToLongLong]*1000;
-    customerTest.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
+    _customerTestInfo.custName = _healthCertificateView.name;
+    _customerTestInfo.custIdCard = _healthCertificateView.idCard;
+    _customerTestInfo.linkPhone = _linkerPhone;
+    _customerTestInfo.jobDuty = _healthCertificateView.workType;
+    _customerTestInfo.regPosLO = _posLo;
+    _customerTestInfo.regPosLA = _posLa;
+    if (_customerTestInfo.servicePoint.type == 0)
+        _customerTestInfo.regTime = [_orderinforView.timeBtn.titleLabel.text convertDateStrWithHourToLongLong]*1000;
+    _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
 
     if(_isAvatarSet == YES){
         if(!waitAlertView){
@@ -147,13 +143,13 @@
         }
         waitAlertView.titleLabel.text = @"图片上传中...";
         [waitAlertView show];
-        [[HttpNetworkManager getInstance]customerUploadHealthyCertifyPhoto:_healthCertificateView.imageView.image CusCheckCode:customerTest.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
+        [[HttpNetworkManager getInstance]customerUploadHealthyCertifyPhoto:_healthCertificateView.imageView.image CusCheckCode:_customerTestInfo.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
             sender.enabled = YES;
             if (!error) {
                 [waitAlertView close];
                 isChanged = YES;
                 _avarChanged = NO;
-                [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:customerTest resultBlock:^(NSDictionary *result, NSError *error) {
+                [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
                     [self resetStatus];
                     if (!error) {
                         MethodResult *resultdict = [MethodResult mj_objectWithKeyValues:result];
@@ -186,7 +182,7 @@
         }];
     }
     else {
-        [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:customerTest resultBlock:^(NSDictionary *result, NSError *error) {
+        [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
             sender.enabled = YES;
             if (!error) {
                 MethodResult *resultdict = [MethodResult mj_objectWithKeyValues:result];
