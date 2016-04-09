@@ -186,6 +186,9 @@
     }
     cell.brContract = model.brContract;
     cell.cancelOrderBtn.tag = indexPath.section;
+    if(model.type == HISTORY_UNIT_FINISHED){
+        cell.cancelOrderBtn.hidden = YES;
+    }
     return cell;
 }
 

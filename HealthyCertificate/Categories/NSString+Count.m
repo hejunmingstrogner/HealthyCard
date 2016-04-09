@@ -48,16 +48,16 @@
 
     // 月小于当前月
     if (month < [currenttime[1] integerValue]) {
-        return [NSString stringWithFormat:@"%d", old];
+        return [NSString stringWithFormat:@"%ld", (long)old];
     }
     if (month > [currenttime[1] integerValue]) {
-        return [NSString stringWithFormat:@"%d", old - 1];
+        return [NSString stringWithFormat:@"%ld", old - 1];
     }
     if (day > [currenttime[2] integerValue]) {
-        return [NSString stringWithFormat:@"%d", old - 1];
+        return [NSString stringWithFormat:@"%ld", old - 1];
     }
     else {
-        return [NSString stringWithFormat:@"%d", old];
+        return [NSString stringWithFormat:@"%ld", (long)old];
     }
 }
 
