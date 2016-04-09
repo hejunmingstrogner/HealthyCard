@@ -269,7 +269,7 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
    //手机号不可输入
     if(indexPath.row == 2){
         cell.textView.userInteractionEnabled = NO;
-        cell.textView.text = gPersonInfo.StrTel;
+        cell.textView.text = gCustomer.linkPhone;
         cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
     }
     

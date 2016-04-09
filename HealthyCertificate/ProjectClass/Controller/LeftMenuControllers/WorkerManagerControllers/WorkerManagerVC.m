@@ -119,7 +119,7 @@
     }
     [_waitAlertView show];
     __weak typeof(self) weakself = self;
-    [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gCompanyInfo.cUnitCode resultBlock:^(NSArray *result, NSError *error) {
+    [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gUnitInfo.unitCode resultBlock:^(NSArray *result, NSError *error) {
         [weakself setresult:result error:error];
         [_waitAlertView close];
     }];
@@ -213,7 +213,7 @@
         [view addSubview:nameLabel];
         nameLabel.backgroundColor = [UIColor whiteColor];
         nameLabel.textAlignment = NSTextAlignmentCenter;
-        nameLabel.text = gCompanyInfo.cUnitName;
+        nameLabel.text = gUnitInfo.unitName;
 
         WorkManagerTBC *cell = [[WorkManagerTBC alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"head"];
         [view addSubview:cell];

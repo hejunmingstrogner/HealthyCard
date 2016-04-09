@@ -61,7 +61,7 @@ BOOL   _isLocationInfoHasBeenSent;
 
     NSInteger userTypeflag = GetUserType;
 
-    if (gCompanyInfo.cUnitCode == nil || [gCompanyInfo.cUnitCode isEqualToString:@""]) {
+    if (gUnitInfo.unitCode == nil || [gUnitInfo.unitCode isEqualToString:@""]) {
         if (userTypeflag != 1) {
             SetUserType(1);
             userTypeflag  = 1;
@@ -492,7 +492,7 @@ BOOL   _isLocationInfoHasBeenSent;
         case LEFTMENUCELL_PERSON_ERWEIMA: // 我的二维码
         {
             QRController* qrController = [[QRController alloc] init];
-            qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp?_recommenderType=customer&_recommender=%@",gPersonInfo.mCustCode];
+            qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp?_recommenderType=customer&_recommender=%@",gCustomer.custCode];
             qrController.shareText = @"健康证在线实现一键预约、上门体检、送证上门的健康证办理一站式服务。";
             qrController.infoStr = @"将您的二维码分项给朋友、同事、员工、辖区从业人员，让他们通过健康证在线实现一键预约、上门体检、送证上门的健康证办理一站式服务。";
             [self.navigationController pushViewController:qrController animated:YES];
@@ -502,7 +502,7 @@ BOOL   _isLocationInfoHasBeenSent;
         case LEFTMENUCELL_UNIT_ERWEIMA: // 单位二维码
         {
             QRController* qrController = [[QRController alloc] init];
-            qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp?_recommenderType=serviceUnit&_recommender=%@", gCompanyInfo.cUnitCode];
+            qrController.qrContent = [NSString stringWithFormat:@"http://webserver.zeekstar.com/webserver/weixin/reservation_main.jsp?_recommenderType=serviceUnit&_recommender=%@", gUnitInfo.unitCode];
             qrController.shareText = @"健康证在线实现一键预约、上门体检、送证上门的健康证办理一站式服务。";
             qrController.infoStr = @"将您的二维码分项给朋友、同事、员工、辖区从业人员，让他们通过健康证在线实现一键预约、上门体检、送证上门的健康证办理一站式服务。";
             [self.navigationController pushViewController:qrController animated:YES];
@@ -727,8 +727,8 @@ BOOL   _isLocationInfoHasBeenSent;
                 PositionUtil *posit = [[PositionUtil alloc]init];
                 CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
                 //得到定位信息后，需要往排队服务器发送地理位置信息
-                [[HMNetworkEngine getInstance] sendCustomerCode:gPersonInfo.mCustCode
-                                                      LinkPhone:gPersonInfo.StrTel
+                [[HMNetworkEngine getInstance] sendCustomerCode:gCustomer.custCode
+                                                      LinkPhone:gCustomer.linkPhone
                                                              LO:[NSString stringWithFormat:@"%lf", coor.longitude]
                                                              LA:[NSString stringWithFormat:@"%lf", coor.latitude]
                                               PositionDirection:[NSString stringWithFormat:@"%lf", _locationServer.userLocation.heading.magneticHeading]

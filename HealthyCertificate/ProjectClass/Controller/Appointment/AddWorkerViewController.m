@@ -98,7 +98,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         [array addObject:custom.custCode];
     }
     
-    [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:_cUnitCode == nil? gCompanyInfo.cUnitCode : _cUnitCode resultBlock:^(NSArray *result, NSError *error) {
+    [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:_cUnitCode resultBlock:^(NSArray *result, NSError *error) {
         [_waitAlertView close];
         if (!error) {
             if(result.count == 0)
