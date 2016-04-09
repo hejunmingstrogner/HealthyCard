@@ -56,6 +56,7 @@
 //待处理项界面进入的时候，用该类来填充健康证信息
 @property (nonatomic, strong) CustomerTest *customerTest;
 //初始状态下用该用户预约的时候，用登录的gpersonInfo来填充数据
-@property (nonatomic, strong) PersonInfoOfPhonePacket *personInfoPacket;
+//@property (nonatomic, strong) PersonInfoOfPhonePacket *personInfoPacket;
+@property (nonnull, strong) Customer* customer;
 
 @end

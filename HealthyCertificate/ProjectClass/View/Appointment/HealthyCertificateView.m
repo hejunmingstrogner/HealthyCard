@@ -72,13 +72,13 @@
 //    [self.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Avatar"] options:SDWebImageRefreshCached|SDWebImageRetryFailed];
 }
 
--(void)setPersonInfoPacket:(PersonInfoOfPhonePacket *)personInfoPacket
-{
-    _name = personInfoPacket.mCustName;
-    _age = [NSString getOldYears:personInfoPacket.CustId];
-    _gender = personInfoPacket.bGender == 0 ? @"男":@"女";
-    _workType = personInfoPacket.cIndustry;
-    _idCard = personInfoPacket.CustId;
+
+-(void)setCustomer:(Customer *)customer{
+    _name = customer.custName;
+    _age = [NSString getOldYears:customer.idCard];
+    _gender = customer.sex == 0 ? @"男":@"女";
+    _workType = customer.custType;
+    _idCard = customer.idCard;
     _org = @"";
     _num = @"";
     
@@ -89,7 +89,9 @@
     [_idCardBtn setTitle:_idCard forState:UIControlStateNormal];
     _orgLabel.text = _org;
     _numLabel.text = _num;
+
 }
+
 
 -(void)setName:(NSString *)name
 {

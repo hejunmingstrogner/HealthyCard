@@ -211,7 +211,7 @@
     _healthyCertificateView.layer.borderWidth = 1;
     _healthyCertificateView.delegate = self;
     if (_customerTestInfo == nil){
-        _healthyCertificateView.personInfoPacket = gCustomer;
+        _healthyCertificateView.customer = gCustomer;
     }else{
         _healthyCertificateView.customerTest = _customerTestInfo;
     }
