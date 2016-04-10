@@ -31,7 +31,10 @@
 
 #import "SelectAddressViewController.h"
 #import "AddWorkerViewController.h"
-#import "MyCheckListViewController.h"
+
+#import "UnitCheckListVIewController.h"
+#import "PersonalCheckListViewContrller.h"
+
 #import "QRController.h"
 #import "StaffStateViewController.h"
 
@@ -708,10 +711,17 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"已达到修改次数上限" removeDelay:2];
             return;
         }
-        
-        MyCheckListViewController* mycheckListVC = [[MyCheckListViewController alloc] init];
-        mycheckListVC.popStyle = POPTO_ROOT;
-        [self.navigationController pushViewController:mycheckListVC animated:YES];
+
+        if (GetUserType == 1) {
+            PersonalCheckListViewContrller *checkVC = [[PersonalCheckListViewContrller alloc]init];
+            checkVC.popStyle = POPTO_ROOT;
+            [self.navigationController pushViewController:checkVC animated:YES];
+        }
+        else {
+            UnitCheckListVIewController *checkVe = [[UnitCheckListVIewController alloc]init];
+            checkVe.popStyle = POPTO_ROOT;
+            [self.navigationController pushViewController:checkVe animated:YES];
+        }
     }];
 }
 

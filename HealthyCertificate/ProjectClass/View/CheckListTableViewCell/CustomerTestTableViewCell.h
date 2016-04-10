@@ -15,4 +15,8 @@
 
 - (void)setCellItemWithTest:(CustomerTest *)customerTest;
 
+@property (nonatomic, strong) UIButton *cancelAppointBtn;   //  取消预约按钮
+@property (nonatomic, strong) UIButton *payMoneyBtn;        // 在线支付按钮
+@property (nonatomic, assign) float    payMoney;
+
 @end

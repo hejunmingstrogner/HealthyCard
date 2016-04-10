@@ -17,6 +17,7 @@
 #import "UIFont+Custom.h"
 #import <UIImageView+AFNetworking.h>
 #import "UILabel+FontColor.h"
+#import "UIColor+Expanded.h"
 @interface CustomerTestTableViewCell()
 {
     UIImageView *headerimageView;
@@ -91,6 +92,32 @@
         make.top.equalTo(serviceTimeLabel.mas_bottom).offset(5);
         make.left.right.height.equalTo(serviceTimeLabel);
     }];
+
+    _payMoneyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.contentView addSubview:_payMoneyBtn];
+    [_payMoneyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.contentView).offset(-10);
+        make.bottom.equalTo(self.contentView).offset(-5);
+        make.height.equalTo(@25);
+        make.width.mas_equalTo(80);
+    }];
+    _payMoneyBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+    _payMoneyBtn.layer.masksToBounds = YES;
+    _payMoneyBtn.layer.cornerRadius = 4;
+
+    _cancelAppointBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.contentView addSubview:_cancelAppointBtn];
+    [_cancelAppointBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.height.equalTo(_payMoneyBtn);
+        make.right.equalTo(_payMoneyBtn.mas_left).offset(-20);
+        make.centerY.equalTo(_payMoneyBtn);
+    }];
+    _cancelAppointBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+    _cancelAppointBtn.layer.masksToBounds = YES;
+    _cancelAppointBtn.layer.cornerRadius = 4;
+    [_cancelAppointBtn setTitle:@"取消预约" forState:UIControlStateNormal];
+    [_cancelAppointBtn setBackgroundColor:[UIColor colorWithRGBHex:0xff4200]];
+
 }
 
 - (void)setCellItemWithTest:(CustomerTest *)customerTest
@@ -145,6 +172,21 @@
 //            serviceTimeLabel.text = time;
             [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:time endTextColor:[UIColor grayColor]];
         }
+    }
+}
+
+- (void)setPayMoney:(float)payMoney
+{
+    _payMoney = payMoney;
+
+    if (payMoney > 0) {
+        [_payMoneyBtn setTitle:@"已支付" forState:UIControlStateNormal];
+        [_payMoneyBtn setBackgroundColor:[UIColor colorWithRed:95/255.0 green:177/255.0 blue:58/255.0 alpha:1]];
+        _payMoneyBtn.tag = -1;
+    }
+    else {
+        [_payMoneyBtn setTitle:@"在线支付" forState:UIControlStateNormal];
+        [_payMoneyBtn setBackgroundColor:[UIColor colorWithRed:1 green:155/255.0 blue:18/255.0 alpha:1]];
     }
 }
 @end

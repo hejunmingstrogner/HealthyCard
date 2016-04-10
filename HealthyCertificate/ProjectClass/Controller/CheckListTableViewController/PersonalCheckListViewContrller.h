@@ -1,19 +1,18 @@
 //
-//  MyCheckListViewController.h
+//  PersonalCheckListViewContrller.h
 //  HealthyCertificate
 //
-//  Created by 乄若醉灬 on 16/2/22.
+//  Created by 乄若醉灬 on 16/4/10.
 //  Copyright © 2016年 JIANGXU. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-
 typedef NS_ENUM (NSInteger, POP_STYLE){
     POPTO_LSAT,
     POPTO_ROOT
 };
 
-@interface MyCheckListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface PersonalCheckListViewContrller : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -22,6 +21,5 @@ typedef NS_ENUM (NSInteger, POP_STYLE){
 @property (nonatomic, assign) NSInteger userType;
 
 @property (nonatomic, assign) POP_STYLE popStyle;
-
 
 @end
