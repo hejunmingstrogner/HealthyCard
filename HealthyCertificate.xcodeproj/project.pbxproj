@@ -219,9 +219,10 @@
 		B2F826261C730DA500993F47 /* LeftMenuCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826251C730DA500993F47 /* LeftMenuCellItem.m */; };
 		B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F826291C73143200993F47 /* LeftMenuView.m */; };
 		B2FE0A9F1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FE0A9E1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m */; };
+		B2FE0AC81CBA254A00E5AB67 /* PersonalCheckListViewContrller.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FE0AC71CBA254A00E5AB67 /* PersonalCheckListViewContrller.m */; };
+		B2FE0ACB1CBA256700E5AB67 /* UnitCheckListVIewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FE0ACA1CBA256700E5AB67 /* UnitCheckListVIewController.m */; };
 		B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */; };
 		B2FEA8671C7EF2D500106EE8 /* TakePhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8661C7EF2D500106EE8 /* TakePhoto.m */; };
-		B2FED7051C97BD43003D8E41 /* MyCheckListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FED7041C97BD43003D8E41 /* MyCheckListViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -617,12 +618,14 @@
 		B2F826291C73143200993F47 /* LeftMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuView.m; sourceTree = "<group>"; };
 		B2FE0A9D1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitCheckListTableviewCell.h; sourceTree = "<group>"; };
 		B2FE0A9E1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitCheckListTableviewCell.m; sourceTree = "<group>"; };
+		B2FE0AC61CBA254A00E5AB67 /* PersonalCheckListViewContrller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalCheckListViewContrller.h; sourceTree = "<group>"; };
+		B2FE0AC71CBA254A00E5AB67 /* PersonalCheckListViewContrller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalCheckListViewContrller.m; sourceTree = "<group>"; };
+		B2FE0AC91CBA256700E5AB67 /* UnitCheckListVIewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitCheckListVIewController.h; sourceTree = "<group>"; };
+		B2FE0ACA1CBA256700E5AB67 /* UnitCheckListVIewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitCheckListVIewController.m; sourceTree = "<group>"; };
 		B2FEA8621C7ED5D700106EE8 /* PersonalHealthyCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalHealthyCController.h; sourceTree = "<group>"; };
 		B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalHealthyCController.m; sourceTree = "<group>"; };
 		B2FEA8651C7EF2D500106EE8 /* TakePhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakePhoto.h; sourceTree = "<group>"; };
 		B2FEA8661C7EF2D500106EE8 /* TakePhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakePhoto.m; sourceTree = "<group>"; };
-		B2FED7031C97BD43003D8E41 /* MyCheckListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCheckListViewController.h; sourceTree = "<group>"; };
-		B2FED7041C97BD43003D8E41 /* MyCheckListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCheckListViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1251,9 +1254,11 @@
 		B2436C9D1C7AEE5500F543E1 /* CheckListTableViewController */ = {
 			isa = PBXGroup;
 			children = (
-				B2FED7031C97BD43003D8E41 /* MyCheckListViewController.h */,
-				B2FED7041C97BD43003D8E41 /* MyCheckListViewController.m */,
 				B2640CD11C7C7CC800721CB5 /* WaitDocResultSelectController */,
+				B2FE0AC61CBA254A00E5AB67 /* PersonalCheckListViewContrller.h */,
+				B2FE0AC71CBA254A00E5AB67 /* PersonalCheckListViewContrller.m */,
+				B2FE0AC91CBA256700E5AB67 /* UnitCheckListVIewController.h */,
+				B2FE0ACA1CBA256700E5AB67 /* UnitCheckListVIewController.m */,
 			);
 			path = CheckListTableViewController;
 			sourceTree = "<group>";
@@ -1765,10 +1770,12 @@
 				B21721531CB660770066F44E /* UnitHistoryController.m in Sources */,
 				B23A98161C76F5C700E3E054 /* AdviceViewController.m in Sources */,
 				B2640CD81C7C7D7500721CB5 /* WaitDocResultTableViewCell.m in Sources */,
+				B2FE0AC81CBA254A00E5AB67 /* PersonalCheckListViewContrller.m in Sources */,
 				B2D721291CA515FB007B1671 /* WorkManagerTBC.m in Sources */,
 				254A8DD51C7DA0CE00F2EC94 /* NSString+Custom.m in Sources */,
 				2512B4201C7056C900EE661B /* UIView+Layout.m in Sources */,
 				B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */,
+				B2FE0ACB1CBA256700E5AB67 /* UnitCheckListVIewController.m in Sources */,
 				B27B00D11C8461FE00FBF895 /* ServicePositionCarHeadTableViewCell.m in Sources */,
 				B27B00E21C84622D00FBF895 /* CloudCompanyAppointmentStaffCell.m in Sources */,
 				25BFEB2D1C7405810062F9B8 /* PackageOperation.m in Sources */,
@@ -1776,7 +1783,6 @@
 				2512B3EC1C8D6133006E8608 /* UIView+borderWidth.m in Sources */,
 				B23C76751C8D30FF00E5C40A /* WorkTypeInfoModel.m in Sources */,
 				B2640CD41C7C7CF500721CB5 /* WaitDocResultSelectViewController.m in Sources */,
-				B2FED7051C97BD43003D8E41 /* MyCheckListViewController.m in Sources */,
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
 				B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */,
 				25DB64581CAE53590072C8EF /* HCDateWheelView.m in Sources */,

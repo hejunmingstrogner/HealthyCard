@@ -38,7 +38,9 @@
 #import "EditInfoViewController.h"
 #import "HCWheelView.h"
 #import "WorkTypeViewController.h"
-#import "MyCheckListViewController.h"
+
+#import "PersonalCheckListViewContrller.h"
+#import "UnitCheckListVIewController.h"
 
 #import "YMIDCardRecognition.h"
 #import "HttpNetworkManager.h"
@@ -546,9 +548,16 @@
             [weakself.navigationController pushViewController:pay animated:YES];
         }
         else {
-            MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-            mycheckListViewController.popStyle = POPTO_ROOT;
-            [weakself.navigationController pushViewController:mycheckListViewController animated:YES];
+            if (GetUserType == 1) {
+                PersonalCheckListViewContrller *checkVC = [[PersonalCheckListViewContrller alloc]init];
+                checkVC.popStyle = POPTO_ROOT;
+                [self.navigationController pushViewController:checkVC animated:YES];
+            }
+            else {
+                UnitCheckListVIewController *checkVe = [[UnitCheckListVIewController alloc]init];
+                checkVe.popStyle = POPTO_ROOT;
+                [self.navigationController pushViewController:checkVe animated:YES];
+            }
         }
     }];
 }
@@ -558,17 +567,31 @@
  *  支付成功
  */
 - (void)payMoneySuccessed{
-    MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-    mycheckListViewController.popStyle = POPTO_ROOT;
-    [self.navigationController pushViewController:mycheckListViewController animated:YES];
+    if (GetUserType == 1) {
+        PersonalCheckListViewContrller *checkVC = [[PersonalCheckListViewContrller alloc]init];
+        checkVC.popStyle = POPTO_ROOT;
+        [self.navigationController pushViewController:checkVC animated:YES];
+    }
+    else {
+        UnitCheckListVIewController *checkVe = [[UnitCheckListVIewController alloc]init];
+        checkVe.popStyle = POPTO_ROOT;
+        [self.navigationController pushViewController:checkVe animated:YES];
+    }
 }
 /**
  *  支付取消
  */
 - (void)payMoneyCencel{
-    MyCheckListViewController* mycheckListViewController = [[MyCheckListViewController alloc] init];
-    mycheckListViewController.popStyle = POPTO_ROOT;
-    [self.navigationController pushViewController:mycheckListViewController animated:YES];
+    if (GetUserType == 1) {
+        PersonalCheckListViewContrller *checkVC = [[PersonalCheckListViewContrller alloc]init];
+        checkVC.popStyle = POPTO_ROOT;
+        [self.navigationController pushViewController:checkVC animated:YES];
+    }
+    else {
+        UnitCheckListVIewController *checkVe = [[UnitCheckListVIewController alloc]init];
+        checkVe.popStyle = POPTO_ROOT;
+        [self.navigationController pushViewController:checkVe animated:YES];
+    }
 }
 /**
  *  支付失败

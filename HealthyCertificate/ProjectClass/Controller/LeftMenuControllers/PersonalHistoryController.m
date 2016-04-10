@@ -155,7 +155,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return ((HistoryModel *)_historyArray[section]).rows;
+//    return ((HistoryModel *)_historyArray[section]).rows;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -171,42 +172,29 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (((HistoryModel *)_historyArray[indexPath.section]).type == HISTORY_PERSONAL_FINISHED) {
-        return 165;
-    }
-    else {
-        if (indexPath.row == 0) {
-            return 130;
-        }
-        return 35;
-    }
+    return 165;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HistoryModel *model = _historyArray[indexPath.section];
     if (model.type == HISTORY_PERSONAL_UNFINISHED) {
-        // 未完成
-        if (indexPath.row == 0) {
-            CustomerTestTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-            if (!cell) {
-                cell = [[CustomerTestTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }
-            [cell setCellItemWithTest:model.customer];
-            return cell;
-        }
-
-        CheckListPayMoneyCell *cell = [tableView dequeueReusableCellWithIdentifier:@"paycell"];
+        CustomerTestTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"pcell"];
         if (!cell) {
-            cell = [[CheckListPayMoneyCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"paycell"];
+            cell = [[CustomerTestTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"pcell"];
             [cell.payMoneyBtn addTarget:self action:@selector(payMoneyBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [cell.cancelAppointBtn addTarget:self action:@selector(cancelAppointBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
+        [cell setCellItemWithTest:model.customer];
         cell.payMoneyBtn.tag = indexPath.section;
         cell.cancelAppointBtn.tag = indexPath.section;
         cell.payMoney = model.customer.payMoney;
+        if (![model.customer.testStatus isEqualToString:@"-1"] && model.customer.payMoney <= 0){
+            //单位已经统一付钱
+            cell.payMoneyBtn.hidden = YES;
+        }
+
         // 是否可以取消订单
         if (![model.customer canCancelTheOrder]) {
             cell.cancelAppointBtn.hidden = YES; // 不可取消
@@ -214,6 +202,7 @@
         else{
             cell.cancelAppointBtn.hidden = NO;  // 可以取消
         }
+
         return cell;
     }
     if(model.type == HISTORY_PERSONAL_FINISHED){
