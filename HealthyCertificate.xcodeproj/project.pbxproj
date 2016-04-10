@@ -221,6 +221,7 @@
 		B2FE0A9F1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FE0A9E1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m */; };
 		B2FE0AC81CBA254A00E5AB67 /* PersonalCheckListViewContrller.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FE0AC71CBA254A00E5AB67 /* PersonalCheckListViewContrller.m */; };
 		B2FE0ACB1CBA256700E5AB67 /* UnitCheckListVIewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FE0ACA1CBA256700E5AB67 /* UnitCheckListVIewController.m */; };
+		B2FE0ACE1CBA2C6E00E5AB67 /* PCheckAllPayView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FE0ACD1CBA2C6E00E5AB67 /* PCheckAllPayView.m */; };
 		B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */; };
 		B2FEA8671C7EF2D500106EE8 /* TakePhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FEA8661C7EF2D500106EE8 /* TakePhoto.m */; };
 /* End PBXBuildFile section */
@@ -622,6 +623,8 @@
 		B2FE0AC71CBA254A00E5AB67 /* PersonalCheckListViewContrller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalCheckListViewContrller.m; sourceTree = "<group>"; };
 		B2FE0AC91CBA256700E5AB67 /* UnitCheckListVIewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitCheckListVIewController.h; sourceTree = "<group>"; };
 		B2FE0ACA1CBA256700E5AB67 /* UnitCheckListVIewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitCheckListVIewController.m; sourceTree = "<group>"; };
+		B2FE0ACC1CBA2C6E00E5AB67 /* PCheckAllPayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCheckAllPayView.h; sourceTree = "<group>"; };
+		B2FE0ACD1CBA2C6E00E5AB67 /* PCheckAllPayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCheckAllPayView.m; sourceTree = "<group>"; };
 		B2FEA8621C7ED5D700106EE8 /* PersonalHealthyCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalHealthyCController.h; sourceTree = "<group>"; };
 		B2FEA8631C7ED5D700106EE8 /* PersonalHealthyCController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalHealthyCController.m; sourceTree = "<group>"; };
 		B2FEA8651C7EF2D500106EE8 /* TakePhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakePhoto.h; sourceTree = "<group>"; };
@@ -1247,6 +1250,8 @@
 				B297EB271C93AA98001E1B71 /* CheckListPayMoneyCell.m */,
 				B2FE0A9D1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.h */,
 				B2FE0A9E1CB75B0D00E5AB67 /* UnitCheckListTableviewCell.m */,
+				B2FE0ACC1CBA2C6E00E5AB67 /* PCheckAllPayView.h */,
+				B2FE0ACD1CBA2C6E00E5AB67 /* PCheckAllPayView.m */,
 			);
 			path = CheckListTableViewCell;
 			sourceTree = "<group>";
@@ -1804,6 +1809,7 @@
 				25BFEB361C74096E0062F9B8 /* PersonInfoOfPhonePacket.m in Sources */,
 				254A8D831C7A027E00F2EC94 /* HealthyCertificateView.m in Sources */,
 				254503091C9119EC00F47F46 /* CustomerPositionLogPacket.m in Sources */,
+				B2FE0ACE1CBA2C6E00E5AB67 /* PCheckAllPayView.m in Sources */,
 				2512B3AC1C70557C00EE661B /* main.m in Sources */,
 				25DB63FF1CABA0530072C8EF /* QRcodeViewController.m in Sources */,
 				B2D721351CA90232007B1671 /* RouteAnnotation.m in Sources */,
