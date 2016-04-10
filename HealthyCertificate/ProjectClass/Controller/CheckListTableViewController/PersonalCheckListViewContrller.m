@@ -47,6 +47,7 @@
     PCheckAllPayView *piliangzhifuView;     // 批量支付的界面
 
     NSInteger  countForPayMoneySum;      // 需要支付的人的总数
+    UIButton * piliangPayBtn;
 }
 
 @property (nonatomic, assign, getter=isRefreshing) BOOL isRefreshing;
@@ -79,7 +80,7 @@
     self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
 
     // 批量支付
-    UIButton *piliangPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    piliangPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [piliangPayBtn setTitle:@"批量支付" forState:UIControlStateNormal];
     [piliangPayBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     piliangPayBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
@@ -101,6 +102,8 @@
         [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view).offset(-61);
         }];
+
+        [self.tableView setEditing:YES animated:YES];
     }
     else {
         // 取消编辑状态
@@ -112,8 +115,9 @@
         // 将已经选择过的批量支付重新归0
         [_selectedListDic removeAllObjects];
         [self setPCheckViewData];
+
+        [self.tableView setEditing:NO animated:YES];
     }
-    [self.tableView setEditing:!self.tableView.editing animated:YES];
 }
 // 返回前一页
 - (void)backToPre:(id)sender
@@ -172,6 +176,9 @@
                 }
             }
             piliangzhifuView.allCount = countForPayMoneySum;
+            // 如果批量支付的界面当前已经显示了，则需要关闭
+            piliangPayBtn.tag = 1;
+            [self rightBtnClicked:piliangPayBtn];
         }
         else {
             [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
@@ -296,6 +303,7 @@
 // 去设置批量支付view的数据
 - (void)setPCheckViewData
 {
+#warning 获取单价
     // 设置单价，交钱的人数
     [piliangzhifuView setMoney:1 count:_selectedListDic.count];
 }
