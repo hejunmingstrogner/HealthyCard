@@ -34,16 +34,24 @@
 #import "PayMoneyController.h"
 #import "UnitCheckListTableviewCell.h"
 
+#import "PCheckAllPayView.h"
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface PersonalCheckListViewContrller()<DJRefreshDelegate, PayMoneyDelegate>
+@interface PersonalCheckListViewContrller()<DJRefreshDelegate, PayMoneyDelegate, PCheckAllPayViewDelegate>
 {
     DJRefresh  *_refresh;
     RzAlertView *waitAlertView;
     NSInteger  payIndexPathSection;
+
+    PCheckAllPayView *piliangzhifuView;     // 批量支付的界面
+
+    NSInteger  countForPayMoneySum;      // 需要支付的人的总数
 }
 
 @property (nonatomic, assign, getter=isRefreshing) BOOL isRefreshing;
+
+@property (nonatomic, strong) NSMutableDictionary *selectedListDic;   // 选中的要批量支付的数据
 
 @end
 
@@ -87,12 +95,23 @@
 - (void)rightBtnClicked:(UIButton *)sender
 {
     if (sender.tag == 0) {
+        // 当前设置为 去勾选
         [sender setTitle:@"取消" forState:UIControlStateNormal];
         sender.tag = 1;
+        [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view).offset(-61);
+        }];
     }
     else {
+        // 取消编辑状态
         [sender setTitle:@"批量支付" forState:UIControlStateNormal];
         sender.tag = 0;
+        [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view);
+        }];
+        // 将已经选择过的批量支付重新归0
+        [_selectedListDic removeAllObjects];
+        [self setPCheckViewData];
     }
     [self.tableView setEditing:!self.tableView.editing animated:YES];
 }
@@ -108,6 +127,8 @@
 
 - (void)initSubViews
 {
+    _selectedListDic = [[NSMutableDictionary alloc]init];
+
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
 
@@ -117,6 +138,15 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.equalTo(self.view);
         make.top.equalTo(self.view).offset(64);
+    }];
+
+    piliangzhifuView = [[PCheckAllPayView alloc]init];
+    piliangzhifuView.delegate = self;
+    [self.view addSubview:piliangzhifuView];
+    [piliangzhifuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_tableView.mas_bottom);
+        make.left.right.equalTo(_tableView);
+        make.height.equalTo(@60);
     }];
 
     _refresh = [[DJRefresh alloc]initWithScrollView:_tableView delegate:self];
@@ -132,8 +162,16 @@
         weakself.isRefreshing = NO;
         if (!error) {
             weakself.checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
-
             [weakself.tableView reloadData];
+
+            // 设置
+            countForPayMoneySum = 0;
+            for (CustomerTest *cus in customerArray) {
+                if (cus.payMoney <=0 && [cus.testStatus isEqualToString:@"-1"]) {
+                    countForPayMoneySum++;
+                }
+            }
+            piliangzhifuView.allCount = countForPayMoneySum;
         }
         else {
             [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
@@ -227,22 +265,39 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    __weak typeof(self) weakSelf = self;
-//    // 个人
-//
-//    PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
-//    personalHealthyC.customerTestInfo = (CustomerTest *)_checkDataArray[indexPath.section];
-//    [personalHealthyC changedInformationWithResultBlock:^(BOOL ischanged, NSInteger indexpathSection) {
-//        if (ischanged) {
-//            [weakSelf refreshNewDataWithIndexPathSection:indexPath.section];
-//        }
-//    }];
-//    [self.navigationController pushViewController:personalHealthyC animated:YES];
+    CustomerTest *customertest = (CustomerTest *)_checkDataArray[indexPath.section];
+    if(_tableView.editing){
+        NSLog(@"编辑状态");
+        [_selectedListDic setObject:indexPath forKey:[NSNumber numberWithInteger:indexPath.section]];
+        // 去设置批量支付view的数据
+        [self setPCheckViewData];
+        return;
+    }
+    // 进入个人待处理项界面
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    __weak typeof(self) weakSelf = self;
+    // 个人
+
+    PersonalHealthyCController *personalHealthyC = [[PersonalHealthyCController alloc]init];
+    personalHealthyC.customerTestInfo = customertest;
+    [personalHealthyC changedInformationWithResultBlock:^(BOOL ischanged, NSInteger indexpathSection) {
+        if (ischanged) {
+            [weakSelf refreshNewDataWithIndexPathSection:indexPath.section];
+        }
+    }];
+    [self.navigationController pushViewController:personalHealthyC animated:YES];
 }
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    [_selectedListDic removeObjectForKey:[NSNumber numberWithInteger:indexPath.section]];
+    // 去设置批量支付view的数据
+    [self setPCheckViewData];
+}
+// 去设置批量支付view的数据
+- (void)setPCheckViewData
+{
+    // 设置单价，交钱的人数
+    [piliangzhifuView setMoney:1 count:_selectedListDic.count];
 }
 #pragma mark -取消预约，在线支付，付款
 - (void)cancelAppointBtnClicked:(UIButton *)sender
@@ -313,6 +368,39 @@
 - (void)payMoneyByOthers
 {
 
+}
+
+#pragma mark -批量支付的delegate
+// 去批量支付
+-(void)payAll
+{
+    NSLog(@"去批量支付");
+    NSArray *index = [_selectedListDic allKeys];
+    NSMutableArray *customers = [[NSMutableArray alloc]init];
+    for (NSNumber *i in index) {
+        [customers addObject:((CustomerTest *)_checkDataArray[[i integerValue]]).custName];
+    }
+    NSLog(@"需要付款的人的编号：%@", customers);
+}
+// 全选
+- (void)selectAll{
+    [_selectedListDic removeAllObjects];
+    for (int i = 0; i < _checkDataArray.count; i++) {
+        CustomerTest *customertest = (CustomerTest *)_checkDataArray[i];
+        if (customertest.payMoney <= 0 && [customertest.testStatus isEqualToString:@"-1"]) {
+            NSIndexPath *indexpath = [NSIndexPath indexPathForRow:0 inSection:i];
+            [_tableView selectRowAtIndexPath:indexpath animated:YES scrollPosition:UITableViewScrollPositionNone];
+            [_selectedListDic setObject:indexpath forKey:[NSNumber numberWithInteger:indexpath.section]];
+        }
+    }
+    [self setPCheckViewData];
+}
+// 取消全选
+- (void)deSelectAll
+{
+    [_selectedListDic removeAllObjects];
+    [_tableView reloadData];
+    [self setPCheckViewData];
 }
 @end
 
