@@ -23,7 +23,10 @@
 
 #import "UserInformationController.h"
 #import "AppointmentViewController.h"
-#import "MyCheckListViewController.h"
+
+#import "PersonalCheckListViewContrller.h"
+#import "UnitCheckListVIewController.h"
+
 #import "ServicePointDetailViewController.h"
 #import "CloudAppointmentViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
@@ -583,9 +586,16 @@ BOOL   _isLocationInfoHasBeenSent;
     if (checkListData.count == 0) {
         return;
     }
-    MyCheckListViewController *checkcontroller = [MyCheckListViewController new];
-    checkcontroller.checkDataArray = [NSMutableArray arrayWithArray:checkListData];
-    [self.navigationController pushViewController:checkcontroller animated:YES];
+    if (GetUserType == 1) {
+        PersonalCheckListViewContrller *checkVC = [[PersonalCheckListViewContrller alloc]init];
+        checkVC.checkDataArray = [NSMutableArray arrayWithArray:checkListData];
+        [self.navigationController pushViewController:checkVC animated:YES];
+    }
+    else {
+        UnitCheckListVIewController *checkVe = [[UnitCheckListVIewController alloc]init];
+        checkVe.checkDataArray = [NSMutableArray arrayWithArray:checkListData];
+        [self.navigationController pushViewController:checkVe animated:YES];
+    }
 }
 #pragma mark -最近服务点 点击
 - (void)minDistanceBtnClicked

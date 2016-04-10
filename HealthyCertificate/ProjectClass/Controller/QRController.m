@@ -24,7 +24,10 @@
 #import "UMSocial.h"
 #import "InsetsLabel.h"
 #import "PersonalHistoryController.h"
-#import "MyCheckListViewController.h"
+
+#import "PersonalCheckListViewContrller.h"
+#import "UnitCheckListVIewController.h"
+
 #import "PersonalHealthyCController.h"
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 

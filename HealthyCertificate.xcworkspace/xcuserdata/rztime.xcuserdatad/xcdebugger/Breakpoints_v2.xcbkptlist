@@ -169,11 +169,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentCompanyViewController.m"
-            timestampString = "481866510.86746"
+            timestampString = "481962582.561604"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "956"
-            endingLineNumber = "956"
+            startingLineNumber = "966"
+            endingLineNumber = "966"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
