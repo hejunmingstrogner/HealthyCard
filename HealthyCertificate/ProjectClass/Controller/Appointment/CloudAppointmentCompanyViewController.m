@@ -127,6 +127,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"查询单位员工失败" removeDelay:3];
             return;
         }
+        NSIndexPath *index =  [NSIndexPath indexPathForItem:2 inSection:0];
+        CloudCompanyAppointmentStaffCell *cell =  [_companyInfoTableView cellForRowAtIndexPath:index];
+        if (cell){
+            cell.staffCount = _customerArr.count;
+        }
         _customerArr = result;
     }];
 }
