@@ -446,12 +446,10 @@
     CGFloat width = _widthofimage;
     CGFloat height = _heightofImage;
 
-    BOOL isBaseOnWidth = YES;
     if (height>self.view.bounds.size.height) {
         //超过屏幕了那就只能是，高度定死，宽度修正
         height = self.view.bounds.size.height;
         width = height*self.ratioOfWidthAndHeight;
-        isBaseOnWidth = NO;
     }
     self.overlayView.frame = CGRectMake(0, 0, width, height);
     self.overlayView.center = CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height/2);

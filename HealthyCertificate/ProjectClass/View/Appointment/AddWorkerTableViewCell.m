@@ -62,50 +62,6 @@
     _endDateLabel.numberOfLines = 0;
 }
 
-- (void)setCellItem:(AddWorkerCellItem *)cellItem
-{
-    _nameLabel.text = cellItem.name;
-    if (cellItem.phone.length == 0) {
-        _phoneLabel.text = @"未查到";
-    }
-    else {
-        _phoneLabel.text = cellItem.phone;
-    }
-    if (cellItem.endDate == 0) {
-        _endDateLabel.text = @"无体检记录";
-    }
-    else {
-        _endDateLabel.text = [NSDate getYear_Month_DayByDate:cellItem.endDate / 1000];
-    }
-
-    if (cellItem.isSelectFlag == 0) {
-        _selectImageView.image = [UIImage imageNamed:@"tuoyuan"];
-    }
-    else {
-        _selectImageView.image = [UIImage imageNamed:@"tuoyuanxuanzhong"];
-    }
-}
-
-- (void)setSelectedCellItem:(AddWorkerCellItem *)cellitem
-{
-    _nameLabel.text = cellitem.name;
-    if (cellitem.phone.length == 0) {
-        _phoneLabel.text = @"未查到";
-    }
-    else {
-        _phoneLabel.text = cellitem.phone;
-    }
-    if (cellitem.endDate == 0) {
-        _endDateLabel.text = @"无体检记录";
-    }
-    else {
-        _endDateLabel.text = [NSDate getYear_Month_DayByDate:cellitem.endDate / 1000];
-    }
-
-    _selectImageView.image = [UIImage imageNamed:@"tuoyuanhui"];
-
-}
-
 - (void)changeSelectStatus:(AddWorkerCellItem *)cellitem
 {
     if (cellitem.isSelectFlag == 0) {
@@ -115,6 +71,31 @@
     else {
         cellitem.isSelectFlag = 0;
         _selectImageView.image = [UIImage imageNamed:@"tuoyuan"];
+    }
+}
+
+- (void)setCellitem:(AddWorkerCellItem *)cellitem
+{
+    _cellitem = cellitem;
+    _nameLabel.text = cellitem.customer.custName;
+
+    if (cellitem.customer.linkPhone.length == 0) {
+        _phoneLabel.text = @"未查到";
+    }
+    else {
+        _phoneLabel.text = cellitem.customer.linkPhone;
+    }
+    if (cellitem.customer.lastCheckTime == 0) {
+        _endDateLabel.text = @"无体检记录";
+    }
+    else {
+        _endDateLabel.text = [NSDate getYear_Month_DayByDate:cellitem.customer.lastCheckTime / 1000];
+    }
+    if (cellitem.isSelectFlag == 0) {
+        _selectImageView.image = [UIImage imageNamed:@"tuoyuan"];
+    }
+    else {
+        _selectImageView.image = [UIImage imageNamed:@"tuoyuanxuanzhong"];
     }
 }
 @end

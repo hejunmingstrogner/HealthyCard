@@ -10,15 +10,14 @@
 
 @implementation AddWorkerCellItem
 
-- (instancetype)initWithName:(NSString *)name phone:(NSString *)phone endDate:(long long)endDate selectFlag:(SelectFlag)isSelectFlag
+- (instancetype)initWithCustomer:(Customer *)customer selectFlag:(SelectFlag)flag
 {
     if (self = [super init]) {
-        _name = name;
-        _phone = phone;
-        _endDate = endDate;
-        _isSelectFlag = isSelectFlag;
+        _customer = customer;
+        _isSelectFlag = flag;
     }
     return self;
 }
+
 
 @end
