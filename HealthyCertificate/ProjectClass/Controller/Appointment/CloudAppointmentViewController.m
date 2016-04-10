@@ -536,7 +536,7 @@
 - (void)orderSuccessed:(NSString *)checkcode
 {
     __weak typeof(self) weakself = self;
-    [[OrdersAlertView getinstance]openWithSuperView:self.view Message:nil withHandle:^(NSInteger flag) {
+    [RzAlertView showAlertViewControllerWithTarget:self Title:@"预约成功" Message:@"您已预约成功，是否立即去支付" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"去支付" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
         if (flag == 1) {
             PayMoneyController *pay = [[PayMoneyController alloc]init];
             pay.chargetype = CUSTOMERTEST;

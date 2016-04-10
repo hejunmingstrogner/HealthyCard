@@ -18,12 +18,12 @@
 @property (nonatomic, strong) UILabel     *phoneLabel;
 @property (nonatomic, strong) UILabel     *endDateLabel;        // 到期时间
 
+@property (nonatomic, strong) AddWorkerCellItem *cellitem;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
-- (void)setCellItem:(AddWorkerCellItem *)cellItem;          // 将要选择的cellitem
+- (void)setCellitem:(AddWorkerCellItem *)cellitem;
 
 - (void)changeSelectStatus:(AddWorkerCellItem *)cellitem;
-
-- (void)setSelectedCellItem:(AddWorkerCellItem *)cellitem;  // 选择过的要过滤的cellitem
 
 @end

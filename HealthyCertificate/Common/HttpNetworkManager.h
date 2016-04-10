@@ -176,7 +176,6 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 - (void)getIndustryList:(NSString*)dataItemName resultBlock:(HCArrayResultBlock)resultBlock;
 
-
 #pragma mark - 个人预约
 /**
  *  个人预约 登记或修改

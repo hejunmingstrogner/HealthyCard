@@ -17,12 +17,14 @@ typedef void(^AddWorkerComfirmClicked)(NSArray *workerArray);
  */
 @interface AddWorkerViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) NSString *cUnitCode;      // 合同号
+#warning 单位编号必须填写， 合同编号可不写（不写时为新建预约，写时是预约成功之后的步骤中可见）
+@property (nonatomic, strong) NSString *unitCode;      // 单位编号
+@property (nonatomic, strong) NSString *contarctCode;   // 合同编号
+
 
 @property (nonatomic, strong) NSMutableArray *selectedWorkerArray;  // 已经选择过的员工
 
-//@property (nonatomic, copy) NSArray     *needcanlceWorkersArray;  // 需要过滤掉的员工
-
+@property (nonatomic, strong) NSMutableArray *selectWorkerArray;   // 现在选择的员工，需要返回给上一层
 
 @property (nonatomic, strong) AddWorkerComfirmClicked block;
 

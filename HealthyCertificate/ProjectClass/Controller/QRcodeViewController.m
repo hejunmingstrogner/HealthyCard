@@ -79,8 +79,8 @@
     if (!_isReading) return;
     
     if (metadataObjects != nil && [metadataObjects count] > 0) {
-        AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
-        
+//        AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
+
      //   Do Something....
     } 
 }
