@@ -89,6 +89,14 @@
     self.navigationItem.leftBarButtonItem = backitem;
     
     self.title = @"员工状态";
+    
+    UIButton* batchPayBtn = [UIButton buttonWithTitle:@"批量支付"
+                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
+                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
+                                   backgroundColor:[UIColor clearColor]];
+    [batchPayBtn addTarget:self action:@selector(batchPayBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:batchPayBtn];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 #pragma mark - Action
@@ -101,6 +109,15 @@
 {
     _updateBtn.hidden = YES;
     [self loadData];
+}
+
+-(void)batchPayBtnClicked:(UIButton*)sender
+{
+    if ([sender.titleLabel.text isEqualToString:@"批量支付"]){
+        [sender setTitle:@"取消" forState:UIControlStateNormal];
+    }else{
+        
+    }
 }
 
 
