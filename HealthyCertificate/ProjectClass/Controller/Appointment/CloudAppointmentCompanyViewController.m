@@ -948,10 +948,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 [_exminationCountField becomeFirstResponder];
             }else{
                 AddWorkerViewController* addworkerViewController = [[AddWorkerViewController alloc] init];
-                if (_brContract)
-                    addworkerViewController.cUnitCode = _brContract.unitCode;
+                if (_brContract){
+                    addworkerViewController.unitCode = _brContract.unitCode;
+                    addworkerViewController.contarctCode = _brContract.code;
+                }
                 else
-                    addworkerViewController.cUnitCode = gUnitInfo.unitCode;
+                    addworkerViewController.unitCode = gUnitInfo.unitCode;
                 addworkerViewController.selectedWorkerArray = [NSMutableArray arrayWithArray:self.customerArr];
                 __weak CloudAppointmentCompanyViewController * weakSelf = self;
                 [addworkerViewController getWorkerArrayWithBlock:^(NSArray *workerArray) {
