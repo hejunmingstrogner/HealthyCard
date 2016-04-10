@@ -169,22 +169,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentCompanyViewController.m"
-            timestampString = "481866480.458557"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "-setBrContract:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "HealthyCertificate/ProjectClass/Controller/Appointment/CloudAppointmentCompanyViewController.m"
             timestampString = "481866510.86746"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
