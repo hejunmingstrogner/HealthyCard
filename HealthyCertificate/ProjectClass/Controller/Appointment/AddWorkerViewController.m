@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据获取中..."];
     }
     [_waitAlertView show];
-
+    _selectWorkerArray = [[NSMutableArray alloc]init];
     _workersArray = [[NSMutableArray alloc]init];
     if(_contarctCode.length != 0){
         // 如果是已经预约过的，则查询获得合同关联的客户
@@ -288,5 +288,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         }
     }
     [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count endColor:[UIColor blueColor]];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 @end
