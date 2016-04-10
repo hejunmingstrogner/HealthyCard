@@ -22,10 +22,7 @@
 
 @interface AddWorkerViewController()
 {
-    NSMutableArray *_workerData;       // 原始的员工数据
-    NSMutableArray *_needCanleWorkerDateArray;  // 封装的需要过滤的员工数据
-    NSMutableArray *_workerArray;      // 封装的员工数据
-    NSMutableArray *_selectWorkerArray;    // 选择的员工   返回的选择的数据
+    NSMutableArray *_workersArray;  // 员工数据
     
     UILabel        *_seletingCountLabel;
     RzAlertView    *_waitAlertView;
@@ -48,10 +45,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    _workerData = [NSMutableArray array];
-    _workerArray = [NSMutableArray array];
-    _selectWorkerArray = [NSMutableArray arrayWithArray:_selectedWorkerArray];
     
     [self initNavgation];
     
@@ -92,56 +85,85 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据获取中..."];
     }
     [_waitAlertView show];
+
+    _workersArray = [[NSMutableArray alloc]init];
+    if(_contarctCode.length != 0){
+        // 如果是已经预约过的，则查询获得合同关联的客户
+        [[HttpNetworkManager getInstance] getCustomerListByBRContract:_contarctCode resultBlock:^(NSArray *result, NSError *error) {
+            if(!error){
+                // 将得到的数据封装到数组中
+                [self setworkersArraywithArray:result selectFlag:SELECT];
+            }
+            // 同时获得未完成体检的员工
+            [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:_unitCode resultBlock:^(NSArray *result, NSError *error) {
+                if (!error) {
+                    // 将得到的数据封装到数组中
+                    [self setworkersArraywithArray:result selectFlag:NOTSELECT];
+                }
+                [_waitAlertView close];
+                if (_workersArray.count == 0) {
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有数据" removeDelay:2];
+                }
+                else {
+                    // 将已选中的项封装到数组中
+                    [self setSelectedWorkerArrayToWorkersArray];
+                    [_tableView reloadData];
+                }
+            }];
+        }];
+    }
+    else {
+        // 只获取单位下，未完成体检的员工
+        [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:_unitCode resultBlock:^(NSArray *result, NSError *error) {
+            [_waitAlertView close];
+            if (!error) {
+                // 将得到的数据封装到数组中
+                [self setworkersArraywithArray:result selectFlag:NOTSELECT];
+            }
+            [_waitAlertView close];
+            if (_workersArray.count == 0) {
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有数据" removeDelay:2];
+            }
+            else {
+                // 将已选中的项封装到数组中
+                [self setSelectedWorkerArrayToWorkersArray];
+                [_tableView reloadData];
+            }
+        }];
+    }
+}
+// 将得到的数据封装到数组中
+- (void)setworkersArraywithArray:(NSArray *)array selectFlag:(SelectFlag)flag
+{
+    NSArray *newarray = [self sortWorkList:array];
+    for (Customer *customer in newarray) {
+        AddWorkerCellItem *item = [[AddWorkerCellItem alloc]initWithCustomer:customer selectFlag:flag];
+        [_workersArray addObject:item];
+    }
+}
+
+// 将已选择的数据封装到数组中
+- (void)setSelectedWorkerArrayToWorkersArray
+{
+    if (_contarctCode.length == 0) {
+        return;
+    }
     // 对选择过的员工进行筛选
     NSMutableArray *array = [[NSMutableArray alloc]init];
-    for (Customer *custom in _selectWorkerArray) {
+    for (Customer *custom in _selectedWorkerArray) {
         [array addObject:custom.custCode];
     }
-    
-    [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:_cUnitCode resultBlock:^(NSArray *result, NSError *error) {
-        [_waitAlertView close];
-        if (!error) {
-            if(result.count == 0)
-            {
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有员工数据..." removeDelay:3];
-                return ;
-            }
-            // 对员工进行排序
-            _workerData = [NSMutableArray arrayWithArray:[self sortWorkList:result]];
-            //            // 过滤掉已经选择过的员工
-            //            if (_needcanlceWorkersArray.count != 0) {
-            //                _needCanleWorkerDateArray = [[NSMutableArray alloc]init];
-            //                for (int i = 0; i< _needcanlceWorkersArray.count; i++) {
-            //                    Customer *customer = _needcanlceWorkersArray[i];
-            //                    AddWorkerCellItem *cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:1];
-            //                    [_needCanleWorkerDateArray addObject:cellItem];
-            //                    for (int j = 0; j < _workerData.count; j++) {
-            //                        if ([((Customer *)_workerData[j]).custCode isEqualToString:((Customer *)_needcanlceWorkersArray[i]).custCode]) {
-            //                            [_workerData removeObjectAtIndex:j];
-            //                            break;
-            //                        }
-            //                    }
-            //                }
-            //            }
-            [_workerArray removeAllObjects];
-            for (Customer *customer in _workerData) {
-                AddWorkerCellItem *cellItem;
-                if ([array containsObject:customer.custCode]) {
-                    cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:1];
-                }
-                else{
-                    cellItem = [[AddWorkerCellItem alloc]initWithName:customer.custName phone:customer.linkPhone endDate:customer.lastCheckTime selectFlag:0];
-                }
-                [_workerArray addObject:cellItem];
-            }
-            [_tableView reloadData];
+    for (int i = 0; i < _workersArray.count; i++) {
+        AddWorkerCellItem *item = _workersArray[i];
+        if ([array containsObject:item.customer.custCode]) {
+            ((AddWorkerCellItem *)_workersArray[i]).isSelectFlag = SELECT;
         }
         else {
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"数据获取失败，请检查网络后重试" removeDelay:3];
+            ((AddWorkerCellItem *)_workersArray[i]).isSelectFlag = NOTSELECT;
         }
-    }];
+    }
 }
-#pragma mark -对得到的员工进行排序
+
 // 对得到的员工进行排序
 - (NSArray *)sortWorkList:(NSArray *)works
 {
@@ -151,9 +173,11 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         Customer *customer2 = (Customer *)obj2;
         return customer1.lastCheckTime > customer2.lastCheckTime;
     }];
-    
+
     return [NSArray arrayWithArray:worksArray];
 }
+
+
 
 - (void)initSubViews
 {
@@ -209,7 +233,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _workerArray.count;
+    return _workersArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -247,7 +271,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     if (!cell) {
         cell = [[AddWorkerTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    [cell setCellItem:(AddWorkerCellItem *)_workerArray[indexPath.row]];
+    cell.cellitem = _workersArray[indexPath.row];
     
     return cell;
 }
@@ -255,12 +279,12 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AddWorkerTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [cell changeSelectStatus:(AddWorkerCellItem *)_workerArray[indexPath.row]];
+    [cell changeSelectStatus:_workersArray[indexPath.row]];
     
     [_selectWorkerArray removeAllObjects];
-    for (int i = 0; i < _workerArray.count; i++) {
-        if (((AddWorkerCellItem *)_workerArray[i]).isSelectFlag == 1) {
-            [_selectWorkerArray addObject:_workerData[i]];
+    for (int i = 0; i < _workersArray.count; i++) {
+        if (((AddWorkerCellItem *)_workersArray[i]).isSelectFlag == 1) {
+            [_selectWorkerArray addObject:((AddWorkerCellItem *)_workersArray[i]).customer];
         }
     }
     [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count endColor:[UIColor blueColor]];
