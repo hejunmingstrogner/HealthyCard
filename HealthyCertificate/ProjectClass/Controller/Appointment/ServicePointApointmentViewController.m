@@ -163,8 +163,7 @@
     }
     
     //服务点详情
-    ServersPositionAnnotionsModel* servicePositionAnnotionsModel = [[ServersPositionAnnotionsModel alloc] init];
-    servicePositionAnnotionsModel = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
+    ServersPositionAnnotionsModel* servicePositionAnnotionsModel = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
     if (servicePositionAnnotionsModel.type == 0){
         //固定服务点
         ServicePointDetailViewController* fixedServicePointVC = [[ServicePointDetailViewController alloc] init];
