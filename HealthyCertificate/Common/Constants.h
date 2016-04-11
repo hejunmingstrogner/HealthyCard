@@ -74,6 +74,14 @@ extern BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送
 
 extern BOOL   _isRegisterUnited; //个人用户是否注册单位
 
+#define WebServiceHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/webservice/"
+#define SSOSHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/ssos/"
+#define WeixinBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/weixin/"
+
+
+//static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/webservice/";
+//static NSString * const AFHTTPRequestOperationSSOSBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/ssos/";
+
 // 设置各种长度最大的限制
 #define NAME_LENGTH 20 // 名字长度
 #define IDCARD_LENGTH 18 // 身份证长度
