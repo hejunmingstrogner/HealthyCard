@@ -693,6 +693,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _brContract.testStatus = @"-1"; // -1未检，0签到，1在检，2延期，3完成，9已出报告和健康证
     _brContract.regCheckNum = customercount;
     _brContract.cityName = gCurrentCityName;
+    _brContract.name = [NSString stringWithFormat:@"%@单位体检", _brContract.unitName];
  
 
     [[HttpNetworkManager getInstance] createOrUpdateBRCoontract:_brContract employees:_customerArr reslutBlock:^(NSDictionary *result, NSError *error) {
