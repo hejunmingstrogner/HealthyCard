@@ -671,7 +671,7 @@
 #pragma mark - 支付情况
 - (void)paymoneyClicked:(UIButton *)sender
 {
-    if (_customerTestInfo.payMoney > 0) {
+    if (_customerTestInfo.payMoney > 0 || ![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
         return;
     }
     PayMoneyController *pay = [[PayMoneyController alloc]init];
