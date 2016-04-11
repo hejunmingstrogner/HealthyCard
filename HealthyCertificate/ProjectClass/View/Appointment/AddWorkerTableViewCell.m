@@ -89,7 +89,10 @@
         _endDateLabel.text = @"无体检记录";
     }
     else {
-        _endDateLabel.text = [NSDate getYear_Month_DayByDate:cellitem.customer.lastCheckTime / 1000];
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:cellitem.customer.lastCheckTime / 1000];
+        NSDate *enddata = [date nextYear];
+//        _endDateLabel.text = [NSDate getYear_Month_DayByDate:cellitem.customer.lastCheckTime / 1000];
+        _endDateLabel.text = [enddata formatDateToChineseString];
     }
     if (cellitem.isSelectFlag == 0) {
         _selectImageView.image = [UIImage imageNamed:@"tuoyuan"];
