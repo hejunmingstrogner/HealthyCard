@@ -46,14 +46,13 @@
     //选择地址和行业
     NSString              *_address;
     NSString              *_workTypeStr;
-    
-    CLLocationCoordinate2D _locationCoordinate;
 }
 
 typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
 {
     TextViewType_phoneNum = 1111,
-    TextViewType_count
+    TextViewType_count,
+    TextviewType_Add
 };
 
 
@@ -75,8 +74,7 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
     containerView.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     [scrollView addSubview:containerView];
     [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(scrollView);
-        make.width.equalTo(scrollView);
+        make.edges.width.equalTo(scrollView);
     }];
     
     UnitRegisterTitleView* titleView = [[UnitRegisterTitleView alloc] init];
@@ -112,11 +110,11 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
     [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(nextBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     nextBtn.layer.cornerRadius = 5;
-    [self.view addSubview:nextBtn];
+    [containerView addSubview:nextBtn];
     [nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.left.equalTo(self.view).with.offset(15);
-        make.right.equalTo(self.view).with.offset(-15);
+        make.centerX.equalTo(containerView);
+        make.left.equalTo(containerView).with.offset(15);
+        make.right.equalTo(containerView).with.offset(-15);
         make.top.equalTo(_tableView.mas_bottom).with.offset(20);
         make.height.mas_equalTo(40);
     }];
@@ -136,6 +134,13 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
     tapRecon.delegate = self;
     tapRecon.numberOfTapsRequired = 1;
     [self.navigationController.navigationBar addGestureRecognizer:tapRecon];
+    
+    //添加手势
+    UITapGestureRecognizer* singleRecognizer;
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
+    singleRecognizer.numberOfTapsRequired = 1; // 单击
+    singleRecognizer.delegate = self;
+    [scrollView addGestureRecognizer:singleRecognizer];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -159,7 +164,6 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
     self.navigationItem.leftBarButtonItem = backitem;
     
     self.title = @"单位注册";
-
 }
 
 
@@ -217,8 +221,6 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
     PostVeitifyViewController* postVC = [[PostVeitifyViewController alloc] init];
     
     BRServiceUnit* brServiceUnit = [[BRServiceUnit alloc] init];
-    brServiceUnit.positionLO = _locationCoordinate.longitude;
-    brServiceUnit.positonLA = _locationCoordinate.latitude;
     brServiceUnit.unitName = unitCell.textView.text;
     brServiceUnit.linkPeople = chargePersonCell.textView.text;
     brServiceUnit.linkPhone = phoneNumCell.textView.text;
@@ -240,11 +242,31 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
     [self inputWidgetResign];
 }
 
+- (void)handleSingleTapFrom:(UITapGestureRecognizer*)recognizer
+{
+    if ([recognizer.view isKindOfClass:[UIScrollView class]]){
+        [self inputWidgetResign];
+    }
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if ([NSStringFromClass([touch.view class]) isEqualToString:@"UITableViewCellContentView"]) {//如果当前是tableView
+        //做自己想做的事
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark - UITextView Delegate
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString*)text
 {
     if ([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
+        
+        [_tableView reloadData];
+        [self updateLayout];
         return NO;
     }
     return YES;
@@ -261,10 +283,13 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
     UnitRegisterItemCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UnitRegisterItemCell class])];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.titleText = _dataSource[indexPath.row];
-    if(indexPath.row == 5 || indexPath.row == 3){
+    if(indexPath.row == 3){
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textView.userInteractionEnabled = NO;
     }
+
+    if (indexPath.row == 5)
+        cell.textView.tag = TextviewType_Add;
     
    //手机号不可输入
     if(indexPath.row == 2){
@@ -295,6 +320,7 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
 #pragma mark - UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self inputWidgetResign];
     if (indexPath.row == 3){
         //行业
         __weak typeof (self) wself = self;
@@ -307,25 +333,6 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
             cell.textView.text = _workTypeStr;
         };
         [self.navigationController pushViewController:workTypeViewController animated:YES];
-    }
-    
-    if (indexPath.row == 5){
-        //地址
-        __weak typeof (self) wself = self;
-        SelectAddressViewController* selectAddressVC = [[SelectAddressViewController alloc] init];
-        selectAddressVC.addressStr = _address;
-        [selectAddressVC getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
-            __strong typeof(self) sself = wself;
-            UnitRegisterItemCell* cell = [sself->_tableView cellForRowAtIndexPath:indexPath];
-            _address = address;
-            cell.content = _address;
-            sself->_cellHeight = cell.textView.frame.size.height;
-            [sself->_tableView reloadData];
-            [wself updateLayout];
-            
-            _locationCoordinate = coor;
-        }];
-        [self.navigationController pushViewController:selectAddressVC animated:YES];
     }
 }
 
@@ -362,7 +369,7 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
     CGRect keyboardBounds;//UIKeyboardFrameEndUserInfoKey
     [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardBounds];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-       self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight + keyboardBounds.size.height);
+       self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, _viewHeight+keyboardBounds.size.height);
     } completion:NULL];
 }
 
@@ -380,6 +387,14 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
         UnitRegisterItemCell* cell = [_tableView cellForRowAtIndexPath:path];
         [cell.textView resignFirstResponder];
     }
+}
+
+//#pragma mark - UITextViewDelegate
+-(void)textViewDidChange:(UITextView *)textView
+{
+
+    CGSize size = [textView sizeThatFits:CGSizeMake(CGRectGetWidth(textView.frame), MAXFLOAT)];
+    _cellHeight = size.height > PXFIT_HEIGHT(100) ? size.height : PXFIT_HEIGHT(100);
 }
 
 

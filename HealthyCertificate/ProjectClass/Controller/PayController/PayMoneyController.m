@@ -310,7 +310,7 @@
     // 他人代付
     QRController* qrController = [[QRController alloc] init];
     qrController.qrControllerType = QRController_Pay;
-    qrController.qrContent = [NSString stringWithFormat:@"%@weixin/reservation_person/charge.jsp?checkCode=%@",[HttpNetworkManager baseURL],_checkCode];
+    qrController.qrContent = [NSString stringWithFormat:@"%@reservation_person/charge.jsp?checkCode=%@",WeixinBaseUrl,_checkCode];
     qrController.shareText = @"";
     [self.navigationController pushViewController:qrController animated:YES];
 
