@@ -211,6 +211,8 @@
         if (!cell) {
             cell = [[CustomerHistoryTBVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"customerHistoryTBVCell"];
             [cell.reportBtn addTarget:self action:@selector(reportBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+#warning 报告先不用
+            cell.reportBtn.hidden = YES;
         }
         cell.customerTest = model.customer;
         cell.reportBtn.tag = indexPath.section;
