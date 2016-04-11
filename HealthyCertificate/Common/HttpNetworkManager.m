@@ -169,18 +169,24 @@ static NSString * const AFHTTPRequestOperationSSOSBaseURLString = @"http://zkweb
 
 -(void)findUserInfoByPhone:(NSString*)mobilePhone resultBlock:(HCDictionaryResultBlock)resultBlock;
 {
-    NSString* url = [NSString stringWithFormat:@"userInfo/findUserInfoByPhone?mobilePhone=%@", mobilePhone];
+    //http://zkwebserver.witaction.com:8080/webserver/webservice/userInfo/loginInitByPhone?mobilePhone=18080961549
+    NSString* url = [NSString stringWithFormat:@"userInfo/loginInitByPhone?mobilePhone=%@", mobilePhone];
     url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         gUnitInfo = [[BRServiceUnit alloc] init];
         gCustomer = [[Customer alloc] init];
+        
+        MethodResult* methodResult = [MethodResult mj_objectWithKeyValues:responseObject];
+        if (methodResult.succeed == NO){
+            resultBlock(nil, nil);
+        }else{
+            resultBlock(methodResult.object, nil);
+        }
 //        NSDictionary* unitInfo = [responseObject objectForKey:@"unitInfo"];
 //        gUnitInfo = [BRServiceUnit mj_objectWithKeyValues:unitInfo];
 //        
 //        NSDictionary* personalInfo = [responseObject objectForKey:@"customer"];
 //        gCustomer = [Customer mj_objectWithKeyValues:personalInfo];
-        
-        resultBlock(responseObject, nil);
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
         resultBlock(nil, error);
     }];

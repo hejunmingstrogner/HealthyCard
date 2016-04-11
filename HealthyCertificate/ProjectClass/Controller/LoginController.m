@@ -379,11 +379,11 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
 -(void)getLoginInfo{
     //http://zkwebserver.witaction.com:8080/webserver/webservice/userInfo/findUserInfoByPhone?mobilePhone=18080961548
     [[HttpNetworkManager getInstance] findUserInfoByPhone:GetUserName resultBlock:^(NSDictionary *result, NSError *error) {
-        if (error){
-            return;
-        }
-        
-        if (result == nil){
+        if (error || result == nil){
+            SetUserName(@"");
+            SetToken(@"");
+            SetUserRole(@"");
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"登录信息错误" removeDelay:2];
             return;
         }
         
