@@ -79,13 +79,15 @@
     LeftMenuCellItem *userType = [[LeftMenuCellItem alloc]initWithiconName:@"leixing" titleLabelText:@"用户类型" detialLabelText:nil itemtype:LEFTMENUCELL_USERTYPE];
     LeftMenuCellItem *notice = [[LeftMenuCellItem alloc]initWithiconName:@"notice" titleLabelText:@"注意事项" detialLabelText:nil itemtype:LEFTMENUCELL_NOTICE];
     LeftMenuCellItem *aboutUs = [[LeftMenuCellItem alloc]initWithiconName:@"aboutUs" titleLabelText:@"关于我们" detialLabelText:nil itemtype:LEFTMENUCELL_ABOUTUS];
-    LeftMenuCellItem *advice = [[LeftMenuCellItem alloc]initWithiconName:@"advice" titleLabelText:@"意见或建议" detialLabelText:nil itemtype:LEFTMENUCELL_ADVICE];
+//    LeftMenuCellItem *advice = [[LeftMenuCellItem alloc]initWithiconName:@"advice" titleLabelText:@"意见或建议" detialLabelText:nil itemtype:LEFTMENUCELL_ADVICE];
     LeftMenuCellItem *exit = [[LeftMenuCellItem alloc]initWithiconName:@"exit" titleLabelText:@"退出当前账号" detialLabelText:nil itemtype:LEFTMENUCELL_EXIT];
     if((gUnitInfo.unitCode.length == 0 && GetUserType == 1) || GetUserType == 2){
-        _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, manage, userType, notice, aboutUs, advice, exit, nil];
+//        _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, manage, userType, notice, aboutUs, advice, exit, nil];
+        _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, manage, userType, notice, aboutUs, exit, nil];
     }
     else {
-        _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, userType, notice, aboutUs, advice, exit, nil];
+//        _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, userType, notice, aboutUs, advice, exit, nil];
+        _menuItemArray = [NSMutableArray arrayWithObjects:userinformation,appoint, erweima, userType, notice, aboutUs, exit, nil];
     }
 
 }
