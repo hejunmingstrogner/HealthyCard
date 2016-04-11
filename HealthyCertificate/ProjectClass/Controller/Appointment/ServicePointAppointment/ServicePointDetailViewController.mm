@@ -86,7 +86,8 @@
 
     NSArray *arry2 = [NSArray arrayWithObjects:item21, item22, nil];
 
-    _inforArray = [[NSMutableArray alloc]initWithObjects:arry0, arry1, arry2, nil];
+//    _inforArray = [[NSMutableArray alloc]initWithObjects:arry0, arry1, arry2, nil];
+    _inforArray = [[NSMutableArray alloc]initWithObjects:arry0, arry2, nil];
 }
 
 - (void)initSubViews
@@ -189,9 +190,9 @@
     if (indexPath.section == 0) {
         return 120;
     }
-    else if (indexPath.section == 1){
-        return fmaxf(44, [self cellheight:_serverPositionItem.introduce]);
-    }
+//    else if (indexPath.section == 1){
+//        return fmaxf(44, [self cellheight:_serverPositionItem.introduce]);
+//    }
     return 44;
 }
 

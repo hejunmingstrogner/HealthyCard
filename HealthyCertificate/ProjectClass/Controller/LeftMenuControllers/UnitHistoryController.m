@@ -173,7 +173,9 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return ((HistoryModel *)_historyArray[indexPath.section]).rows *35;
+#warning 单位预约取消订单
+//    return ((HistoryModel *)_historyArray[indexPath.section]).rows *35;
+    return 35*4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -189,6 +191,9 @@
     if(model.type == HISTORY_UNIT_FINISHED){
         cell.cancelOrderBtn.hidden = YES;
     }
+#warning 单位预约取消订单
+    cell.cancelOrderBtn.hidden = YES;
+    
     return cell;
 }
 

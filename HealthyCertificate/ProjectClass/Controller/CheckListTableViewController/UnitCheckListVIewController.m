@@ -159,9 +159,10 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([((BRContract *)_checkDataArray[indexPath.section]).testStatus isEqualToString:@"-1"]) {
-        return 35*5;
-    }
+#warning 单位预约取消订单
+//    if ([((BRContract *)_checkDataArray[indexPath.section]).testStatus isEqualToString:@"-1"]) {
+//        return 35*5;
+//    }
     return 35*4;
 }
 
@@ -174,6 +175,10 @@
     }
     cell.brContract = _checkDataArray[indexPath.section];
     cell.cancelOrderBtn.tag = indexPath.section;
+
+#warning 单位预约取消订单
+    cell.cancelOrderBtn.hidden = YES;
+    
     return cell;
 
 }
