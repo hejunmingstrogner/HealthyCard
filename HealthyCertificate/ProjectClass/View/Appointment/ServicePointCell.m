@@ -128,9 +128,9 @@
         }];
         _picImageView.layer.masksToBounds = YES;
         _picImageView.layer.cornerRadius = placeHolderIamge.size.width/2;
-        _picImageView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
-        [_picImageView addGestureRecognizer:singleTap];
+//        _picImageView.userInteractionEnabled = YES;
+//        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
+//        [_picImageView addGestureRecognizer:singleTap];
         
         UIView* topRightView = [[UIView alloc] init];
         [topView addSubview:topRightView];
