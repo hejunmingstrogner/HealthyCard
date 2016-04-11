@@ -94,7 +94,7 @@
         // 个人
     if (GetUserType == 1) {
         UserinformationCellItem *head = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"头像" detialLabelText:nil itemtype:PERSON_HEADERIMAGE];
-        UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:[gCustomer.custName isEqualToString:@""] ? @"暂无":gCustomer.custName itemtype:PERSON_NAME];
+        UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:[gCustomer.custName isEqualToString:@""] || gCustomer.custName == nil? @"暂无":gCustomer.custName itemtype:PERSON_NAME];
         NSString *bGender;
         if (gCustomer.sex == 0) {
             bGender = @"男";
@@ -108,22 +108,22 @@
         UserinformationCellItem *sex = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"性别" detialLabelText:bGender itemtype:PERSON_GENDER];
         UserinformationCellItem *old = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"年龄" detialLabelText:[NSString getOldYears:gCustomer.idCard] itemtype:PERSON_AGE];
         UserinformationCellItem *telPhoneNo = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"手机号" detialLabelText:[gCustomer.linkPhone isEqualToString:@""] ? @"暂无" : gCustomer.linkPhone itemtype:PERSON_TELPHONE];
-        UserinformationCellItem *idCard = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"身份证号" detialLabelText:[gCustomer.idCard isEqualToString:@""] ? @"暂无" : gCustomer.idCard itemtype:PERSON_IDCARD];
-        UserinformationCellItem *calling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gCustomer.custType isEqualToString:@""] ? @"暂无" : gCustomer.custType itemtype:PERSON_CALLING];
-        UserinformationCellItem *workUnit = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gCustomer.unitName isEqualToString:@""] ? @"暂无" : gCustomer.unitName itemtype:PERSON_COMPANY_NAME];
+        UserinformationCellItem *idCard = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"身份证号" detialLabelText:[gCustomer.idCard isEqualToString:@""] || gCustomer.idCard == nil? @"暂无" : gCustomer.idCard itemtype:PERSON_IDCARD];
+        UserinformationCellItem *calling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"从事行业" detialLabelText:[gCustomer.custType isEqualToString:@""] || gCustomer.custType == nil? @"暂无" : gCustomer.custType itemtype:PERSON_CALLING];
+        UserinformationCellItem *workUnit = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gCustomer.unitName isEqualToString:@""] || gCustomer.unitName == nil ? @"暂无" : gCustomer.unitName itemtype:PERSON_COMPANY_NAME];
 
         _dataArray = [NSMutableArray arrayWithObjects:head, name, sex, old, telPhoneNo, idCard, calling, workUnit, nil];
     }
     else{
         // 单位
-        UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gUnitInfo.unitName isEqualToString:@""] ? @"暂无" : gUnitInfo.unitName itemtype:COMPANY_NAME];
-        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gUnitInfo.addr isEqualToString:@""] ? @"暂无" : gUnitInfo.addr itemtype:COMPANY_ADDRESS];
-        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"联  系  人" detialLabelText:[gUnitInfo.linkPeople isEqualToString:@""] ? @"暂无" : gUnitInfo.linkPeople itemtype:COMPANY_CONTACT];
-        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"联系电话" detialLabelText:[gUnitInfo.linkPhone isEqualToString:@""] ? @"暂无" : gUnitInfo.linkPhone itemtype:COMPANY_LINKPHONE];
-        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行        业" detialLabelText:[gUnitInfo.unitType isEqualToString:@""] ? @"暂无" : gUnitInfo.unitType itemtype:COMPANY_CALLING];
+        UserinformationCellItem *workUnitName = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位名称" detialLabelText:[gUnitInfo.unitName isEqualToString:@""] || gUnitInfo.unitName == nil? @"暂无" : gUnitInfo.unitName itemtype:COMPANY_NAME];
+        UserinformationCellItem *workUnitAdress = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"单位地址" detialLabelText:[gUnitInfo.addr isEqualToString:@""] || gUnitInfo.addr == nil? @"暂无" : gUnitInfo.addr itemtype:COMPANY_ADDRESS];
+        UserinformationCellItem *workUnitContacts = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"联  系  人" detialLabelText:[gUnitInfo.linkPeople isEqualToString:@""] || gUnitInfo.linkPeople == nil? @"暂无" : gUnitInfo.linkPeople itemtype:COMPANY_CONTACT];
+        UserinformationCellItem *workUnitTelPhone = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"联系电话" detialLabelText:[gUnitInfo.linkPhone isEqualToString:@""] || gUnitInfo.linkPhone == nil? @"暂无" : gUnitInfo.linkPhone itemtype:COMPANY_LINKPHONE];
+        UserinformationCellItem *workUnitcalling = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"行        业" detialLabelText:[gUnitInfo.unitType isEqualToString:@""] || gUnitInfo.unitType == nil? @"暂无" : gUnitInfo.unitType itemtype:COMPANY_CALLING];
 
-        UserinformationCellItem *industry = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"工商编号" detialLabelText:@"暂无" itemtype:COMPANY_INDUSTRY_CODE];
-        UserinformationCellItem *city = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"注册城市" detialLabelText:@"阿拉伯" itemtype:COMPANY_BELONG_CITY];
+        UserinformationCellItem *industry = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"工商编号" detialLabelText:[gUnitInfo.auditHosCode isEqualToString:@""] || gUnitInfo.auditHosCode == nil? @"暂无" : gUnitInfo.auditHosCode itemtype:COMPANY_INDUSTRY_CODE];
+        UserinformationCellItem *city = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"注册城市" detialLabelText:[gUnitInfo.cityName isEqualToString:@""] || gUnitInfo.cityName == nil? @"暂无" : gUnitInfo.cityName itemtype:COMPANY_BELONG_CITY];
         _dataArray = [NSMutableArray arrayWithObjects:workUnitName, workUnitAdress, workUnitContacts, workUnitTelPhone, workUnitcalling, industry, city, nil];
     }
 }
