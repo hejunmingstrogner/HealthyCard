@@ -900,6 +900,7 @@ BOOL   _isLocationInfoHasBeenSent;
     }
     else{
         minDistanceLabel.text = @"暂无";
+        [_mapView removeAnnotations:_mapView.annotations];
         [minDistanceBtn mas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(55);
         }];

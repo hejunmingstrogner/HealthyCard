@@ -18,9 +18,12 @@
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
 #import "UIFont+Custom.h"
+
+#import "AddWorkerVController.h"
+
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface AddWorkerViewController()
+@interface AddWorkerViewController()<AddworkVControllerDelegate>
 {
     NSMutableArray *_workersArray;  // 员工数据
     
@@ -145,9 +148,9 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 // 将已选择的数据封装到数组中
 - (void)setSelectedWorkerArrayToWorkersArray
 {
-    if (_contarctCode.length == 0) {
-        return;
-    }
+//    if (_contarctCode.length == 0) {
+//        return;
+//    }
     // 对选择过的员工进行筛选
     NSMutableArray *array = [[NSMutableArray alloc]init];
     for (Customer *custom in _selectedWorkerArray) {
@@ -246,7 +249,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.1;
+    return 44;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -264,7 +267,20 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     }
     return uiview;
 }
-
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *uiview = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"footView"];
+    if (!uiview) {
+        uiview = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"footView"];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
+        [button setTitle:@"添加员工" forState:UIControlStateNormal];
+        [uiview addSubview:button];
+        CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
+        button.frame = frame;
+        [button addTarget:self action:@selector(AddWorkerBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return uiview;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AddWorkerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -289,5 +305,20 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     }
     [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count endColor:[UIColor blueColor]];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+// 添加员工
+- (void)AddWorkerBtnClicked:(UIButton *)sender
+{
+    AddWorkerVController *add = [[AddWorkerVController alloc]init];
+    add.delegate = self;
+    [self.navigationController pushViewController:add animated:YES];
+}
+
+#pragma mark - 添加员工成功的delegate
+- (void)creatWorkerSucceed
+{
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"添加成功" removeDelay:2];
+    [self getData];
 }
 @end
