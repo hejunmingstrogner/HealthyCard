@@ -42,7 +42,7 @@
     UILabel *name = [[UILabel alloc]init];
     [self.contentView addSubview:name];
     name.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-    name.text = @"单位名称";
+    name.text = @"合同名称";
     [name mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView).offset(10);
@@ -151,7 +151,7 @@
     _brContract = brContract;
 
     // 单位名称
-    _unitNameLabel.text = brContract.unitName;
+    _unitNameLabel.text = brContract.name;
     // 体检地址 体检时间
     NSString *dizhi;
     NSString *shijian;

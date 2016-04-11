@@ -24,15 +24,22 @@
 #import "CustomerTest.h"
 
 #import "ExamItemStateCell.h"
+#import "PCheckAllPayView.h"
 
-@interface StaffStateViewController()<UITableViewDataSource, UITableViewDelegate>
+@interface StaffStateViewController()<UITableViewDataSource, UITableViewDelegate, PCheckAllPayViewDelegate>
 {
-    NSArray             *_dataSource;
+    
+    NSMutableArray      *_toPaySource;
+    NSMutableArray      *_payedSource;
+    
+    NSMutableArray      *_choosedArr;
+    
     UITableView         *_tableView;
     UILabel             *_tipLabel;
     RzAlertView         *_loadingView;
     
     UIButton            *_updateBtn;
+    PCheckAllPayView    *_payCountView;
 }
 
 @end
@@ -52,7 +59,9 @@
     
     self.view.backgroundColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
     
-    _dataSource = [[NSArray alloc] init];
+    _toPaySource = [[NSMutableArray alloc] init];
+    _payedSource = [[NSMutableArray alloc] init];
+    _choosedArr = [[NSMutableArray alloc] init];
     
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
@@ -61,8 +70,6 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.view);
     }];
-   // [_tableView registerClass:[ExamItemStateCell class] forCellReuseIdentifier:NSStringFromClass([ExamItemStateCell class])];
-    
     _updateBtn = [UIButton buttonWithTitle:@"点击刷新"
                                                font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(26)]
                                           textColor:[UIColor colorWithRGBHex:HC_Gray_Text]
@@ -73,6 +80,16 @@
         make.center.mas_equalTo(self.view);
     }];
     _updateBtn.hidden = YES;
+    
+    _payCountView = [[PCheckAllPayView alloc] init];
+    _payCountView.delegate = self;
+    [self.view addSubview:_payCountView];
+    [_payCountView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_tableView.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(@60);
+    }];
+    
     
     _loadingView = [[RzAlertView alloc] initWithSuperView:self.view Title:@" "];
     [self initNavgation];
@@ -89,6 +106,14 @@
     self.navigationItem.leftBarButtonItem = backitem;
     
     self.title = @"员工状态";
+    
+//    UIButton* batchPayBtn = [UIButton buttonWithTitle:@"批量支付"
+//                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
+//                                         textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
+//                                   backgroundColor:[UIColor clearColor]];
+//    [batchPayBtn addTarget:self action:@selector(batchPayBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:batchPayBtn];
+//    self.navigationItem.rightBarButtonItem = rightItem;
 }
 
 #pragma mark - Action
@@ -103,28 +128,56 @@
     [self loadData];
 }
 
+-(void)batchPayBtnClicked:(UIButton*)sender
+{
+    if ([sender.titleLabel.text isEqualToString:@"批量支付"]){
+        [sender setTitle:@"取消" forState:UIControlStateNormal];
+        [_tableView setEditing:YES animated:YES];
+        [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view).offset(-61);
+        }];
+        
+        [_choosedArr removeAllObjects];
+        for (NSInteger index = 0; index < _toPaySource.count; index++) {
+            [_choosedArr addObject:_toPaySource[index]];
+        }
+        
+    }else{
+        [sender setTitle:@"批量支付" forState:UIControlStateNormal];
+        [_tableView setEditing:NO animated:YES];
+        [_choosedArr removeAllObjects];
+        [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view);
+        }];
+    }
+}
+
 
 #pragma mark - Private Methods
 -(void)loadData
 {
     [_loadingView show];
-    __typeof (self) __weak weakSelf = self;
     [[HttpNetworkManager getInstance] getCustomerTestListByContract:_contractCode resultBlock:^(NSArray *result, NSError *error) {
-        __typeof (self)  strongSelf = weakSelf; //防止循环引用
-        [strongSelf->_loadingView close];
+        [_loadingView close];
         if (error != nil){
             return;
         }
-        strongSelf->_dataSource = result;
-        
-        if (strongSelf->_dataSource.count == 0){
-            strongSelf->_updateBtn.hidden = NO;
-            strongSelf->_tableView.hidden = YES;
-        }else{
-            strongSelf->_updateBtn.hidden = YES;
-            strongSelf->_tableView.hidden = NO;
+        for (NSInteger index = 0; index < result.count; ++index){
+            CustomerTest* customerTest = (CustomerTest*)result[index];
+            if (customerTest.payMoney <= 0){
+                [_toPaySource addObject:customerTest];
+            }else{
+                [_payedSource addObject:customerTest];
+            }
         }
-        [strongSelf->_tableView reloadData];
+        if (_toPaySource.count + _payedSource.count == 0){
+            _updateBtn.hidden = NO;
+            _tableView.hidden = YES;
+        }else{
+            _updateBtn.hidden = YES;
+            _tableView.hidden = NO;
+        }
+        [_tableView reloadData];
     }];
 }
 
@@ -132,10 +185,11 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0){
         return 1;
+    }else if (section == 1){
+        return _toPaySource.count != 0 ? _toPaySource.count : _payedSource.count;
     }else{
-        return _dataSource.count;
+        return _payedSource.count;
     }
-    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -143,7 +197,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return _payedSource.count != 0 && _payedSource.count != 0 ? 3 : 2;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -154,43 +208,11 @@
     
     if (indexPath.section == 0){
         cell.customerTest = nil;
+    }else if (indexPath.section == 1){
+        cell.customerTest = _toPaySource.count != 0 ? (CustomerTest*)_toPaySource[indexPath.row] : (CustomerTest*)_payedSource[indexPath.row];
     }else{
-        cell.customerTest = (CustomerTest*)_dataSource[indexPath.row];
+        cell.customerTest = (CustomerTest*)_payedSource[indexPath.row];
     }
-
-    
-//    UITableViewCell* cell = [_tableView dequeueReusableCellWithIdentifier:NSStringFromClass([StaffStateViewController class])];
-//    if (cell == nil){
-//        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:NSStringFromClass([StaffStateViewController class])];
-//    }
-//    cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
-//    cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
-//    
-//    CustomerTest* customerTest = (CustomerTest*)_dataSource[indexPath.row];
-//    int status = [customerTest.testStatus intValue];
-//    if (status == 5 || status == 6){
-//        //未检
-//        cell.detailTextLabel.text = @"未检";
-//        cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Orange_Text];
-//    }
-//    
-//    if (status <= 0){
-//        //未检
-//        cell.detailTextLabel.text = @"未检";
-//         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Orange_Text];
-//        
-//    }else if (status < 3){
-//        //在检
-//        cell.detailTextLabel.text = @"在检";
-//         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Base_Green];
-//    }else{
-//        //已检
-//        cell.detailTextLabel.text = @"已检";
-//         cell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-//    }
-//    
-//    cell.textLabel.text = customerTest.custName;
-    
     return cell;
 }
 
@@ -201,5 +223,24 @@
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section{
     view.tintColor = [UIColor colorWithRGBHex:HC_Base_BackGround];
 }
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (_toPaySource.count == 0){
+        return UITableViewCellEditingStyleNone;
+    }
+    
+    if (indexPath.section == 0){
+        return UITableViewCellEditingStyleNone;
+    }else{
+        return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{}
 
 @end

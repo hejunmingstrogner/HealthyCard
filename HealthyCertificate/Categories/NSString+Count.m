@@ -20,7 +20,7 @@
 
 + (NSString *)getOldYears:(NSString *)idCard
 {
-    if ([idCard isEqualToString:@""]) {
+    if ([idCard isEqualToString:@""] || idCard == nil) {
         return @"暂无";
     }
     NSString *boardYear;   // 截取出生年月日

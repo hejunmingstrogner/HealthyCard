@@ -35,25 +35,25 @@ typedef NS_ENUM(NSInteger, ExamItemStateCellLabel)
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
         _nameLabel = [[UILabel alloc] init];
-        [self addSubview:_nameLabel];
+        [self.contentView addSubview:_nameLabel];
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(SCREEN_WIDTH / 3);
-            make.left.height.centerY.equalTo(self);
+            make.left.height.centerY.equalTo(self.contentView);
         }];
         
         _payStateLabel = [[UILabel alloc] init];
-        [self addSubview:_payStateLabel];
+        [self.contentView addSubview:_payStateLabel];
         [_payStateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(SCREEN_WIDTH / 3);
             make.left.equalTo(_nameLabel.mas_right);
-            make.centerY.height.equalTo(self);
+            make.centerY.height.equalTo(self.contentView);
         }];
         
         _examStateLabel = [[UILabel alloc] init];
-        [self addSubview:_examStateLabel];
+        [self.contentView addSubview:_examStateLabel];
         [_examStateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(SCREEN_WIDTH / 3);
-            make.right.height.centerY.equalTo(self);
+            make.right.height.centerY.equalTo(self.contentView);
         }];
         
         _nameLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
