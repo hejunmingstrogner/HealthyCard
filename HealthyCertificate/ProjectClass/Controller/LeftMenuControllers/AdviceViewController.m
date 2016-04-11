@@ -78,7 +78,7 @@
 {
     CGRect rect = [[notif.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
 
-    _tableView.frame = CGRectMake(0, 0, _tableView.frame.size.width, self.view.frame.size.height - rect.size.height + 64);
+    _tableView.frame = CGRectMake(0, 0, _tableView.frame.size.width, self.view.frame.size.height - rect.size.height);
 
     [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
