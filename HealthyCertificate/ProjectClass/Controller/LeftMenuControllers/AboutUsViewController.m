@@ -133,8 +133,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
         cell.textLabel.numberOfLines = 0;
-        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
-        cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+        cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
         cell.detailTextLabel.textColor = [UIColor blackColor];
     }
 
@@ -148,5 +148,10 @@
     }
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 @end
