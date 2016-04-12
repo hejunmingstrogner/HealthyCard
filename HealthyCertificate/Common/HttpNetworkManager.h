@@ -94,6 +94,15 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 - (void)getNearbyServicePointsWithCLLocation:(CLLocationCoordinate2D)location resultBlock:(HCArrayResultBlock)resultBlock;
 
+/**
+ *  固定服务点按城市查询
+ *
+ *  @param cityName 城市名称
+ *  @param location 经纬度
+ *  @param resultBlock 回调
+ */
+-(void)getFixedSizeCheckSites:(NSString* )cityName Coordinate2D:(CLLocationCoordinate2D)location resultBlock:(HCArrayResultBlock)resultBlock;
+
 #pragma mark - 个人 单位信息相关
 /**
  *  更新或创建或修改个人信息

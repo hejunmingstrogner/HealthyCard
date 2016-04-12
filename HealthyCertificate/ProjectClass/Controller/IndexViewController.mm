@@ -41,7 +41,6 @@
 
 
 NSString *gCurrentCityName;
-BOOL   _isLocationInfoHasBeenSent;
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -731,47 +730,26 @@ BOOL   _isLocationInfoHasBeenSent;
     [[LocationSearchModel getInstance] getExaminationAdressByLocation:_mapView.centerCoordinate WithBlock:^(NSString *city,NSString *adress, NSError *error) {
         if(!error)
         {
-            if (_isLocationInfoHasBeenSent == NO){
-                
-                // 将百度地图左边转换为gps坐标
-                PositionUtil *posit = [[PositionUtil alloc]init];
-                CLLocationCoordinate2D coor = [posit bd2wgs:_mapView.centerCoordinate.latitude lon:_mapView.centerCoordinate.longitude];
-                //得到定位信息后，需要往排队服务器发送地理位置信息
-                [[HMNetworkEngine getInstance] sendCustomerCode:gCustomer.custCode
-                                                      LinkPhone:gCustomer.linkPhone
-                                                             LO:[NSString stringWithFormat:@"%lf", coor.longitude]
-                                                             LA:[NSString stringWithFormat:@"%lf", coor.latitude]
-                                              PositionDirection:[NSString stringWithFormat:@"%lf", _locationServer.userLocation.heading.magneticHeading]
-                                                   PositionAddr:adress
-                                                        LocTime:[NSDate date]
-                                                       CityName:city];
-                _isLocationInfoHasBeenSent = YES;
-            }
             typeof(self) strongself = weakself;
             strongself->currentCityName = city;
             gCurrentCityName = city;
             strongself->addressLabel.text = adress;
             strongself->_centerCoordinate = strongself->_mapView.centerCoordinate;
-            [[HttpNetworkManager getInstance] getNearbyServicePointsWithCLLocation:strongself->_mapView.centerCoordinate resultBlock:^(NSArray *result, NSError *error) {
-                // 将附近的服务点显示出来
-                [nearbyServicePositionsArray removeAllObjects];
-                if (!error) {
-                    [strongself->_mapView removeAnnotations:strongself->_mapView.annotations];
-
-                    strongself->nearbyServicePositionsArray = [NSMutableArray arrayWithArray:result];
-
-                    // 计算最近的服务点距离并将数据排序
+            
+            [[HttpNetworkManager getInstance] getFixedSizeCheckSites:gCurrentCityName Coordinate2D:strongself->_mapView.centerCoordinate resultBlock:^(NSArray *result, NSError *error) {
+                
+                if (error || result.count == 0){
                     [weakself calculateMinDistance];
-
-                    if (nearbyServicePositionsArray.count != 0) {
-
-                        [weakself addServersPositionAnnotionsWithList:nearbyServicePositionsArray];
-                    }
+                    return;
                 }
-                else {
-                    //[RzAlertView showAlertLabelWithTarget:self.view Message:@"获取附近服务点信息失败" removeDelay:2];
-                    // 计算最近的服务点距离并将数据排序
-                    [weakself calculateMinDistance];
+                
+                [strongself->nearbyServicePositionsArray removeAllObjects];
+                
+                [strongself->_mapView removeAnnotations:strongself->_mapView.annotations];
+                strongself->nearbyServicePositionsArray = [NSMutableArray arrayWithArray:result];
+                [weakself calculateMinDistance];
+                if (nearbyServicePositionsArray.count != 0) {
+                    [weakself addServersPositionAnnotionsWithList:nearbyServicePositionsArray];
                 }
             }];
         }
@@ -908,16 +886,21 @@ BOOL   _isLocationInfoHasBeenSent;
 #pragma mark -分别得到固定以及移动服务点  1km 之内的服务点信息
 - (void)getServicePositionInformation
 {
-    fixedPoitnServicePositionsArray = [[NSMutableArray alloc]init];
-    moveServicePositionsArray = [[NSMutableArray alloc]init];
+    if (fixedPoitnServicePositionsArray == nil){
+        fixedPoitnServicePositionsArray = [[NSMutableArray alloc] init];
+    }
+    if (moveServicePositionsArray == nil){
+        moveServicePositionsArray = [[NSMutableArray alloc] init];
+    }
+    
+    [fixedPoitnServicePositionsArray removeAllObjects];
+    [moveServicePositionsArray removeAllObjects];
+
     for (ServersPositionAnnotionsModel *point in nearbyServicePositionsArray) {
-        // 固定服务点
-        if (point.type == 0) {
-//            if (point.distance <= 1) {
-                [fixedPoitnServicePositionsArray addObject:point];
-//            }
-        }
-        else if(point.type == 1){   // 移动服务点
+        
+        if (point.type == 0){
+            [fixedPoitnServicePositionsArray addObject:point];
+        }else if(point.type == 1){   // 移动服务点
             if (point.distance <= 1) {
                 [moveServicePositionsArray addObject:point];
             }

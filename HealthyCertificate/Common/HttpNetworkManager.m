@@ -31,7 +31,7 @@ BRServiceUnit   *gUnitInfo;
 
 @interface HttpNetworkManager()
 
-@property (nonatomic, strong) AFHTTPRequestOperationManager* manager;
+@property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *ssosHttpManager;
 
@@ -48,6 +48,7 @@ BRServiceUnit   *gUnitInfo;
 //222.18.159.36：8080  zkwebserver.witaction.com:8080
 static NSString * const AFHTTPRequestOperationBaseURLString = WebServiceHttpBaseUrl;
 static NSString * const AFHTTPRequestOperationSSOSBaseURLString = SSOSHttpBaseUrl;
+static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
 
 // 运营环境
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://webserver.zeekstar.com/webserver/webservice/";
@@ -198,6 +199,34 @@ static NSString * const AFHTTPRequestOperationSSOSBaseURLString = SSOSHttpBaseUr
 - (void)getNearbyServicePointsWithCLLocation:(CLLocationCoordinate2D)location resultBlock:(HCArrayResultBlock)resultBlock
 {
     NSString *url = [NSString stringWithFormat:@"servicePoint/findByPosition?longitude=%lf&latitude=%lf&tolerance=0.05", location.longitude, location.latitude];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        NSMutableArray *servicePositionsArray = [[NSMutableArray alloc]init];
+        for (NSDictionary *dict in responseObject) {
+            ServersPositionAnnotionsModel *servicePosition = [ServersPositionAnnotionsModel mj_objectWithKeyValues:dict];
+            
+            // 将gps坐标转换为百度坐标
+            PositionUtil *posit = [[PositionUtil alloc]init];
+            CLLocationCoordinate2D coor = [posit wgs2bd:servicePosition.positionLa lon:servicePosition.positionLo];
+            // 覆盖原先的位置
+            servicePosition.positionLa = coor.latitude;
+            servicePosition.positionLo = coor.longitude;
+            
+            [servicePositionsArray addObject:servicePosition];
+        }
+        if (resultBlock) {
+            resultBlock(servicePositionsArray, nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation * _Nonnull operation, NSError * _Nonnull error) {
+        if (resultBlock) {
+            resultBlock(nil, error);
+        }
+    }];
+}
+//http://zkwebserver.witaction.com:8080/webserver/webservice/servicePoint/weixinChecksites?cityName=%E6%88%90%E9%83%BD%E5%B8%82&longitude=%20103.996698443555&latitude=%2030.58711643464612&tolerance=0.05
+-(void)getFixedSizeCheckSites:(NSString *)cityName Coordinate2D:(CLLocationCoordinate2D)location resultBlock:(HCArrayResultBlock)resultBlock{
+    NSString *url = [NSString stringWithFormat:@"servicePoint/weixinChecksites?cityName=%@&longitude=%lf&latitude=%lf&tolerance=0.05", gCurrentCityName,location.longitude, location.latitude];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
         NSMutableArray *servicePositionsArray = [[NSMutableArray alloc]init];
         for (NSDictionary *dict in responseObject) {

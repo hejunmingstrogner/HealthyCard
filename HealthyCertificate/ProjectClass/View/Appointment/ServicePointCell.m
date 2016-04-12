@@ -38,6 +38,9 @@
     UILabel                 *_timeLabel;
     
     UIImage                 *_cellIamge;
+    
+    //预约按钮，当固定服务点为其他机构时，不能预约
+    UIButton                *_appointmenBtn;
 }
 @end
 
@@ -59,6 +62,12 @@
                            [NSDate getHour_MinuteByDate:servicePoint.endTime/1000]];
     }
     else{
+        if (servicePoint.innerType == 2){
+            //其他机构不能预约
+            _appointmenBtn.enabled = NO;
+            _appointmenBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        }
+        
         _locationLabel.text = servicePoint.address;
         _timeLabel.text = [NSString stringWithFormat:@"工作日(%@~%@)",
                            [NSDate getHour_MinuteByDate:servicePoint.startTime/1000],
@@ -80,6 +89,12 @@
             (sself->_cellIamge) = image;
             
         }];
+        
+        //非合作机构
+        if (servicePoint.innerType == 2){
+            [_appointmenBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Gray_Text]];
+            _appointmenBtn.enabled = NO;
+        }
         
     }else{
         //移动服务点
@@ -197,9 +212,6 @@
             make.height.mas_equalTo(PXFIT_HEIGHT(49));
             make.top.mas_equalTo(_timeLabel.mas_bottom);
         }];
-        
-       
-        
 
         UIView* lineView = [[UIView alloc] init];
         lineView.backgroundColor=[UIColor colorWithRGBHex:0xe0e0e0];
@@ -218,21 +230,21 @@
             make.top.mas_equalTo(lineView.mas_bottom);
         }];
         
-        UIButton* appointmenBtn = [UIButton buttonWithTitle:@"预约"
+        _appointmenBtn = [UIButton buttonWithTitle:@"预约"
                                                        font:[UIFont fontWithType:UIFontOpenSansRegular size:Cell_Font]
                                                   textColor:[UIColor whiteColor]
                                             backgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
-        [bottomView addSubview:appointmenBtn];
-        [appointmenBtn addTarget:self action:@selector(detailBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        appointmenBtn.layer.cornerRadius = 5;
-        [appointmenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        [bottomView addSubview:_appointmenBtn];
+        [_appointmenBtn addTarget:self action:@selector(detailBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        _appointmenBtn.layer.cornerRadius = 5;
+        [_appointmenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(bottomView);
             make.top.mas_equalTo(bottomView).with.offset(PXFIT_HEIGHT(15));
             make.bottom.mas_equalTo(bottomView).with.offset(-PXFIT_HEIGHT(15));
             make.right.mas_equalTo(bottomView).with.offset(-PXFIT_WIDTH(26));
             make.width.mas_equalTo(PXFIT_WIDTH(120));
         }];
-        
+    
         UIButton* phoneCallBtn = [[UIButton alloc] init];
         [phoneCallBtn setImage:[UIImage imageNamed:@"phoneIcon"] forState:UIControlStateNormal];
         phoneCallBtn.layer.cornerRadius = 5;
@@ -241,10 +253,10 @@
         [bottomView addSubview:phoneCallBtn];
         [phoneCallBtn addTarget:self action:@selector(phoneCallBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [phoneCallBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(appointmenBtn);
-            make.width.mas_equalTo(appointmenBtn);
-            make.height.mas_equalTo(appointmenBtn);
-            make.right.mas_equalTo(appointmenBtn.mas_left).with.offset(-PXFIT_WIDTH(60));
+            make.centerY.mas_equalTo(_appointmenBtn);
+            make.width.mas_equalTo(_appointmenBtn);
+            make.height.mas_equalTo(_appointmenBtn);
+            make.right.mas_equalTo(_appointmenBtn.mas_left).with.offset(-PXFIT_WIDTH(60));
         }];
         
         UIButton* maskBtn = [[UIButton alloc] init];
