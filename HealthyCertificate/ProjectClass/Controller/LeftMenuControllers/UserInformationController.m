@@ -26,8 +26,8 @@
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-#define CELL_FONT FIT_FONTSIZE(24)
-
+//#define CELL_FONT FIT_FONTSIZE(24)
+#define CELL_FONT 15
 @interface UserInformationController()<UITableViewDataSource, UITableViewDelegate, HCWheelViewDelegate>
 {
     HCWheelView *wheelView;
@@ -91,7 +91,7 @@
 
 - (void)getdata
 {
-        // 个人
+    // 个人
     if (GetUserType == 1) {
         UserinformationCellItem *head = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"头像" detialLabelText:nil itemtype:PERSON_HEADERIMAGE];
         UserinformationCellItem *name = [[UserinformationCellItem alloc]initWithiconName:nil titleLabelText:@"姓名" detialLabelText:[gCustomer.custName isEqualToString:@""] || gCustomer.custName == nil? @"暂无":gCustomer.custName itemtype:PERSON_NAME];

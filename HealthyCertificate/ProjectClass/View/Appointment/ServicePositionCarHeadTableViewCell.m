@@ -148,18 +148,19 @@
     [_address mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(addrHeight);
     }];
-    if (!serviceInfo.startTime || !serviceInfo.endTime) {
-        return ;
-    }
 
     NSString* sdate;
-    if(serviceInfo.type == 0){
-        //固定服务点
-        sdate = [NSString stringWithFormat:@"工作日(%@-%@)", [NSDate getHour_MinuteByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.endTime/1000]];
-    }else{
-        sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.endTime/1000]];
+    if (serviceInfo.startTime == 0 || serviceInfo.endTime == 0) {
+        sdate = nil;
     }
-    
+    else{
+        if(serviceInfo.type == 0){
+            //固定服务点
+            sdate = [NSString stringWithFormat:@"工作日(%@-%@)", [NSDate getHour_MinuteByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.endTime/1000]];
+        }else{
+            sdate = [NSString stringWithFormat:@"%@(%@-%@)", [NSDate getYear_Month_DayByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.startTime/1000], [NSDate getHour_MinuteByDate:serviceInfo.endTime/1000]];
+        }
+    }
  
     _serviceTime.text = sdate;
 
