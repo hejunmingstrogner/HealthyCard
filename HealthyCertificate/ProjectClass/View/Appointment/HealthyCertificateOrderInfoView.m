@@ -186,20 +186,16 @@
             
             
             [_addressBtn setTitle:_cutomerTest.regPosAddr forState:UIControlStateNormal];
-            if (_cutomerTest.checkSiteID == nil || [_cutomerTest.checkSiteID isEqualToString:@""]){
-                //个人云预约 现在没有
+            if (_cutomerTest.servicePoint == nil || _cutomerTest.servicePoint.type == 0){
+                //单位统一预约
+                [_timeBtn setTitle:[NSDate converLongLongToChineseStringDateWithHour:_cutomerTest.regTime/1000] forState:UIControlStateNormal];
             }else{
-                if (_cutomerTest.servicePoint.type == 0){
-                    //固定
-                    [_timeBtn setTitle:[NSDate converLongLongToChineseStringDateWithHour:_cutomerTest.regTime/1000] forState:UIControlStateNormal];
-                }else{
-                    //移动
-                    NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
-                    NSString *start = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime/1000];
-                    NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime/1000];
-                    NSString *timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
-                    [_timeBtn setTitle:timestatus forState:UIControlStateNormal];
-                }
+                //移动
+                NSString *year = [NSDate getYear_Month_DayByDate:_cutomerTest.servicePoint.startTime/1000];
+                NSString *start = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.startTime/1000];
+                NSString *end = [NSDate getHour_MinuteByDate:_cutomerTest.servicePoint.endTime/1000];
+                NSString *timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                [_timeBtn setTitle:timestatus forState:UIControlStateNormal];
             }
             [_phoneBtn setTitle:_cutomerTest.linkPhone forState:UIControlStateNormal];
         }
@@ -219,6 +215,15 @@
             [_phoneBtn setTitle:_brContract.servicePoint.leaderPhone forState:UIControlStateNormal];
         }
         else {
+            if (_cutomerTest.servicePoint == nil){
+                [_addressBtn setTitleColor:[UIColor colorWithRGBHex:HC_Gray_Text] forState:UIControlStateNormal];
+                [_phoneBtn setTitle:@"" forState:UIControlStateNormal];
+                [_addressBtn setTitle:@"现场体检" forState:UIControlStateNormal];
+                [_timeBtn setTitleColor:[UIColor colorWithRGBHex:HC_Gray_Text] forState:UIControlStateNormal];
+                [_phoneBtn setTitleColor:[UIColor colorWithRGBHex:HC_Gray_Text] forState:UIControlStateNormal];
+                return;
+            }
+            
             [_addressBtn setTitleColor:[UIColor colorWithRGBHex:HC_Gray_Text] forState:UIControlStateNormal];
             [_timeBtn setTitleColor:[UIColor colorWithRGBHex:HC_Gray_Text] forState:UIControlStateNormal];
             [_phoneBtn setTitleColor:[UIColor colorWithRGBHex:HC_Gray_Text] forState:UIControlStateNormal];

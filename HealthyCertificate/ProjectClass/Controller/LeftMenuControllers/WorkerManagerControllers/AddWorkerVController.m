@@ -19,6 +19,7 @@
 #import "NSString+Custom.h"
 
 #import "HttpNetworkManager.h"
+#import "HCRule.h"
 #import "YMIDCardRecognition.h"
 #import "HCNavigationBackButton.h"
 #import "RzAlertView.h"
@@ -454,10 +455,11 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [_waitAlertView close];
         
-        if (array[1] == nil){
+        if (array[1] == nil || [HCRule validateIDCardNumber:array[1]] == NO){
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"扫描身份证信息失败，请注意聚焦" removeDelay:3];
             return;
         }
+    
         // 计算年龄
         NSString * age = [NSString getOldYears:array[1]];
         // 将信息填充到数据中。

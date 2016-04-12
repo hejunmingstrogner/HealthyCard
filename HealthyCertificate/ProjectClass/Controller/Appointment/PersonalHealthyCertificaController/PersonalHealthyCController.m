@@ -487,7 +487,7 @@
     _orderinforView.addressBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
     _orderinforView.addressBtn.enabled = NO;
     //时间可修改的情况
-    if (_customerTestInfo.servicePoint.type == 0){
+    if (_customerTestInfo.servicePoint.type == 0 && _customerTestInfo.servicePoint != nil){
         _orderinforView.timeBtnTxtColor = [UIColor blackColor];
         _orderinforView.timeBtn.enabled = YES;
     }else{
@@ -543,7 +543,7 @@
     _posLa = customerTestInfo.regPosLA;
     _linkerPhone = customerTestInfo.linkPhone;
     
-    if (customerTestInfo.servicePoint.type == 0)
+    if (customerTestInfo.servicePoint.type == 0 || customerTestInfo.servicePoint == nil)
         _regTime = customerTestInfo.regTime;
 }
 
