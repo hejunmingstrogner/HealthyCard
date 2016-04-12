@@ -54,7 +54,6 @@
     _fixedPointVC = [[ServicePointApointmentViewController alloc] init];
     _fixedPointVC.serverPointList = _fixedServicePoint;
     [_fixedPointVC.view setFrame:self.view.frame];
-//    [_fixedPointVC.view setFrame:CGRectMake(0, kStatusBarHeight+kNavigationBarHeight, self.view.frame.size.width, self.view.frame.size.height - kStatusBarHeight - kNavigationBarHeight)];
     [self addChildViewController:_fixedPointVC];
     
     _currentVC = _outCheckAppointmentVC;
