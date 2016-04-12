@@ -111,6 +111,10 @@
             if ([M isEqualToString:[value substringWithRange:NSMakeRange(17,1)]]) {
                 return YES;// 检测ID的校验位
             }else {
+                if([[value substringWithRange:NSMakeRange(17,1)] isEqualToString:@"x"] && [M isEqualToString:@"X"])
+                {
+                    return YES;
+                }
                 return NO;
             }
         }else {
