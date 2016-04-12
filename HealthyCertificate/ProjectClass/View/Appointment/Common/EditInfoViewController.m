@@ -22,8 +22,8 @@
 #define Back_Ground_Color 0xfafafa
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-#define LineEditFont FIT_FONTSIZE(30)
-
+//#define LineEditFont FIT_FONTSIZE(30)
+#define LineEditFont 15
 ///@property (nonatomic ,copy) EditInfoBlock resultBlock;
 @interface EditInfoViewController () <UITextFieldDelegate>
 {

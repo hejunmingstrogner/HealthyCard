@@ -87,10 +87,24 @@
 
     NSMutableArray *arry1 = [NSMutableArray arrayWithObjects:leader, leadercaptain, memberList, nil];
 
-    NSString *str = [NSString stringWithFormat:@"(%@)", _servicePositionItem.brOutCheckArrange.vehicleInfo];
-    ServicePositionDetialCellItem *caeNo = [[ServicePositionDetialCellItem alloc]initWithTitle: _servicePositionItem.brOutCheckArrange.plateNo detialText:str];
-    ServicePositionDetialCellItem *phone = [[ServicePositionDetialCellItem alloc]initWithTitle:_servicePositionItem.brOutCheckArrange.leaderPhone detialText:@"" flag:1];
-    NSMutableArray *arry2 = [NSMutableArray arrayWithObjects:caeNo, phone, nil];
+
+    NSMutableArray *arry2 = [[NSMutableArray alloc]init];
+    if ( _servicePositionItem.brOutCheckArrange.vehicleInfo || _servicePositionItem.brOutCheckArrange.plateNo) {
+
+        NSString *str;
+        if (_servicePositionItem.brOutCheckArrange.vehicleInfo) {
+            str = [NSString stringWithFormat:@"(%@)", _servicePositionItem.brOutCheckArrange.vehicleInfo];
+        }
+        else {
+            str = @"";
+        }
+        ServicePositionDetialCellItem *caeNo = [[ServicePositionDetialCellItem alloc]initWithTitle: _servicePositionItem.brOutCheckArrange.plateNo detialText:str];
+        [arry2 addObject:caeNo];
+    }
+    if (_servicePositionItem.brOutCheckArrange.leaderPhone) {
+        ServicePositionDetialCellItem *phone = [[ServicePositionDetialCellItem alloc]initWithTitle:_servicePositionItem.brOutCheckArrange.leaderPhone detialText:@"" flag:1];
+        [arry2 addObject:phone];
+    }
 
     _detialeInfoArray = [NSMutableArray arrayWithObjects:arry, arry1, arry2, nil];
 }

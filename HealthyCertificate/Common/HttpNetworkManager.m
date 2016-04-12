@@ -610,7 +610,7 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
     brcontract.regPosLA = gpsCoor.latitude;
     brcontract.regPosLO = gpsCoor.longitude;
     
-    NSMutableString *url = [NSMutableString stringWithFormat:@"brContract/createOrUpdate?"];
+    NSMutableString *url = [NSMutableString stringWithFormat:@"brContract/createOrUpdate?employeeStr="""];
     if (employees.count != 0) {
         url = [NSMutableString stringWithFormat:@"brContract/createOrUpdate?employeeStr="];
         for (int i = 0; i < employees.count; i ++) {
