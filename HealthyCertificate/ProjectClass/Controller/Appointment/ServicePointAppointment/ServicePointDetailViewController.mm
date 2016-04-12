@@ -95,8 +95,14 @@
     self.view.backgroundColor = [UIColor whiteColor];
 
     _orderBtn = [[HCBackgroundColorButton alloc] init];
-    [_orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue] forState:UIControlStateNormal];
-    [_orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue_Pressed] forState:UIControlStateHighlighted];
+    if (_serverPositionItem.innerType == 2){
+        _orderBtn.enabled = NO;
+        _orderBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+    }else{
+        [_orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue] forState:UIControlStateNormal];
+        [_orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue_Pressed] forState:UIControlStateHighlighted];
+    }
+    
     [_orderBtn setTitle:@"预约" forState:UIControlStateNormal];
     [self.view addSubview:_orderBtn];
     [_orderBtn addTarget:self action:@selector(orderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
