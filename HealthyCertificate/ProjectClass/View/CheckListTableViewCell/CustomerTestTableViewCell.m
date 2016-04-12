@@ -133,46 +133,70 @@
 //    nameLabel.text = customerTest.custName;
 //    sexLabel.text = customerTest.sex == 0 ? @"男" : @"女";
 //    oldLabel.text = [NSString getOldYears:customerTest.custIdCard];
-
-    if(customerTest.checkSiteID) // 服务点预约
-    {
+    
+    
+    if(customerTest.servicePoint == nil){
+        //单位统一预约
+        [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.regPosAddr endTextColor:[UIColor grayColor]];
+        [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15]
+                      WithEndText:[NSDate converLongLongToChineseStringDateWithHour:customerTest.regTime/1000]
+                     endTextColor:[UIColor grayColor]];
+    }else{
         [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.servicePoint.address endTextColor:[UIColor grayColor]];
-        if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
-            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
-            [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"获取失败" endTextColor:[UIColor grayColor]];
-        }
-        else {
-            if (customerTest.servicePoint.type == 0){
-                [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15]
-                              WithEndText:[NSDate converLongLongToChineseStringDateWithHour:customerTest.regTime/1000]
-                             endTextColor:[UIColor grayColor]];
-            }else{
-                NSString *year = [NSDate getYearMonthDayByDate:customerTest.servicePoint.startTime/1000];
-                NSString *hour1 = [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000];
-                NSString *end = [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000];
-                NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
-                [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:time endTextColor:[UIColor grayColor]];
-            }
-        }
-
-    }
-    else {  // 云预约
-//        serviceAddressLabel.text = customerTest.regPosAddr;
-         [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.regPosAddr endTextColor:[UIColor grayColor]];
-        if (!customerTest.regBeginDate || !customerTest.regEndDate) {
-//            serviceTimeLabel.text = @"";
-//            serviceAddressLabel.text = @"获取失败";
-            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
-            [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"获取失败" endTextColor:[UIColor grayColor]];
-        }
-        else {
-            NSString *startyear = [NSDate getYearMonthDayByDate:customerTest.regBeginDate/1000];
-            NSString *endyear = [NSDate getYearMonthDayByDate:customerTest.regEndDate/1000];
-            NSString *time = [NSString stringWithFormat:@"%@~%@",startyear, endyear];
-//            serviceTimeLabel.text = time;
+        if (customerTest.servicePoint.type == 0){
+            //固定服务点
+            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15]
+                          WithEndText:[NSDate converLongLongToChineseStringDateWithHour:customerTest.regTime/1000]
+                         endTextColor:[UIColor grayColor]];
+        }else{
+            //移动服务点
+            NSString *year = [NSDate getYearMonthDayByDate:customerTest.servicePoint.startTime/1000];
+            NSString *hour1 = [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000];
+            NSString *end = [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000];
+            NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
             [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:time endTextColor:[UIColor grayColor]];
         }
     }
+
+//    if(customerTest.checkSiteID) // 服务点预约
+//    {
+//        [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.servicePoint.address endTextColor:[UIColor grayColor]];
+//        if (!customerTest.servicePoint.startTime || !customerTest.servicePoint.endTime) {
+//            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
+//            [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"获取失败" endTextColor:[UIColor grayColor]];
+//        }
+//        else {
+//            if (customerTest.servicePoint.type == 0){
+//                [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15]
+//                              WithEndText:[NSDate converLongLongToChineseStringDateWithHour:customerTest.regTime/1000]
+//                             endTextColor:[UIColor grayColor]];
+//            }else{
+//                NSString *year = [NSDate getYearMonthDayByDate:customerTest.servicePoint.startTime/1000];
+//                NSString *hour1 = [NSDate getHour_MinuteByDate:customerTest.servicePoint.startTime/1000];
+//                NSString *end = [NSDate getHour_MinuteByDate:customerTest.servicePoint.endTime/1000];
+//                NSString *time = [NSString stringWithFormat:@"%@(%@~%@)",year, hour1, end];
+//                [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:time endTextColor:[UIColor grayColor]];
+//            }
+//        }
+//
+//    }
+//    else {  // 云预约
+////        serviceAddressLabel.text = customerTest.regPosAddr;
+//         [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:customerTest.regPosAddr endTextColor:[UIColor grayColor]];
+//        if (!customerTest.regBeginDate || !customerTest.regEndDate) {
+////            serviceTimeLabel.text = @"";
+////            serviceAddressLabel.text = @"获取失败";
+//            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"" endTextColor:[UIColor grayColor]];
+//            [serviceAddressLabel setText:@"体检地址: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:@"获取失败" endTextColor:[UIColor grayColor]];
+//        }
+//        else {
+//            NSString *startyear = [NSDate getYearMonthDayByDate:customerTest.regBeginDate/1000];
+//            NSString *endyear = [NSDate getYearMonthDayByDate:customerTest.regEndDate/1000];
+//            NSString *time = [NSString stringWithFormat:@"%@~%@",startyear, endyear];
+////            serviceTimeLabel.text = time;
+//            [serviceTimeLabel setText:@"体检时间: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:15] WithEndText:time endTextColor:[UIColor grayColor]];
+//        }
+//    }
 }
 
 - (void)setPayMoney:(float)payMoney

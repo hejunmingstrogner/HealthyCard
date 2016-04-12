@@ -23,14 +23,6 @@
     return self;
 }
 
--(ServersPositionAnnotionsModel*)servicePoint{
-    if (_servicePoint == nil){
-        _servicePoint = [[ServersPositionAnnotionsModel alloc] init];
-    }
-    
-    return _servicePoint;
-}
-
  // -1待检，0签到，1在检，2延期，3完成，4已通过总检确认，5已打印体检卡，6已打印条码，9已出报告和健康证
 - (NSArray *)getTestStatusArrayWithTestStatus:(NSString *)teststatus
 {
@@ -96,33 +88,47 @@
             item.rigthText = @"待出证";
             item.status = LEFT_STATUS;
             
-            if (self.checkSiteID == nil){
-                
-                NSDateComponents* cp = [NSDate getInternalDateFrom:[NSDate formatDateFromChineseString:[[NSDate date] formatDateToChineseString]] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regBeginDate/1000]];
-                item.warmingText = [NSString stringWithFormat:@"    离您预约的时间还有%ld天,我们将尽快安排体检车上门服务。", cp.day];
+            if (self.servicePoint == nil){
+                //单位统一预约
+                NSDateComponents* cp = [NSDate getInternalDateFrom:[NSDate date]
+                                              To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regTime/1000]];
+                item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.regTime/1000], self.regPosAddr];
             }else{
                 //服务点预约
                 NSDateComponents* cp;
                 if (_servicePoint.type == 0){
                     //固定
                     cp = [NSDate getInternalDateFrom:[NSDate date]
-                                                                    To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regTime/1000]];
+                                                  To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regTime/1000]];
                     item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.regTime/1000], self.servicePoint.address];
                 }else{
                     //移动
                     cp = [NSDate getInternalDateFrom:[NSDate date]
-                                                                    To:[[NSDate alloc] initWithTimeIntervalSince1970:self.servicePoint.startTime/1000]];
+                                                  To:[[NSDate alloc] initWithTimeIntervalSince1970:self.servicePoint.startTime/1000]];
                     item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.servicePoint.startTime/1000], self.servicePoint.address];
                 }
-                
-                
-                if (_servicePoint.type == 0){
-                    //固定
-                    
-                }else{
-                    //移动
-                }
             }
+            
+            
+//            if (self.checkSiteID == nil){
+//                
+//                NSDateComponents* cp = [NSDate getInternalDateFrom:[NSDate formatDateFromChineseString:[[NSDate date] formatDateToChineseString]] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regBeginDate/1000]];
+//                item.warmingText = [NSString stringWithFormat:@"    离您预约的时间还有%ld天,我们将尽快安排体检车上门服务。", cp.day];
+//            }else{
+//                //服务点预约
+//                NSDateComponents* cp;
+//                if (_servicePoint.type == 0){
+//                    //固定
+//                    cp = [NSDate getInternalDateFrom:[NSDate date]
+//                                                                    To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regTime/1000]];
+//                    item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.regTime/1000], self.servicePoint.address];
+//                }else{
+//                    //移动
+//                    cp = [NSDate getInternalDateFrom:[NSDate date]
+//                                                                    To:[[NSDate alloc] initWithTimeIntervalSince1970:self.servicePoint.startTime/1000]];
+//                    item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.servicePoint.startTime/1000], self.servicePoint.address];
+//                }
+//            }
             break;
         }
         case 1:
