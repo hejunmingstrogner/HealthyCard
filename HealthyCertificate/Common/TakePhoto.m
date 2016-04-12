@@ -45,7 +45,7 @@
                     [controller presentViewController:picker animated:YES completion:nil];
                 }
                 else{
-                    [RzAlertView showAlertViewControllerWithTarget:controller Title:@"提示" Message:@"无法使用相机，请重试" ActionTitle:@"明白了" ActionStyle:2];
+                    [RzAlertView showAlertViewControllerWithTarget:controller Title:@"提示" Message:@"无法使用相机，请检查当前设备是否有相机" ActionTitle:@"明白了" ActionStyle:2];
                 }
             }
             else {
@@ -59,7 +59,7 @@
                 }
                 else
                 {
-                   [RzAlertView showAlertViewControllerWithTarget:controller Title:@"提示" Message:@"相册开启失败，请重试" ActionTitle:@"明白了" ActionStyle:2];
+                   [RzAlertView showAlertViewControllerWithTarget:controller Title:@"提示" Message:@"相册开启失败" ActionTitle:@"明白了" ActionStyle:2];
                 }
             }
         }
@@ -89,7 +89,7 @@
                     [controller presentViewController:picker animated:YES completion:nil];
                 }
                 else{
-                    [RzAlertView showAlertViewControllerWithTarget:controller Title:@"提示" Message:@"无法使用相机，请重试" ActionTitle:@"明白了" ActionStyle:2];
+                    [RzAlertView showAlertViewControllerWithTarget:controller Title:@"提示" Message:@"无法使用相机，请检查当前设备是否有相机" ActionTitle:@"明白了" ActionStyle:2];
                 }
             }
             else {
