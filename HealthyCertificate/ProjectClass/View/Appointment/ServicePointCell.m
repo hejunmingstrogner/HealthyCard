@@ -37,6 +37,8 @@
     UILabel                 *_locationLabel;
     UILabel                 *_timeLabel;
     
+    UILabel                 *_restAppointmentLabel;
+    
     UIImage                 *_cellIamge;
     
     //预约按钮，当固定服务点为其他机构时，不能预约

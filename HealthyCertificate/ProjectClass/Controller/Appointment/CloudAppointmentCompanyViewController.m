@@ -661,6 +661,12 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     
     if (_isTodoTask){
         //如果是待处理项
+        if (_brContract.servicePoint != nil){
+            if (customercount > _brContract.servicePoint.maxNum - _brContract.servicePoint.oppointmentNum){
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"服务点预约人数过多" removeDelay:3];
+                return ;
+            }
+        }
     }else{
         //新建的预约
         if(_brContract == nil)
@@ -683,6 +689,11 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }
         else
         {
+            if(customercount > _sercersPositionInfo.maxNum - _sercersPositionInfo.oppointmentNum){
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"服务点预约人数过多" removeDelay:3];
+                return ;
+            }
+            
             //基于服务点预约
             if(_brContract.servicePoint.type == 0){
                 _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong]*1000;
@@ -799,13 +810,13 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     //非服务点预约才能修改地址和时间
     if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""])
     {
-        _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong];
+        _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong]*1000;
         _brContract.regPosAddr = _examinationAddressTextView.text;
         _brContract.regPosLA = _centerCoordinate.latitude;
         _brContract.regPosLO = _centerCoordinate.longitude;
     }else{
         if (_brContract.servicePoint.type == 0)
-            _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong];
+            _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong]*1000;
     }
     
     _brContract.linkUser = _contactPersonField.text;
