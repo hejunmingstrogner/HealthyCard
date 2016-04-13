@@ -29,7 +29,7 @@
     if (self = [super initWithFrame:frame]){
         
         UIView* containerView = [[UIView alloc] init];
-        [containerView addBordersToEdge:UIRectEdgeTop withColor:[UIColor colorWithRGBHex:0xe0e0e0] andWidth:1];
+       // [containerView addBordersToEdge:UIRectEdgeTop withColor:[UIColor colorWithRGBHex:0xe0e0e0] andWidth:1];
         containerView.backgroundColor = [UIColor whiteColor];
         [self addSubview:containerView];
         [containerView mas_makeConstraints:^(MASConstraintMaker *make) {

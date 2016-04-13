@@ -11,14 +11,15 @@
 
 @interface HCNetworkReachability : NSObject
 
-//针对RealReachability 进行的二次封装
+//typedef NS_ENUM(NSInteger, HCNetworkReachabilityStatus) {
+//    ///Direct match with Apple networkStatus, just a force type convert.
+//    HCNetworkReachabilityStatusNotReachable = 0,
+//    HCNetworkReachabilityStatusViaWWAN = 1,
+//    HCNetworkReachabilityStatusViaWiFi = 2
+//};
 
 +(instancetype)getInstance;
 
-typedef void(^NetworkReachStateBlock)(BOOL isReachAble);
-
-- (ReachabilityStatus)getCurrentReachabilityState;
-
--(void)getCurrentReachabilitYStateWithBlock:(NetworkReachStateBlock)block;
+-(BOOL)isReachable;
 
 @end

@@ -261,7 +261,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
 
 -(void)veritifyBtnClicked:(id)sender
 {
-    if ([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
+    if ([[HCNetworkReachability getInstance] isReachable] == NO){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:3];
         return;
     }

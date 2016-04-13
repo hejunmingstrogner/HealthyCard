@@ -66,6 +66,7 @@
     self.navigationItem.leftBarButtonItem = backitem;
 
     _rightBarItem = [[UIBarButtonItem alloc]initWithTitle:@"员工人数" style:UIBarButtonItemStyleDone target:nil action:nil];
+    _rightBarItem.tintColor = [UIColor colorWithRGBHex:HC_Blue_Text];
     self.navigationItem.rightBarButtonItem = _rightBarItem;
 }
 // 返回前一页
@@ -103,7 +104,7 @@
     _addNewWorkBtn.layer.masksToBounds = YES;
     _addNewWorkBtn.layer.cornerRadius = 4;
     [_addNewWorkBtn setTitle:@"新增员工" forState:UIControlStateNormal];
-    [_addNewWorkBtn setBackgroundColor:[UIColor colorWithRed:44/255.0 green:148/255.0 blue:232/255.0 alpha:1]];
+    [_addNewWorkBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
     [_addNewWorkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(10);
         make.bottom.right.equalTo(self.view).offset(-10);
