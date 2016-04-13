@@ -327,6 +327,12 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest){
+        // 如果已经交钱，或者已经在体检或者体检完成，则不能去掉勾选
+        if(((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest.payMoney > 0 || ![((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest.testStatus isEqualToString:@"-1"] ){
+            return;
+        }
+    }
     AddWorkerTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [cell changeSelectStatus:_workersArray[indexPath.row]];
     
