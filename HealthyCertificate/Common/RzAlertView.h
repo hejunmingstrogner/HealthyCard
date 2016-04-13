@@ -26,38 +26,6 @@ typedef void (^ButtonActionBlock)(UIButton *sender);
 
 #pragma mark - RzAlertView class
 @interface RzAlertView : UIView
-{
-    UIView *backgroundView;                 // 背景
-    UIView *alertView;                      // 提示框
-    UILabel *titleLabel;                    // 标题    标题支持2排显示，尽量不要太长
-    UIActivityIndicatorView *activityView;  // 旋转框
-
-    BOOL isshowing;
-}
-@property (nonatomic, strong) UILabel *titleLabel;
-
-/**
- *  初始化，在使用alertview时，不使用此方法
- *
- *  @return
- */
-- (instancetype)init;
-
-/**
- *  调用等待提示框时，使用此方法
- *
- *  @param superView 需要显示的界面
- *  @param title     显示的title
- *
- *  @return 
- */
-- (instancetype)initWithSuperView:(UIView *)superView Title:(NSString *)title;
-
-- (void)show;
-
-- (void)close;
-
-- (void)removeAlertView;
 
 /**
  *  一个或两个按钮的AlertView  1 执行action，0 执行取消
