@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#pragma mark - 自定义按钮
 typedef void (^ButtonActionBlock)(UIButton *sender);
 
 @interface CustomButton : UIButton
@@ -21,6 +22,9 @@ typedef void (^ButtonActionBlock)(UIButton *sender);
 
 @end
 
+
+
+#pragma mark - RzAlertView class
 @interface RzAlertView : UIView
 {
     UIView *backgroundView;                 // 背景
@@ -182,5 +186,18 @@ typedef void (^ButtonActionBlock)(UIButton *sender);
                                  confirmTitle:(NSString *)confirmTitle
                                   cancleTitle:(NSString *)cancleTitle
                                        handle:(void(^)(NSInteger flag))block;
+
+/**
+ *  显示旋转等待按钮
+ *
+ *  @param title 显示的标题
+ */
++ (void)ShowWaitAlertWithTitle:(NSString *)title;
+/**
+ *  关闭旋转等待按钮
+ */
++ (void)CloseWaitAlert;
+
+
 @end
 NS_ASSUME_NONNULL_END
