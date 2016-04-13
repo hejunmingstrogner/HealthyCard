@@ -36,7 +36,6 @@
 
 @interface PersonalHistoryController ()<UITableViewDataSource, UITableViewDelegate,HMNetworkEngineDelegate, PayMoneyDelegate, DJRefreshDelegate>
 {
-    RzAlertView *waitAlertView;
     DJRefresh  *_refresh;
     NSMutableArray *_companyDataArray;
 
@@ -68,10 +67,7 @@
 // 获得个人数据
 - (void)getPersonalData:(DJRefresh *)refresh
 {
-    if (!waitAlertView) {
-        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据加载中..."];
-    }
-    [waitAlertView show];
+    [RzAlertView ShowWaitAlertWithTitle:@"数据加载中..."];
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
         _historyArray = [[NSMutableArray alloc]init];
         if (!error) {
@@ -97,7 +93,7 @@
             if (_historyArray.count == 0) {
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有历史记录" removeDelay:2];
             }
-            [waitAlertView close];
+            [RzAlertView CloseWaitAlert];
             [_tableView reloadData];
             if(refresh)
             {

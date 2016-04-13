@@ -32,7 +32,7 @@
 {
     HCWheelView *wheelView;
 }
-@property (nonatomic, strong) RzAlertView *waitAlertView;
+
 @end
 
 @implementation UserInformationController
@@ -85,8 +85,6 @@
     [self.view addSubview:_tableView];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-
-    _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"图片上传中..."];
 }
 
 - (void)getdata
@@ -380,9 +378,9 @@
     __weak typeof(self) weakself = self;
     [[TakePhoto getInstancetype]takePhotoFromCurrentController:self WithRatioOfWidthAndHeight:3.0/4.0 resultBlock:^(UIImage *photoimage) {
         if(photoimage){
-            [weakself.waitAlertView show];
+            [RzAlertView ShowWaitAlertWithTitle:@"图片上传中..."];
             [[HttpNetworkManager getInstance]customerUploadPhoto:photoimage resultBlock:^(BOOL result, NSError *error) {
-                [weakself.waitAlertView close];
+                [RzAlertView CloseWaitAlert];
                 if (result) {
                     //[sender setImage:photoimage forState:UIControlStateNormal];
                     [weakself.tableView reloadData];

@@ -31,8 +31,6 @@
 
     NSMutableArray *_worksArray;    // 模型数组
 
-    RzAlertView *_waitAlertView;
-
     UISearchBar *_searchBar;
     NSMutableArray *_searchWorksArray;
 }
@@ -114,14 +112,11 @@
 
 - (void)getdata
 {
-    if (!_waitAlertView) {
-        _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"加载中..."];
-    }
-    [_waitAlertView show];
+    [RzAlertView ShowWaitAlertWithTitle:@"加载中..."];
     __weak typeof(self) weakself = self;
     [[HttpNetworkManager getInstance] getWorkerCustomerDataWithcUnitCode:gUnitInfo.unitCode resultBlock:^(NSArray *result, NSError *error) {
         [weakself setresult:result error:error];
-        [_waitAlertView close];
+        [RzAlertView CloseWaitAlert];
     }];
 }
 - (void)setresult:(NSArray *)result error:(NSError *)error
@@ -253,12 +248,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!_waitAlertView) {
-        _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"请稍侯..."];
-    }
+
     __weak typeof(self) weakself = self;
-    __weak typeof(_waitAlertView) weakWaitAlertView = _waitAlertView;
-    [weakWaitAlertView show];
+
+    [RzAlertView ShowWaitAlertWithTitle:@"请稍侯..."];
     Customer *customer;
     if ([self isSearchStatus]) {
         customer = ((WorkManagerTBCItem *)_searchWorksArray[indexPath.row]).customer;
@@ -267,7 +260,7 @@
         customer = ((WorkManagerTBCItem *)_worksArray[indexPath.row]).customer;
     }
     [[HttpNetworkManager getInstance] removeCustomerWithCustomer:customer resultBlock:^(MethodResult *result, NSError *error) {
-        [weakWaitAlertView close];
+        [RzAlertView CloseWaitAlert];
         [weakself setresult:result nserror:error tableview:tableView indexpath:indexPath];
     }];
 }

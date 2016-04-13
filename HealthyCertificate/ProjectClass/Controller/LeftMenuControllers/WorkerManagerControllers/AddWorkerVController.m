@@ -38,8 +38,6 @@
 
     NSMutableArray *_customArray;
     Customer *_customer;
-    
-    RzAlertView  *_waitAlertView;
 }
 @end
 
@@ -433,10 +431,9 @@
             image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
         dispatch_async(dispatch_get_main_queue(), ^{
             [picker dismissViewControllerAnimated:YES completion:nil];
-            if (!_waitAlertView) {
-                _waitAlertView = [[RzAlertView alloc]initWithSuperView:wself.view Title:@"身份证信息解析中"];
-            }
-            [_waitAlertView show];
+
+            [RzAlertView ShowWaitAlertWithTitle:@"身份证信息解析中"];
+
             [YMIDCardRecognition recongnitionWithCard:image delegate:wself];
         });
     });
@@ -445,7 +442,7 @@
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_waitAlertView close];
+        [RzAlertView CloseWaitAlert];
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"身份信息解析失败，请重试" removeDelay:3];
     });
     NSLog(@"身份证解析失败：%@", error.domain);
@@ -453,7 +450,7 @@
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_waitAlertView close];
+        [RzAlertView CloseWaitAlert];
         
         if (array[1] == nil || [HCRule validateIDCardNumber:array[1]] == NO){
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"扫描身份证信息失败，请注意聚焦" removeDelay:3];

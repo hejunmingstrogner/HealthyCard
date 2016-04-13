@@ -39,7 +39,6 @@
     CloudAppointmentCompanyViewController       *_cloudAppointmentCompanyViewController;
     
     ServicePointApointmentViewController        *_servicePointAppointmentViewController;
-    RzAlertView                                 *waitAlertView;
     
     HCNavigationBackButton                      *_QRScanButton;
 }
@@ -226,11 +225,10 @@
             image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
         dispatch_async(dispatch_get_main_queue(), ^{
             [picker dismissViewControllerAnimated:YES completion:nil];
-            typeof (self) strongself = wself;
-            if (!strongself->waitAlertView) {
-                strongself->waitAlertView = [[RzAlertView alloc]initWithSuperView:wself.view Title:@"身份证信息解析中"];
-            }
-            [strongself->waitAlertView show];
+
+            [RzAlertView ShowWaitAlertWithTitle:@"身份证信息解析中"];
+
+
             [YMIDCardRecognition recongnitionWithCard:image delegate:wself];
         });
     });
@@ -239,7 +237,7 @@
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [waitAlertView close];
+        [RzAlertView CloseWaitAlert];
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"身份信息解析失败，请重试" removeDelay:3];
     });
     NSLog(@"身份证解析失败：%@", error.domain);
@@ -247,7 +245,7 @@
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [waitAlertView close];
+        [RzAlertView CloseWaitAlert];
         _cloudAppointmentViewController.idCardInfo = array;
     });
 }

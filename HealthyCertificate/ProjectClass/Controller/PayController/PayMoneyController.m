@@ -30,7 +30,7 @@
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 @interface PayMoneyController ()<UITableViewDataSource, UITableViewDelegate>
 {
-    RzAlertView *waitAlertView;
+
 }
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @end
@@ -95,14 +95,10 @@
 
 - (void)getCityPrice
 {
-    if (!waitAlertView) {
-        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@""];
-    }
-    waitAlertView.titleLabel.text = [NSString stringWithFormat:@"获取%@预约价格...",_cityName];
-    [waitAlertView show];
+    [RzAlertView ShowWaitAlertWithTitle:[NSString stringWithFormat:@"获取%@预约价格...",_cityName]];
     __weak typeof(self) weakself = self;
     [[HttpNetworkManager getInstance]getCustomerTestChargePriceWithCityName:_cityName checkType:nil resultBlcok:^(NSString *result, NSError *error) {
-        [waitAlertView close];
+        [RzAlertView CloseWaitAlert];
         if (!error) {
             weakself.money = result;
             dispatch_async(dispatch_get_main_queue(), ^{
