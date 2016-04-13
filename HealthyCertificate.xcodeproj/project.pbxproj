@@ -37,6 +37,7 @@
 		2512B42B1C70631600EE661B /* HMSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B42A1C70631600EE661B /* HMSocket.m */; };
 		2512B42E1C70632C00EE661B /* HMDataOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B42D1C70632C00EE661B /* HMDataOperate.m */; };
 		2512B4311C70634B00EE661B /* HMNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B4301C70634B00EE661B /* HMNetworkEngine.m */; };
+		2528AEF31CBE1FB1006201DD /* OutCheckSiteHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2528AEF21CBE1FB1006201DD /* OutCheckSiteHeaderView.m */; };
 		252AB8841C76E3880085CC14 /* date_icon@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 252AB87B1C76E3880085CC14 /* date_icon@1x.png */; };
 		252AB8851C76E3880085CC14 /* date_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 252AB87C1C76E3880085CC14 /* date_icon@2x.png */; };
 		252AB8861C76E3880085CC14 /* date_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 252AB87D1C76E3880085CC14 /* date_icon@3x.png */; };
@@ -302,6 +303,8 @@
 		2512B42D1C70632C00EE661B /* HMDataOperate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMDataOperate.m; sourceTree = "<group>"; };
 		2512B42F1C70634B00EE661B /* HMNetworkEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMNetworkEngine.h; sourceTree = "<group>"; };
 		2512B4301C70634B00EE661B /* HMNetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMNetworkEngine.m; sourceTree = "<group>"; };
+		2528AEF11CBE1FB1006201DD /* OutCheckSiteHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutCheckSiteHeaderView.h; sourceTree = "<group>"; };
+		2528AEF21CBE1FB1006201DD /* OutCheckSiteHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutCheckSiteHeaderView.m; sourceTree = "<group>"; };
 		252AB87B1C76E3880085CC14 /* date_icon@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date_icon@1x.png"; sourceTree = "<group>"; };
 		252AB87C1C76E3880085CC14 /* date_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date_icon@2x.png"; sourceTree = "<group>"; };
 		252AB87D1C76E3880085CC14 /* date_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date_icon@3x.png"; sourceTree = "<group>"; };
@@ -1011,6 +1014,8 @@
 				B27B00CD1C8461FE00FBF895 /* ServicePointCell.m */,
 				B27B00CE1C8461FE00FBF895 /* ServicePositionCarHeadTableViewCell.h */,
 				B27B00CF1C8461FE00FBF895 /* ServicePositionCarHeadTableViewCell.m */,
+				2528AEF11CBE1FB1006201DD /* OutCheckSiteHeaderView.h */,
+				2528AEF21CBE1FB1006201DD /* OutCheckSiteHeaderView.m */,
 			);
 			name = ServicePoint;
 			path = CloudAppointment/ServicePoint;
@@ -1827,6 +1832,7 @@
 				2512B4311C70634B00EE661B /* HMNetworkEngine.m in Sources */,
 				B259C94D1C8ACEB200A6A767 /* BRContractHistoryTBHeaderCell.m in Sources */,
 				254A8DDE1C813BC200F2EC94 /* EditInfoViewController.m in Sources */,
+				2528AEF31CBE1FB1006201DD /* OutCheckSiteHeaderView.m in Sources */,
 				252AB89D1C783B260085CC14 /* NSDate+Custom.m in Sources */,
 				2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */,
 				25D01EE11CB6049A00E0DD5C /* ExamItemStateCell.m in Sources */,

@@ -625,21 +625,14 @@ NSString *gCurrentCityName;
 #pragma mark - 一键预约
 - (void)orderBtnClicked
 {
-    if(GetUserType == 1){
-        
-        PersonalAppointmentVC* personalAppointVc = [[PersonalAppointmentVC alloc] init];
-        personalAppointVc.outCheckServicePoint = moveServicePositionsArray;
-        personalAppointVc.fixedServicePoint = fixedPoitnServicePositionsArray;
-        [self.navigationController pushViewController:personalAppointVc animated:YES];
-    }else{
-        AppointmentViewController* controller = [[AppointmentViewController alloc] init];
-        controller.location = addressLabel.text;
-        controller.nearbyServicePointsArray = nearbyServicePositionsArray;
-        controller.cityName = currentCityName;
-        
-        controller.centerCoordinate = _mapView.centerCoordinate;
-        [self.navigationController pushViewController:controller animated:YES];
+    PersonalAppointmentVC* personalAppointVc = [[PersonalAppointmentVC alloc] init];
+    personalAppointVc.outCheckServicePoint = moveServicePositionsArray;
+    personalAppointVc.fixedServicePoint = fixedPoitnServicePositionsArray;
+    if (GetUserType == 2){
+        personalAppointVc.location = addressLabel.text;
+        personalAppointVc.centerCoordinate = _mapView.centerCoordinate;
     }
+    [self.navigationController pushViewController:personalAppointVc animated:YES];
 }
 // 点击了头像,显示左侧菜单
 - (void)headerBtnClicked
