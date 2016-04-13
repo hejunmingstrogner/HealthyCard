@@ -128,6 +128,14 @@ typedef void (^ButtonActionBlock)(UIButton *sender);
 
 
 /**
+ *  显示一个提示label,并且在设定时间后移除
+ *
+ *  @param message   显示的数据
+ *  @param second    秒数
+ */
++ (void)showAlertLabelWithMessage:(NSString *)message removewDelay:(NSInteger)second;
+
+/**
  *
  *
  *  @param superView       当前要显示的界面的view
