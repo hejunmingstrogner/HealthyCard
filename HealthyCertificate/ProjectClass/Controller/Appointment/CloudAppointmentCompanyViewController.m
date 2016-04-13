@@ -799,7 +799,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     //非服务点预约才能修改地址和时间
     if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""])
     {
-        _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong];
+        _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong]*1000;
         _brContract.regPosAddr = _examinationAddressTextView.text;
         _brContract.regPosLA = _centerCoordinate.latitude;
         _brContract.regPosLO = _centerCoordinate.longitude;
