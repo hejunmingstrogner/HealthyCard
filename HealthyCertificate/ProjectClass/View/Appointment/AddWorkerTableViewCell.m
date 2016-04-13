@@ -77,28 +77,56 @@
 - (void)setCellitem:(AddWorkerCellItem *)cellitem
 {
     _cellitem = cellitem;
-    _nameLabel.text = cellitem.customer.custName;
+    if (cellitem.customerTest) {
+        _nameLabel.text = cellitem.customerTest.custName;
 
-    if (cellitem.customer.linkPhone.length == 0) {
-        _phoneLabel.text = @"未查到";
+        if (cellitem.customerTest.linkPhone.length == 0) {
+            _phoneLabel.text = @"未查到";
+        }
+        else {
+            _phoneLabel.text = cellitem.customerTest.linkPhone;
+        }
+        if (cellitem.customerTest.customer.lastCheckTime == 0) {
+            _endDateLabel.text = @"无体检记录";
+        }
+        else {
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:cellitem.customerTest.customer.lastCheckTime / 1000];
+            NSDate *enddata = [date nextYear];
+            //        _endDateLabel.text = [NSDate getYear_Month_DayByDate:cellitem.customer.lastCheckTime / 1000];
+            _endDateLabel.text = [enddata formatDateToChineseString];
+        }
+        if (cellitem.isSelectFlag == 0) {
+            _selectImageView.image = [UIImage imageNamed:@"tuoyuan"];
+        }
+        else {
+            _selectImageView.image = [UIImage imageNamed:@"tuoyuanxuanzhong"];
+        }
     }
     else {
-        _phoneLabel.text = cellitem.customer.linkPhone;
+        _nameLabel.text = cellitem.customer.custName;
+
+        if (cellitem.customer.linkPhone.length == 0) {
+            _phoneLabel.text = @"未查到";
+        }
+        else {
+            _phoneLabel.text = cellitem.customer.linkPhone;
+        }
+        if (cellitem.customer.lastCheckTime == 0) {
+            _endDateLabel.text = @"无体检记录";
+        }
+        else {
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:cellitem.customer.lastCheckTime / 1000];
+            NSDate *enddata = [date nextYear];
+            //        _endDateLabel.text = [NSDate getYear_Month_DayByDate:cellitem.customer.lastCheckTime / 1000];
+            _endDateLabel.text = [enddata formatDateToChineseString];
+        }
+        if (cellitem.isSelectFlag == 0) {
+            _selectImageView.image = [UIImage imageNamed:@"tuoyuan"];
+        }
+        else {
+            _selectImageView.image = [UIImage imageNamed:@"tuoyuanxuanzhong"];
+        }
     }
-    if (cellitem.customer.lastCheckTime == 0) {
-        _endDateLabel.text = @"无体检记录";
-    }
-    else {
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:cellitem.customer.lastCheckTime / 1000];
-        NSDate *enddata = [date nextYear];
-//        _endDateLabel.text = [NSDate getYear_Month_DayByDate:cellitem.customer.lastCheckTime / 1000];
-        _endDateLabel.text = [enddata formatDateToChineseString];
-    }
-    if (cellitem.isSelectFlag == 0) {
-        _selectImageView.image = [UIImage imageNamed:@"tuoyuan"];
-    }
-    else {
-        _selectImageView.image = [UIImage imageNamed:@"tuoyuanxuanzhong"];
-    }
+
 }
 @end

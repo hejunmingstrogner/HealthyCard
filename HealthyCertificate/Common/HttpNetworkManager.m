@@ -697,7 +697,8 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
         }
     }];
 }
-
+#pragma mark - 获取合同关联的个人预约
+// 获取合同关联的个人预约
 - (void)findCustomerTestByContract:(NSString*)contractId resultBlock:(HCArrayResultBlock)block
 {
     NSString *url = [NSString stringWithFormat:@"customerTest/findByContract?contractCode=%@", contractId];
