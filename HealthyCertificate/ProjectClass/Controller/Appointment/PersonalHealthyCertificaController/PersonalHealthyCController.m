@@ -36,7 +36,6 @@
 @interface PersonalHealthyCController()<ScanImageViewDelegate, PayMoneyDelegate>
 {
     BOOL        _isAvatarSet;
-    RzAlertView *waitAlertView;
 
     UIView      *containView;
     UILabel     *warmingLabel;
@@ -139,15 +138,11 @@
     _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
 
     if(_isAvatarSet == YES){
-        if(!waitAlertView){
-            waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@""];
-        }
-        waitAlertView.titleLabel.text = @"图片上传中...";
-        [waitAlertView show];
+        [RzAlertView ShowWaitAlertWithTitle:@"图片上传中..."];
         [[HttpNetworkManager getInstance]customerUploadHealthyCertifyPhoto:_healthCertificateView.imageView.image CusCheckCode:_customerTestInfo.checkCode resultBlock:^(NSDictionary *result, NSError *error) {
             sender.enabled = YES;
             if (!error) {
-                [waitAlertView close];
+                [RzAlertView CloseWaitAlert];
                 isChanged = YES;
                 _avarChanged = NO;
                 [[HttpNetworkManager getInstance]createOrUpdatePersonalAppointment:_customerTestInfo resultBlock:^(NSDictionary *result, NSError *error) {
@@ -174,11 +169,9 @@
                 }];
             }
             else {
-                waitAlertView.titleLabel.text = @"图片上传失败，请检查网络后重试";
+                [RzAlertView CloseWaitAlert];
+                [RzAlertView showAlertLabelWithMessage:@"图片上传失败，请检查网络后重试" removewDelay:3];
                 _isAvatarSet = NO;
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [waitAlertView close];
-                });
             }
         }];
     }

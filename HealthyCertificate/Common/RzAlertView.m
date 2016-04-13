@@ -613,6 +613,8 @@
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     for (int i = 0; i < window.subviews.count; i++) {
         if ([[window.subviews objectAtIndex:i] isKindOfClass:[RZAlertViewWaitAlertView class]]) {
+            RZAlertViewWaitAlertView *alert = [window.subviews objectAtIndex:i];
+            alert.titleLabel.text = title;
             return ;
         }
     }

@@ -20,7 +20,6 @@
 @interface ConsumerAgreement()<UIWebViewDelegate>
 {
     UIWebView *webView;
-    RzAlertView *waitAlertView;
     UIButton  *reloadBtn;
 }
 @end
@@ -77,10 +76,7 @@
     [reloadBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     reloadBtn.hidden = YES;
 
-    if (!waitAlertView) {
-        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"加载中..."];
-    }
-    [waitAlertView show];
+    [RzAlertView ShowWaitAlertWithTitle:@"加载中..."];
 }
 
 - (void)loadURLView
@@ -101,12 +97,12 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [waitAlertView close];
+    [RzAlertView CloseWaitAlert];
     reloadBtn.hidden = YES;
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    [waitAlertView close];
+    [RzAlertView CloseWaitAlert];
     reloadBtn.hidden = NO;
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"加载失败，请检查网络后重试" removeDelay:3];
 }

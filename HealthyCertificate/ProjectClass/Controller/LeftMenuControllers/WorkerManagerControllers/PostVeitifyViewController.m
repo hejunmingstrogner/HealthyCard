@@ -36,8 +36,6 @@ BOOL _isRegisterUnited;
 {
     PostVeitifyPicInfoView      *_businessCard;
     PostVeitifyPicInfoView      *_idCard;
-    
-    RzAlertView                 *_loadingView;
 }
 
 #pragma mark - UIViewController overrides
@@ -136,19 +134,15 @@ BOOL _isRegisterUnited;
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"请上传身份证" removeDelay:2];
         return;
     }
-    
-    if (!_loadingView) {
-        _loadingView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"上传审核信息中"];
-    }
-    [_loadingView show];
-    
+    [RzAlertView ShowWaitAlertWithTitle:@"上传审核信息中"];
+
     [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(delayMethod) userInfo:nil repeats:NO];
 }
 
 -(void)delayMethod
 {
     [[HttpNetworkManager getInstance] createOrUpdateBRServiceInformationwithInfor:_brServiceUnit.mj_keyValues resultBlock:^(BOOL successed, NSError *error) {
-        [_loadingView close];
+        [RzAlertView CloseWaitAlert];
         if (successed){
             //返回根界面
             _isRegisterUnited = YES;

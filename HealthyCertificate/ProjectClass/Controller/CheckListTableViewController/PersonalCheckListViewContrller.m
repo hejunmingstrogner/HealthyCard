@@ -41,7 +41,6 @@
 @interface PersonalCheckListViewContrller()<DJRefreshDelegate, PayMoneyDelegate, PCheckAllPayViewDelegate>
 {
     DJRefresh  *_refresh;
-    RzAlertView *waitAlertView;
     NSInteger  payIndexPathSection;
 
     PCheckAllPayView *piliangzhifuView;     // 批量支付的界面
@@ -192,13 +191,10 @@
 }
 // 刷新某一行
 - (void)refreshNewDataWithIndexPathSection:(NSInteger )indexpathSection{
-    if (!waitAlertView) {
-        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"刷新中..."];
-    }
-    [waitAlertView show];
+    [RzAlertView ShowWaitAlertWithTitle:@"刷新中..."];
     __weak typeof(self) weakself = self;
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
-        [waitAlertView close];
+        [RzAlertView CloseWaitAlert];
         if (!error) {
 
             weakself.checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];

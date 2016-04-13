@@ -77,9 +77,7 @@
     
     //性别选择器
     HCWheelView             *_sexWheel;
-    
-    RzAlertView             *_waitAlertView;
-    
+        
     //是待处理项(YES) 新建的预约(No)
     BOOL                    _isTodoTask;
     
@@ -802,11 +800,9 @@
             image = [UIImage imageWithCGImage:imRef scale:imageScale orientation: UIImageOrientationUp];
         dispatch_async(dispatch_get_main_queue(), ^{
             [picker dismissViewControllerAnimated:YES completion:nil];
-            typeof(self) strongself = wself;
-            if (!strongself->_waitAlertView) {
-                strongself->_waitAlertView = [[RzAlertView alloc]initWithSuperView:wself.view Title:@"身份证信息解析中"];
-            }
-            [strongself->_waitAlertView show];
+
+            [RzAlertView ShowWaitAlertWithTitle:@"身份证信息解析中"];
+
             [YMIDCardRecognition recongnitionWithCard:image delegate:wself];
         });
     });
@@ -819,13 +815,13 @@
 
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didFailWithError:(NSError *)error
 {
-    [_waitAlertView close];
+    [RzAlertView CloseWaitAlert];
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"身份证信息解析失败" removeDelay:2];
 }
 - (void)recongnition:(YMIDCardRecognition *)YMIDCardRecognition didRecognitionResult:(NSArray *)array
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_waitAlertView close];
+        [RzAlertView CloseWaitAlert];
         self.idCardInfo = array;
     });
 }

@@ -28,7 +28,6 @@
     NSMutableArray *_workersArray;  // 员工数据
     
     UILabel        *_seletingCountLabel;
-    RzAlertView    *_waitAlertView;
     
     UITableView    *_tableView;
     
@@ -84,10 +83,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (void)getData
 {
-    if (!_waitAlertView) {
-        _waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据获取中..."];
-    }
-    [_waitAlertView show];
+    [RzAlertView ShowWaitAlertWithTitle:@"数据获取中..."];
     _selectWorkerArray = [[NSMutableArray alloc]init];
     _workersArray = [[NSMutableArray alloc]init];
     if(_contarctCode.length != 0){
@@ -103,7 +99,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
                     // 将得到的数据封装到数组中
                     [self setworkersArraywithArray:result selectFlag:NOTSELECT];
                 }
-                [_waitAlertView close];
+                [RzAlertView CloseWaitAlert];
                 if (_workersArray.count == 0) {
                     [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有数据" removeDelay:2];
                 }
@@ -118,12 +114,11 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     else {
         // 只获取单位下，未完成体检的员工
         [[HttpNetworkManager getInstance] getUnitsCustomersWithoutCheck:_unitCode resultBlock:^(NSArray *result, NSError *error) {
-            [_waitAlertView close];
+            [RzAlertView CloseWaitAlert];
             if (!error) {
                 // 将得到的数据封装到数组中
                 [self setworkersArraywithArray:result selectFlag:NOTSELECT];
             }
-            [_waitAlertView close];
             if (_workersArray.count == 0) {
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有数据" removeDelay:2];
             }

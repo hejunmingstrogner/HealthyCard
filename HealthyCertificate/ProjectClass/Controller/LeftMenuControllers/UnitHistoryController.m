@@ -33,8 +33,6 @@
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 @interface UnitHistoryController ()<UITableViewDataSource, UITableViewDelegate,HMNetworkEngineDelegate, DJRefreshDelegate>
 {
-    RzAlertView *waitAlertView;
-
     DJRefresh  *_refresh;
 }
 
@@ -54,11 +52,8 @@
 }
 
 - (void)getData:(DJRefresh *)refresh{
+    [RzAlertView ShowWaitAlertWithTitle:@"数据加载中..."];
 
-    if (!waitAlertView) {
-        waitAlertView = [[RzAlertView alloc]initWithSuperView:self.view Title:@"数据加载中..."];
-    }
-    [waitAlertView show];
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
         _historyArray = [[NSMutableArray alloc]init];
         if (!error) {
@@ -82,7 +77,7 @@
             if (_historyArray.count == 0) {
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"没有历史记录" removeDelay:2];
             }
-            [waitAlertView close];
+            [RzAlertView CloseWaitAlert];
 
             [_tableView reloadData];
             if(refresh)
