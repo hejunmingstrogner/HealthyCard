@@ -174,11 +174,21 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     }
     for (int i = 0; i < _workersArray.count; i++) {
         AddWorkerCellItem *item = _workersArray[i];
-        if ([array containsObject:item.customer.custCode]) {
-            ((AddWorkerCellItem *)_workersArray[i]).isSelectFlag = SELECT;
+        if (item.customer) {
+            if ([array containsObject:item.customer.custCode]) {
+                ((AddWorkerCellItem *)_workersArray[i]).isSelectFlag = SELECT;
+            }
+            else {
+                ((AddWorkerCellItem *)_workersArray[i]).isSelectFlag = NOTSELECT;
+            }
         }
         else {
-            ((AddWorkerCellItem *)_workersArray[i]).isSelectFlag = NOTSELECT;
+            if ([array containsObject:item.customerTest.custCode]) {
+                ((AddWorkerCellItem *)_workersArray[i]).isSelectFlag = SELECT;
+            }
+            else {
+                ((AddWorkerCellItem *)_workersArray[i]).isSelectFlag = NOTSELECT;
+            }
         }
     }
 }

@@ -122,8 +122,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _brContract = brContract;
     _isTodoTask =YES;
     
-    
-    [[HttpNetworkManager getInstance] getCustomerListByBRContract:_brContract.code resultBlock:^(NSArray *result, NSError *error) {
+    [[HttpNetworkManager getInstance] findCustomerTestByContract:_brContract.code resultBlock:^(NSArray *result, NSError *error) {
         if (error != nil){
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"查询单位员工失败" removeDelay:3];
             return;
@@ -135,6 +134,19 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }
         _customerArr = result;
     }];
+
+//    [[HttpNetworkManager getInstance] getCustomerListByBRContract:_brContract.code resultBlock:^(NSArray *result, NSError *error) {
+//        if (error != nil){
+//            [RzAlertView showAlertLabelWithTarget:self.view Message:@"查询单位员工失败" removeDelay:3];
+//            return;
+//        }
+//        NSIndexPath *index =  [NSIndexPath indexPathForItem:2 inSection:0];
+//        CloudCompanyAppointmentStaffCell *cell =  [_companyInfoTableView cellForRowAtIndexPath:index];
+//        if (cell){
+//            cell.staffCount = _customerArr.count;
+//        }
+//        _customerArr = result;
+//    }];
 }
 
 -(void)setAppointmentDateStr:(NSString *)appointmentDateStr{
