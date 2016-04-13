@@ -614,8 +614,14 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
     if (employees.count != 0) {
         url = [NSMutableString stringWithFormat:@"brContract/createOrUpdate?employeeStr="];
         for (int i = 0; i < employees.count; i ++) {
-            Customer *customer = employees[i];
-            [url appendString:customer.custCode];
+            
+            if ([employees[i] isKindOfClass:[Customer class]]){
+                Customer *customer = employees[i];
+                [url appendString:customer.custCode];
+            }else{
+                CustomerTest* customerTest = employees[i];
+                [url appendString:customerTest.custCode];
+            }
             if (i < employees.count - 1) {
                 [url appendString:@"#"];
             }

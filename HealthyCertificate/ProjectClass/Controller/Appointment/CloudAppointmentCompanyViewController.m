@@ -122,6 +122,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _brContract = brContract;
     _isTodoTask =YES;
     
+    
     [[HttpNetworkManager getInstance] getCustomerListByBRContract:_brContract.code resultBlock:^(NSArray *result, NSError *error) {
         if (error != nil){
             [RzAlertView showAlertLabelWithTarget:self.view Message:@"查询单位员工失败" removeDelay:3];
