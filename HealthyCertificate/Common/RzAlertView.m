@@ -17,6 +17,83 @@
 
 #import "WZFlashButton.h"
 
+#define ALERT_MARGIN ([UIScreen mainScreen].bounds.size.width - ALERT_WIDTH)/2
+#define ALERT_WIDTH 300
+#define ALERT_HEIGHT 30
+
+#pragma mark -旋转等待框 RZAlertViewWaitAlertView
+@interface RZAlertViewWaitAlertView : UIView
+{
+    UIView *backgroundView;                 // 背景
+    UIView *alertView;                      // 提示框
+}
+@property (nonatomic, strong)UILabel *titleLabel;                    // 标题    标题支持2排显示，尽量不要太长
+@property (nonatomic, strong) UIActivityIndicatorView *activityView;  // 旋转框
+@end
+
+@implementation RZAlertViewWaitAlertView
+
+
+- (instancetype)initWithWaitAlert:(NSString *)title
+{
+    if (self = [super init]) {
+        self.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+        // 黑色背景遮罩
+        backgroundView = [[UIView alloc]initWithFrame:self.frame];
+        backgroundView.backgroundColor = [UIColor colorWithRed:30/255.0 green:30/255.0 blue:30/255.0 alpha:0.5];
+        backgroundView.alpha = 0;
+        [self addSubview:backgroundView];
+
+        alertView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 150)];
+        alertView.center = backgroundView.center;
+        alertView.backgroundColor = [UIColor colorWithRed:40/255.0 green:44/255.0 blue:50/255.0 alpha:0.7];
+        [self addSubview:alertView];
+
+        alertView.layer.masksToBounds = YES;
+        alertView.layer.cornerRadius = 10;
+
+        // 显示的提示文字
+        _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, 200, 45)];
+        [alertView addSubview:_titleLabel];
+        _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.numberOfLines = 0;
+        _titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+        _titleLabel.text = title;
+        // 旋转的菊花
+        _activityView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _activityView.center = CGPointMake(alertView.bounds.size.width/2, alertView.bounds.size.height/2 + 5);
+        [alertView addSubview:_activityView];
+
+        alertView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0, 0);
+    }
+    return self;
+}
+
+- (void)show{
+    [_activityView startAnimating];
+    [UIView animateWithDuration:0.5 animations:^{
+        alertView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+        backgroundView.alpha = 1;
+    } completion:nil];
+}
+
+- (void)close{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.3 animations:^{
+            alertView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.01, 0.01);
+            backgroundView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self removeFromSuperview];
+        }];
+    });
+}
+
+@end
+
+
+
+#pragma mark - 自定义的按钮
 
 @implementation CustomButton
 
@@ -34,6 +111,14 @@
 
 @end
 
+@interface RzAlertView()
+
+@property (nonatomic, strong) UILabel *alertLabel;
+@property (nonatomic, strong) NSString *title;
+
+@end
+
+#pragma mark -RzAlertView class
 @implementation RzAlertView
 @synthesize titleLabel;
 
@@ -135,6 +220,53 @@
     [self removeFromSuperview];
 }
 
+#pragma 用于显示一个label，显示提示信息
+- (instancetype)initWiAlertLabel
+{
+    if (self = [super init]) {
+        self.frame = CGRectMake(ALERT_MARGIN, 80, ALERT_WIDTH, ALERT_HEIGHT);
+        _alertLabel = [[UILabel alloc]init];
+        _alertLabel.layer.masksToBounds = YES;
+        _alertLabel.layer.cornerRadius = 5;
+        _alertLabel.textColor = [UIColor whiteColor];
+        _alertLabel.font = [UIFont systemFontOfSize:15];
+        _alertLabel.textAlignment = NSTextAlignmentCenter;
+        _alertLabel.backgroundColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.6];
+        [self addSubview:_alertLabel];
+        _alertLabel.frame = CGRectMake(0, 0, ALERT_WIDTH, ALERT_HEIGHT);
+    }
+    return self;
+}
+- (void)setTitle:(NSString *)title
+{
+    _alertLabel.text = title;
+}
+// 显示一个message到label
++ (void)showAlertLabelWithMessage:(NSString *)message removewDelay:(NSInteger)second
+{
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    for (int i = 0; i < window.subviews.count; i++) {
+        if ([[window.subviews objectAtIndex:i] isKindOfClass:[RzAlertView class]]) {
+            RzAlertView *alertview = [window.subviews objectAtIndex:i];
+            [UIView animateWithDuration:0.5 animations:^{
+                alertview.frame = CGRectMake(ALERT_MARGIN, CGRectGetMaxY(alertview.frame) + 2, ALERT_WIDTH, ALERT_HEIGHT);
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.5 animations:^{
+                    alertview.alpha = 0.01;
+                } completion:^(BOOL finished) {
+                    [alertview removeFromSuperview];
+                }];
+            }];
+        }
+    }
+    RzAlertView *alertview = [[RzAlertView alloc]initWiAlertLabel];
+    alertview.title = message;
+    [window addSubview:alertview];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [alertview removeFromSuperview];
+    });
+}
+
 // 显示两个按钮的alertview
 + (void)showAlertViewControllerWithTarget:(id)target
                                     Title:(NSString *)title
@@ -225,30 +357,7 @@
 //  显示一个提示label,并且在设定时间后移除
 + (void)showAlertLabelWithTarget:(UIView*)superview Message:(NSString *)message removeDelay:(NSInteger)second
 {
-    [superview endEditing:YES];
-    UIFont *fnt = [UIFont systemFontOfSize:14];
-
-    CGRect tmpRect = [message boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 60, 44) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
-    CGFloat width = tmpRect.size.width+10;
-
-    UILabel *alertlabel = [[UILabel alloc]init];
-    [superview addSubview:alertlabel];
-    [alertlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(superview).offset(80);
-        make.centerX.equalTo(superview);
-        make.width.mas_equalTo(width);
-        make.height.mas_equalTo(30);
-    }];
-    alertlabel.text = message;
-    alertlabel.layer.masksToBounds = YES;
-    alertlabel.layer.cornerRadius = 5;
-    alertlabel.textColor = [UIColor whiteColor];
-    alertlabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
-    alertlabel.textAlignment = NSTextAlignmentCenter;
-    alertlabel.backgroundColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.6];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [alertlabel removeFromSuperview];
-    });
+    [RzAlertView showAlertLabelWithMessage:message removewDelay:second];
 }
 
 // 显示两个自定义按钮
@@ -497,5 +606,32 @@
     [alert addAction:cancleaction];
     [target presentViewController:alert animated:YES completion:nil];
 }
+
+// 显示旋转等待框
++ (void)ShowWaitAlertWithTitle:(NSString *)title
+{
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    for (int i = 0; i < window.subviews.count; i++) {
+        if ([[window.subviews objectAtIndex:i] isKindOfClass:[RZAlertViewWaitAlertView class]]) {
+            return ;
+        }
+    }
+    RZAlertViewWaitAlertView *alertView = [[RZAlertViewWaitAlertView alloc]initWithWaitAlert:title];
+    [window addSubview:alertView];
+    [alertView show];
+}
+
+// 关闭旋转等待框
++ (void)CloseWaitAlert
+{
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    for (int i = 0; i < window.subviews.count; i++) {
+        if ([[window.subviews objectAtIndex:i] isKindOfClass:[RZAlertViewWaitAlertView class]]) {
+            RZAlertViewWaitAlertView *alertView = [window.subviews objectAtIndex:i];
+            [alertView close];
+        }
+    }
+}
+
 
 @end
