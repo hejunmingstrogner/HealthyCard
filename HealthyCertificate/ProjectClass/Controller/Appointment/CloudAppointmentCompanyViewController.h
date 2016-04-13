@@ -23,7 +23,7 @@
 //判断是自己选择一个服务点进行预约 还是在一个已有的服务点上进行预约
 @property (nonatomic, assign) BOOL isCustomerServerPoint;
 
-@property (nonatomic, strong) NSString* cityName;
+@property (nonatomic, strong) NSString   *cityName;
 
 @property (nonatomic, strong) BRContract *brContract;   // 预约信息
 

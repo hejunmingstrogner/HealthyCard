@@ -64,6 +64,7 @@
 @property (nonatomic, assign) int        type;              // 0固定服务点；1移动服务点。
 @property (nonatomic, strong) BROutCheckArrange *brOutCheckArrange; // 外出服务安排。
 @property (nonatomic, assign) int        innerType;         //若为固定服务端，0：自建可办证； 1：合作机构；2：其它机构。3：自建可上门。
+@property (nonatomic, assign) int        maxNum;            //最大允许预约人数
 
 // 服务器待添加数据
 @property (nonatomic, strong) NSString *introduce;      // 详情介绍

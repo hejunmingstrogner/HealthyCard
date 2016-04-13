@@ -18,6 +18,8 @@
 
 #import <Masonry.h>
 
+#import "HCBackgroundColorButton.h"
+
 #import "ServicePointCell.h"
 #import "ServersPositionAnnotionsModel.h"
 
@@ -25,22 +27,23 @@
 #import "ServicePointDetailViewController.h"
 #import "CloudAppointmentViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
+#import "OutCheckSiteHeaderView.h"
+
 
 
 @interface ServicePointApointmentViewController()<UITableViewDataSource,UITableViewDelegate>
-{
-}
+{}
 @end
 
 
 @implementation ServicePointApointmentViewController
+{
+    BOOL            _isOurcheckSite;
+}
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-#pragma mark - Public Methods
--(void)hideTheKeyBoard{
-    //[_phoneNumTextField resignFirstResponder];
-}
+#define Button_Size 24
 
 #pragma mark - Life Circle
 -(void)viewDidLoad{
@@ -62,6 +65,7 @@
         
     }else{
         UITableView* tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+        _isOurcheckSite = ((ServersPositionAnnotionsModel*)_serverPointList[0]).type == 0 ? NO :YES;
         
         [self.view addSubview:tableView];
         tableView.dataSource = self;
@@ -69,21 +73,39 @@
         [tableView registerClass:[ServicePointCell class] forCellReuseIdentifier:NSStringFromClass([ServicePointCell class])];
         tableView.backgroundColor = MO_RGBCOLOR(250, 250, 250);
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.view);
+            make.left.equalTo(self.view);
             make.width.mas_equalTo(SCREEN_WIDTH);
-            make.bottom.mas_equalTo(self.view);
+            make.bottom.equalTo(self.view).with.offset(_serviceType == ServicePointApointmentViewControllerType_Customer?0:-PXFIT_HEIGHT(136));
             make.top.equalTo(self.view).with.offset(kStatusBarHeight+kNavigationBarHeight);
-//            make.top.mas_equalTo(self.view).with.offset(GetUserType==1?0:kNavigationBarHeight+kStatusBarHeight);
         }];
     }
     
-    if (GetUserType == 1)
-        [self initNavgation];
+    if (_serviceType == ServicePointApointmentViewControllerType_Cloud){
+        UIView* bottomView = [[UIView alloc] init];
+        bottomView.backgroundColor = [UIColor clearColor];
+        [self.view addSubview:bottomView];
+        [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(self.view);
+            make.height.mas_equalTo(PXFIT_HEIGHT(136));
+        }];
+        
+        HCBackgroundColorButton* appointmentBtn = [[HCBackgroundColorButton alloc] init];
+        [appointmentBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue] forState:UIControlStateNormal];
+        [appointmentBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue_Pressed] forState:UIControlStateHighlighted];
+        [appointmentBtn setTitle:@"预 约" forState:UIControlStateNormal];
+        appointmentBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)];
+        appointmentBtn.layer.cornerRadius = 5;
+        [appointmentBtn addTarget:self action:@selector(confrimBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [bottomView addSubview:appointmentBtn];
+        [appointmentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(bottomView).insets(UIEdgeInsetsMake(PXFIT_WIDTH(24), PXFIT_HEIGHT(20), PXFIT_HEIGHT(20), PXFIT_WIDTH(24)));
+        }];
+    }
 }
 
 - (void)initNavgation
 {
-    // 返回按钮
     UIButton* backBtn = [UIButton buttonWithNormalImage:[UIImage imageNamed:@"back"] highlightImage:[UIImage imageNamed:@"back"]];
     backBtn.hitTestEdgeInsets = kBackButtonHitTestEdgeInsets;
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
@@ -93,11 +115,20 @@
     self.title = @"服务点列表";
 }
 
-// 返回前一页
+#pragma mark - Action
 - (void)backToPre:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+-(void)confrimBtnClicked:(UIButton*)sender{
+    CloudAppointmentCompanyViewController* companyCloudAppointment = [[CloudAppointmentCompanyViewController alloc] init];
+    companyCloudAppointment.location = _location;
+    companyCloudAppointment.centerCoordinate = _centerCoordinate;
+    companyCloudAppointment.isCustomerServerPoint = YES;
+    [self.navigationController pushViewController:companyCloudAppointment animated:YES];
+}
+
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -120,13 +151,11 @@
         ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)sself->_serverPointList[indexPath.section];
         
         if (GetUserType == 1){
-            //个人
             CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
             cloudAppoint.sercersPositionInfo = serverPoint;
             cloudAppoint.isCustomerServerPoint = NO;
             [wself.navigationController pushViewController:cloudAppoint animated:YES];
         }else{
-            //单位
             CloudAppointmentCompanyViewController* companyCloudAppointment = [[CloudAppointmentCompanyViewController alloc] init];
             companyCloudAppointment.sercersPositionInfo = serverPoint;
             companyCloudAppointment.isCustomerServerPoint = NO;
@@ -144,24 +173,41 @@
     return cell;
 }
 
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return PXFIT_HEIGHT(294);
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return PXFIT_HEIGHT(20);
+    return PXFIT_HEIGHT(20) + (_isOurcheckSite?PXFIT_HEIGHT(50):0);
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section{
     view.tintColor = MO_RGBCOLOR(250, 250, 250);
 }
 
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (_isOurcheckSite == NO){
+        return nil;
+    }
+    UITableViewHeaderFooterView* containerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
+    if (!containerView){
+        containerView = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"headerview"];
+        ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[section];
+        OutCheckSiteHeaderView* outCheckSiteHeaderView = [[OutCheckSiteHeaderView alloc] init];
+        outCheckSiteHeaderView.countPeople = serverPoint.maxNum - serverPoint.oppointmentNum;
+        [containerView addSubview:outCheckSiteHeaderView];
+        [outCheckSiteHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(containerView);
+            make.height.mas_equalTo(PXFIT_HEIGHT(50));
+        }];
+    }
+    return containerView;
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_serverPointList == nil || _serverPointList.count == 0){
         return;
     }
-    
     //服务点详情
     ServersPositionAnnotionsModel* servicePositionAnnotionsModel = (ServersPositionAnnotionsModel*)_serverPointList[indexPath.section];
     if (servicePositionAnnotionsModel.type == 0){
@@ -176,8 +222,5 @@
         [self.navigationController pushViewController:movingServicePointVC animated:YES];
     }
 }
-
-
-
 
 @end

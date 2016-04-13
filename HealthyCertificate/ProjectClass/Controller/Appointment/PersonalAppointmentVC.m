@@ -48,6 +48,12 @@
     
     _outCheckAppointmentVC = [[ServicePointApointmentViewController alloc] init];
     _outCheckAppointmentVC.serverPointList = _outCheckServicePoint;
+    if (GetUserType == 2){
+        _outCheckAppointmentVC.serviceType = ServicePointApointmentViewControllerType_Cloud;
+        _outCheckAppointmentVC.location = _location;
+        _outCheckAppointmentVC.centerCoordinate = _centerCoordinate;
+    }
+    
     [_outCheckAppointmentVC.view setFrame:self.view.frame];
     [self addChildViewController:_outCheckAppointmentVC];
     

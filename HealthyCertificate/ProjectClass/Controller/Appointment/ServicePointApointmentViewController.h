@@ -7,14 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface ServicePointApointmentViewController : UIViewController
 
+typedef NS_ENUM(NSInteger, ServicePointApointmentViewControllerType)
+{
+    ServicePointApointmentViewControllerType_Customer,
+    ServicePointApointmentViewControllerType_Cloud
+};
+
 @property (nonatomic, copy) NSArray* serverPointList;
 
-/**
- *  隐藏界面的键盘
- */
--(void)hideTheKeyBoard;
+@property (nonatomic, assign) ServicePointApointmentViewControllerType serviceType;
+
+//单位云预约
+@property (nonatomic, copy) NSString *location;
+@property (nonatomic, assign) CLLocationCoordinate2D centerCoordinate;
 
 @end
