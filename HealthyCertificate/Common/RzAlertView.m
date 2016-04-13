@@ -17,6 +17,9 @@
 
 #import "WZFlashButton.h"
 
+#define ALERT_MARGIN ([UIScreen mainScreen].bounds.size.width - ALERT_WIDTH)/2
+#define ALERT_WIDTH 300
+#define ALERT_HEIGHT 30
 
 @implementation CustomButton
 
@@ -33,6 +36,14 @@
 }
 
 @end
+
+@interface RzAlertView()
+
+@property (nonatomic, strong) UILabel *alertLabel;
+@property (nonatomic, strong) NSString *title;
+
+@end
+
 
 @implementation RzAlertView
 @synthesize titleLabel;
@@ -135,6 +146,51 @@
     [self removeFromSuperview];
 }
 
+#pragma 用于显示一个label，显示提示信息
+- (instancetype)initWiAlertLabel
+{
+    if (self = [super init]) {
+        self.frame = CGRectMake(ALERT_MARGIN, 80, ALERT_WIDTH, ALERT_HEIGHT);
+        _alertLabel = [[UILabel alloc]init];
+        _alertLabel.layer.masksToBounds = YES;
+        _alertLabel.layer.cornerRadius = 5;
+        _alertLabel.textColor = [UIColor whiteColor];
+        _alertLabel.font = [UIFont systemFontOfSize:15];
+        _alertLabel.textAlignment = NSTextAlignmentCenter;
+        _alertLabel.backgroundColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.6];
+        [self addSubview:_alertLabel];
+        _alertLabel.frame = CGRectMake(0, 0, ALERT_WIDTH, ALERT_HEIGHT);
+    }
+    return self;
+}
+- (void)setTitle:(NSString *)title
+{
+    _alertLabel.text = title;
+}
+// 显示一个message到label
++ (void)showAlertLabelWithMessage:(NSString *)message removewDelay:(NSInteger)second
+{
+    RzAlertView *alertview = [[RzAlertView alloc]initWiAlertLabel];
+    alertview.title = message;
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    for (int i = 0; i < window.subviews.count; i++) {
+        if ([[window.subviews objectAtIndex:i] isKindOfClass:[RzAlertView class]]) {
+            RzAlertView *alertview = [window.subviews objectAtIndex:i];
+            [UIView animateWithDuration:0.5 animations:^{
+                alertview.frame = CGRectMake(ALERT_MARGIN, CGRectGetMaxY(alertview.frame) + 2, ALERT_WIDTH, ALERT_HEIGHT);
+            } completion:^(BOOL finished) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [alertview removeFromSuperview];
+                });
+            }];
+        }
+    }
+    [window addSubview:alertview];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [alertview removeFromSuperview];
+    });
+}
+
 // 显示两个按钮的alertview
 + (void)showAlertViewControllerWithTarget:(id)target
                                     Title:(NSString *)title
@@ -225,30 +281,7 @@
 //  显示一个提示label,并且在设定时间后移除
 + (void)showAlertLabelWithTarget:(UIView*)superview Message:(NSString *)message removeDelay:(NSInteger)second
 {
-    [superview endEditing:YES];
-    UIFont *fnt = [UIFont systemFontOfSize:14];
-
-    CGRect tmpRect = [message boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 60, 44) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
-    CGFloat width = tmpRect.size.width+10;
-
-    UILabel *alertlabel = [[UILabel alloc]init];
-    [superview addSubview:alertlabel];
-    [alertlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(superview).offset(80);
-        make.centerX.equalTo(superview);
-        make.width.mas_equalTo(width);
-        make.height.mas_equalTo(30);
-    }];
-    alertlabel.text = message;
-    alertlabel.layer.masksToBounds = YES;
-    alertlabel.layer.cornerRadius = 5;
-    alertlabel.textColor = [UIColor whiteColor];
-    alertlabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:14];
-    alertlabel.textAlignment = NSTextAlignmentCenter;
-    alertlabel.backgroundColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.6];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [alertlabel removeFromSuperview];
-    });
+    [RzAlertView showAlertLabelWithMessage:message removewDelay:second];
 }
 
 // 显示两个自定义按钮
