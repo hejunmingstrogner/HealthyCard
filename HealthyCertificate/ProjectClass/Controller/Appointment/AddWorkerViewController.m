@@ -327,9 +327,13 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     if(((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest){
         // 如果已经交钱，或者已经在体检或者体检完成，则不能去掉勾选
         if(((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest.payMoney > 0 || ![((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest.testStatus isEqualToString:@"-1"] ){
+            NSString *messga =[NSString stringWithFormat:@"%@的预约不能被修改",((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest.custName];
+            [RzAlertView showAlertLabelWithTarget:self.view Message:messga removeDelay:2];
             return;
         }
     }
@@ -348,7 +352,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
         }
     }
     [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count endColor:[UIColor blueColor]];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 // 添加员工
