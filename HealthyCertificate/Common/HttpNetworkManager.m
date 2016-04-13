@@ -727,14 +727,13 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
 #pragma mark -付款
 - (void)payMoneyWithChargeParameter:(ChargeParameter *)chargeParame viewController:(UIViewController *)_self resultBlock:(void (^)(NSString *, NSError *))block
 {
-    RzAlertView *waitAlert = [[RzAlertView alloc]initWithSuperView:_self.view Title:@"正在发起交易..."];
-    [waitAlert show];
+    [RzAlertView ShowWaitAlertWithTitle:@"正在发起交易..."];
 
     NSMutableDictionary *dict = [chargeParame mj_keyValues];
 
     NSString *url1 = [NSString stringWithFormat:@"charge/newCharge"];
     [self.sharedClient POST:url1 parameters:dict success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
-        [waitAlert close];
+        [RzAlertView CloseWaitAlert];
         Boolean succeed = [[responseObject objectForKey:@"succeed"] boolValue];
         if(succeed == NO){
             if (block) {
@@ -753,7 +752,7 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
             }
         }];
     } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
-        [waitAlert close];
+        [RzAlertView CloseWaitAlert];
         if(block){
             block(@"发起交易失败，请检查网络后重试", error);
         }

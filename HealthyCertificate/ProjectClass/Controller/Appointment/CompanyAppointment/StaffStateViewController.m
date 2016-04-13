@@ -36,7 +36,6 @@
     
     UITableView         *_tableView;
     UILabel             *_tipLabel;
-    RzAlertView         *_loadingView;
     
     UIButton            *_updateBtn;
     PCheckAllPayView    *_payCountView;
@@ -89,9 +88,7 @@
         make.left.right.equalTo(self.view);
         make.height.equalTo(@60);
     }];
-    
-    
-    _loadingView = [[RzAlertView alloc] initWithSuperView:self.view Title:@" "];
+
     [self initNavgation];
     
     [self loadData];
@@ -156,9 +153,9 @@
 #pragma mark - Private Methods
 -(void)loadData
 {
-    [_loadingView show];
+    [RzAlertView ShowWaitAlertWithTitle:@""];
     [[HttpNetworkManager getInstance] getCustomerTestListByContract:_contractCode resultBlock:^(NSArray *result, NSError *error) {
-        [_loadingView close];
+        [RzAlertView CloseWaitAlert];
         if (error != nil){
             return;
         }
