@@ -10,6 +10,10 @@
 
 @interface OutCheckSiteHeaderView : UIView
 
+//还可预约人数
 @property (nonatomic, assign) NSInteger countPeople;
+
+//预约人数
+@property (nonatomic, assign) NSInteger appointmentCount;
 
 @end
