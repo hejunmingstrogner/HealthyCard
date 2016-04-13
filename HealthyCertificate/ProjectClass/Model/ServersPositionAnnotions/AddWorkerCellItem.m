@@ -10,10 +10,11 @@
 
 @implementation AddWorkerCellItem
 
-- (instancetype)initWithCustomer:(Customer *)customer selectFlag:(SelectFlag)flag
+- (instancetype)initWithCustomer:(Customer *)customer customerTest:(CustomerTest *)customertest selectFlag:(SelectFlag)flag
 {
     if (self = [super init]) {
         _customer = customer;
+        _customerTest = customertest;
         _isSelectFlag = flag;
     }
     return self;

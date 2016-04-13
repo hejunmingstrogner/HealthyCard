@@ -92,7 +92,7 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     _workersArray = [[NSMutableArray alloc]init];
     if(_contarctCode.length != 0){
         // 如果是已经预约过的，则查询获得合同关联的客户
-        [[HttpNetworkManager getInstance] getCustomerListByBRContract:_contarctCode resultBlock:^(NSArray *result, NSError *error) {
+        [[HttpNetworkManager getInstance] findCustomerTestByContract:_contarctCode resultBlock:^(NSArray *result, NSError *error) {
             if(!error){
                 // 将得到的数据封装到数组中
                 [self setworkersArraywithArray:result selectFlag:SELECT];
@@ -138,10 +138,21 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 // 将得到的数据封装到数组中
 - (void)setworkersArraywithArray:(NSArray *)array selectFlag:(SelectFlag)flag
 {
+    if (array.count == 0) {
+        return;
+    }
     NSArray *newarray = [self sortWorkList:array];
-    for (Customer *customer in newarray) {
-        AddWorkerCellItem *item = [[AddWorkerCellItem alloc]initWithCustomer:customer selectFlag:flag];
-        [_workersArray addObject:item];
+    if ([newarray[0] isKindOfClass:[CustomerTest class]]) {
+        for (CustomerTest *customertest in newarray) {
+            AddWorkerCellItem *item = [[AddWorkerCellItem alloc]initWithCustomer:nil customerTest:customertest selectFlag:flag];
+            [_workersArray addObject:item];
+        }
+    }
+    else {
+        for (Customer *customer in newarray) {
+            AddWorkerCellItem *item = [[AddWorkerCellItem alloc]initWithCustomer:customer customerTest:nil  selectFlag:flag];
+            [_workersArray addObject:item];
+        }
     }
 }
 
@@ -153,8 +164,13 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 //    }
     // 对选择过的员工进行筛选
     NSMutableArray *array = [[NSMutableArray alloc]init];
-    for (Customer *custom in _selectedWorkerArray) {
-        [array addObject:custom.custCode];
+    for (id testitem in _selectedWorkerArray) {
+        if ([testitem isKindOfClass:[CustomerTest class]]) {
+            [array addObject:((CustomerTest *)testitem).custCode];
+        }
+        else {
+            [array addObject:((Customer *)testitem).custCode];
+        }
     }
     for (int i = 0; i < _workersArray.count; i++) {
         AddWorkerCellItem *item = _workersArray[i];
@@ -172,9 +188,16 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 {
     NSMutableArray *worksArray = [NSMutableArray arrayWithArray:works];
     [worksArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        Customer *customer1 = (Customer *)obj1;
-        Customer *customer2 = (Customer *)obj2;
-        return customer1.lastCheckTime > customer2.lastCheckTime;
+        if ([obj1 isKindOfClass:[CustomerTest class]]) {
+            CustomerTest *customer1 = (CustomerTest *)obj1;
+            CustomerTest *customer2 = (CustomerTest *)obj2;
+            return customer1.customer.lastCheckTime > customer2.customer.lastCheckTime;
+        }
+        else {
+            Customer *customer1 = (Customer *)obj1;
+            Customer *customer2 = (Customer *)obj2;
+            return customer1.lastCheckTime > customer2.lastCheckTime;
+        }
     }];
 
     return [NSArray arrayWithArray:worksArray];
@@ -300,7 +323,12 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     [_selectWorkerArray removeAllObjects];
     for (int i = 0; i < _workersArray.count; i++) {
         if (((AddWorkerCellItem *)_workersArray[i]).isSelectFlag == 1) {
-            [_selectWorkerArray addObject:((AddWorkerCellItem *)_workersArray[i]).customer];
+            if (((AddWorkerCellItem *)_workersArray[i]).customer) {
+                [_selectWorkerArray addObject:((AddWorkerCellItem *)_workersArray[i]).customer];
+            }
+            else {
+                [_selectWorkerArray addObject:((AddWorkerCellItem *)_workersArray[i]).customerTest];
+            }
         }
     }
     [_seletingCountLabel setText:@"已添加" Font:[UIFont systemFontOfSize:17] count:_selectWorkerArray.count endColor:[UIColor blueColor]];
