@@ -15,7 +15,7 @@
 #import "UIFont+Custom.h"
 #import "Constants.h"
 @interface ServicePositionCarHeadTableViewCell()
-@property (nonatomic, strong) UIImageView *carImageView;
+//@property (nonatomic, strong) UIImageView *carImageView;
 @property (nonatomic, strong) UILabel     *carNo;   // 牌照
 @property (nonatomic, strong) UILabel     *address;
 @property (nonatomic, strong) UILabel     *serviceTime; // 服务时间
@@ -36,24 +36,25 @@
 
 - (void)initSubViews
 {
-    _carImageView = [[UIImageView alloc]init];
-    [self.contentView addSubview:_carImageView];
-    [_carImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(20);
-        make.bottom.equalTo(self.contentView).offset(-20);
-        make.centerY.equalTo(self.contentView);
-        make.left.equalTo(self.contentView).offset(15);
-        make.width.equalTo(_carImageView.mas_height);
-    }];
-    _carImageView.layer.masksToBounds = YES;
-    _carImageView.layer.cornerRadius = 40;
+//    _carImageView = [[UIImageView alloc]init];
+//    [self.contentView addSubview:_carImageView];
+//    [_carImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.contentView).offset(20);
+//        make.bottom.equalTo(self.contentView).offset(-20);
+//        make.centerY.equalTo(self.contentView);
+//        make.left.equalTo(self.contentView).offset(15);
+//        make.width.equalTo(_carImageView.mas_height);
+//    }];
+//    _carImageView.layer.masksToBounds = YES;
+//    _carImageView.layer.cornerRadius = 40;
 
     _scrollView = [[UIScrollView alloc]init];
     [self.contentView addSubview:_scrollView];
     [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(self.contentView);
         make.right.equalTo(self.contentView).offset(-10);
-        make.left.equalTo(_carImageView.mas_right).offset(5);
+//        make.left.equalTo(_carImageView.mas_right).offset(5);
+        make.left.equalTo(self.contentView).offset(10);
     }];
 
     _container = [UIView new];
@@ -72,7 +73,7 @@
     [_container addSubview:_carNo];
     _carNo.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
     [_carNo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_container).offset(20);
+        make.top.equalTo(_container).offset(10);
         make.right.equalTo(_container);
         make.left.equalTo(quanquan.mas_right);
         make.height.mas_equalTo(40);
@@ -118,17 +119,17 @@
 - (void)setCellItem:(ServersPositionAnnotionsModel *)serviceInfo
 {
     //头像信息
-    if (serviceInfo.type == 0){
-        //固定服务点
-        //根据机构编号去获取图片
-        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@hosInfo/getIntroPhoto?hosCode=%@", [HttpNetworkManager baseURL], serviceInfo.cHostCode]];
-        [_carImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"unitLog"] options:SDWebImageRefreshCached];
-    }else{
-        //移动服务点
-        //brVehicle/getPhoto
-        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@brVehicle/getPhoto?uid=%@", [HttpNetworkManager baseURL], serviceInfo.brOutCheckArrange.vehicleID]];
-        [_carImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"serverPointLogo"] options:SDWebImageRefreshCached];
-    }
+//    if (serviceInfo.type == 0){
+//        //固定服务点
+//        //根据机构编号去获取图片
+//        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@hosInfo/getIntroPhoto?hosCode=%@", [HttpNetworkManager baseURL], serviceInfo.cHostCode]];
+//        [_carImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"unitLog"] options:SDWebImageRefreshCached];
+//    }else{
+//        //移动服务点
+//        //brVehicle/getPhoto
+//        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@brVehicle/getPhoto?uid=%@", [HttpNetworkManager baseURL], serviceInfo.brOutCheckArrange.vehicleID]];
+//        [_carImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"serverPointLogo"] options:SDWebImageRefreshCached];
+//    }
 
     [_carNo setText:serviceInfo.name Font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)] WithEndText:[NSString stringWithFormat:@"(%d人办证)", serviceInfo.oppointmentNum < 0? 0:serviceInfo.oppointmentNum] endTextColor:[UIColor redColor]];
     // 重新设置头高
@@ -184,7 +185,7 @@
 - (CGFloat)titleHeight:(NSString *)text fontSize:(NSInteger)size
 {
     UIFont *fnt = [UIFont fontWithType:UIFontOpenSansRegular size:size];
-    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 120 - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
+    CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40 - 20, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
     CGFloat he = tmpRect.size.height+5;
     return he;
 }

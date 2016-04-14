@@ -27,6 +27,7 @@
 #import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 #import "UIImage+Rotate.h"
 #import "RouteAnnotation.h"
+#import "UILabel+FontColor.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -193,6 +194,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section == 0) {
+        return 40;
+    }
     return 10;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -214,6 +218,41 @@
         return fmaxf(44, [self cellheight:((ServicePositionDetialCellItem *)_detialeInfoArray[indexPath.section][indexPath.row]).titleText]);
     }
     return 1;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headView"];
+        if (!view) {
+            view = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"headView"];
+            float hight  = [self tableView:tableView heightForHeaderInSection:section];
+            UIView *uiview = [[UIView alloc]initWithFrame:CGRectMake(0, 1, self.view.frame.size.width, hight - 2)];
+            [view addSubview:uiview];
+            uiview.backgroundColor = [UIColor whiteColor];
+            UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 150, hight)];
+            label1.tag = 1;
+            [view addSubview:label1];
+
+            UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 160 , 0, 150, hight)];
+            label2.textAlignment = NSTextAlignmentRight;
+            label2.tag = 2;
+            [view addSubview:label2];
+        }
+        NSString *text1 = @"还可预约 ";
+        NSString *text2 = [NSString stringWithFormat:@"%d", _servicePositionItem.maxNum - _servicePositionItem.oppointmentNum];
+        NSString *text3 = @"人";
+        UILabel *label1 = [view viewWithTag:1];
+        [label1 setText1:text1 text1Color:[UIColor blackColor] text2:text2 text2Color:[UIColor redColor] text3:text3 text3Color:[UIColor blackColor] size:14];
+
+        NSString *detext1 = @"已预约 ";
+        NSString *detext2 = [NSString stringWithFormat:@"%d", _servicePositionItem.oppointmentNum];
+        NSString *detext3 = @"人";
+        UILabel *label2 = [view viewWithTag:2];
+        [label2 setText1:detext1 text1Color:[UIColor blackColor] text2:detext2 text2Color:[UIColor greenColor] text3:detext3 text3Color:[UIColor blackColor] size:14];
+        return view;
+    }
+    return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
