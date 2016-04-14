@@ -469,6 +469,10 @@
                 _customerTestInfo.hosCode = _sercersPositionInfo.hosCode;
                 //移动服务点 id 固定 cHostCode
                 _customerTestInfo.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.hosCode;
+                if (_sercersPositionInfo.maxNum <= _sercersPositionInfo.oppointmentNum){
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"服务点预约人数过多" removeDelay:3];
+                    return;
+                }
             }
         }
     }

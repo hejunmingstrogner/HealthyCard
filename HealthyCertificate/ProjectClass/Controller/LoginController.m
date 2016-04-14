@@ -343,7 +343,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
         return NO;
     }else if (textField.text.length == 10){
         _vertifyButton.enabled = YES;
-        [_vertifyButton setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue]];
+        [_vertifyButton setBackgroundColor:[UIColor colorWithRGBHex:0xfcce13]];
         return YES;
     }else{
         _vertifyButton.enabled = NO;
