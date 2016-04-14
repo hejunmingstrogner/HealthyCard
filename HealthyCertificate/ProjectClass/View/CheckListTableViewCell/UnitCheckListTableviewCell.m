@@ -152,47 +152,16 @@
 
     // 单位名称
     _unitNameLabel.text = brContract.name;
-    // 体检地址 体检时间
-    NSString *dizhi;
-    NSString *shijian;
-
-    //错误条件 checksideid 不为空 但 servicepoint为空
-    BOOL conditionFirst = (brContract.checkSiteID != nil && ![brContract.checkSiteID isEqualToString:@""]) && (brContract.servicePoint == nil);
-    if (conditionFirst){
-        //数据异常
-        dizhi = @"获取失败";
-        shijian = @"获取失败";
-
+    _addressLabel.text = brContract.regPosAddr;
+    if (brContract.servicePoint && brContract.servicePoint.type == 1){
+        NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime/1000];
+        NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime/1000];
+        NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime/1000];
+        _timeslabel.text = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+    }else{
+        _timeslabel.text = [NSDate converLongLongToChineseStringDateWithHour:brContract.regTime/1000];
     }
-    else
-    {
-        dizhi = brContract.regPosAddr;
-
-        NSString *timestatus;
-        if (brContract.servicePoint != nil) {
-            if (!brContract.servicePoint.startTime || !brContract.servicePoint.endTime) {
-                timestatus = @"获取时间出错";
-            }
-            else {
-                if (brContract.servicePoint.type == 0){
-                    timestatus = [NSDate converLongLongToChineseStringDateWithHour:brContract.regTime/1000];
-                }else{
-                    NSString *year = [NSDate getYear_Month_DayByDate:brContract.servicePoint.startTime/1000];
-                    NSString *start = [NSDate getHour_MinuteByDate:brContract.servicePoint.startTime/1000];
-                    NSString *end = [NSDate getHour_MinuteByDate:brContract.servicePoint.endTime/1000];
-                    timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
-                }
-            }
-        }
-        else {
-            //代表单位云预约
-            timestatus = [NSDate converLongLongToChineseStringDateWithHour:brContract.regTime/1000];
-        }
-        shijian = timestatus;
-    }
-    _addressLabel.text = dizhi;
-    _timeslabel.text = shijian;
-
+    
     // 体检状态
     NSString *status = [BRContract getTestStatus:brContract.testStatus];    //  得到检查状态
     [_statelabel setText:@"状态: " Font:[UIFont fontWithType:UIFontOpenSansRegular size:13] WithEndText:status endTextColor:[UIColor grayColor]];

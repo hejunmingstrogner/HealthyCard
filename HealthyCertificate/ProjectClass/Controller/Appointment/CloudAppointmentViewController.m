@@ -466,9 +466,9 @@
                     _customerTestInfo.regTime = [_appointmentDateTextView.text convertDateStrWithHourToLongLong]*1000;
                 _customerTestInfo.regPosLA = _sercersPositionInfo.positionLa;
                 _customerTestInfo.regPosLO = _sercersPositionInfo.positionLo;
-                _customerTestInfo.hosCode = _sercersPositionInfo.cHostCode;
+                _customerTestInfo.hosCode = _sercersPositionInfo.hosCode;
                 //移动服务点 id 固定 cHostCode
-                _customerTestInfo.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
+                _customerTestInfo.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.hosCode;
             }
         }
     }

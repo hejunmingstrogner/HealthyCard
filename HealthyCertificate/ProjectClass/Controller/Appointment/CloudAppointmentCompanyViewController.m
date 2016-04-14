@@ -132,6 +132,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         if (cell){
             cell.staffCount = _customerArr.count;
         }
+        [_companyInfoTableView reloadData];
         _customerArr = result;
     }];
 
@@ -281,18 +282,14 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
      _appointmentDateStr = (_appointmentDateStr == nil) ? [NSString stringWithFormat:@"%@,08:00", [[NSDate date] getDateStringWithInternel:1]] : _appointmentDateStr;
     //合同时间
     if (_brContract){
-        if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
-            _appointmentDateStr = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]];
+        
+        if (_brContract.servicePoint && _brContract.servicePoint.type == 1){
+            NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime/1000];
+            NSString *start = [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime/1000];
+            NSString *end = [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime/1000];
+            _appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
         }else{
-            //基于服务点(移动+固定)
-            if ([_brContract.hosCode isEqualToString:_brContract.checkSiteID]){
-                _appointmentDateStr = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]]; //固定
-            }else{
-                NSString *year = [NSDate getYear_Month_DayByDate:_brContract.servicePoint.startTime/1000];
-                NSString *start = [NSDate getHour_MinuteByDate:_brContract.servicePoint.startTime/1000];
-                NSString *end = [NSDate getHour_MinuteByDate:_brContract.servicePoint.endTime/1000];
-                _appointmentDateStr = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
-            }
+            _appointmentDateStr = [NSString stringWithFormat:@"%@", [NSDate converLongLongToChineseStringDateWithHour:_brContract.regTime/1000]];
         }
     }
     _examinationTimeTextField.text = _appointmentDateStr;
@@ -694,21 +691,21 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 return ;
             }
             
-            //基于服务点预约
-            if(_brContract.servicePoint.type == 0){
+            if (_sercersPositionInfo.type == 0){
                 _brContract.regTime = [_examinationTimeTextField.text convertDateStrWithHourToLongLong]*1000;
             }else{
                 _brContract.regTime = _sercersPositionInfo.startTime;
             }
+            //基于服务点预约
             _brContract.servicePoint = _sercersPositionInfo;
             _brContract.regBeginDate = _sercersPositionInfo.startTime;
             _brContract.regEndDate = _sercersPositionInfo.endTime;
             _brContract.regPosAddr = _sercersPositionInfo.address;
             _brContract.regPosLA = _sercersPositionInfo.positionLa;
             _brContract.regPosLO = _sercersPositionInfo.positionLo;
-            _brContract.hosCode = _sercersPositionInfo.cHostCode;
+            _brContract.hosCode = _sercersPositionInfo.hosCode;
             //移动服务点 id 固定 cHostCode
-            _brContract.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.cHostCode;
+            _brContract.checkSiteID = _sercersPositionInfo.type == 1 ? _sercersPositionInfo.id : _sercersPositionInfo.hosCode;
         }
     }
     _brContract.linkUser = _contactPersonField.text;

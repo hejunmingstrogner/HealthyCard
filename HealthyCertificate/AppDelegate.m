@@ -111,6 +111,7 @@
         if ([[[UIApplication sharedApplication] keyWindow].rootViewController isKindOfClass:[LoginController class]]){
             return;
         }
+        NSLog(@"出现401错误");
         UIWindow * window = [[UIApplication sharedApplication]keyWindow];
         window.backgroundColor = [UIColor whiteColor];
         LoginController* loginController = [[LoginController alloc] init];
