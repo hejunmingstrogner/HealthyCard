@@ -222,7 +222,7 @@
             make.left.mas_equalTo(self).with.offset(PXFIT_WIDTH(24));
             make.right.mas_equalTo(self).with.offset(-PXFIT_WIDTH(24));
             make.top.mas_equalTo(topView.mas_bottom);
-            make.height.mas_equalTo(1);
+            make.height.mas_equalTo(0.5);
         }];
         
         UIView* bottomView = [[UIView alloc] init];
