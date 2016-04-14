@@ -92,7 +92,7 @@
         HCBackgroundColorButton* appointmentBtn = [[HCBackgroundColorButton alloc] init];
         [appointmentBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue] forState:UIControlStateNormal];
         [appointmentBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue_Pressed] forState:UIControlStateHighlighted];
-        [appointmentBtn setTitle:@"预 约" forState:UIControlStateNormal];
+        [appointmentBtn setTitle:@"自建服务点" forState:UIControlStateNormal];
         appointmentBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)];
         appointmentBtn.layer.cornerRadius = 5;
         [appointmentBtn addTarget:self action:@selector(confrimBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -195,6 +195,7 @@
         ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[section];
         OutCheckSiteHeaderView* outCheckSiteHeaderView = [[OutCheckSiteHeaderView alloc] init];
         outCheckSiteHeaderView.countPeople = serverPoint.maxNum - serverPoint.oppointmentNum;
+        outCheckSiteHeaderView.appointmentCount = serverPoint.oppointmentNum;
         [containerView addSubview:outCheckSiteHeaderView];
         [outCheckSiteHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(containerView);

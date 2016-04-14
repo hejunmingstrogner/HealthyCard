@@ -7,15 +7,14 @@
 //
 #import "HCNetworkReachability.h"
 
-@interface HCNetworkReachability()
-{
-    RealReachability* _reachAbility;
-}
-
-@end
+#import <AFNetworking.h>
 
 
 @implementation HCNetworkReachability
+{
+//    BOOL                            _isReachable;
+//    AFNetworkReachabilityManager    *_manager;
+}
 
 #pragma mark - Public Methods
 +(instancetype)getInstance
@@ -28,67 +27,25 @@
     return sharedHCNetworkReachability;
 }
 
--(void)getCurrentReachabilitYStateWithBlock:(NetworkReachStateBlock)block
-{
-    __block  NetworkReachStateBlock resultBlock = block;
-    [GLobalRealReachability reachabilityWithBlock:^(ReachabilityStatus status) {
-        switch (status)
-        {
-            case RealStatusNotReachable:
-            {
-                //  case NotReachable handler
-                resultBlock(NO);
-                break;
-            }
-                
-            case RealStatusViaWiFi:
-            {
-                //  case WiFi handler
-                 resultBlock(YES);
-                break;
-            }
-                
-            case RealStatusViaWWAN:
-            {
-                //  case WWAN handler
-                 resultBlock(YES);
-                break;
-            }
-                
-            default:
-                break;
-        }
-    }];
-}
 
 #pragma mark - Life Circle
 -(id)init{
     if (self = [super init]){
-        [GLobalRealReachability startNotifier];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(networkChanged:)
-                                                     name:kRealReachabilityChangedNotification
-                                                   object:nil];
+//        _manager = [AFNetworkReachabilityManager managerForDomain:@"http://www.baidu.com"];
+//        [_manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+//            NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+//            _isReachable = status > 0;
+//        }];
+//        [_manager startMonitoring];
+        [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     }
     return self;
 }
 
-#pragma mark - Action
-- (void)networkChanged:(NSNotification *)notification
-{
-    _reachAbility = (RealReachability *)notification.object;
-}
 
-
-#pragma mark - Private Methods
-- (ReachabilityStatus)getCurrentReachabilityState
-{
-    //如果断网,马上再检测一下网络状态
-    if (_reachAbility.currentReachabilityStatus == 0){
-        [GLobalRealReachability stopNotifier];
-        [GLobalRealReachability startNotifier];
-    }
-    return [_reachAbility currentReachabilityStatus];
+#pragma mark - Public Methods
+-(BOOL)isReachable{
+    return [AFNetworkReachabilityManager sharedManager].reachable;
 }
 
 @end

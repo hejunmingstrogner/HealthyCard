@@ -179,7 +179,7 @@
         
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(topRightUpView);
-            make.left.mas_equalTo(nameIcon.mas_right);
+            make.left.mas_equalTo(nameIcon.mas_right).with.offset(5);
         }];
         
     

@@ -202,7 +202,11 @@
     UIButton *confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [view addSubview:confirmBtn];
     [confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(view).insets(UIEdgeInsetsMake(30, 20, 0, 20));
+        make.centerY.equalTo(view);
+        make.left.equalTo(view).with.offset(10);
+        make.right.equalTo(view).with.offset(-10);
+        make.height.mas_equalTo(40);
+     //   make.edges.equalTo(view).insets(UIEdgeInsetsMake(30, 20, 0, 20));
     }];
     confirmBtn.layer.masksToBounds = YES;
     confirmBtn.layer.cornerRadius = 4;

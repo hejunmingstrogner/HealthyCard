@@ -395,7 +395,7 @@
     _isAppointmentBtnResponse = NO;
     [self performSelector:@selector(unLockBtn) withObject:nil afterDelay:3];
     
-    if([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
+    if([[HCNetworkReachability getInstance] isReachable] == NO){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
         return;
     }
