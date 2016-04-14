@@ -77,15 +77,15 @@ extern BOOL   _isRegisterUnited; //个人用户是否注册单位
 extern BOOL   gIsCheckedUpdate; //判断是否已经更新
 
 //调试222.18.159.34
-#define WebServiceHttpBaseUrl @"http://222.18.159.34:8080/webserver/webservice/"
-#define SSOSHttpBaseUrl @"http://222.18.159.34:8080/webserver/ssos/"
-#define WeixinBaseUrl @"http://222.18.159.34:8080/webserver/weixin/"
+//#define WebServiceHttpBaseUrl @"http://222.18.159.34:8080/webserver/webservice/"
+//#define SSOSHttpBaseUrl @"http://222.18.159.34:8080/webserver/ssos/"
+//#define WeixinBaseUrl @"http://222.18.159.34:8080/webserver/weixin/"
 
 
 //测试环境
-//#define WebServiceHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/webservice/"
-//#define SSOSHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/ssos/"
-//#define WeixinBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/weixin/"
+#define WebServiceHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/webservice/"
+#define SSOSHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/ssos/"
+#define WeixinBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/weixin/"
 
 //运营环境
 //#define WebServiceHttpBaseUrl @"http://webserver.zeekstar.com/webserver/webservice/"
