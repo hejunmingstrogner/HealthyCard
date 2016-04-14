@@ -619,7 +619,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _isAppointmentBtnResponse = NO;
     [self performSelector:@selector(unLockBtn) withObject:nil afterDelay:3];
     
-    if([HCNetworkReachability getInstance].getCurrentReachabilityState == 0){
+    if([[HCNetworkReachability getInstance] isReachable] == NO){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
         return;
     }
@@ -801,6 +801,10 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
 -(void)editBtnClicked:(UIButton*)sender
 {
     [self.view endEditing:YES];
+    if ([[HCNetworkReachability getInstance] isReachable] == NO){
+        [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接失败，请检查网络设置" removeDelay:2];
+        return;
+    }
     //如果预约人数 小于 已选员工
     if ([_exminationCountField.text intValue] < _customerArr.count){
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"预约人数必须大于所选员工数" removeDelay:3];
