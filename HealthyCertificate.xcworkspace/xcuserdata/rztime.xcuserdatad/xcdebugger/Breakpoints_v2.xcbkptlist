@@ -152,13 +152,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HealthyCertificate/ProjectClass/Controller/CheckListTableViewController/UnitCheckListVIewController.m"
-            timestampString = "482291337.016413"
+            filePath = "HealthyCertificate/ProjectClass/Controller/LeftMenuControllers/AboutUsViewController.m"
+            timestampString = "482299382.546109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "-initSubviews"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
