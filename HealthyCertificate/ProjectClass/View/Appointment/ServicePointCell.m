@@ -81,7 +81,7 @@
     if (servicePoint.type == 0){
         //固定服务点
         //根据机构编号去获取图片
-        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@hosInfo/getIntroPhoto?hosCode=%@", [HttpNetworkManager baseURL], servicePoint.cHostCode]];
+        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@hosInfo/getIntroPhoto?hosCode=%@", [HttpNetworkManager baseURL], servicePoint.hosCode]];
         __weak typeof (self) wself = self;
         [_picImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"unitLog"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (image == nil)
@@ -222,7 +222,7 @@
             make.left.mas_equalTo(self).with.offset(PXFIT_WIDTH(24));
             make.right.mas_equalTo(self).with.offset(-PXFIT_WIDTH(24));
             make.top.mas_equalTo(topView.mas_bottom);
-            make.height.mas_equalTo(1);
+            make.height.mas_equalTo(0.5);
         }];
         
         UIView* bottomView = [[UIView alloc] init];

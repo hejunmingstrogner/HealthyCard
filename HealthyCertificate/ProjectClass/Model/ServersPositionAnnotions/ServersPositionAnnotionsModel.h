@@ -50,7 +50,7 @@
 @property (nonatomic, assign) int TYPE_OUTCHECK;            // 临时服务点   ＝ 1
 @property (nonatomic, assign) int TYPE_HOS;                 // 固定服务点   ＝ 0
 @property (nonatomic, strong) NSString * address;           // 服务点地址。
-@property (nonatomic, strong) NSString * cHostCode;         // 所属机构ID。
+@property (nonatomic, copy)   NSString * hosCode;           // 所属机构ID
 @property (nonatomic, assign) int        checkinNum;        // 已检人数。
 @property (nonatomic, assign) double     distance;          // 和查询位置的距离。 [单位：千米]
 @property (nonatomic, assign) long long  endTime;           // 服务结束时间。

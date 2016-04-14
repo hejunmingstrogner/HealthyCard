@@ -143,7 +143,7 @@
 {
     ServicePointCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ServicePointCell class])];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.layer.borderWidth = 1;
+    cell.layer.borderWidth = 0.5;
     cell.layer.borderColor = [UIColor colorWithRGBHex:0xe0e0e0].CGColor;
     __weak typeof (self) wself = self;
     cell.serviceAppointmentBtnClickedBlock = ^(){
