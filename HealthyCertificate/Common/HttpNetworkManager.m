@@ -124,6 +124,7 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
         {
             NSDictionary* releaseInfo = [infoArray objectAtIndex:0];
             NSString* lastVersion = [releaseInfo objectForKey:@"version"];
+            self.lastVersionStr = lastVersion;
             if (![lastVersion isEqualToString:currentVersion])
             {
                 resultBlock(YES, nil);

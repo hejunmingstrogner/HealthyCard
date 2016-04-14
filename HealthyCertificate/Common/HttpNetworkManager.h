@@ -38,6 +38,8 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
 
 +(instancetype)getInstance;
 
+@property (nonatomic, copy) NSString* lastVersionStr;
+
 @property (nonatomic, strong) AFHTTPRequestOperationManager *sharedClient;
 
 + (NSString *)baseURL;
