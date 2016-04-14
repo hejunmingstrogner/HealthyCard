@@ -37,6 +37,7 @@
 		2512B42B1C70631600EE661B /* HMSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B42A1C70631600EE661B /* HMSocket.m */; };
 		2512B42E1C70632C00EE661B /* HMDataOperate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B42D1C70632C00EE661B /* HMDataOperate.m */; };
 		2512B4311C70634B00EE661B /* HMNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 2512B4301C70634B00EE661B /* HMNetworkEngine.m */; };
+		2518A2C91CBFA1D800ACAA6C /* ETDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 2518A2C81CBFA1D800ACAA6C /* ETDetail.m */; };
 		2528AEF31CBE1FB1006201DD /* OutCheckSiteHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2528AEF21CBE1FB1006201DD /* OutCheckSiteHeaderView.m */; };
 		252AB8841C76E3880085CC14 /* date_icon@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 252AB87B1C76E3880085CC14 /* date_icon@1x.png */; };
 		252AB8851C76E3880085CC14 /* date_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 252AB87C1C76E3880085CC14 /* date_icon@2x.png */; };
@@ -97,6 +98,7 @@
 		254D960D1C9FDD9A003B64D4 /* WZFlashButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D960C1C9FDD9A003B64D4 /* WZFlashButton.m */; };
 		255C71F11C8714420074A41B /* SelectCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255C71F01C8714420074A41B /* SelectCompanyViewController.m */; };
 		2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */; };
+		258E2CC21CBFBFCF009A81A0 /* ChargeBusinessObjForBatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 258E2CC11CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.m */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
 		25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB101C72C70F0062F9B8 /* HCRule.m */; };
@@ -303,6 +305,8 @@
 		2512B42D1C70632C00EE661B /* HMDataOperate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMDataOperate.m; sourceTree = "<group>"; };
 		2512B42F1C70634B00EE661B /* HMNetworkEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMNetworkEngine.h; sourceTree = "<group>"; };
 		2512B4301C70634B00EE661B /* HMNetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMNetworkEngine.m; sourceTree = "<group>"; };
+		2518A2C71CBFA1D800ACAA6C /* ETDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETDetail.h; sourceTree = "<group>"; };
+		2518A2C81CBFA1D800ACAA6C /* ETDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETDetail.m; sourceTree = "<group>"; };
 		2528AEF11CBE1FB1006201DD /* OutCheckSiteHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutCheckSiteHeaderView.h; sourceTree = "<group>"; };
 		2528AEF21CBE1FB1006201DD /* OutCheckSiteHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutCheckSiteHeaderView.m; sourceTree = "<group>"; };
 		252AB87B1C76E3880085CC14 /* date_icon@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date_icon@1x.png"; sourceTree = "<group>"; };
@@ -387,6 +391,8 @@
 		255C71F01C8714420074A41B /* SelectCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCompanyViewController.m; sourceTree = "<group>"; };
 		2567AC3B1C89680800E51DFA /* HCNavigationBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCNavigationBackButton.h; sourceTree = "<group>"; };
 		2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCNavigationBackButton.m; sourceTree = "<group>"; };
+		258E2CC01CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeBusinessObjForBatch.h; sourceTree = "<group>"; };
+		258E2CC11CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeBusinessObjForBatch.m; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
 		25BFE9721C7199610062F9B8 /* RzAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RzAlertView.m; sourceTree = "<group>"; };
 		25BFEB0B1C71C9110062F9B8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -1427,6 +1433,10 @@
 				B23506051C91A6FA00B35E1E /* ChargeType.m */,
 				B23506071C91A7B500B35E1E /* ChargeBusinessForCustomerTest.h */,
 				B23506081C91A7B500B35E1E /* ChargeBusinessForCustomerTest.m */,
+				2518A2C71CBFA1D800ACAA6C /* ETDetail.h */,
+				2518A2C81CBFA1D800ACAA6C /* ETDetail.m */,
+				258E2CC01CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.h */,
+				258E2CC11CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.m */,
 			);
 			path = PayMoney;
 			sourceTree = "<group>";
@@ -1775,6 +1785,7 @@
 				B2640CDB1C7C7FC000721CB5 /* WaitDocResultSelectItem.m in Sources */,
 				254503061C90043800F47F46 /* QRController.m in Sources */,
 				B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */,
+				2518A2C91CBFA1D800ACAA6C /* ETDetail.m in Sources */,
 				25DB64161CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m in Sources */,
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
 				B21721531CB660770066F44E /* UnitHistoryController.m in Sources */,
@@ -1785,6 +1796,7 @@
 				254A8DD51C7DA0CE00F2EC94 /* NSString+Custom.m in Sources */,
 				2512B4201C7056C900EE661B /* UIView+Layout.m in Sources */,
 				B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */,
+				258E2CC21CBFBFCF009A81A0 /* ChargeBusinessObjForBatch.m in Sources */,
 				B2FE0ACB1CBA256700E5AB67 /* UnitCheckListVIewController.m in Sources */,
 				B27B00D11C8461FE00FBF895 /* ServicePositionCarHeadTableViewCell.m in Sources */,
 				B27B00E21C84622D00FBF895 /* CloudCompanyAppointmentStaffCell.m in Sources */,
