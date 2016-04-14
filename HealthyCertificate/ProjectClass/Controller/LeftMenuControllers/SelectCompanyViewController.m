@@ -102,9 +102,7 @@
                     weakself.updata(weakself.textField.text);
                 }
                 [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"修改成功" removeDelay:2];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [weakself backToPre:nil];
-                });
+                [weakself backToPre:nil];
             }
             else{
                 [RzAlertView showAlertViewControllerWithTarget:weakself Title:@"提示" Message:@"您的修改未成功，请检查网络后重试" ActionTitle:@"明白了" ActionStyle:0];

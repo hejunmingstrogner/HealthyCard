@@ -79,18 +79,18 @@
     self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
 
 #warning 单位预约取消订单
-    // 批量支付
-    piliangPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [piliangPayBtn setTitle:@"批量支付" forState:UIControlStateNormal];
-    [piliangPayBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    piliangPayBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-    piliangPayBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-    piliangPayBtn.tag = 0;   // tag ＝ 0非编辑状态  ＝1 为编辑状态
-    piliangPayBtn.frame = CGRectMake(0, 0, 60, 30);
-    [piliangPayBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightBtnitem = [[UIBarButtonItem alloc]initWithCustomView:piliangPayBtn];
-
-    self.navigationItem.rightBarButtonItem = rightBtnitem;
+//    // 批量支付
+//    piliangPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [piliangPayBtn setTitle:@"批量支付" forState:UIControlStateNormal];
+//    [piliangPayBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//    piliangPayBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+//    piliangPayBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+//    piliangPayBtn.tag = 0;   // tag ＝ 0非编辑状态  ＝1 为编辑状态
+//    piliangPayBtn.frame = CGRectMake(0, 0, 60, 30);
+//    [piliangPayBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *rightBtnitem = [[UIBarButtonItem alloc]initWithCustomView:piliangPayBtn];
+//
+//    self.navigationItem.rightBarButtonItem = rightBtnitem;
 }
 
 - (void)rightBtnClicked:(UIButton *)sender
@@ -169,17 +169,17 @@
             [weakself.tableView reloadData];
 
 #warning 单位预约取消订单
-            // 设置
-            countForPayMoneySum = 0;
-            for (CustomerTest *cus in customerArray) {
-                if (cus.payMoney <=0 && [cus.testStatus isEqualToString:@"-1"]) {
-                    countForPayMoneySum++;
-                }
-            }
-            piliangzhifuView.allCount = countForPayMoneySum;
-            // 如果批量支付的界面当前已经显示了，则需要关闭
-            piliangPayBtn.tag = 1;
-            [self rightBtnClicked:piliangPayBtn];
+//            // 设置
+//            countForPayMoneySum = 0;
+//            for (CustomerTest *cus in customerArray) {
+//                if (cus.payMoney <=0 && [cus.testStatus isEqualToString:@"-1"]) {
+//                    countForPayMoneySum++;
+//                }
+//            }
+//            piliangzhifuView.allCount = countForPayMoneySum;
+//            // 如果批量支付的界面当前已经显示了，则需要关闭
+//            piliangPayBtn.tag = 1;
+//            [self rightBtnClicked:piliangPayBtn];
         }
         else {
             [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];

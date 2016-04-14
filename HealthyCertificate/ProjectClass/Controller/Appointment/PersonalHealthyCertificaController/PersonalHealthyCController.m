@@ -276,7 +276,7 @@
         make.left.right.equalTo(containView);
         make.height.mas_equalTo(44);
     }];
-    if (_customerTestInfo.payMoney <= 0) {
+    if (_customerTestInfo.payMoney <= 0 && [_customerTestInfo.testStatus isEqualToString:@"-1"]) {
         paycell2.detailTextLabel.text = @"在线支付";
         paycell2.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
@@ -690,7 +690,8 @@
 }
 
 - (void)payMoneyByOthers
-{}
+{
+}
 
 
 #pragma mark - ScanImageViewDelegate
