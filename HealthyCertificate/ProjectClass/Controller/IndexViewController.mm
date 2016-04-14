@@ -41,6 +41,7 @@
 
 
 NSString *gCurrentCityName;
+BOOL   gIsCheckedUpdate; //判断是否已经更新
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -87,7 +88,10 @@ NSString *gCurrentCityName;
         [self initLeftViews];    // 初始化左侧菜单
     }
     
-    [self onCheckVersion];
+    if (gIsCheckedUpdate == NO){
+        [self onCheckVersion];
+        gIsCheckedUpdate = YES;
+    }
 }
 
 //版本更新
