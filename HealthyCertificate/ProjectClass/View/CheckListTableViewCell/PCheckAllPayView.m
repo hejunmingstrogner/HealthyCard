@@ -125,7 +125,7 @@
         [payMoneyBtn setTitle:[NSString stringWithFormat:@"去支付(%ld)", (long)count] forState:UIControlStateNormal];
     }
 
-    if (count != _allCount) {
+    if (count != _allCount || (count == 0 && _allCount == 0)) {
         selectedImageView.image = [UIImage imageNamed:@"tuoyuan"];
     }
     else {

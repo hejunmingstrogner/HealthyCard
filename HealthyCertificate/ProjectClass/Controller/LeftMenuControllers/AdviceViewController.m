@@ -147,9 +147,7 @@
     else {
         [self.view endEditing:YES];
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的反馈我们已收到，谢谢您的耐心使用" removeDelay:2];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self backToPre:nil];
-        });
     }
 }
 // 关闭键盘
