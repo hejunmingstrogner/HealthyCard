@@ -586,8 +586,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
-    
-    self.title = _sercersPositionInfo.name;
+    self.title = _sercersPositionInfo == nil ? @"自建服务点":_sercersPositionInfo.name;
 }
 
 - (void)backToPre:(UIButton*)sender
