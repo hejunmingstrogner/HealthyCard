@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "ChargeType.h"
 
+/**
+ *  员工体检单个支付
+ */
 @interface ChargeBusinessObj : NSObject
 
 @property (nonatomic, copy) NSString *type;

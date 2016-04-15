@@ -9,6 +9,4 @@
 #import "ChargeType.h"
 
 @implementation ChargeType
-
-
 @end
