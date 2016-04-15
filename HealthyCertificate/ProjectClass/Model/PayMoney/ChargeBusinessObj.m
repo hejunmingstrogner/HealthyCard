@@ -36,10 +36,23 @@
         {
             _type = @"Brcontract";
             break;
+        }case WeixinQRCode:
+        {
+            _type = @"WeixinQRCode";
+            break;
+        }case BatchCharge:
+        {
+            _type = @"BatchCharge";
+            break;
         }
         default:
         break;
     }
+    
+    /*
+     WeixinQRCode = 4,           //微信扫码支付
+     BatchCharge                 //批量支付
+     */
 }
 
 @end
