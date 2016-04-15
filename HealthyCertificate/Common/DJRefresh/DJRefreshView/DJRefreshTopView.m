@@ -38,8 +38,8 @@
 
 - (void)setup{
     
-    self.backgroundColor=[UIColor colorWithRed:237.0/255.0 green:237.0/255.0 blue:237.0/255.0 alpha:237.0/255.0];
-    
+//    self.backgroundColor=[UIColor colorWithRed:237.0/255.0 green:237.0/255.0 blue:237.0/255.0 alpha:237.0/255.0];
+
     _activityIndicatorView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     _activityIndicatorView.hidesWhenStopped=YES;
     _activityIndicatorView.translatesAutoresizingMaskIntoConstraints=NO;
