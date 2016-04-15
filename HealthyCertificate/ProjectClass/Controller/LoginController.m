@@ -284,7 +284,7 @@ typedef NS_ENUM(NSInteger, LOGINTEXTFIELD)
             [RzAlertView showAlertLabelWithTarget:self.view Message:[result objectForKey:@"Msg"] removeDelay:3];
         }else{
             NSLog(@"短信验证码%@", [result objectForKey:@"Msg"]);
-//            _vertifyTextField.text = [result objectForKey:@"Msg"];
+            _vertifyTextField.text = [result objectForKey:@"Msg"];
         }
     }];
 }
