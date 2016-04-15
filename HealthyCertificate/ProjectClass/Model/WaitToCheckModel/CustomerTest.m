@@ -92,7 +92,7 @@
                 //单位统一预约
                 NSDateComponents* cp = [NSDate getInternalDateFrom:[NSDate date]
                                               To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regTime/1000]];
-                item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.regTime/1000], self.regPosAddr];
+                item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld天%ld小时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.regTime/1000], self.regPosAddr];
             }else{
                 //服务点预约
                 NSDateComponents* cp;
@@ -100,12 +100,12 @@
                     //固定
                     cp = [NSDate getInternalDateFrom:[NSDate date]
                                                   To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regTime/1000]];
-                    item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.regTime/1000], self.servicePoint.address];
+                    item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld天%ld小时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.regTime/1000], self.servicePoint.address];
                 }else{
                     //移动
                     cp = [NSDate getInternalDateFrom:[NSDate date]
                                                   To:[[NSDate alloc] initWithTimeIntervalSince1970:self.servicePoint.startTime/1000]];
-                    item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.servicePoint.startTime/1000], self.servicePoint.address];
+                    item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld天%ld小时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.servicePoint.startTime/1000], self.servicePoint.address];
                 }
             }
             
