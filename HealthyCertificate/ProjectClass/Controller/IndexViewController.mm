@@ -86,11 +86,6 @@ NSString *gCurrentCityName;
         [self getCheckListData];
         [self initLeftViews];    // 初始化左侧菜单
     }
-//    if (gIsCheckedUpdate == NO){
-//        [self onCheckVersion];
-//        gIsCheckedUpdate = YES;
-//    }
-
 }
 
 //版本更新
