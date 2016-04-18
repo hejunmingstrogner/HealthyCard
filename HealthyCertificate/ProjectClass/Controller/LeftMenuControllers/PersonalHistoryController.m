@@ -186,7 +186,8 @@
         cell.payMoneyBtn.tag = indexPath.section;
         cell.cancelAppointBtn.tag = indexPath.section;
         cell.payMoney = model.customer.payMoney;
-        if (![model.customer.testStatus isEqualToString:@"-1"] && model.customer.payMoney <= 0){
+        // 不需要去付款
+        if (![model.customer isNeedToPay]){
             //单位已经统一付钱
             cell.payMoneyBtn.hidden = YES;
         }

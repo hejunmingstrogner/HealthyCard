@@ -173,7 +173,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEADERIMAGE) {
-        return PXFIT_HEIGHT(332);
+//        return PXFIT_HEIGHT(332);
+        return self.view.frame.size.width * 161 /360;
     }
     else if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEATHYCINFO){
         return 75;
@@ -191,22 +192,22 @@
             make.edges.equalTo(cell);
         }];
         imageview.image = [UIImage imageNamed:@"payhead"];
-
-        UIImageView *moneyView = [[UIImageView alloc]init];
-        [cell addSubview:moneyView];
-        moneyView.image = [UIImage imageNamed:@"moneybg"];
-        [moneyView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(cell);
-            make.height.width.mas_equalTo(PXFIT_HEIGHT(322)/2.5);
-        }];
-
-        UILabel *moneylabel = [[UILabel alloc]init];
-        [cell addSubview:moneylabel];
-        moneylabel.textAlignment = NSTextAlignmentCenter;
-        [moneylabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(moneyView);
-        }];
-        [moneylabel setText:@"¥" textFont:[UIFont fontWithType:UIFontOpenSansRegular size:18] WithEndText:_money endtextFont:[UIFont fontWithType:UIFontOpenSansRegular size:21] textcolor:[UIColor whiteColor]];
+//
+//        UIImageView *moneyView = [[UIImageView alloc]init];
+//        [cell addSubview:moneyView];
+//        moneyView.image = [UIImage imageNamed:@"moneybg"];
+//        [moneyView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.center.equalTo(cell);
+//            make.height.width.mas_equalTo(PXFIT_HEIGHT(322)/2.5);
+//        }];
+//
+//        UILabel *moneylabel = [[UILabel alloc]init];
+//        [cell addSubview:moneylabel];
+//        moneylabel.textAlignment = NSTextAlignmentCenter;
+//        [moneylabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(moneyView);
+//        }];
+//        [moneylabel setText:@"¥" textFont:[UIFont fontWithType:UIFontOpenSansRegular size:18] WithEndText:_money endtextFont:[UIFont fontWithType:UIFontOpenSansRegular size:21] textcolor:[UIColor whiteColor]];
         return cell;
     }
     else if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEATHYCINFO){

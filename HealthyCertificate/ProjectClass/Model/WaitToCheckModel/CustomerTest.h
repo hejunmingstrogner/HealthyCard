@@ -143,6 +143,13 @@ typedef NS_ENUM(NSInteger, testStatus){
 @property (nonatomic, copy) NSString * testStatus;        // -1未检，0签到，1在检，2延期，3完成，4已通过总检确认，5已打印体检卡，6已打印条码，9已出报告和健康证
 
 /**
+ *  是否需要付款  返回 Yes:需要去付款   No,已经付款或者体检了，不需要去付款了
+ *
+ *  @return Yes:需要去付款   No,已经付款或者体检了，不需要去付款了
+ */
+- (BOOL)isNeedToPay;
+
+/**
  *  获得当前状态以及两边的状态的数组
  *
  *  @param teststatus 当前合同状态

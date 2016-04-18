@@ -201,6 +201,7 @@
     }
 }
 
+// 获得应付金额
 - (void)getNeedMoneyWhenPayFor
 {
     // 设置价格
@@ -208,7 +209,7 @@
         return;
     }
     // 如果已经付款，或者现在不能付款，则不需要价格
-    if (_payMoney > 0 || ![_testStatus isEqualToString:@"-1"]) {
+    if (![self isNeedToPay]) {
         _needMoney = 0;
         return;
     }
@@ -221,6 +222,17 @@
             _needMoney = 0;
         }
     }];
+}
+
+// 是否需要去付款 Yes:需要去付款   No,已经付款或者体检了，不需要去付款了
+- (BOOL)isNeedToPay{
+    if(self.payMoney > 0){
+        return NO;
+    }
+    if (![self.testStatus isEqualToString:@"-1"]) {
+        return NO;
+    }
+    return YES;
 }
 
 @end
