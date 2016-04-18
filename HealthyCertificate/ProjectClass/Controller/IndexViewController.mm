@@ -516,10 +516,6 @@ BOOL   gIsCheckedUpdate; //判断是否已经更新
         }
         case LEFTMENUCELL_PERSON_UNITLOGIN: // 单位注册
         {
-            if(_isRegisterUnited){
-                [RzAlertView showAlertLabelWithTarget:self.view Message:@"您有未完成的审核" removeDelay:2];
-                return;
-            }
             RegisterViewController* unitRegisterVC = [[RegisterViewController alloc] init];
             [self.navigationController pushViewController:unitRegisterVC animated:YES];
             break;

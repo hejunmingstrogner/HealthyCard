@@ -92,7 +92,7 @@
         HCBackgroundColorButton* appointmentBtn = [[HCBackgroundColorButton alloc] init];
         [appointmentBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue] forState:UIControlStateNormal];
         [appointmentBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Blue_Pressed] forState:UIControlStateHighlighted];
-        [appointmentBtn setTitle:@"自建服务点" forState:UIControlStateNormal];
+        [appointmentBtn setTitle:@"自建体检点" forState:UIControlStateNormal];
         appointmentBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Button_Size)];
         appointmentBtn.layer.cornerRadius = 5;
         [appointmentBtn addTarget:self action:@selector(confrimBtnClicked:) forControlEvents:UIControlEventTouchUpInside];

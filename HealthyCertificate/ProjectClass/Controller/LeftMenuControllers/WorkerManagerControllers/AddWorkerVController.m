@@ -505,10 +505,23 @@
 #pragma mark - Http Response
 - (void)creatSuccess
 {
-    if ([_delegate respondsToSelector:@selector(creatWorkerSucceed)] && _delegate) {
-        [_delegate creatWorkerSucceed];
+    for (int i = 0; i<_customArray.count; i++) {
+        switch (((AddworkerTBCItem *)_customArray[i]).type) {
+            case ADDWORKER_NAME:
+            case ADDWORKER_SEX:
+            case ADDWORKER_AGE:
+            case ADDWORKER_IDCARD:
+            case ADDWORKER_TELPHONE:
+            {
+                ((AddworkerTBCItem *)_customArray[i]).message = @"";
+                [_tableView reloadData];
+                break;
+            }
+            default:
+            break;
+        }
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    [RzAlertView showAlertLabelWithMessage:@"新增员工成功" removewDelay:2];
 }
 
 - (void)creatFail
