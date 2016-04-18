@@ -74,12 +74,6 @@ extern BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送
 
 //extern BOOL   gIsCheckedUpdate; //判断是否已经更新
 
-//调试222.18.159.34
-//#define WebServiceHttpBaseUrl @"http://222.18.159.34:8080/webserver/webservice/"
-//#define SSOSHttpBaseUrl @"http://222.18.159.34:8080/webserver/ssos/"
-//#define WeixinBaseUrl @"http://222.18.159.34:8080/webserver/weixin/"
-
-
 //测试环境
 #define WebServiceHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/webservice/"
 #define SSOSHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/ssos/"
