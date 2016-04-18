@@ -241,4 +241,17 @@ typedef NS_ENUM(NSInteger, testStatus){
  */
 @property (nonatomic, copy) NSString* healthCardNo;
 
+/**
+ *  应付金额
+ *  [暂时非数据库字段]
+ */
+@property (nonatomic, assign) float  needMoney;
+
+/**
+ *  获得应付金额
+ *
+ *  @param
+ */
+- (void)getNeedMoneyWhenPayFor;
+
 @end

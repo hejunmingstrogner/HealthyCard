@@ -17,6 +17,6 @@
 @interface ChargeBusinessObjForBatch : ChargeBusinessObj
 
 //支付明细 存放ETDetail
-@property (nonatomic, copy) NSArray* details;
+@property (nonatomic, strong) NSMutableArray* details;
 
 @end

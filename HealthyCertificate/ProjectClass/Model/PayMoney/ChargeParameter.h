@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ChargeBusinessObjForBatch.h"
 #import "ChargeBusinessForCustomerTest.h"
 
 @interface ChargeParameter : NSObject
@@ -71,7 +72,7 @@
 /**
  * 关联的业务对象。 支付成功后，涉及后续处理。
  */
-@property (nonatomic, strong) ChargeBusinessForCustomerTest * businessObj;
+@property (nonatomic, strong) ChargeBusinessObj * businessObj;
 - (instancetype)init;
 
 @end

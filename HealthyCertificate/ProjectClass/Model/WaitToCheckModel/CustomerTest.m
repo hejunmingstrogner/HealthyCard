@@ -7,6 +7,8 @@
 //
 
 #import "CustomerTest.h"
+#import "HttpNetworkManager.h"
+#import "RzAlertView.h"
 
 #import "NSDate+Custom.h"
 
@@ -198,4 +200,27 @@
             return NO;
     }
 }
+
+- (void)getNeedMoneyWhenPayFor
+{
+    // 设置价格
+    if (_needMoney > 0) {
+        return;
+    }
+    // 如果已经付款，或者现在不能付款，则不需要价格
+    if (_payMoney > 0 || ![_testStatus isEqualToString:@"-1"]) {
+        _needMoney = 0;
+        return;
+    }
+    // 获得单价
+    [[HttpNetworkManager getInstance]getCustomerTestChargePriceWithCityName:_cityName checkType:nil resultBlcok:^(NSString *result, NSError *error) {
+        if (!error) {
+            _needMoney = [result floatValue];
+        }
+        else {
+            _needMoney = 0;
+        }
+    }];
+}
+
 @end

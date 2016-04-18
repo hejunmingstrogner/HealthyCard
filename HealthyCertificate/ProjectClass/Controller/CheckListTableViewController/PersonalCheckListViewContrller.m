@@ -79,18 +79,18 @@
     self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
 
 #warning 单位预约取消订单
-//    // 批量支付
-//    piliangPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [piliangPayBtn setTitle:@"批量支付" forState:UIControlStateNormal];
-//    [piliangPayBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//    piliangPayBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
-//    piliangPayBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-//    piliangPayBtn.tag = 0;   // tag ＝ 0非编辑状态  ＝1 为编辑状态
-//    piliangPayBtn.frame = CGRectMake(0, 0, 60, 30);
-//    [piliangPayBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *rightBtnitem = [[UIBarButtonItem alloc]initWithCustomView:piliangPayBtn];
-//
-//    self.navigationItem.rightBarButtonItem = rightBtnitem;
+    // 批量支付
+    piliangPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [piliangPayBtn setTitle:@"批量支付" forState:UIControlStateNormal];
+    [piliangPayBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    piliangPayBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
+    piliangPayBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    piliangPayBtn.tag = 0;   // tag ＝ 0非编辑状态  ＝1 为编辑状态
+    piliangPayBtn.frame = CGRectMake(0, 0, 60, 30);
+    [piliangPayBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBtnitem = [[UIBarButtonItem alloc]initWithCustomView:piliangPayBtn];
+
+    self.navigationItem.rightBarButtonItem = rightBtnitem;
 }
 
 - (void)rightBtnClicked:(UIButton *)sender
@@ -102,6 +102,11 @@
         [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view).offset(-61);
         }];
+
+        // 获取单价
+        for (CustomerTest *customertest in _checkDataArray) {
+            [customertest getNeedMoneyWhenPayFor];
+        }
 
         [self.tableView setEditing:YES animated:YES];
     }
@@ -167,19 +172,8 @@
         if (!error) {
             weakself.checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
             [weakself.tableView reloadData];
-
-#warning 单位预约取消订单
-//            // 设置
-//            countForPayMoneySum = 0;
-//            for (CustomerTest *cus in customerArray) {
-//                if (cus.payMoney <=0 && [cus.testStatus isEqualToString:@"-1"]) {
-//                    countForPayMoneySum++;
-//                }
-//            }
-//            piliangzhifuView.allCount = countForPayMoneySum;
-//            // 如果批量支付的界面当前已经显示了，则需要关闭
-//            piliangPayBtn.tag = 1;
-//            [self rightBtnClicked:piliangPayBtn];
+            // 设置批量支付的各种状态
+            [self setcancleOrder];
         }
         else {
             [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
@@ -196,11 +190,17 @@
     [[HttpNetworkManager getInstance]getCheckListWithBlock:^(NSArray *customerArray, NSArray *brContractArray, NSError *error) {
         [RzAlertView CloseWaitAlert];
         if (!error) {
-
             weakself.checkDataArray = [[NSMutableArray alloc]initWithArray:customerArray];
+            if (indexpathSection == -2) {   // 批量支付
+                [weakself.tableView reloadData];
 
-            NSIndexSet *indexset = [[NSIndexSet alloc]initWithIndex:indexpathSection];
-            [weakself.tableView reloadSections:indexset withRowAnimation:UITableViewRowAnimationLeft];
+                // 设置批量支付的各种状态
+                [self setcancleOrder];
+            }
+            else {
+                NSIndexSet *indexset = [[NSIndexSet alloc]initWithIndex:indexpathSection];
+                [weakself.tableView reloadSections:indexset withRowAnimation:UITableViewRowAnimationLeft];
+            }
         }
         else {
             [RzAlertView showAlertLabelWithTarget:weakself.view Message:@"刷新失败，请检查网络后重试" removeDelay:2];
@@ -208,6 +208,21 @@
     }];
 }
 
+#warning 单位预约取消订单
+//  取消订单的设置 刷新过后的状态ßß
+- (void)setcancleOrder
+{
+    countForPayMoneySum = 0;
+    for (CustomerTest *cus in _checkDataArray) {
+        if (cus.payMoney <=0 && [cus.testStatus isEqualToString:@"-1"]) {
+            countForPayMoneySum++;
+        }
+    }
+    piliangzhifuView.allCount = countForPayMoneySum;
+    // 如果批量支付的界面当前已经显示了，则需要关闭
+    piliangPayBtn.tag = 1;
+    [self rightBtnClicked:piliangPayBtn];
+}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return _checkDataArray.count;
@@ -302,8 +317,34 @@
 - (void)setPCheckViewData
 {
 #warning 获取单价
-    // 设置单价，交钱的人数
-    [piliangzhifuView setMoney:1 count:_selectedListDic.count];
+    // 获取总价
+    NSArray *index = [_selectedListDic allKeys];
+    float money = 0;
+    BOOL flag = YES;
+    for (NSNumber *i in index) {
+        if (((CustomerTest *)_checkDataArray[[i integerValue]]).needMoney <= 0) {
+            flag = NO;
+            NSString *message = [NSString stringWithFormat:@"没有获取到 %@ %@ 的体检单价\n请检查网络后重试", ((CustomerTest *)_checkDataArray[[i integerValue]]).custName, ((CustomerTest *)_checkDataArray[[i integerValue]]).cityName];
+            [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:message ActionTitle:@"重试" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
+                [[HttpNetworkManager getInstance]getCustomerTestChargePriceWithCityName:((CustomerTest *)_checkDataArray[[i integerValue]]).cityName checkType:nil resultBlcok:^(NSString *result, NSError *error) {
+                    if (!error) {
+                        ((CustomerTest *)_checkDataArray[[i integerValue]]).needMoney = [result floatValue];
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self setPCheckViewData];
+                    });
+                }];
+            }];
+        }
+        else {
+            money += ((CustomerTest *)_checkDataArray[[i integerValue]]).needMoney;
+        }
+    }
+    if (flag) {
+        // 设置单价，交钱的人数
+        [piliangzhifuView setMoney:money count:_selectedListDic.count];
+    }
+
 }
 #pragma mark -取消预约，在线支付，付款
 - (void)cancelAppointBtnClicked:(UIButton *)sender
@@ -384,9 +425,19 @@
     NSArray *index = [_selectedListDic allKeys];
     NSMutableArray *customers = [[NSMutableArray alloc]init];
     for (NSNumber *i in index) {
-        [customers addObject:((CustomerTest *)_checkDataArray[[i integerValue]]).custName];
+        [customers addObject:(CustomerTest *)_checkDataArray[[i integerValue]]];
     }
-    NSLog(@"需要付款的人的编号：%@", customers);
+    if(customers.count == 0)
+    {
+        [RzAlertView showAlertLabelWithMessage:@"请选择支付对象" removewDelay:2];
+        return;
+    }
+    PayMoneyController *pay = [[PayMoneyController alloc]init];
+    pay.chargetype = BatchCharge;
+    pay.delegate = self;
+    pay.CustomerTestArray = customers;
+    payIndexPathSection = -2;
+    [self.navigationController pushViewController:pay animated:YES];
 }
 // 全选
 - (void)selectAll{
