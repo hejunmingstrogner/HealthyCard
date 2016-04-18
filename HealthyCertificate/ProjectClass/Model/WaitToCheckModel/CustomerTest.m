@@ -110,27 +110,6 @@
                     item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld天%ld小时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.servicePoint.startTime/1000], self.servicePoint.address];
                 }
             }
-            
-            
-//            if (self.checkSiteID == nil){
-//                
-//                NSDateComponents* cp = [NSDate getInternalDateFrom:[NSDate formatDateFromChineseString:[[NSDate date] formatDateToChineseString]] To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regBeginDate/1000]];
-//                item.warmingText = [NSString stringWithFormat:@"    离您预约的时间还有%ld天,我们将尽快安排体检车上门服务。", cp.day];
-//            }else{
-//                //服务点预约
-//                NSDateComponents* cp;
-//                if (_servicePoint.type == 0){
-//                    //固定
-//                    cp = [NSDate getInternalDateFrom:[NSDate date]
-//                                                                    To:[[NSDate alloc] initWithTimeIntervalSince1970:self.regTime/1000]];
-//                    item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.regTime/1000], self.servicePoint.address];
-//                }else{
-//                    //移动
-//                    cp = [NSDate getInternalDateFrom:[NSDate date]
-//                                                                    To:[[NSDate alloc] initWithTimeIntervalSince1970:self.servicePoint.startTime/1000]];
-//                    item.warmingText = [NSString stringWithFormat:@"   离您体检还有%ld日%ld时,请于%@到%@按时进行办证体检，以免影响您的工作!", cp.day, cp.hour, [NSDate converLongLongToChineseStringDate:self.servicePoint.startTime/1000], self.servicePoint.address];
-//                }
-//            }
             break;
         }
         case 1:
@@ -139,7 +118,7 @@
             item.centerText = @"在检";
             item.rigthText = @"待出证";
             item.status = CENTER_STATUS;
-            if (self.checkSiteID == nil){
+            if (self.servicePoint.type == 1){
                 item.warmingText = [NSString stringWithFormat:@"请在%@完成抽血等各项检查，并到体检车（车牌号：%@，%@）进行胸透。离拿到健康证还有7天。", self.servicePoint.address,self.servicePoint.brOutCheckArrange.plateNo, self.servicePoint.brOutCheckArrange.vehicleInfo];
             }else{
                 item.warmingText = [NSString stringWithFormat:@"请到指定地点完成各项检查。离拿到健康证还有7天。"];
