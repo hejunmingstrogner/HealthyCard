@@ -30,8 +30,6 @@
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-BOOL _isRegisterUnited;
-
 @implementation PostVeitifyViewController
 {
     PostVeitifyPicInfoView      *_businessCard;
@@ -125,32 +123,32 @@ BOOL _isRegisterUnited;
 #pragma mark - Action
 -(void)regBtnClicked:(UIButton*)sender
 {
-    if (_businessCard.image == nil){
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请上传营业执照" removeDelay:2];
-        return;
-    }
-    
-    if (_idCard.image == nil){
-        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请上传身份证" removeDelay:2];
-        return;
-    }
-    [RzAlertView ShowWaitAlertWithTitle:@"上传审核信息中"];
+//    if (_businessCard.image == nil){
+//        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请上传营业执照" removeDelay:2];
+//        return;
+//    }
+//    
+//    if (_idCard.image == nil){
+//        [RzAlertView showAlertLabelWithTarget:self.view Message:@"请上传身份证" removeDelay:2];
+//        return;
+//    }
+    [RzAlertView ShowWaitAlertWithTitle:@"上传信息中"];
 
     [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(delayMethod) userInfo:nil repeats:NO];
 }
 
 -(void)delayMethod
 {
-    [[HttpNetworkManager getInstance] createOrUpdateBRServiceInformationwithInfor:_brServiceUnit.mj_keyValues resultBlock:^(BOOL successed, NSError *error) {
-        [RzAlertView CloseWaitAlert];
-        if (successed){
-            //返回根界面
-            _isRegisterUnited = YES;
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }else{
-            [RzAlertView showAlertLabelWithTarget:self.view Message:@"注册失败" removeDelay:2];
-        }
-    }];
+    [self reloadLoginInfo];
+//    [[HttpNetworkManager getInstance] createOrUpdateBRServiceInformationwithInfor:_brServiceUnit.mj_keyValues resultBlock:^(BOOL successed, NSError *error) {
+//        [RzAlertView CloseWaitAlert];
+//        if (successed){
+//            //返回根界面
+//            [self.navigationController popToRootViewControllerAnimated:YES];
+//        }else{
+//            [RzAlertView showAlertLabelWithTarget:self.view Message:@"注册失败" removeDelay:2];
+//        }
+//    }];
 }
 
 -(void)backToPre:(UIButton*)sender
@@ -159,6 +157,36 @@ BOOL _isRegisterUnited;
 }
 
 #pragma mark - Private Methods
+-(void)reloadLoginInfo
+{
+    [[HttpNetworkManager getInstance] createOrUpdateBRServiceInformationwithInfor:_brServiceUnit.mj_keyValues resultBlock:^(BOOL successed, NSError *error) {
+        [RzAlertView CloseWaitAlert];
+        if (successed){
+            //返回根界面
+            
+            //获取登录信息 返回根界面
+            [[HttpNetworkManager getInstance] findUserInfoByPhone:GetUserName resultBlock:^(NSDictionary *result, NSError *error) {
+                if (error || result == nil){
+                    SetUserName(@"");
+                    SetToken(@"");
+                    SetUserRole(@"");
+                    [RzAlertView showAlertLabelWithTarget:self.view Message:@"注册失败" removeDelay:2];
+                    return;
+                }
+                
+                NSDictionary* unitInfo = [result objectForKey:@"unitInfo"];
+                gUnitInfo = [BRServiceUnit mj_objectWithKeyValues:unitInfo];
+                
+                NSDictionary* personalInfo = [result objectForKey:@"customer"];
+                gCustomer = [Customer mj_objectWithKeyValues:personalInfo];
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }];
+        }else{
+            [RzAlertView showAlertLabelWithTarget:self.view Message:@"注册失败" removeDelay:2];
+        }
+    }];
+}
+
 - (UIImage *)reSizeImage:(UIImage *)image toSize:(CGSize)reSize
 {
     UIGraphicsBeginImageContext(CGSizeMake(reSize.width, reSize.height));

@@ -51,6 +51,10 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     [self initNavgation];
     
     [self initSubViews];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     
     [self getData];
 }

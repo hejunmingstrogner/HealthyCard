@@ -48,7 +48,11 @@
     [self initNavgation];
 
     [self initSubviews];
+}
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
     [self getdata];
 }
 
