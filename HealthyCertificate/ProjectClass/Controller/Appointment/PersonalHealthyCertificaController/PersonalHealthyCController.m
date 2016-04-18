@@ -710,6 +710,7 @@
            CustomerTest* customerTest = [CustomerTest mj_objectWithKeyValues:result];
            _customerTestInfo = customerTest;
            [self initData];
+           self.navigationItem.rightBarButtonItem = nil;
        }
    }];
 }

@@ -72,7 +72,7 @@ extern NSString *gCurrentCityName;  // 当前城市名字
 
 extern BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送过定位信息
 
-extern BOOL   gIsCheckedUpdate; //判断是否已经更新
+//extern BOOL   gIsCheckedUpdate; //判断是否已经更新
 
 //调试222.18.159.34
 //#define WebServiceHttpBaseUrl @"http://222.18.159.34:8080/webserver/webservice/"

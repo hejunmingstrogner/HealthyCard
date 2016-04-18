@@ -28,6 +28,7 @@
 #import "CloudAppointmentViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
 #import "OutCheckSiteHeaderView.h"
+#import "FixedSiteHeaderView.h"
 
 
 
@@ -37,9 +38,6 @@
 
 
 @implementation ServicePointApointmentViewController
-{
-    BOOL            _isOurcheckSite;
-}
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -65,8 +63,6 @@
         
     }else{
         UITableView* tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
-        _isOurcheckSite = ((ServersPositionAnnotionsModel*)_serverPointList[0]).type == 0 ? NO :YES;
-        
         [self.view addSubview:tableView];
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -178,7 +174,12 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return PXFIT_HEIGHT(20) + (_isOurcheckSite?PXFIT_HEIGHT(50):0);
+    ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[section];
+    if (serverPoint.type == 0 && (serverPoint.checkMode & 4) == 0){
+        return PXFIT_HEIGHT(20);
+    }else{
+        return PXFIT_HEIGHT(20) + PXFIT_HEIGHT(50);
+    }
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section{
@@ -186,21 +187,33 @@
 }
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (_isOurcheckSite == NO){
+    ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[section];
+    if (serverPoint.type == 0 && (serverPoint.checkMode & 4) == 0){
         return nil;
     }
+    
     UITableViewHeaderFooterView* containerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
     if (!containerView){
         containerView = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"headerview"];
         ServersPositionAnnotionsModel* serverPoint = (ServersPositionAnnotionsModel*)_serverPointList[section];
-        OutCheckSiteHeaderView* outCheckSiteHeaderView = [[OutCheckSiteHeaderView alloc] init];
-        outCheckSiteHeaderView.countPeople = serverPoint.maxNum - serverPoint.oppointmentNum;
-        outCheckSiteHeaderView.appointmentCount = serverPoint.oppointmentNum;
-        [containerView addSubview:outCheckSiteHeaderView];
-        [outCheckSiteHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.bottom.equalTo(containerView);
-            make.height.mas_equalTo(PXFIT_HEIGHT(50));
-        }];
+        
+        if (serverPoint.type == 0){
+            FixedSiteHeaderView* fixedSiteHeaderView = [[FixedSiteHeaderView alloc] init];
+            [containerView addSubview:fixedSiteHeaderView];
+            [fixedSiteHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.bottom.equalTo(containerView);
+                make.height.mas_equalTo(PXFIT_HEIGHT(50));
+            }];
+        }else{
+            OutCheckSiteHeaderView* outCheckSiteHeaderView = [[OutCheckSiteHeaderView alloc] init];
+            outCheckSiteHeaderView.countPeople = serverPoint.maxNum - serverPoint.oppointmentNum;
+            outCheckSiteHeaderView.appointmentCount = serverPoint.oppointmentNum;
+            [containerView addSubview:outCheckSiteHeaderView];
+            [outCheckSiteHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.bottom.equalTo(containerView);
+                make.height.mas_equalTo(PXFIT_HEIGHT(50));
+            }];
+        }
     }
     return containerView;
 }

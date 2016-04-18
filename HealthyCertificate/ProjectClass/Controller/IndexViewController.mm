@@ -40,7 +40,7 @@
 #import "UnitHistoryController.h"
 
 NSString *gCurrentCityName;
-BOOL   gIsCheckedUpdate; //判断是否已经更新
+//BOOL   gIsCheckedUpdate; //判断是否已经更新
 
 @interface IndexViewController ()<UserinfromationControllerDelegate>
 
@@ -86,39 +86,26 @@ BOOL   gIsCheckedUpdate; //判断是否已经更新
         [self getCheckListData];
         [self initLeftViews];    // 初始化左侧菜单
     }
-    
-    if (gIsCheckedUpdate == NO){
-        [self onCheckVersion];
-        gIsCheckedUpdate = YES;
-    }
-//
-//    CustomButton *custbtn = [CustomButton buttonWithType:UIButtonTypeCustom];
-//    custbtn.frame = self.view.frame;
-//    [self.view addSubview:custbtn];
-//    [custbtn addClickedBlock:^(UIButton * _Nonnull sender) {
-//        CompanySearchViewController *com = [[CompanySearchViewController alloc]init];
-//        [self.navigationController pushViewController:com animated:YES];
-//    }];
 }
 
 //版本更新
--(void)onCheckVersion
-{
-    [[HttpNetworkManager getInstance] checkVersionWithResultBlock:^(BOOL result, NSError *error) {
-        
-        if (result == YES){
-            //提示用户更新
-            [RzAlertView showAlertViewControllerWithTarget:self Title:@"提醒" Message:@"发现新版本，更新将带来更好的用户体检" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"更新" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
-                //回调  flag ＝ 1 执行action，flag ＝ 0 执行取消
-                if (flag == 1){
-                    //更新 444934666 1093442955
-                    NSString *appStoreLink = [NSString stringWithFormat:@"http://itunes.apple.com/cn/app/id%@",@"1093442955"];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appStoreLink]];
-                }
-            }];
-        }
-    }];
-}
+//-(void)onCheckVersion
+//{
+//    [[HttpNetworkManager getInstance] checkVersionWithResultBlock:^(BOOL result, NSError *error) {
+//        
+//        if (result == YES){
+//            //提示用户更新
+//            [RzAlertView showAlertViewControllerWithTarget:self Title:@"提醒" Message:@"发现新版本，更新将带来更好的用户体检" preferredStyle:UIAlertControllerStyleAlert ActionTitle:@"更新" Actionstyle:UIAlertActionStyleDestructive cancleActionTitle:@"取消" handle:^(NSInteger flag) {
+//                //回调  flag ＝ 1 执行action，flag ＝ 0 执行取消
+//                if (flag == 1){
+//                    //更新 444934666 1093442955
+//                    NSString *appStoreLink = [NSString stringWithFormat:@"http://itunes.apple.com/cn/app/id%@",@"1093442955"];
+//                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appStoreLink]];
+//                }
+//            }];
+//        }
+//    }];
+//}
 
 - (void)getCheckListData
 {
