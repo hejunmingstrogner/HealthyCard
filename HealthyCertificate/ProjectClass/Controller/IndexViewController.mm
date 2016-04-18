@@ -39,8 +39,6 @@
 #import "PersonalAppointmentVC.h"
 #import "UnitHistoryController.h"
 
-//#import "CompanySearchViewController.h"
-
 NSString *gCurrentCityName;
 BOOL   gIsCheckedUpdate; //判断是否已经更新
 
