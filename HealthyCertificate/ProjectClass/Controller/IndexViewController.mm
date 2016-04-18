@@ -39,7 +39,6 @@
 #import "PersonalAppointmentVC.h"
 #import "UnitHistoryController.h"
 
-
 NSString *gCurrentCityName;
 //BOOL   gIsCheckedUpdate; //判断是否已经更新
 
@@ -87,11 +86,11 @@ NSString *gCurrentCityName;
         [self getCheckListData];
         [self initLeftViews];    // 初始化左侧菜单
     }
-    
 //    if (gIsCheckedUpdate == NO){
 //        [self onCheckVersion];
 //        gIsCheckedUpdate = YES;
 //    }
+
 }
 
 //版本更新

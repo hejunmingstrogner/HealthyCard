@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, chargetype) {
     CUSTOMERTEST = 2,           //个人体检支付
     BRCONTRACT = 3,             //合同支付
     WeixinQRCode = 4,           //微信扫码支付
-    BatchCharge                 //批量支付
+    BatchCharge = 5             //批量支付
 };
 
 

@@ -7,6 +7,8 @@
 //
 
 #import "CustomerTest.h"
+#import "HttpNetworkManager.h"
+#import "RzAlertView.h"
 
 #import "NSDate+Custom.h"
 
@@ -198,4 +200,39 @@
             return NO;
     }
 }
+
+// 获得应付金额
+- (void)getNeedMoneyWhenPayFor
+{
+    // 设置价格
+    if (_needMoney > 0) {
+        return;
+    }
+    // 如果已经付款，或者现在不能付款，则不需要价格
+    if (![self isNeedToPay]) {
+        _needMoney = 0;
+        return;
+    }
+    // 获得单价
+    [[HttpNetworkManager getInstance]getCustomerTestChargePriceWithCityName:_cityName checkType:nil resultBlcok:^(NSString *result, NSError *error) {
+        if (!error) {
+            _needMoney = [result floatValue];
+        }
+        else {
+            _needMoney = 0;
+        }
+    }];
+}
+
+// 是否需要去付款 Yes:需要去付款   No,已经付款或者体检了，不需要去付款了
+- (BOOL)isNeedToPay{
+    if(self.payMoney > 0){
+        return NO;
+    }
+    if (![self.testStatus isEqualToString:@"-1"]) {
+        return NO;
+    }
+    return YES;
+}
+
 @end

@@ -23,9 +23,10 @@
 #import "BaseTBCellItem.h"
 #import "PayInfoViewCell.h"
 #import "PayTypeViewCell.h"
-#import "ChargeType.h"
 #import "QRController.h"
-
+#import "CustomerTest.h"
+#import "ChargeParameter.h"
+#import "ETDetail.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 @interface PayMoneyController ()<UITableViewDataSource, UITableViewDelegate>
@@ -90,7 +91,16 @@
     BaseTBCellItem *item4 = [[BaseTBCellItem alloc]initWithImage:[UIImage imageNamed:@"daifukuan"] title:@"找人代付" detial:@"让他人扫描二维码替您支付" cellStyle:STYLE_DAIFUKUAN flag:0];
     _dataArray = [[NSMutableArray alloc]initWithObjects:item0, item1, item2, item3, item4, nil];
 
-    [self getCityPrice];
+    if(self.chargetype == BatchCharge){
+        float amountMoney = 0;
+        for (CustomerTest *customertest in _CustomerTestArray) {
+            amountMoney += customertest.needMoney;
+        }
+        self.money = [NSString stringWithFormat:@"%f", amountMoney];
+    }
+    else {
+        [self getCityPrice];
+    }
 }
 
 - (void)getCityPrice
@@ -163,7 +173,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEADERIMAGE) {
-        return PXFIT_HEIGHT(332);
+//        return PXFIT_HEIGHT(332);
+        return self.view.frame.size.width * 161 /360;
     }
     else if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEATHYCINFO){
         return 75;
@@ -181,22 +192,22 @@
             make.edges.equalTo(cell);
         }];
         imageview.image = [UIImage imageNamed:@"payhead"];
-
-        UIImageView *moneyView = [[UIImageView alloc]init];
-        [cell addSubview:moneyView];
-        moneyView.image = [UIImage imageNamed:@"moneybg"];
-        [moneyView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(cell);
-            make.height.width.mas_equalTo(PXFIT_HEIGHT(322)/2.5);
-        }];
-
-        UILabel *moneylabel = [[UILabel alloc]init];
-        [cell addSubview:moneylabel];
-        moneylabel.textAlignment = NSTextAlignmentCenter;
-        [moneylabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(moneyView);
-        }];
-        [moneylabel setText:@"¥" textFont:[UIFont fontWithType:UIFontOpenSansRegular size:18] WithEndText:_money endtextFont:[UIFont fontWithType:UIFontOpenSansRegular size:21] textcolor:[UIColor whiteColor]];
+//
+//        UIImageView *moneyView = [[UIImageView alloc]init];
+//        [cell addSubview:moneyView];
+//        moneyView.image = [UIImage imageNamed:@"moneybg"];
+//        [moneyView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.center.equalTo(cell);
+//            make.height.width.mas_equalTo(PXFIT_HEIGHT(322)/2.5);
+//        }];
+//
+//        UILabel *moneylabel = [[UILabel alloc]init];
+//        [cell addSubview:moneylabel];
+//        moneylabel.textAlignment = NSTextAlignmentCenter;
+//        [moneylabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(moneyView);
+//        }];
+//        [moneylabel setText:@"¥" textFont:[UIFont fontWithType:UIFontOpenSansRegular size:18] WithEndText:_money endtextFont:[UIFont fontWithType:UIFontOpenSansRegular size:21] textcolor:[UIColor whiteColor]];
         return cell;
     }
     else if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEATHYCINFO){
@@ -260,6 +271,10 @@
                     channel = @"upacp";
                     break;
                 case STYLE_DAIFUKUAN:{
+                    if (self.chargetype == BatchCharge) {
+                        [RzAlertView showAlertViewControllerWithTarget:self Title:@"提示" Message:@"批量支付中暂不支持他人代付" ActionTitle:@"明白了" ActionStyle:UIAlertActionStyleDefault];
+                        return;
+                    }
                     // 他人代付
                     [self letOthersPay];
                     return;
@@ -271,34 +286,84 @@
             if (channel == nil) {
                 return;
             }
+            // 批量支付
+            if (self.chargetype == BatchCharge) {
+                [self payMoneyByBatchCharge:channel];
+            }
+            else {  // 个人支付
+                [self payMoneyByOneSelf:channel];
+            }
 
-            ChargeParameter *param = [[ChargeParameter alloc]init];
-            param.amount = [_money floatValue] *100;
-            param.channel = channel;
-            param.subject = @"健康证在线";
-            param.body = @"健康证在线是专注于为从业人员提供在线一键办证服务的平台，实现医疗机构和从业人员的无缝对接";
-            param.businessObj.enumType = _chargetype;
-            param.businessObj.checkCode = _checkCode;
-            __weak typeof (self) weakself = self;
-            [[HttpNetworkManager getInstance]payMoneyWithChargeParameter:param viewController:self resultBlock:^(NSString *result, NSError *error) {
-                if (!error) {
-                    if ([result isEqualToString:@"success"]) {
-                        [weakself paySuccessed];
-                    }
-                }
-                else{
-                    if([result isEqualToString:@"cancel"]){
-                        [weakself payCancel];
-                    }
-                    else{
-                        [weakself payFail:error result:result];
-                    }
-                }
-            }];
             return;
         }
     }
 }
+// 个人支付
+- (void)payMoneyByOneSelf:(NSString *)channel{
+    ChargeBusinessForCustomerTest *businessobj = [[ChargeBusinessForCustomerTest alloc]init];
+    businessobj.enumType = _chargetype;
+    businessobj.checkCode = _checkCode;
+
+    ChargeParameter *param = [[ChargeParameter alloc]init];
+    param.amount = [_money floatValue] *100;
+    param.channel = channel;
+    param.subject = @"健康证在线";
+    param.body = @"健康证在线是专注于为从业人员提供在线一键办证服务的平台，实现医疗机构和从业人员的无缝对接";
+    param.businessObj = businessobj;
+    __weak typeof (self) weakself = self;
+    [[HttpNetworkManager getInstance]payMoneyWithChargeParameter:param viewController:self resultBlock:^(NSString *result, NSError *error) {
+        if (!error) {
+            if ([result isEqualToString:@"success"]) {
+                [weakself paySuccessed];
+            }
+        }
+        else{
+            if([result isEqualToString:@"cancel"]){
+                [weakself payCancel];
+            }
+            else{
+                [weakself payFail:error result:result];
+            }
+        }
+    }];
+}
+// 批量支付
+- (void)payMoneyByBatchCharge:(NSString *)channel
+{
+    ChargeBusinessObjForBatch *business = [[ChargeBusinessObjForBatch alloc]init];
+    business.details = [[NSMutableArray alloc]init];
+    for (CustomerTest *test in _CustomerTestArray) {
+        ETDetail *detail = [[ETDetail alloc]init];
+        detail.hostType = BatchCharge;
+        detail.hostCode = test.checkCode;
+        detail.payMoney = test.needMoney;
+        [business.details addObject:detail];
+    }
+    ChargeParameter *param = [[ChargeParameter alloc]init];
+    param.amount = [_money floatValue] *100;
+    param.channel = channel;
+    param.subject = @"健康证在线";
+    param.body = @"健康证在线是专注于为从业人员提供在线一键办证服务的平台，实现医疗机构和从业人员的无缝对接";
+    param.businessObj = business;
+    __weak typeof (self) weakself = self;
+    [[HttpNetworkManager getInstance]payMoneyWithChargeParameter:param viewController:self resultBlock:^(NSString *result, NSError *error) {
+        if (!error) {
+            if ([result isEqualToString:@"success"]) {
+                [weakself paySuccessed];
+            }
+        }
+        else{
+            if([result isEqualToString:@"cancel"]){
+                [weakself payCancel];
+            }
+            else{
+                [weakself payFail:error result:result];
+            }
+        }
+    }];
+
+}
+
 #pragma mark - 找他人代付
 // 他人支付
 - (void)letOthersPay

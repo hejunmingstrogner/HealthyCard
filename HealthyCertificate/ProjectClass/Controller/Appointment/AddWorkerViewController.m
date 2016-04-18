@@ -329,8 +329,8 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if(((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest){
-        // 如果已经交钱，或者已经在体检或者体检完成，则不能去掉勾选
-        if(((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest.payMoney > 0 || ![((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest.testStatus isEqualToString:@"-1"] ){
+        // 如果 不需要交钱 即  已经交钱，或者已经在体检或者体检完成，则不能去掉勾选
+        if(![((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest isNeedToPay]){
             NSString *messga =[NSString stringWithFormat:@"%@的预约不能被修改",((AddWorkerCellItem *)_workersArray[indexPath.row]).customerTest.custName];
             [RzAlertView showAlertLabelWithTarget:self.view Message:messga removeDelay:2];
             return;
