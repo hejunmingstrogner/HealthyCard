@@ -64,6 +64,7 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
         _manager = [[AFHTTPRequestOperationManager alloc] init];
         //_manager.requestSerializer = [NSSet setWithArray:@[@"text/plain",@"text/html",@"text/json"]];
         _manager.requestSerializer=[AFJSONRequestSerializer serializer];
+        _manager.requestSerializer.timeoutInterval = 10.0f;
        // _manager.responseSerializer = [AFJSONRequestSerializer serializer];
         _manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", nil];;
     }
@@ -74,6 +75,7 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
 {
     if (_sharedClient == nil) {
         _sharedClient = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:AFHTTPRequestOperationBaseURLString]];
+        _sharedClient.requestSerializer.timeoutInterval = 10.0f;
         _sharedClient.requestSerializer = [AFJSONRequestSerializer serializer];
         _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
         _sharedClient.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/json", @"text/html", nil];
@@ -85,6 +87,7 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
 {
     if (_ssosHttpManager == nil) {
         _ssosHttpManager = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:AFHTTPRequestOperationSSOSBaseURLString]];
+        _ssosHttpManager.requestSerializer.timeoutInterval = 10.0f;
         _ssosHttpManager.requestSerializer = [AFJSONRequestSerializer serializer];
         _ssosHttpManager.responseSerializer = [AFJSONResponseSerializer serializer];
         _ssosHttpManager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/json", @"text/html", nil];

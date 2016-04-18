@@ -39,6 +39,8 @@
 #import "PersonalAppointmentVC.h"
 #import "UnitHistoryController.h"
 
+//#import "CompanySearchViewController.h"
+
 NSString *gCurrentCityName;
 //BOOL   gIsCheckedUpdate; //判断是否已经更新
 
@@ -86,6 +88,14 @@ NSString *gCurrentCityName;
         [self getCheckListData];
         [self initLeftViews];    // 初始化左侧菜单
     }
+
+//    CustomButton *btn = [CustomButton buttonWithType:UIButtonTypeSystem];
+//    [self.view addSubview:btn];
+//    btn.frame = self.view.frame;
+//    [btn addClickedBlock:^(UIButton * _Nonnull sender) {
+//        CompanySearchViewController *search = [[CompanySearchViewController alloc]init];
+//        [self.navigationController pushViewController:search animated:YES];
+//    }];
 }
 
 //版本更新
