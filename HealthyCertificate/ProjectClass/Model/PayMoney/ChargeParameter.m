@@ -14,7 +14,6 @@
 {
     if (self = [super init]) {
         self.currency = @"cny";
-        self.businessObj = [[ChargeBusinessForCustomerTest alloc]init];
     }
     return self;
 }

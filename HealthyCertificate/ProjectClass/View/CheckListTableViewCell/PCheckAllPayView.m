@@ -65,14 +65,16 @@
         make.centerY.equalTo(selectedImageView);
         make.left.equalTo(selectedImageView.mas_right);
         make.width.equalTo(@50);
-        make.height.equalTo(@40);
+        make.top.bottom.equalTo(self);
     }];
+    selectBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
     [selectBtn setTitle:@"全选" forState:UIControlStateNormal];
 
     payMoneyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [payMoneyBtn setTitle:@"去支付" forState:UIControlStateNormal];
     [payMoneyBtn setBackgroundColor:[UIColor redColor]];
     [payMoneyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    payMoneyBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:17];
     [payMoneyBtn addTarget:self action:@selector(payMoneyClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:payMoneyBtn];
     [payMoneyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -82,10 +84,10 @@
 
     moneyLabel = [[UILabel alloc]init];
     [self addSubview:moneyLabel];
-    moneyLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:18];
+    moneyLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
     [moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(self);
-        make.left.equalTo(selectBtn.mas_right).offset(20);
+        make.left.equalTo(selectBtn.mas_right).offset(5);
         make.right.equalTo(payMoneyBtn.mas_left).offset(-5);
     }];
     moneyLabel.text = [NSString stringWithFormat:@"合计: ¥%.2f", _money * _count];
@@ -116,7 +118,7 @@
 {
     _money = money;
     _count = count;
-    moneyLabel.text = [NSString stringWithFormat:@"合计: ¥%.2f", money * count];
+    moneyLabel.text = [NSString stringWithFormat:@"合计: ¥%.2f", money];
 
     if (count == 0) {
         [payMoneyBtn setTitle:@"去支付" forState:UIControlStateNormal];
