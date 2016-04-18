@@ -586,7 +586,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     [backBtn addTarget:self action:@selector(backToPre:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backitem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     self.navigationItem.leftBarButtonItem = backitem;
-    self.title = _sercersPositionInfo == nil ? @"自建服务点":_sercersPositionInfo.name;
+    self.title = _sercersPositionInfo == nil ? @"自建体检点":_sercersPositionInfo.name;
 }
 
 - (void)backToPre:(UIButton*)sender
@@ -892,9 +892,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(Cell_Font)];
             cell.textLabel.textColor = [UIColor blackColor];
             if (indexPath.section == 0){
-                cell.textLabel.text = @"体检态势";
+                cell.textLabel.text = @"扫码签到";
             }else{
-                cell.textLabel.text = @"二维码";
+                cell.textLabel.text = @"体检员工";
             }
             return cell;
         }
@@ -962,7 +962,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     switch (tableView.tag) {
         case TABLEVIEW_BASEINFO:
         {
-            if (indexPath.section == 0){
+            if (indexPath.section == 1){
                 StaffStateViewController* staffStateVC = [[StaffStateViewController alloc] init];
                 staffStateVC.contractCode = _brContract.code;
                 [self.navigationController pushViewController:staffStateVC animated:YES];
