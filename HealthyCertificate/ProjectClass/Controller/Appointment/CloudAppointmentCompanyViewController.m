@@ -167,7 +167,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _sercersPositionInfo = sercersPositionInfo;
     _location = sercersPositionInfo.address;
     if (sercersPositionInfo.type == 0) {
-        _appointmentDateStr = [NSString stringWithFormat:@"%@,08:00", [[NSDate date] getDateStringWithInternel:1]];
+//        _appointmentDateStr = [NSString stringWithFormat:@"%@,08:00", [[NSDate date] getDateStringWithInternel:1]];
+        _appointmentDateStr = [NSString stringWithFormat:@"%@,%@:00", [[NSDate date] getDateStringWithInternel:1], [[[NSDate alloc] initWithTimeIntervalSince1970:sercersPositionInfo.startTime/1000] getHour]];
         _isTemperaryPoint = NO;
     }
     else {
@@ -658,7 +659,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     if (_isTodoTask){
         //如果是待处理项
         if (_brContract.servicePoint != nil){
-            if (customercount > _brContract.servicePoint.maxNum - _brContract.servicePoint.oppointmentNum){
+            if (customercount > _brContract.servicePoint.maxNum - _brContract.servicePoint.oppointmentNum && _brContract.servicePoint.type == 1){
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"服务点预约人数过多" removeDelay:3];
                 return ;
             }
@@ -685,7 +686,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }
         else
         {
-            if(customercount > _sercersPositionInfo.maxNum - _sercersPositionInfo.oppointmentNum){
+            if(customercount > _sercersPositionInfo.maxNum - _sercersPositionInfo.oppointmentNum && _sercersPositionInfo.type == 1){
                 [RzAlertView showAlertLabelWithTarget:self.view Message:@"服务点预约人数过多" removeDelay:3];
                 return ;
             }
@@ -894,7 +895,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             if (indexPath.section == 0){
                 cell.textLabel.text = @"扫码签到";
             }else{
-                cell.textLabel.text = @"体检员工";
+                cell.textLabel.text = @"体检态势";
             }
             return cell;
         }

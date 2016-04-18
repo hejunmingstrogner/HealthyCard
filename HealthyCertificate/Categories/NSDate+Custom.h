@@ -124,4 +124,12 @@
  */
 -(NSDate*)nextYear;
 
+
+/**
+ *  获得 当前日期的 小时数
+ *
+ *  @return 当前日期的小时数
+ */
+-(NSString*)getHour;
+
 @end
