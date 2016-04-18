@@ -276,7 +276,8 @@
         make.left.right.equalTo(containView);
         make.height.mas_equalTo(44);
     }];
-    if (_customerTestInfo.payMoney <= 0 && [_customerTestInfo.testStatus isEqualToString:@"-1"]) {
+    // 需要去支付
+    if ([_customerTestInfo isNeedToPay]) {
         paycell2.detailTextLabel.text = @"在线支付";
         paycell2.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
@@ -662,7 +663,8 @@
 #pragma mark - 支付情况
 - (void)paymoneyClicked:(UIButton *)sender
 {
-    if (_customerTestInfo.payMoney > 0 || ![_customerTestInfo.testStatus isEqualToString:@"-1"]) {
+    // 不需要付款
+    if (![_customerTestInfo isNeedToPay]) {
         return;
     }
     PayMoneyController *pay = [[PayMoneyController alloc]init];

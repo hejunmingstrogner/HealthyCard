@@ -209,12 +209,13 @@
 }
 
 #warning 单位预约取消订单
-//  取消订单的设置 刷新过后的状态ßß
+//  取消订单的设置 刷新过后的状态
 - (void)setcancleOrder
 {
     countForPayMoneySum = 0;
     for (CustomerTest *cus in _checkDataArray) {
-        if (cus.payMoney <=0 && [cus.testStatus isEqualToString:@"-1"]) {
+        // 需要付款
+        if ([cus isNeedToPay]) {
             countForPayMoneySum++;
         }
     }
@@ -260,7 +261,8 @@
     cell.payMoneyBtn.tag = indexPath.section;
     cell.cancelAppointBtn.tag = indexPath.section;
     cell.payMoney = customertest.payMoney;
-    if (![customertest.testStatus isEqualToString:@"-1"] && customertest.payMoney <= 0){
+
+    if (![customertest isNeedToPay]){
         //单位已经统一付钱
         cell.payMoneyBtn.hidden = YES;
     }
@@ -278,7 +280,8 @@
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CustomerTest *customertest = (CustomerTest *)_checkDataArray[indexPath.section];
-    if (customertest.payMoney <= 0 && [customertest.testStatus isEqualToString:@"-1"]) {
+    // 需要去付款
+    if ([customertest isNeedToPay]) {
         return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
     }
     return UITableViewCellEditingStyleNone;
@@ -444,7 +447,7 @@
     [_selectedListDic removeAllObjects];
     for (int i = 0; i < _checkDataArray.count; i++) {
         CustomerTest *customertest = (CustomerTest *)_checkDataArray[i];
-        if (customertest.payMoney <= 0 && [customertest.testStatus isEqualToString:@"-1"]) {
+        if ([customertest isNeedToPay]) {
             NSIndexPath *indexpath = [NSIndexPath indexPathForRow:0 inSection:i];
             [_tableView selectRowAtIndexPath:indexpath animated:YES scrollPosition:UITableViewScrollPositionNone];
             [_selectedListDic setObject:indexpath forKey:[NSNumber numberWithInteger:indexpath.section]];
