@@ -99,6 +99,10 @@
 		255C71F11C8714420074A41B /* SelectCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255C71F01C8714420074A41B /* SelectCompanyViewController.m */; };
 		2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */; };
 		258E2CC21CBFBFCF009A81A0 /* ChargeBusinessObjForBatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 258E2CC11CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.m */; };
+		258E2D461CC4B6F3009A81A0 /* FixedSiteHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 258E2D451CC4B6F3009A81A0 /* FixedSiteHeaderView.m */; };
+		258E2D4A1CC4B7EA009A81A0 /* hotTip@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 258E2D471CC4B7EA009A81A0 /* hotTip@1x.png */; };
+		258E2D4B1CC4B7EA009A81A0 /* hotTip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 258E2D481CC4B7EA009A81A0 /* hotTip@2x.png */; };
+		258E2D4C1CC4B7EA009A81A0 /* hotTip@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 258E2D491CC4B7EA009A81A0 /* hotTip@3x.png */; };
 		25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFE9721C7199610062F9B8 /* RzAlertView.m */; };
 		25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB0D1C72BB300062F9B8 /* HttpNetworkManager.m */; };
 		25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BFEB101C72C70F0062F9B8 /* HCRule.m */; };
@@ -394,6 +398,11 @@
 		2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCNavigationBackButton.m; sourceTree = "<group>"; };
 		258E2CC01CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeBusinessObjForBatch.h; sourceTree = "<group>"; };
 		258E2CC11CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChargeBusinessObjForBatch.m; sourceTree = "<group>"; };
+		258E2D441CC4B6F3009A81A0 /* FixedSiteHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedSiteHeaderView.h; sourceTree = "<group>"; };
+		258E2D451CC4B6F3009A81A0 /* FixedSiteHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixedSiteHeaderView.m; sourceTree = "<group>"; };
+		258E2D471CC4B7EA009A81A0 /* hotTip@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hotTip@1x.png"; sourceTree = "<group>"; };
+		258E2D481CC4B7EA009A81A0 /* hotTip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hotTip@2x.png"; sourceTree = "<group>"; };
+		258E2D491CC4B7EA009A81A0 /* hotTip@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hotTip@3x.png"; sourceTree = "<group>"; };
 		25BFE9711C7199610062F9B8 /* RzAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RzAlertView.h; sourceTree = "<group>"; };
 		25BFE9721C7199610062F9B8 /* RzAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RzAlertView.m; sourceTree = "<group>"; };
 		25BFEB0B1C71C9110062F9B8 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -881,6 +890,9 @@
 		252AB87A1C76E3880085CC14 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				258E2D471CC4B7EA009A81A0 /* hotTip@1x.png */,
+				258E2D481CC4B7EA009A81A0 /* hotTip@2x.png */,
+				258E2D491CC4B7EA009A81A0 /* hotTip@3x.png */,
 				25C070771CA38C1D0098A3FB /* serverPointLogo@1x.png */,
 				25C070781CA38C1D0098A3FB /* serverPointLogo@2x.png */,
 				25C070791CA38C1D0098A3FB /* serverPointLogo@3x.png */,
@@ -1025,6 +1037,8 @@
 				B27B00CF1C8461FE00FBF895 /* ServicePositionCarHeadTableViewCell.m */,
 				2528AEF11CBE1FB1006201DD /* OutCheckSiteHeaderView.h */,
 				2528AEF21CBE1FB1006201DD /* OutCheckSiteHeaderView.m */,
+				258E2D441CC4B6F3009A81A0 /* FixedSiteHeaderView.h */,
+				258E2D451CC4B6F3009A81A0 /* FixedSiteHeaderView.m */,
 			);
 			name = ServicePoint;
 			path = CloudAppointment/ServicePoint;
@@ -1637,6 +1651,7 @@
 			files = (
 				25BFEB491C75BF1F0062F9B8 /* back@3x.png in Resources */,
 				25C070741CA37DE50098A3FB /* phoneIcon@1x.png in Resources */,
+				258E2D4A1CC4B7EA009A81A0 /* hotTip@1x.png in Resources */,
 				254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */,
 				25C070821CA38C1D0098A3FB /* unitLog@3x.png in Resources */,
 				254A8DD21C7D619C00F2EC94 /* Login_Logo@3x.png in Resources */,
@@ -1644,6 +1659,7 @@
 				254A8DA61C7C32B800F2EC94 /* servicePoint@2x.png in Resources */,
 				254A8DAC1C7C380400F2EC94 /* nameIcon@2x.png in Resources */,
 				254502FE1C8FB77000F47F46 /* hclaunchscreen@1x.png in Resources */,
+				258E2D4C1CC4B7EA009A81A0 /* hotTip@3x.png in Resources */,
 				25C070801CA38C1D0098A3FB /* unitLog@1x.png in Resources */,
 				254D95B11C995DA6003B64D4 /* QRScan@3x.png in Resources */,
 				252AB88B1C76E3880085CC14 /* search_icon@2x.png in Resources */,
@@ -1676,6 +1692,7 @@
 				254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */,
 				254A8DA11C7C2CAC00F2EC94 /* message@3x.png in Resources */,
 				254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */,
+				258E2D4B1CC4B7EA009A81A0 /* hotTip@2x.png in Resources */,
 				254A8D9D1C7C2CAC00F2EC94 /* detail@2x.png in Resources */,
 				B27222C01C8FBD37002494EA /* DJRefresh.bundle in Resources */,
 				25C0707D1CA38C1D0098A3FB /* serverPointLogo@1x.png in Resources */,
@@ -1896,6 +1913,7 @@
 				B2436CA61C7B007E00F543E1 /* BRContractTableFootCell.m in Sources */,
 				B221F6211CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m in Sources */,
 				B2FEA8641C7ED5D700106EE8 /* PersonalHealthyCController.m in Sources */,
+				258E2D461CC4B6F3009A81A0 /* FixedSiteHeaderView.m in Sources */,
 				254D95BF1C9F9336003B64D4 /* HCBackgroundColorButton.m in Sources */,
 				25DB64051CACB0A50072C8EF /* RegisterViewController.m in Sources */,
 				25BFE9731C7199610062F9B8 /* RzAlertView.m in Sources */,

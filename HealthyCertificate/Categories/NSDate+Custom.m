@@ -142,4 +142,10 @@
     return nextYear;
 }
 
+-(NSString*)getHour{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH"];
+    return [dateFormatter stringFromDate:self];
+}
+
 @end
