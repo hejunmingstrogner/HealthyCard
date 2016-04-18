@@ -91,7 +91,7 @@ BOOL   gIsCheckedUpdate; //判断是否已经更新
         [self onCheckVersion];
         gIsCheckedUpdate = YES;
     }
-
+//
 //    CustomButton *custbtn = [CustomButton buttonWithType:UIButtonTypeCustom];
 //    custbtn.frame = self.view.frame;
 //    [self.view addSubview:custbtn];
