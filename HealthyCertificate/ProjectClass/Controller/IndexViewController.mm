@@ -914,7 +914,7 @@ NSString *gCurrentCityName;
         }
     }
     // 将可以预约的服务点放前边
-    [fixedPoitnServicePositionsArray addObject:canusePositions];
-    [fixedPoitnServicePositionsArray addObject:cannotuserPositions];
+    [fixedPoitnServicePositionsArray addObjectsFromArray:canusePositions];
+    [fixedPoitnServicePositionsArray addObjectsFromArray:cannotuserPositions];
 }
 @end
