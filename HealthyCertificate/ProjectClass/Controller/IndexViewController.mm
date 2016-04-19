@@ -894,15 +894,27 @@ NSString *gCurrentCityName;
     [fixedPoitnServicePositionsArray removeAllObjects];
     [moveServicePositionsArray removeAllObjects];
 
+    // 将固定服务点的可预约与不可预约的服务点分开
+    NSMutableArray *canusePositions = [[NSMutableArray alloc]init];  // 可以预约  innertype ！＝ 2
+    NSMutableArray *cannotuserPositions = [[NSMutableArray alloc]init]; // 不可预约 ＝ 2（其他机构）
+
     for (ServersPositionAnnotionsModel *point in nearbyServicePositionsArray) {
-        
         if (point.type == 0){
-            [fixedPoitnServicePositionsArray addObject:point];
+            if(point.innerType != 2)
+            {
+                [canusePositions addObject:point];
+            }
+            else {
+                [cannotuserPositions addObject:point];
+            }
         }else if(point.type == 1){   // 移动服务点
             if (point.distance <= 1) {
                 [moveServicePositionsArray addObject:point];
             }
         }
     }
+    // 将可以预约的服务点放前边
+    [fixedPoitnServicePositionsArray addObject:canusePositions];
+    [fixedPoitnServicePositionsArray addObject:cannotuserPositions];
 }
 @end
