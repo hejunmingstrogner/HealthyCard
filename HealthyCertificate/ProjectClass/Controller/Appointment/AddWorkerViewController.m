@@ -88,7 +88,6 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 - (void)getData
 {
     [RzAlertView ShowWaitAlertWithTitle:@"数据获取中..."];
-    _selectWorkerArray = [[NSMutableArray alloc]init];
     _workersArray = [[NSMutableArray alloc]init];
     if(_contarctCode.length != 0){
         // 如果是已经预约过的，则查询获得合同关联的客户
@@ -217,6 +216,9 @@ typedef NS_ENUM(NSInteger, CompanyListTextFiledTag)
 - (void)initSubViews
 {
     self.view.backgroundColor = [UIColor whiteColor];
+
+    _selectWorkerArray = [NSMutableArray arrayWithArray:_selectedWorkerArray];
+
     _comfirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:_comfirmBtn];
     [_comfirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {

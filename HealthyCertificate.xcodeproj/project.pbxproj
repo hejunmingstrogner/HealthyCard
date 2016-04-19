@@ -155,6 +155,13 @@
 		B21721531CB660770066F44E /* UnitHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21721521CB660770066F44E /* UnitHistoryController.m */; };
 		B221F6211CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B221F6201CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m */; };
 		B2220AC31CC4B3FC00BA76FD /* CompanySearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220AC21CC4B3FC00BA76FD /* CompanySearchViewController.m */; };
+		B2220AD81CC6187700BA76FD /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220ACB1CC6187700BA76FD /* TAAbstractDotView.m */; };
+		B2220AD91CC6187700BA76FD /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220ACD1CC6187700BA76FD /* TAAnimatedDotView.m */; };
+		B2220ADA1CC6187700BA76FD /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220ACF1CC6187700BA76FD /* TADotView.m */; };
+		B2220ADB1CC6187700BA76FD /* TAPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220AD11CC6187700BA76FD /* TAPageControl.m */; };
+		B2220ADC1CC6187700BA76FD /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220AD31CC6187700BA76FD /* SDCollectionViewCell.m */; };
+		B2220ADD1CC6187700BA76FD /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220AD51CC6187700BA76FD /* SDCycleScrollView.m */; };
+		B2220ADE1CC6187700BA76FD /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220AD71CC6187700BA76FD /* UIView+SDExtension.m */; };
 		B22F730E1CB608200073FB0E /* HistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B22F730D1CB608200073FB0E /* HistoryModel.m */; };
 		B22F73111CB60F220073FB0E /* PersonalHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22F73101CB60F220073FB0E /* PersonalHistoryController.m */; };
 		B23163C61C9BEF5300377B27 /* ConsumerAgreement.m in Sources */ = {isa = PBXBuildFile; fileRef = B23163C51C9BEF5300377B27 /* ConsumerAgreement.m */; };
@@ -492,6 +499,20 @@
 		B221F6201CA0EF1A005D1CBF /* CompanyHistoryDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyHistoryDetailVC.m; sourceTree = "<group>"; };
 		B2220AC11CC4B3FC00BA76FD /* CompanySearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanySearchViewController.h; sourceTree = "<group>"; };
 		B2220AC21CC4B3FC00BA76FD /* CompanySearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanySearchViewController.m; sourceTree = "<group>"; };
+		B2220ACA1CC6187700BA76FD /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
+		B2220ACB1CC6187700BA76FD /* TAAbstractDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAbstractDotView.m; sourceTree = "<group>"; };
+		B2220ACC1CC6187700BA76FD /* TAAnimatedDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAnimatedDotView.h; sourceTree = "<group>"; };
+		B2220ACD1CC6187700BA76FD /* TAAnimatedDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAnimatedDotView.m; sourceTree = "<group>"; };
+		B2220ACE1CC6187700BA76FD /* TADotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TADotView.h; sourceTree = "<group>"; };
+		B2220ACF1CC6187700BA76FD /* TADotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TADotView.m; sourceTree = "<group>"; };
+		B2220AD01CC6187700BA76FD /* TAPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAPageControl.h; sourceTree = "<group>"; };
+		B2220AD11CC6187700BA76FD /* TAPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAPageControl.m; sourceTree = "<group>"; };
+		B2220AD21CC6187700BA76FD /* SDCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCollectionViewCell.h; sourceTree = "<group>"; };
+		B2220AD31CC6187700BA76FD /* SDCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCollectionViewCell.m; sourceTree = "<group>"; };
+		B2220AD41CC6187700BA76FD /* SDCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCycleScrollView.h; sourceTree = "<group>"; };
+		B2220AD51CC6187700BA76FD /* SDCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCycleScrollView.m; sourceTree = "<group>"; };
+		B2220AD61CC6187700BA76FD /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
+		B2220AD71CC6187700BA76FD /* UIView+SDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDExtension.m"; sourceTree = "<group>"; };
 		B22F730C1CB608200073FB0E /* HistoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryModel.h; sourceTree = "<group>"; };
 		B22F730D1CB608200073FB0E /* HistoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryModel.m; sourceTree = "<group>"; };
 		B22F730F1CB60F220073FB0E /* PersonalHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalHistoryController.h; sourceTree = "<group>"; };
@@ -1177,6 +1198,43 @@
 			path = CompanySearch;
 			sourceTree = "<group>";
 		};
+		B2220AC41CC60FA300BA76FD /* ImageCarouselView */ = {
+			isa = PBXGroup;
+			children = (
+				B2220AC81CC6187700BA76FD /* SDCycleScrollView */,
+			);
+			path = ImageCarouselView;
+			sourceTree = "<group>";
+		};
+		B2220AC81CC6187700BA76FD /* SDCycleScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				B2220AC91CC6187700BA76FD /* PageControl */,
+				B2220AD21CC6187700BA76FD /* SDCollectionViewCell.h */,
+				B2220AD31CC6187700BA76FD /* SDCollectionViewCell.m */,
+				B2220AD41CC6187700BA76FD /* SDCycleScrollView.h */,
+				B2220AD51CC6187700BA76FD /* SDCycleScrollView.m */,
+				B2220AD61CC6187700BA76FD /* UIView+SDExtension.h */,
+				B2220AD71CC6187700BA76FD /* UIView+SDExtension.m */,
+			);
+			path = SDCycleScrollView;
+			sourceTree = "<group>";
+		};
+		B2220AC91CC6187700BA76FD /* PageControl */ = {
+			isa = PBXGroup;
+			children = (
+				B2220ACA1CC6187700BA76FD /* TAAbstractDotView.h */,
+				B2220ACB1CC6187700BA76FD /* TAAbstractDotView.m */,
+				B2220ACC1CC6187700BA76FD /* TAAnimatedDotView.h */,
+				B2220ACD1CC6187700BA76FD /* TAAnimatedDotView.m */,
+				B2220ACE1CC6187700BA76FD /* TADotView.h */,
+				B2220ACF1CC6187700BA76FD /* TADotView.m */,
+				B2220AD01CC6187700BA76FD /* TAPageControl.h */,
+				B2220AD11CC6187700BA76FD /* TAPageControl.m */,
+			);
+			path = PageControl;
+			sourceTree = "<group>";
+		};
 		B22F730B1CB608090073FB0E /* HistoryControllerModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1355,6 +1413,7 @@
 		B2484DB61C71C1E600C0CCBB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B2220AC41CC60FA300BA76FD /* ImageCarouselView */,
 				B2640CD51C7C7D4800721CB5 /* WaitDocResultSelectView */,
 				B2436C991C7AE1AE00F543E1 /* CheckListTableViewCell */,
 				252AB8761C76B9BE0085CC14 /* Appointment */,
@@ -1783,6 +1842,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B27B00E01C84622D00FBF895 /* BaseInfoTableViewCell.m in Sources */,
+				B2220ADD1CC6187700BA76FD /* SDCycleScrollView.m in Sources */,
 				25BFEB401C74A5370062F9B8 /* ServicePointApointmentViewController.m in Sources */,
 				B2D7212F1CA5404C007B1671 /* AddWorkerTBC.m in Sources */,
 				25BFEB1E1C731A630062F9B8 /* StringPacket.m in Sources */,
@@ -1806,6 +1866,7 @@
 				B22F730E1CB608200073FB0E /* HistoryModel.m in Sources */,
 				2512B4151C7056C900EE661B /* UIButton+Easy.m in Sources */,
 				B2436C9C1C7AE1E300F543E1 /* CustomerTestTableViewCell.m in Sources */,
+				B2220AD81CC6187700BA76FD /* TAAbstractDotView.m in Sources */,
 				B27222A91C8EC747002494EA /* PayMoneyController.m in Sources */,
 				B2F8262A1C73143200993F47 /* LeftMenuView.m in Sources */,
 				25BFEB111C72C70F0062F9B8 /* HCRule.m in Sources */,
@@ -1825,6 +1886,7 @@
 				B2D721291CA515FB007B1671 /* WorkManagerTBC.m in Sources */,
 				254A8DD51C7DA0CE00F2EC94 /* NSString+Custom.m in Sources */,
 				2512B4201C7056C900EE661B /* UIView+Layout.m in Sources */,
+				B2220AD91CC6187700BA76FD /* TAAnimatedDotView.m in Sources */,
 				B2F826221C730D6000993F47 /* LocationSearchModel.m in Sources */,
 				258E2CC21CBFBFCF009A81A0 /* ChargeBusinessObjForBatch.m in Sources */,
 				B2FE0ACB1CBA256700E5AB67 /* UnitCheckListVIewController.m in Sources */,
@@ -1838,6 +1900,7 @@
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
 				B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */,
 				25DB64581CAE53590072C8EF /* HCDateWheelView.m in Sources */,
+				B2220ADE1CC6187700BA76FD /* UIView+SDExtension.m in Sources */,
 				B259C9501C8ACEC400A6A767 /* BRContractHistoryTBFootCell.m in Sources */,
 				25BFEB431C74A55B0062F9B8 /* AppointmentViewController.m in Sources */,
 				2512B3AF1C70557C00EE661B /* AppDelegate.m in Sources */,
@@ -1882,6 +1945,7 @@
 				25BFEB1B1C7314E30062F9B8 /* QueueServerHeartBeatPacket.m in Sources */,
 				25BFEB301C74060B0062F9B8 /* QueueServerInfo.m in Sources */,
 				B2640CD01C7C412400721CB5 /* UILabel+FontColor.m in Sources */,
+				B2220ADA1CC6187700BA76FD /* TADotView.m in Sources */,
 				2512B3EF1C8D8171006E8608 /* ReportResultQueryURLPacket.m in Sources */,
 				B2640CE11C7D5DA600721CB5 /* AddWorkerViewController.m in Sources */,
 				254D959B1C994178003B64D4 /* HCNetworkReachability.m in Sources */,
@@ -1896,6 +1960,7 @@
 				B27B00D01C8461FE00FBF895 /* ServicePointCell.m in Sources */,
 				2512B41F1C7056C900EE661B /* UIScreen+Type.m in Sources */,
 				B27222C41C8FBD37002494EA /* DJRefreshView.m in Sources */,
+				B2220ADB1CC6187700BA76FD /* TAPageControl.m in Sources */,
 				25E983831C8535BE00CB027E /* WorkTypeViewController.m in Sources */,
 				B2436C941C7AD28700F543E1 /* BRContract.m in Sources */,
 				B27222C31C8FBD37002494EA /* DJRefreshTopView.m in Sources */,
@@ -1921,6 +1986,7 @@
 				B2866A611C910ADA00F4B3B9 /* OrdersAlertView.m in Sources */,
 				25BFEB0E1C72BB300062F9B8 /* HttpNetworkManager.m in Sources */,
 				25DB64021CABA85D0072C8EF /* ScanImageViewController.m in Sources */,
+				B2220ADC1CC6187700BA76FD /* SDCollectionViewCell.m in Sources */,
 				25DB64131CAD077D0072C8EF /* PostVeitifyViewController.m in Sources */,
 				252AB88F1C7703690085CC14 /* HCWheelView.m in Sources */,
 				2512B41D1C7056C900EE661B /* UIImageView+Easy.m in Sources */,

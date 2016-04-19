@@ -27,6 +27,7 @@
 #import "CustomerTest.h"
 #import "ChargeParameter.h"
 #import "ETDetail.h"
+#import "SDCycleScrollView.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 @interface PayMoneyController ()<UITableViewDataSource, UITableViewDelegate>
@@ -75,6 +76,7 @@
 
 - (void)initSubView
 {
+//    self.automaticallyAdjustsScrollViewInsets = NO;
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     _tableView.delegate= self;
     _tableView.dataSource = self;
@@ -173,7 +175,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEADERIMAGE) {
-//        return PXFIT_HEIGHT(332);
         return self.view.frame.size.width * 161 /360;
     }
     else if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEATHYCINFO){
@@ -185,29 +186,19 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEADERIMAGE) {
-        UITableViewCell *cell = [[UITableViewCell alloc]init];
-        UIImageView *imageview = [[UIImageView alloc]init];
-        [cell addSubview:imageview];
-        [imageview mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(cell);
-        }];
-        imageview.image = [UIImage imageNamed:@"payhead"];
-//
-//        UIImageView *moneyView = [[UIImageView alloc]init];
-//        [cell addSubview:moneyView];
-//        moneyView.image = [UIImage imageNamed:@"moneybg"];
-//        [moneyView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.center.equalTo(cell);
-//            make.height.width.mas_equalTo(PXFIT_HEIGHT(322)/2.5);
-//        }];
-//
-//        UILabel *moneylabel = [[UILabel alloc]init];
-//        [cell addSubview:moneylabel];
-//        moneylabel.textAlignment = NSTextAlignmentCenter;
-//        [moneylabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.edges.equalTo(moneyView);
-//        }];
-//        [moneylabel setText:@"¥" textFont:[UIFont fontWithType:UIFontOpenSansRegular size:18] WithEndText:_money endtextFont:[UIFont fontWithType:UIFontOpenSansRegular size:21] textcolor:[UIColor whiteColor]];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cycleImage"];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cycleImage"];
+            NSArray *images = @[@"banner1", @"banner2", @"banner3"];
+            CGFloat height = [self tableView:tableView heightForRowAtIndexPath:indexPath];
+            // 图片轮播view
+            SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, height) shouldInfiniteLoop:YES imageNamesGroup:images];
+            cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleAnimated;
+            cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+            [cell.contentView addSubview:cycleScrollView];
+            cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+            cycleScrollView.autoScrollTimeInterval = 4;
+        }
         return cell;
     }
     else if (((BaseTBCellItem *)_dataArray[indexPath.section]).cellStyle == STYLE_HEATHYCINFO){
