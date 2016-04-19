@@ -11,7 +11,7 @@
 #import "Constants.h"
 #import "UIFont+Custom.h"
 #import "UIColor+Expanded.h"
-
+#import "UILabel+FontColor.h"
 @interface PayInfoViewCell()
 
 @property (nonatomic, strong) UILabel *titlelabel;
@@ -64,9 +64,9 @@
     }];
 
     _moneyLabel = [[UILabel alloc]init];
-    _moneyLabel.textColor = [UIColor colorWithRGBHex:0xff9d12];
+//    _moneyLabel.textColor = [UIColor colorWithRGBHex:0xff9d12];
     _moneyLabel.textAlignment = NSTextAlignmentRight;
-    _moneyLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:23];
+//    _moneyLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:23];
     [self.contentView addSubview:_moneyLabel];
     [_moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(self.contentView);
@@ -94,6 +94,7 @@
 - (void)setMoney:(NSString *)money
 {
     _money = money;
-    _moneyLabel.text = [NSString stringWithFormat:@"¥%@", money];
+//    _moneyLabel.text = [NSString stringWithFormat:@"¥%@", money];
+    [_moneyLabel setText:@"金额    " Font:[UIFont fontWithType:UIFontOpenSansRegular size:20] WithEndText:[NSString stringWithFormat:@"¥%@", money] endTextColor:[UIColor colorWithRGBHex:0xff9d12]];
 }
 @end
