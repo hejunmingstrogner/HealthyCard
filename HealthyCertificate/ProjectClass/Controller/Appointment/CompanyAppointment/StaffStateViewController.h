@@ -13,4 +13,7 @@
 //合同编号
 @property (nonatomic, copy) NSString* contractCode;
 
+//合同城市
+@property (nonnull, copy) NSString* cityName;
+
 @end

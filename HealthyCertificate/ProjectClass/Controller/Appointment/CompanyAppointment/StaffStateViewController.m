@@ -25,8 +25,9 @@
 
 #import "ExamItemStateCell.h"
 #import "PCheckAllPayView.h"
+#import "PayMoneyController.h"
 
-@interface StaffStateViewController()<UITableViewDataSource, UITableViewDelegate, PCheckAllPayViewDelegate>
+@interface StaffStateViewController()<UITableViewDataSource, UITableViewDelegate, PCheckAllPayViewDelegate,PayMoneyDelegate>
 {
     
     NSMutableArray      *_toPaySource;
@@ -34,13 +35,14 @@
     
     NSMutableDictionary *_choosedDic;
     
-    NSMutableArray      *_choosedArr;
-    
     UITableView         *_tableView;
     UILabel             *_tipLabel;
     
     UIButton            *_updateBtn;
+    UIButton            *_batchPayBtn;
     PCheckAllPayView    *_payCountView;
+    
+    float               _prize;
 }
 
 @end
@@ -63,7 +65,6 @@
     _toPaySource = [[NSMutableArray alloc] init];
     _payedSource = [[NSMutableArray alloc] init];
     _choosedDic = [[NSMutableDictionary alloc] init];
-    _choosedArr = [[NSMutableArray alloc] init];
     
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
@@ -92,8 +93,17 @@
         make.height.equalTo(@60);
     }];
 
-    [self initNavgation];
+    _prize = 0;
     
+    [self initNavgation];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [_toPaySource removeAllObjects];
+    [_payedSource removeAllObjects];
+    [_choosedDic removeAllObjects];
     [self loadData];
 }
 
@@ -107,12 +117,12 @@
     
     self.title = @"员工状态";
     
-    UIButton* batchPayBtn = [UIButton buttonWithTitle:@"批量支付"
+    _batchPayBtn = [UIButton buttonWithTitle:@"批量支付"
                                               font:[UIFont fontWithType:UIFontOpenSansRegular size:17]
                                          textColor:[UIColor colorWithRGBHex:HC_Blue_Text]
                                    backgroundColor:[UIColor clearColor]];
-    [batchPayBtn addTarget:self action:@selector(batchPayBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:batchPayBtn];
+    [_batchPayBtn addTarget:self action:@selector(batchPayBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:_batchPayBtn];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
@@ -136,15 +146,25 @@
         [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view).offset(-61);
         }];
+        
+        [[HttpNetworkManager getInstance] getCustomerTestChargePriceWithCityName:_cityName checkType:nil resultBlcok:^(NSString *result, NSError *error) {
+            if (error!=nil){
+                return;
+            }
+            _prize = [result floatValue];
+        }];
+        
     }else{
         [sender setTitle:@"批量支付" forState:UIControlStateNormal];
         [_tableView setEditing:NO animated:YES];
         [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view);
         }];
+        
+        [_choosedDic removeAllObjects];
+        [_payCountView setMoney:0 count:0];
     }
 }
-
 
 #pragma mark - Private Methods
 -(void)loadData
@@ -163,6 +183,7 @@
                 [_payedSource addObject:customerTest];
             }
         }
+        _payCountView.allCount = _toPaySource.count;
         if (_toPaySource.count + _payedSource.count == 0){
             _updateBtn.hidden = NO;
             _tableView.hidden = YES;
@@ -172,6 +193,46 @@
         }
         [_tableView reloadData];
     }];
+}
+
+-(void)updateBottomView
+{
+    if (_toPaySource.count == 0){
+        return;
+    }
+    
+    NSArray *indexArr = [_choosedDic allKeys];
+    float money = 0;
+    BOOL flag = YES;
+    for (NSNumber *index in indexArr) {
+        if (((CustomerTest *)_toPaySource[[index integerValue]]).needMoney <= 0) {
+            flag = NO;
+            NSString *message = [NSString stringWithFormat:@"没有获取到 %@ %@ 的体检单价\n请检查网络后重试", ((CustomerTest *)_toPaySource[[index integerValue]]).custName,
+                                 ((CustomerTest *)_toPaySource[[index integerValue]]).cityName];
+            [RzAlertView showAlertViewControllerWithViewController:self title:@"提示"
+                                                           Message:message
+                                                       ActionTitle:@"重试"
+                                                       ActionStyle:UIAlertActionStyleDefault
+                                                            handle:^(NSInteger flag) {
+                [[HttpNetworkManager getInstance] getCustomerTestChargePriceWithCityName:((CustomerTest *)_toPaySource[[index integerValue]]).cityName
+                                                                               checkType:nil
+                                                                             resultBlcok:^(NSString *result, NSError *error) {
+                    if (!error) {
+                        ((CustomerTest *)_toPaySource[[index integerValue]]).needMoney = [result floatValue];
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self updateBottomView];
+                    });
+                }];
+            }];
+        }
+        else {
+            money += ((CustomerTest *)_toPaySource[[index integerValue]]).needMoney;
+        }
+    }
+    if (flag) {
+        [_payCountView setMoney:money count:_choosedDic.count];
+    }
 }
 
 #pragma mark - UITableViewDataSource & UITableViewDelegate
@@ -234,16 +295,127 @@
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_toPaySource.count != 0 && indexPath.section == 1){
+    if (_payedSource.count != 0 && indexPath.section == 1){
         if (_tableView.editing){
-            [_choosedArr addObject:_toPaySource[indexPath.row]];
+            [_choosedDic removeObjectForKey:[NSNumber numberWithInteger:indexPath.row]];
+            [_payCountView setMoney:_prize * _choosedDic.count count:_choosedDic.count];
         }
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_toPaySource.count != 0 && indexPath.section == 1){
+        if (_tableView.editing){
+            if (_prize <= 0){
+                [RzAlertView ShowWaitAlertWithTitle:@"获取应缴费用..."];
+                [[HttpNetworkManager getInstance] getCustomerTestChargePriceWithCityName:_cityName checkType:nil resultBlcok:^(NSString *result, NSError *error) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (error!=nil){
+                            [RzAlertView CloseWaitAlert];
+                            [RzAlertView showAlertLabelWithMessage:@"获取应缴费用失败" removewDelay:2];
+                            [tableView deselectRowAtIndexPath:indexPath animated:NO]; 
+                            return;
+                        }
+                        [RzAlertView CloseWaitAlert];
+                        _prize = [result floatValue];
+                        [_choosedDic setObject:[NSNumber numberWithInteger:indexPath.row] forKey:[NSNumber numberWithInteger:indexPath.row]];
+                    });
+                }];
+            }else{
+                [_choosedDic setObject:[NSNumber numberWithInteger:indexPath.row] forKey:[NSNumber numberWithInteger:indexPath.row]];
+            }
+        }
+        [_payCountView setMoney:_prize * _choosedDic.count count:_choosedDic.count];
+    }
+}
+
+#pragma mark - PayMoneyDelegate
+/**
+ *  支付成功
+ */
+- (void)payMoneySuccessed{
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的预约支付已完成" removeDelay:2];
+}
+/**
+ *  支付取消
+ */
+- (void)payMoneyCencel{
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"您取消了支付" removeDelay:2];
+    [self batchPayBtnClicked:_batchPayBtn];
+}
+/**
+ *  支付失败
+ */
+- (void)payMoneyFail{
+    [RzAlertView showAlertLabelWithTarget:self.view Message:@"支付失败" removeDelay:2];
+}
+
+- (void)payMoneyByOthers
+{
     
+}
+
+#pragma mark - PCheckAllPayViewDelegate
+-(void)payAll{
+    NSArray *index = [_choosedDic allKeys];
+    NSMutableArray *customers = [[NSMutableArray alloc]init];
+    for (NSNumber *i in index) {
+        CustomerTest* customerTest = (CustomerTest *)_toPaySource[[i integerValue]];
+        customerTest.needMoney = _prize;
+        [customers addObject:customerTest];
+    }
+    if(customers.count == 0)
+    {
+        [RzAlertView showAlertLabelWithMessage:@"请选择支付对象" removewDelay:2];
+        return;
+    }
+    PayMoneyController *pay = [[PayMoneyController alloc]init];
+    pay.chargetype = BatchCharge;
+    pay.delegate = self;
+    pay.CustomerTestArray = customers;
+    [self.navigationController pushViewController:pay animated:YES];
+    
+}
+
+-(void)selectAll{
+    if (_prize <= 0){
+        [RzAlertView ShowWaitAlertWithTitle:@"获取应缴费用..."];
+        [[HttpNetworkManager getInstance] getCustomerTestChargePriceWithCityName:_cityName checkType:nil resultBlcok:^(NSString *result, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (error!=nil){
+                    [RzAlertView CloseWaitAlert];
+                    [RzAlertView showAlertLabelWithMessage:@"获取应缴费用失败" removewDelay:2];
+                    return;
+                }
+                [RzAlertView CloseWaitAlert];
+                _prize = [result floatValue];
+                [self SelectAllCustomer];
+            });
+        }];
+    }else{
+        [self SelectAllCustomer];
+    }
+}
+
+-(void)deSelectAll{
+    [_choosedDic removeAllObjects];
+    [_tableView reloadData];
+    [_payCountView setMoney:0 count:0];
+}
+
+#pragma mark - Private Methods
+-(void)SelectAllCustomer
+{
+    [_choosedDic removeAllObjects];
+    
+    for (int i = 0; i < _toPaySource.count; ++i){
+        NSIndexPath *indexpath = [NSIndexPath indexPathForRow:i inSection:1];
+        [_tableView selectRowAtIndexPath:indexpath animated:YES scrollPosition:UITableViewScrollPositionNone];
+        [_choosedDic setObject:[NSNumber numberWithInteger:indexpath.row] forKey:[NSNumber numberWithInteger:indexpath.row]];
+    }
+    [_payCountView setMoney:_prize * _choosedDic.count count:_choosedDic.count];
 }
 
 @end
