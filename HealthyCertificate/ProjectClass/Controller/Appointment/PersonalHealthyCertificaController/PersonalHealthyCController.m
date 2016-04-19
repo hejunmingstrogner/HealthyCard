@@ -699,8 +699,14 @@
 #pragma mark - ScanImageViewDelegate
 -(void)reportScanResult:(NSString *)resultStr
 {
+    //条码是14位，规则为前4位为分部编号，接着两位为年份，后面8位为顺序号。
+    
+    if (![[resultStr substringWithRange:NSMakeRange(0, 4)] isEqualToString:_customerTestInfo.hosCode] ||
+        ![[[[NSDate date] getYear] substringWithRange:NSMakeRange(2, 2)] isEqualToString:[resultStr substringWithRange:NSMakeRange(4, 2)]]){
+        [RzAlertView showAlertLabelWithMessage:@"条码格式不匹配" removewDelay:2];
+        return;
+    }
     codecell.detailTextLabel.text = resultStr;
-    ////            CustomerTest* customerTest = [CustomerTest mj_objectWithKeyValues:result.object];
    [[HttpNetworkManager getInstance] customerAffirmByCardNo:_customerTestInfo.checkCode CardNo:resultStr resultBlock:^(NSDictionary *result, NSError *error) {
        if (error){
           [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接错误，请检查设置" removeDelay:2];
