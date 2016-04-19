@@ -191,11 +191,13 @@
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cycleImage"];
             NSArray *images = @[@"banner1", @"banner2", @"banner3"];
             CGFloat height = [self tableView:tableView heightForRowAtIndexPath:indexPath];
+            // 图片轮播view
             SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, height) shouldInfiniteLoop:YES imageNamesGroup:images];
             cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleAnimated;
             cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
             [cell.contentView addSubview:cycleScrollView];
             cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+            cycleScrollView.autoScrollTimeInterval = 4;
         }
         return cell;
     }
