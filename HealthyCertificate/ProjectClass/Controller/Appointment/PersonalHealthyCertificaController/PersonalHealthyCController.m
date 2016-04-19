@@ -267,8 +267,8 @@
     paycell2 = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell2"];
     [containView addSubview:paycell2];
     paycell2.backgroundColor = [UIColor whiteColor];
-    paycell2.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
-    paycell2.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+    paycell2.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+    paycell2.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
     paycell2.textLabel.text = @"支付情况";
     paycell2.detailTextLabel.textColor = [UIColor blackColor];
     [paycell2 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -295,7 +295,7 @@
     payMoneyButton.backgroundColor = [UIColor clearColor];
     [payMoneyButton setBackgroundImage:[UIImage imageNamed:@"grayBackgroundImage"] forState:UIControlStateHighlighted];
     [payMoneyButton addTarget:self action:@selector(paymoneyClicked:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     // 三个状态按钮的view
     UIView *btnBgView = [[UIView alloc]init];
     [containView addSubview:btnBgView];
