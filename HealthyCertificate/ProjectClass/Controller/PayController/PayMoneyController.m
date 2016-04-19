@@ -334,7 +334,7 @@
     business.details = [[NSMutableArray alloc]init];
     for (CustomerTest *test in _CustomerTestArray) {
         ETDetail *detail = [[ETDetail alloc]init];
-        detail.hostType = BatchCharge;
+        detail.hostType = 2;
         detail.hostCode = test.checkCode;
         detail.payMoney = test.needMoney;
         [business.details addObject:detail];
