@@ -60,9 +60,16 @@
         _titleLabel.numberOfLines = 0;
         _titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
         _titleLabel.text = title;
+        CGFloat h_y;
+        if (title.length == 0) {
+            h_y = alertView.bounds.size.height/2;
+        }
+        else {
+            h_y = alertView.bounds.size.height/2 + 5;
+        }
         // 旋转的菊花
         _activityView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        _activityView.center = CGPointMake(alertView.bounds.size.width/2, alertView.bounds.size.height/2 + 5);
+        _activityView.center = CGPointMake(alertView.bounds.size.width/2, h_y);
         [alertView addSubview:_activityView];
 
         alertView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0, 0);
