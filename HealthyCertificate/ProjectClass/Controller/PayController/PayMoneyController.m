@@ -334,7 +334,7 @@
     business.details = [[NSMutableArray alloc]init];
     for (CustomerTest *test in _CustomerTestArray) {
         ETDetail *detail = [[ETDetail alloc]init];
-        detail.hostType = BatchCharge;
+        detail.hostType = 2;
         detail.hostCode = test.checkCode;
         detail.payMoney = test.needMoney;
         [business.details addObject:detail];
@@ -385,7 +385,8 @@
 {
     [RzAlertView showAlertViewControllerWithViewController:self title:@"提示" Message:@"支付成功" ActionTitle:@"确认" ActionStyle:UIAlertActionStyleDefault handle:^(NSInteger flag) {
         if ([_delegate respondsToSelector:@selector(payMoneySuccessed)] && _delegate != nil) {
-            [self backToPre:nil];
+//            [self backToPre:nil];
+            [self.navigationController popViewControllerAnimated:YES];
             [_delegate payMoneySuccessed];
         }
     }];
