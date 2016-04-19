@@ -224,13 +224,32 @@
         make.height.mas_equalTo(PXFIT_HEIGHT(470));
     }];
     
+    UITableViewCell* examTypeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1  reuseIdentifier:@"examTypeCell"];
+    [containerView addSubview:examTypeCell];
+    [examTypeCell mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(containerView);
+        make.height.mas_equalTo(PXFIT_HEIGHT(100));
+        make.top.equalTo(_healthyCertificateView.mas_bottom).with.offset(10);
+    }];
+    
+    examTypeCell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+    examTypeCell.textLabel.text = @"体检类型";
+    examTypeCell.textLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+    examTypeCell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+    examTypeCell.detailTextLabel.text = @"健康证体检";
+    examTypeCell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+    examTypeCell.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
+    examTypeCell.layer.borderWidth = 1;
+    examTypeCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    examTypeCell.userInteractionEnabled = NO;
+
     UILabel* noticeLabel = [UILabel labelWithText:@"温馨提示"
                                              font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)]
                                         textColor:[UIColor blackColor]];
     [containerView addSubview:noticeLabel];
     [noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-       make.left.mas_equalTo(containerView).with.offset(10);
-        make.top.mas_equalTo(_healthyCertificateView.mas_bottom).with.offset(10);
+       make.left.mas_equalTo(containerView).with.offset(15);
+        make.top.mas_equalTo(examTypeCell.mas_bottom).with.offset(5);
     }];
     
     NSString* tipInfo;
@@ -245,8 +264,8 @@
     itemLabel.numberOfLines = 0;
     [containerView addSubview:itemLabel];
     [itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(containerView).with.offset(10);
-        make.right.mas_equalTo(containerView).with.offset(-10);
+        make.left.mas_equalTo(containerView).with.offset(15);
+        make.right.mas_equalTo(containerView).with.offset(-15);
         make.top.mas_equalTo(noticeLabel.mas_bottom).with.offset(10);
     }];
     
@@ -536,7 +555,6 @@
     }
 }
 #pragma mark - 订单成功之后提示在线支付窗口
-// 订单成功提示框
 - (void)orderSuccessed:(NSString *)checkcode
 {
     __weak typeof(self) weakself = self;
@@ -565,9 +583,6 @@
 }
 
 #pragma mark -paymoney Delegate 支付款项之后的delegate
-/**
- *  支付成功
- */
 - (void)payMoneySuccessed{
     if (GetUserType == 1) {
         PersonalCheckListViewContrller *checkVC = [[PersonalCheckListViewContrller alloc]init];
@@ -580,9 +595,7 @@
         [self.navigationController pushViewController:checkVe animated:YES];
     }
 }
-/**
- *  支付取消
- */
+
 - (void)payMoneyCencel{
     if (GetUserType == 1) {
         PersonalCheckListViewContrller *checkVC = [[PersonalCheckListViewContrller alloc]init];
@@ -595,9 +608,7 @@
         [self.navigationController pushViewController:checkVe animated:YES];
     }
 }
-/**
- *  支付失败
- */
+
 - (void)payMoneyFail{
     NSLog(@"预约支付失败");
 }

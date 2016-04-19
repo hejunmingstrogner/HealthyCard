@@ -183,6 +183,8 @@
                 [_payedSource addObject:customerTest];
             }
         }
+        if (_toPaySource.count == 0)
+            self.navigationItem.rightBarButtonItem = nil;
         _payCountView.allCount = _toPaySource.count;
         if (_toPaySource.count + _payedSource.count == 0){
             _updateBtn.hidden = NO;
@@ -251,7 +253,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _payedSource.count != 0 && _payedSource.count != 0 ? 3 : 2;
+    return (_toPaySource.count != 0 && _payedSource.count != 0) ? 3 : 2;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -271,7 +273,11 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return PXFIT_HEIGHT(20);
+    return 5;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 5;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section{
@@ -337,6 +343,7 @@
  */
 - (void)payMoneySuccessed{
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的预约支付已完成" removeDelay:2];
+    [self batchPayBtnClicked:_batchPayBtn];
 }
 /**
  *  支付取消

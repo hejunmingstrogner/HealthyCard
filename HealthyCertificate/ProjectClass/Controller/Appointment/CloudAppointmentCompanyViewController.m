@@ -425,13 +425,34 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             make.bottom.equalTo(todoContract.mas_bottom);
         }];
     }else{
+        
+        UITableViewCell* examTypeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1  reuseIdentifier:@"examTypeCell"];
+        examTypeCell.backgroundColor = [UIColor whiteColor];
+        [containerView addSubview:examTypeCell];
+        [examTypeCell mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(containerView);
+            make.height.mas_equalTo(PXFIT_HEIGHT(100));
+            make.top.equalTo(_companyInfoTableView.mas_bottom).with.offset(10);
+        }];
+        
+        examTypeCell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+        examTypeCell.textLabel.text = @"体检类型";
+        examTypeCell.textLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        examTypeCell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+        examTypeCell.detailTextLabel.text = @"健康证体检";
+        examTypeCell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        examTypeCell.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
+        examTypeCell.layer.borderWidth = 1;
+        examTypeCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        examTypeCell.userInteractionEnabled = NO;
+        
         UILabel* noticeLabel = [UILabel labelWithText:@"温馨提示"
                                                  font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)]
                                             textColor:[UIColor blackColor]];
         [containerView addSubview:noticeLabel];
         [noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(containerView).with.offset(10);
-            make.top.mas_equalTo(_companyInfoTableView.mas_bottom).with.offset(10);
+            make.top.mas_equalTo(examTypeCell.mas_bottom);
         }];
         
         NSString* tipInfo;
