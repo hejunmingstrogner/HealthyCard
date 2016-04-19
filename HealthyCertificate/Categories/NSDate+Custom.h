@@ -132,4 +132,11 @@
  */
 -(NSString*)getHour;
 
+/**
+ *  获得 当前日期的 年份
+ *
+ *  @return 当前日期的年份
+ */
+-(NSString*)getYear;
+
 @end

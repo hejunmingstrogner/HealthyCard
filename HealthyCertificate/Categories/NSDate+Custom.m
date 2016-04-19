@@ -148,4 +148,10 @@
     return [dateFormatter stringFromDate:self];
 }
 
+-(NSString*)getYear{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy"];
+    return [dateFormatter stringFromDate:self];
+}
+
 @end

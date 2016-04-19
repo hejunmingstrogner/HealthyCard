@@ -32,6 +32,8 @@
     NSMutableArray      *_toPaySource;
     NSMutableArray      *_payedSource;
     
+    NSMutableDictionary *_choosedDic;
+    
     NSMutableArray      *_choosedArr;
     
     UITableView         *_tableView;
@@ -60,6 +62,7 @@
     
     _toPaySource = [[NSMutableArray alloc] init];
     _payedSource = [[NSMutableArray alloc] init];
+    _choosedDic = [[NSMutableDictionary alloc] init];
     _choosedArr = [[NSMutableArray alloc] init];
     
     _tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
@@ -133,16 +136,9 @@
         [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view).offset(-61);
         }];
-        
-        [_choosedArr removeAllObjects];
-        for (NSInteger index = 0; index < _toPaySource.count; index++) {
-            [_choosedArr addObject:_toPaySource[index]];
-        }
-        
     }else{
         [sender setTitle:@"批量支付" forState:UIControlStateNormal];
         [_tableView setEditing:NO animated:YES];
-        [_choosedArr removeAllObjects];
         [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view);
         }];
@@ -154,7 +150,7 @@
 -(void)loadData
 {
     [RzAlertView ShowWaitAlertWithTitle:@""];
-    [[HttpNetworkManager getInstance] getCustomerTestListByContract:_contractCode resultBlock:^(NSArray *result, NSError *error) {
+    [[HttpNetworkManager getInstance] findCustomerTestByContract:_contractCode resultBlock:^(NSArray *result, NSError *error) {
         [RzAlertView CloseWaitAlert];
         if (error != nil){
             return;
@@ -229,15 +225,25 @@
     
     if (indexPath.section == 0){
         return UITableViewCellEditingStyleNone;
-    }else{
+    }else if (indexPath.section == 1){
         return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
+    }else{
+        return UITableViewCellEditingStyleNone;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{}
+{
+    if (_toPaySource.count != 0 && indexPath.section == 1){
+        if (_tableView.editing){
+            [_choosedArr addObject:_toPaySource[indexPath.row]];
+        }
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{}
+{
+    
+}
 
 @end
