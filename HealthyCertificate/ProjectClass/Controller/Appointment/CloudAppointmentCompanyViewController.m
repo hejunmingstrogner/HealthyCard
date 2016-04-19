@@ -966,6 +966,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             if (indexPath.section == 1){
                 StaffStateViewController* staffStateVC = [[StaffStateViewController alloc] init];
                 staffStateVC.contractCode = _brContract.code;
+                staffStateVC.cityName = _brContract.cityName;
                 [self.navigationController pushViewController:staffStateVC animated:YES];
                 [self inputWidgetResign];
             }else{
