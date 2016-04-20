@@ -34,6 +34,7 @@
 
 #import "UnitCheckListVIewController.h"
 #import "PersonalCheckListViewContrller.h"
+#import "HomeServiceListViewController.h"
 
 #import "QRController.h"
 #import "StaffStateViewController.h"
@@ -54,10 +55,11 @@
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
 
-@interface CloudAppointmentCompanyViewController() <UITableViewDataSource, UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UITextViewDelegate>
+@interface CloudAppointmentCompanyViewController() <UITableViewDataSource, UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UITextViewDelegate,HomeServiceListViewControllerDelegate>
 {
     UITableView         *_baseInfoTableView;
     UITableView         *_companyInfoTableView;
+    UITableView         *_examTableView;
     
     UITextField         *_contactPersonField;
     UITextField         *_phoneNumField;
@@ -90,13 +92,16 @@
     
     //是待处理项(YES) 新建的预约(No)
     BOOL                    _isTodoTask;
+    
+    
+    ServersPositionAnnotionsModel   *_choosedFixedSp;
 }
 
 typedef NS_ENUM(NSInteger, TABLIEVIEWTAG)
 {
     TABLEVIEW_BASEINFO = 1001,
     TABLEVIEW_COMPANYINFO,
-    TABLEVIEW_STAFFINFO
+    TABLEVIEW_EXAM
 };
 
 typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
@@ -135,19 +140,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         [_companyInfoTableView reloadData];
         _customerArr = result;
     }];
-
-//    [[HttpNetworkManager getInstance] getCustomerListByBRContract:_brContract.code resultBlock:^(NSArray *result, NSError *error) {
-//        if (error != nil){
-//            [RzAlertView showAlertLabelWithTarget:self.view Message:@"查询单位员工失败" removeDelay:3];
-//            return;
-//        }
-//        NSIndexPath *index =  [NSIndexPath indexPathForItem:2 inSection:0];
-//        CloudCompanyAppointmentStaffCell *cell =  [_companyInfoTableView cellForRowAtIndexPath:index];
-//        if (cell){
-//            cell.staffCount = _customerArr.count;
-//        }
-//        _customerArr = result;
-//    }];
 }
 
 -(void)setAppointmentDateStr:(NSString *)appointmentDateStr{
@@ -425,26 +417,20 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             make.bottom.equalTo(todoContract.mas_bottom);
         }];
     }else{
-        
-        UITableViewCell* examTypeCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1  reuseIdentifier:@"examTypeCell"];
-        examTypeCell.backgroundColor = [UIColor whiteColor];
-        [containerView addSubview:examTypeCell];
-        [examTypeCell mas_makeConstraints:^(MASConstraintMaker *make) {
+        _examTableView = [[UITableView alloc] init];
+        [containerView addSubview:_examTableView];
+        _examTableView.dataSource = self;
+        _examTableView.delegate = self;
+        _examTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        _examTableView.separatorColor = [UIColor colorWithRGBHex:0xe8e8e8];
+        _examTableView.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
+        _examTableView.layer.borderWidth = 1;
+        _examTableView.tag = TABLEVIEW_EXAM;
+        [_examTableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(containerView);
-            make.height.mas_equalTo(PXFIT_HEIGHT(100));
             make.top.equalTo(_companyInfoTableView.mas_bottom).with.offset(10);
+            make.height.mas_equalTo(PXFIT_HEIGHT(100)*(1 + ((_sercersPositionInfo == nil) ? 1 : 0)));
         }];
-        
-        examTypeCell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
-        examTypeCell.textLabel.text = @"体检类型";
-        examTypeCell.textLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-        examTypeCell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
-        examTypeCell.detailTextLabel.text = @"健康证体检";
-        examTypeCell.detailTextLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-        examTypeCell.layer.borderColor = [UIColor colorWithRGBHex:0xe8e8e8].CGColor;
-        examTypeCell.layer.borderWidth = 1;
-        examTypeCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        examTypeCell.userInteractionEnabled = NO;
         
         UILabel* noticeLabel = [UILabel labelWithText:@"温馨提示"
                                                  font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)]
@@ -452,7 +438,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         [containerView addSubview:noticeLabel];
         [noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(containerView).with.offset(10);
-            make.top.mas_equalTo(examTypeCell.mas_bottom);
+            make.top.mas_equalTo(_examTableView.mas_bottom).with.offset(10);
         }];
         
         NSString* tipInfo;
@@ -460,6 +446,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             tipInfo = @"您附近如果没有合适的体检服务点,请通过快速预约告之您的体检位置和体检时间,我们会及时安排体检车上门为您体检办证!";
         }else{
             tipInfo = @"请确认在体检车离开前按时到达服务点,以免给您带来不便!";
+        }
+        if (_sercersPositionInfo != nil){
+            tipInfo = @"当您的付费人员达到16个以后该服务点生效。邀请您附近有体检的人员都来参加吧!";
         }
         UILabel* itemLabel = [UILabel labelWithText:tipInfo
                                                font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)]
@@ -472,8 +461,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             make.top.mas_equalTo(noticeLabel.mas_bottom).with.offset(10);
         }];
 
-        
-        
         UIView* bottomView = [[UIView alloc] init];
         bottomView.backgroundColor = [UIColor clearColor];
         [containerView addSubview:bottomView];
@@ -525,15 +512,13 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
  
     if (_brContract != nil){
         //待处理项目 & 历史记录
-        if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
-            //代表预约，可以修改
+        
+        if (_brContract.servicePoint == nil){
             _examinationAddressTextView.textColor = [UIColor blackColor];
             _examinationTimeTextField.textColor = [UIColor blackColor];
             addressBtn.enabled = YES;
             timeBtn.enabled = YES;
-
         }else{
-            //代表体检，不可修改--固定服务点是可以修改的
             UIColor *color = _brContract.servicePoint.type == 1 ? [UIColor colorWithRGBHex:HC_Gray_Text]:[UIColor blackColor];
             bool enable = _brContract.servicePoint.type == 1 ? NO : YES;
             _examinationTimeTextField.textColor = color;
@@ -542,7 +527,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             _examinationAddressTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
             addressBtn.enabled = NO;
         }
-        
         if (![_brContract.testStatus isEqualToString:@"-1"]){
             _examinationAddressTextView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
             _examinationTimeTextField.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
@@ -563,11 +547,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             timeBtn.enabled = !_isTemperaryPoint;
         }
     }
-}
-
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -704,6 +683,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             _brContract.regPosLA = _centerCoordinate.latitude;
             _brContract.regPosLO = _centerCoordinate.longitude;
             _brContract.regPosAddr = _location;
+            if (_choosedFixedSp != nil){
+                _brContract.hosCode = _choosedFixedSp.hosCode;
+            }
         }
         else
         {
@@ -880,6 +862,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             return 1;
         case TABLEVIEW_COMPANYINFO:
             return 4;
+        case TABLEVIEW_EXAM:
+            return _sercersPositionInfo == nil ? 2 : 1;
         default:
             break;
     }
@@ -893,6 +877,13 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     }else{
         return 1;
     }
+//    if (tableView.tag == TABLEVIEW_BASEINFO){
+//        return 2;
+//    }else if (tableView.tag == TABLEVIEW_COMPANYINFO){
+//        return 1;
+//    }else{
+//        return _sercersPositionInfo == nil ? 2 : 1;
+//    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -954,7 +945,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 cell.textField.keyboardType = UIKeyboardTypeNumberPad;
                 cell.textField.enabled = YES;
                 cell.textField.tag = TEXTFIELD_PHONE;
-                //cell.textField.returnKeyType = UIReturnKeyDone;
                 cell.textField.delegate = self;
                 _phoneNumField = cell.textField;
             }else if (indexPath.row == 3){
@@ -968,6 +958,34 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
+        }
+            break;
+        case TABLEVIEW_EXAM:
+        {
+            UITableViewCell* examCell = [tableView dequeueReusableCellWithIdentifier:@"examCell"];
+            if (examCell == nil){
+                examCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"examCell"];
+            }
+            examCell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+            examCell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+            examCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            if (_sercersPositionInfo != nil){
+                examCell.textLabel.text = @"体检类型";
+                examCell.detailTextLabel.text = @"健康证体检";
+                examCell.userInteractionEnabled = NO;
+                examCell.textLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+            }else{
+                if (indexPath.row == 0){
+                    examCell.textLabel.text = @"体检机构";
+                    examCell.detailTextLabel.text = _choosedFixedSp == nil ? @"" : _choosedFixedSp.name;
+                }else{
+                    examCell.textLabel.text = @"体检类型";
+                    examCell.detailTextLabel.text = @"健康证类型";
+                    examCell.userInteractionEnabled = NO;
+                    examCell.textLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+                }
+            }
+            return examCell;
         }
             break;
     default:
@@ -1034,10 +1052,29 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             }
         }
             break;
+        case TABLEVIEW_EXAM:
+        {
+            if (indexPath.row == 0){
+                HomeServiceListViewController* homeServiceListVC = [[HomeServiceListViewController alloc] init];
+                homeServiceListVC.delegate = self;//_choosedFixedSp
+                homeServiceListVC.selectedSpModel = _choosedFixedSp;
+                [self.navigationController pushViewController:homeServiceListVC animated:YES];
+            }
+        }
+            break;
         default:
             break;
     }
 }
+
+#pragma mark - HomeServiceListViewControllerDelegate
+-(void)choosedServerPoint:(ServersPositionAnnotionsModel *)sp{
+    _choosedFixedSp = sp;
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [_examTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+  
+}
+
 
 #pragma mark - UIGestureRecognizerDelegate
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
@@ -1137,8 +1174,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     } completion:NULL];
 }
 
--(void)toggleMenu
-{
+-(void)toggleMenu{
     [self inputWidgetResign];
 }
 

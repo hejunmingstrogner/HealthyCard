@@ -97,6 +97,7 @@
 		254D95C51C9FCABC003B64D4 /* UIButton+TCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D95C41C9FCABC003B64D4 /* UIButton+TCHelper.m */; };
 		254D960D1C9FDD9A003B64D4 /* WZFlashButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 254D960C1C9FDD9A003B64D4 /* WZFlashButton.m */; };
 		255C71F11C8714420074A41B /* SelectCompanyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 255C71F01C8714420074A41B /* SelectCompanyViewController.m */; };
+		2567AADD1CC6582600483136 /* HomeServiceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2567AADC1CC6582600483136 /* HomeServiceListViewController.m */; };
 		2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */; };
 		258E2CC21CBFBFCF009A81A0 /* ChargeBusinessObjForBatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 258E2CC11CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.m */; };
 		258E2D461CC4B6F3009A81A0 /* FixedSiteHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 258E2D451CC4B6F3009A81A0 /* FixedSiteHeaderView.m */; };
@@ -401,6 +402,8 @@
 		254D960C1C9FDD9A003B64D4 /* WZFlashButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WZFlashButton.m; sourceTree = "<group>"; };
 		255C71EF1C8714420074A41B /* SelectCompanyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCompanyViewController.h; sourceTree = "<group>"; };
 		255C71F01C8714420074A41B /* SelectCompanyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCompanyViewController.m; sourceTree = "<group>"; };
+		2567AADB1CC6582600483136 /* HomeServiceListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeServiceListViewController.h; sourceTree = "<group>"; };
+		2567AADC1CC6582600483136 /* HomeServiceListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeServiceListViewController.m; sourceTree = "<group>"; };
 		2567AC3B1C89680800E51DFA /* HCNavigationBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCNavigationBackButton.h; sourceTree = "<group>"; };
 		2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCNavigationBackButton.m; sourceTree = "<group>"; };
 		258E2CC01CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeBusinessObjForBatch.h; sourceTree = "<group>"; };
@@ -1003,6 +1006,8 @@
 			children = (
 				254A8DB21C7C575F00F2EC94 /* ServicePointDetailViewController.h */,
 				254A8DB31C7C575F00F2EC94 /* ServicePointDetailViewController.mm */,
+				2567AADB1CC6582600483136 /* HomeServiceListViewController.h */,
+				2567AADC1CC6582600483136 /* HomeServiceListViewController.m */,
 			);
 			path = ServicePointAppointment;
 			sourceTree = "<group>";
@@ -1896,6 +1901,7 @@
 				25F592271C93A8870036F881 /* CompanyItemListCell.m in Sources */,
 				2512B3EC1C8D6133006E8608 /* UIView+borderWidth.m in Sources */,
 				B23C76751C8D30FF00E5C40A /* WorkTypeInfoModel.m in Sources */,
+				2567AADD1CC6582600483136 /* HomeServiceListViewController.m in Sources */,
 				B2640CD41C7C7CF500721CB5 /* WaitDocResultSelectViewController.m in Sources */,
 				2512B4101C7056C900EE661B /* NSDictionary+NonNullStringValue.m in Sources */,
 				B2436C971C7AD3B900F543E1 /* BRServiceUnit.m in Sources */,

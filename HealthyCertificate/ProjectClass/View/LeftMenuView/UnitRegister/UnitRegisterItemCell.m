@@ -32,16 +32,16 @@
         _titleLabel = [UILabel labelWithText:_titleText
                                         font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(25)]
                                    textColor:[UIColor colorWithRGBHex:HC_Gray_Text]];
-        [self addSubview:_titleLabel];
+        [self.contentView addSubview:_titleLabel];
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).with.offset(5);
-            make.centerY.equalTo(self);
+            make.left.equalTo(self.contentView).with.offset(5);
+            make.centerY.equalTo(self.contentView);
             make.width.mas_equalTo([self labelWidth]);
         }];
         
         _textView = [[UITextView alloc] init];
         _textView.scrollEnabled = NO;
-        [self addSubview:_textView];
+        [self.contentView addSubview:_textView];
         _textView.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(25)];
         [_textView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_titleLabel.mas_right).with.offset(5);
