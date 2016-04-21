@@ -303,7 +303,12 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
 
 -(void)getChargedCountByContactCode:(NSString *)contractCode
 {
-    
+    NSString *url = [NSString stringWithFormat:@"brContract/chargedCount?contractCode=%@", contractCode];
+    [self.sharedClient GET:url parameters:nil success:^(AFHTTPRequestOperation * _Nonnull operation, id  _Nonnull responseObject) {
+        
+    } failure:^(AFHTTPRequestOperation * _Nullable operation, NSError * _Nonnull error) {
+        
+    }];
 }
 
 #pragma mark －创建或更新单位信息
