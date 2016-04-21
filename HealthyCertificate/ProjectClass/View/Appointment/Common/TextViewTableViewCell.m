@@ -1,12 +1,12 @@
 //
-//  UnitRegisterItemCell.m
+//  TextViewTableViewCell.m
 //  HealthyCertificate
 //
-//  Created by JIANGXU on 16/3/31.
+//  Created by JIANGXU on 16/4/21.
 //  Copyright © 2016年 JIANGXU. All rights reserved.
 //
 
-#import "UnitRegisterItemCell.h"
+#import "TextViewTableViewCell.h"
 
 #import "Constants.h"
 
@@ -16,11 +16,7 @@
 
 #import <Masonry.h>
 
-@interface UnitRegisterItemCell()
-
-@end
-
-@implementation UnitRegisterItemCell
+@implementation TextViewTableViewCell
 {
     UILabel         *_titleLabel;
 }
@@ -57,12 +53,8 @@
 -(void)setTitleText:(NSString *)titleText
 {
     UIFont *font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(25)];
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@", @"*", titleText]];
-    [str addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, str.length)];
-    
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 1)];
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRGBHex:HC_Gray_Text] range:NSMakeRange(1, str.length-1)];
-    _titleLabel.attributedText = str;
+    _titleLabel.text = titleText;
+    _titleLabel.font = font;
     [_titleLabel sizeToFit];
 }
 
@@ -81,7 +73,7 @@
 
 #pragma mark - Private Methods
 -(CGFloat)labelWidth{
-    UILabel* examinationAddressLabel = [UILabel labelWithText:@"* 单位名称"
+    UILabel* examinationAddressLabel = [UILabel labelWithText:@"体检时间"
                                                          font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(25)]
                                                     textColor:[UIColor blackColor]];
     NSDictionary* attribute = @{NSFontAttributeName:examinationAddressLabel.font};
@@ -89,6 +81,5 @@
     //获得label的宽度
     return size.width + 1;
 }
-
 
 @end
