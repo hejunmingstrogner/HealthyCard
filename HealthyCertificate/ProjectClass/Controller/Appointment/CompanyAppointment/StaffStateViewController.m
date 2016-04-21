@@ -301,7 +301,7 @@
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_payedSource.count != 0 && indexPath.section == 1){
+    if (_toPaySource.count != 0 && indexPath.section == 1){
         if (_tableView.editing){
             [_choosedDic removeObjectForKey:[NSNumber numberWithInteger:indexPath.row]];
             [_payCountView setMoney:_prize * _choosedDic.count count:_choosedDic.count];

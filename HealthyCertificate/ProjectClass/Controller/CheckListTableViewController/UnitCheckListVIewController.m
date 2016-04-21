@@ -22,7 +22,6 @@
 #import "BaseTBCellItem.h"
 #import "BRContract.h"
 
-#import "CompanyAppointmentListViewController.h"
 #import "CloudAppointmentCompanyViewController.h"
 #import "PersonalHealthyCController.h"
 

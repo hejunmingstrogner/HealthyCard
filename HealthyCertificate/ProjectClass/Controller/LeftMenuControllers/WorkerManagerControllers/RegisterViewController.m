@@ -13,6 +13,7 @@
 #import "SelectAddressViewController.h"
 #import "WorkTypeViewController.h"
 #import "PostVeitifyViewController.h"
+#import "CompanySearchViewController.h"
 
 #import "UIColor+Expanded.h"
 #import "UIButton+Easy.h"
@@ -29,7 +30,7 @@
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface RegisterViewController()<UITableViewDataSource, UITableViewDelegate,UIGestureRecognizerDelegate, UITextViewDelegate>
+@interface RegisterViewController()<UITableViewDataSource, UITableViewDelegate,UIGestureRecognizerDelegate, UITextViewDelegate, CompanySearchViewControllerDelegate>
 @end
 
 @implementation RegisterViewController
@@ -283,7 +284,7 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
     UnitRegisterItemCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UnitRegisterItemCell class])];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.titleText = _dataSource[indexPath.row];
-    if(indexPath.row == 3){
+    if(indexPath.row == 3 || indexPath.row == 0){
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textView.userInteractionEnabled = NO;
     }
@@ -333,6 +334,10 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
             cell.textView.text = _workTypeStr;
         };
         [self.navigationController pushViewController:workTypeViewController animated:YES];
+    }else if (indexPath.row == 0){
+        CompanySearchViewController* companySearchVC = [[CompanySearchViewController alloc] init];
+        companySearchVC.delegate = self;
+        [self.navigationController pushViewController:companySearchVC animated:YES];
     }
 }
 
@@ -395,6 +400,19 @@ typedef NS_ENUM(NSInteger, TEXTVIEWTYPE)
 
     CGSize size = [textView sizeThatFits:CGSizeMake(CGRectGetWidth(textView.frame), MAXFLOAT)];
     _cellHeight = size.height > PXFIT_HEIGHT(100) ? size.height : PXFIT_HEIGHT(100);
+}
+
+
+#pragma mark - CompanySearchViewControllerDelegate
+-(void)theCompanySearchResult:(NSString *)companyName address:(NSString *)address{
+    
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    UnitRegisterItemCell* cell = [_tableView cellForRowAtIndexPath:indexPath];
+    cell.textView.text = companyName;
+    
+    indexPath = [NSIndexPath indexPathForRow:5 inSection:0];
+    cell = [_tableView cellForRowAtIndexPath:indexPath];
+    cell.textView.text = address;
 }
 
 

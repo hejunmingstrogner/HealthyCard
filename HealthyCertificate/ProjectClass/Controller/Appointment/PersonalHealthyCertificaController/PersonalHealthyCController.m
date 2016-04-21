@@ -15,6 +15,7 @@
 #import "WorkTypeViewController.h"
 #import "AppointmentInfoView.h"
 #import "ScanImageViewController.h"
+#import "TextViewTableViewCell.h"
 
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
@@ -33,7 +34,7 @@
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
-@interface PersonalHealthyCController()<ScanImageViewDelegate, PayMoneyDelegate>
+@interface PersonalHealthyCController()<ScanImageViewDelegate, PayMoneyDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     BOOL        _isAvatarSet;
 
@@ -43,12 +44,6 @@
     BOOL        isChanged;
 
     UIImageView *tipIamgeView;
-
-    UIButton    *codeButton;
-    UIButton    *payMoneyButton;
-    
-    UITableViewCell *codecell;  // 条形码绑定的cell
-    UITableViewCell *paycell2;  // 付款情况的cell
     
     BOOL        _nameChanged;
     BOOL        _sexChanged;
@@ -57,6 +52,8 @@
     BOOL        _regTimeChanged;
     BOOL        _linkPhoneChanged;
     BOOL        _avarChanged;
+    
+    UITableView *_tableView;
 }
 
 @property (nonatomic, strong) UIButton                       *leftBtn;          // 左侧按钮
@@ -134,7 +131,7 @@
     _customerTestInfo.regPosLO = _posLo;
     _customerTestInfo.regPosLA = _posLa;
     if (_customerTestInfo.servicePoint.type == 0)
-        _customerTestInfo.regTime = [_orderinforView.timeBtn.titleLabel.text convertDateStrWithHourToLongLong]*1000;
+        _customerTestInfo.regTime = _regTime * 1000;
     _customerTestInfo.sex = [_healthCertificateView.gender isEqualToString:@"男"]? 0 : 1;
 
     if(_isAvatarSet == YES){
@@ -182,6 +179,7 @@
                 MethodResult *resultdict = [MethodResult mj_objectWithKeyValues:result];
                 if (resultdict.succeed){
                     [RzAlertView showAlertLabelWithTarget:self.view Message:@"修改成功" removeDelay:2];
+                    isChanged = YES;
                 }else{
                     if ([resultdict.object isEqualToString:@"0"]) {
                         [RzAlertView showAlertLabelWithTarget:self.view Message:@"异常失败，请重试" removeDelay:2];
@@ -230,78 +228,27 @@
     _healthCertificateView.layer.masksToBounds = YES;
     _healthCertificateView.delegate = self;
     _healthCertificateView.layer.cornerRadius = 10;
-
-    // 预约信息
-    _orderinforView = [[HealthyCertificateOrderInfoView alloc]initWithFrame:CGRectMake(10, 10+ PXFIT_HEIGHT(470) + 10, self.view.frame.size.width - 20, 200)];
-    [containView addSubview:_orderinforView];
-    [_orderinforView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(_healthCertificateView);
-        make.top.equalTo(_healthCertificateView.mas_bottom).offset(10);
-        make.height.mas_equalTo(200);
-    }];
-
-    // 条形码按钮
-    codecell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-    codecell.backgroundColor = [UIColor whiteColor];
-    codecell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    codecell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
-    codecell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
-    codecell.textLabel.text = @"条形码绑定";
-    codecell.imageView.image = [UIImage imageNamed:@"tiaoxingma"];
-    [containView addSubview:codecell];
-    codecell.detailTextLabel.text = _customerTestInfo.cardNo;
-    [codecell mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_orderinforView.mas_bottom).offset(10);
-        make.left.right.equalTo(containView);
-        make.height.mas_equalTo(44);
-    }];
-    codeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [codeButton setBackgroundColor:[UIColor clearColor]];
-    [codecell addSubview:codeButton];
-    [codeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(codecell);
-    }];
-    [codeButton setBackgroundImage:[UIImage imageNamed:@"grayBackgroundImage"] forState:UIControlStateHighlighted];
-    [codeButton addTarget:self action:@selector(codeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-
-    paycell2 = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell2"];
-    [containView addSubview:paycell2];
-    paycell2.backgroundColor = [UIColor whiteColor];
-    paycell2.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
-    paycell2.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
-    paycell2.textLabel.text = @"支付情况";
-    paycell2.detailTextLabel.textColor = [UIColor blackColor];
-    [paycell2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(codeButton.mas_bottom).offset(10);
-        make.left.right.equalTo(containView);
-        make.height.mas_equalTo(44);
-    }];
-    // 需要去支付
-    if ([_customerTestInfo isNeedToPay]) {
-        paycell2.detailTextLabel.text = @"在线支付";
-        paycell2.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    else{
-        paycell2.detailTextLabel.text = @"已支付";
-        paycell2.accessoryType = UITableViewCellAccessoryNone;
-    }
-    paycell2.imageView.image = [UIImage imageNamed:@"zhifuqingkuang"];
-    // 付款按钮
-    payMoneyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [paycell2 addSubview:payMoneyButton];
-    [payMoneyButton mas_makeConstraints:^(MASConstraintMaker *make) {
-       make.edges.equalTo(paycell2);
-    }];
-    payMoneyButton.backgroundColor = [UIColor clearColor];
-    [payMoneyButton setBackgroundImage:[UIImage imageNamed:@"grayBackgroundImage"] forState:UIControlStateHighlighted];
-    [payMoneyButton addTarget:self action:@selector(paymoneyClicked:) forControlEvents:UIControlEventTouchUpInside];
     
+    
+    //体检信息
+    _tableView = [[UITableView alloc] init];
+    [containView addSubview:_tableView];
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+    _tableView.scrollEnabled = NO;
+    [_tableView registerClass:[TextViewTableViewCell class] forCellReuseIdentifier:NSStringFromClass([TextViewTableViewCell class])];
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(containView);
+        make.top.equalTo(_healthCertificateView.mas_bottom).with.offset(10);
+        make.height.mas_equalTo(PXFIT_HEIGHT(100) * 3 + PXFIT_HEIGHT(100) * (_customerTestInfo.servicePoint == nil ? 2 : 3) + 20);
+    }];
+
     // 三个状态按钮的view
     UIView *btnBgView = [[UIView alloc]init];
     [containView addSubview:btnBgView];
     btnBgView.backgroundColor = [UIColor whiteColor];
     [btnBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(payMoneyButton.mas_bottom).offset(10);
+        make.top.equalTo(_tableView.mas_bottom).offset(10);
         make.left.right.equalTo(containView);
         make.height.mas_equalTo(80);
     }];
@@ -394,10 +341,7 @@
 
 - (void)initData
 {
-    __weak PersonalHealthyCController *weakself = self;
     _healthCertificateView.customerTest = _customerTestInfo;
-    _orderinforView.cutomerTest = _customerTestInfo;
-    
     
     // 设置体检状态
     CustomerTestStatusItem *status = [_customerTestInfo getTestStatusItem];
@@ -462,69 +406,10 @@
     
     if (![_customerTestInfo.testStatus isEqualToString:@"-1"]){
         //只要不是待检状态，都不能修改信息
-        _orderinforView.addressBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-        _orderinforView.timeBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-        _orderinforView.phoneBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-        
-        _orderinforView.addressBtn.enabled = NO;
-        _orderinforView.timeBtn.enabled = NO;
-        _orderinforView.phoneBtn.enabled = NO;
-        
         _healthCertificateView.userInteractionEnabled = NO;
         _healthCertificateView.inputColor = [UIColor colorWithRGBHex:HC_Gray_Text];
         return;
     }
-    
-    _orderinforView.phoneBtnTxtColor = [UIColor blackColor];
-    _orderinforView.phoneBtn.enabled = YES;
-    //地址可修改的情况 个人(都是基于已有服务点所以都不可修改)
-    _orderinforView.addressBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-    _orderinforView.addressBtn.enabled = NO;
-    //时间可修改的情况
-    if (_customerTestInfo.servicePoint.type == 0 && _customerTestInfo.servicePoint != nil){
-        _orderinforView.timeBtnTxtColor = [UIColor blackColor];
-        _orderinforView.timeBtn.enabled = YES;
-    }else{
-        _orderinforView.timeBtnTxtColor = [UIColor colorWithRGBHex:HC_Gray_Text];
-        _orderinforView.timeBtn.enabled = NO;
-    }
-    
-    [_orderinforView.addressBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        if (_orderinforView.segmentControl.selectedSegmentIndex != 0)
-            return ;
-        [weakself selectAddress];
-    }];
-    [_orderinforView.timeBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        if (_orderinforView.segmentControl.selectedSegmentIndex != 0)
-            return ;
-        CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
-        cloudData.choosetDateStr = sender.titleLabel.text;
-        [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
-            [sender setTitle:dateStr forState:UIControlStateNormal];
-            _regTime = [[NSDate formatDateFromChineseStringWithHour:dateStr] convertToLongLong];
-            if (_regTime != _customerTestInfo.regTime)
-                _regTimeChanged = YES;
-            else
-                _regTimeChanged = NO;
-        }];
-        [weakself.navigationController pushViewController:cloudData animated:YES];
-    }];
-    [_orderinforView.phoneBtn addClickedBlock:^(UIButton * _Nonnull sender) {
-        if (_orderinforView.segmentControl.selectedSegmentIndex != 0)
-            return ;
-        EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
-        editInfoViewController.editInfoType = EDITINFO_LINKPHONE;
-        [editInfoViewController setEditInfoText:weakself.linkerPhone WithBlock:^(NSString *resultStr) {
-            weakself.linkerPhone = resultStr;
-            [sender setTitle:resultStr forState:UIControlStateNormal];
-            if (![resultStr isEqualToString:weakself.customerTestInfo.linkPhone]){
-                _linkPhoneChanged = YES;
-            }else{
-                _linkPhoneChanged = NO;
-            }
-        }];
-        [weakself.navigationController pushViewController:editInfoViewController animated:YES];
-    }];
 }
 
 #pragma mark - Setter & Getter
@@ -537,7 +422,7 @@
     _posLa = customerTestInfo.regPosLA;
     _linkerPhone = customerTestInfo.linkPhone;
     
-    if (customerTestInfo.servicePoint.type == 0 || customerTestInfo.servicePoint == nil)
+    if (customerTestInfo.servicePoint.type == 0)
         _regTime = customerTestInfo.regTime;
 }
 
@@ -627,8 +512,7 @@
     wheelView.hidden = YES;
 }
 
-- (void)selectAddress
-{
+- (void)selectAddress{
     SelectAddressViewController *addressselect = [[SelectAddressViewController alloc]init];
     addressselect.addressStr = _orderinforView.addressBtn.titleLabel.text;
     [addressselect getAddressArrayWithBlock:^(NSString *city, NSString *district, NSString *address, CLLocationCoordinate2D coor) {
@@ -641,7 +525,8 @@
     [self.navigationController pushViewController:addressselect animated:YES];
 }
 
-#pragma mark - 绑定条形码
+
+#pragma mark - Action
 - (void)codeButtonClicked:(UIButton *)sender
 {
     //如果本地有修改，需要先执行保存操作
@@ -660,10 +545,9 @@
     scanImageVC.delegate = self;
     [self presentViewController:scanImageVC animated:YES completion:nil];
 }
-#pragma mark - 支付情况
+
 - (void)paymoneyClicked:(UIButton *)sender
 {
-    // 不需要付款
     if (![_customerTestInfo isNeedToPay]) {
         return;
     }
@@ -679,8 +563,16 @@
 #pragma mark -paymoney Delegate 支付款项之后的delegate
 - (void)payMoneySuccessed{
     [RzAlertView showAlertLabelWithTarget:self.view Message:@"您的预约支付已完成" removeDelay:2];
-    paycell2.detailTextLabel.text = @"已支付";
-    paycell2.accessoryType = UITableViewCellAccessoryNone;
+    isChanged = YES;
+    
+    NSIndexPath *indexPath;
+    if (_customerTestInfo.servicePoint != nil){
+        indexPath = [NSIndexPath indexPathForRow:2 inSection:1];
+    }else{
+        indexPath = [NSIndexPath indexPathForRow:1 inSection:1];
+    }
+    [_tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = @"已支付";
+    [_tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
 }
 
 - (void)payMoneyCencel{
@@ -692,21 +584,225 @@
 }
 
 - (void)payMoneyByOthers
-{
+{}
+
+#pragma mark - UITableViewDataSource
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section == 0){
+        return 3;
+    }else{
+        return _customerTestInfo.servicePoint == nil ? 2 : 3;
+    }
 }
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return PXFIT_HEIGHT(100);
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 10;
+}
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0){
+        TextViewTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([TextViewTableViewCell class])];
+        if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
+            [cell setSeparatorInset:UIEdgeInsetsZero];
+        if ( [cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)] )
+            [cell setPreservesSuperviewLayoutMargins:NO];
+        if ( [cell respondsToSelector:@selector(setLayoutMargins:)] )
+            [cell setLayoutMargins:UIEdgeInsetsZero];
+        cell.textView.userInteractionEnabled = NO;
+        if (indexPath.row == 0){
+             cell.titleText = @"体检时间";
+            if (_customerTestInfo.servicePoint == nil || _customerTestInfo.servicePoint.type == 0){
+                //单位统一预约或固定服务点
+                cell.textView.text = [NSDate converLongLongToChineseStringDateWithHour:_customerTestInfo.regTime/1000];
+                if (_customerTestInfo.servicePoint == nil){
+                    //单位统一预约不可修改时间
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+                }else{
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    cell.textView.textColor = [UIColor blackColor];
+                }
+            }else{
+                NSString *year = [NSDate getYear_Month_DayByDate:_customerTestInfo.servicePoint.startTime/1000];
+                NSString *start = [NSDate getHour_MinuteByDate:_customerTestInfo.servicePoint.startTime/1000];
+                NSString *end = [NSDate getHour_MinuteByDate:_customerTestInfo.servicePoint.endTime/1000];
+                NSString *timestatus = [NSString stringWithFormat:@"%@(%@~%@)", year, start, end];
+                cell.textView.text = timestatus;
+                cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+        }else if (indexPath.row == 1){
+            cell.titleText = @"体检位置";
+            cell.textView.text = _customerTestInfo.regPosAddr;
+            cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        }else{
+            cell.titleText = @"联系电话";
+            cell.textView.text = _customerTestInfo.linkPhone;
+            cell.textView.textColor = [UIColor blackColor];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        
+        if (![_customerTestInfo.testStatus isEqualToString:@"-1"]){
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.textView.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        }
+        return cell;
+    }else{
+        UITableViewCell* cell = [_tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class])];
+        if (cell == nil){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:NSStringFromClass([UITableViewCell class])];
+        }
+        cell.textLabel.textColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        if ( [cell respondsToSelector:@selector(setSeparatorInset:)] )
+            [cell setSeparatorInset:UIEdgeInsetsZero];
+        if ( [cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)] )
+            [cell setPreservesSuperviewLayoutMargins:NO];
+        if ( [cell respondsToSelector:@selector(setLayoutMargins:)] )
+            [cell setLayoutMargins:UIEdgeInsetsZero];
+        cell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(25)];
+        cell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+        if (_customerTestInfo.servicePoint != nil){
+            if (indexPath.row == 0){
+                cell.imageView.image = [UIImage imageNamed:@"ExamServerPoint"];
+                cell.textLabel.text = @"体检点详情";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }else if (indexPath.row == 1){
+                cell.imageView.image = [UIImage imageNamed:@"tiaoxingma"];
+                cell.textLabel.text = @"条形码绑定";
+                cell.detailTextLabel.text = _customerTestInfo.cardNo == nil ? @"" : _customerTestInfo.cardNo;
+                if (![_customerTestInfo.testStatus isEqualToString:@"-1"]){
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                }else{
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                }
+            }else{
+                cell.imageView.image = [UIImage imageNamed:@"zhifuqingkuang"];
+                cell.textLabel.text = @"支付情况";
+                if ([_customerTestInfo isNeedToPay]){
+                    cell.detailTextLabel.text = @"在线支付";
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                }else{
+                    cell.detailTextLabel.text = @"已支付";
+                    cell.accessoryType =  UITableViewCellAccessoryNone;
+                }
+            }
+        }else{
+            if (indexPath.row == 0){
+                cell.imageView.image = [UIImage imageNamed:@"tiaoxingma"];
+                cell.textLabel.text = @"条形码绑定";
+                cell.detailTextLabel.text = _customerTestInfo.cardNo == nil ? @"" : _customerTestInfo.cardNo;
+                if (![_customerTestInfo.testStatus isEqualToString:@"-1"]){
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                }else{
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                }
+            }else{
+                cell.imageView.image = [UIImage imageNamed:@"zhifuqingkuang"];
+                cell.textLabel.text = @"支付情况";
+                if ([_customerTestInfo isNeedToPay]){
+                    cell.detailTextLabel.text = @"在线支付";
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                }else{
+                    cell.detailTextLabel.text = @"已支付";
+                    cell.accessoryType =  UITableViewCellAccessoryNone;
+                }
+            }
+        }
+        return cell;
+    }
+}
+
+
+#pragma mark - UITableViewDelegate
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0){
+        TextViewTableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (indexPath.row == 0){
+            if (_customerTestInfo.servicePoint == nil || _customerTestInfo.servicePoint.type == 1){
+            }else{
+                CloudAppointmentDateVC *cloudData = [[CloudAppointmentDateVC alloc]init];
+                cloudData.choosetDateStr = cell.textView.text;
+                [cloudData getAppointDateStringWithBlock:^(NSString *dateStr) {
+                    cell.textView.text = dateStr;
+                    _regTime = [[NSDate formatDateFromChineseStringWithHour:dateStr] convertToLongLong];
+                    if (_regTime != _customerTestInfo.regTime)
+                        _regTimeChanged = YES;
+                    else
+                        _regTimeChanged = NO;
+                }];
+                [self.navigationController pushViewController:cloudData animated:YES];
+            }
+        }else if (indexPath.row == 2){
+            EditInfoViewController* editInfoViewController = [[EditInfoViewController alloc] init];
+            editInfoViewController.editInfoType = EDITINFO_LINKPHONE;
+            [editInfoViewController setEditInfoText:_linkerPhone WithBlock:^(NSString *resultStr) {
+                _linkerPhone = resultStr;
+                cell.textView.text = _linkerPhone;
+                if (![resultStr isEqualToString:_customerTestInfo.linkPhone]){
+                    _linkPhoneChanged = YES;
+                }else{
+                    _linkPhoneChanged = NO;
+                }
+            }];
+            [self.navigationController pushViewController:editInfoViewController animated:YES];
+        }
+    }else{
+        TextViewTableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+        if ([cell.textLabel.text isEqualToString:@"体检点详情"]){
+            
+        }else if ([cell.textLabel.text isEqualToString:@"条形码绑定"]){
+            if (![_customerTestInfo.testStatus isEqualToString:@"-1"]){
+                return;
+            }
+            //如果本地有修改，需要先执行保存操作
+            if (_nameChanged || _sexChanged || _idCardChanged || _workTypeChanged || _avarChanged || _regTimeChanged || _linkPhoneChanged){
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"请保存修改信息后绑定条形码" removeDelay:3];
+                return;
+            }
+            
+            //必须上传头像以后才能执行条码的扫描操作
+            if (_isAvatarSet == NO){
+                [RzAlertView showAlertLabelWithTarget:self.view Message:@"请先上传头像" removeDelay:2];
+                return;
+            }
+            
+            ScanImageViewController* scanImageVC = [[ScanImageViewController alloc] init];
+            scanImageVC.delegate = self;
+            [self presentViewController:scanImageVC animated:YES completion:nil];
+        }else{
+            if (![_customerTestInfo isNeedToPay]) {
+                return;
+            }
+            PayMoneyController *pay = [[PayMoneyController alloc]init];
+            pay.chargetype = CUSTOMERTEST;
+            pay.checkCode = _customerTestInfo.checkCode;
+            pay.cityName = _customerTestInfo.cityName;
+            pay.delegate = self;
+            [self.navigationController pushViewController:pay animated:YES];
+        }
+    }
+}
+
+
 
 
 #pragma mark - ScanImageViewDelegate
 -(void)reportScanResult:(NSString *)resultStr
 {
     //条码是14位，规则为前4位为分部编号，接着两位为年份，后面8位为顺序号。
-    
     if (![[resultStr substringWithRange:NSMakeRange(0, 4)] isEqualToString:_customerTestInfo.hosCode] ||
         ![[[[NSDate date] getYear] substringWithRange:NSMakeRange(2, 2)] isEqualToString:[resultStr substringWithRange:NSMakeRange(4, 2)]]){
         [RzAlertView showAlertLabelWithMessage:@"条码格式不匹配" removewDelay:2];
         return;
     }
-    codecell.detailTextLabel.text = resultStr;
    [[HttpNetworkManager getInstance] customerAffirmByCardNo:_customerTestInfo.checkCode CardNo:resultStr resultBlock:^(NSDictionary *result, NSError *error) {
        if (error){
           [RzAlertView showAlertLabelWithTarget:self.view Message:@"网络连接错误，请检查设置" removeDelay:2];
@@ -715,6 +811,7 @@
        if (result != nil && error == nil){
            CustomerTest* customerTest = [CustomerTest mj_objectWithKeyValues:result];
            _customerTestInfo = customerTest;
+           isChanged = YES;
            [self initData];
            self.navigationItem.rightBarButtonItem = nil;
        }
