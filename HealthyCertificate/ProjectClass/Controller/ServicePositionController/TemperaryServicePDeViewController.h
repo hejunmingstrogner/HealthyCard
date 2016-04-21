@@ -20,5 +20,5 @@
 
 @property (nonatomic, assign) CLLocationCoordinate2D appointCoordinate;    // 预约坐标
 
-@property (nonatomic, assign) BOOL canShowOrderBtn;     // 是否显示预约按钮
+@property (nonatomic, assign) BOOL hideOrderBtn;     // 是否显示预约按钮
 @end
