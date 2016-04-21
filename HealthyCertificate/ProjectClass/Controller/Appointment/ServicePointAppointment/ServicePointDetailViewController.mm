@@ -149,6 +149,12 @@
 //    [scrollBtn setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.9]];
 //    [scrollBtn setBackgroundImage:[UIImage imageNamed:@"goDown"] forState:UIControlStateNormal];
 //    [scrollBtn addTarget:self action:@selector(setNewMapFrame:) forControlEvents:UIControlEventTouchUpInside];
+
+    if(!_canShowOrderBtn)
+    {
+        _orderBtn.hidden = YES;
+        _mapView.frame = CGRectMake(0, 200 + 54, self.view.frame.size.width, self.view.frame.size.height - 200 - 60 - 54 + 60);
+    }
 }
 
 - (void)setNewMapFrame:(UIButton *)sender

@@ -19,4 +19,6 @@
 @property (nonatomic, strong) ServersPositionAnnotionsModel *servicePositionItem;   // 预约点信息
 
 @property (nonatomic, assign) CLLocationCoordinate2D appointCoordinate;    // 预约坐标
+
+@property (nonatomic, assign) BOOL canShowOrderBtn;     // 是否显示预约按钮
 @end
