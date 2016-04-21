@@ -35,6 +35,9 @@
 #define MYBUNDLE_PATH [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: MYBUNDLE_NAME]
 #define MYBUNDLE [NSBundle bundleWithPath: MYBUNDLE_PATH]
 
+#define TableViewOrignHeight 200 - 64 + 40
+#define MapViewOrignHeight self.view.frame.size.height - 200 - 60 -40
+
 @interface TemperaryServicePDeViewController()<UITableViewDelegate, UITableViewDataSource, BMKLocationServiceDelegate, BMKMapViewDelegate, BMKRouteSearchDelegate>
 {
     BMKMapView  *_mapView;
@@ -128,7 +131,7 @@
     _orderBtn.layer.masksToBounds = YES;
     _orderBtn.layer.cornerRadius = 5;
 
-    _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, self.view.frame.size.height - 200 - 60)];
+    _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 240, self.view.frame.size.width, MapViewOrignHeight)];
     _mapView.zoomLevel = 14;
     _mapView.compassPosition = CGPointMake([UIScreen mainScreen].bounds.size.width - 50, 10);
     [self.view addSubview:_mapView];
@@ -141,7 +144,7 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(64);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(200 - 64);
+        make.height.mas_equalTo(TableViewOrignHeight);
     }];
     // 设置显示服务点信息
     [self addServiersPositionAnno];
@@ -165,14 +168,14 @@
     sender.enabled = NO;
     if (sender.tag == 1) { // 下缩
         [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(self.view.frame.size.height - 64 - 60 - 200);
+            make.height.mas_equalTo(self.view.frame.size.height - 64 - 60 - 200 + 40);  // 200地图的显示
         }];
         sender.tag = 2;
         [sender setBackgroundImage:[UIImage imageNamed:@"goUp"] forState:UIControlStateNormal];
     }
     else {
         [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(200-64);
+            make.height.mas_equalTo(TableViewOrignHeight);
         }];
         sender.tag = 1;
         [sender setBackgroundImage:[UIImage imageNamed:@"goDown"] forState:UIControlStateNormal];
@@ -195,7 +198,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 40;
+        if ([_servicePositionItem.outCheckSitePartInfo isShowTitleInfoView]) {
+            return 40;
+        }
+        return 10;
     }
     return 10;
 }
