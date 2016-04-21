@@ -745,9 +745,9 @@ NSString *gCurrentCityName;
                 [strongself->_mapView removeAnnotations:strongself->_mapView.annotations];
                 strongself->nearbyServicePositionsArray = [NSMutableArray arrayWithArray:result];
                 [weakself calculateMinDistance];
-                if (nearbyServicePositionsArray.count != 0) {
-                    [weakself addServersPositionAnnotionsWithList:nearbyServicePositionsArray];
-                }
+//                if (nearbyServicePositionsArray.count != 0) {
+//                    [weakself addServersPositionAnnotionsWithList:nearbyServicePositionsArray];
+//                }
             }];
         }
         else {
@@ -916,5 +916,11 @@ NSString *gCurrentCityName;
     // 将可以预约的服务点放前边
     [fixedPoitnServicePositionsArray addObjectsFromArray:canusePositions];
     [fixedPoitnServicePositionsArray addObjectsFromArray:cannotuserPositions];
+
+    // 将移动服务点放在地图上
+    [self addServersPositionAnnotionsWithList:moveServicePositionsArray];
+    // 将固定服务点放在地图上
+    [self addServersPositionAnnotionsWithList:fixedPoitnServicePositionsArray];
+
 }
 @end
