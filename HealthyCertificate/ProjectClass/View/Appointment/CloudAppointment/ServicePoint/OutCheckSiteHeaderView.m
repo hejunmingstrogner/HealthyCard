@@ -17,6 +17,9 @@
 #import "UIColor+Expanded.h"
 #import "UILabel+FontColor.h"
 #import "UIView+borderWidth.h"
+#import "NSDate+Custom.h"
+
+#import "ServersPositionAnnotionsModel.h"
 
 #define TitleFont FIT_FONTSIZE(23)
 
@@ -24,6 +27,8 @@
 {
     UILabel     *_numberOfPeopleLabel;
     UILabel     *_appointmentPeopleLabel;
+    
+    UILabel     *_tipLabel;
 }
 
 -(id)initWithFrame:(CGRect)frame{
@@ -71,6 +76,17 @@
             make.right.equalTo(_appointmentPeopleLabel.mas_left).with.offset(-PXFIT_WIDTH(24));
         }];
         
+        _tipLabel = [[UILabel alloc] init];
+        _tipLabel.backgroundColor = [UIColor whiteColor];
+        _tipLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:TitleFont];
+        _tipLabel.numberOfLines = 0;
+        [containerView addSubview:_tipLabel];
+        [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(containerView).with.offset(PXFIT_WIDTH(24));
+            make.right.equalTo(containerView).with.offset(-PXFIT_WIDTH(24));
+            make.top.bottom.equalTo(containerView);
+        }];
+        _tipLabel.hidden = YES;
     }
     return self;
 }
@@ -83,5 +99,19 @@
 -(void)setAppointmentCount:(NSInteger)appointmentCount{
     [_appointmentPeopleLabel setText:[NSString stringWithFormat:@"%ld", appointmentCount] Font:[UIFont fontWithType:UIFontOpenSansRegular size:TitleFont] WithEndText:@"人" endTextColor:[UIColor blackColor]];
 }
+
+#pragma mark - Public Methods
+-(void)setServerPointInfo:(ServersPositionAnnotionsModel*)spModel
+{
+    if (spModel.outCheckSitePartInfo != nil && spModel.outCheckSitePartInfo.testStatus == 0){
+        //未生效
+        NSString *time = [NSDate getYearMonthDayByDate:spModel.startTime/1000];
+        NSString *count = [NSString stringWithFormat:@"%d", spModel.outCheckSitePartInfo.chargedNum];
+        [_tipLabel setText1:time text1Color:[UIColor redColor] text2:@"之前召集" text2Color:[UIColor blackColor] text3:@"16个" text3Color:[UIColor redColor] text4:@"小伙伴，此体检点生效！ 已召集 "  text4Color:[UIColor blackColor] text5:count text5Color:[UIColor redColor] size:14];
+        _tipLabel.hidden = NO;
+    }
+}
+
+
 
 @end

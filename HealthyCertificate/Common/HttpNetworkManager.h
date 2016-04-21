@@ -145,6 +145,13 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  */
 - (void)removeCustomerWithCustomer:(Customer *)customer resultBlock:(void(^)(MethodResult *result, NSError *error))block;
 
+/**
+ *  获取已付款的人数
+ *
+ *  @param contractCode 合同编号
+ */
+-(void)getChargedCountByContactCode:(NSString*)contractCode;
+
 #pragma mark - 查询信息员工
 /**
  *  查询单位所属的员工列表

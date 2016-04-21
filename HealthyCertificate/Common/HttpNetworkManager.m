@@ -300,6 +300,12 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
         }
     }];
 }
+
+-(void)getChargedCountByContactCode:(NSString *)contractCode
+{
+    
+}
+
 #pragma mark －创建或更新单位信息
 // 创建或更新单位信息
 - (void)createOrUpdateBRServiceInformationwithInfor:(NSDictionary *)BRServiceInfo resultBlock:(void (^)(BOOL, NSError *))block
