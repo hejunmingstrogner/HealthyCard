@@ -464,7 +464,6 @@
     walk.to = end;
     BOOL flag = [_routesearch walkingSearch:walk];
     if (!flag) {
-        NSLog(@"步行规划失败");
     }
 }
 
