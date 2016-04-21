@@ -762,12 +762,12 @@
             if (_customerTestInfo.servicePoint.type == 0){
                 ServicePointDetailViewController* servicePointDetail = [[ServicePointDetailViewController alloc] init];
                 servicePointDetail.serverPositionItem = _customerTestInfo.servicePoint;
-                servicePointDetail.canShowOrderBtn = NO;
+                servicePointDetail.hideOrderBtn = YES;
                 [self.navigationController pushViewController:servicePointDetail animated:YES];
             }else{
                 TemperaryServicePDeViewController* temperaryServicePDeViewController = [[TemperaryServicePDeViewController alloc] init];
                 temperaryServicePDeViewController.servicePositionItem = _customerTestInfo.servicePoint;
-                temperaryServicePDeViewController.canShowOrderBtn = NO;
+                temperaryServicePDeViewController.hideOrderBtn = YES;
                 [self.navigationController pushViewController:temperaryServicePDeViewController animated:YES];
             }
         }else if ([cell.textLabel.text isEqualToString:@"条形码绑定"]){
