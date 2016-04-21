@@ -247,6 +247,7 @@
                 UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, self.view.frame.size.width, hight)];
                 label1.tag = 10;
                 [view addSubview:label1];
+                label1.numberOfLines = 0;
             }
             UILabel *label = [view viewWithTag:10];
             NSString *time = [NSDate getYearMonthDayByDate:_servicePositionItem.startTime/1000];
