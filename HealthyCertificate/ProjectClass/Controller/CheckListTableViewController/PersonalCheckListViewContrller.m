@@ -81,7 +81,7 @@
     // 批量支付
     piliangPayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [piliangPayBtn setTitle:@"批量支付" forState:UIControlStateNormal];
-    [piliangPayBtn setTitleColor:[UIColor colorWithRGBHex:HC_Base_Blue] forState:UIControlStateNormal];
+    [piliangPayBtn setTitleColor:[UIColor colorWithRGBHex:HC_Blue_Text] forState:UIControlStateNormal];
     piliangPayBtn.titleLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:15];
     piliangPayBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     piliangPayBtn.tag = 0;   // tag ＝ 0非编辑状态  ＝1 为编辑状态

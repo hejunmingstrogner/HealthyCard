@@ -102,6 +102,12 @@
 		2567AAE41CC8A73A00483136 /* ExamServerPoint@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2567AAE11CC8A73A00483136 /* ExamServerPoint@1x.png */; };
 		2567AAE51CC8A73A00483136 /* ExamServerPoint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2567AAE21CC8A73A00483136 /* ExamServerPoint@2x.png */; };
 		2567AAE61CC8A73A00483136 /* ExamServerPoint@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2567AAE31CC8A73A00483136 /* ExamServerPoint@3x.png */; };
+		2567AAEA1CC8ECE400483136 /* statusIcon@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2567AAE71CC8ECE400483136 /* statusIcon@1x.png */; };
+		2567AAEB1CC8ECE400483136 /* statusIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2567AAE81CC8ECE400483136 /* statusIcon@3x.png */; };
+		2567AAEC1CC8ECE400483136 /* statusIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2567AAE91CC8ECE400483136 /* statusIcon@2x.png */; };
+		2567AAF01CC8ECED00483136 /* qrIcon@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2567AAED1CC8ECED00483136 /* qrIcon@1x.png */; };
+		2567AAF11CC8ECED00483136 /* qrIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2567AAEE1CC8ECED00483136 /* qrIcon@2x.png */; };
+		2567AAF21CC8ECED00483136 /* qrIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2567AAEF1CC8ECED00483136 /* qrIcon@3x.png */; };
 		2567AC3D1C89680800E51DFA /* HCNavigationBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */; };
 		258E2CC21CBFBFCF009A81A0 /* ChargeBusinessObjForBatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 258E2CC11CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.m */; };
 		258E2D461CC4B6F3009A81A0 /* FixedSiteHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 258E2D451CC4B6F3009A81A0 /* FixedSiteHeaderView.m */; };
@@ -414,6 +420,12 @@
 		2567AAE11CC8A73A00483136 /* ExamServerPoint@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ExamServerPoint@1x.png"; sourceTree = "<group>"; };
 		2567AAE21CC8A73A00483136 /* ExamServerPoint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ExamServerPoint@2x.png"; sourceTree = "<group>"; };
 		2567AAE31CC8A73A00483136 /* ExamServerPoint@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ExamServerPoint@3x.png"; sourceTree = "<group>"; };
+		2567AAE71CC8ECE400483136 /* statusIcon@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusIcon@1x.png"; sourceTree = "<group>"; };
+		2567AAE81CC8ECE400483136 /* statusIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusIcon@3x.png"; sourceTree = "<group>"; };
+		2567AAE91CC8ECE400483136 /* statusIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "statusIcon@2x.png"; sourceTree = "<group>"; };
+		2567AAED1CC8ECED00483136 /* qrIcon@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrIcon@1x.png"; sourceTree = "<group>"; };
+		2567AAEE1CC8ECED00483136 /* qrIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrIcon@2x.png"; sourceTree = "<group>"; };
+		2567AAEF1CC8ECED00483136 /* qrIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrIcon@3x.png"; sourceTree = "<group>"; };
 		2567AC3B1C89680800E51DFA /* HCNavigationBackButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCNavigationBackButton.h; sourceTree = "<group>"; };
 		2567AC3C1C89680800E51DFA /* HCNavigationBackButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCNavigationBackButton.m; sourceTree = "<group>"; };
 		258E2CC01CBFBFCE009A81A0 /* ChargeBusinessObjForBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChargeBusinessObjForBatch.h; sourceTree = "<group>"; };
@@ -926,6 +938,12 @@
 		252AB87A1C76E3880085CC14 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
+				2567AAED1CC8ECED00483136 /* qrIcon@1x.png */,
+				2567AAEE1CC8ECED00483136 /* qrIcon@2x.png */,
+				2567AAEF1CC8ECED00483136 /* qrIcon@3x.png */,
+				2567AAE71CC8ECE400483136 /* statusIcon@1x.png */,
+				2567AAE81CC8ECE400483136 /* statusIcon@3x.png */,
+				2567AAE91CC8ECE400483136 /* statusIcon@2x.png */,
 				2567AAE11CC8A73A00483136 /* ExamServerPoint@1x.png */,
 				2567AAE21CC8A73A00483136 /* ExamServerPoint@2x.png */,
 				2567AAE31CC8A73A00483136 /* ExamServerPoint@3x.png */,
@@ -1745,6 +1763,7 @@
 				25C070741CA37DE50098A3FB /* phoneIcon@1x.png in Resources */,
 				258E2D4A1CC4B7EA009A81A0 /* hotTip@1x.png in Resources */,
 				254A8D8B1C7AE02300F2EC94 /* Avatar@2x.png in Resources */,
+				2567AAF21CC8ECED00483136 /* qrIcon@3x.png in Resources */,
 				25C070821CA38C1D0098A3FB /* unitLog@3x.png in Resources */,
 				254A8DD21C7D619C00F2EC94 /* Login_Logo@3x.png in Resources */,
 				25BFEB471C75BF1F0062F9B8 /* back@1x.png in Resources */,
@@ -1769,8 +1788,10 @@
 				252AB88A1C76E3880085CC14 /* search_icon@1x.png in Resources */,
 				2512B4251C7056D200EE661B /* OpenSans-Regular.ttf in Resources */,
 				252AB8851C76E3880085CC14 /* date_icon@2x.png in Resources */,
+				2567AAEC1CC8ECE400483136 /* statusIcon@2x.png in Resources */,
 				254A8D9F1C7C2CAC00F2EC94 /* message@1x.png in Resources */,
 				252AB8891C76E3880085CC14 /* phone_icon@3x.png in Resources */,
+				2567AAF11CC8ECED00483136 /* qrIcon@2x.png in Resources */,
 				254A8DA51C7C32B800F2EC94 /* servicePoint@1x.png in Resources */,
 				252AB8841C76E3880085CC14 /* date_icon@1x.png in Resources */,
 				25C0707E1CA38C1D0098A3FB /* serverPointLogo@2x.png in Resources */,
@@ -1784,7 +1805,9 @@
 				254A8D9C1C7C2CAC00F2EC94 /* detail@1x.png in Resources */,
 				254A8DC11C7D401A00F2EC94 /* arrow@1x.png in Resources */,
 				254A8DA11C7C2CAC00F2EC94 /* message@3x.png in Resources */,
+				2567AAF01CC8ECED00483136 /* qrIcon@1x.png in Resources */,
 				254A8DC31C7D401A00F2EC94 /* arrow@3x.png in Resources */,
+				2567AAEA1CC8ECE400483136 /* statusIcon@1x.png in Resources */,
 				258E2D4B1CC4B7EA009A81A0 /* hotTip@2x.png in Resources */,
 				254A8D9D1C7C2CAC00F2EC94 /* detail@2x.png in Resources */,
 				2567AAE51CC8A73A00483136 /* ExamServerPoint@2x.png in Resources */,
@@ -1797,6 +1820,7 @@
 				254A8DA71C7C32B800F2EC94 /* servicePoint@3x.png in Resources */,
 				2512B3B71C70557C00EE661B /* Assets.xcassets in Resources */,
 				2512B4241C7056D200EE661B /* OpenSans-Bold.ttf in Resources */,
+				2567AAEB1CC8ECE400483136 /* statusIcon@3x.png in Resources */,
 				25C070811CA38C1D0098A3FB /* unitLog@2x.png in Resources */,
 				254A8DC21C7D401A00F2EC94 /* arrow@2x.png in Resources */,
 				252AB88C1C76E3880085CC14 /* search_icon@3x.png in Resources */,

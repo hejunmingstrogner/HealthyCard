@@ -413,9 +413,35 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             make.height.mas_equalTo(PXFIT_HEIGHT(100)*2 + PXFIT_HEIGHT(20)*2);
         }];
         
-        [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(todoContract.mas_bottom);
-        }];
+        //合同未生效
+        if (_brContract.checkSiteID == nil || ![_brContract.checkSiteID isEqualToString:@""]){
+            //移动服务点
+            UILabel* noticeLabel = [UILabel labelWithText:@"温馨提示"
+                                                     font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)]
+                                                textColor:[UIColor blackColor]];
+            [containerView addSubview:noticeLabel];
+            [noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(containerView).with.offset(10);
+                make.top.mas_equalTo(todoContract.mas_bottom).with.offset(10);
+            }];
+            
+            NSString* tipInfo;
+            tipInfo = [NSString stringWithFormat:@"当您的付费人员达到16个以后该服务点生效。现在还差%d人", 16 - _brContract.servicePoint.outCheckSitePartInfo.oppointmentNum];
+            UILabel* itemLabel = [UILabel labelWithText:tipInfo
+                                                   font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)]
+                                              textColor:[UIColor colorWithRGBHex:HC_Gray_Text]];
+            itemLabel.numberOfLines = 0;
+            [containerView addSubview:itemLabel];
+            [itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(containerView).with.offset(10);
+                make.right.mas_equalTo(containerView).with.offset(-10);
+                make.top.mas_equalTo(noticeLabel.mas_bottom).with.offset(10);
+            }];
+        }else{
+            [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.bottom.equalTo(todoContract.mas_bottom);
+            }];
+        }
     }else{
         _examTableView = [[UITableView alloc] init];
         [containerView addSubview:_examTableView];
@@ -447,8 +473,8 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }else{
             tipInfo = @"请确认在体检车离开前按时到达服务点,以免给您带来不便!";
         }
-        if (_sercersPositionInfo != nil){
-            tipInfo = @"当您的付费人员达到16个以后该服务点生效。邀请您附近有体检的人员都来参加吧!";
+        if (_sercersPositionInfo == nil){
+            tipInfo = @"当您的付费人员达到16个以后该合同生效。邀请您附近有体检的人员都来参加吧!";
         }
         UILabel* itemLabel = [UILabel labelWithText:tipInfo
                                                font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)]
@@ -906,8 +932,10 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             cell.textLabel.textColor = [UIColor blackColor];
             if (indexPath.section == 0){
                 cell.textLabel.text = @"扫码签到";
+                cell.imageView.image = [UIImage imageNamed:@"qrIcon"];
             }else{
                 cell.textLabel.text = @"体检态势";
+                cell.imageView.image = [UIImage imageNamed:@"statusIcon"];
             }
             return cell;
         }
