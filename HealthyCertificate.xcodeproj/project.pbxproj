@@ -166,6 +166,8 @@
 		B2220ADC1CC6187700BA76FD /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220AD31CC6187700BA76FD /* SDCollectionViewCell.m */; };
 		B2220ADD1CC6187700BA76FD /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220AD51CC6187700BA76FD /* SDCycleScrollView.m */; };
 		B2220ADE1CC6187700BA76FD /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220AD71CC6187700BA76FD /* UIView+SDExtension.m */; };
+		B2220AE21CC8B12400BA76FD /* OutCheckSite.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220AE11CC8B12400BA76FD /* OutCheckSite.m */; };
+		B2220AE51CC8B5B400BA76FD /* Employee.m in Sources */ = {isa = PBXBuildFile; fileRef = B2220AE41CC8B5B400BA76FD /* Employee.m */; };
 		B22F730E1CB608200073FB0E /* HistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B22F730D1CB608200073FB0E /* HistoryModel.m */; };
 		B22F73111CB60F220073FB0E /* PersonalHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = B22F73101CB60F220073FB0E /* PersonalHistoryController.m */; };
 		B23163C61C9BEF5300377B27 /* ConsumerAgreement.m in Sources */ = {isa = PBXBuildFile; fileRef = B23163C51C9BEF5300377B27 /* ConsumerAgreement.m */; };
@@ -522,6 +524,10 @@
 		B2220AD51CC6187700BA76FD /* SDCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCycleScrollView.m; sourceTree = "<group>"; };
 		B2220AD61CC6187700BA76FD /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
 		B2220AD71CC6187700BA76FD /* UIView+SDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDExtension.m"; sourceTree = "<group>"; };
+		B2220AE01CC8B12400BA76FD /* OutCheckSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutCheckSite.h; sourceTree = "<group>"; };
+		B2220AE11CC8B12400BA76FD /* OutCheckSite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutCheckSite.m; sourceTree = "<group>"; };
+		B2220AE31CC8B5B400BA76FD /* Employee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Employee.h; sourceTree = "<group>"; };
+		B2220AE41CC8B5B400BA76FD /* Employee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Employee.m; sourceTree = "<group>"; };
 		B22F730C1CB608200073FB0E /* HistoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryModel.h; sourceTree = "<group>"; };
 		B22F730D1CB608200073FB0E /* HistoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryModel.m; sourceTree = "<group>"; };
 		B22F730F1CB60F220073FB0E /* PersonalHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalHistoryController.h; sourceTree = "<group>"; };
@@ -1249,6 +1255,17 @@
 			path = PageControl;
 			sourceTree = "<group>";
 		};
+		B2220ADF1CC8B10D00BA76FD /* OutCheckSite */ = {
+			isa = PBXGroup;
+			children = (
+				B2220AE01CC8B12400BA76FD /* OutCheckSite.h */,
+				B2220AE11CC8B12400BA76FD /* OutCheckSite.m */,
+				B2220AE31CC8B5B400BA76FD /* Employee.h */,
+				B2220AE41CC8B5B400BA76FD /* Employee.m */,
+			);
+			path = OutCheckSite;
+			sourceTree = "<group>";
+		};
 		B22F730B1CB608090073FB0E /* HistoryControllerModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1261,6 +1278,7 @@
 		B23A97FD1C7420C800E3E054 /* ServersPositionAnnotions */ = {
 			isa = PBXGroup;
 			children = (
+				B2220ADF1CC8B10D00BA76FD /* OutCheckSite */,
 				B23A97FE1C7420DE00E3E054 /* ServersPositionAnnotionsModel.h */,
 				B23A97FF1C7420DE00E3E054 /* ServersPositionAnnotionsModel.m */,
 				B2640CCB1C7C361A00721CB5 /* ServicePositionDetialCellItem.h */,
@@ -1874,6 +1892,7 @@
 				B2436C8A1C7865D700F543E1 /* PositionUtil.m in Sources */,
 				B2640CCD1C7C361A00721CB5 /* ServicePositionDetialCellItem.m in Sources */,
 				B2D721321CA8E061007B1671 /* UIImage+Rotate.m in Sources */,
+				B2220AE51CC8B5B400BA76FD /* Employee.m in Sources */,
 				25DB645B1CAE5EB20072C8EF /* ChooseDateViewController.m in Sources */,
 				B22F73111CB60F220073FB0E /* PersonalHistoryController.m in Sources */,
 				2512B3B21C70557C00EE661B /* ViewController.m in Sources */,
@@ -1894,6 +1913,7 @@
 				254503061C90043800F47F46 /* QRController.m in Sources */,
 				B23A98101C76E74500E3E054 /* PhysicalExaminationViewController.m in Sources */,
 				2518A2C91CBFA1D800ACAA6C /* ETDetail.m in Sources */,
+				B2220AE21CC8B12400BA76FD /* OutCheckSite.m in Sources */,
 				25DB64161CAD0EEC0072C8EF /* PostVeitifyPicInfoView.m in Sources */,
 				2512B41C1C7056C900EE661B /* UIImage+Screen.m in Sources */,
 				B21721531CB660770066F44E /* UnitHistoryController.m in Sources */,

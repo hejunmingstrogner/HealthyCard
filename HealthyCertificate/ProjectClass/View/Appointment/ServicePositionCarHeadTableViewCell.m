@@ -15,12 +15,14 @@
 #import "UIFont+Custom.h"
 #import "Constants.h"
 @interface ServicePositionCarHeadTableViewCell()
-//@property (nonatomic, strong) UIImageView *carImageView;
+
 @property (nonatomic, strong) UILabel     *carNo;   // 牌照
 @property (nonatomic, strong) UILabel     *address;
 @property (nonatomic, strong) UILabel     *serviceTime; // 服务时间
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView       *container;  // 背景容器view
+
+@property (nonatomic, strong) UILabel    *statusLabel;  // 状态
 
 @end
 
@@ -36,24 +38,11 @@
 
 - (void)initSubViews
 {
-//    _carImageView = [[UIImageView alloc]init];
-//    [self.contentView addSubview:_carImageView];
-//    [_carImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.contentView).offset(20);
-//        make.bottom.equalTo(self.contentView).offset(-20);
-//        make.centerY.equalTo(self.contentView);
-//        make.left.equalTo(self.contentView).offset(15);
-//        make.width.equalTo(_carImageView.mas_height);
-//    }];
-//    _carImageView.layer.masksToBounds = YES;
-//    _carImageView.layer.cornerRadius = 40;
-
     _scrollView = [[UIScrollView alloc]init];
     [self.contentView addSubview:_scrollView];
     [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(self.contentView);
         make.right.equalTo(self.contentView).offset(-10);
-//        make.left.equalTo(_carImageView.mas_right).offset(5);
         make.left.equalTo(self.contentView).offset(10);
     }];
 
@@ -118,18 +107,6 @@
 
 - (void)setCellItem:(ServersPositionAnnotionsModel *)serviceInfo
 {
-    //头像信息
-//    if (serviceInfo.type == 0){
-//        //固定服务点
-//        //根据机构编号去获取图片
-//        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@hosInfo/getIntroPhoto?hosCode=%@", [HttpNetworkManager baseURL], serviceInfo.cHostCode]];
-//        [_carImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"unitLog"] options:SDWebImageRefreshCached];
-//    }else{
-//        //移动服务点
-//        //brVehicle/getPhoto
-//        NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@brVehicle/getPhoto?uid=%@", [HttpNetworkManager baseURL], serviceInfo.brOutCheckArrange.vehicleID]];
-//        [_carImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"serverPointLogo"] options:SDWebImageRefreshCached];
-//    }
     if (serviceInfo.type == 0) {
         [_carNo setText:serviceInfo.name Font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)] WithEndText:@"" endTextColor:[UIColor redColor]];
     }
@@ -141,13 +118,7 @@
     [_carNo mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(carHeight);
     }];
-//
-//    if (serviceInfo.type == 1) {
-//        [_address setText:serviceInfo.address textFont:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)] WithEndText:@"临" endTextColor:[UIColor redColor]];
-//    }
-//    else {
-//        _address.text = serviceInfo.address;
-//    }
+
     _address.text = serviceInfo.address;
     int addrHeight = [self Textheight:_address.text fontSize:FIT_FONTSIZE(23)];
     [_address mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -176,6 +147,38 @@
     [_container mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(_address.mas_bottom).offset(20);
     }];
+
+    if(serviceInfo.type == 1){
+        if (!_statusLabel) {
+            _statusLabel = [[UILabel alloc]init];
+            [self.contentView addSubview:_statusLabel];
+            [_statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.contentView).offset(10);
+                make.bottom.equalTo(self.contentView).offset(-10);
+                make.right.equalTo(self.contentView);
+                make.width.equalTo(@40);
+            }];
+            _statusLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:16];
+            _statusLabel.numberOfLines = 0;
+            _statusLabel.textAlignment = NSTextAlignmentCenter;
+
+            UILabel *fengexian = [[UILabel alloc]init];
+            [self.contentView addSubview:fengexian];
+            [fengexian mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.bottom.equalTo(_statusLabel);
+                make.right.equalTo(_statusLabel.mas_left);
+                make.width.equalTo(@1);
+            }];
+            fengexian.backgroundColor = [UIColor lightGrayColor];
+
+            [_scrollView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(self.contentView).offset(-45);
+            }];
+        }
+        // 设置状态值
+        _statusLabel.text = [serviceInfo.outCheckSitePartInfo getOutCheckSitePartInfoTestStatus];
+        _statusLabel.textColor = [serviceInfo.outCheckSitePartInfo  getOutCheckSitePartInfoTestStatusLabelColor];// 设置文本颜色
+    }
 }
 
 - (CGFloat)Textheight:(NSString *)text fontSize:(NSInteger)size

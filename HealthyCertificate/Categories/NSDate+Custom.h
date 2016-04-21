@@ -130,7 +130,7 @@
  *
  *  @return 当前日期的小时数
  */
--(NSString*)getHour;
+-(NSString*)getHour; 
 
 /**
  *  获得 当前日期的 年份
