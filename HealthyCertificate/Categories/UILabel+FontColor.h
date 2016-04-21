@@ -63,4 +63,20 @@
  */
 - (void)setText1:(NSString *)text1 text1Color:(UIColor *)color1 text2:(NSString *)text2 text2Color:(UIColor *)color2 text3:(NSString *)text3 text3Color:(UIColor *)color3 size:(NSInteger)fontsize;
 
+/**
+ *  <#Description#>
+ *
+ *  @param text1  文本1
+ *  @param color1 文本1颜色
+ *  @param text2  文本2
+ *  @param color2 文本2颜色
+ *  @param text3  文本3
+ *  @param color3 文本3颜色
+ *  @param text4    <#text4 description#>
+ *  @param color4   <#color4 description#>
+ *  @param text5    <#text5 description#>
+ *  @param color5   <#color5 description#>
+ *  @param fontsize <#fontsize description#>
+ */
+- (void)setText1:(NSString *)text1 text1Color:(UIColor *)color1 text2:(NSString *)text2 text2Color:(UIColor *)color2 text3:(NSString *)text3 text3Color:(UIColor *)color3 text4:(NSString *)text4 text4Color:(UIColor *)color4 text5:(NSString *)text5 text5Color:(UIColor *)color5  size:(NSInteger)fontsize;
 @end

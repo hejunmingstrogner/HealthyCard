@@ -67,7 +67,7 @@
     [str addAttribute:NSForegroundColorAttributeName value:textcolor range:NSMakeRange(0, str.length)];
     self.attributedText = str;
 }
-
+// 设置3个文本的字体
 - (void)setText1:(NSString *)text1 text1Color:(UIColor *)color1 text2:(NSString *)text2 text2Color:(UIColor *)color2 text3:(NSString *)text3 text3Color:(UIColor *)color3 size:(NSInteger)fontsize
 {
     NSInteger text1length = text1.length;
@@ -83,6 +83,31 @@
     [str addAttribute:NSForegroundColorAttributeName value:color1 range:NSMakeRange(0, text1length)];
     [str addAttribute:NSForegroundColorAttributeName value:color2 range:NSMakeRange(text1length, text2length)];
     [str addAttribute:NSForegroundColorAttributeName value:color3 range:NSMakeRange(text1length + text2length, text3length)];
+    self.attributedText = str;
+}
+
+/**
+  * // 设置5个文本的字体
+ */
+- (void)setText1:(NSString *)text1 text1Color:(UIColor *)color1 text2:(NSString *)text2 text2Color:(UIColor *)color2 text3:(NSString *)text3 text3Color:(UIColor *)color3 text4:(NSString *)text4 text4Color:(UIColor *)color4 text5:(NSString *)text5 text5Color:(UIColor *)color5  size:(NSInteger)fontsize
+{
+    NSInteger text1length = text1.length;
+    NSInteger text2length = text2.length;
+    NSInteger text3length = text3.length;
+    NSInteger text4length = text4.length;
+    NSInteger text5length = text5.length;
+
+    UIFont *font = [UIFont fontWithType:UIFontOpenSansRegular size:fontsize];
+
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@%@%@%@%@", text1, text2, text3, text4, text5]];
+    [str addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, str.length)];
+
+    // 设置文本颜色
+    [str addAttribute:NSForegroundColorAttributeName value:color1 range:NSMakeRange(0, text1length)];
+    [str addAttribute:NSForegroundColorAttributeName value:color2 range:NSMakeRange(text1length, text2length)];
+    [str addAttribute:NSForegroundColorAttributeName value:color3 range:NSMakeRange(text1length + text2length, text3length)];
+    [str addAttribute:NSForegroundColorAttributeName value:color4 range:NSMakeRange(text1length + text2length + text3length, text4length)];
+    [str addAttribute:NSForegroundColorAttributeName value:color5 range:NSMakeRange(text1length + text2length + text3length + text4length, text5length)];
     self.attributedText = str;
 }
 @end
