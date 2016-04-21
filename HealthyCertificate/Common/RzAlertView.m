@@ -364,10 +364,9 @@
         [UIView animateWithDuration:0.5 animations:^{
             actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
 
-        }];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        } completion:^(BOOL finished) {
             [actionSheetView removeFromSuperview];
-        });
+        }];
         if (block) {
             block(3);
         }
@@ -382,14 +381,13 @@
     [xiangqing setImage:[UIImage imageNamed:@"xiangqing"] forState:UIControlStateNormal];
     [xiangqing addClickedBlock:^(UIButton * _Nonnull sender) {
         // 详情
-        NSLog(@"详情");
         [zhezhao removeFromSuperview];
         [UIView animateWithDuration:0.5 animations:^{
             actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
-        }];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        } completion:^(BOOL finished) {
             [actionSheetView removeFromSuperview];
-        });
+        }];
+
         if (block) {
             block(2);
         }
@@ -450,12 +448,16 @@
         make.centerY.equalTo(servicetimelabel);
         make.left.right.height.width.equalTo(green);
     }];
-    
-    WZFlashButton* orderBtn = [[WZFlashButton alloc] init];
+
+    if (servicePositionItem.type == 0 && (servicePositionItem.checkMode & 4) == 0){
+
+    }
+
+    CustomButton *orderBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
     [actionSheetView addSubview:orderBtn];
-    orderBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Green];
-    orderBtn.flashColor = [UIColor colorWithRGBHex:HC_BASE_Green_Pressed];
-    [orderBtn setText:@"预  约" withTextColor:[UIColor whiteColor]];
+    [orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Green]];
+    [orderBtn setTitle:@"预    约" forState:UIControlStateNormal];
+    [orderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(green);
         make.right.equalTo(bohao);
@@ -464,19 +466,21 @@
     }];
     orderBtn.layer.masksToBounds = YES;
     orderBtn.layer.cornerRadius = 5;
-    [orderBtn setBackgroundColor:[UIColor colorWithRGBHex:HC_Base_Green]];
-    orderBtn.clickBlock = ^(){
+    [orderBtn addClickedBlock:^(UIButton * _Nonnull sender) {
         [zhezhao removeFromSuperview];
         [UIView animateWithDuration:0.5 animations:^{
             actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
-        }];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        } completion:^(BOOL finished) {
             [actionSheetView removeFromSuperview];
-        });
+        }];
         if (block) {
             block(1);
         }
-    };
+    }];
+    if (servicePositionItem.type == 0 && (servicePositionItem.checkMode & 4) == 0){
+        orderBtn.enabled = NO;
+    }
+
 
     [UIView animateWithDuration:1 animations:^{
         actionSheetView.frame = CGRectMake(0, superView.frame.size.height - actionSheetView.frame.size.height, actionSheetView.frame.size.width, actionSheetView.frame.size.height);
@@ -486,10 +490,9 @@
         [sender removeFromSuperview];
         [UIView animateWithDuration:0.5 animations:^{
             actionSheetView.frame = CGRectMake(0, superView.frame.size.height, superView.frame.size.width, 150);
-        }];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        } completion:^(BOOL finished) {
             [actionSheetView removeFromSuperview];
-        });
+        }];
         if (block) {
             block(0);
         }
