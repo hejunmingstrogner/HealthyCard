@@ -163,7 +163,7 @@
     [scrollBtn setBackgroundImage:[UIImage imageNamed:@"goDown"] forState:UIControlStateNormal];
     [scrollBtn addTarget:self action:@selector(setNewMapFrame:) forControlEvents:UIControlEventTouchUpInside];
 
-    if(!_canShowOrderBtn)
+    if(_hideOrderBtn)
     {
         _orderBtn.hidden = YES;
         _mapView.frame = CGRectMake(0, 240, self.view.frame.size.width, MapViewOrignHeight + 60);
