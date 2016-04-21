@@ -16,6 +16,8 @@
 #import "AppointmentInfoView.h"
 #import "ScanImageViewController.h"
 #import "TextViewTableViewCell.h"
+#import "TemperaryServicePDeViewController.h"
+#import "ServicePointDetailViewController.h"
 
 #import "UIColor+Expanded.h"
 #import "NSDate+Custom.h"
@@ -757,7 +759,17 @@
     }else{
         TextViewTableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
         if ([cell.textLabel.text isEqualToString:@"体检点详情"]){
-            
+            if (_customerTestInfo.servicePoint.type == 0){
+                ServicePointDetailViewController* servicePointDetail = [[ServicePointDetailViewController alloc] init];
+                servicePointDetail.serverPositionItem = _customerTestInfo.servicePoint;
+                servicePointDetail.canShowOrderBtn = NO;
+                [self.navigationController pushViewController:servicePointDetail animated:YES];
+            }else{
+                TemperaryServicePDeViewController* temperaryServicePDeViewController = [[TemperaryServicePDeViewController alloc] init];
+                temperaryServicePDeViewController.servicePositionItem = _customerTestInfo.servicePoint;
+                temperaryServicePDeViewController.canShowOrderBtn = NO;
+                [self.navigationController pushViewController:temperaryServicePDeViewController animated:YES];
+            }
         }else if ([cell.textLabel.text isEqualToString:@"条形码绑定"]){
             if (![_customerTestInfo.testStatus isEqualToString:@"-1"]){
                 return;

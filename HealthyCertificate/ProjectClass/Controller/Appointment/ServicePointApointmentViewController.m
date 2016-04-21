@@ -178,7 +178,12 @@
     if (serverPoint.type == 0 && (serverPoint.checkMode & 4) == 0){
         return PXFIT_HEIGHT(20);
     }else{
-        return PXFIT_HEIGHT(20) + PXFIT_HEIGHT(50);
+        if(serverPoint.type == 1 && serverPoint.outCheckSitePartInfo != nil && serverPoint.outCheckSitePartInfo.testStatus == 0){
+            return PXFIT_HEIGHT(20) + PXFIT_HEIGHT(100);
+        }else{
+            return PXFIT_HEIGHT(20) + PXFIT_HEIGHT(50);
+        }
+        
     }
 }
 
@@ -206,12 +211,17 @@
             }];
         }else{
             OutCheckSiteHeaderView* outCheckSiteHeaderView = [[OutCheckSiteHeaderView alloc] init];
+            [outCheckSiteHeaderView setServerPointInfo:serverPoint];
             outCheckSiteHeaderView.countPeople = serverPoint.maxNum - serverPoint.oppointmentNum;
             outCheckSiteHeaderView.appointmentCount = serverPoint.oppointmentNum;
             [containerView addSubview:outCheckSiteHeaderView];
             [outCheckSiteHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.bottom.equalTo(containerView);
-                make.height.mas_equalTo(PXFIT_HEIGHT(50));
+                if(serverPoint.type == 1 && serverPoint.outCheckSitePartInfo != nil && serverPoint.outCheckSitePartInfo.testStatus == 0){
+                     make.height.mas_equalTo(PXFIT_HEIGHT(100));
+                }else{
+                     make.height.mas_equalTo(PXFIT_HEIGHT(50));
+                }
             }];
         }
     }
