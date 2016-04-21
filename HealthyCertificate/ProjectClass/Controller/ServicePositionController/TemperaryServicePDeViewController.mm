@@ -28,6 +28,7 @@
 #import "UIImage+Rotate.h"
 #import "RouteAnnotation.h"
 #import "UILabel+FontColor.h"
+#import "NSDate+Custom.h"
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
 
@@ -199,7 +200,7 @@
 {
     if (section == 0) {
         if ([_servicePositionItem.outCheckSitePartInfo isShowTitleInfoView]) {
-            return 40;
+            return [self cellheight:@"2016.04.22之前召集16个小伙伴，次体检点立即生效，已召集10"];
         }
         return 10;
     }
@@ -229,34 +230,61 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headView"];
-        if (!view) {
-            view = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"headView"];
-            float hight  = [self tableView:tableView heightForHeaderInSection:section];
-            UIView *uiview = [[UIView alloc]initWithFrame:CGRectMake(0, 1, self.view.frame.size.width, hight - 2)];
-            [view addSubview:uiview];
-            uiview.backgroundColor = [UIColor whiteColor];
-            UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 150, hight)];
-            label1.tag = 1;
-            [view addSubview:label1];
-
-            UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 160 , 0, 150, hight)];
-            label2.textAlignment = NSTextAlignmentRight;
-            label2.tag = 2;
-            [view addSubview:label2];
+        // 如果不显示headtitle
+        if(![_servicePositionItem.outCheckSitePartInfo isShowTitleInfoView])
+        {
+            return nil;
         }
-        NSString *text1 = @"还可预约 ";
-        NSString *text2 = [NSString stringWithFormat:@"%d", _servicePositionItem.maxNum - _servicePositionItem.oppointmentNum];
-        NSString *text3 = @"人";
-        UILabel *label1 = [view viewWithTag:1];
-        [label1 setText1:text1 text1Color:[UIColor blackColor] text2:text2 text2Color:[UIColor redColor] text3:text3 text3Color:[UIColor blackColor] size:14];
+        // 未生效
+        if (_servicePositionItem.outCheckSitePartInfo.testStatus == 0) {
+            UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headView"];
+            if (!view) {
+                view = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"headView"];
+                float hight  = [self tableView:tableView heightForHeaderInSection:section];
+                UIView *uiview = [[UIView alloc]initWithFrame:CGRectMake(0, 1, self.view.frame.size.width, hight - 2)];
+                [view addSubview:uiview];
+                uiview.backgroundColor = [UIColor whiteColor];
+                UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, self.view.frame.size.width, hight)];
+                label1.tag = 10;
+                [view addSubview:label1];
+            }
+            UILabel *label = [view viewWithTag:10];
+            NSString *time = [NSDate getYearMonthDayByDate:_servicePositionItem.startTime/1000];
+            NSString *count = [NSString stringWithFormat:@"%d", _servicePositionItem.outCheckSitePartInfo.chargedNum];
+            [label setText1:time text1Color:[UIColor redColor] text2:@"之前召集" text2Color:[UIColor blackColor] text3:@"16个" text3Color:[UIColor redColor] text4:@"小伙伴，此体检点生效！ 已召集 "  text4Color:[UIColor blackColor] text5:count text5Color:[UIColor redColor] size:14];
+            return view;
+        }
+        if (_servicePositionItem.outCheckSitePartInfo.outCheckArrangeID == nil) {
+            // 待安排
+            UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"headView"];
+            if (!view) {
+                view = [[UITableViewHeaderFooterView alloc]initWithReuseIdentifier:@"headView"];
+                float hight  = [self tableView:tableView heightForHeaderInSection:section];
+                UIView *uiview = [[UIView alloc]initWithFrame:CGRectMake(0, 1, self.view.frame.size.width, hight - 2)];
+                [view addSubview:uiview];
+                uiview.backgroundColor = [UIColor whiteColor];
+                UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 150, hight)];
+                label1.tag = 10;
+                [view addSubview:label1];
 
-        NSString *detext1 = @"已预约 ";
-        NSString *detext2 = [NSString stringWithFormat:@"%d", _servicePositionItem.oppointmentNum];
-        NSString *detext3 = @"人";
-        UILabel *label2 = [view viewWithTag:2];
-        [label2 setText1:detext1 text1Color:[UIColor blackColor] text2:detext2 text2Color:[UIColor greenColor] text3:detext3 text3Color:[UIColor blackColor] size:14];
-        return view;
+                UILabel *label2 = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 160 , 0, 150, hight)];
+                label2.textAlignment = NSTextAlignmentRight;
+                label2.tag = 20;
+                [view addSubview:label2];
+            }
+            NSString *text1 = @"还可预约 ";
+            NSString *text2 = [NSString stringWithFormat:@"%d", _servicePositionItem.maxNum - _servicePositionItem.oppointmentNum];
+            NSString *text3 = @"人";
+            UILabel *label1 = [view viewWithTag:10];
+            [label1 setText1:text1 text1Color:[UIColor blackColor] text2:text2 text2Color:[UIColor redColor] text3:text3 text3Color:[UIColor blackColor] size:14];
+
+            NSString *detext1 = @"已预约 ";
+            NSString *detext2 = [NSString stringWithFormat:@"%d", _servicePositionItem.oppointmentNum];
+            NSString *detext3 = @"人";
+            UILabel *label2 = [view viewWithTag:20];
+            [label2 setText1:detext1 text1Color:[UIColor blackColor] text2:detext2 text2Color:[UIColor greenColor] text3:detext3 text3Color:[UIColor blackColor] size:14];
+            return view;
+        }
     }
     return nil;
 }
@@ -309,7 +337,7 @@
 
 - (CGFloat)cellheight:(NSString *)text
 {
-    UIFont *fnt = [UIFont systemFontOfSize:17];
+    UIFont *fnt = [UIFont systemFontOfSize:15];
 
     CGRect tmpRect = [text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 40, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:fnt, NSFontAttributeName, nil] context:nil];
     CGFloat he = tmpRect.size.height+10;
