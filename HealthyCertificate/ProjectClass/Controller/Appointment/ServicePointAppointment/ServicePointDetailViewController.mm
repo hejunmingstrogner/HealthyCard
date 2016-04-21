@@ -84,10 +84,10 @@
     ServicePositionDetialCellItem *item10 = [[ServicePositionDetialCellItem alloc]initWithTitle:_serverPositionItem.introduce detialText:@"" flag:1];
     NSArray *arry1 = [NSArray arrayWithObjects:item10, nil];
 
-    ServicePositionDetialCellItem *item21 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"地址:" detialText:_serverPositionItem.address];
+//    ServicePositionDetialCellItem *item21 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"地址:" detialText:_serverPositionItem.address];
     ServicePositionDetialCellItem *item22 = [[ServicePositionDetialCellItem alloc]initWithTitle:@"电话:" detialText:_serverPositionItem.leaderPhone];
 
-    NSArray *arry2 = [NSArray arrayWithObjects:item21, item22, nil];
+    NSArray *arry2 = [NSArray arrayWithObjects:item22, nil];
 
 //    _inforArray = [[NSMutableArray alloc]initWithObjects:arry0, arry1, arry2, nil];
     _inforArray = [[NSMutableArray alloc]initWithObjects:arry0, arry2, nil];
@@ -119,7 +119,7 @@
     _orderBtn.layer.masksToBounds = YES;
     _orderBtn.layer.cornerRadius = 5;
 
-    _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, self.view.frame.size.height - 200 - 60)];
+    _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 200 + 54, self.view.frame.size.width, self.view.frame.size.height - 200 - 60 - 54)];
     _mapView.zoomLevel = 14;
     _mapView.compassPosition = CGPointMake([UIScreen mainScreen].bounds.size.width - 50, 10);
     [self.view addSubview:_mapView];
@@ -132,23 +132,23 @@
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(64);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(200 - 64);
+        make.height.mas_equalTo(200 - 64 + 54);
     }];
     // 设置显示服务点信息
     [self addServiersPositionAnno];
 
-    // 用户设置地图滑动的按钮
-    CustomButton *scrollBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
-    [self.view addSubview:scrollBtn];
-    [scrollBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_tableView.mas_bottom);
-        make.centerX.equalTo(_tableView);
-        make.width.height.mas_equalTo(40);
-    }];
-    scrollBtn.tag = 1;
-    [scrollBtn setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.9]];
-    [scrollBtn setBackgroundImage:[UIImage imageNamed:@"goDown"] forState:UIControlStateNormal];
-    [scrollBtn addTarget:self action:@selector(setNewMapFrame:) forControlEvents:UIControlEventTouchUpInside];
+//    // 用户设置地图滑动的按钮
+//    CustomButton *scrollBtn = [CustomButton buttonWithType:UIButtonTypeCustom];
+//    [self.view addSubview:scrollBtn];
+//    [scrollBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(_tableView.mas_bottom);
+//        make.centerX.equalTo(_tableView);
+//        make.width.height.mas_equalTo(40);
+//    }];
+//    scrollBtn.tag = 1;
+//    [scrollBtn setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.9]];
+//    [scrollBtn setBackgroundImage:[UIImage imageNamed:@"goDown"] forState:UIControlStateNormal];
+//    [scrollBtn addTarget:self action:@selector(setNewMapFrame:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setNewMapFrame:(UIButton *)sender
