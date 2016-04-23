@@ -95,6 +95,8 @@
     
     
     ServersPositionAnnotionsModel   *_choosedFixedSp;
+    
+    NSInteger           _payedCount;
 }
 
 typedef NS_ENUM(NSInteger, TABLIEVIEWTAG)
@@ -159,7 +161,6 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     _sercersPositionInfo = sercersPositionInfo;
     _location = sercersPositionInfo.address;
     if (sercersPositionInfo.type == 0) {
-//        _appointmentDateStr = [NSString stringWithFormat:@"%@,08:00", [[NSDate date] getDateStringWithInternel:1]];
         _appointmentDateStr = [NSString stringWithFormat:@"%@,%@:00", [[NSDate date] getDateStringWithInternel:1], [[[NSDate alloc] initWithTimeIntervalSince1970:sercersPositionInfo.startTime/1000] getHour]];
         _isTemperaryPoint = NO;
     }
@@ -414,7 +415,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         }];
         
         //合同未生效
-        if (_brContract.checkSiteID == nil || ![_brContract.checkSiteID isEqualToString:@""]){
+        if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
             //移动服务点
             UILabel* noticeLabel = [UILabel labelWithText:@"温馨提示"
                                                      font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)]
@@ -426,7 +427,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             }];
             
             NSString* tipInfo;
-            tipInfo = [NSString stringWithFormat:@"当您的付费人员达到16个以后该服务点生效。现在还差%d人", 16 - _brContract.servicePoint.outCheckSitePartInfo.oppointmentNum];
+            tipInfo = [NSString stringWithFormat:@"当您的付费人员达到16个以后该服务点生效。现在还差%ld人。", 16 - _payedCount];
             UILabel* itemLabel = [UILabel labelWithText:tipInfo
                                                    font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)]
                                               textColor:[UIColor colorWithRGBHex:HC_Gray_Text]];
@@ -437,6 +438,17 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 make.right.mas_equalTo(containerView).with.offset(-10);
                 make.top.mas_equalTo(noticeLabel.mas_bottom).with.offset(10);
             }];
+            
+            [RzAlertView ShowWaitAlertWithTitle:@"获取付款人数中..."];
+            [[HttpNetworkManager getInstance] getChargedCountByContactCode:_brContract.code resultBlock:^(NSInteger result, NSError *error) {
+                [RzAlertView CloseWaitAlert];
+                if (error){
+                    [RzAlertView showAlertLabelWithMessage:@"获取付款人数失败" removewDelay:3];
+                }else{
+                    itemLabel.text = [NSString stringWithFormat:@"当您的付费人员达到16个以后该服务点生效。现在还差%ld人。", 16 - _payedCount];
+                }
+            }];
+            
         }else{
             [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.bottom.equalTo(todoContract.mas_bottom);
