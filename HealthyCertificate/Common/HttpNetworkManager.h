@@ -33,6 +33,7 @@ typedef void (^HCDictionaryResultBlock)(NSDictionary* result, NSError* error);
 typedef void (^HCBoolResultBlock)(BOOL result, NSError* error);
 typedef void (^HCArrayResultBlock)(NSArray* result, NSError* error);
 typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
+typedef void (^HCIntResultBlock)(NSInteger result, NSError* error);
 
 @interface HttpNetworkManager : NSObject
 
@@ -150,7 +151,7 @@ typedef void (^HCImageResultBlock)(UIImage* image, NSError* error);
  *
  *  @param contractCode 合同编号
  */
--(void)getChargedCountByContactCode:(NSString*)contractCode;
+-(void)getChargedCountByContactCode:(NSString*)contractCode resultBlock:(HCIntResultBlock)block;
 
 #pragma mark - 查询信息员工
 /**

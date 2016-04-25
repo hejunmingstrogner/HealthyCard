@@ -301,9 +301,27 @@ static NSString * const AFHTTPRequsetOperationWXBaseURLString = WeixinBaseUrl;
     }];
 }
 
--(void)getChargedCountByContactCode:(NSString *)contractCode
+-(void)getChargedCountByContactCode:(NSString*)contractCode resultBlock:(HCIntResultBlock)block;
 {
     
+    NSString *url = [NSString stringWithFormat:@"%@/brContract/chargedCount?contractCode=%@", AFHTTPRequestOperationBaseURLString,contractCode];
+    url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:5];
+    
+    NSMutableURLRequest *mutableRequest = [request mutableCopy];
+    [mutableRequest addValue:GetUserName forHTTPHeaderField:@"DBKE-UserName"];
+    [mutableRequest addValue:@"zeekcustomerapp" forHTTPHeaderField:@"DBKE-ClientType"];
+    [mutableRequest addValue:GetToken forHTTPHeaderField:@"DBKE-Token"];
+    request = [mutableRequest copy];
+    NSURLSessionDataTask * task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if(!error){
+            NSString *strs = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            block([strs integerValue], nil);
+        }else{
+            block(-1, error);
+        }
+    }];
+    [task resume];
 }
 
 #pragma mark －创建或更新单位信息
