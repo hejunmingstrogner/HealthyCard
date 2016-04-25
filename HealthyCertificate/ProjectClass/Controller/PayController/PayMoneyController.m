@@ -94,6 +94,7 @@
     _dataArray = [[NSMutableArray alloc]initWithObjects:item0, item1, item2, item3, item4, nil];
 
     if(self.chargetype == BatchCharge){
+        [_dataArray removeObject:item4];    // 单位批量支付 不使用 找人代付
         float amountMoney = 0;
         for (CustomerTest *customertest in _CustomerTestArray) {
             amountMoney += customertest.needMoney;
