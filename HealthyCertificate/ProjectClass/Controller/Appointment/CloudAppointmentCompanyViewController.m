@@ -49,7 +49,7 @@
 
 #define Button_Size 26
 
-#define Cell_Font 24
+#define Cell_Font 23
 #define Cell_Font_Samll 23
 
 #define kBackButtonHitTestEdgeInsets UIEdgeInsetsMake(-15, -15, -15, -15)
@@ -418,7 +418,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
         if (_brContract.checkSiteID == nil || [_brContract.checkSiteID isEqualToString:@""]){
             //移动服务点
             UILabel* noticeLabel = [UILabel labelWithText:@"温馨提示"
-                                                     font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)]
+                                                     font:[UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)]
                                                 textColor:[UIColor blackColor]];
             [containerView addSubview:noticeLabel];
             [noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -1006,8 +1006,9 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
             if (examCell == nil){
                 examCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"examCell"];
             }
-            examCell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
-            examCell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(24)];
+            examCell.indentationLevel = -10;
+            examCell.textLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
+            examCell.detailTextLabel.font = [UIFont fontWithType:UIFontOpenSansRegular size:FIT_FONTSIZE(23)];
             examCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if (_sercersPositionInfo != nil){
                 examCell.textLabel.text = @"体检类型";
