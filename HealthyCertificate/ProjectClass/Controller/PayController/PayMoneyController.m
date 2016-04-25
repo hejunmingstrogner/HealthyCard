@@ -49,9 +49,9 @@
     self.money = @"";
     [self initNavgation];
 
-    [self initSubView];
-
     [self initData];
+
+    [self initSubView];
 }
 
 - (void)initNavgation
