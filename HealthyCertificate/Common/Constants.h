@@ -75,14 +75,14 @@ extern BOOL   _isLocationInfoHasBeenSent; //判断是否已经向服务端发送
 //extern BOOL   gIsCheckedUpdate; //判断是否已经更新
 
 //测试环境
-//#define WebServiceHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/webservice/"
-//#define SSOSHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/ssos/"
-//#define WeixinBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/weixin/"
+#define WebServiceHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/webservice/"
+#define SSOSHttpBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/ssos/"
+#define WeixinBaseUrl @"http://zkwebserver.witaction.com:8080/webserver/weixin/"
 
 //运营环境
-#define WebServiceHttpBaseUrl @"http://webserver.zeekstar.com/webserver/webservice/"
-#define SSOSHttpBaseUrl @"http://webserver.zeekstar.com/webserver/ssos/"
-#define WeixinBaseUrl @"http://webserver.zeekstar.com/webserver/weixin/"
+//#define WebServiceHttpBaseUrl @"http://webserver.zeekstar.com/webserver/webservice/"
+//#define SSOSHttpBaseUrl @"http://webserver.zeekstar.com/webserver/ssos/"
+//#define WeixinBaseUrl @"http://webserver.zeekstar.com/webserver/weixin/"
 
 
 //static NSString * const AFHTTPRequestOperationBaseURLString = @"http://zkwebserver.witaction.com:8080/webserver/webservice/";
