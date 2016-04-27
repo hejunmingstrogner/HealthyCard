@@ -68,6 +68,9 @@
             //其他机构不能预约
             _appointmenBtn.enabled = NO;
             _appointmenBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Gray_Text];
+        }else{
+            _appointmenBtn.enabled = YES;
+            _appointmenBtn.backgroundColor = [UIColor colorWithRGBHex:HC_Base_Blue];
         }
         
         _locationLabel.text = servicePoint.address;
@@ -164,7 +167,8 @@
             make.height.mas_equalTo(PXFIT_HEIGHT(99));
         }];
         
-        UIImageView* nameIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nameIcon"]];
+        UIImage* nameIconImage = [UIImage imageNamed:@"nameIcon"];
+        UIImageView* nameIcon = [[UIImageView alloc] initWithImage:nameIconImage];
         [topRightUpView addSubview:nameIcon];
         
         _nameLabel = [[UILabel alloc] init];
@@ -174,6 +178,8 @@
         
         [nameIcon mas_makeConstraints:^(MASConstraintMaker *make) {
            make.centerY.mas_equalTo(topRightUpView);
+            make.width.mas_equalTo(nameIcon.frame.size.width);
+            make.height.mas_equalTo(nameIcon.frame.size.height);
             make.left.mas_equalTo(topRightUpView);
         }];
         
