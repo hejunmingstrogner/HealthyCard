@@ -71,7 +71,7 @@
     [_moneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(self.contentView);
         make.right.equalTo(self.contentView).offset(-PXFIT_WIDTH(24));
-        make.left.equalTo(_titlelabel.mas_right);
+        make.left.equalTo(self.contentView).offset(10);
     }];
 }
 
