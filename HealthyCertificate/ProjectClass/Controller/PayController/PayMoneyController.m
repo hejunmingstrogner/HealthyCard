@@ -49,9 +49,9 @@
     self.money = @"";
     [self initNavgation];
 
-    [self initSubView];
-
     [self initData];
+
+    [self initSubView];
 }
 
 - (void)initNavgation
@@ -207,7 +207,7 @@
         if (!cell) {
             cell = [[PayInfoViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"info"];
         }
-        cell.textLabel.text = ((BaseTBCellItem *)_dataArray[indexPath.section]).titleText;
+//        cell.textLabel.text = ((BaseTBCellItem *)_dataArray[indexPath.section]).titleText;
         cell.money = _money;
         return cell;
     }
