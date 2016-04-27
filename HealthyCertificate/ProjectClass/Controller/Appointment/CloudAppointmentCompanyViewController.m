@@ -439,6 +439,10 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
                 make.top.mas_equalTo(noticeLabel.mas_bottom).with.offset(10);
             }];
             
+            [containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.bottom.equalTo(itemLabel.mas_bottom);
+            }];
+            
             [RzAlertView ShowWaitAlertWithTitle:@"获取付款人数中..."];
             [[HttpNetworkManager getInstance] getChargedCountByContactCode:_brContract.code resultBlock:^(NSInteger result, NSError *error) {
                 [RzAlertView CloseWaitAlert];
@@ -536,7 +540,7 @@ typedef NS_ENUM(NSInteger, TEXTFILEDTAG)
     singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapFrom:)];
     singleRecognizer.numberOfTapsRequired = 1; // 单击
     singleRecognizer.delegate = self;
-    [self.view addGestureRecognizer:singleRecognizer];
+    [containerView addGestureRecognizer:singleRecognizer];
     
     //导航栏点击事件
     UITapGestureRecognizer* tapRecon = [[UITapGestureRecognizer alloc]
