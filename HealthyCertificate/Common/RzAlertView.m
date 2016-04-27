@@ -479,6 +479,7 @@
     }];
     if (servicePositionItem.type == 0 && (servicePositionItem.checkMode & 4) == 0){
         orderBtn.enabled = NO;
+        [orderBtn setBackgroundColor:[UIColor lightGrayColor]];
     }
 
 
