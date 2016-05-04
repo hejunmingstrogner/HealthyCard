@@ -50,22 +50,15 @@
 
 - (void)initSubviews
 {
-    _titleArray = [NSMutableArray arrayWithObjects:@"软件版本", @"最新版本", @"官方网址", @"微信公众号", nil];
+    _titleArray = [NSMutableArray arrayWithObjects:@"软件版本", @"官方网址", @"微信公众号", nil];
 
     // 当前版本号
     NSString *currentVision = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 //    NSString *currentVision = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    // 最新版本号
-    NSString *newVision;
-    if ([HttpNetworkManager getInstance].lastVersionStr == nil || [[HttpNetworkManager getInstance].lastVersionStr isEqualToString:@""]){
-        newVision = currentVision;
-    }else{
-        newVision = [HttpNetworkManager getInstance].lastVersionStr;
-    }
 
     NSString *theUrl = @"www.zeekstar.com";
 
-    _detialArray = [NSMutableArray arrayWithObjects:currentVision, newVision, theUrl, @"健康证在线", nil];
+    _detialArray = [NSMutableArray arrayWithObjects:currentVision, theUrl, @"健康证在线", nil];
     
     UIImageView* titleImageView = [[UIImageView alloc] init];
     titleImageView.image = [UIImage imageNamed:@"AboutUs"];
@@ -105,7 +98,7 @@
     if (section == 0) {
         return 1;
     }
-    return 4;
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
