@@ -10,10 +10,10 @@
 #import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 
 // 定义一些常量
-static double x_PI = 3.14159265358979324 * 3000.0 / 180.0;
-static double PI = 3.1415926535897932384626;
-static double a = 6378245.0;
-static double ee = 0.00669342162296594323;
+static double x_PI = 3.14159265358979324 * 3000.0 / 180.0;      // 圆周率转换量
+static double PI = 3.1415926535897932384626;                    // 圆周率
+static double a = 6378245.0;                                    // 卫星椭球坐标投影到平面地图坐标系的投影因子
+static double ee = 0.00669342162296594323;                      // 椭球的偏心率
 
 @interface PositionUtil()
 
