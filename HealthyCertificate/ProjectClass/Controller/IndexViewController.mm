@@ -607,23 +607,37 @@ NSString *gCurrentCityName;
         [RzAlertView showAlertLabelWithTarget:self.view Message:@"附近没有服务点" removeDelay:2];
         return ;
     }
-    if (GetUserType == 1) {     // 个人
-        CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
-        cloudAppoint.cityName = currentCityName;
-        cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[0];
-        cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
-        cloudAppoint.isCustomerServerPoint = NO; //固定服务点预约
-        cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
-        [self.navigationController pushViewController:cloudAppoint animated:YES];
-    }
-    else {                      // 单位
-        CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
-        cloudAppointCompany.sercersPositionInfo = nearbyServicePositionsArray[0];
-        cloudAppointCompany.centerCoordinate = _mapView.centerCoordinate;
-        cloudAppointCompany.cityName = currentCityName;
-        cloudAppointCompany.isCustomerServerPoint = NO;
-        cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
-        [self.navigationController pushViewController:cloudAppointCompany animated:YES];
+//    if (GetUserType == 1) {     // 个人
+//        CloudAppointmentViewController *cloudAppoint = [[CloudAppointmentViewController alloc]init];
+//        cloudAppoint.cityName = currentCityName;
+//        cloudAppoint.sercersPositionInfo = nearbyServicePositionsArray[0];
+//        cloudAppoint.centerCoordinate = _mapView.centerCoordinate;
+//        cloudAppoint.isCustomerServerPoint = NO; //固定服务点预约
+//        cloudAppoint.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
+//        [self.navigationController pushViewController:cloudAppoint animated:YES];
+//    }
+//    else {                      // 单位
+//        CloudAppointmentCompanyViewController *cloudAppointCompany = [[CloudAppointmentCompanyViewController alloc]init];
+//        cloudAppointCompany.sercersPositionInfo = nearbyServicePositionsArray[0];
+//        cloudAppointCompany.centerCoordinate = _mapView.centerCoordinate;
+//        cloudAppointCompany.cityName = currentCityName;
+//        cloudAppointCompany.isCustomerServerPoint = NO;
+//        cloudAppointCompany.title = ((ServersPositionAnnotionsModel *)nearbyServicePositionsArray[0]).name;
+//        [self.navigationController pushViewController:cloudAppointCompany animated:YES];
+//    }
+
+    //服务点详情
+    ServersPositionAnnotionsModel* servicePositionAnnotionsModel = (ServersPositionAnnotionsModel*)nearbyServicePositionsArray[0];
+    if (servicePositionAnnotionsModel.type == 0){
+        //固定服务点
+        ServicePointDetailViewController* fixedServicePointVC = [[ServicePointDetailViewController alloc] init];
+        fixedServicePointVC.serverPositionItem = servicePositionAnnotionsModel;
+        [self.navigationController pushViewController:fixedServicePointVC animated:YES];
+    }else{
+        //移动服务点
+        TemperaryServicePDeViewController* movingServicePointVC = [[TemperaryServicePDeViewController alloc] init];
+        movingServicePointVC.servicePositionItem = servicePositionAnnotionsModel;
+        [self.navigationController pushViewController:movingServicePointVC animated:YES];
     }
 }
 #pragma mark - 一键预约
